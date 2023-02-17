@@ -64,24 +64,24 @@
                                             @Html.TextBoxFor(m => m.Name, new { required = "required", @class = "form-control ", name = "Name", maxlength = "50", title = "Name is required.", @placeholder="Enter name" })
                                         </div>
                                         <div class="input-group mb-3">
-                                            <span class="input-group-addon bg-white"><i class="fa fa-user w-4"></i></span>
-                                            @Html.DropDownListFor(model => model.CityId, (IEnumerable<SelectListItem>)ViewBag.CityData, "Select", new { @class = "form-control", required = "", name = "CityId", title = "City is required." })
+                                            <span class="input-group-addon bg-white"><i class="fa fa-map-marker w-4"></i></span>
+                                            @Html.DropDownListFor(model => model.CityId, (IEnumerable<SelectListItem>)ViewBag.CityData, "Select City", new { @class = "form-control", required = "", name = "CityId", title = "City is required." })
                                         </div>
                                         <div class="input-group mb-3">
-                                            <span class="input-group-addon bg-white"><i class="fa fa-user w-4"></i></span>
-                                            @Html.DropDownListFor(model => model.StateId, (IEnumerable<SelectListItem>)ViewBag.StateData, "Select", new { @class = "form-control", required = "", name = "StateId", title = "State is required." })
+                                            <span class="input-group-addon bg-white"><i class="fa fa-map-marker w-4"></i></span>
+                                            @Html.DropDownListFor(model => model.StateId, (IEnumerable<SelectListItem>)ViewBag.StateData, "Select State", new { @class = "form-control", required = "", name = "StateId", title = "State is required." })
                                         </div>
                                         <div class="input-group mb-3">
-                                            <span class="input-group-addon bg-white"><i class="fa fa-user w-4"></i></span>
-                                            @Html.TextBoxFor(m => m.Pincode, new { required = "required", @class = "form-control ", name = "Pincode", maxlength = "50", title = "pincode is required.", @placeholder="Enter pincode" })
+                                            <span class="input-group-addon bg-white"><i class="fa fa-thumb-tack w-4"></i></span>
+                                            @Html.TextBoxFor(m => m.Pincode, new { required = "required", @class = "form-control ", name = "Pincode", maxlength = "10", title = "pincode is required.", @placeholder="Enter pincode" })
                                         </div>
                                         <div class="input-group mb-3">
-                                            <span class="input-group-addon bg-white"><i class="fa fa-user w-4"></i></span>
-                                            @Html.TextAreaFor(m => m.Requirement, new { required = "required", @class = "form-control ", name = "Requirement", maxlength = "50", title = "requirements is required.", @placeholder="Enter requirements" })
+                                            <span class="input-group-addon bg-white"><i class="fa fa-wpforms w-4"></i></span>
+                                            @Html.TextAreaFor(m => m.Requirement, new { @class = "form-control ", name = "Requirement", maxlength = "500", title = "requirements is required.", @placeholder="Enter requirements" })
                                         </div>
                                         <div class="input-group mb-4">
                                             <span class="input-group-addon bg-white"><i class="fa fa-envelope  w-4"></i></span>
-                                            @Html.TextBoxFor(m => m.Email, new { required = "required", @class = "form-control ", name = "Email", maxlength = "50", title = "Email is required.", @placeholder="Enter Email" })
+                                            @Html.TextBoxFor(m => m.Email, new { required = "required", @type="email", @class = "form-control ", name = "Email", maxlength = "50", title = "Email is required.", @placeholder="Enter Email" })
                                         </div>
                                         <div class="input-group mb-4">
                                             <span class="input-group-addon bg-white"><i class="fa fa-unlock-alt  w-4"></i></span>
@@ -169,41 +169,44 @@
         function SaveCustomer() {
             try {
                 if ($("#Name").length > 0 && $("#Name").val() == "") {
-                    swal('Error', "Please enter name.", "error"); //warning,  success, error, info
-                    $("#Name").focus();
+                    ShowErrorMessage("Please enter name.");
                     return;
                 }
                 if ($("#Email").length > 0 && $("#Email").val() == "") {
-                    swal('Error', "Please enter email.", "error"); //warning,  success, error, info
+                    ShowErrorMessage("Please enter email.");
                     $("#Email").focus();
                     return;
                 }
                 if ($("#CityId").length > 0 && $("#CityId").val() == "") {
-                    swal('Error', "Please select city.", "error"); //warning,  success, error, info
+                    ShowErrorMessage("Please select city.");
                     $("#CityId").focus();
                     return;
                 }
                 if ($("#StateId").length > 0 && $("#StateId").val() == "") {
-                    swal('Error', "Please select state.", "error"); //warning,  success, error, info
+                    ShowErrorMessage("Please select state.");
                     $("#StateId").focus();
                     return;
                 }
                 if ($("#Pincode").length > 0 && $("#Pincode").val() == "") {
-                    swal('Error', "Please enter pincode.", "error"); //warning,  success, error, info
+                    ShowErrorMessage("Please enter pincode.");
                     $("#Pincode").focus();
                     return;
                 }
                 if ($("#Requirement").length > 0 && $("#Requirement").val() == "") {
-                    swal('Error', "Please enter requirement.", "error"); //warning,  success, error, info
+                    ShowErrorMessage("Please enter requirement.");
                     $("#Requirement").focus();
                     return;
                 }
                 if ($("#Password").length > 0 && $("#Password").val() == "") {
-                    swal('Error', "Please enter password.", "error"); //warning,  success, error, info
+                    ShowErrorMessage("Please enter password.");
                     $("#Password").focus();
                     return;
                 }
-                debugger;
+                let isValidemail = IsEmail($("#Email").val());
+                if (!isValidemail) {
+                    ShowErrorMessage("Please enter valid email");
+                    return;
+                }
                 var savedata = new Object;
                 savedata.Id = $("#Id").val();
                 savedata.Name = $("#Name").val();
@@ -229,31 +232,33 @@
                 savedata.IsDeleted = false;
                 savedata.IsActive = true;
 
-                var jsonData = JSON.stringify(savedata);
-                console.log(jsonData);
-                //blockUI('container');
-                var retrundata = AjaxCall("POST", "@(Url.Action("Registration", "Customer"))", jsonData,
-                    function (data) {
-                        //unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            ShowSuccessMessage('Registration successfully done.');
-                            $("#Name").val("");
-                            $("#Email").val("");
-                            $("#Password").val("");
-                            $("#CityId").val("");
-                            $("#StateId").val("");
-                            $("#Pincode").val("");
-                            $("#Requirement").val("");
-                            $("#Name").val("");
-                            $("#Id").val(0);
-                        } else {
-                            ShowErrorMessage(data.data);
-                        }
-                    },
-                    function (error) {
-                        //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
-                    });
+                if (EmailExists() == false){
+                    var jsonData = JSON.stringify(savedata);
+                    console.log(jsonData);
+                    //blockUI('container');
+                    var retrundata = AjaxCall("POST", "@(Url.Action("Registration", "Customer"))", jsonData,
+                        function (data) {
+                            //unblockUI('container');
+                            if (data.result == RESULT_SUCCESS) {
+                                ShowSuccessMessage('Registration successfully done.');
+                                $("#Name").val("");
+                                $("#Email").val("");
+                                $("#Password").val("");
+                                $("#CityId").val("");
+                                $("#StateId").val("");
+                                $("#Pincode").val("");
+                                $("#Requirement").val("");
+                                $("#Name").val("");
+                                $("#Id").val(0);
+                            } else {
+                                ShowErrorMessage(data.data);
+                            }
+                        },
+                        function (error) {
+                            //unblockUI('container');
+                            ShowErrorMessage(error.statusText);
+                        });
+                }
             }
             catch (e) {
                 //unblockUI('container');
@@ -261,6 +266,41 @@
                 //swal('Error', e.message, "error"); //warning,  success, error, info
             }
         }
+
+        $("#Email").change(function () {
+            let email = $(this).val();
+            let isValidemail = IsEmail(email);
+            if (isValidemail){
+                try {
+                    //blockUI('container');
+                    var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/EmailExists"))" + "?email=" + email, "",
+                        function (data) {
+                            //unblockUI('container');
+                            var str = "";
+                            if (data.result == RESULT_SUCCESS) {
+                                if (data.data == true) {
+                                    $("#Email").val("");                                    
+                                    ShowErrorMessage("Email already exists : " + email);
+                                    $("#Email").focus();
+                                }
+                            } else {
+                                ShowErrorMessage(data.data);
+                            }
+                        },
+                        function (error) {
+                            //unblockUI('container');
+                            ShowErrorMessage(error.statusText);
+                        });
+                }
+                catch (err) {
+                    //unblockUI('container');
+                    ShowErrorMessage(e.message);
+                }
+            }else{
+                $("#Email").focus();
+                ShowErrorMessage("Please enter valid email");
+            }
+        });
     </script>
 
 </body>

@@ -53,15 +53,49 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int id = _customerRepo.Save(model, _configurationData.DatabaseConnectionString);
-                if (id > 0)
+                Customer customer = _customerRepo.Get(model.Email, _configurationData.DatabaseConnectionString);
+                if (customer == null)
+                {
+                    int id = _customerRepo.Save(model, _configurationData.DatabaseConnectionString);
+                    if (id > 0)
+                    {
+                        result.data = true;
+                        result.result = Constant.API_RESULT_SUCCESS;
+                        //send email
+                        string message = "Hello " + model.Name;
+                        Task.Factory.StartNew(() => EmailHelper.SendEmail(_emailData.EmailUsername, _emailData.EmailPassword, _emailData.DisplayName, Convert.ToInt32(_emailData.ServerPort),
+                                                        _emailData.ServerHost, _emailData.IsEnableSSL, model.Email, "New Inquiry from Customer", message, ""));
+                    }
+                }
+                else
+                {
+                    result.data = "Email already exists.";
+                    result.result = Constant.API_RESULT_ERROR;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        public JsonResult EmailExists(string email)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                Customer customer = _customerRepo.Get(email,_configurationData.DatabaseConnectionString);
+                if(customer == null)
+                {
+                    result.data = false;
+                    result.result = Constant.API_RESULT_SUCCESS;
+                }
+                else
                 {
                     result.data = true;
                     result.result = Constant.API_RESULT_SUCCESS;
-                    //send email
-                    string message = "Hello " + model.Name;
-                    Task.Factory.StartNew(() => EmailHelper.SendEmail(_emailData.EmailUsername, _emailData.EmailPassword, _emailData.DisplayName, Convert.ToInt32(_emailData.ServerPort),
-                                                    _emailData.ServerHost, _emailData.IsEnableSSL, model.Email, "New Inquiry from Customer", message, ""));
                 }
             }
             catch (Exception ex)
