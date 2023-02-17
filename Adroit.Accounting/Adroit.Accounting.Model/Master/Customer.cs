@@ -1,6 +1,8 @@
 //-----------------------------------------------------------------------
 //    Copyright (c) Adroit IBS Pvt Ltd. All rights reserved.
 //-----------------------------------------------------------------------
+using System.Text.Json.Serialization;
+
 namespace Adroit.Accounting.Model
 {
     public partial class Customer
@@ -29,5 +31,6 @@ namespace Adroit.Accounting.Model
         public string AdharUID { get; set; }
         public short TotalUsers { get; set; }
         public bool IsActive { get; set; }
+        public string Password { get; set; }
     }
 }

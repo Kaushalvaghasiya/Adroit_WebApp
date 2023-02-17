@@ -1,13 +1,16 @@
+using Adroit.Accounting.Repository;
+using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Web.Data;
+using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+var connectionString = builder.Configuration.GetConnectionString("DatabaseConnectionString");
+builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -17,6 +20,11 @@ builder.Services.Configure<ApplicationDbContext>(o =>
 {
     o.Database.Migrate();
 });
+builder.Services.Configure<ConfigurationData>(builder.Configuration.GetSection("ConnectionStrings"));
+builder.Services.Configure<EmailSetup>(builder.Configuration.GetSection("EmailSetup"));
+builder.Services.AddSingleton<IStateRepository, StateRepository>();
+builder.Services.AddSingleton<ICityRepository, CityRepository>();
+builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

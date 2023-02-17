@@ -1,0 +1,267 @@
+﻿@model Adroit.Accounting.Model.Customer
+@{
+    Layout = null;
+}
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="Adroit – Accounting Software" name="description">
+    <meta content="Adroit – Accounting Software" name="author">
+    <meta name="keywords" content="adroit,account,finance,transport,booking" />
+
+    <!-- Favicon -->
+    <link rel="icon" href="@Url.Content("~/assets/images/brand/favicon.ico")" type="image/x-icon" />
+    <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/assets/images/brand/favicon.ico")" />
+
+    <!-- Title -->
+    <title>Adroit – Accounting Software</title>
+
+    <!--Bootstrap.min css-->
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/plugins/bootstrap/css/bootstrap.min.css")">
+
+    <!-- Dashboard css -->
+    <link href="@Url.Content("~/assets/css/style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/css/dark-style.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/assets/css/skin-mode.css")" rel="stylesheet" type="text/css" />
+
+    <!-- Combined css -->
+    <link href="@Url.Content("~/assets/css/combined.css")" rel="stylesheet" type="text/css" />
+    <!-- Perfect scroll bar css-->
+    <link href="@Url.Content("~/assets/plugins/pscrollbar/perfect-scrollbar.css")" rel="stylesheet" type="text/css" />
+    <!---Icons css-->
+    <link href="@Url.Content("~/assets/css/icons.css")" rel="stylesheet" type="text/css" />
+    <!---Alert css-->
+    <link href="@Url.Content("~/assets/plugins/sweet-alert/sweetalert.css")" rel="stylesheet" type="text/css" />
+    <!-- Color-skins css -->
+    <link id="theme" rel="stylesheet" type="text/css" media="all" href="@Url.Content("~/assets/colors/color-skins/color.css")" />
+    <link rel="stylesheet" href="" @Url.Content("~/assets/css/demo-styles.css")" type="text/css" />
+</head>
+<body class="bg-account">
+
+    <!-- page -->
+    <div class="page h-100">
+
+        <!-- page-content -->
+        <div class="page-content">
+            <div class="container text-center text-dark">
+                <div class="row">
+                    <div class="col-lg-4 d-block mx-auto">
+                        <div class="row">
+                            <div class="col-xl-12 col-md-12 col-md-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="text-center mb-6">
+                                            <img src="../assets/images/brand/logo.png" class="" alt="">
+                                        </div>
+                                        <h3>Register</h3>
+                                        @Html.HiddenFor(p => p.Id)
+                                        <p class="text-muted">Create New Account</p>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-addon bg-white"><i class="fa fa-user w-4"></i></span>
+                                            @Html.TextBoxFor(m => m.Name, new { required = "required", @class = "form-control ", name = "Name", maxlength = "50", title = "Name is required.", @placeholder="Enter name" })
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-addon bg-white"><i class="fa fa-user w-4"></i></span>
+                                            @Html.DropDownListFor(model => model.CityId, (IEnumerable<SelectListItem>)ViewBag.CityData, "Select", new { @class = "form-control", required = "", name = "CityId", title = "City is required." })
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-addon bg-white"><i class="fa fa-user w-4"></i></span>
+                                            @Html.DropDownListFor(model => model.StateId, (IEnumerable<SelectListItem>)ViewBag.StateData, "Select", new { @class = "form-control", required = "", name = "StateId", title = "State is required." })
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-addon bg-white"><i class="fa fa-user w-4"></i></span>
+                                            @Html.TextBoxFor(m => m.Pincode, new { required = "required", @class = "form-control ", name = "Pincode", maxlength = "50", title = "pincode is required.", @placeholder="Enter pincode" })
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-addon bg-white"><i class="fa fa-user w-4"></i></span>
+                                            @Html.TextAreaFor(m => m.Requirement, new { required = "required", @class = "form-control ", name = "Requirement", maxlength = "50", title = "requirements is required.", @placeholder="Enter requirements" })
+                                        </div>
+                                        <div class="input-group mb-4">
+                                            <span class="input-group-addon bg-white"><i class="fa fa-envelope  w-4"></i></span>
+                                            @Html.TextBoxFor(m => m.Email, new { required = "required", @class = "form-control ", name = "Email", maxlength = "50", title = "Email is required.", @placeholder="Enter Email" })
+                                        </div>
+                                        <div class="input-group mb-4">
+                                            <span class="input-group-addon bg-white"><i class="fa fa-unlock-alt  w-4"></i></span>
+                                            @Html.TextBoxFor(m => m.Password, new { @type="password", required = "required", @class = "form-control ", name = "Password", maxlength = "50", title = "Password is required.", @placeholder="Enter password" })
+                                        </div>
+                                        @*<div class="form-group">
+                                        <label class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" />
+                                        <span class="custom-control-label">Agree the <a href="terms.html">terms and policy</a></span>
+                                        </label>
+                                        </div>*@
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <button type="button" onclick="return SaveCustomer();" class="btn btn-primary btn-block px-4">Create a new account</button>
+                                            </div>
+                                        </div>
+                                        <div class="mt-6 btn-list">
+                                            <button type="button" class="btn btn-icon btn-facebook"><i class="fa fa-facebook"></i></button>
+                                            <button type="button" class="btn btn-icon btn-google"><i class="fa fa-google"></i></button>
+                                            <button type="button" class="btn btn-icon btn-twitter"><i class="fa fa-twitter"></i></button>
+                                            <button type="button" class="btn btn-icon btn-dribbble"><i class="fa fa-dribbble"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- page-content end -->
+    </div>
+    <!-- page End-->
+    <script>
+        var KTAppSettings = { "breakpoints": { "sm": 576, "md": 768, "lg": 992, "xl": 1200, "xxl": 1200 }, "colors": { "theme": { "base": { "white": "#ffffff", "primary": "#0BB783", "secondary": "#E5EAEE", "success": "#1BC5BD", "info": "#8950FC", "warning": "#FFA800", "danger": "#F64E60", "light": "#F3F6F9", "dark": "#212121" }, "light": { "white": "#ffffff", "primary": "#D7F9EF", "secondary": "#ECF0F3", "success": "#C9F7F5", "info": "#EEE5FF", "warning": "#FFF4DE", "danger": "#FFE2E5", "light": "#F3F6F9", "dark": "#D6D6E0" }, "inverse": { "white": "#ffffff", "primary": "#ffffff", "secondary": "#212121", "success": "#ffffff", "info": "#ffffff", "warning": "#ffffff", "danger": "#ffffff", "light": "#464E5F", "dark": "#ffffff" } }, "gray": { "gray-100": "#F3F6F9", "gray-200": "#ECF0F3", "gray-300": "#E5EAEE", "gray-400": "#D6D6E0", "gray-500": "#B5B5C3", "gray-600": "#80808F", "gray-700": "#464E5F", "gray-800": "#1B283F", "gray-900": "#212121" } }, "font-family": "Poppins" };
+        var KTAppOptions = {
+            "colors": {
+                "state": {
+                    "brand": "#374afb",
+                    "light": "#ffffff",
+                    "dark": "#282a3c",
+                    "primary": "#5867dd",
+                    "success": "#34bfa3",
+                    "info": "#36a3f7",
+                    "warning": "#ffb822",
+                    "danger": "#fd3995"
+                },
+                "base": {
+                    "label": ["#c5cbe3", "#a1a8c3", "#3d4465", "#3e4466"],
+                    "shape": ["#f0f3ff", "#d9dffa", "#afb4d4", "#646c9a"]
+                }
+            }
+        };
+    </script>
+    <!-- Jquery js-->
+    <script src="@Url.Content("~/assets/js/vendors/jquery-3.2.1.min.js")"></script>
+
+    <!--Bootstrap.min js-->
+    <script src="@Url.Content("~/assets/plugins/bootstrap/popper.min.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/bootstrap/js/bootstrap.min.js")"></script>
+
+    <!--Jquery Sparkline js-->
+    <script src="@Url.Content("~/assets/js/vendors/jquery.sparkline.min.js")"></script>
+
+    <!-- Chart Circle js-->
+    @*<script src="../assets/js/vendors/circle-progress.min.js"></script>*@
+
+    <!---Progress js-->
+    @*<script src='@Url.Content("~/assets/plugins/global/plugins.bundle.js")'></script>
+    <script src="@Url.Content("~/assets/js/scripts.bundle.js")"></script>*@
+
+    <!-- Perfect scroll bar js-->
+    <script src="@Url.Content("~/assets/plugins/pscrollbar/perfect-scrollbar.js")"></script>
+
+    <!-- Custom js-->
+    @*<script src="../assets/js/custom.js"></script>*@
+    <script src="@Url.Content("~/assets/js/DevScript.js")"></script>
+
+    <!-- Alert js -->
+    <script src="@Url.Content("~/assets/plugins/sweet-alert/sweetalert.min.js")"></script>
+
+    <script>
+        var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
+        function SaveCustomer() {
+            try {
+                if ($("#Name").length > 0 && $("#Name").val() == "") {
+                    swal('Error', "Please enter name.", "error"); //warning,  success, error, info
+                    $("#Name").focus();
+                    return;
+                }
+                if ($("#Email").length > 0 && $("#Email").val() == "") {
+                    swal('Error', "Please enter email.", "error"); //warning,  success, error, info
+                    $("#Email").focus();
+                    return;
+                }
+                if ($("#CityId").length > 0 && $("#CityId").val() == "") {
+                    swal('Error', "Please select city.", "error"); //warning,  success, error, info
+                    $("#CityId").focus();
+                    return;
+                }
+                if ($("#StateId").length > 0 && $("#StateId").val() == "") {
+                    swal('Error', "Please select state.", "error"); //warning,  success, error, info
+                    $("#StateId").focus();
+                    return;
+                }
+                if ($("#Pincode").length > 0 && $("#Pincode").val() == "") {
+                    swal('Error', "Please enter pincode.", "error"); //warning,  success, error, info
+                    $("#Pincode").focus();
+                    return;
+                }
+                if ($("#Requirement").length > 0 && $("#Requirement").val() == "") {
+                    swal('Error', "Please enter requirement.", "error"); //warning,  success, error, info
+                    $("#Requirement").focus();
+                    return;
+                }
+                if ($("#Password").length > 0 && $("#Password").val() == "") {
+                    swal('Error', "Please enter password.", "error"); //warning,  success, error, info
+                    $("#Password").focus();
+                    return;
+                }
+                debugger;
+                var savedata = new Object;
+                savedata.Id = $("#Id").val();
+                savedata.Name = $("#Name").val();
+                savedata.Email = $("#Email").val();
+                savedata.Password = $("#Password").val();
+                savedata.CityId = $("#CityId").val();
+                savedata.StateId = $("#StateId").val();
+                savedata.Pincode = $("#Pincode").val();
+                savedata.Requirement = $("#Requirement").val();
+                savedata.ContactPersonName = $("#Name").val();
+
+                savedata.Address1 = "";
+                savedata.Address2 = "";
+                savedata.Address3 = "";
+                savedata.Mobile = "";
+                savedata.MobileAlternate = "";
+                savedata.Phone = "";
+                savedata.BusinessId = 0;
+                savedata.TotalFirm = 0;
+                savedata.CustomerType = "";
+                savedata.AdharUID = "";
+                savedata.TotalUsers = 0;
+                savedata.IsDeleted = false;
+                savedata.IsActive = true;
+
+                var jsonData = JSON.stringify(savedata);
+                console.log(jsonData);
+                //blockUI('container');
+                var retrundata = AjaxCall("POST", "@(Url.Action("Registration", "Customer"))", jsonData,
+                    function (data) {
+                        //unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            ShowSuccessMessage('Registration successfully done.');
+                            $("#Name").val("");
+                            $("#Email").val("");
+                            $("#Password").val("");
+                            $("#CityId").val("");
+                            $("#StateId").val("");
+                            $("#Pincode").val("");
+                            $("#Requirement").val("");
+                            $("#Name").val("");
+                            $("#Id").val(0);
+                        } else {
+                            ShowErrorMessage(data.data);
+                        }
+                    },
+                    function (error) {
+                        //unblockUI('container');
+                        ShowErrorMessage(error.statusText);
+                    });
+            }
+            catch (e) {
+                //unblockUI('container');
+                ShowErrorMessage(e.message);
+                //swal('Error', e.message, "error"); //warning,  success, error, info
+            }
+        }
+    </script>
+
+</body>
+</html>
