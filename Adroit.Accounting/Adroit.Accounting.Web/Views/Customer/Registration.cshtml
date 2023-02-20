@@ -59,43 +59,42 @@
                                         <h3>Register</h3>
                                         @Html.HiddenFor(p => p.Id)
                                         <p class="text-muted">Create New Account</p>
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-4">
                                             <span class="input-group-addon bg-white"><i class="fa fa-user w-4"></i></span>
                                             @Html.TextBoxFor(m => m.Name, new { required = "required", @class = "form-control ", name = "Name", maxlength = "50", title = "Name is required.", @placeholder="Enter name" })
                                         </div>
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-4">
                                             <span class="input-group-addon bg-white"><i class="fa fa-map-marker w-4"></i></span>
-                                            @Html.DropDownListFor(model => model.CityId, (IEnumerable<SelectListItem>)ViewBag.CityData, "Select City", new { @class = "form-control", required = "", name = "CityId", title = "City is required." })
+                                            @Html.DropDownListFor(model => model.CountryId, (IEnumerable<SelectListItem>)ViewBag.CountryList, new { @class = "form-control", name = "CountryId", title = "Country" })
                                         </div>
-                                        <div class="input-group mb-3">
+                                        <div class="input-group mb-4">
                                             <span class="input-group-addon bg-white"><i class="fa fa-map-marker w-4"></i></span>
-                                            @Html.DropDownListFor(model => model.StateId, (IEnumerable<SelectListItem>)ViewBag.StateData, "Select State", new { @class = "form-control", required = "", name = "StateId", title = "State is required." })
+                                            @Html.DropDownListFor(model => model.StateId, (IEnumerable<SelectListItem>)ViewBag.EmptyList, "Select State", new { @class = "form-control", name = "StateId", title = "State" })
                                         </div>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-addon bg-white"><i class="fa fa-thumb-tack w-4"></i></span>
-                                            @Html.TextBoxFor(m => m.Pincode, new { required = "required", @class = "form-control ", name = "Pincode", maxlength = "10", title = "pincode is required.", @placeholder="Enter pincode" })
+                                        <div class="input-group mb-4">
+                                            <span class="input-group-addon bg-white"><i class="fa fa-map-marker w-4"></i></span>
+                                            @Html.DropDownListFor(model => model.CityId, (IEnumerable<SelectListItem>)ViewBag.EmptyList, "Select City", new { @class = "form-control", name = "CityId", title = "City" })
                                         </div>
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-addon bg-white"><i class="fa fa-wpforms w-4"></i></span>
-                                            @Html.TextAreaFor(m => m.Requirement, new { @class = "form-control ", name = "Requirement", maxlength = "500", title = "requirements is required.", @placeholder="Enter requirements" })
+                                        <div class="input-group mb-4">
+                                            <span class="input-group-addon bg-white"><i class="fa fa-university w-4"></i></span>
+                                            @Html.DropDownListFor(model => model.BusinessId, (IEnumerable<SelectListItem>)ViewBag.BusinessList, "Select Business", new { @class = "form-control", required = "", name = "BusinessId", title = "Business is required." })
+                                        </div>
+                                        <div class="input-group mb-4">
+                                            <span class="input-group-addon bg-white"><i class="fa fa-mobile-phone w-4"></i></span>
+                                            @Html.DropDownListFor(model => model.CountryCallingCode, (IEnumerable<SelectListItem>)ViewBag.CountryCodeList, new { @class = "form-control", required = "", name = "CountryCallingCode", title = "Calling Code is required." })
+                                            @Html.TextBoxFor(m => m.Mobile, new { required = "required", @class = "form-control ", name = "Mobile", maxlength = "10", title = "Mobile is required.", @placeholder="Enter Mobile" })
                                         </div>
                                         <div class="input-group mb-4">
                                             <span class="input-group-addon bg-white"><i class="fa fa-envelope  w-4"></i></span>
                                             @Html.TextBoxFor(m => m.Email, new { required = "required", @type="email", @class = "form-control ", name = "Email", maxlength = "50", title = "Email is required.", @placeholder="Enter Email" })
                                         </div>
-                                        <div class="input-group mb-4">
-                                            <span class="input-group-addon bg-white"><i class="fa fa-unlock-alt  w-4"></i></span>
-                                            @Html.TextBoxFor(m => m.Password, new { @type="password", required = "required", @class = "form-control ", name = "Password", maxlength = "50", title = "Password is required.", @placeholder="Enter password" })
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-addon bg-white"><i class="fa fa-wpforms w-4"></i></span>
+                                            @Html.TextAreaFor(m => m.Requirement, new { @class = "form-control ", name = "Requirement", maxlength = "500", title = "Requirements", @placeholder="Enter requirements" })
                                         </div>
-                                        @*<div class="form-group">
-                                        <label class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" />
-                                        <span class="custom-control-label">Agree the <a href="terms.html">terms and policy</a></span>
-                                        </label>
-                                        </div>*@
                                         <div class="row">
                                             <div class="col-12">
-                                                <button type="button" onclick="return SaveCustomer();" class="btn btn-primary btn-block px-4">Create a new account</button>
+                                                <button type="button" onclick="return SaveCustomer();" class="btn btn-primary btn-block px-4">Register</button>
                                             </div>
                                         </div>
                                         <div class="mt-6 btn-list">
@@ -166,6 +165,28 @@
 
     <script>
         var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
+        $(document).ready(function () {
+            BindStateList($("#CountryId").val());
+            $("#CountryId").on('change', function (e) {
+                let countryId = $(this).val();
+                if (countryId > 0) {
+                    BindStateList(countryId);
+                }
+                else {
+                    $("#CountryId").focus();
+                    ShowErrorMessage("Please select country.");
+                }
+            });
+            $("#StateId").on('change', function (e) {
+                let stateId = $(this).val();
+                if (stateId > 0) {
+                    BindCityList(stateId);
+                } else {
+                    $("#StateId").focus();
+                    ShowErrorMessage("Please select country.");
+                }
+            });
+        });
         function SaveCustomer() {
             try {
                 if ($("#Name").length > 0 && $("#Name").val() == "") {
@@ -177,29 +198,9 @@
                     $("#Email").focus();
                     return;
                 }
-                if ($("#CityId").length > 0 && $("#CityId").val() == "") {
-                    ShowErrorMessage("Please select city.");
-                    $("#CityId").focus();
-                    return;
-                }
-                if ($("#StateId").length > 0 && $("#StateId").val() == "") {
-                    ShowErrorMessage("Please select state.");
-                    $("#StateId").focus();
-                    return;
-                }
-                if ($("#Pincode").length > 0 && $("#Pincode").val() == "") {
-                    ShowErrorMessage("Please enter pincode.");
-                    $("#Pincode").focus();
-                    return;
-                }
-                if ($("#Requirement").length > 0 && $("#Requirement").val() == "") {
-                    ShowErrorMessage("Please enter requirement.");
-                    $("#Requirement").focus();
-                    return;
-                }
-                if ($("#Password").length > 0 && $("#Password").val() == "") {
-                    ShowErrorMessage("Please enter password.");
-                    $("#Password").focus();
+                if ($("#BusinessId").length > 0 && $("#BusinessId").val() == "") {
+                    ShowErrorMessage("Please select business.");
+                    $("#BusinessId").focus();
                     return;
                 }
                 let isValidemail = IsEmail($("#Email").val());
@@ -211,20 +212,18 @@
                 savedata.Id = $("#Id").val();
                 savedata.Name = $("#Name").val();
                 savedata.Email = $("#Email").val();
-                savedata.Password = $("#Password").val();
+                savedata.BusinessId = $("#BusinessId").val();
                 savedata.CityId = $("#CityId").val();
                 savedata.StateId = $("#StateId").val();
-                savedata.Pincode = $("#Pincode").val();
                 savedata.Requirement = $("#Requirement").val();
                 savedata.ContactPersonName = $("#Name").val();
+                savedata.Mobile = $("#Mobile").val();
 
                 savedata.Address1 = "";
                 savedata.Address2 = "";
-                savedata.Address3 = "";
-                savedata.Mobile = "";
+                savedata.Address3 = "";                
                 savedata.MobileAlternate = "";
                 savedata.Phone = "";
-                savedata.BusinessId = 0;
                 savedata.TotalFirm = 0;
                 savedata.CustomerType = "";
                 savedata.AdharUID = "";
@@ -232,33 +231,30 @@
                 savedata.IsDeleted = false;
                 savedata.IsActive = true;
 
-                if (EmailExists() == false){
-                    var jsonData = JSON.stringify(savedata);
-                    console.log(jsonData);
-                    //blockUI('container');
-                    var retrundata = AjaxCall("POST", "@(Url.Action("Registration", "Customer"))", jsonData,
-                        function (data) {
-                            //unblockUI('container');
-                            if (data.result == RESULT_SUCCESS) {
-                                ShowSuccessMessage('Registration successfully done.');
-                                $("#Name").val("");
-                                $("#Email").val("");
-                                $("#Password").val("");
-                                $("#CityId").val("");
-                                $("#StateId").val("");
-                                $("#Pincode").val("");
-                                $("#Requirement").val("");
-                                $("#Name").val("");
-                                $("#Id").val(0);
-                            } else {
-                                ShowErrorMessage(data.data);
-                            }
-                        },
-                        function (error) {
-                            //unblockUI('container');
-                            ShowErrorMessage(error.statusText);
-                        });
-                }
+                var jsonData = JSON.stringify(savedata);
+                console.log(jsonData);
+                //blockUI('container');
+                var retrundata = AjaxCall("POST", "@(Url.Action("Registration", "Customer"))", jsonData,
+                    function (data) {
+                        //unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            ShowSuccessMessage('Registration successfully done.');
+                            $("#Name").val("");
+                            $("#Email").val("");
+                            $("#BusinessId").val("");
+                            $("#CityId").val("");
+                            $("#StateId").val("");
+                            $("#Requirement").val("");
+                            $("#Name").val("");
+                            $("#Id").val(0);
+                        } else {
+                            ShowErrorMessage(data.data);
+                        }
+                    },
+                    function (error) {
+                        //unblockUI('container');
+                        ShowErrorMessage(error.statusText);
+                    });
             }
             catch (e) {
                 //unblockUI('container');
@@ -270,7 +266,7 @@
         $("#Email").change(function () {
             let email = $(this).val();
             let isValidemail = IsEmail(email);
-            if (isValidemail){
+            if (isValidemail) {
                 try {
                     //blockUI('container');
                     var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/EmailExists"))" + "?email=" + email, "",
@@ -279,7 +275,7 @@
                             var str = "";
                             if (data.result == RESULT_SUCCESS) {
                                 if (data.data == true) {
-                                    $("#Email").val("");                                    
+                                    $("#Email").val("");
                                     ShowErrorMessage("Email already exists : " + email);
                                     $("#Email").focus();
                                 }
@@ -296,11 +292,71 @@
                     //unblockUI('container');
                     ShowErrorMessage(e.message);
                 }
-            }else{
+            } else {
                 $("#Email").focus();
                 ShowErrorMessage("Please enter valid email");
             }
         });
+
+        function BindStateList(countryId) {
+            try {
+                $("#CountryCallingCode").val(countryId);
+                //blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetStates"))" + "?countryId=" + countryId, "",
+                    function (data) {
+                        //unblockUI('container');
+                        var str = "";
+                        str += "<option value='0'>Select State</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    debugger;
+                                    str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                }
+                            }
+                            $("#StateId").html(str);
+                        } else {
+                            ShowErrorMessage(data.data);
+                        }
+                    },
+                    function (error) {
+                        //unblockUI('container');
+                        ShowErrorMessage(error.statusText);
+                    });
+            }
+            catch (err) {
+                //unblockUI('container');
+                ShowErrorMessage(e.message);
+            }
+        }
+        function BindCityList(stateId) {
+            try {
+                //blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetCities"))" + "?stateId=" + stateId, "",
+                    function (data) {
+                        //unblockUI('container');
+                        var str = "";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                }
+                            }
+                            $("#CityId").html(str);
+                        } else {
+                            ShowErrorMessage(data.data);
+                        }
+                    },
+                    function (error) {
+                        //unblockUI('container');
+                        ShowErrorMessage(error.statusText);
+                    });
+            }
+            catch (err) {
+                //unblockUI('container');
+                ShowErrorMessage(e.message);
+            }
+        }
     </script>
 
 </body>

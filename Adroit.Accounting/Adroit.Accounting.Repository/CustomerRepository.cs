@@ -18,8 +18,9 @@ namespace Adroit.Accounting.Repository
 			parameters.Add("@Address3", customer.Address3);
 			parameters.Add("@CityId", customer.CityId);
 			parameters.Add("@StateId", customer.StateId);
-			parameters.Add("@Pincode", customer.Pincode);
-			parameters.Add("@ContactPersonName", customer.ContactPersonName);
+			parameters.Add("@EmailOtp", customer.EmailOtp);
+            parameters.Add("@MobileOtp", customer.MobileOtp);
+            parameters.Add("@ContactPersonName", customer.ContactPersonName);
 			parameters.Add("@Mobile", customer.Mobile);
 			parameters.Add("@MobileAlternate", customer.MobileAlternate);
 			parameters.Add("@Phone", customer.Phone);
@@ -32,6 +33,7 @@ namespace Adroit.Accounting.Repository
 			parameters.Add("@TotalUsers", customer.TotalUsers);
 			parameters.Add("@IsDeleted", customer.IsDeleted);
 			parameters.Add("@IsActive", customer.IsActive);
+			parameters.Add("@StatusId", customer.StateId);
 			return QueryHelper.Save("sp_CustomerSave", connectionString, parameters);
 		}
 		public Customer Get(string email, string connectionString)

@@ -15,14 +15,18 @@ namespace Adroit.Accounting.Model
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string Address3 { get; set; }
+        public int CountryId { get; set; }
         public int CityId { get; set; }
         public int? StateId { get; set; }
-        public string Pincode { get; set; }
+        public string Pincode { get; set; }        
         public string ContactPersonName { get; set; }
+        public string CountryCallingCode { get; set; }
         public string Mobile { get; set; }
-        public string MobileAlternate { get; set; }
-        public string Phone { get; set; }
+        public string MobileOtp { get; set; }
+        public string MobileAlternate { get; set; }        
+        public string Phone { get; set; }        
         public string Email { get; set; }
+        public string EmailOtp { get; set; }
         public short BusinessId { get; set; }
         public string Requirement { get; set; }
         public short? TotalFirm { get; set; }
@@ -32,5 +36,6 @@ namespace Adroit.Accounting.Model
         public short TotalUsers { get; set; }
         public bool IsActive { get; set; }
         public string Password { get; set; }
-    }
+        public int StatusId { get; set; }
+	}
 }

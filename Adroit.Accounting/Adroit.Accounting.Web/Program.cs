@@ -22,9 +22,11 @@ builder.Services.Configure<ApplicationDbContext>(o =>
 });
 builder.Services.Configure<ConfigurationData>(builder.Configuration.GetSection("ConnectionStrings"));
 builder.Services.Configure<EmailSetup>(builder.Configuration.GetSection("EmailSetup"));
+builder.Services.AddSingleton<ICountryRepository, CountryRepository>();
 builder.Services.AddSingleton<IStateRepository, StateRepository>();
 builder.Services.AddSingleton<ICityRepository, CityRepository>();
 builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>();
+builder.Services.AddSingleton<IBusinessRepository, BusinessRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

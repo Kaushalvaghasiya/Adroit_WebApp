@@ -4,6 +4,6 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface IStateRepository
     {
-        List<State> GetStateList(string connectionString);
+        List<State> GetStateList(string connectionString, int countryId);
     }
 }
