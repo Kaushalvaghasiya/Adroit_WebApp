@@ -74,7 +74,7 @@ namespace Adroit.Accounting.Web.Controllers
 						var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\OTPEmail.html"));
 						msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(model.Name) ? model.Name : "");
 						msgBody = msgBody.Replace("{OTP}", model.EmailOtp);
-                        msgBody = msgBody.Replace("{ResetUrl}", $"{_configuration.GetSection("SiteUrl")}/Customer/VerifyOTP?email={model.Email}");
+                        msgBody = msgBody.Replace("{ResetUrl}", $"{_configuration.GetSection("SiteUrl").Value}/Customer/VerifyOTP?email={model.Email}");
                         Task.Factory.StartNew(() => EmailHelper.SendEmail(_emailData.EmailUsername, _emailData.EmailPassword, _emailData.DisplayName, Convert.ToInt32(_emailData.ServerPort),
 														_emailData.ServerHost, _emailData.IsEnableSSL, model.Email, "Adroit Registration OTP", msgBody, ""));
 					}
