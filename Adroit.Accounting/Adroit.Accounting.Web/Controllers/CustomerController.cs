@@ -17,9 +17,10 @@ namespace Adroit.Accounting.Web.Controllers
 		private ICountryRepository _countryRepo;
 		private IBusinessRepository _businessRepo;
 		private readonly ConfigurationData _configurationData;
+		private readonly IConfiguration _configuration;
 		private readonly EmailSetup _emailData;
 		public CustomerController(ICustomerRepository customerRepo, IStateRepository stateRepo, ICityRepository cityRepo,
-				IOptions<ConfigurationData> configurationData, IOptions<EmailSetup> emailData, ICountryRepository countryRepo, IBusinessRepository businessRepo)
+				IOptions<ConfigurationData> configurationData, IOptions<EmailSetup> emailData, ICountryRepository countryRepo, IBusinessRepository businessRepo, IConfiguration configuration)
 		{
 			_customerRepo = customerRepo;
 			_stateRepo = stateRepo;
@@ -28,6 +29,7 @@ namespace Adroit.Accounting.Web.Controllers
 			_emailData = emailData.Value;
 			_countryRepo = countryRepo;
 			_businessRepo = businessRepo;
+			_configuration = configuration;
 		}
 		public IActionResult Login()
 		{
@@ -38,7 +40,6 @@ namespace Adroit.Accounting.Web.Controllers
 		{
 			Customer model = new Customer();
 			model.Id = 0;
-			var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\ResetPassword.html"));
 			ViewBag.EmptyList = new SelectList(Enumerable.Empty<SelectListItem>());
 
 			List<Country> countries = new List<Country>();
@@ -73,7 +74,7 @@ namespace Adroit.Accounting.Web.Controllers
 						var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\OTPEmail.html"));
 						msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(model.Name) ? model.Name : "");
 						msgBody = msgBody.Replace("{OTP}", model.EmailOtp);
-                        msgBody = msgBody.Replace("{ResetUrl}", $"https://localhost:7270/Customer/VerifyOTP?email={model.Email}");
+                        msgBody = msgBody.Replace("{ResetUrl}", $"{_configuration.GetSection("SiteUrl")}/Customer/VerifyOTP?email={model.Email}");
                         Task.Factory.StartNew(() => EmailHelper.SendEmail(_emailData.EmailUsername, _emailData.EmailPassword, _emailData.DisplayName, Convert.ToInt32(_emailData.ServerPort),
 														_emailData.ServerHost, _emailData.IsEnableSSL, model.Email, "Adroit Registration OTP", msgBody, ""));
 					}
@@ -169,7 +170,7 @@ namespace Adroit.Accounting.Web.Controllers
 				Customer customer = _customerRepo.Get(model.Email, _configurationData.DatabaseConnectionString);
 				if (customer != null)
 				{
-					if(customer.EmailOtp == model.EmailOtp && customer.MobileOtp == model.MobileOtp)
+					if(customer.EmailOtp == model.EmailOtp) //&& customer.MobileOtp == model.MobileOtp)
 					{
 						customer.StatusId = 2;
 						int id = _customerRepo.Save(customer, _configurationData.DatabaseConnectionString);
@@ -177,7 +178,7 @@ namespace Adroit.Accounting.Web.Controllers
 						//send email
 						//var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\ResetPassword.html"));
 						//msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(model.Name) ? model.Name : "");
-						//msgBody = msgBody.Replace("{ResetUrl}", $"https://localhost:7270/Customer/ResetPassword?email={model.Email}");
+						//msgBody = msgBody.Replace("{ResetUrl}", $"{_configuration.GetSection("SiteUrl")}/Customer/ResetPassword?email={model.Email}");
 						//Task.Factory.StartNew(() => EmailHelper.SendEmail(_emailData.EmailUsername, _emailData.EmailPassword, _emailData.DisplayName, Convert.ToInt32(_emailData.ServerPort),
 						//								_emailData.ServerHost, _emailData.IsEnableSSL, model.Email, "Adroit Registration OTP", msgBody, ""));
 
