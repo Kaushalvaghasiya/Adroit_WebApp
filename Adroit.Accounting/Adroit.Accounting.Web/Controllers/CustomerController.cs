@@ -7,6 +7,8 @@ using Adroit.Accounting.Web.Models;
 using Microsoft.Extensions.Options;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Utility;
+using Adroit.Accounting.Model.Enums;
+
 namespace Adroit.Accounting.Web.Controllers
 {
 	public class CustomerController : Controller
@@ -64,7 +66,7 @@ namespace Adroit.Accounting.Web.Controllers
 				{
 					model.EmailOtp = RandomNumber.SixDigigNumber();
 					model.MobileOtp = RandomNumber.SixDigigNumber();
-					model.StatusId = 1;
+					model.StatusId = (short)CustomerStatus.Registered;
 					int id = _customerRepo.Save(model, _configurationData.DatabaseConnectionString);
 					if (id > 0)
 					{
@@ -172,7 +174,7 @@ namespace Adroit.Accounting.Web.Controllers
 				{
 					if(customer.EmailOtp == model.EmailOtp) //&& customer.MobileOtp == model.MobileOtp)
 					{
-						customer.StatusId = 2;
+						customer.StatusId = (short)CustomerStatus.Verified;
 						int id = _customerRepo.Save(customer, _configurationData.DatabaseConnectionString);
 
 						//send email

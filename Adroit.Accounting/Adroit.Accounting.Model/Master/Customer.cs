@@ -36,6 +36,6 @@ namespace Adroit.Accounting.Model
         public short TotalUsers { get; set; }
         public bool IsActive { get; set; }
         public string Password { get; set; }
-        public int StatusId { get; set; }
+        public short StatusId { get; set; }
 	}
 }
