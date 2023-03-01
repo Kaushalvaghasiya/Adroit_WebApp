@@ -16,14 +16,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LastName", userDetail.LastName);
             return QueryHelper.Save("usp_AddUserDetail", connectionString, parameters);
         }
-        public string SaveMembershipUser(MembershipUserDetail userDetail, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@UserName", userDetail.UserName);
-            parameters.Add("@Email", userDetail.Email);
-
-            return QueryHelper.SaveMembership("usp_AddMembershipUserDetail", connectionString, parameters);
-        }
         public UserDetail GetUserDetail(string email, string connectionString)
         {
             var parameters = new DynamicParameters();
