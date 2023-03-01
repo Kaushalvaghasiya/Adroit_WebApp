@@ -1,10 +1,4 @@
-/****** Object:  StoredProcedure [dbo].[sp_CustomerList]    Script Date: 20-02-2023 20:22:19 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
--- Exec [sp_CustomerList] '',1,10,0,'asc'
-CREATE Procedure [dbo].[sp_CustomerList]
+CREATE OR ALTER Procedure [dbo].[sp_CustomerList]
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,

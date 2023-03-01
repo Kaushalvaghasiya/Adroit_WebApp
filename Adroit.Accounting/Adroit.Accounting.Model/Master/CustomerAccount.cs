@@ -4,7 +4,7 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class CustomerAccount
+    public partial class CustomerAccount : BaseModel
     {
         public CustomerAccount()
         {
@@ -61,5 +61,8 @@ namespace Adroit.Accounting.Model
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
         public bool IsActive { get; set; }
+
+        public string AccountGroup { get; set; }
+        public string City { get; set; }
     }
 }
