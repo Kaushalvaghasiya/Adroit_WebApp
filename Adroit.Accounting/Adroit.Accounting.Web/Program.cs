@@ -25,7 +25,13 @@ builder.Services.Configure<EmailSetup>(builder.Configuration.GetSection("EmailSe
 builder.Services.AddSingleton<ICountryRepository, CountryRepository>();
 builder.Services.AddSingleton<IStateRepository, StateRepository>();
 builder.Services.AddSingleton<ICityRepository, CityRepository>();
+builder.Services.AddSingleton<IDistrictRepository, DistrictRepository>();
+builder.Services.AddSingleton<ITalukaRepository, TalukaRepository>();
 builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>();
+builder.Services.AddSingleton<ICustomerAccountRepository, CustomerAccountRepository>();
+builder.Services.AddSingleton<ICustomerAccountGroupRepository, CustomerAccountGroupRepository>();
+builder.Services.AddSingleton<IGSTInvoiceTypeRepository, GSTInvoiceTypeRepository>();
+builder.Services.AddSingleton<ICustomerBrokerBranchMappingRepository, CustomerBrokerBranchMappingRepository>();
 builder.Services.AddSingleton<IBusinessRepository, BusinessRepository>();
 var app = builder.Build();
 
@@ -49,9 +55,22 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapAreaControllerRoute(
+        name: "Admin",
+        areaName: "Admin",
+        pattern: "Admin/{controller=CustomerAccount}/{action=Index}");
+
+    endpoints.MapControllerRoute(
+        name: "areaRoute",
+        pattern: "{area:exists}/{controller}/{action}");
+
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Dashboard}/{action=Index}/{id?}");
+});
+
 app.MapRazorPages();
 
 app.Run();

@@ -170,6 +170,7 @@
             $("#CountryId").on('change', function (e) {
                 let countryId = $(this).val();
                 if (countryId > 0) {
+                    $("#CountryCallingCode").val(countryId);
                     BindStateList(countryId);
                 }
                 else {
@@ -299,8 +300,7 @@
         });
 
         function BindStateList(countryId) {
-            try {
-                $("#CountryCallingCode").val(countryId);
+            try {                
                 //blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetStates"))" + "?countryId=" + countryId, "",
                     function (data) {
