@@ -37,5 +37,7 @@ namespace Adroit.Accounting.Model
         public bool IsActive { get; set; }
         public string Password { get; set; }
         public short StatusId { get; set; }
+        public string TokenCode { get; set; }
+        public string IdentityUserId { get; set; }
 	}
 }

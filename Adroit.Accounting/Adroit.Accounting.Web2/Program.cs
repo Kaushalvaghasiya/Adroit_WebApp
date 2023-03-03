@@ -1,6 +1,9 @@
+using Adroit.Accounting.Repository;
+using Adroit.Accounting.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Adroit.Accounting.Web.Data;
+using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
 
@@ -15,6 +18,22 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+builder.Services.Configure<ConfigurationData>(builder.Configuration.GetSection("ConnectionStrings"));
+builder.Services.Configure<EmailSetup>(builder.Configuration.GetSection("EmailSetup"));
+builder.Services.AddSingleton<ICountryRepository, CountryRepository>();
+builder.Services.AddSingleton<IStateRepository, StateRepository>();
+builder.Services.AddSingleton<ICityRepository, CityRepository>();
+builder.Services.AddSingleton<IDistrictRepository, DistrictRepository>();
+builder.Services.AddSingleton<ITalukaRepository, TalukaRepository>();
+builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>();
+builder.Services.AddSingleton<ICustomerAccountRepository, CustomerAccountRepository>();
+builder.Services.AddSingleton<ICustomerAccountGroupRepository, CustomerAccountGroupRepository>();
+builder.Services.AddSingleton<IGSTInvoiceTypeRepository, GSTInvoiceTypeRepository>();
+builder.Services.AddSingleton<ICustomerBrokerBranchMappingRepository, CustomerBrokerBranchMappingRepository>();
+builder.Services.AddSingleton<IBusinessRepository, BusinessRepository>();
+
+//builder.Services.AddSingleton<UserManager>();
 
 // If you don't want the cookie to be automatically authenticated and assigned HttpContext.User, 
 // remove the CookieAuthenticationDefaults.AuthenticationScheme parameter passed to AddAuthentication.
