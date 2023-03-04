@@ -5,7 +5,7 @@ namespace Adroit.Accounting.Utility
 {
     public static class EmailHelper
     {
-        public static void SendEmail(string p_fromAddress, string p_fromPassword, string p_displayName, int p_port, string p_host, bool p_ssl, string emailId
+        public static async Task SendEmail(string p_fromAddress, string p_fromPassword, string p_displayName, int p_port, string p_host, bool p_ssl, string emailId
             , string subject, string body, string attachmentFile)
         {
             try

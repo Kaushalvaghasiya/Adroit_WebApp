@@ -143,8 +143,8 @@
                     <div class="row userform">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <input type="hidden" id="Id" />
-                                <input type="hidden" id="CustomerId" />
+                                <input type="hidden" id="Id" value="0" />
+                                <input type="hidden" id="CustomerId" value="0" />
                                 <label for="Name">Account Name</label>
                                 <input type="text" class="form-control" id="Name" placeholder="" maxlength="100">
                             </div>
@@ -467,6 +467,7 @@
 
     <script>
         var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
+
         $(function (e) {
             $('.dv-list').show();
             $('.dv-detail').hide();
@@ -548,9 +549,9 @@
                     ShowErrorMessage("Please select taluka.");
                 }
             });
-            //BindCustomerAccountGroupList();
-            //BindCustomerBrokerBranchMappingList();
-            //BindCustomerAccountList();
+            BindCustomerAccountGroupList();
+            BindCustomerBrokerBranchMappingList();
+            BindCustomerAccountList();
         });
 
         function datatablelist() {
@@ -651,7 +652,7 @@
                 //lengthMenu: [[10, 20, 50, 100, -1], [10, 20, 50, 100, 'All']],
                 bPaginate: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerAccount/GetList"))',
+                    url: '@(Url.Content("~/Customer/GetAccountList"))',
                     type: 'GET',
                     data: function (d) { }
                 }
@@ -680,11 +681,7 @@
                     $("#GSTInvoiceTypeId").focus();
                     return;
                 }
-                if ($("#OwnerBranchId").length > 0 && $("#OwnerBranchId").val() == "") {
-                    ShowErrorMessage("Please select Owner.");
-                    $("#OwnerBranchId").focus();
-                    return;
-                }
+                
                 let isValidemail = IsEmail($("#Email").val());
                 if (!isValidemail) {
                     ShowErrorMessage("Please enter valid email");
@@ -692,20 +689,20 @@
                 }
 
                 var savedata = new Object;
-                savedata.Id = $("#Id").val();
-                savedata.CustomerId = $("#CustomerId").val();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.CustomerId = parseInt($("#CustomerId").val());
                 savedata.Name = $("#Name").val();
                 savedata.PrintName = $("#PrintName").val();
-                savedata.AccountGroupId = $("#AccountGroupId").val();
+                savedata.AccountGroupId = parseInt($("#AccountGroupId").val());
                 savedata.Address1 = $("#Address1").val();
                 savedata.Address2 = $("#Address2").val();
                 savedata.Address3 = $("#Address3").val();
-                savedata.CountryId = $("#CountryId").val();
-                savedata.StateId = $("#StateId").val();
-                savedata.CityId = $("#CityId").val();
+                savedata.CountryId = $("#CountryId").val() == "" ? null : parseInt($("#CountryId").val());
+                savedata.StateId = $("#StateId").val() == "" ? null : parseInt($("#StateId").val());
+                savedata.CityId = $("#CityId").val() == "" ? null : parseInt($("#CityId").val());
                 savedata.Pincode = $("#Pincode").val();
                 savedata.KM = $("#KM").val();
-                savedata.AreaName = $("#AreaName").val();
+                savedata.AreaName = $("#AreaName option:selected").text();
                 savedata.ContactPersonName = $("#ContactPersonName").val();
                 savedata.Mobile = $("#Mobile").val();
                 savedata.MobileAlternate = $("#MobileAlternate").val();
@@ -716,19 +713,19 @@
                 savedata.TAN = $("#TAN").val();
                 savedata.EximCode = $("#EximCode").val();
                 savedata.GSTInvoiceTypeId = $("#GSTInvoiceTypeId").val();
-                savedata.CreditDays = $("#CreditDays").val();
-                savedata.CreditLimit = $("#CreditLimit").val();
-                savedata.TransportName = $("#TransportName").val();
+                savedata.CreditDays = $("#CreditDays").val() == "" ? null : parseInt($("#CreditDays").val());
+                savedata.CreditLimit = $("#CreditLimit").val() == "" ? null : parseFloat($("#CreditLimit").val());
+                savedata.TransportName = $("#TransportName option:selected").text();
                 savedata.GSTNumberTransport = $("#GSTNumberTransport").val();
-                savedata.ShippingAccountBranchMappingId = $("#ShippingAccountBranchMappingId").val();
-                savedata.DeliveryAccountBranchMappingId = $("#DeliveryAccountBranchMappingId").val();
-                savedata.BrokerMappingId = $("#BrokerMappingId").val();
-                savedata.TDS = $("#TDS").val();
-                savedata.TCS = $("#TCS").val();
-                savedata.Discount = $("#Discount").val();
-                savedata.InterestRate = $("#InterestRate").val();
-                savedata.Commission = $("#Commission").val();
-                savedata.CapitalPercentage = $("#CapitalPercentage").val();
+                savedata.ShippingAccountBranchMappingId = $("#ShippingAccountBranchMappingId").val() == "" ? null : parseInt($("#ShippingAccountBranchMappingId").val());
+                savedata.DeliveryAccountBranchMappingId = $("#DeliveryAccountBranchMappingId").val() == "" ? null : parseInt($("#DeliveryAccountBranchMappingId").val());
+                savedata.BrokerMappingId = $("#BrokerMappingId").val() == "" ? null : parseInt($("#BrokerMappingId").val());
+                savedata.TDS = $("#TDS").val() == "" ? null : parseFloat($("#TDS").val());
+                savedata.TCS = $("#TCS").val() == "" ? null : parseFloat($("#TCS").val());
+                savedata.Discount = $("#Discount").val() == "" ? null : parseFloat($("#Discount").val());
+                savedata.InterestRate = $("#InterestRate").val() == "" ? null : parseFloat($("#InterestRate").val());
+                savedata.Commission = $("#Commission").val() == "" ? null : parseFloat($("#Commission").val())
+                savedata.CapitalPercentage = $("#CapitalPercentage").val() == "" ? null : parseFloat($("#CapitalPercentage").val());
                 savedata.IsIGST = $("#IsIGST").prop("checked");
                 savedata.RateWithGST = $("#RateWithGST").prop("checked");
                 savedata.RCMParty = $("#RCMParty").prop("checked");
@@ -739,12 +736,12 @@
                 var jsonData = JSON.stringify(savedata);
                 console.log(jsonData);
                 //blockUI('container');
-                var retrundata = AjaxCall("POST", "@(Url.Action("SaveDetail", "CustomerAccount"))", jsonData,
+                var retrundata = AjaxCall("POST", "@(Url.Action("SaveAccount", "Customer"))", jsonData,
                     function (data) {
                         //unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fnReset();
-                            ShowSuccessMessage('Customer Account successfully done.');
+                            ShowSuccessMessage('Account saved successfully.');
                             $("#Id").val(0);
                             datatablelist();
                         } else {
@@ -765,7 +762,7 @@
 
         function GetDetail(id) {
             try {
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/CustomerAccount/GetDetail"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetAccount"))" + "/" + id, "",
                     function (result) {
                         var str = "";
                         try {
@@ -826,7 +823,7 @@
                 id = $('#Id').val();
             }
             try {
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/CustomerAccount/Delete"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteAccount"))" + "/" + id, "",
                     function (result) {
                         var str = "";
                         try {
@@ -875,6 +872,7 @@
                 ShowErrorMessage(e.message);
             }
         }
+        
         function BindCountryList() {
             try {
                 //blockUI('container');
@@ -904,6 +902,7 @@
                 ShowErrorMessage(e.message);
             }
         }
+        
         function BindStateList(countryId) {
             try {
                 //blockUI('container');
@@ -933,6 +932,7 @@
                 ShowErrorMessage(e.message);
             }
         }
+        
         function BindDistrictList(stateId) {
             try {
                 //blockUI('container');
@@ -962,6 +962,7 @@
                 ShowErrorMessage(e.message);
             }
         }
+        
         function BindTalukaList(districtId) {
             try {
                 //blockUI('container');
@@ -991,6 +992,7 @@
                 ShowErrorMessage(e.message);
             }
         }
+        
         function BindCityList(stateId, talukaId, districtId) {
             try {
                 //blockUI('container');
@@ -1021,20 +1023,19 @@
         }
 
         function BindCustomerAccountGroupList() {
+            var str = "";
+            str += "<option value='0'>Select Account Group</option>";
             try {
                 //blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCustomerAccountGroups"))", "",
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetAccountGroups"))", "",
                     function (data) {
                         //unblockUI('container');
-                        var str = "";
-                        str += "<option value='0'>Select Account Group</option>";
                         if (data.result == RESULT_SUCCESS) {
                             if (data.data.length > 0) {
                                 for (var i = 0; i < data.data.length; i++) {
                                     str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
                                 }
                             }
-                            $("#AccountGroupId").html(str);
                         } else {
                             ShowErrorMessage(data.data);
                         }
@@ -1048,11 +1049,13 @@
                 //unblockUI('container');
                 ShowErrorMessage(e.message);
             }
+            $("#AccountGroupId").html(str);
         }
+        
         function BindCustomerBrokerBranchMappingList() {
             try {
                 //blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCustomerBrokerBranchMappings"))", "",
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetBroker"))", "",
                     function (data) {
                         //unblockUI('container');
                         var str = "";
@@ -1078,10 +1081,11 @@
                 ShowErrorMessage(e.message);
             }
         }
+        
         function BindCustomerAccountList() {
             try {
                 //blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCustomerAccounts"))", "",
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetAccounts"))", "",
                     function (data) {
                         //unblockUI('container');
                         var str = "";

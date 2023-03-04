@@ -167,6 +167,7 @@
         var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
         $(document).ready(function () {
             BindStateList($("#CountryId").val());
+
             $("#CountryId").on('change', function (e) {
                 let countryId = $(this).val();
                 if (countryId > 0) {
@@ -178,6 +179,7 @@
                     ShowErrorMessage("Please select country.");
                 }
             });
+
             $("#StateId").on('change', function (e) {
                 let stateId = $(this).val();
                 if (stateId > 0) {
@@ -188,6 +190,7 @@
                 }
             });
         });
+
         function SaveCustomer() {
             try {
                 if ($("#Name").length > 0 && $("#Name").val() == "") {
@@ -235,11 +238,11 @@
                 var jsonData = JSON.stringify(savedata);
                 console.log(jsonData);
                 //blockUI('container');
-                var retrundata = AjaxCall("POST", "@(Url.Action("Registration", "Customer"))", jsonData,
+                var retrundata = AjaxCall("POST", "@(Url.Action("Save", "Registration"))", jsonData,
                     function (data) {
                         //unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
-                            ShowSuccessMessage('Registration successfully done.');
+                            ShowSuccessMessage('Thanks '+$("#Name").val()+'!' + ' Thank you for filling out our sign up form. We are glad that you joined us. We have sent an email to verify your email. Have a nice day.');
                             $("#Name").val("");
                             $("#Email").val("");
                             $("#BusinessId").val("");
@@ -270,7 +273,7 @@
             if (isValidemail) {
                 try {
                     //blockUI('container');
-                    var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/EmailExists"))" + "?email=" + email, "",
+                    var retrundata = AjaxCall("GET", "@(Url.Content("~/Registration/EmailExists"))" + "?email=" + email, "",
                         function (data) {
                             //unblockUI('container');
                             var str = "";
@@ -302,7 +305,7 @@
         function BindStateList(countryId) {
             try {                
                 //blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetStates"))" + "?countryId=" + countryId, "",
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
                     function (data) {
                         //unblockUI('container');
                         var str = "";
@@ -310,7 +313,6 @@
                         if (data.result == RESULT_SUCCESS) {
                             if (data.data.length > 0) {
                                 for (var i = 0; i < data.data.length; i++) {
-                                    debugger;
                                     str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
                                 }
                             }
@@ -332,7 +334,7 @@
         function BindCityList(stateId) {
             try {
                 //blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetCities"))" + "?stateId=" + stateId, "",
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?stateId=" + stateId, "",
                     function (data) {
                         //unblockUI('container');
                         var str = "";
