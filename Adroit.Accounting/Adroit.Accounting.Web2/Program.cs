@@ -6,6 +6,8 @@ using Adroit.Accounting.Web.Data;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
+using NLog.Web;
+using NLog;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,6 +59,22 @@ else
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+
+var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+try
+{
+    // Run SQL Changes 
+    Adroit.Accounting.SQL.SQLMigrate.ExecuteSQL(connectionString);
+}
+catch (Exception exception)
+{
+    logger.Debug("init main");
+    logger.Error(exception, "Stopped program because of exception");
+}
+finally
+{
+    NLog.LogManager.Shutdown();
 }
 
 app.UseHttpsRedirection();
