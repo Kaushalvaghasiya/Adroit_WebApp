@@ -4,7 +4,7 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class BookAdmin
+    public partial class BookAdmin : BaseModel
     {
         public BookAdmin()
         {
@@ -63,5 +63,8 @@ namespace Adroit.Accounting.Model
         public int RoundOffAccountId { get; set; }
         public bool IsDeleted { get; set; }
         public bool IsActive { get; set; }
+        public string BookName { get; set; }
+        public string ShortName { get; set; }
+        public string BookType { get; set; }
     }
 }
