@@ -50,7 +50,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountSave]
 )
 AS
 BEGIN
-	IF EXISTS (SELECT 1 FROM CustomerAccount WHERE Id = @ID)
+	IF EXISTS (SELECT 1 FROM CustomerAccount WHERE Id = @Id)
 		BEGIN
 			UPDATE CustomerAccount SET
 			[Name] = @Name

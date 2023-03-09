@@ -58,7 +58,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_BookAdminSave]
 )
 AS
 BEGIN
-	IF EXISTS (SELECT 1 FROM BookAdmin WHERE Id = @ID)
+	IF EXISTS (SELECT 1 FROM BookAdmin WHERE Id = @Id)
 		BEGIN
 			UPDATE BookAdmin SET
 			BookAccountId = @BookAccountId

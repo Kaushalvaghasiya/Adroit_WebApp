@@ -11,7 +11,7 @@ namespace Adroit.Accounting.Repository
 		public int Save(Customer customer, string connectionString)
 		{
 			var parameters = new DynamicParameters();
-			parameters.Add("@ID", customer.Id);
+			parameters.Add("@Id", customer.Id);
 			parameters.Add("@Name", customer.Name);
 			parameters.Add("@Address1", customer.Address1);
 			parameters.Add("@Address2", customer.Address2);
@@ -31,10 +31,10 @@ namespace Adroit.Accounting.Repository
 			parameters.Add("@CustomerType", customer.CustomerType);
 			parameters.Add("@AdharUID", customer.AdharUID);
 			parameters.Add("@TotalUsers", customer.TotalUsers);
-			parameters.Add("@IsDeleted", customer.IsDeleted);
-			parameters.Add("@IsActive", customer.IsActive);
 			parameters.Add("@StatusId", customer.StatusId);
-			return QueryHelper.Save("sp_CustomerSave", connectionString, parameters);
+            parameters.Add("@AgreeTerms", customer.AgreeTerms);
+
+            return QueryHelper.Save("sp_CustomerSave", connectionString, parameters);
 		}
 		public Customer Get(string email, string connectionString)
 		{
@@ -45,7 +45,7 @@ namespace Adroit.Accounting.Repository
 		public Customer Get(int id, string connectionString)
 		{
 			var parameters = new DynamicParameters();
-			parameters.Add("@ID", id);
+			parameters.Add("@Id", id);
 			return QueryHelper.GetTableDetail<Customer>("sp_CustomerGet", connectionString, parameters);
 		}
         public List<Customer> List(string connectionString, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
@@ -61,7 +61,7 @@ namespace Adroit.Accounting.Repository
         public void Delete(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@ID", id);
+            parameters.Add("@Id", id);
             QueryHelper.Save("sp_CustomerDelete", connectionString, parameters);
         }
     }

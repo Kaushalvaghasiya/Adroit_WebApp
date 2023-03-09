@@ -39,5 +39,7 @@ namespace Adroit.Accounting.Model
         public short StatusId { get; set; }
         public string TokenCode { get; set; }
         public string IdentityUserId { get; set; }
-	}
+
+        public bool AgreeTerms { get; set; }
+    }
 }

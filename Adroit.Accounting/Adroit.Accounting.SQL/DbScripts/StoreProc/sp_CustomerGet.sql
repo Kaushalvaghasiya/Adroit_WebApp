@@ -1,10 +1,10 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerGet]
 (
-	@ID INT
+	@Id INT
 )
 AS
 BEGIN
 	SELECT *
-	FROM Customer WHERE Id = @ID
+	FROM Customer WHERE Id = @Id
 END
 GO

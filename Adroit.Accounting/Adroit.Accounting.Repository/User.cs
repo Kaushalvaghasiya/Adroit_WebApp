@@ -11,7 +11,7 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", userDetail.UserId);
-            parameters.Add("@ID", userDetail.ID);
+            parameters.Add("@Id", userDetail.ID);
             parameters.Add("@FirstName", userDetail.FirstName);
             parameters.Add("@LastName", userDetail.LastName);
             return QueryHelper.Save("usp_AddUserDetail", connectionString, parameters);
@@ -25,7 +25,7 @@ namespace Adroit.Accounting.Repository
         public UserDetail GetUserDetail(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@ID", id);
+            parameters.Add("@Id", id);
             return QueryHelper.GetTableDetail<UserDetail>("usp_GetUserDetail", connectionString, parameters);
         }
         public List<UserDetail> GetUsersByAccount(int accountId, string connectionString)
@@ -37,13 +37,13 @@ namespace Adroit.Accounting.Repository
         public void Delete(int ID, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@ID", ID);
+            parameters.Add("@Id", ID);
             QueryHelper.Save("usp_DeleteUserDetail", connectionString, parameters);
         }
         public void Active(int ID, bool isActive, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@ID", ID);
+            parameters.Add("@Id", ID);
             parameters.Add("@IsActive", isActive);
             QueryHelper.Save("usp_ActiveUserDetail", connectionString, parameters);
         }
