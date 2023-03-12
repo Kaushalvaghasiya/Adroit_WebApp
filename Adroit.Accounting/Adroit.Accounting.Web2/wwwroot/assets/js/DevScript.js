@@ -17,22 +17,22 @@ function AjaxCall(methodtype, url, data, succesmethodname, errormethodname) {
     //contentType: "application/json; charset=utf-8",
 }
 
-function blockUI(id) {
-    KTApp.block(`#${id}`, {
-        overlayColor: '#000000',
-        state: 'danger',
-        message: 'Please wait...'
-    });
+function blockUI() {
+    $("#global-loader").fadeIn("slow");
 }
-function unblockUI(id) {
-    KTApp.unblock(`#${id}`);
+function unblockUI() {
+    $("#global-loader").fadeOut("slow");
 }
 
-function ShowSuccessMessage(message) {
-    swal('Success', message, "success");
+function showSuccess(title, message) {
+    swal(title, message, "success");
+    //swal('Congratulations!', 'Your message has been succesfully sent', 'success');
 }
-function ShowErrorMessage(message) {
-    swal('Error', message, "error");
+function showError(title, message) {
+    swal(title, message, "error");
+}
+function showWarning(title, message) {
+    swal(title, message, "warning");
 }
 
 function IsEmail(email) {

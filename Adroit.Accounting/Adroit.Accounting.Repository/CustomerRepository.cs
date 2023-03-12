@@ -2,52 +2,53 @@
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
-using Microsoft.Identity.Client;
 
 namespace Adroit.Accounting.Repository
 {
-	public class CustomerRepository: ICustomerRepository
+    public class CustomerRepository : ICustomerRepository
     {
-		public int Save(Customer customer, string connectionString)
-		{
-			var parameters = new DynamicParameters();
-			parameters.Add("@Id", customer.Id);
-			parameters.Add("@Name", customer.Name);
-			parameters.Add("@Address1", customer.Address1);
-			parameters.Add("@Address2", customer.Address2);
-			parameters.Add("@Address3", customer.Address3);
-			parameters.Add("@CityId", customer.CityId);
-			parameters.Add("@StateId", customer.StateId);
-			parameters.Add("@EmailOtp", customer.EmailOtp);
+        public int Save(Customer customer, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", customer.Id);
+            parameters.Add("@Name", customer.Name);
+            parameters.Add("@BusinessName", customer.BusinessName);
+            parameters.Add("@Address1", customer.Address1 ?? "");
+            parameters.Add("@Address2", customer.Address2 ?? "");
+            parameters.Add("@Address3", customer.Address3 ?? "");
+            parameters.Add("@CityId", customer.CityId);
+            parameters.Add("@StateId", customer.StateId);
+            parameters.Add("@EmailOtp", customer.EmailOtp);
             parameters.Add("@MobileOtp", customer.MobileOtp);
-            parameters.Add("@ContactPersonName", customer.ContactPersonName);
-			parameters.Add("@Mobile", customer.Mobile);
-			parameters.Add("@MobileAlternate", customer.MobileAlternate);
-			parameters.Add("@Phone", customer.Phone);
-			parameters.Add("@Email", customer.Email);
-			parameters.Add("@BusinessId", customer.BusinessId);
-			parameters.Add("@Requirement", customer.Requirement);
-			parameters.Add("@TotalFirm", customer.TotalFirm);
-			parameters.Add("@CustomerType", customer.CustomerType);
-			parameters.Add("@AdharUID", customer.AdharUID);
-			parameters.Add("@TotalUsers", customer.TotalUsers);
-			parameters.Add("@StatusId", customer.StatusId);
+            parameters.Add("@ContactPersonName", customer.ContactPersonName ?? customer.Name);
+            parameters.Add("@Mobile", customer.Mobile);
+            parameters.Add("@MobileAlternate", customer.MobileAlternate ?? "");
+            parameters.Add("@Phone", customer.Phone ?? "");
+            parameters.Add("@Email", customer.Email);
+            parameters.Add("@BusinessId", customer.BusinessId);
+            parameters.Add("@Requirement", customer.Requirement ?? "");
+            parameters.Add("@TotalFirm", customer.TotalFirm);
+            parameters.Add("@CustomerType", $"{(short)customer.CustomerType}");
+            parameters.Add("@AdharUID", customer.AdharUID ?? "");
+            parameters.Add("@StatusId", $"{(short)customer.StatusId}");
+            parameters.Add("@TotalUsers", customer.TotalUsers);
             parameters.Add("@AgreeTerms", customer.AgreeTerms);
+            parameters.Add("@DefaultUserId", customer.DefaultUserId);
 
             return QueryHelper.Save("sp_CustomerSave", connectionString, parameters);
-		}
-		public Customer Get(string email, string connectionString)
-		{
-			var parameters = new DynamicParameters();
-			parameters.Add("@Email", email);
-			return QueryHelper.GetTableDetail<Customer>("sp_CustomerGetByEmail", connectionString, parameters);
-		}
-		public Customer Get(int id, string connectionString)
-		{
-			var parameters = new DynamicParameters();
-			parameters.Add("@Id", id);
-			return QueryHelper.GetTableDetail<Customer>("sp_CustomerGet", connectionString, parameters);
-		}
+        }
+        public Customer Get(string email, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Email", email);
+            return QueryHelper.GetTableDetail<Customer>("sp_CustomerGetByEmail", connectionString, parameters);
+        }
+        public Customer Get(int id, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            return QueryHelper.GetTableDetail<Customer>("sp_CustomerGet", connectionString, parameters);
+        }
         public List<Customer> List(string connectionString, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();

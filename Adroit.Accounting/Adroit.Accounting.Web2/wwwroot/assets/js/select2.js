@@ -8,7 +8,9 @@ $(function(){
 
    // Select2 by showing the search
    $('.select2-show-search').select2({
-	 minimumResultsForSearch: ''
+	   minimumResultsForSearch: '',
+	   allowClear: true,
+	   placeholder: "Please select"
    });
 
    // Colored Hover

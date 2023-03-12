@@ -519,7 +519,7 @@
                 }
                 else {
                     $("#CountryId").focus();
-                    ShowErrorMessage("Please select country.");
+                    showWarning("", "Please select country.");
                 }
             });
             $("#StateId").on('change', function (e) {
@@ -528,7 +528,7 @@
                     BindDistrictList(stateId);
                 } else {
                     $("#StateId").focus();
-                    ShowErrorMessage("Please select state.");
+                    showWarning("", "Please select state.");
                 }
             });
             $("#DistrictId").on('change', function (e) {
@@ -537,7 +537,7 @@
                     BindTalukaList(districtId);
                 } else {
                     $("#DistrictId").focus();
-                    ShowErrorMessage("Please select district.");
+                    showWarning("", "Please select district.");
                 }
             });
             $("#TalukaId").on('change', function (e) {
@@ -546,7 +546,7 @@
                     BindCityList(0, talukaId, 0);
                 } else {
                     $("#TalukaId").focus();
-                    ShowErrorMessage("Please select taluka.");
+                    showWarning("", "Please select taluka.");
                 }
             });
             BindCustomerAccountGroupList();
@@ -663,28 +663,28 @@
         function SaveDetail() {
             try {
                 //if ($("#CustomerId").length > 0 && $("#CustomerId").val() == "") {
-                //    ShowErrorMessage("Customer not found.");
+                //    showWarning("", "Customer not found.");
                 //    return;
                 //}
                 if ($("#Name").length > 0 && $("#Name").val() == "") {
-                    ShowErrorMessage("Please enter name.");
+                    showWarning("", "Please enter name.");
                     $("#Name").focus();
                     return;
                 }
                 if ($("#AccountGroupId").length > 0 && $("#AccountGroupId").val() == "") {
-                    ShowErrorMessage("Please select Account Group.");
+                    showWarning("", "Please select Account Group.");
                     $("#AccountGroupId").focus();
                     return;
                 }                
                 if ($("#GSTInvoiceTypeId").length > 0 && $("#GSTInvoiceTypeId").val() == "") {
-                    ShowErrorMessage("Please select GST Invoice Type.");
+                    showWarning("", "Please select GST Invoice Type.");
                     $("#GSTInvoiceTypeId").focus();
                     return;
                 }
                 
                 let isValidemail = IsEmail($("#Email").val());
                 if (!isValidemail) {
-                    ShowErrorMessage("Please enter valid email");
+                    showWarning("", "Please enter valid email");
                     return;
                 }
 
@@ -741,21 +741,21 @@
                         //unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fnReset();
-                            ShowSuccessMessage('Account saved successfully.');
+                            showWarning("", 'Account saved successfully.');
                             $("#Id").val(0);
                             datatablelist();
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (e) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
                 //swal('Error', e.message, "error"); //warning,  success, error, info
             }
         }
@@ -859,17 +859,17 @@
                             }
                             $("#GSTInvoiceTypeId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
             }
         }
         
@@ -889,17 +889,17 @@
                             }
                             $("#CountryId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
             }
         }
         
@@ -919,17 +919,17 @@
                             }
                             $("#StateId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
             }
         }
         
@@ -949,17 +949,17 @@
                             }
                             $("#DistrictId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
             }
         }
         
@@ -979,17 +979,17 @@
                             }
                             $("#TalukaId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
             }
         }
         
@@ -1008,17 +1008,17 @@
                             }
                             $("#CityId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
             }
         }
 
@@ -1037,17 +1037,17 @@
                                 }
                             }
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
             }
             $("#AccountGroupId").html(str);
         }
@@ -1068,17 +1068,17 @@
                             }
                             $("#BrokerMappingId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
             }
         }
         
@@ -1101,17 +1101,17 @@
                             $("#ShippingAccountBranchMappingId").html(str);
                             $("#DeliveryAccountBranchMappingId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
             }
         }
     </script>

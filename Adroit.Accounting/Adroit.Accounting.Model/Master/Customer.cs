@@ -1,6 +1,7 @@
 //-----------------------------------------------------------------------
 //    Copyright (c) Adroit IBS Pvt Ltd. All rights reserved.
 //-----------------------------------------------------------------------
+using Adroit.Accounting.Model.Enums;
 using System.Text.Json.Serialization;
 
 namespace Adroit.Accounting.Model
@@ -12,6 +13,7 @@ namespace Adroit.Accounting.Model
         }
         public int Id { get; set; }
         public string Name { get; set; }
+        public string BusinessName { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string Address3 { get; set; }
@@ -30,16 +32,16 @@ namespace Adroit.Accounting.Model
         public short BusinessId { get; set; }
         public string Requirement { get; set; }
         public short? TotalFirm { get; set; }
-        public string CustomerType { get; set; }
+        public CustomerType CustomerType { get; set; }
         public bool IsDeleted { get; set; }
         public string AdharUID { get; set; }
         public short TotalUsers { get; set; }
         public bool IsActive { get; set; }
         public string Password { get; set; }
-        public short StatusId { get; set; }
+        public CustomerStatus StatusId { get; set; }
         public string TokenCode { get; set; }
         public string IdentityUserId { get; set; }
-
         public bool AgreeTerms { get; set; }
+        public Guid DefaultUserId { get; set; }
     }
 }

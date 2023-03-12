@@ -182,7 +182,7 @@
                 }
                 else {
                     $("#CountryId").focus();
-                    ShowErrorMessage("Please select country.");
+                    showWarning("", "Please select country.");
                 }
             });
 
@@ -192,30 +192,64 @@
                     BindCityList(stateId);
                 } else {
                     $("#StateId").focus();
-                    ShowErrorMessage("Please select country.");
+                    showWarning("", "Please select country.");
                 }
             });
+
+             $("#Email").change(function () {
+                 let email = $(this).val();
+                 let isValidemail = IsEmail(email);
+                 if (isValidemail) {
+                     try {
+                         //blockUI('container');
+                         var retrundata = AjaxCall("GET", "@(Url.Content("~/Registration/EmailExists"))" + "?email=" + email, "",
+                         function (data) {
+                             //unblockUI('container');
+                             var str = "";
+                             if (data.result == RESULT_SUCCESS) {
+                                if (data.data == true) {
+                                    $("#Email").val("");
+                                    showWarning("", "Email already exists : " + email);
+                                    $("#Email").focus();
+                                }
+                             } else {
+                                showError("", data.data);
+                             }},
+                         function (error) {
+                            //unblockUI('container');
+                            showError("", error.statusText);
+                        });
+                     }
+                     catch (err) {
+                         //unblockUI('container');
+                         showError("", e.message);
+                     }
+                 } 
+                 else {
+                     $("#Email").focus();
+                    showError("", "Please enter valid email");
+                 }});
         });
 
         function SaveCustomer() {
             try {
                 if ($("#Name").length > 0 && $("#Name").val() == "") {
-                    ShowErrorMessage("Please enter name.");
+                    showError("", "Please enter name.");
                     return;
                 }
                 if ($("#Email").length > 0 && $("#Email").val() == "") {
-                    ShowErrorMessage("Please enter email.");
+                    showError("", "Please enter email.");
                     $("#Email").focus();
                     return;
                 }
                 if ($("#BusinessId").length > 0 && $("#BusinessId").val() == "") {
-                    ShowErrorMessage("Please select business.");
+                    showError("", "Please select business.");
                     $("#BusinessId").focus();
                     return;
                 }
                 let isValidemail = IsEmail($("#Email").val());
                 if (!isValidemail) {
-                    ShowErrorMessage("Please enter valid email");
+                    showError("", "Please enter valid email");
                     return;
                 }
                 var savedata = new Object;
@@ -248,7 +282,7 @@
                     function (data) {
                         //unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
-                            ShowSuccessMessage('Thanks '+$("#Name").val()+'!' + ' Thank you for filling out our sign up form. We are glad that you joined us. We have sent an email to verify your email. Have a nice day.');
+                            showSuccess('', 'Thanks '+$("#Name").val()+'!' + ' Thank you for filling out our sign up form. We are glad that you joined us. We have sent an email to verify your email. Have a nice day.');
                             $("#Name").val("");
                             $("#Email").val("");
                             $("#BusinessId").val("");
@@ -258,55 +292,20 @@
                             $("#Name").val("");
                             $("#Id").val(0);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (e) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
                 //swal('Error', e.message, "error"); //warning,  success, error, info
             }
         }
-
-        $("#Email").change(function () {
-            let email = $(this).val();
-            let isValidemail = IsEmail(email);
-            if (isValidemail) {
-                try {
-                    //blockUI('container');
-                    var retrundata = AjaxCall("GET", "@(Url.Content("~/Registration/EmailExists"))" + "?email=" + email, "",
-                        function (data) {
-                            //unblockUI('container');
-                            var str = "";
-                            if (data.result == RESULT_SUCCESS) {
-                                if (data.data == true) {
-                                    $("#Email").val("");
-                                    ShowErrorMessage("Email already exists : " + email);
-                                    $("#Email").focus();
-                                }
-                            } else {
-                                ShowErrorMessage(data.data);
-                            }
-                        },
-                        function (error) {
-                            //unblockUI('container');
-                            ShowErrorMessage(error.statusText);
-                        });
-                }
-                catch (err) {
-                    //unblockUI('container');
-                    ShowErrorMessage(e.message);
-                }
-            } else {
-                $("#Email").focus();
-                ShowErrorMessage("Please enter valid email");
-            }
-        });
 
         function BindStateList(countryId) {
             try {                
@@ -324,19 +323,20 @@
                             }
                             $("#StateId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
             }
         }
+
         function BindCityList(stateId) {
             try {
                 //blockUI('container');
@@ -352,17 +352,17 @@
                             }
                             $("#CityId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
                         //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
                 //unblockUI('container');
-                ShowErrorMessage(e.message);
+                showError("", e.message);
             }
         }
     </script>

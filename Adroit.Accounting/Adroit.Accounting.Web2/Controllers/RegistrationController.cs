@@ -57,6 +57,7 @@ namespace Adroit.Accounting.Web.Controllers
 
             List<Business> businesses = _businessRepo.GetBusinessList(_configurationData.DefaultConnection).ToList();
             ViewBag.BusinessList = new SelectList(businesses, "Id", "Title");
+
             return View(model);
         }
         [HttpPost]
@@ -65,41 +66,50 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var user = CreateUser();
+                var user = await _userManager.FindByNameAsync(model.Email);
+                if (user != null)
+                {
+                    throw new Exception("This email is already associated with another account, please choose different email.");
+                }
+
+                Customer customer = _customerRepo.Get(model.Email, _configurationData.DefaultConnection);
+                if (customer != null)
+                {
+                    throw new Exception("This email is already associated with another account, please choose different email.");
+                }
+
+                user = CreateUser();
                 await _userStore.SetUserNameAsync(user, model.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, model.Email, CancellationToken.None);
+
+                //Create membership user
                 var res = await _userManager.CreateAsync(user);
                 if (res.Succeeded)
                 {
-                    Customer customer = _customerRepo.Get(model.Email, _configurationData.DefaultConnection);
-                    if (customer == null)
-                    {
-                        model.EmailOtp = RandomNumber.SixDigigNumber();
-                        model.MobileOtp = RandomNumber.SixDigigNumber();
-                        model.StatusId = (short)CustomerStatus.Registered;
-                        int id = _customerRepo.Save(model, _configurationData.DefaultConnection);
-                        if (id > 0)
-                        {
-                            result.data = true;
-                            result.result = Constant.API_RESULT_SUCCESS;
-                            //send email
-                            var userId = await _userManager.GetUserIdAsync(user);
-                            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+                    var userId = await _userManager.GetUserIdAsync(user);
 
-                            string url = $"{Request.Scheme}://{Request.Host.ToUriComponent()}/Authentication/VerifyOtpAndSetPassword?userId={userId}&code={code}";
-                            var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\OTPEmail.html"));
-                            msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(model.Name) ? model.Name : "")
-                                .Replace("{OTP}", model.EmailOtp)
-                                .Replace("{ResetUrl}", HtmlEncoder.Default.Encode(url));
-                            await Task.Factory.StartNew(() => EmailHelper.SendEmail(_emailData.EmailUsername, _emailData.EmailPassword, _emailData.DisplayName, Convert.ToInt32(_emailData.ServerPort),
-                                                            _emailData.ServerHost, _emailData.IsEnableSSL, model.Email, "Adroit Registration OTP and Reset password", msgBody, "")).ConfigureAwait(false);
-                        }
-                    }
-                    else
+                    model.DefaultUserId = Guid.Parse(userId);
+                    model.EmailOtp = RandomNumber.SixDigigNumber();
+                    model.MobileOtp = RandomNumber.SixDigigNumber();
+                    model.CustomerType = CustomerType.Inquiry;
+                    model.StatusId = CustomerStatus.Registered;
+
+                    int id = _customerRepo.Save(model, _configurationData.DefaultConnection);
+                    if (id > 0)
                     {
-                        result.data = "Email already exists.";
-                        result.result = Constant.API_RESULT_ERROR;
+                        result.data = true;
+                        result.result = Constant.API_RESULT_SUCCESS;
+                        //send email
+                        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+
+                        string url = $"{Request.Scheme}://{Request.Host.ToUriComponent()}/Authentication/VerifyOtpAndSetPassword?userId={userId}&code={code}";
+                        var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\OTPEmail.html"));
+                        msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(model.Name) ? model.Name : "")
+                            .Replace("{OTP}", model.EmailOtp)
+                            .Replace("{ResetUrl}", HtmlEncoder.Default.Encode(url));
+                        await Task.Factory.StartNew(() => EmailHelper.SendEmail(_emailData.EmailUsername, _emailData.EmailPassword, _emailData.DisplayName, Convert.ToInt32(_emailData.ServerPort),
+                                                        _emailData.ServerHost, _emailData.IsEnableSSL, model.Email, "Adroit Registration OTP and Reset password", msgBody, "")).ConfigureAwait(false);
                     }
                 }
                 else

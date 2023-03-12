@@ -65,7 +65,7 @@ namespace Adroit.Accounting.Web.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError("LoginError", "You have entered an invalid username or password.");
                     return View();
                 }
             }

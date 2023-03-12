@@ -58,7 +58,7 @@ namespace Adroit.Accounting.Web.Controllers
 							var res = await _userManager.ResetPasswordAsync(user, model.TokenCode, model.Password);
 							if (res.Succeeded)
 							{
-								customer.StatusId = (short)CustomerStatus.Verified;
+								customer.StatusId = CustomerStatus.Verified;
 								int id = _customerRepo.Save(customer, _configurationData.DefaultConnection);
 
 								var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -171,7 +171,7 @@ namespace Adroit.Accounting.Web.Controllers
 						var res = await _userManager.ResetPasswordAsync(user, model.TokenCode, model.Password);
 						if (res.Succeeded)
 						{
-							customer.StatusId = (short)CustomerStatus.Verified;
+							customer.StatusId = CustomerStatus.Verified;
 							int id = _customerRepo.Save(customer, _configurationData.DefaultConnection);
 
 							result.data = true;

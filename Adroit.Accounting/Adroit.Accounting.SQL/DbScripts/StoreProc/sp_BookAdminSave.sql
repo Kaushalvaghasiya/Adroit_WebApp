@@ -58,81 +58,93 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_BookAdminSave]
 )
 AS
 BEGIN
-	IF EXISTS (SELECT 1 FROM BookAdmin WHERE Id = @Id)
-		BEGIN
-			UPDATE BookAdmin SET
-			BookAccountId = @BookAccountId
-			,BookTypeId = @BookTypeId
-			,BoxLabel1 = @BoxLabel1
-			,BoxLabel2 = @BoxLabel2
-			,BoxLabel3 = @BoxLabel3
-			,BoxLabel4 = @BoxLabel4
-			,BoxLabel5 = @BoxLabel5
-			,BoxLabel6 = @BoxLabel6
-			,BillNoPrefix = @BillNoPrefix
-			,BillNoPostFix = @BillNoPostFix
-			,LRRequired = @LRRequired
-			,BillTypeID = @BillTypeID
-			,IsGeneralPurchase = @IsGeneralPurchase
-			,IsItemDiscount = @IsItemDiscount
-			,IsItemDiscountSp = @IsItemDiscountSp
-			,IsCashPayAtBill = @IsCashPayAtBill
-			,ItemDesc1 = @ItemDesc1
-			,ItemDesc2 = @ItemDesc2
-			,ItemDesc3 = @ItemDesc3
-			,ItemDesc4 = @ItemDesc4
-			,ItemDesc5 = @ItemDesc5
-			,ItemDesc6 = @ItemDesc6
-			,ShowSalesOrderBoxNumber = @ShowSalesOrderBoxNumber
-			,ShowPurcahseOrderBoxNumber = @ShowPurcahseOrderBoxNumber
-			,ShowQuotationBoxNumber = @ShowQuotationBoxNumber
-			,ShowPerformaInvoiceNumber = @ShowPerformaInvoiceNumber
-			,SalesBillFrom = @SalesBillFrom
-			,IsCalcMultiply = @IsCalcMultiply
-			,BookShortName = @BookShortName
-			,HeaderBox1 = @HeaderBox1
-			,HeaderBox2 = @HeaderBox2
-			,HeaderBox3 = @HeaderBox3
-			,HeaderBox4 = @HeaderBox4
-			,HeaderBox5 = @HeaderBox5
-			,IsTDSAccount = @IsTDSAccount
-			,TDSAccountId = @TDSAccountId
-			,IsTCSAccount = @IsTCSAccount
-			,TCSAccountId = @TCSAccountId
-			,SGSTAccountId = @SGSTAccountId
-			,CGSTAccountId = @CGSTAccountId
-			,IGSTAccountId = @IGSTAccountId
-			,GSTStateCessAccountId = @GSTStateCessAccountId
-			,GSTCentralCessAccountId = @GSTCentralCessAccountId
-			,RCMSGSTPayAccountId = @RCMSGSTPayAccountId
-			,RCMCGSTPayAccountId = @RCMCGSTPayAccountId
-			,RCMIGSTPayAccountId = @RCMIGSTPayAccountId
-			,RCMSGSTRecAccountId = @RCMSGSTRecAccountId
-			,RCMCGSTRecAccountId = @RCMCGSTRecAccountId
-			,RCMIGSTRecAccountId = @RCMIGSTRecAccountId
-			,RoundOffAccountId = @RoundOffAccountId
-			,IsDeleted = @IsDeleted
-			,IsActive = @IsActive
-			WHERE Id = @Id
-			SELECT @Id;
-		END
-	ELSE
-		BEGIN
-			INSERT INTO BookAdmin
-			(BookAccountId,BookTypeId,BoxLabel1,BoxLabel2,BoxLabel3,BoxLabel4,BoxLabel5,BoxLabel6,BillNoPrefix,BillNoPostFix,LRRequired,BillTypeID,IsGeneralPurchase,
-				IsItemDiscount,IsItemDiscountSp,IsCashPayAtBill,ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,ShowSalesOrderBoxNumber,ShowPurcahseOrderBoxNumber,
-				ShowQuotationBoxNumber,ShowPerformaInvoiceNumber,SalesBillFrom,IsCalcMultiply,BookShortName,HeaderBox1,HeaderBox2,HeaderBox3,HeaderBox4,HeaderBox5,IsTDSAccount,
-				TDSAccountId,IsTCSAccount,TCSAccountId,SGSTAccountId,CGSTAccountId,IGSTAccountId,GSTStateCessAccountId,GSTCentralCessAccountId,RCMSGSTPayAccountId,
-				RCMCGSTPayAccountId,RCMIGSTPayAccountId,RCMSGSTRecAccountId,RCMCGSTRecAccountId,RCMIGSTRecAccountId,RoundOffAccountId,IsDeleted,IsActive)
-			VALUES
-			(@BookAccountId,@BookTypeId,@BoxLabel1,@BoxLabel2,@BoxLabel3,@BoxLabel4,@BoxLabel5,@BoxLabel6,@BillNoPrefix,@BillNoPostFix,@LRRequired,@BillTypeID,@IsGeneralPurchase,
-			 @IsItemDiscount,@IsItemDiscountSp,@IsCashPayAtBill,@ItemDesc1,@ItemDesc2,@ItemDesc3,@ItemDesc4,@ItemDesc5,@ItemDesc6,@ShowSalesOrderBoxNumber,@ShowPurcahseOrderBoxNumber,
-			 @ShowQuotationBoxNumber,@ShowPerformaInvoiceNumber,@SalesBillFrom,@IsCalcMultiply,@BookShortName,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,
-			 @IsTDSAccount,@TDSAccountId,@IsTCSAccount,@TCSAccountId,@SGSTAccountId,@CGSTAccountId,@IGSTAccountId,@GSTStateCessAccountId,@GSTCentralCessAccountId,
-			 @RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@IsDeleted,@IsActive)
+	BEGIN TRAN
+	BEGIN TRY
+		IF EXISTS (SELECT 1 FROM BookAdmin WHERE Id = @Id)
+			BEGIN
+				UPDATE BookAdmin SET
+				BookAccountId = @BookAccountId
+				,BookTypeId = @BookTypeId
+				,BoxLabel1 = @BoxLabel1
+				,BoxLabel2 = @BoxLabel2
+				,BoxLabel3 = @BoxLabel3
+				,BoxLabel4 = @BoxLabel4
+				,BoxLabel5 = @BoxLabel5
+				,BoxLabel6 = @BoxLabel6
+				,BillNoPrefix = @BillNoPrefix
+				,BillNoPostFix = @BillNoPostFix
+				,LRRequired = @LRRequired
+				,BillTypeID = @BillTypeID
+				,IsGeneralPurchase = @IsGeneralPurchase
+				,IsItemDiscount = @IsItemDiscount
+				,IsItemDiscountSp = @IsItemDiscountSp
+				,IsCashPayAtBill = @IsCashPayAtBill
+				,ItemDesc1 = @ItemDesc1
+				,ItemDesc2 = @ItemDesc2
+				,ItemDesc3 = @ItemDesc3
+				,ItemDesc4 = @ItemDesc4
+				,ItemDesc5 = @ItemDesc5
+				,ItemDesc6 = @ItemDesc6
+				,ShowSalesOrderBoxNumber = @ShowSalesOrderBoxNumber
+				,ShowPurcahseOrderBoxNumber = @ShowPurcahseOrderBoxNumber
+				,ShowQuotationBoxNumber = @ShowQuotationBoxNumber
+				,ShowPerformaInvoiceNumber = @ShowPerformaInvoiceNumber
+				,SalesBillFrom = @SalesBillFrom
+				,IsCalcMultiply = @IsCalcMultiply
+				,BookShortName = @BookShortName
+				,HeaderBox1 = @HeaderBox1
+				,HeaderBox2 = @HeaderBox2
+				,HeaderBox3 = @HeaderBox3
+				,HeaderBox4 = @HeaderBox4
+				,HeaderBox5 = @HeaderBox5
+				,IsTDSAccount = @IsTDSAccount
+				,TDSAccountId = @TDSAccountId
+				,IsTCSAccount = @IsTCSAccount
+				,TCSAccountId = @TCSAccountId
+				,SGSTAccountId = @SGSTAccountId
+				,CGSTAccountId = @CGSTAccountId
+				,IGSTAccountId = @IGSTAccountId
+				,GSTStateCessAccountId = @GSTStateCessAccountId
+				,GSTCentralCessAccountId = @GSTCentralCessAccountId
+				,RCMSGSTPayAccountId = @RCMSGSTPayAccountId
+				,RCMCGSTPayAccountId = @RCMCGSTPayAccountId
+				,RCMIGSTPayAccountId = @RCMIGSTPayAccountId
+				,RCMSGSTRecAccountId = @RCMSGSTRecAccountId
+				,RCMCGSTRecAccountId = @RCMCGSTRecAccountId
+				,RCMIGSTRecAccountId = @RCMIGSTRecAccountId
+				,RoundOffAccountId = @RoundOffAccountId
+				,IsDeleted = @IsDeleted
+				,IsActive = @IsActive
+				WHERE Id = @Id
+				SELECT @Id;
+			END
+		ELSE
+			BEGIN
+				INSERT INTO BookAdmin
+				(BookAccountId,BookTypeId,BoxLabel1,BoxLabel2,BoxLabel3,BoxLabel4,BoxLabel5,BoxLabel6,BillNoPrefix,BillNoPostFix,LRRequired,BillTypeID,IsGeneralPurchase,
+					IsItemDiscount,IsItemDiscountSp,IsCashPayAtBill,ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,ShowSalesOrderBoxNumber,ShowPurcahseOrderBoxNumber,
+					ShowQuotationBoxNumber,ShowPerformaInvoiceNumber,SalesBillFrom,IsCalcMultiply,BookShortName,HeaderBox1,HeaderBox2,HeaderBox3,HeaderBox4,HeaderBox5,IsTDSAccount,
+					TDSAccountId,IsTCSAccount,TCSAccountId,SGSTAccountId,CGSTAccountId,IGSTAccountId,GSTStateCessAccountId,GSTCentralCessAccountId,RCMSGSTPayAccountId,
+					RCMCGSTPayAccountId,RCMIGSTPayAccountId,RCMSGSTRecAccountId,RCMCGSTRecAccountId,RCMIGSTRecAccountId,RoundOffAccountId,IsDeleted,IsActive)
+				VALUES
+				(@BookAccountId,@BookTypeId,@BoxLabel1,@BoxLabel2,@BoxLabel3,@BoxLabel4,@BoxLabel5,@BoxLabel6,@BillNoPrefix,@BillNoPostFix,@LRRequired,@BillTypeID,@IsGeneralPurchase,
+				 @IsItemDiscount,@IsItemDiscountSp,@IsCashPayAtBill,@ItemDesc1,@ItemDesc2,@ItemDesc3,@ItemDesc4,@ItemDesc5,@ItemDesc6,@ShowSalesOrderBoxNumber,@ShowPurcahseOrderBoxNumber,
+				 @ShowQuotationBoxNumber,@ShowPerformaInvoiceNumber,@SalesBillFrom,@IsCalcMultiply,@BookShortName,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,
+				 @IsTDSAccount,@TDSAccountId,@IsTCSAccount,@TCSAccountId,@SGSTAccountId,@CGSTAccountId,@IGSTAccountId,@GSTStateCessAccountId,@GSTCentralCessAccountId,
+				 @RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@IsDeleted,@IsActive)
 
-			SET @Id = SCOPE_IDENTITY();
-			SELECT @Id;
-		END
+				SET @Id = SCOPE_IDENTITY();
+				SELECT @Id;
+			END
+		
+		COMMIT TRAN
+	END TRY
+	BEGIN CATCH
+		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
+		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
+		ROLLBACK TRAN
+
+		RAISERROR ('%s', 16, 1, @message);
+	END CATCH
 END
 GO
