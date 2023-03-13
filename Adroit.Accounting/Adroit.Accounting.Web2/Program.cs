@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
 using NLog.Web;
 using NLog;
+using Adroit.Accounting.Web2.Utility;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,11 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddControllersWithViews();
+
+// NLog: Setup NLog for Dependency injection
+builder.Logging.ClearProviders();
+builder.Logging.SetMinimumLevel(Microsoft.Extensions.Logging.LogLevel.Trace);
+builder.Host.UseNLog();
 
 builder.Services.Configure<ConfigurationData>(builder.Configuration.GetSection("ConnectionStrings"));
 builder.Services.Configure<EmailSetup>(builder.Configuration.GetSection("EmailSetup"));
@@ -34,6 +40,15 @@ builder.Services.AddSingleton<ICustomerAccountGroupRepository, CustomerAccountGr
 builder.Services.AddSingleton<IGSTInvoiceTypeRepository, GSTInvoiceTypeRepository>();
 builder.Services.AddSingleton<ICustomerBrokerBranchMappingRepository, CustomerBrokerBranchMappingRepository>();
 builder.Services.AddSingleton<IBusinessRepository, BusinessRepository>();
+
+if (!builder.Environment.IsDevelopment())
+{
+    builder.Services.AddHttpsRedirection(options =>
+    {
+        options.RedirectStatusCode = (int)HttpStatusCode.PermanentRedirect;
+        options.HttpsPort = 443;
+    });
+}
 
 //builder.Services.AddSingleton<UserManager>();
 
@@ -76,6 +91,8 @@ finally
 {
     NLog.LogManager.Shutdown();
 }
+
+app.ConfigureExceptionHandler(logger);
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

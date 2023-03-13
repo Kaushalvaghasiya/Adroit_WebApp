@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.Customer
+﻿@model Adroit.Accounting.Model.ViewModel.RegistrationViewModel
 @{
     Layout = null;
 }
@@ -120,9 +120,9 @@
                                                             <select class="form-control select2-show-search" id="BusinessId" name="BusinessId">
                                                                 <option></option>
                                                                 @{
-                                                                    if (ViewBag.BusinessList != null)
+                                                                    if (Model.BusinessList != null)
                                                                     {
-                                                                        foreach (var item in ViewBag.BusinessList)
+                                                                        foreach (var item in Model.BusinessList)
                                                                         {
                                                                             <option value="@item.Value">@item.Text</option>
                                                                         }
@@ -143,9 +143,9 @@
                                                             <select class="form-control select2-show-search" id="CountryId" name="CountryId">
                                                                 <option></option>
                                                                 @{
-                                                                    if (ViewBag.CountryList != null)
+                                                                    if (Model.CountryList != null)
                                                                     {
-                                                                        foreach (var item in ViewBag.CountryList)
+                                                                        foreach (var item in Model.CountryList)
                                                                         {
                                                                             <option value="@item.Value">@item.Text</option>
                                                                         }
@@ -455,7 +455,7 @@
                         if (data.result == RESULT_SUCCESS) {
                             showSuccess('', 'Thanks ' + $("#Name").val() + '!' + ' Thank you for filling out our sign up form. We are glad that you joined us. We have sent an email to verify your email. Have a nice day.');
                             $(".confirm").click(function () {
-                                location.href = "@(Url.Action("Index", "Login"))";
+                                window.location.href = "@(Url.Content("~/Login"))";
                             });
                         } else {
                             showError("", data.data);

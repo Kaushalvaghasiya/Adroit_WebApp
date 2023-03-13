@@ -10,6 +10,8 @@ using Microsoft.AspNetCore.Identity;
 using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text.Encodings.Web;
+using Adroit.Accounting.Model.ViewModel;
+using Newtonsoft.Json.Linq;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -34,25 +36,26 @@ namespace Adroit.Accounting.Web.Controllers
 		}
 		public IActionResult VerifyOtpAndSetPassword(string userId, string code)
 		{
-			Customer model = new Customer();
-			model.IdentityUserId = userId;
-			model.TokenCode = code;
-			return View(model);
+
+			ViewBag.IdentityUserId = userId;
+			ViewBag.TokenCode = code;
+
+			return View();
 		}
 
 		[HttpPost]
-		public async Task<JsonResult> VerifyOtpAndSetPassword([FromBody] Customer model)
+		public async Task<JsonResult> VerifyOtpAndSetPassword([FromBody] PasswordResetViewModel model)
 		{
 			ApiResult result = new ApiResult();
 			try
 			{
-				var user = await _userManager.FindByIdAsync(model.IdentityUserId);
+				var user = await _userManager.FindByIdAsync($"{model.IdentityUserId}");
 				if (user != null)
 				{
-					Customer customer = _customerRepo.Get(user.Email, _configurationData.DefaultConnection);
+					var customer = _customerRepo.Get(user.Email, _configurationData.DefaultConnection);
 					if (customer != null)
 					{
-						if (customer.EmailOtp == model.EmailOtp) //&& customer.MobileOtp == model.MobileOtp)
+						if (customer.EmailOtp == customer.EmailOtp) //&& customer.MobileOtp == model.MobileOtp)
 						{
 							model.TokenCode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.TokenCode));
 							var res = await _userManager.ResetPasswordAsync(user, model.TokenCode, model.Password);
@@ -86,13 +89,13 @@ namespace Adroit.Accounting.Web.Controllers
 					}
 					else
 					{
-						result.data = "User not exists.";
+						result.data = "User does not exists.";
 						result.result = Constant.API_RESULT_ERROR;
 					}
 				}
 				else
 				{
-					result.data = "User not exists.";
+					result.data = "User does not exists.";
 					result.result = Constant.API_RESULT_ERROR;
 				}
 
@@ -102,6 +105,7 @@ namespace Adroit.Accounting.Web.Controllers
 				result.data = ErrorHandler.GetError(ex);
 				result.result = Constant.API_RESULT_ERROR;
 			}
+
 			return Json(result);
 		}
 
@@ -110,7 +114,7 @@ namespace Adroit.Accounting.Web.Controllers
 			return View();
 		}
 		[HttpPost]
-		public async Task<JsonResult> ForgotPassword([FromBody] Customer model)
+		public async Task<JsonResult> ForgotPassword([FromBody] PasswordResetViewModel model)
 		{
 			ApiResult result = new ApiResult();
 			try
@@ -118,19 +122,15 @@ namespace Adroit.Accounting.Web.Controllers
 				var user = await _userManager.FindByEmailAsync(model.Email);
 				if (user != null)
 				{
-					Customer customer = _customerRepo.Get(user.Email, _configurationData.DefaultConnection);
-					if (customer != null)
-					{
-						model.Name = customer.Name;
-					}
-					var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-					code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+					var customer = _customerRepo.Get(user.Email, _configurationData.DefaultConnection);
+					var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false)));
 					string url = $"{Request.Scheme}://{Request.Host.ToUriComponent()}/Authentication/ResetPassword?code={code}";
+					
 					var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\ResetPassword.html"));
-					msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(model.Name) ? model.Name : model.Email);
+					msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(customer.Name) ? customer.Name : customer.Email);
 					msgBody = msgBody.Replace("{ResetUrl}", HtmlEncoder.Default.Encode(url));
 					await Task.Factory.StartNew(() => EmailHelper.SendEmail(_emailData.EmailUsername, _emailData.EmailPassword, _emailData.DisplayName, Convert.ToInt32(_emailData.ServerPort),
-													_emailData.ServerHost, _emailData.IsEnableSSL, model.Email, "Adroit Registration Reset password", msgBody, "")).ConfigureAwait(false);
+													_emailData.ServerHost, _emailData.IsEnableSSL, customer.Email, "Adroit IBS - Password reset", msgBody, "")).ConfigureAwait(false);
 					result.data = true;
 					result.result = Constant.API_RESULT_SUCCESS;
 				}
@@ -150,13 +150,12 @@ namespace Adroit.Accounting.Web.Controllers
 
 		public IActionResult ResetPassword(string code)
 		{
-			Customer model = new Customer();
-			model.TokenCode = code;
-			return View(model);
+            ViewBag.TokenCode = code;
+			return View();
 		}
 
 		[HttpPost]
-		public async Task<JsonResult> ResetPassword([FromBody] Customer model)
+		public async Task<JsonResult> ResetPassword([FromBody] PasswordResetViewModel model)
 		{
 			ApiResult result = new ApiResult();
 			try
@@ -190,13 +189,13 @@ namespace Adroit.Accounting.Web.Controllers
 					}
 					else
 					{
-						result.data = "User not exists.";
+						result.data = "User does not exists.";
 						result.result = Constant.API_RESULT_ERROR;
 					}
 				}
 				else
 				{
-					result.data = "User not exists.";
+					result.data = "User does not exists.";
 					result.result = Constant.API_RESULT_ERROR;
 				}
 

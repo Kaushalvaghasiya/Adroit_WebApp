@@ -1,5 +1,4 @@
-﻿using Adroit.Accounting.Repository;
-using Adroit.Accounting.Model;
+﻿using Adroit.Accounting.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Adroit.Accounting.Repository.IRepository;
@@ -12,26 +11,28 @@ using Microsoft.AspNetCore.Identity;
 using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text.Encodings.Web;
+using Adroit.Accounting.Model.ViewModel;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Adroit.Accounting.Web.Controllers
 {
     public class RegistrationController : Controller
     {
-        private ICustomerRepository _customerRepo;
-        private IStateRepository _stateRepo;
-        private ICityRepository _cityRepo;
-        private ICountryRepository _countryRepo;
-        private IBusinessRepository _businessRepo;
+        private readonly ICustomerRepository _customerRepo;
+        private readonly IStateRepository _stateRepo;
+        private readonly ICityRepository _cityRepo;
+        private readonly ICountryRepository _countryRepo;
+        private readonly IBusinessRepository _businessRepo;
         private readonly ConfigurationData _configurationData;
-        private readonly IConfiguration _configuration;
         private readonly EmailSetup _emailData;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly ILogger<RegistrationController> _logger;
         public RegistrationController(ICustomerRepository customerRepo, IStateRepository stateRepo, ICityRepository cityRepo,
                 IOptions<ConfigurationData> configurationData, IOptions<EmailSetup> emailData, ICountryRepository countryRepo,
-                IBusinessRepository businessRepo, IConfiguration configuration, UserManager<IdentityUser> userManager,
-                IUserStore<IdentityUser> userStore)
+                IBusinessRepository businessRepo, UserManager<IdentityUser> userManager, IUserStore<IdentityUser> userStore,
+                ILogger<RegistrationController> logger)
         {
             _customerRepo = customerRepo;
             _stateRepo = stateRepo;
@@ -40,28 +41,23 @@ namespace Adroit.Accounting.Web.Controllers
             _emailData = emailData.Value;
             _countryRepo = countryRepo;
             _businessRepo = businessRepo;
-            _configuration = configuration;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
+            _logger = logger;
         }
         public IActionResult Index()
         {
-            Customer model = new Customer();
-            model.Id = 0;
-            ViewBag.EmptyList = new SelectList(Enumerable.Empty<SelectListItem>());
-
-            List<Country> countries = _countryRepo.GetCountryList(_configurationData.DefaultConnection).ToList();
-            ViewBag.CountryList = new SelectList(countries, "Id", "Title");
-            ViewBag.CountryCodeList = new SelectList(countries, "Id", "PhoneCode");
-
-            List<Business> businesses = _businessRepo.GetBusinessList(_configurationData.DefaultConnection).ToList();
-            ViewBag.BusinessList = new SelectList(businesses, "Id", "Title");
+            RegistrationViewModel model = new RegistrationViewModel();
+            model.CountryList = (from item in _countryRepo.GetCountryList(_configurationData.DefaultConnection).AsEnumerable()
+                                 select new DropdownViewModel { Value = $"{item.Id}", Text = item.Title }).ToList();
+            model.BusinessList = (from item in _businessRepo.GetBusinessList(_configurationData.DefaultConnection).AsEnumerable()
+                                  select new DropdownViewModel { Value = $"{item.Id}", Text = item.Title }).ToList();
 
             return View(model);
         }
         [HttpPost]
-        public async Task<JsonResult> Save([FromBody] Customer model)
+        public async Task<JsonResult> Save([FromBody] RegistrationViewModel model)
         {
             ApiResult result = new ApiResult();
             try
@@ -87,14 +83,25 @@ namespace Adroit.Accounting.Web.Controllers
                 if (res.Succeeded)
                 {
                     var userId = await _userManager.GetUserIdAsync(user);
+                    customer = new Customer()
+                    {
+                        DefaultUserId = Guid.Parse(userId),
+                        Name = model.BusinessName,
+                        BusinessName = model.BusinessName,
+                        BusinessId = model.BusinessId,
+                        StateId = model.StateId,
+                        CityId = model.CityId,
+                        Mobile = model.Mobile,
+                        Email = model.Email,
+                        Requirement = model.Requirement ?? "",
+                        AgreeTerms = model.AgreeTerms,
+                        EmailOtp = RandomNumber.SixDigigNumber(),
+                        MobileOtp = RandomNumber.SixDigigNumber(),
+                        CustomerType = CustomerType.Inquiry,
+                        StatusId = CustomerStatus.Registered,
+                    };
 
-                    model.DefaultUserId = Guid.Parse(userId);
-                    model.EmailOtp = RandomNumber.SixDigigNumber();
-                    model.MobileOtp = RandomNumber.SixDigigNumber();
-                    model.CustomerType = CustomerType.Inquiry;
-                    model.StatusId = CustomerStatus.Registered;
-
-                    int id = _customerRepo.Save(model, _configurationData.DefaultConnection);
+                    int id = _customerRepo.Save(customer, _configurationData.DefaultConnection);
                     if (id > 0)
                     {
                         result.data = true;
@@ -106,10 +113,10 @@ namespace Adroit.Accounting.Web.Controllers
                         string url = $"{Request.Scheme}://{Request.Host.ToUriComponent()}/Authentication/VerifyOtpAndSetPassword?userId={userId}&code={code}";
                         var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\OTPEmail.html"));
                         msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(model.Name) ? model.Name : "")
-                            .Replace("{OTP}", model.EmailOtp)
-                            .Replace("{ResetUrl}", HtmlEncoder.Default.Encode(url));
+                                                .Replace("{OTP}", customer.EmailOtp)
+                                                .Replace("{ResetUrl}", HtmlEncoder.Default.Encode(url));
                         await Task.Factory.StartNew(() => EmailHelper.SendEmail(_emailData.EmailUsername, _emailData.EmailPassword, _emailData.DisplayName, Convert.ToInt32(_emailData.ServerPort),
-                                                        _emailData.ServerHost, _emailData.IsEnableSSL, model.Email, "Adroit Registration OTP and Reset password", msgBody, "")).ConfigureAwait(false);
+                                                        _emailData.ServerHost, _emailData.IsEnableSSL, model.Email, "Adroit IBS Account System Registration Verifiction", msgBody, "")).ConfigureAwait(false);
                     }
                 }
                 else
@@ -125,9 +132,12 @@ namespace Adroit.Accounting.Web.Controllers
             }
             catch (Exception ex)
             {
+                string error = ErrorHandler.GetError(ex);
+                _logger.LogError(ex, "Registration.Save");
                 result.data = ErrorHandler.GetError(ex);
                 result.result = Constant.API_RESULT_ERROR;
             }
+
             return Json(result);
         }
         private IdentityUser CreateUser()

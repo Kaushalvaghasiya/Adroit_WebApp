@@ -1,4 +1,5 @@
 ﻿using Adroit.Accounting.Model;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
