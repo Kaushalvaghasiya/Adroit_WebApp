@@ -18,15 +18,13 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomerBrokerBranchMappingRepository _customerBrokerBranchMappingRepo;
         protected readonly ICustomerAccountGroupRepository _customerAccountGroupRepo;
         protected readonly ConfigurationData _configurationData;
-        protected readonly EmailSetup _emailData;
         public CustomerController(ICustomerAccountRepository customerAccountRepo,
-            IOptions<ConfigurationData> configurationData, IOptions<EmailSetup> emailData,
+            IOptions<ConfigurationData> configurationData,
             ICustomerBrokerBranchMappingRepository customerBrokerBranchMappingRepo,
             ICustomerAccountGroupRepository customerAccountGroupRepo)
         {
             _customerAccountRepo = customerAccountRepo;
             _configurationData = configurationData.Value;
-            _emailData = emailData.Value;
             _customerBrokerBranchMappingRepo = customerBrokerBranchMappingRepo;
             _customerAccountGroupRepo = customerAccountGroupRepo;
         }

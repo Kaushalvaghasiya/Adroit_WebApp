@@ -3,7 +3,7 @@ using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
 
-namespace Adroit.Accounting.Repository 
+namespace Adroit.Accounting.Repository
 {
     public class AccountAdminRepository : IAccountAdminRepository
     {

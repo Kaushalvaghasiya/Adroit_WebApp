@@ -5,7 +5,7 @@ namespace Adroit.Accounting.Utility
 {
     public static class EmailHelper
     {
-        public static async Task SendEmail(string p_fromAddress, string p_fromPassword, string p_displayName, int p_port, string p_host, bool p_ssl, string emailId
+        public static void SendEmail(string p_fromAddress, string p_fromPassword, string p_displayName, int p_port, string p_host, bool p_ssl, string emailId
             , string subject, string body, string attachmentFile)
         {
             var fromAddress = p_fromAddress;
@@ -31,7 +31,7 @@ namespace Adroit.Accounting.Utility
                 mail.Attachments.Add(attachment);
             }
 
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             var cred = new NetworkCredential(fromAddress, fromPassword);
             var smtp = new SmtpClient(host, port)
             {
@@ -48,7 +48,7 @@ namespace Adroit.Accounting.Utility
         {
             if (e.Cancelled == true || e.Error != null)
             {
-                throw new Exception(e.Cancelled ? "EMail sedning was canceled." : "Error: " + e.Error.ToString());
+                throw new Exception(e.Cancelled ? "EMail sendning was canceled." : "Error: " + e.Error?.ToString());
             }
         }
     }

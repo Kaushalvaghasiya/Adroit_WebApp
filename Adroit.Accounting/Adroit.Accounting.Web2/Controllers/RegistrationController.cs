@@ -1,6 +1,5 @@
 ﻿using Adroit.Accounting.Model;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Web.Models;
 using Microsoft.Extensions.Options;
@@ -12,7 +11,6 @@ using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text.Encodings.Web;
 using Adroit.Accounting.Model.ViewModel;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -24,21 +22,22 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICountryRepository _countryRepo;
         private readonly IBusinessRepository _businessRepo;
         private readonly ConfigurationData _configurationData;
-        private readonly EmailSetup _emailData;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegistrationController> _logger;
+        private readonly IEmailService _emailService;
         public RegistrationController(ICustomerRepository customerRepo, IStateRepository stateRepo, ICityRepository cityRepo,
-                IOptions<ConfigurationData> configurationData, IOptions<EmailSetup> emailData, ICountryRepository countryRepo,
+                IOptions<ConfigurationData> configurationData, ICountryRepository countryRepo,
                 IBusinessRepository businessRepo, UserManager<IdentityUser> userManager, IUserStore<IdentityUser> userStore,
-                ILogger<RegistrationController> logger)
+                ILogger<RegistrationController> logger,
+                IEmailService emailService)
         {
             _customerRepo = customerRepo;
             _stateRepo = stateRepo;
             _cityRepo = cityRepo;
             _configurationData = configurationData.Value;
-            _emailData = emailData.Value;
+            _emailService = emailService;
             _countryRepo = countryRepo;
             _businessRepo = businessRepo;
             _userManager = userManager;
@@ -115,8 +114,7 @@ namespace Adroit.Accounting.Web.Controllers
                         msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(model.Name) ? model.Name : "")
                                                 .Replace("{OTP}", customer.EmailOtp)
                                                 .Replace("{ResetUrl}", HtmlEncoder.Default.Encode(url));
-                        await Task.Factory.StartNew(() => EmailHelper.SendEmail(_emailData.EmailUsername, _emailData.EmailPassword, _emailData.DisplayName, Convert.ToInt32(_emailData.ServerPort),
-                                                        _emailData.ServerHost, _emailData.IsEnableSSL, model.Email, "Adroit IBS Account System Registration Verifiction", msgBody, "")).ConfigureAwait(false);
+                        _emailService.SendEmail(model.Email, "Adroit Accounting System - Registration Verifiction", msgBody);
                     }
                 }
                 else
@@ -132,8 +130,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             catch (Exception ex)
             {
-                string error = ErrorHandler.GetError(ex);
-                _logger.LogError(ex, "Registration.Save");
+                _logger.LogError(ex, "RegistrationController.Save");
                 result.data = ErrorHandler.GetError(ex);
                 result.result = Constant.API_RESULT_ERROR;
             }
@@ -180,6 +177,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "RegistrationController.EmailExists");
                 result.data = ErrorHandler.GetError(ex);
                 result.result = Constant.API_RESULT_ERROR;
             }

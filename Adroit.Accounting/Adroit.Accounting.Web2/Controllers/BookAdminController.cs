@@ -1,12 +1,9 @@
 ﻿using Adroit.Accounting.Model;
-using Adroit.Accounting.Model.Enums;
 using Adroit.Accounting.Model.Master;
-using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
 using System.Data;
 
@@ -19,16 +16,14 @@ namespace Adroit.Accounting.Web2.Controllers
         protected readonly IBillTypeAdminRepository _billTypeAdminRepo;
         protected readonly IBillEntryTypeAdminRepository _billEntryTypeAdminRepo;
         protected readonly ConfigurationData _configurationData;
-        protected readonly EmailSetup _emailData;
 
         public BookAdminController(IBookAdminRepository bookAdminRepo,
-            IOptions<ConfigurationData> configurationData, IOptions<EmailSetup> emailData,
+            IOptions<ConfigurationData> configurationData,
             IAccountAdminRepository accountAdminRepo,IBillTypeAdminRepository billTypeAdminRepo,
             IBillEntryTypeAdminRepository billEntryTypeAdminRepo)
         {
             _bookAdminRepo = bookAdminRepo;
             _configurationData = configurationData.Value;
-            _emailData = emailData.Value;
             _accountAdminRepo = accountAdminRepo;
             _billTypeAdminRepo = billTypeAdminRepo;
             _billEntryTypeAdminRepo= billEntryTypeAdminRepo;
