@@ -5,13 +5,13 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class DistrictRepository : IDistrictRepository
+    public class DistrictRepository : IDistrict
     {
-        public List<District> GetDistrictList(string connectionString, int stateId = 0)
+        public List<Model.District> GetDistrictList(string connectionString, int stateId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@StateId", stateId);
-            return QueryHelper.GetList<District>("sp_DistrictList_Select", connectionString, parameters);
+            return QueryHelper.GetList<Model.District>("sp_DistrictList_Select", connectionString, parameters);
         }
     }
 }

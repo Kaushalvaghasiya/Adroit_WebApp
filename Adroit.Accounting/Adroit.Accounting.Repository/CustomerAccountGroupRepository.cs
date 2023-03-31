@@ -10,14 +10,14 @@ using System.Threading.Tasks;
 
 namespace Adroit.Accounting.Repository
 {
-    public class CustomerAccountGroupRepository : ICustomerAccountGroupRepository
+    public class CustomerAccountGroupRepository : ICustomerAccountGroup
     {
-        public List<CustomerAccountGroup> GetCustomerAccountGroupList(string connectionString, int loginId = 0, int firmId = 0)
+        public List<Model.CustomerAccountGroup> GetCustomerAccountGroupList(string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
-            return QueryHelper.GetList<CustomerAccountGroup>("sp_CustomerAccountGroupList_Select", connectionString, parameters);
+            return QueryHelper.GetList<Model.CustomerAccountGroup>("sp_CustomerAccountGroupList_Select", connectionString, parameters);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Adroit.Accounting.Web.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = Utility.Constant.RoleBackOfficeAdmin + "," + Utility.Constant.RoleBackOfficeUser + "," + Utility.Constant.RoleCustomerAdmin + "," + Utility.Constant.RoleCustomerUser)]
+        //[Authorize(Roles = Utility.UserType.BackOffice + "," + Utility.UserType.Customer)]
         public IActionResult Index()
         {
             return View();

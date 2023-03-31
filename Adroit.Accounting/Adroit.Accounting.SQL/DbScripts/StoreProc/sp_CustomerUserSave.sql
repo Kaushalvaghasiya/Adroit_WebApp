@@ -3,6 +3,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUserSave]
 	 @Id int,
 	 @UserId uniqueidentifier,
 	 @CustomerId int,
+	 @FirstName varchar(50),
+	 @LastName varchar(50),
 	 @IsActive  bit,
 	 @IsLocked bit,
 	 @AddedById int,
@@ -21,16 +23,17 @@ BEGIN
 					IsActive = @IsActive, 
 					IsLocked = @IsLocked, 
 					ModifiedById = @ModifiedById, 
-					OwnerBranchId = @OwnerBranchId
+					OwnerBranchId = @OwnerBranchId,
+					FirstName = @FirstName,
+					LastName = @LastName
 					WHERE ID = @Id
 				SELECT @Id;
 			END
 		ELSE
 			BEGIN
-				INSERT INTO CustomerUser
-					(CustomerId, UserId, IsActive, IsLocked, AddedById, AddedOn, OwnerBranchId)
-				VALUES
-					(@CustomerId, @UserId, @IsActive, @IsLocked, @AddedById, GETUTCDATE(), @OwnerBranchId)
+				INSERT INTO [CustomerUser] 
+					([CustomerId], [UserId], [IsActive], [IsLocked], [IsDeleted], [AddedOn], [OwnerBranchId], [FirstName], [LastName])
+				VALUES (@Id, @DefaultUserId, 1, 0, 0, GETUTCDATE(), @OwnerBranchId, @FirstName, @LastName)
 
 				SET @Id = SCOPE_IDENTITY();
 				SELECT @Id;

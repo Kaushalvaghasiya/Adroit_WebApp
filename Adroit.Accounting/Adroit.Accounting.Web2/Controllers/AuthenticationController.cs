@@ -17,13 +17,13 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public class AuthenticationController : Controller
     {
-        private ICustomerRepository _customerRepo;
+        private ICustomer _customerRepo;
         private readonly ConfigurationData _configurationData;
         private readonly IEmailService _emailService;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly ILogger<AuthenticationController> _logger;
-        public AuthenticationController(ICustomerRepository customerRepo,
+        public AuthenticationController(ICustomer customerRepo,
             IOptions<ConfigurationData> configurationData,
             IEmailService emailService,
             UserManager<IdentityUser> userManager,

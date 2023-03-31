@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerRegistration]
 (
 	 @Id int,
 	 @Name varchar(50),
@@ -113,8 +113,8 @@ BEGIN
 
 				--ADD DEFAULT CUSTOMER USER
 				INSERT INTO [CustomerUser] 
-					([CustomerId], [UserId], [IsActive], [IsLocked], [IsDeleted], [AddedOn], [OwnerBranchId])
-				VALUES (@Id, @DefaultUserId, 1, 0, 0, GETUTCDATE(), @BrnachId)
+					([CustomerId], [UserId], [IsActive], [IsLocked], [IsDeleted], [AddedOn], [OwnerBranchId], [FirstName])
+				VALUES (@Id, @DefaultUserId, 1, 0, 0, GETUTCDATE(), @BrnachId, @Name)
 			END
 
 		COMMIT TRAN

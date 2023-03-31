@@ -16,20 +16,20 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public class RegistrationController : Controller
     {
-        private readonly ICustomerRepository _customerRepo;
-        private readonly IStateRepository _stateRepo;
-        private readonly ICityRepository _cityRepo;
-        private readonly ICountryRepository _countryRepo;
-        private readonly IBusinessRepository _businessRepo;
+        private readonly ICustomer _customerRepo;
+        private readonly IState _stateRepo;
+        private readonly ICity _cityRepo;
+        private readonly ICountry _countryRepo;
+        private readonly IBusiness _businessRepo;
         private readonly ConfigurationData _configurationData;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegistrationController> _logger;
         private readonly IEmailService _emailService;
-        public RegistrationController(ICustomerRepository customerRepo, IStateRepository stateRepo, ICityRepository cityRepo,
-                IOptions<ConfigurationData> configurationData, ICountryRepository countryRepo,
-                IBusinessRepository businessRepo, UserManager<IdentityUser> userManager, IUserStore<IdentityUser> userStore,
+        public RegistrationController(ICustomer customerRepo, IState stateRepo, ICity cityRepo,
+                IOptions<ConfigurationData> configurationData, ICountry countryRepo,
+                IBusiness businessRepo, UserManager<IdentityUser> userManager, IUserStore<IdentityUser> userStore,
                 ILogger<RegistrationController> logger,
                 IEmailService emailService)
         {
@@ -70,7 +70,7 @@ namespace Adroit.Accounting.Web.Controllers
                 Customer customer = _customerRepo.Get(model.Email, _configurationData.DefaultConnection);
                 if (customer != null)
                 {
-                    throw new Exception("This email is already associated with another account, please choose different email.");
+                    throw new Exception("This email is already used, please choose different email.");
                 }
 
                 user = CreateUser();

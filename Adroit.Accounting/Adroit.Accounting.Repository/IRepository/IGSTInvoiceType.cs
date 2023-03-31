@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Adroit.Accounting.Repository.IRepository
 {
-    public interface ICountryRepository
+    public interface IGSTInvoiceType
     {
-        List<Country> GetCountryList(string connectionString);
+        List<Model.GSTInvoiceType> GetGSTInvoiceTypeList(string connectionString);
     }
 }

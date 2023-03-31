@@ -1,10 +1,13 @@
-﻿using Adroit.Accounting.Web2.Utility;
+﻿using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.Web.Models;
+using Adroit.Accounting.Web2.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Adroit.Accounting.Web.Controllers
@@ -15,16 +18,25 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly ILogger<LoginController> _logger;
+        private readonly ConfigurationData _configurationData;
+        private readonly IUser _userRepository;
+        private readonly ICustomer _customerRepository;
         public LoginController(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
-            ILogger<LoginController> logger)
+            ILogger<LoginController> logger,
+            IOptions<ConfigurationData> configurationData,
+            IUser userRepository,
+            ICustomer customerRepository)
         {
             _userManager = userManager;
             _userStore = userStore;
             _signInManager = signInManager;
             _logger = logger;
+            _configurationData = configurationData.Value;
+            _userRepository = userRepository;
+            _customerRepository = customerRepository;
         }
         public async Task<IActionResult> Index()
         {
@@ -55,9 +67,14 @@ namespace Adroit.Accounting.Web.Controllers
                     //var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? "";
 
                     //Get userdetails from CustomerUser table using above user.Id object.
-                    //var userDetail = _userRepository.GetUserDetail(Input.UserName, _sqlConfigurationData.WebappContextConnection);
+                    var userDetail = _userRepository.Get(model.Username, _configurationData.DefaultConnection);
+                    var customer = _customerRepository.Get(userDetail.CustomerId, _configurationData.DefaultConnection);
 
-                    await LoginHandler.SetupLogin(HttpContext, model.Username, "Pass firstname + lastname here", Utility.Constant.RoleBackOfficeAdmin).ConfigureAwait(false);
+                    await LoginHandler.SetupLogin(HttpContext, 
+                        model.Username, 
+                        $"{userDetail.FirstName} {userDetail.LastName}", 
+                        customer.CustomerType == Model.Enums.CustomerType.BackOffice ? Utility.UserType.BackOffice : Utility.UserType.Customer
+                        ).ConfigureAwait(false);
 
                     _logger.LogInformation("User logged in using membership provider.");
 

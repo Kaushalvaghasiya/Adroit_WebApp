@@ -5,12 +5,12 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class GSTInvoiceTypeRepository : IGSTInvoiceTypeRepository
+    public class GSTInvoiceTypeRepository : IGSTInvoiceType
     {
-        public List<GSTInvoiceType> GetGSTInvoiceTypeList(string connectionString)
+        public List<Model.GSTInvoiceType> GetGSTInvoiceTypeList(string connectionString)
         {
             var parameters = new DynamicParameters();
-            return QueryHelper.GetList<GSTInvoiceType>("sp_GSTInvoiceTypeList_Select", connectionString, parameters);
+            return QueryHelper.GetList<Model.GSTInvoiceType>("sp_GSTInvoiceTypeList_Select", connectionString, parameters);
         }
     }
 }

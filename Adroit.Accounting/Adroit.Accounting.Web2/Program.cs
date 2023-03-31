@@ -37,17 +37,17 @@ try
     builder.Services.Configure<ConfigurationData>(builder.Configuration.GetSection("ConnectionStrings"));
     builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
     builder.Services.AddSingleton<IEmailService, EmailService>();
-    builder.Services.AddSingleton<ICountryRepository, CountryRepository>();
-    builder.Services.AddSingleton<IStateRepository, StateRepository>();
-    builder.Services.AddSingleton<ICityRepository, CityRepository>();
-    builder.Services.AddSingleton<IDistrictRepository, DistrictRepository>();
-    builder.Services.AddSingleton<ITalukaRepository, TalukaRepository>();
-    builder.Services.AddSingleton<ICustomerRepository, CustomerRepository>();
-    builder.Services.AddSingleton<ICustomerAccountRepository, CustomerAccountRepository>();
-    builder.Services.AddSingleton<ICustomerAccountGroupRepository, CustomerAccountGroupRepository>();
-    builder.Services.AddSingleton<IGSTInvoiceTypeRepository, GSTInvoiceTypeRepository>();
-    builder.Services.AddSingleton<ICustomerBrokerBranchMappingRepository, CustomerBrokerBranchMappingRepository>();
-    builder.Services.AddSingleton<IBusinessRepository, BusinessRepository>();
+    builder.Services.AddSingleton<ICountry, Adroit.Accounting.Repository.CountryRepository>();
+    builder.Services.AddSingleton<IState, Adroit.Accounting.Repository.StateRepository>();
+    builder.Services.AddSingleton<ICity, Adroit.Accounting.Repository.CityRepository>();
+    builder.Services.AddSingleton<IDistrict, Adroit.Accounting.Repository.DistrictRepository>();
+    builder.Services.AddSingleton<ITaluka, Adroit.Accounting.Repository.TalukaRepository>();
+    builder.Services.AddSingleton<ICustomer, Adroit.Accounting.Repository.CustomerRepository>();
+    builder.Services.AddSingleton<ICustomerAccount, Adroit.Accounting.Repository.CustomerAccountRepository>();
+    builder.Services.AddSingleton<ICustomerAccountGroup, Adroit.Accounting.Repository.CustomerAccountGroupRepository>();
+    builder.Services.AddSingleton<IGSTInvoiceType, Adroit.Accounting.Repository.GSTInvoiceTypeRepository>();
+    builder.Services.AddSingleton<ICustomerBrokerBranchMapping, Adroit.Accounting.Repository.CustomerBrokerBranchMappingRepository>();
+    builder.Services.AddSingleton<IBusiness, Adroit.Accounting.Repository.BusinessRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

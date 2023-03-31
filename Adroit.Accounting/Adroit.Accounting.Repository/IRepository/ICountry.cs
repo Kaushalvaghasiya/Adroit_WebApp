@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Adroit.Accounting.Repository.IRepository
 {
-    public interface ITalukaRepository
+    public interface ICountry
     {
-        List<Taluka> GetTalukaList(string connectionString, int districtId);
+        List<Model.Country> GetCountryList(string connectionString);
     }
 }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Adroit.Accounting.Repository.IRepository
 {
-    public interface IBillTypeAdminRepository
+    public interface ICustomerBrokerBranchMapping
     {
-        List<BillTypeAdmin> GetBillTypeAdminList(string connectionString, int loginId = 0, int firmId = 0);
+        List<Model.CustomerBrokerBranchMapping> GetCustomerBrokerBranchMappingList(string connectionString, int loginId = 0, int firmId = 0);
     }
 }

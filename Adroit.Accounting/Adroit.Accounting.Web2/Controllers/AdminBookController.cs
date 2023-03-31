@@ -2,6 +2,7 @@
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
+using Adroit.Accounting.Web.Controllers;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -9,26 +10,27 @@ using System.Data;
 
 namespace Adroit.Accounting.Web2.Controllers
 {
-    public class BookAdminController : Controller
+    public partial class AdminBookController : AdminController
     {
-        protected readonly IBookAdminRepository _bookAdminRepo;
-        protected readonly IAccountAdminRepository _accountAdminRepo;
-        protected readonly IBillTypeAdminRepository _billTypeAdminRepo;
-        protected readonly IBillEntryTypeAdminRepository _billEntryTypeAdminRepo;
-        protected readonly ConfigurationData _configurationData;
-
-        public BookAdminController(IBookAdminRepository bookAdminRepo,
+        protected readonly IBookAdmin BookAdminRepo;
+        protected readonly IAccountAdmin AccountAdminRepo;
+        protected readonly IBillTypeAdmin BillTypeAdminRepo;
+        protected readonly IBillEntryTypeAdmin BillEntryTypeAdminRepo;
+        protected readonly ConfigurationData ConfigurationData;
+        public AdminBookController(
             IOptions<ConfigurationData> configurationData,
-            IAccountAdminRepository accountAdminRepo,IBillTypeAdminRepository billTypeAdminRepo,
-            IBillEntryTypeAdminRepository billEntryTypeAdminRepo)
+            IBookAdmin bookAdminRepo,
+            IAccountAdmin accountAdminRepo,
+            IBillTypeAdmin billTypeAdminRepo,
+            IBillEntryTypeAdmin billEntryTypeAdminRepo
+            )
         {
-            _bookAdminRepo = bookAdminRepo;
-            _configurationData = configurationData.Value;
-            _accountAdminRepo = accountAdminRepo;
-            _billTypeAdminRepo = billTypeAdminRepo;
-            _billEntryTypeAdminRepo= billEntryTypeAdminRepo;
+            ConfigurationData = configurationData.Value;
+            BookAdminRepo = bookAdminRepo;
+            AccountAdminRepo = accountAdminRepo;
+            BillTypeAdminRepo = billTypeAdminRepo;
+            BillEntryTypeAdminRepo = billEntryTypeAdminRepo;
         }
-
         public IActionResult Index()
         {
             return View();
@@ -40,7 +42,7 @@ namespace Adroit.Accounting.Web2.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int id = _bookAdminRepo.Save(model, _configurationData.DefaultConnection);
+                int id = BookAdminRepo.Save(model, ConfigurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -61,7 +63,7 @@ namespace Adroit.Accounting.Web2.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _bookAdminRepo.Get(id, _configurationData.DefaultConnection, 0, 0);
+                result.data = BookAdminRepo.Get(id, ConfigurationData.DefaultConnection, 0, 0);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -86,7 +88,7 @@ namespace Adroit.Accounting.Web2.Controllers
                 //sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 //sortDirection = Convert.ToString(Request.Query["order[0][dir]"]);
 
-                var records = _bookAdminRepo.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = BookAdminRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -104,7 +106,7 @@ namespace Adroit.Accounting.Web2.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _bookAdminRepo.Delete(id, _configurationData.DefaultConnection, 0, 0);
+                result.data = BookAdminRepo.Delete(id, ConfigurationData.DefaultConnection, 0, 0);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -121,7 +123,7 @@ namespace Adroit.Accounting.Web2.Controllers
             try
             {
                 int loginId = 0, firmId = 0;
-                result.data = _accountAdminRepo.GetAccountAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
+                result.data = AccountAdminRepo.GetAccountAdminList(ConfigurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -138,7 +140,7 @@ namespace Adroit.Accounting.Web2.Controllers
             try
             {
                 int loginId = 0, firmId = 0;
-                result.data = _billTypeAdminRepo.GetBillTypeAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
+                result.data = BillTypeAdminRepo.GetBillTypeAdminList(ConfigurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -155,7 +157,7 @@ namespace Adroit.Accounting.Web2.Controllers
             try
             {
                 int loginId = 0, firmId = 0;
-                result.data = _billEntryTypeAdminRepo.GetBillEntryTypeAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
+                result.data = BillEntryTypeAdminRepo.GetBillEntryTypeAdminList(ConfigurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

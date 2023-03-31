@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Adroit.Accounting.Utility;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using System.Security.Principal;
@@ -7,13 +8,13 @@ namespace Adroit.Accounting.Web2.Utility
 {
     public class LoginHandler
     {
-        public static async Task SetupLogin(HttpContext context, string userName, string fullName, string role = Accounting.Utility.Constant.RoleCustomerUser)
+        public static async Task SetupLogin(HttpContext context, string userName, string fullName, UserType userType = UserType.Customer)
         {
             var claims = new List<Claim>
                     {
                         new Claim(ClaimTypes.Name, userName),
                         new Claim(ClaimTypes.GivenName, string.IsNullOrWhiteSpace(fullName)?userName:fullName),
-                        new Claim(ClaimTypes.Role, role),
+                        new Claim(ClaimTypes.Role, $"{userType}"),
                     };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -79,9 +80,9 @@ namespace Adroit.Accounting.Web2.Utility
             return "";
         }
 
-        public static bool IsBackOfficeAdmin(IPrincipal user)
+        public static bool IsBackOfficeUser(IPrincipal user)
         {
-            return GetRole(user).Equals(Accounting.Utility.Constant.RoleBackOfficeAdmin);
+            return (UserType)Convert.ToInt32(GetRole(user)) == UserType.BackOffice;
         }
     }
 }
