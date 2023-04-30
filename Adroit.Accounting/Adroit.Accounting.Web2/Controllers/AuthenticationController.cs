@@ -12,6 +12,10 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.Text.Encodings.Web;
 using Adroit.Accounting.Model.ViewModel;
 using Microsoft.CodeAnalysis.Emit;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -37,6 +41,8 @@ namespace Adroit.Accounting.Web.Controllers
             _userStore = userStore;
             _logger = logger;
         }
+        
+        [AllowAnonymous]
         public IActionResult VerifyOtpAndSetPassword(string userId, string code)
         {
 
@@ -46,6 +52,7 @@ namespace Adroit.Accounting.Web.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<JsonResult> VerifyOtpAndSetPassword([FromBody] PasswordResetViewModel model)
         {
@@ -113,10 +120,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        [AllowAnonymous]
         public IActionResult ForgotPassword()
         {
             return View();
         }
+
+        [AllowAnonymous]
         [HttpPost]
         public async Task<JsonResult> ForgotPassword([FromBody] PasswordResetViewModel model)
         {
@@ -154,12 +164,14 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        [AllowAnonymous]
         public IActionResult ResetPassword(string code)
         {
             ViewBag.TokenCode = code;
             return View();
         }
 
+        [AllowAnonymous]
         [HttpPost]
         public async Task<JsonResult> ResetPassword([FromBody] PasswordResetViewModel model)
         {
@@ -214,6 +226,16 @@ namespace Adroit.Accounting.Web.Controllers
             }
 
             return Json(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            //await _signInManager.SignOutAsync();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            _logger.LogInformation("User logged out.");
+
+            return Redirect("~/Login");
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using Adroit.Accounting.Web2.Utility;
+﻿using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;

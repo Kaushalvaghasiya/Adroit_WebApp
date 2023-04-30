@@ -6,7 +6,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_UserGet]
 )
 AS
 BEGIN
-	SELECT *
+	SELECT CustomerUser .*
 	FROM CustomerUser 
 	INNER JOIN aspnetusers ON CustomerUser.UserId = aspnetusers.Id
 	WHERE (@Id IS NOT NULL OR @UserId IS NOT NULL OR @Email IS NOT NULL) 

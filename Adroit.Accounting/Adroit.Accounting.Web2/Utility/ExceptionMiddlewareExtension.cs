@@ -1,4 +1,4 @@
-﻿namespace Adroit.Accounting.Web2.Utility
+﻿namespace Adroit.Accounting.Web.Utility
 {
     using Adroit.Accounting.Model;
     using Microsoft.AspNetCore.Builder;

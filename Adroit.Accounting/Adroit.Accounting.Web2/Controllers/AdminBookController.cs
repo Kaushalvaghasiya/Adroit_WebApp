@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Data;
 
-namespace Adroit.Accounting.Web2.Controllers
+namespace Adroit.Accounting.Web.Controllers
 {
     public partial class AdminBookController : AdminController
     {

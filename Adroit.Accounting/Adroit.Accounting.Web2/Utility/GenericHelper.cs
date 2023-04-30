@@ -1,4 +1,4 @@
-﻿namespace Adroit.Accounting.Web2.Utility
+﻿namespace Adroit.Accounting.Web.Utility
 {
     //I wish to log in places outside the controller
     //for example here.

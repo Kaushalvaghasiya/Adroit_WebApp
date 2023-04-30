@@ -33,7 +33,7 @@ BEGIN
 			BEGIN
 				INSERT INTO [CustomerUser] 
 					([CustomerId], [UserId], [IsActive], [IsLocked], [IsDeleted], [AddedOn], [OwnerBranchId], [FirstName], [LastName])
-				VALUES (@Id, @DefaultUserId, 1, 0, 0, GETUTCDATE(), @OwnerBranchId, @FirstName, @LastName)
+				VALUES (@Id, @UserId, 1, 0, 0, GETUTCDATE(), @OwnerBranchId, @FirstName, @LastName)
 
 				SET @Id = SCOPE_IDENTITY();
 				SELECT @Id;

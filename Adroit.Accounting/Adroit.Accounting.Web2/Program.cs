@@ -1,4 +1,3 @@
-using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,12 +7,12 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Net;
 using NLog.Web;
 using NLog;
-using Adroit.Accounting.Web2.Utility;
+using Adroit.Accounting.Web.Utility;
 using Adroit.Accounting.Model;
 using Adroit.Accounting.Utility;
-using System;
+using Adroit.Accounting.Repository;
 
-var logger = NLog.LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
+var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
 
 try
@@ -32,22 +31,29 @@ try
 
     builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
         .AddEntityFrameworkStores<ApplicationDbContext>();
+    builder.Services.AddAuthorization(options =>
+    {
+        // By default, all incoming requests will be authorized according to the default policy.
+        options.FallbackPolicy = options.DefaultPolicy;
+    });
+
     builder.Services.AddControllersWithViews();
 
     builder.Services.Configure<ConfigurationData>(builder.Configuration.GetSection("ConnectionStrings"));
     builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
     builder.Services.AddSingleton<IEmailService, EmailService>();
-    builder.Services.AddSingleton<ICountry, Adroit.Accounting.Repository.CountryRepository>();
-    builder.Services.AddSingleton<IState, Adroit.Accounting.Repository.StateRepository>();
-    builder.Services.AddSingleton<ICity, Adroit.Accounting.Repository.CityRepository>();
-    builder.Services.AddSingleton<IDistrict, Adroit.Accounting.Repository.DistrictRepository>();
-    builder.Services.AddSingleton<ITaluka, Adroit.Accounting.Repository.TalukaRepository>();
-    builder.Services.AddSingleton<ICustomer, Adroit.Accounting.Repository.CustomerRepository>();
-    builder.Services.AddSingleton<ICustomerAccount, Adroit.Accounting.Repository.CustomerAccountRepository>();
-    builder.Services.AddSingleton<ICustomerAccountGroup, Adroit.Accounting.Repository.CustomerAccountGroupRepository>();
-    builder.Services.AddSingleton<IGSTInvoiceType, Adroit.Accounting.Repository.GSTInvoiceTypeRepository>();
-    builder.Services.AddSingleton<ICustomerBrokerBranchMapping, Adroit.Accounting.Repository.CustomerBrokerBranchMappingRepository>();
-    builder.Services.AddSingleton<IBusiness, Adroit.Accounting.Repository.BusinessRepository>();
+    builder.Services.AddSingleton<IUser, UserRepository>();
+    builder.Services.AddSingleton<ICountry, CountryRepository>();
+    builder.Services.AddSingleton<IState, StateRepository>();
+    builder.Services.AddSingleton<ICity, CityRepository>();
+    builder.Services.AddSingleton<IDistrict, DistrictRepository>();
+    builder.Services.AddSingleton<ITaluka, TalukaRepository>();
+    builder.Services.AddSingleton<ICustomer, CustomerRepository>();
+    builder.Services.AddSingleton<ICustomerAccount, CustomerAccountRepository>();
+    builder.Services.AddSingleton<ICustomerAccountGroup, CustomerAccountGroupRepository>();
+    builder.Services.AddSingleton<IGSTInvoiceType, GSTInvoiceTypeRepository>();
+    builder.Services.AddSingleton<ICustomerBrokerBranchMapping, CustomerBrokerBranchMappingRepository>();
+    builder.Services.AddSingleton<IBusiness, BusinessRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {
@@ -66,8 +72,8 @@ try
         .AddCookie(options =>
         {
             options.LoginPath = "/LogIn";
-            options.LogoutPath = "/Account/LogOff";
-            options.AccessDeniedPath = "/AccessDenied";
+            options.LogoutPath = "/LogIn";
+            options.AccessDeniedPath = "/Authentication/AccessDenied";
         });
 
     var app = builder.Build();

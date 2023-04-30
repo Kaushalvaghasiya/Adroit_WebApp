@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using System.Security.Principal;
 
-namespace Adroit.Accounting.Web2.Utility
+namespace Adroit.Accounting.Web.Utility
 {
     public class LoginHandler
     {

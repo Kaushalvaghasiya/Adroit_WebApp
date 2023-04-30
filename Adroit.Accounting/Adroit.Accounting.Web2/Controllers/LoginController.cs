@@ -1,14 +1,13 @@
 ﻿using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
-using Adroit.Accounting.Web2.Utility;
+using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -38,17 +37,20 @@ namespace Adroit.Accounting.Web.Controllers
             _userRepository = userRepository;
             _customerRepository = customerRepository;
         }
+
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            // Clear the existing external cookie to ensure a clean login process
-            //await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                return LocalRedirect($"~/");
+            }
 
             return View();
         }
 
-        [HttpPost]
         [AllowAnonymous]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(Model.Login model, string? returnUrl = "")
         {
@@ -66,18 +68,23 @@ namespace Adroit.Accounting.Web.Controllers
                     var user = await _userManager.FindByEmailAsync(model.Username);
                     //var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? "";
 
-                    //Get userdetails from CustomerUser table using above user.Id object.
-                    var userDetail = _userRepository.Get(model.Username, _configurationData.DefaultConnection);
-                    var customer = _customerRepository.Get(userDetail.CustomerId, _configurationData.DefaultConnection);
+                    try
+                    {
+                        //Get userdetails from CustomerUser table using above user.Id object.
+                        var userDetail = _userRepository.Get(model.Username, _configurationData.DefaultConnection);
+                        var customer = _customerRepository.Get(userDetail.CustomerId, _configurationData.DefaultConnection);
 
-                    await LoginHandler.SetupLogin(HttpContext, 
-                        model.Username, 
-                        $"{userDetail.FirstName} {userDetail.LastName}", 
-                        customer.CustomerType == Model.Enums.CustomerType.BackOffice ? Utility.UserType.BackOffice : Utility.UserType.Customer
-                        ).ConfigureAwait(false);
+                        await LoginHandler.SetupLogin(HttpContext,
+                            model.Username,
+                            $"{userDetail.FirstName} {userDetail.LastName}",
+                            customer.CustomerType == Model.Enums.CustomerType.BackOffice ? UserType.BackOffice : UserType.Customer
+                            ).ConfigureAwait(false);
 
-                    _logger.LogInformation("User logged in using membership provider.");
-
+                        _logger.LogInformation("User logged in using membership provider.");
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                     return LocalRedirect($"~/");
                 }
                 else
