@@ -45,18 +45,14 @@ CREATE TABLE [dbo].[AccountAdmin](
 	[CapitalPercentage] [decimal](5, 2) NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_AccountAdmin] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_AccountAdmin] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[AccountGroupAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountGroupAdmin](
@@ -68,18 +64,14 @@ CREATE TABLE [dbo].[AccountGroupAdmin](
 	[OrderNumber] [int] NULL,
 	[IsDeleted] [bit] NOT NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_AccountGroupMaster] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_AccountGroupMaster] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[AccountGroupHeaderAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupHeaderAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountGroupHeaderAdmin](
@@ -88,18 +80,14 @@ CREATE TABLE [dbo].[AccountGroupHeaderAdmin](
 	[OrderNumber] [int] NULL,
 	[IsDeleted] [bit] NOT NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_AccountGroupHeaderMaster] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_AccountGroupHeaderMaster] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[AccountGroupType]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountGroupType](
@@ -108,18 +96,14 @@ CREATE TABLE [dbo].[AccountGroupType](
 	[Title] [nvarchar](50) NOT NULL,
 	[OrderNumber] [int] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_AccountGroupType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_AccountGroupType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[BillEntryTypeAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BillEntryTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BillEntryTypeAdmin](
@@ -127,36 +111,28 @@ CREATE TABLE [dbo].[BillEntryTypeAdmin](
 	[Title] [varchar](50) NOT NULL,
 	[Code] [varchar](3) NOT NULL,
 	[Description] [nvarchar](250) NULL,
- CONSTRAINT [PK_BillEntryTypeAdmin] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_BillEntryTypeAdmin] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[BillTypeAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BillTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BillTypeAdmin](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](20) NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_BillType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_BillType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[BookAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BookAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BookAdmin](
@@ -213,36 +189,28 @@ CREATE TABLE [dbo].[BookAdmin](
 	[RoundOffAccountId] [int] NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_BookAdmin] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_BookAdmin] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[BookTypeAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BookTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BookTypeAdmin](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_BookType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_BookType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Broker]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Broker]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Broker](
@@ -267,18 +235,14 @@ CREATE TABLE [dbo].[Broker](
 	[ModifiedOn] [datetime] NULL,
 	[AdharUID] [varchar](12) NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_Broker] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Broker] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Business]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Business]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Business](
@@ -286,36 +250,28 @@ CREATE TABLE [dbo].[Business](
 	[Title] [nvarchar](200) NOT NULL,
 	[OrderNumber] [smallint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_BusinessMaster] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_BusinessMaster] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[City]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[City]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[City](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](100) NOT NULL,
 	[TalukaId] [int] NOT NULL,
- CONSTRAINT [PK_City] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_City] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ColorAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ColorAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ColorAdmin](
@@ -323,36 +279,28 @@ CREATE TABLE [dbo].[ColorAdmin](
 	[Title] [nvarchar](50) NOT NULL,
 	[OrderNumber] [int] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_ColorAdmin] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ColorAdmin] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Country]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Country]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Country](
 	[Id] [smallint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](100) NOT NULL,
 	[PhoneCode] [varchar](5) NOT NULL,
- CONSTRAINT [PK_CountryMaster] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CountryMaster] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Customer]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Customer]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Customer](
@@ -377,18 +325,19 @@ CREATE TABLE [dbo].[Customer](
 	[AdharUID] [varchar](12) NULL,
 	[TotalUsers] [smallint] NOT NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
+	[EmailOTP] [varchar](6) NULL,
+	[MobileOTP] [varchar](6) NULL,
+	[StatusId] [tinyint] NOT NULL,
+	[BusinessName] [nvarchar](250) NOT NULL,
+	[AgreeTerms] [bit] NOT NULL,
+	CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerAccount]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccount]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccount](
@@ -444,18 +393,14 @@ CREATE TABLE [dbo].[CustomerAccount](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerAccountBranchMapping]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountBranchMapping](
@@ -467,18 +412,14 @@ CREATE TABLE [dbo].[CustomerAccountBranchMapping](
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
- CONSTRAINT [PK_AccountMapping] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_AccountMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerAccountGroup]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountGroup]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountGroup](
@@ -494,18 +435,14 @@ CREATE TABLE [dbo].[CustomerAccountGroup](
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
- CONSTRAINT [PK_AccountGroup] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_AccountGroup] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerAccountGroupHeader]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountGroupHeader]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountGroupHeader](
@@ -518,18 +455,14 @@ CREATE TABLE [dbo].[CustomerAccountGroupHeader](
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
- CONSTRAINT [PK_AccountGroupHeader] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_AccountGroupHeader] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerAccountOpeningBalance]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountOpeningBalance]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountOpeningBalance](
@@ -544,18 +477,14 @@ CREATE TABLE [dbo].[CustomerAccountOpeningBalance](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_CustomerAccountOpeningBalance] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CustomerAccountOpeningBalance] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerBook]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBook]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerBook](
@@ -621,18 +550,14 @@ CREATE TABLE [dbo].[CustomerBook](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_CustomerBook] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CustomerBook] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerBookBranchMapping]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBookBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerBookBranchMapping](
@@ -643,18 +568,14 @@ CREATE TABLE [dbo].[CustomerBookBranchMapping](
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
- CONSTRAINT [PK_CustomerBranchBookMapping] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CustomerBranchBookMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerBrokerBranchMapping]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBrokerBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerBrokerBranchMapping](
@@ -666,18 +587,14 @@ CREATE TABLE [dbo].[CustomerBrokerBranchMapping](
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
- CONSTRAINT [PK_CustomerFirmBrokerMapping] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CustomerFirmBrokerMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirm]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirm]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirm](
@@ -698,7 +615,7 @@ CREATE TABLE [dbo].[CustomerFirm](
 	[IsDeleted] [bit] NOT NULL,
 	[IsActive] [bit] NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[AddedById] [int] NOT NULL,
+	[AddedById] [int],
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
@@ -707,18 +624,14 @@ CREATE TABLE [dbo].[CustomerFirm](
 	[AdharUID] [varchar](12) NULL,
 	[LRResetOnYearEnd] [bit] NOT NULL,
 	[CessRequired] [bit] NOT NULL,
- CONSTRAINT [PK_Firm] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Firm] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirmBranch]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranch]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranch](
@@ -744,31 +657,26 @@ CREATE TABLE [dbo].[CustomerFirmBranch](
 	[PAN] [varchar](10) NULL,
 	[EWBAddress1] [nvarchar](200) NULL,
 	[EWBAddress2] [nvarchar](200) NULL,
-	[CreatedOn] [datetime] NOT NULL,
 	[RenewalDate] [datetime] NOT NULL,
 	[SetupPrice] [decimal](16, 2) NOT NULL,
 	[RenewalPrice] [decimal](16, 2) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
-	[AddedById] [int] NOT NULL,
+	[AddedById] [int] NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_CustomerFirmBranch] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CustomerFirmBranch] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirmBranchLRRate]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchLRRate]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranchLRRate](
@@ -789,18 +697,14 @@ CREATE TABLE [dbo].[CustomerFirmBranchLRRate](
 	[AddedById] [int] NOT NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_CustomerFirmBranchLRRate] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CustomerFirmBranchLRRate] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirmBranchTransportContractRateSetting]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchTransportContractRateSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranchTransportContractRateSetting](
@@ -813,18 +717,14 @@ CREATE TABLE [dbo].[CustomerFirmBranchTransportContractRateSetting](
 	[AddedById] [int] NOT NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_CustomerFirmBranchTransportContractRateSetting] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CustomerFirmBranchTransportContractRateSetting] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirmBranchTransportSetting]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchTransportSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranchTransportSetting](
@@ -846,18 +746,14 @@ CREATE TABLE [dbo].[CustomerFirmBranchTransportSetting](
 	[AddedById] [int] NOT NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_CustomerFirmBranchTransportSetting_1] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CustomerFirmBranchTransportSetting_1] PRIMARY KEY CLUSTERED 
 (
 	[BranchId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirmTransportSetting]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmTransportSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmTransportSetting](
@@ -883,25 +779,20 @@ CREATE TABLE [dbo].[CustomerFirmTransportSetting](
 	[AddedById] [int] NOT NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_CustomerFirmTransportSetting] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CustomerFirmTransportSetting] PRIMARY KEY CLUSTERED 
 (
 	[FirmId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerUser]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerUser]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerUser](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerId] [int] NOT NULL,
-	[Username] [varchar](50) NOT NULL,
-	[Password] [varchar](100) NOT NULL,
+	[UserId] [uniqueidentifier] NOT NULL,
 	[IsActive] [bit] NOT NULL,
 	[IsLocked] [bit] NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
@@ -912,18 +803,14 @@ CREATE TABLE [dbo].[CustomerUser](
 	[OwnerBranchId] [int] NOT NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_CustomerUser] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CustomerUser] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerUserBranchMapping]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerUserBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerUserBranchMapping](
@@ -935,36 +822,28 @@ CREATE TABLE [dbo].[CustomerUserBranchMapping](
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
- CONSTRAINT [PK_CustomerUserBranchMapping] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_CustomerUserBranchMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[District]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[District]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[District](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](100) NOT NULL,
 	[StateId] [int] NOT NULL,
- CONSTRAINT [PK_District] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_District] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Driver]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Driver]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Driver](
@@ -988,18 +867,14 @@ CREATE TABLE [dbo].[Driver](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_Driver] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Driver] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[DriverTypeAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DriverTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[DriverTypeAdmin](
@@ -1007,18 +882,14 @@ CREATE TABLE [dbo].[DriverTypeAdmin](
 	[Title] [nvarchar](15) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_DriverType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_DriverType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[FinanceYear]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FinanceYear]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[FinanceYear](
@@ -1028,18 +899,14 @@ CREATE TABLE [dbo].[FinanceYear](
 	[YearFrom] [datetime] NOT NULL,
 	[YearTo] [datetime] NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_FinanceYear] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_FinanceYear] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[FirmBranchTypeAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FirmBranchTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[FirmBranchTypeAdmin](
@@ -1047,18 +914,14 @@ CREATE TABLE [dbo].[FirmBranchTypeAdmin](
 	[Title] [nvarchar](20) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_FirmBranchType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_FirmBranchType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[FirmTypeAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FirmTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[FirmTypeAdmin](
@@ -1066,18 +929,14 @@ CREATE TABLE [dbo].[FirmTypeAdmin](
 	[Title] [nvarchar](20) NOT NULL,
 	[OrderNumber] [smallint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_FirmType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_FirmType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTCalculation]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTCalculation]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTCalculation](
@@ -1085,18 +944,14 @@ CREATE TABLE [dbo].[GSTCalculation](
 	[Title] [nvarchar](30) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_GSTCalculation] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_GSTCalculation] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTCollection]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTCollection]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTCollection](
@@ -1109,18 +964,14 @@ CREATE TABLE [dbo].[GSTCollection](
 	[City] [nvarchar](50) NULL,
 	[Pincode] [varchar](10) NULL,
 	[AddedOn] [datetime] NOT NULL,
- CONSTRAINT [PK_GSTCollection] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_GSTCollection] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTFirmType]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTFirmType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTFirmType](
@@ -1128,18 +979,14 @@ CREATE TABLE [dbo].[GSTFirmType](
 	[Title] [nvarchar](30) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_GSTFirmType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_GSTFirmType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTInvoiceType]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTInvoiceType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTInvoiceType](
@@ -1151,18 +998,14 @@ CREATE TABLE [dbo].[GSTInvoiceType](
 	[PayType] [nvarchar](10) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_InvoiceType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_InvoiceType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTPort]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTPort]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTPort](
@@ -1171,18 +1014,14 @@ CREATE TABLE [dbo].[GSTPort](
 	[Code] [varchar](10) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_GSTPort] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_GSTPort] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTRate]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTRate]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTRate](
@@ -1190,18 +1029,14 @@ CREATE TABLE [dbo].[GSTRate](
 	[Rate] [decimal](15, 3) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_GSTRate] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_GSTRate] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTReason]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTReason]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTReason](
@@ -1210,18 +1045,14 @@ CREATE TABLE [dbo].[GSTReason](
 	[Code] [nvarchar](2) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_GSTReason] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_GSTReason] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTTransportMode]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTTransportMode]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTTransportMode](
@@ -1229,18 +1060,14 @@ CREATE TABLE [dbo].[GSTTransportMode](
 	[Title] [nvarchar](30) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_GSTTransportMode] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_GSTTransportMode] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTUQC]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTUQC]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTUQC](
@@ -1250,18 +1077,14 @@ CREATE TABLE [dbo].[GSTUQC](
 	[CodeEWayBill] [varchar](20) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_UQC] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_UQC] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[LRBookingRange]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[LRBookingRange]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[LRBookingRange](
@@ -1276,18 +1099,14 @@ CREATE TABLE [dbo].[LRBookingRange](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_LRRange] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_LRRange] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[PoductOpeningStock]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PoductOpeningStock]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[PoductOpeningStock](
@@ -1305,18 +1124,14 @@ CREATE TABLE [dbo].[PoductOpeningStock](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_PoductOpeningStock] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_PoductOpeningStock] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Product]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Product]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Product](
@@ -1367,18 +1182,14 @@ CREATE TABLE [dbo].[Product](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductAmtCalcOn]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductAmtCalcOn]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductAmtCalcOn](
@@ -1387,18 +1198,14 @@ CREATE TABLE [dbo].[ProductAmtCalcOn](
 	[SoftwareId] [tinyint] NOT NULL,
 	[OrderNumber] [int] NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_ProductAmtCalcOn] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductAmtCalcOn] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductBranchMapping]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductBranchMapping](
@@ -1410,18 +1217,14 @@ CREATE TABLE [dbo].[ProductBranchMapping](
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
- CONSTRAINT [PK_ProductBranchMapping] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductBranchMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductCategory]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductCategory]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductCategory](
@@ -1429,18 +1232,14 @@ CREATE TABLE [dbo].[ProductCategory](
 	[Title] [nvarchar](30) NOT NULL,
 	[OrderNumber] [int] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_ProductCategory] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductCategory] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductColor]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductColor]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductColor](
@@ -1456,18 +1255,14 @@ CREATE TABLE [dbo].[ProductColor](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_ProductColor] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductColor] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductDesignNumber]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductDesignNumber]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductDesignNumber](
@@ -1483,18 +1278,14 @@ CREATE TABLE [dbo].[ProductDesignNumber](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_ProductDesignNumber] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductDesignNumber] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductFabric]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductFabric]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductFabric](
@@ -1510,18 +1301,14 @@ CREATE TABLE [dbo].[ProductFabric](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_ProductFabric] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductFabric] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductGroup]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductGroup]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductGroup](
@@ -1537,18 +1324,14 @@ CREATE TABLE [dbo].[ProductGroup](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_ProductGroup] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductGroup] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductPacking]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductPacking]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductPacking](
@@ -1564,18 +1347,14 @@ CREATE TABLE [dbo].[ProductPacking](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_ProductPacking] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductPacking] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductQualityType]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductQualityType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductQualityType](
@@ -1583,18 +1362,14 @@ CREATE TABLE [dbo].[ProductQualityType](
 	[Title] [nvarchar](50) NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
- CONSTRAINT [PK_ProductQltyType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductQltyType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductShadeNumber]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductShadeNumber]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductShadeNumber](
@@ -1610,18 +1385,14 @@ CREATE TABLE [dbo].[ProductShadeNumber](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_ProductShadeNumber] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductShadeNumber] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductSize]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductSize]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductSize](
@@ -1637,18 +1408,14 @@ CREATE TABLE [dbo].[ProductSize](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_ProductSize] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductSize] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductSizeAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductSizeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductSizeAdmin](
@@ -1656,18 +1423,14 @@ CREATE TABLE [dbo].[ProductSizeAdmin](
 	[Title] [nvarchar](50) NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
- CONSTRAINT [PK_ProductSizeAdmin] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductSizeAdmin] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductStockType]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductStockType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductStockType](
@@ -1675,18 +1438,14 @@ CREATE TABLE [dbo].[ProductStockType](
 	[Title] [nvarchar](50) NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
- CONSTRAINT [PK_ProductStockType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductStockType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductSubGroup]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductSubGroup]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductSubGroup](
@@ -1702,18 +1461,14 @@ CREATE TABLE [dbo].[ProductSubGroup](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_ProductSubGroup] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ProductSubGroup] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ReportTemplate]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ReportTemplate]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ReportTemplate](
@@ -1728,36 +1483,28 @@ CREATE TABLE [dbo].[ReportTemplate](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_ReportTemplate] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_ReportTemplate] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[SalesBillFromAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SalesBillFromAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[SalesBillFromAdmin](
 	[Id] [char](1) NOT NULL,
 	[Title] [nvarchar](20) NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_SalesBillFromAdmin] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_SalesBillFromAdmin] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Software]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Software]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Software](
@@ -1765,18 +1512,14 @@ CREATE TABLE [dbo].[Software](
 	[Title] [varchar](20) NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [tinyint] NULL,
- CONSTRAINT [PK_Software] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Software] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[SoftwarePlan]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SoftwarePlan]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[SoftwarePlan](
@@ -1787,18 +1530,14 @@ CREATE TABLE [dbo].[SoftwarePlan](
 	[Code] [varchar](5) NOT NULL,
 	[IsDeleted] [bit] NOT NULL,
 	[Cost] [decimal](16, 2) NOT NULL,
- CONSTRAINT [PK_SoftwarePlan] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_SoftwarePlan] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[State]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[State]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[State](
@@ -1808,36 +1547,44 @@ CREATE TABLE [dbo].[State](
 	[TitleEWay] [nvarchar](100) NOT NULL,
 	[Code] [varchar](5) NOT NULL,
 	[CountryId] [smallint] NOT NULL,
- CONSTRAINT [PK_State] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_State] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Taluka]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
+
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SystemSetting]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[SystemSetting](
+	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
+	[NewRegistrationFirmTypeId] [smallint] NOT NULL,
+	[NewRegistrationGstFirmTypeId] [tinyint] NOT NULL,
+	[NewRegistrationSoftwareId] [tinyint] NOT NULL,
+	[NewRegistrationFirmBranchTypeId] [tinyint] NOT NULL,
+	CONSTRAINT [PK_SystemSetting] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+END
 GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Taluka]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Taluka](
 	[Id] [int] NOT NULL,
 	[Title] [nvarchar](100) NOT NULL,
 	[DistrictId] [int] NOT NULL,
- CONSTRAINT [PK_Taluka] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Taluka] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportDesc]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportDesc]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportDesc](
@@ -1853,18 +1600,14 @@ CREATE TABLE [dbo].[TransportDesc](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_TransportDesc] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_TransportDesc] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportDescAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportDescAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportDescAdmin](
@@ -1872,18 +1615,14 @@ CREATE TABLE [dbo].[TransportDescAdmin](
 	[Title] [nvarchar](100) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_TransportDescAdmin] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_TransportDescAdmin] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRBranchCityMapping]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRBranchCityMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRBranchCityMapping](
@@ -1895,18 +1634,14 @@ CREATE TABLE [dbo].[TransportLRBranchCityMapping](
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
- CONSTRAINT [PK_TransportBranchCityMapping] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_TransportBranchCityMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRCharges]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRCharges]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRCharges](
@@ -1914,18 +1649,14 @@ CREATE TABLE [dbo].[TransportLRCharges](
 	[Title] [nvarchar](30) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_TransportLRCharges] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_TransportLRCharges] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRDelivery]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRDelivery]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRDelivery](
@@ -1933,18 +1664,14 @@ CREATE TABLE [dbo].[TransportLRDelivery](
 	[Title] [nvarchar](20) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_TransportLRDelivery] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_TransportLRDelivery] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRDeliveryType]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRDeliveryType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRDeliveryType](
@@ -1952,18 +1679,14 @@ CREATE TABLE [dbo].[TransportLRDeliveryType](
 	[Title] [nvarchar](20) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_TransportLRDeliveryType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_TransportLRDeliveryType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRPayType]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRPayType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRPayType](
@@ -1971,18 +1694,14 @@ CREATE TABLE [dbo].[TransportLRPayType](
 	[Title] [nvarchar](10) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_TransportLRPayType] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_TransportLRPayType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRRateOn]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRRateOn]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRRateOn](
@@ -1990,18 +1709,14 @@ CREATE TABLE [dbo].[TransportLRRateOn](
 	[Title] [nvarchar](10) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_TransportLRRateOn] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_TransportLRRateOn] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportPacking]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportPacking]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportPacking](
@@ -2017,18 +1732,14 @@ CREATE TABLE [dbo].[TransportPacking](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_TransportPacking] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_TransportPacking] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportPackingAdmin]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportPackingAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportPackingAdmin](
@@ -2036,18 +1747,14 @@ CREATE TABLE [dbo].[TransportPackingAdmin](
 	[Title] [nvarchar](30) NULL,
 	[OrderNumber] [tinyint] NULL,
 	[IsDeleted] [bit] NOT NULL,
- CONSTRAINT [PK_TransportPackingAdmin] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_TransportPackingAdmin] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[VehicleModel]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[VehicleModel]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[VehicleModel](
@@ -2062,18 +1769,14 @@ CREATE TABLE [dbo].[VehicleModel](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_VehcileModel] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_VehcileModel] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[VehicleOwner]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[VehicleOwner]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[VehicleOwner](
@@ -2096,18 +1799,14 @@ CREATE TABLE [dbo].[VehicleOwner](
 	[ModifiedOn] [datetime] NULL,
 	[AdharUID] [varchar](12) NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_VehicleOwner] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_VehicleOwner] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Vehilcle]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Vehilcle]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Vehilcle](
@@ -2137,18 +1836,14 @@ CREATE TABLE [dbo].[Vehilcle](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[IsActive] [bit] NOT NULL,
- CONSTRAINT [PK_Vehilcle] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Vehilcle] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-AccountOutStanding-Z]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-AccountOutStanding-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-AccountOutStanding-Z](
@@ -2165,18 +1860,14 @@ CREATE TABLE [dbo].[Z-AccountOutStanding-Z](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_Z-AccountOutStanding-Z] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Z-AccountOutStanding-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-CreditDebitNoteDetail-Z]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-CreditDebitNoteDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-CreditDebitNoteDetail-Z](
@@ -2196,18 +1887,14 @@ CREATE TABLE [dbo].[Z-CreditDebitNoteDetail-Z](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_Z-CreditDebitNoteDetail-Z] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Z-CreditDebitNoteDetail-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-CreditDebitNoteMaster-Z]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-CreditDebitNoteMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-CreditDebitNoteMaster-Z](
@@ -2254,18 +1941,14 @@ CREATE TABLE [dbo].[Z-CreditDebitNoteMaster-Z](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_Z-CreditDebitNoteMaster-Z] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Z-CreditDebitNoteMaster-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-JournalDetail-Z]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-JournalDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-JournalDetail-Z](
@@ -2284,18 +1967,14 @@ CREATE TABLE [dbo].[Z-JournalDetail-Z](
 	[ReconcileDate] [datetime] NULL,
 	[BillNumberDetail] [nvarchar](400) NULL,
 	[ParentJournalDetailId] [int] NULL,
- CONSTRAINT [PK_Z-JournalDetail-Z] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Z-JournalDetail-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-JournalMaster-Z]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-JournalMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-JournalMaster-Z](
@@ -2313,18 +1992,14 @@ CREATE TABLE [dbo].[Z-JournalMaster-Z](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_Z-JournalMst-Z] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Z-JournalMst-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-LRBooking-Z]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-LRBooking-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-LRBooking-Z](
@@ -2374,18 +2049,14 @@ CREATE TABLE [dbo].[Z-LRBooking-Z](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_Z-ChallanLR-Z] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Z-ChallanLR-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-PurchaseBillDetail-Z]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-PurchaseBillDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-PurchaseBillDetail-Z](
@@ -2437,18 +2108,14 @@ CREATE TABLE [dbo].[Z-PurchaseBillDetail-Z](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_Z-BillDetail-Z] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Z-BillDetail-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-PurchaseBillMaster-Z]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-PurchaseBillMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-PurchaseBillMaster-Z](
@@ -2517,18 +2184,14 @@ CREATE TABLE [dbo].[Z-PurchaseBillMaster-Z](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_Z-BillMaster-Z] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Z-BillMaster-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-SalesBillDetailExport-Z]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-SalesBillDetailExport-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-SalesBillDetailExport-Z](
@@ -2540,18 +2203,14 @@ CREATE TABLE [dbo].[Z-SalesBillDetailExport-Z](
 	[NetWeight] [decimal](6, 2) NULL,
 	[GrossWeight] [decimal](6, 2) NULL,
 	[Remarks] [nvarchar](20) NULL,
- CONSTRAINT [PK_Z-SalesBillDetailExport-Z] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Z-SalesBillDetailExport-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-SalesBillDetail-Z]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-SalesBillDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-SalesBillDetail-Z](
@@ -2604,18 +2263,14 @@ CREATE TABLE [dbo].[Z-SalesBillDetail-Z](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_Z-SalesBillDetail-Z] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Z-SalesBillDetail-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-SalesBillMaster-Z]    Script Date: 04/03/2023 11:13:08 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-SalesBillMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-SalesBillMaster-Z](
@@ -2690,7 +2345,7 @@ CREATE TABLE [dbo].[Z-SalesBillMaster-Z](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
- CONSTRAINT [PK_Z-SalesBillmaster-Z] PRIMARY KEY CLUSTERED 
+	CONSTRAINT [PK_Z-SalesBillmaster-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
@@ -8624,6 +8279,12 @@ INSERT [dbo].[State] ([Id], [Title], [TitleGSTR], [TitleEWay], [Code], [CountryI
 GO
 SET IDENTITY_INSERT [dbo].[State] OFF
 GO
+SET IDENTITY_INSERT [dbo].[SystemSetting] ON 
+GO
+INSERT [dbo].[SystemSetting] ([Id], [NewRegistrationFirmTypeId], [NewRegistrationGstFirmTypeId], [NewRegistrationSoftwareId], [NewRegistrationFirmBranchTypeId]) VALUES (1, 1, 1, 1, 1)
+GO
+SET IDENTITY_INSERT [dbo].[SystemSetting] OFF
+GO
 INSERT [dbo].[Taluka] ([Id], [Title], [DistrictId]) VALUES (1, N'Surat', 1)
 GO
 INSERT [dbo].[Taluka] ([Id], [Title], [DistrictId]) VALUES (2, N'Junagadh', 2)
@@ -8830,7 +8491,7 @@ SET IDENTITY_INSERT [dbo].[TransportPackingAdmin] OFF
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AccountGroupMaster]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupAdmin]') AND name = N'IX_AccountGroupMaster')
 ALTER TABLE [dbo].[AccountGroupAdmin] ADD  CONSTRAINT [IX_AccountGroupMaster] UNIQUE NONCLUSTERED 
 (
@@ -8839,7 +8500,7 @@ ALTER TABLE [dbo].[AccountGroupAdmin] ADD  CONSTRAINT [IX_AccountGroupMaster] UN
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AccountGroupMaster_1]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupAdmin]') AND name = N'IX_AccountGroupMaster_1')
 ALTER TABLE [dbo].[AccountGroupAdmin] ADD  CONSTRAINT [IX_AccountGroupMaster_1] UNIQUE NONCLUSTERED 
 (
@@ -8848,7 +8509,7 @@ ALTER TABLE [dbo].[AccountGroupAdmin] ADD  CONSTRAINT [IX_AccountGroupMaster_1] 
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AccountGroupHeaderMaster]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupHeaderAdmin]') AND name = N'IX_AccountGroupHeaderMaster')
 ALTER TABLE [dbo].[AccountGroupHeaderAdmin] ADD  CONSTRAINT [IX_AccountGroupHeaderMaster] UNIQUE NONCLUSTERED 
 (
@@ -8857,7 +8518,7 @@ ALTER TABLE [dbo].[AccountGroupHeaderAdmin] ADD  CONSTRAINT [IX_AccountGroupHead
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_BillType]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[BillTypeAdmin]') AND name = N'IX_BillType')
 ALTER TABLE [dbo].[BillTypeAdmin] ADD  CONSTRAINT [IX_BillType] UNIQUE NONCLUSTERED 
 (
@@ -8866,7 +8527,7 @@ ALTER TABLE [dbo].[BillTypeAdmin] ADD  CONSTRAINT [IX_BillType] UNIQUE NONCLUSTE
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_BookType]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[BookTypeAdmin]') AND name = N'IX_BookType')
 ALTER TABLE [dbo].[BookTypeAdmin] ADD  CONSTRAINT [IX_BookType] UNIQUE NONCLUSTERED 
 (
@@ -8875,7 +8536,7 @@ ALTER TABLE [dbo].[BookTypeAdmin] ADD  CONSTRAINT [IX_BookType] UNIQUE NONCLUSTE
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Broker]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Broker]') AND name = N'IX_Broker')
 CREATE NONCLUSTERED INDEX [IX_Broker] ON [dbo].[Broker]
 (
@@ -8885,7 +8546,7 @@ CREATE NONCLUSTERED INDEX [IX_Broker] ON [dbo].[Broker]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ColorAdmin]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ColorAdmin]') AND name = N'IX_ColorAdmin')
 ALTER TABLE [dbo].[ColorAdmin] ADD  CONSTRAINT [IX_ColorAdmin] UNIQUE NONCLUSTERED 
 (
@@ -8894,7 +8555,7 @@ ALTER TABLE [dbo].[ColorAdmin] ADD  CONSTRAINT [IX_ColorAdmin] UNIQUE NONCLUSTER
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_CountryMaster]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Country]') AND name = N'IX_CountryMaster')
 ALTER TABLE [dbo].[Country] ADD  CONSTRAINT [IX_CountryMaster] UNIQUE NONCLUSTERED 
 (
@@ -8903,7 +8564,7 @@ ALTER TABLE [dbo].[Country] ADD  CONSTRAINT [IX_CountryMaster] UNIQUE NONCLUSTER
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Account]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccount]') AND name = N'IX_Account')
 ALTER TABLE [dbo].[CustomerAccount] ADD  CONSTRAINT [IX_Account] UNIQUE NONCLUSTERED 
 (
@@ -8911,7 +8572,7 @@ ALTER TABLE [dbo].[CustomerAccount] ADD  CONSTRAINT [IX_Account] UNIQUE NONCLUST
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_CustomerAccountBranchMapping]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountBranchMapping]') AND name = N'IX_CustomerAccountBranchMapping')
 ALTER TABLE [dbo].[CustomerAccountBranchMapping] ADD  CONSTRAINT [IX_CustomerAccountBranchMapping] UNIQUE NONCLUSTERED 
 (
@@ -8921,7 +8582,7 @@ ALTER TABLE [dbo].[CustomerAccountBranchMapping] ADD  CONSTRAINT [IX_CustomerAcc
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AccountGroup]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountGroup]') AND name = N'IX_AccountGroup')
 ALTER TABLE [dbo].[CustomerAccountGroup] ADD  CONSTRAINT [IX_AccountGroup] UNIQUE NONCLUSTERED 
 (
@@ -8931,7 +8592,7 @@ ALTER TABLE [dbo].[CustomerAccountGroup] ADD  CONSTRAINT [IX_AccountGroup] UNIQU
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AccountGroup_1]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountGroup]') AND name = N'IX_AccountGroup_1')
 ALTER TABLE [dbo].[CustomerAccountGroup] ADD  CONSTRAINT [IX_AccountGroup_1] UNIQUE NONCLUSTERED 
 (
@@ -8941,7 +8602,7 @@ ALTER TABLE [dbo].[CustomerAccountGroup] ADD  CONSTRAINT [IX_AccountGroup_1] UNI
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_AccountGroupHeader]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountGroupHeader]') AND name = N'IX_AccountGroupHeader')
 ALTER TABLE [dbo].[CustomerAccountGroupHeader] ADD  CONSTRAINT [IX_AccountGroupHeader] UNIQUE NONCLUSTERED 
 (
@@ -8949,7 +8610,7 @@ ALTER TABLE [dbo].[CustomerAccountGroupHeader] ADD  CONSTRAINT [IX_AccountGroupH
 	[Title] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_CustomerBook]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBook]') AND name = N'IX_CustomerBook')
 ALTER TABLE [dbo].[CustomerBook] ADD  CONSTRAINT [IX_CustomerBook] UNIQUE NONCLUSTERED 
 (
@@ -8959,7 +8620,7 @@ ALTER TABLE [dbo].[CustomerBook] ADD  CONSTRAINT [IX_CustomerBook] UNIQUE NONCLU
 	[YearId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_CustomerBookBranchMapping]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBookBranchMapping]') AND name = N'IX_CustomerBookBranchMapping')
 ALTER TABLE [dbo].[CustomerBookBranchMapping] ADD  CONSTRAINT [IX_CustomerBookBranchMapping] UNIQUE NONCLUSTERED 
 (
@@ -8967,7 +8628,7 @@ ALTER TABLE [dbo].[CustomerBookBranchMapping] ADD  CONSTRAINT [IX_CustomerBookBr
 	[BranchId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_CustomerBrokerBranchMapping]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBrokerBranchMapping]') AND name = N'IX_CustomerBrokerBranchMapping')
 ALTER TABLE [dbo].[CustomerBrokerBranchMapping] ADD  CONSTRAINT [IX_CustomerBrokerBranchMapping] UNIQUE NONCLUSTERED 
 (
@@ -8977,7 +8638,7 @@ ALTER TABLE [dbo].[CustomerBrokerBranchMapping] ADD  CONSTRAINT [IX_CustomerBrok
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_CustomerFirmBranch]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranch]') AND name = N'IX_CustomerFirmBranch')
 ALTER TABLE [dbo].[CustomerFirmBranch] ADD  CONSTRAINT [IX_CustomerFirmBranch] UNIQUE NONCLUSTERED 
 (
@@ -8985,7 +8646,7 @@ ALTER TABLE [dbo].[CustomerFirmBranch] ADD  CONSTRAINT [IX_CustomerFirmBranch] U
 	[Title] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_CustomerFirmBranchLRRate]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchLRRate]') AND name = N'IX_CustomerFirmBranchLRRate')
 ALTER TABLE [dbo].[CustomerFirmBranchLRRate] ADD  CONSTRAINT [IX_CustomerFirmBranchLRRate] UNIQUE NONCLUSTERED 
 (
@@ -8993,7 +8654,7 @@ ALTER TABLE [dbo].[CustomerFirmBranchLRRate] ADD  CONSTRAINT [IX_CustomerFirmBra
 	[CityId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_CustomerFirmBranchTransportContractRateSetting]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchTransportContractRateSetting]') AND name = N'IX_CustomerFirmBranchTransportContractRateSetting')
 CREATE NONCLUSTERED INDEX [IX_CustomerFirmBranchTransportContractRateSetting] ON [dbo].[CustomerFirmBranchTransportContractRateSetting]
 (
@@ -9001,16 +8662,14 @@ CREATE NONCLUSTERED INDEX [IX_CustomerFirmBranchTransportContractRateSetting] ON
 	[CityId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-SET ANSI_PADDING ON
-GO
-/****** Object:  Index [IX_CustomerUser]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerUser]') AND name = N'IX_CustomerUser')
 ALTER TABLE [dbo].[CustomerUser] ADD  CONSTRAINT [IX_CustomerUser] UNIQUE NONCLUSTERED 
 (
-	[Username] ASC
+	[UserId] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_CustomerUserBranchMapping]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerUserBranchMapping]') AND name = N'IX_CustomerUserBranchMapping')
 ALTER TABLE [dbo].[CustomerUserBranchMapping] ADD  CONSTRAINT [IX_CustomerUserBranchMapping] UNIQUE NONCLUSTERED 
 (
@@ -9020,7 +8679,7 @@ ALTER TABLE [dbo].[CustomerUserBranchMapping] ADD  CONSTRAINT [IX_CustomerUserBr
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Driver]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Driver]') AND name = N'IX_Driver')
 CREATE NONCLUSTERED INDEX [IX_Driver] ON [dbo].[Driver]
 (
@@ -9030,7 +8689,7 @@ CREATE NONCLUSTERED INDEX [IX_Driver] ON [dbo].[Driver]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_DriverType]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[DriverTypeAdmin]') AND name = N'IX_DriverType')
 ALTER TABLE [dbo].[DriverTypeAdmin] ADD  CONSTRAINT [IX_DriverType] UNIQUE NONCLUSTERED 
 (
@@ -9039,7 +8698,7 @@ ALTER TABLE [dbo].[DriverTypeAdmin] ADD  CONSTRAINT [IX_DriverType] UNIQUE NONCL
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_FirmType]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[FirmTypeAdmin]') AND name = N'IX_FirmType')
 ALTER TABLE [dbo].[FirmTypeAdmin] ADD  CONSTRAINT [IX_FirmType] UNIQUE NONCLUSTERED 
 (
@@ -9048,7 +8707,7 @@ ALTER TABLE [dbo].[FirmTypeAdmin] ADD  CONSTRAINT [IX_FirmType] UNIQUE NONCLUSTE
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_GSTCalculation]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[GSTCalculation]') AND name = N'IX_GSTCalculation')
 ALTER TABLE [dbo].[GSTCalculation] ADD  CONSTRAINT [IX_GSTCalculation] UNIQUE NONCLUSTERED 
 (
@@ -9057,7 +8716,7 @@ ALTER TABLE [dbo].[GSTCalculation] ADD  CONSTRAINT [IX_GSTCalculation] UNIQUE NO
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_GSTCollection]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[GSTCollection]') AND name = N'IX_GSTCollection')
 ALTER TABLE [dbo].[GSTCollection] ADD  CONSTRAINT [IX_GSTCollection] UNIQUE NONCLUSTERED 
 (
@@ -9066,7 +8725,7 @@ ALTER TABLE [dbo].[GSTCollection] ADD  CONSTRAINT [IX_GSTCollection] UNIQUE NONC
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_GSTFirmType]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[GSTFirmType]') AND name = N'IX_GSTFirmType')
 ALTER TABLE [dbo].[GSTFirmType] ADD  CONSTRAINT [IX_GSTFirmType] UNIQUE NONCLUSTERED 
 (
@@ -9075,7 +8734,7 @@ ALTER TABLE [dbo].[GSTFirmType] ADD  CONSTRAINT [IX_GSTFirmType] UNIQUE NONCLUST
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_InvoiceType]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[GSTInvoiceType]') AND name = N'IX_InvoiceType')
 ALTER TABLE [dbo].[GSTInvoiceType] ADD  CONSTRAINT [IX_InvoiceType] UNIQUE NONCLUSTERED 
 (
@@ -9084,7 +8743,7 @@ ALTER TABLE [dbo].[GSTInvoiceType] ADD  CONSTRAINT [IX_InvoiceType] UNIQUE NONCL
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_GSTPort]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[GSTPort]') AND name = N'IX_GSTPort')
 ALTER TABLE [dbo].[GSTPort] ADD  CONSTRAINT [IX_GSTPort] UNIQUE NONCLUSTERED 
 (
@@ -9093,7 +8752,7 @@ ALTER TABLE [dbo].[GSTPort] ADD  CONSTRAINT [IX_GSTPort] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_GSTPort_1]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[GSTPort]') AND name = N'IX_GSTPort_1')
 ALTER TABLE [dbo].[GSTPort] ADD  CONSTRAINT [IX_GSTPort_1] UNIQUE NONCLUSTERED 
 (
@@ -9102,7 +8761,7 @@ ALTER TABLE [dbo].[GSTPort] ADD  CONSTRAINT [IX_GSTPort_1] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_GSTTransportMode]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[GSTTransportMode]') AND name = N'IX_GSTTransportMode')
 ALTER TABLE [dbo].[GSTTransportMode] ADD  CONSTRAINT [IX_GSTTransportMode] UNIQUE NONCLUSTERED 
 (
@@ -9111,7 +8770,7 @@ ALTER TABLE [dbo].[GSTTransportMode] ADD  CONSTRAINT [IX_GSTTransportMode] UNIQU
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_UQC]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[GSTUQC]') AND name = N'IX_UQC')
 ALTER TABLE [dbo].[GSTUQC] ADD  CONSTRAINT [IX_UQC] UNIQUE NONCLUSTERED 
 (
@@ -9120,7 +8779,7 @@ ALTER TABLE [dbo].[GSTUQC] ADD  CONSTRAINT [IX_UQC] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_UQC_1]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[GSTUQC]') AND name = N'IX_UQC_1')
 ALTER TABLE [dbo].[GSTUQC] ADD  CONSTRAINT [IX_UQC_1] UNIQUE NONCLUSTERED 
 (
@@ -9129,14 +8788,14 @@ ALTER TABLE [dbo].[GSTUQC] ADD  CONSTRAINT [IX_UQC_1] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_UQC_2]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[GSTUQC]') AND name = N'IX_UQC_2')
 ALTER TABLE [dbo].[GSTUQC] ADD  CONSTRAINT [IX_UQC_2] UNIQUE NONCLUSTERED 
 (
 	[CodeEWayBill] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_LRRange]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[LRBookingRange]') AND name = N'IX_LRRange')
 ALTER TABLE [dbo].[LRBookingRange] ADD  CONSTRAINT [IX_LRRange] UNIQUE NONCLUSTERED 
 (
@@ -9145,7 +8804,7 @@ ALTER TABLE [dbo].[LRBookingRange] ADD  CONSTRAINT [IX_LRRange] UNIQUE NONCLUSTE
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Product]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Product]') AND name = N'IX_Product')
 ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [IX_Product] UNIQUE NONCLUSTERED 
 (
@@ -9155,7 +8814,7 @@ ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [IX_Product] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Product_1]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Product]') AND name = N'IX_Product_1')
 ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [IX_Product_1] UNIQUE NONCLUSTERED 
 (
@@ -9165,7 +8824,7 @@ ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [IX_Product_1] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductAmtCalcOn]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductAmtCalcOn]') AND name = N'IX_ProductAmtCalcOn')
 CREATE NONCLUSTERED INDEX [IX_ProductAmtCalcOn] ON [dbo].[ProductAmtCalcOn]
 (
@@ -9173,7 +8832,7 @@ CREATE NONCLUSTERED INDEX [IX_ProductAmtCalcOn] ON [dbo].[ProductAmtCalcOn]
 	[Title] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_ProductBranchMapping]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductBranchMapping]') AND name = N'IX_ProductBranchMapping')
 ALTER TABLE [dbo].[ProductBranchMapping] ADD  CONSTRAINT [IX_ProductBranchMapping] UNIQUE NONCLUSTERED 
 (
@@ -9183,7 +8842,7 @@ ALTER TABLE [dbo].[ProductBranchMapping] ADD  CONSTRAINT [IX_ProductBranchMappin
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductCategory]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductCategory]') AND name = N'IX_ProductCategory')
 ALTER TABLE [dbo].[ProductCategory] ADD  CONSTRAINT [IX_ProductCategory] UNIQUE NONCLUSTERED 
 (
@@ -9192,7 +8851,7 @@ ALTER TABLE [dbo].[ProductCategory] ADD  CONSTRAINT [IX_ProductCategory] UNIQUE 
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductColor]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductColor]') AND name = N'IX_ProductColor')
 ALTER TABLE [dbo].[ProductColor] ADD  CONSTRAINT [IX_ProductColor] UNIQUE NONCLUSTERED 
 (
@@ -9202,7 +8861,7 @@ ALTER TABLE [dbo].[ProductColor] ADD  CONSTRAINT [IX_ProductColor] UNIQUE NONCLU
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductDesignNumber]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductDesignNumber]') AND name = N'IX_ProductDesignNumber')
 ALTER TABLE [dbo].[ProductDesignNumber] ADD  CONSTRAINT [IX_ProductDesignNumber] UNIQUE NONCLUSTERED 
 (
@@ -9212,7 +8871,7 @@ ALTER TABLE [dbo].[ProductDesignNumber] ADD  CONSTRAINT [IX_ProductDesignNumber]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductFabric]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductFabric]') AND name = N'IX_ProductFabric')
 ALTER TABLE [dbo].[ProductFabric] ADD  CONSTRAINT [IX_ProductFabric] UNIQUE NONCLUSTERED 
 (
@@ -9222,7 +8881,7 @@ ALTER TABLE [dbo].[ProductFabric] ADD  CONSTRAINT [IX_ProductFabric] UNIQUE NONC
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductGroup]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductGroup]') AND name = N'IX_ProductGroup')
 ALTER TABLE [dbo].[ProductGroup] ADD  CONSTRAINT [IX_ProductGroup] UNIQUE NONCLUSTERED 
 (
@@ -9232,7 +8891,7 @@ ALTER TABLE [dbo].[ProductGroup] ADD  CONSTRAINT [IX_ProductGroup] UNIQUE NONCLU
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductPacking]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductPacking]') AND name = N'IX_ProductPacking')
 ALTER TABLE [dbo].[ProductPacking] ADD  CONSTRAINT [IX_ProductPacking] UNIQUE NONCLUSTERED 
 (
@@ -9242,7 +8901,7 @@ ALTER TABLE [dbo].[ProductPacking] ADD  CONSTRAINT [IX_ProductPacking] UNIQUE NO
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductQltyType]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductQualityType]') AND name = N'IX_ProductQltyType')
 ALTER TABLE [dbo].[ProductQualityType] ADD  CONSTRAINT [IX_ProductQltyType] UNIQUE NONCLUSTERED 
 (
@@ -9251,7 +8910,7 @@ ALTER TABLE [dbo].[ProductQualityType] ADD  CONSTRAINT [IX_ProductQltyType] UNIQ
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductShadeNumber]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductShadeNumber]') AND name = N'IX_ProductShadeNumber')
 ALTER TABLE [dbo].[ProductShadeNumber] ADD  CONSTRAINT [IX_ProductShadeNumber] UNIQUE NONCLUSTERED 
 (
@@ -9261,7 +8920,7 @@ ALTER TABLE [dbo].[ProductShadeNumber] ADD  CONSTRAINT [IX_ProductShadeNumber] U
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductSize]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductSize]') AND name = N'IX_ProductSize')
 ALTER TABLE [dbo].[ProductSize] ADD  CONSTRAINT [IX_ProductSize] UNIQUE NONCLUSTERED 
 (
@@ -9271,7 +8930,7 @@ ALTER TABLE [dbo].[ProductSize] ADD  CONSTRAINT [IX_ProductSize] UNIQUE NONCLUST
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductSizeAdmin]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductSizeAdmin]') AND name = N'IX_ProductSizeAdmin')
 ALTER TABLE [dbo].[ProductSizeAdmin] ADD  CONSTRAINT [IX_ProductSizeAdmin] UNIQUE NONCLUSTERED 
 (
@@ -9280,7 +8939,7 @@ ALTER TABLE [dbo].[ProductSizeAdmin] ADD  CONSTRAINT [IX_ProductSizeAdmin] UNIQU
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductStockType]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductStockType]') AND name = N'IX_ProductStockType')
 ALTER TABLE [dbo].[ProductStockType] ADD  CONSTRAINT [IX_ProductStockType] UNIQUE NONCLUSTERED 
 (
@@ -9289,7 +8948,7 @@ ALTER TABLE [dbo].[ProductStockType] ADD  CONSTRAINT [IX_ProductStockType] UNIQU
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductSubGroup]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductSubGroup]') AND name = N'IX_ProductSubGroup')
 ALTER TABLE [dbo].[ProductSubGroup] ADD  CONSTRAINT [IX_ProductSubGroup] UNIQUE NONCLUSTERED 
 (
@@ -9299,7 +8958,7 @@ ALTER TABLE [dbo].[ProductSubGroup] ADD  CONSTRAINT [IX_ProductSubGroup] UNIQUE 
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ReportTemplate]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ReportTemplate]') AND name = N'IX_ReportTemplate')
 ALTER TABLE [dbo].[ReportTemplate] ADD  CONSTRAINT [IX_ReportTemplate] UNIQUE NONCLUSTERED 
 (
@@ -9309,7 +8968,7 @@ ALTER TABLE [dbo].[ReportTemplate] ADD  CONSTRAINT [IX_ReportTemplate] UNIQUE NO
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_SalesBillFromAdmin]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[SalesBillFromAdmin]') AND name = N'IX_SalesBillFromAdmin')
 ALTER TABLE [dbo].[SalesBillFromAdmin] ADD  CONSTRAINT [IX_SalesBillFromAdmin] UNIQUE NONCLUSTERED 
 (
@@ -9318,7 +8977,7 @@ ALTER TABLE [dbo].[SalesBillFromAdmin] ADD  CONSTRAINT [IX_SalesBillFromAdmin] U
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Software]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Software]') AND name = N'IX_Software')
 ALTER TABLE [dbo].[Software] ADD  CONSTRAINT [IX_Software] UNIQUE NONCLUSTERED 
 (
@@ -9327,7 +8986,7 @@ ALTER TABLE [dbo].[Software] ADD  CONSTRAINT [IX_Software] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_TransportDesc]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportDesc]') AND name = N'IX_TransportDesc')
 ALTER TABLE [dbo].[TransportDesc] ADD  CONSTRAINT [IX_TransportDesc] UNIQUE NONCLUSTERED 
 (
@@ -9337,14 +8996,14 @@ ALTER TABLE [dbo].[TransportDesc] ADD  CONSTRAINT [IX_TransportDesc] UNIQUE NONC
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_TransportDescAdmin]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportDescAdmin]') AND name = N'IX_TransportDescAdmin')
 ALTER TABLE [dbo].[TransportDescAdmin] ADD  CONSTRAINT [IX_TransportDescAdmin] UNIQUE NONCLUSTERED 
 (
 	[Title] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_TransportBranchCityMapping]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRBranchCityMapping]') AND name = N'IX_TransportBranchCityMapping')
 ALTER TABLE [dbo].[TransportLRBranchCityMapping] ADD  CONSTRAINT [IX_TransportBranchCityMapping] UNIQUE NONCLUSTERED 
 (
@@ -9354,7 +9013,7 @@ ALTER TABLE [dbo].[TransportLRBranchCityMapping] ADD  CONSTRAINT [IX_TransportBr
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_TransportLRCharges]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRCharges]') AND name = N'IX_TransportLRCharges')
 ALTER TABLE [dbo].[TransportLRCharges] ADD  CONSTRAINT [IX_TransportLRCharges] UNIQUE NONCLUSTERED 
 (
@@ -9363,7 +9022,7 @@ ALTER TABLE [dbo].[TransportLRCharges] ADD  CONSTRAINT [IX_TransportLRCharges] U
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_TransportLRDelivery]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRDelivery]') AND name = N'IX_TransportLRDelivery')
 ALTER TABLE [dbo].[TransportLRDelivery] ADD  CONSTRAINT [IX_TransportLRDelivery] UNIQUE NONCLUSTERED 
 (
@@ -9372,7 +9031,7 @@ ALTER TABLE [dbo].[TransportLRDelivery] ADD  CONSTRAINT [IX_TransportLRDelivery]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_TransportLRDeliveryType]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRDeliveryType]') AND name = N'IX_TransportLRDeliveryType')
 ALTER TABLE [dbo].[TransportLRDeliveryType] ADD  CONSTRAINT [IX_TransportLRDeliveryType] UNIQUE NONCLUSTERED 
 (
@@ -9381,7 +9040,7 @@ ALTER TABLE [dbo].[TransportLRDeliveryType] ADD  CONSTRAINT [IX_TransportLRDeliv
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_TransportLRPayType]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRPayType]') AND name = N'IX_TransportLRPayType')
 ALTER TABLE [dbo].[TransportLRPayType] ADD  CONSTRAINT [IX_TransportLRPayType] UNIQUE NONCLUSTERED 
 (
@@ -9390,7 +9049,7 @@ ALTER TABLE [dbo].[TransportLRPayType] ADD  CONSTRAINT [IX_TransportLRPayType] U
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_TransportLRRateOn]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRRateOn]') AND name = N'IX_TransportLRRateOn')
 CREATE NONCLUSTERED INDEX [IX_TransportLRRateOn] ON [dbo].[TransportLRRateOn]
 (
@@ -9399,7 +9058,7 @@ CREATE NONCLUSTERED INDEX [IX_TransportLRRateOn] ON [dbo].[TransportLRRateOn]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_TransportPacking]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportPacking]') AND name = N'IX_TransportPacking')
 ALTER TABLE [dbo].[TransportPacking] ADD  CONSTRAINT [IX_TransportPacking] UNIQUE NONCLUSTERED 
 (
@@ -9409,7 +9068,7 @@ ALTER TABLE [dbo].[TransportPacking] ADD  CONSTRAINT [IX_TransportPacking] UNIQU
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_TransportPackingAdmin]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportPackingAdmin]') AND name = N'IX_TransportPackingAdmin')
 ALTER TABLE [dbo].[TransportPackingAdmin] ADD  CONSTRAINT [IX_TransportPackingAdmin] UNIQUE NONCLUSTERED 
 (
@@ -9418,7 +9077,7 @@ ALTER TABLE [dbo].[TransportPackingAdmin] ADD  CONSTRAINT [IX_TransportPackingAd
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_VehcileModel]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[VehicleModel]') AND name = N'IX_VehcileModel')
 ALTER TABLE [dbo].[VehicleModel] ADD  CONSTRAINT [IX_VehcileModel] UNIQUE NONCLUSTERED 
 (
@@ -9427,7 +9086,7 @@ ALTER TABLE [dbo].[VehicleModel] ADD  CONSTRAINT [IX_VehcileModel] UNIQUE NONCLU
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_VehicleOwner]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[VehicleOwner]') AND name = N'IX_VehicleOwner')
 ALTER TABLE [dbo].[VehicleOwner] ADD  CONSTRAINT [IX_VehicleOwner] UNIQUE NONCLUSTERED 
 (
@@ -9437,7 +9096,7 @@ ALTER TABLE [dbo].[VehicleOwner] ADD  CONSTRAINT [IX_VehicleOwner] UNIQUE NONCLU
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_VehicleOwner_1]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[VehicleOwner]') AND name = N'IX_VehicleOwner_1')
 ALTER TABLE [dbo].[VehicleOwner] ADD  CONSTRAINT [IX_VehicleOwner_1] UNIQUE NONCLUSTERED 
 (
@@ -9447,7 +9106,7 @@ ALTER TABLE [dbo].[VehicleOwner] ADD  CONSTRAINT [IX_VehicleOwner_1] UNIQUE NONC
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Vehilcle]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Vehilcle]') AND name = N'IX_Vehilcle')
 ALTER TABLE [dbo].[Vehilcle] ADD  CONSTRAINT [IX_Vehilcle] UNIQUE NONCLUSTERED 
 (
@@ -9457,7 +9116,7 @@ ALTER TABLE [dbo].[Vehilcle] ADD  CONSTRAINT [IX_Vehilcle] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Vehilcle_1]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Vehilcle]') AND name = N'IX_Vehilcle_1')
 ALTER TABLE [dbo].[Vehilcle] ADD  CONSTRAINT [IX_Vehilcle_1] UNIQUE NONCLUSTERED 
 (
@@ -9467,7 +9126,7 @@ ALTER TABLE [dbo].[Vehilcle] ADD  CONSTRAINT [IX_Vehilcle_1] UNIQUE NONCLUSTERED
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Vehilcle_2]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Vehilcle]') AND name = N'IX_Vehilcle_2')
 ALTER TABLE [dbo].[Vehilcle] ADD  CONSTRAINT [IX_Vehilcle_2] UNIQUE NONCLUSTERED 
 (
@@ -9475,7 +9134,7 @@ ALTER TABLE [dbo].[Vehilcle] ADD  CONSTRAINT [IX_Vehilcle_2] UNIQUE NONCLUSTERED
 	[EngineNumber] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_Z-ChallanLR-Z]    Script Date: 04/03/2023 11:13:09 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Z-LRBooking-Z]') AND name = N'IX_Z-ChallanLR-Z')
 ALTER TABLE [dbo].[Z-LRBooking-Z] ADD  CONSTRAINT [IX_Z-ChallanLR-Z] UNIQUE NONCLUSTERED 
 (
@@ -9736,6 +9395,16 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Customer_IsActive]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Customer] ADD  CONSTRAINT [DF_Customer_IsActive]  DEFAULT ((1)) FOR [IsActive]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Customer__Busine__149C0161]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Customer] ADD  CONSTRAINT [DF__Customer__Busine__149C0161]  DEFAULT ('') FOR [BusinessName]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Customer__AgreeT__4356F04A]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Customer] ADD  DEFAULT ((0)) FOR [AgreeTerms]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccount_CountryId]') AND type = 'D')
@@ -13773,3 +13442,4 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.fn_listextendedproperty(N'MS_Description' , N'SCHEMA',N'dbo', N'TABLE',N'Z-SalesBillMaster-Z', N'COLUMN',N'InvoiceMemo'))
 	EXEC sys.sp_addextendedproperty @name=N'MS_Description', @value=N'C= Cash D=Debit' , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'Z-SalesBillMaster-Z', @level2type=N'COLUMN',@level2name=N'InvoiceMemo'
 GO
+	

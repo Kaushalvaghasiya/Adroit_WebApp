@@ -2,14 +2,19 @@
 $(function(){
    'use strict';
 
+   
    $('.select2').select2({
-	 minimumResultsForSearch: Infinity
-   });
+    placeholder: 'Choose one',
+     searchInputPlaceholder: 'Search',
+     minimumResultsForSearch: Infinity,
+      width: '100%'
+    });
 
-   // Select2 by showing the search
-   $('.select2-show-search').select2({
-	 minimumResultsForSearch: ''
-   });
+     $('.select2-show-search').select2({
+      placeholder: 'Choose one',
+    searchInputPlaceholder: 'Search',
+       width: '100%'
+  });
 
    // Colored Hover
    $('#select2').select2({

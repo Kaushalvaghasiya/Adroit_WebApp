@@ -3,6 +3,7 @@ using System.Diagnostics;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Data;
+using Adroit.Accounting.Utility;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -15,7 +16,6 @@ namespace Adroit.Accounting.Web.Controllers
             _logger = logger;
         }
 
-        [Authorize(Roles = Utility.Constant.RoleBackOfficeAdmin + "," + Utility.Constant.RoleBackOfficeUser + "," + Utility.Constant.RoleCustomerAdmin + "," + Utility.Constant.RoleCustomerUser)]
         public IActionResult Index()
         {
             return View();

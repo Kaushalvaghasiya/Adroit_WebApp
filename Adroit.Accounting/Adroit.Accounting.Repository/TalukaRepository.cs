@@ -5,13 +5,13 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class TalukaRepository : ITalukaRepository
+    public class TalukaRepository : ITaluka
     {
-        public List<Taluka> GetTalukaList(string connectionString, int districtId = 0)
+        public List<Model.Taluka> GetTalukaList(string connectionString, int districtId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@DistrictId", districtId);
-            return QueryHelper.GetList<Taluka>("sp_TalukaList_Select", connectionString, parameters);
+            return QueryHelper.GetList<Model.Taluka>("sp_TalukaList_Select", connectionString, parameters);
         }
     }
 }

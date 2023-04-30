@@ -10,17 +10,17 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public class CommonController : Controller
     {
-        private IStateRepository _stateRepo;
-        private ICityRepository _cityRepo;
-        private ICountryRepository _countryRepo;
-        private ITalukaRepository _talukaRepo;
-        private IDistrictRepository _districtRepo;
-        private IGSTInvoiceTypeRepository _gstInvoiceTypeRepo;
+        private IState _stateRepo;
+        private ICity _cityRepo;
+        private ICountry _countryRepo;
+        private ITaluka _talukaRepo;
+        private IDistrict _districtRepo;
+        private IGSTInvoiceType _gstInvoiceTypeRepo;
         private readonly ConfigurationData _configurationData;
 
-        public CommonController(IOptions<ConfigurationData> configurationData, IStateRepository stateRepo, ICityRepository cityRepo, 
-                ICountryRepository countryRepo, IDistrictRepository districtRepo, ITalukaRepository talukaRepository, 
-                IGSTInvoiceTypeRepository gstInvoiceTypeRepo)
+        public CommonController(IOptions<ConfigurationData> configurationData, IState stateRepo, ICity cityRepo, 
+                ICountry countryRepo, IDistrict districtRepo, ITaluka talukaRepository, 
+                IGSTInvoiceType gstInvoiceTypeRepo)
         {
             _stateRepo = stateRepo;
             _cityRepo = cityRepo;

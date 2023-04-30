@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Adroit.Accounting.Repository
 {
-    public class BusinessRepository:IBusinessRepository
+    public class BusinessRepository:IBusiness
     {
-        public List<Business> GetBusinessList(string connectionString)
+        public List<Model.Business> GetBusinessList(string connectionString)
         {
             var parameters = new DynamicParameters();
-            return QueryHelper.GetList<Business>("sp_BusinessList_Select", connectionString, parameters);
+            return QueryHelper.GetList<Model.Business>("sp_BusinessList_Select", connectionString, parameters);
         }
     }
 }

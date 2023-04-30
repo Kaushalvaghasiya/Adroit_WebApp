@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 
 namespace Adroit.Accounting.Repository
 {
-    public class CountryRepository : ICountryRepository
+    public class CountryRepository : ICountry
     {
-        public List<Country> GetCountryList(string connectionString)
+        public List<Model.Country> GetCountryList(string connectionString)
         {
             var parameters = new DynamicParameters();
-            return QueryHelper.GetList<Country>("sp_CountryList_Select", connectionString, parameters);
+            return QueryHelper.GetList<Model.Country>("sp_CountryList_Select", connectionString, parameters);
         }
     }
 }

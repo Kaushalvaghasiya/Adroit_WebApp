@@ -1,32 +1,27 @@
 ﻿using Adroit.Accounting.Model;
-using Adroit.Accounting.Model.Enums;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
-using System.Data;
 
 namespace Adroit.Accounting.Web.Controllers
 {
     public class CustomerController : Controller
     {
-        protected readonly ICustomerAccountRepository _customerAccountRepo;
-        protected readonly ICustomerBrokerBranchMappingRepository _customerBrokerBranchMappingRepo;
-        protected readonly ICustomerAccountGroupRepository _customerAccountGroupRepo;
+        protected readonly ICustomerAccount _customerAccountRepo;
+        protected readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
+        protected readonly ICustomerAccountGroup _customerAccountGroupRepo;
         protected readonly ConfigurationData _configurationData;
-        protected readonly EmailSetup _emailData;
-        public CustomerController(ICustomerAccountRepository customerAccountRepo,
-            IOptions<ConfigurationData> configurationData, IOptions<EmailSetup> emailData,
-            ICustomerBrokerBranchMappingRepository customerBrokerBranchMappingRepo,
-            ICustomerAccountGroupRepository customerAccountGroupRepo)
+        public CustomerController(ICustomerAccount customerAccountRepo,
+            IOptions<ConfigurationData> configurationData,
+            ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
+            ICustomerAccountGroup customerAccountGroupRepo)
         {
             _customerAccountRepo = customerAccountRepo;
             _configurationData = configurationData.Value;
-            _emailData = emailData.Value;
             _customerBrokerBranchMappingRepo = customerBrokerBranchMappingRepo;
             _customerAccountGroupRepo = customerAccountGroupRepo;
         }

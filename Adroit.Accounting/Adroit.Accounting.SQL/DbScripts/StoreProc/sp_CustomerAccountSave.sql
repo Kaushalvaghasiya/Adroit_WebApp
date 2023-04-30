@@ -50,73 +50,85 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountSave]
 )
 AS
 BEGIN
-	IF EXISTS (SELECT 1 FROM CustomerAccount WHERE Id = @ID)
-		BEGIN
-			UPDATE CustomerAccount SET
-			[Name] = @Name
-			,PrintName = @PrintName
-			,AccountGroupId = @AccountGroupId
-			,Address1 = @Address1
-			,Address2 = @Address2
-			,Address3 = @Address3
-			,CityId = @CityId
-			,StateId = @StateId
-			,CountryId = @CountryId
-			,Pincode = @Pincode
-			,KM = @KM
-			,ContactPersonName = @ContactPersonName
-			,Mobile = @Mobile
-			,MobileAlternate = @MobileAlternate
-			,Email = @Email
-			,GSTNumber = @GSTNumber
-			,PAN = @PAN
-			,AreaName = @AreaName
-			,RateWithGST = @RateWithGST
-			,GSTInvoiceTypeId = @GSTInvoiceTypeId
-			,EximCode = @EximCode
-			,IsIGST = @IsIGST
-			,GSTNumberTransport = @GSTNumberTransport
-			,TransportName = @TransportName
-			,VehicleNumber = @VehicleNumber
-			,DeliveryAccountBranchMappingId = @DeliveryAccountBranchMappingId
-			,ShippingAccountBranchMappingId = @ShippingAccountBranchMappingId
-			,BrokerMappingId = @BrokerMappingId
-			,CreditDays = @CreditDays
-			,Discount = @Discount
-			,TDS = @TDS
-			,TCS = @TCS
-			,CreditLimit = @CreditLimit
-			,InterestRate = @InterestRate
-			,Commission = @Commission
-			,IsEcommerce = @IsEcommerce
-			,AdharUID = @AdharUID
-			,[TAN] = @TAN
-			,CompositParty = @CompositParty
-			,RCMParty = @RCMParty
-			,CapitalPercentage = @CapitalPercentage
-			,OwnerBranchId = @OwnerBranchId
-			,IsDeleted = @IsDeleted
-			,IsActive = @IsActive
-			WHERE Id = @Id
-			SELECT @Id;
-		END
-	ELSE
-		BEGIN
-			INSERT INTO CustomerAccount
-			([Name],PrintName,AccountGroupId,Address1,Address2,Address3,CityId,StateId,CountryId,Pincode,
-				KM,ContactPersonName,Mobile,MobileAlternate,Email,GSTNumber,PAN,AreaName,
-				RateWithGST,GSTInvoiceTypeId,EximCode,IsIGST,GSTNumberTransport,TransportName,VehicleNumber,
-				DeliveryAccountBranchMappingId,ShippingAccountBranchMappingId,BrokerMappingId,CreditDays,Discount,TDS,TCS,CreditLimit,
-				InterestRate,Commission,IsEcommerce,AdharUID,[TAN],CompositParty,RCMParty,CapitalPercentage,OwnerBranchId,IsDeleted,IsActive)
-			VALUES
-			(@Name,@PrintName,@AccountGroupId,@Address1,@Address2,@Address3,@CityId,@StateId,@CountryId,@Pincode,
-				@KM,@ContactPersonName,@Mobile,@MobileAlternate,@Email,@GSTNumber,@PAN,@AreaName,
-				@RateWithGST,@GSTInvoiceTypeId,@EximCode,@IsIGST,@GSTNumberTransport,@TransportName,@VehicleNumber,
-				@DeliveryAccountBranchMappingId,@ShippingAccountBranchMappingId,@BrokerMappingId,@CreditDays,@Discount,@TDS,@TCS,@CreditLimit,
-				@InterestRate,@Commission,@IsEcommerce,@AdharUID,@TAN,@CompositParty,@RCMParty,@CapitalPercentage,@OwnerBranchId,@IsDeleted,@IsActive)
+	BEGIN TRAN
+	BEGIN TRY
+		IF EXISTS (SELECT 1 FROM CustomerAccount WHERE Id = @Id)
+			BEGIN
+				UPDATE CustomerAccount SET
+				[Name] = @Name
+				,PrintName = @PrintName
+				,AccountGroupId = @AccountGroupId
+				,Address1 = @Address1
+				,Address2 = @Address2
+				,Address3 = @Address3
+				,CityId = @CityId
+				,StateId = @StateId
+				,CountryId = @CountryId
+				,Pincode = @Pincode
+				,KM = @KM
+				,ContactPersonName = @ContactPersonName
+				,Mobile = @Mobile
+				,MobileAlternate = @MobileAlternate
+				,Email = @Email
+				,GSTNumber = @GSTNumber
+				,PAN = @PAN
+				,AreaName = @AreaName
+				,RateWithGST = @RateWithGST
+				,GSTInvoiceTypeId = @GSTInvoiceTypeId
+				,EximCode = @EximCode
+				,IsIGST = @IsIGST
+				,GSTNumberTransport = @GSTNumberTransport
+				,TransportName = @TransportName
+				,VehicleNumber = @VehicleNumber
+				,DeliveryAccountBranchMappingId = @DeliveryAccountBranchMappingId
+				,ShippingAccountBranchMappingId = @ShippingAccountBranchMappingId
+				,BrokerMappingId = @BrokerMappingId
+				,CreditDays = @CreditDays
+				,Discount = @Discount
+				,TDS = @TDS
+				,TCS = @TCS
+				,CreditLimit = @CreditLimit
+				,InterestRate = @InterestRate
+				,Commission = @Commission
+				,IsEcommerce = @IsEcommerce
+				,AdharUID = @AdharUID
+				,[TAN] = @TAN
+				,CompositParty = @CompositParty
+				,RCMParty = @RCMParty
+				,CapitalPercentage = @CapitalPercentage
+				,OwnerBranchId = @OwnerBranchId
+				,IsDeleted = @IsDeleted
+				,IsActive = @IsActive
+				WHERE Id = @Id
+				SELECT @Id;
+			END
+		ELSE
+			BEGIN
+				INSERT INTO CustomerAccount
+				([Name],PrintName,AccountGroupId,Address1,Address2,Address3,CityId,StateId,CountryId,Pincode,
+					KM,ContactPersonName,Mobile,MobileAlternate,Email,GSTNumber,PAN,AreaName,
+					RateWithGST,GSTInvoiceTypeId,EximCode,IsIGST,GSTNumberTransport,TransportName,VehicleNumber,
+					DeliveryAccountBranchMappingId,ShippingAccountBranchMappingId,BrokerMappingId,CreditDays,Discount,TDS,TCS,CreditLimit,
+					InterestRate,Commission,IsEcommerce,AdharUID,[TAN],CompositParty,RCMParty,CapitalPercentage,OwnerBranchId,IsDeleted,IsActive)
+				VALUES
+				(@Name,@PrintName,@AccountGroupId,@Address1,@Address2,@Address3,@CityId,@StateId,@CountryId,@Pincode,
+					@KM,@ContactPersonName,@Mobile,@MobileAlternate,@Email,@GSTNumber,@PAN,@AreaName,
+					@RateWithGST,@GSTInvoiceTypeId,@EximCode,@IsIGST,@GSTNumberTransport,@TransportName,@VehicleNumber,
+					@DeliveryAccountBranchMappingId,@ShippingAccountBranchMappingId,@BrokerMappingId,@CreditDays,@Discount,@TDS,@TCS,@CreditLimit,
+					@InterestRate,@Commission,@IsEcommerce,@AdharUID,@TAN,@CompositParty,@RCMParty,@CapitalPercentage,@OwnerBranchId,@IsDeleted,@IsActive)
 
-			SET @Id = SCOPE_IDENTITY();
-			SELECT @Id;
-		END
+				SET @Id = SCOPE_IDENTITY();
+				SELECT @Id;
+			END
+	
+		COMMIT TRAN
+	END TRY
+	BEGIN CATCH
+		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
+		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
+		ROLLBACK TRAN
+
+		RAISERROR ('%s', 16, 1, @message);
+	END CATCH
 END
 GO

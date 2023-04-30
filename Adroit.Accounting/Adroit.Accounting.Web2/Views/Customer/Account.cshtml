@@ -519,7 +519,7 @@
                 }
                 else {
                     $("#CountryId").focus();
-                    ShowErrorMessage("Please select country.");
+                    showWarning("", "Please select country.");
                 }
             });
             $("#StateId").on('change', function (e) {
@@ -528,7 +528,7 @@
                     BindDistrictList(stateId);
                 } else {
                     $("#StateId").focus();
-                    ShowErrorMessage("Please select state.");
+                    showWarning("", "Please select state.");
                 }
             });
             $("#DistrictId").on('change', function (e) {
@@ -537,7 +537,7 @@
                     BindTalukaList(districtId);
                 } else {
                     $("#DistrictId").focus();
-                    ShowErrorMessage("Please select district.");
+                    showWarning("", "Please select district.");
                 }
             });
             $("#TalukaId").on('change', function (e) {
@@ -546,7 +546,7 @@
                     BindCityList(0, talukaId, 0);
                 } else {
                     $("#TalukaId").focus();
-                    ShowErrorMessage("Please select taluka.");
+                    showWarning("", "Please select taluka.");
                 }
             });
             BindCustomerAccountGroupList();
@@ -663,28 +663,28 @@
         function SaveDetail() {
             try {
                 //if ($("#CustomerId").length > 0 && $("#CustomerId").val() == "") {
-                //    ShowErrorMessage("Customer not found.");
+                //    showWarning("", "Customer not found.");
                 //    return;
                 //}
                 if ($("#Name").length > 0 && $("#Name").val() == "") {
-                    ShowErrorMessage("Please enter name.");
+                    showWarning("", "Please enter name.");
                     $("#Name").focus();
                     return;
                 }
                 if ($("#AccountGroupId").length > 0 && $("#AccountGroupId").val() == "") {
-                    ShowErrorMessage("Please select Account Group.");
+                    showWarning("", "Please select Account Group.");
                     $("#AccountGroupId").focus();
                     return;
                 }                
                 if ($("#GSTInvoiceTypeId").length > 0 && $("#GSTInvoiceTypeId").val() == "") {
-                    ShowErrorMessage("Please select GST Invoice Type.");
+                    showWarning("", "Please select GST Invoice Type.");
                     $("#GSTInvoiceTypeId").focus();
                     return;
                 }
                 
                 let isValidemail = IsEmail($("#Email").val());
                 if (!isValidemail) {
-                    ShowErrorMessage("Please enter valid email");
+                    showWarning("", "Please enter valid email");
                     return;
                 }
 
@@ -735,27 +735,27 @@
                 savedata.IsDeleted = false;
                 var jsonData = JSON.stringify(savedata);
                 console.log(jsonData);
-                //blockUI('container');
+                blockUI('container');
                 var retrundata = AjaxCall("POST", "@(Url.Action("SaveAccount", "Customer"))", jsonData,
                     function (data) {
-                        //unblockUI('container');
+                        unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fnReset();
-                            ShowSuccessMessage('Account saved successfully.');
+                            showWarning("", 'Account saved successfully.');
                             $("#Id").val(0);
                             datatablelist();
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
-                        //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        unblockUI('container');
+                        showError("", error.statusText);
                     });
             }
             catch (e) {
-                //unblockUI('container');
-                ShowErrorMessage(e.message);
+                unblockUI('container');
+                showError("", e.message);
                 //swal('Error', e.message, "error"); //warning,  success, error, info
             }
         }
@@ -823,8 +823,10 @@
                 id = $('#Id').val();
             }
             try {
+                blockUI('container');
                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteAccount"))" + "/" + id, "",
                     function (result) {
+                        unblockUI('container');
                         var str = "";
                         try {
                             if (result.result == RESULT_SUCCESS) {
@@ -837,18 +839,20 @@
                         }
                     },
                     function (error) {
+                        unblockUI('container');
                     });
             }
             catch (err) {
+                unblockUI('container');
             }
         }
 
         function BindGSTInvoiceTypeList() {
             try {
-                //blockUI('container');
+                blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GSTInvoiceTypes"))", "",
                     function (data) {
-                        //unblockUI('container');
+                        unblockUI('container');
                         var str = "";
                         str += "<option value='0'>Select GST Invoice Type</option>";
                         if (data.result == RESULT_SUCCESS) {
@@ -859,26 +863,26 @@
                             }
                             $("#GSTInvoiceTypeId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
-                        //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        unblockUI('container');
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
-                //unblockUI('container');
-                ShowErrorMessage(e.message);
+                unblockUI('container');
+                showError("", e.message);
             }
         }
         
         function BindCountryList() {
             try {
-                //blockUI('container');
+                blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCountries"))", "",
                     function (data) {
-                        //unblockUI('container');
+                        unblockUI('container');
                         var str = "";
                         str += "<option value='0'>Select Country</option>";
                         if (data.result == RESULT_SUCCESS) {
@@ -889,26 +893,26 @@
                             }
                             $("#CountryId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
-                        //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        unblockUI('container');
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
-                //unblockUI('container');
-                ShowErrorMessage(e.message);
+                unblockUI('container');
+                showError("", e.message);
             }
         }
         
         function BindStateList(countryId) {
             try {
-                //blockUI('container');
+                blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
                     function (data) {
-                        //unblockUI('container');
+                        unblockUI('container');
                         var str = "";
                         str += "<option value='0'>Select State</option>";
                         if (data.result == RESULT_SUCCESS) {
@@ -919,26 +923,26 @@
                             }
                             $("#StateId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
-                        //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        unblockUI('container');
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
-                //unblockUI('container');
-                ShowErrorMessage(e.message);
+                unblockUI('container');
+                showError("", e.message);
             }
         }
         
         function BindDistrictList(stateId) {
             try {
-                //blockUI('container');
+                blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetDistricts"))" + "?stateId=" + stateId, "",
                     function (data) {
-                        //unblockUI('container');
+                        unblockUI('container');
                         var str = "";
                         str += "<option value='0'>Select District</option>";
                         if (data.result == RESULT_SUCCESS) {
@@ -949,26 +953,26 @@
                             }
                             $("#DistrictId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
-                        //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        unblockUI('container');
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
-                //unblockUI('container');
-                ShowErrorMessage(e.message);
+                unblockUI('container');
+                showError("", e.message);
             }
         }
         
         function BindTalukaList(districtId) {
             try {
-                //blockUI('container');
+                blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetTalukas"))" + "?districtId=" + districtId, "",
                     function (data) {
-                        //unblockUI('container');
+                        unblockUI('container');
                         var str = "";
                         str += "<option value='0'>Select Taluka</option>";
                         if (data.result == RESULT_SUCCESS) {
@@ -979,26 +983,26 @@
                             }
                             $("#TalukaId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
-                        //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        unblockUI('container');
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
-                //unblockUI('container');
-                ShowErrorMessage(e.message);
+                unblockUI('container');
+                showError("", e.message);
             }
         }
         
         function BindCityList(stateId, talukaId, districtId) {
             try {
-                //blockUI('container');
+                blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?stateId=" + stateId + "&talukaId=" + talukaId + "&districtId=" + districtId, "",
                     function (data) {
-                        //unblockUI('container');
+                        unblockUI('container');
                         var str = "";
                         if (data.result == RESULT_SUCCESS) {
                             if (data.data.length > 0) {
@@ -1008,17 +1012,17 @@
                             }
                             $("#CityId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
-                        //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        unblockUI('container');
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
-                //unblockUI('container');
-                ShowErrorMessage(e.message);
+                unblockUI('container');
+                showError("", e.message);
             }
         }
 
@@ -1026,10 +1030,10 @@
             var str = "";
             str += "<option value='0'>Select Account Group</option>";
             try {
-                //blockUI('container');
+                blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetAccountGroups"))", "",
                     function (data) {
-                        //unblockUI('container');
+                        unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             if (data.data.length > 0) {
                                 for (var i = 0; i < data.data.length; i++) {
@@ -1037,27 +1041,27 @@
                                 }
                             }
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
-                        //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        unblockUI('container');
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
-                //unblockUI('container');
-                ShowErrorMessage(e.message);
+                unblockUI('container');
+                showError("", e.message);
             }
             $("#AccountGroupId").html(str);
         }
         
         function BindCustomerBrokerBranchMappingList() {
             try {
-                //blockUI('container');
+                blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetBroker"))", "",
                     function (data) {
-                        //unblockUI('container');
+                        unblockUI('container');
                         var str = "";
                         str += "<option value='0'>Select Broker</option>";
                         if (data.result == RESULT_SUCCESS) {
@@ -1068,26 +1072,26 @@
                             }
                             $("#BrokerMappingId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
-                        //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        unblockUI('container');
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
-                //unblockUI('container');
-                ShowErrorMessage(e.message);
+                unblockUI('container');
+                showError("", e.message);
             }
         }
         
         function BindCustomerAccountList() {
             try {
-                //blockUI('container');
+                blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetAccounts"))", "",
                     function (data) {
-                        //unblockUI('container');
+                        unblockUI('container');
                         var str = "";
                         str += "<option value='0'>Select Account</option>";
                         if (data.result == RESULT_SUCCESS) {
@@ -1101,17 +1105,17 @@
                             $("#ShippingAccountBranchMappingId").html(str);
                             $("#DeliveryAccountBranchMappingId").html(str);
                         } else {
-                            ShowErrorMessage(data.data);
+                            showError("", data.data);
                         }
                     },
                     function (error) {
-                        //unblockUI('container');
-                        ShowErrorMessage(error.statusText);
+                        unblockUI('container');
+                        showError("", error.statusText);
                     });
             }
             catch (err) {
-                //unblockUI('container');
-                ShowErrorMessage(e.message);
+                unblockUI('container');
+                showError("", e.message);
             }
         }
     </script>

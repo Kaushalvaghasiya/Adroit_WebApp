@@ -1,11 +1,13 @@
-﻿using Adroit.Accounting.Web2.Utility;
+﻿using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.Utility;
+using Adroit.Accounting.Web.Models;
+using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Options;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -15,28 +17,40 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly ILogger<LoginController> _logger;
+        private readonly ConfigurationData _configurationData;
+        private readonly IUser _userRepository;
+        private readonly ICustomer _customerRepository;
         public LoginController(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
-            ILogger<LoginController> logger)
+            ILogger<LoginController> logger,
+            IOptions<ConfigurationData> configurationData,
+            IUser userRepository,
+            ICustomer customerRepository)
         {
             _userManager = userManager;
             _userStore = userStore;
             _signInManager = signInManager;
             _logger = logger;
+            _configurationData = configurationData.Value;
+            _userRepository = userRepository;
+            _customerRepository = customerRepository;
         }
+
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            // Clear the existing external cookie to ensure a clean login process
-            //await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            if (User?.Identity?.IsAuthenticated ?? false)
+            {
+                return LocalRedirect($"~/");
+            }
 
             return View();
         }
 
-        [HttpPost]
         [AllowAnonymous]
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(Model.Login model, string? returnUrl = "")
         {
@@ -54,18 +68,28 @@ namespace Adroit.Accounting.Web.Controllers
                     var user = await _userManager.FindByEmailAsync(model.Username);
                     //var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault() ?? "";
 
-                    //Get userdetails from CustomerUser table using above user.Id object.
-                    //var userDetail = _userRepository.GetUserDetail(Input.UserName, _sqlConfigurationData.WebappContextConnection);
+                    try
+                    {
+                        //Get userdetails from CustomerUser table using above user.Id object.
+                        var userDetail = _userRepository.Get(model.Username, _configurationData.DefaultConnection);
+                        var customer = _customerRepository.Get(userDetail.CustomerId, _configurationData.DefaultConnection);
 
-                    await LoginHandler.SetupLogin(HttpContext, model.Username, "Pass firstname + lastname here", Utility.Constant.RoleBackOfficeAdmin).ConfigureAwait(false);
+                        await LoginHandler.SetupLogin(HttpContext,
+                            model.Username,
+                            $"{userDetail.FirstName} {userDetail.LastName}",
+                            customer.CustomerType == Model.Enums.CustomerType.BackOffice ? UserType.BackOffice : UserType.Customer
+                            ).ConfigureAwait(false);
 
-                    _logger.LogInformation("User logged in using membership provider.");
-
+                        _logger.LogInformation("User logged in using membership provider.");
+                    }
+                    catch (Exception ex)
+                    {
+                    }
                     return LocalRedirect($"~/");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError("LoginError", "You have entered an invalid username or password.");
                     return View();
                 }
             }
