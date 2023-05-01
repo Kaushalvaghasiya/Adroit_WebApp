@@ -11,6 +11,7 @@ using System.Text;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text.Encodings.Web;
 using Adroit.Accounting.Model.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -45,6 +46,8 @@ namespace Adroit.Accounting.Web.Controllers
             _emailStore = GetEmailStore();
             _logger = logger;
         }
+        
+        [AllowAnonymous]
         public IActionResult Index()
         {
             RegistrationViewModel model = new RegistrationViewModel();
@@ -55,6 +58,8 @@ namespace Adroit.Accounting.Web.Controllers
 
             return View(model);
         }
+
+        [AllowAnonymous]
         [HttpPost]
         public async Task<JsonResult> Save([FromBody] RegistrationViewModel model)
         {
@@ -137,6 +142,8 @@ namespace Adroit.Accounting.Web.Controllers
 
             return Json(result);
         }
+        
+        [AllowAnonymous]
         private IdentityUser CreateUser()
         {
             try
@@ -150,6 +157,8 @@ namespace Adroit.Accounting.Web.Controllers
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
+
+        [AllowAnonymous]
         private IUserEmailStore<IdentityUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)
@@ -158,6 +167,8 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return (IUserEmailStore<IdentityUser>)_userStore;
         }
+
+        [AllowAnonymous]
         public JsonResult EmailExists(string email)
         {
             ApiResult result = new ApiResult();
