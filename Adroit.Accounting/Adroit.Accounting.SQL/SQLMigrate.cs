@@ -24,56 +24,66 @@ namespace Adroit.Accounting.SQL
 
             var scriptsPath = GetSqlScriptPath();
 
-            var upgradeConfig = DeployChanges.To
-                .SqlDatabase(builder.ConnectionString)
-                .WithScriptsFromFileSystem(Path.Combine(scriptsPath, "DbScripts\\Tables"))
-                .WithExecutionTimeout(TimeSpan.FromSeconds(timeoutHours * 3600));
-
-
-            var upgrader = upgradeConfig.Build();
-
-            var result = upgrader.PerformUpgrade();
-
-            if (!result.Successful)
+            var tablePath = Path.Combine(scriptsPath, "DbScripts\\Tables");
+            if (Directory.Exists(tablePath))
             {
-                Console.WriteLine($"Schema changes Exception: {result.Error.ToString()}");
-                throw result.Error;
+                var upgradeConfig = DeployChanges.To
+                    .SqlDatabase(builder.ConnectionString)
+                    .WithScriptsFromFileSystem(tablePath)
+                    .WithExecutionTimeout(TimeSpan.FromSeconds(timeoutHours * 3600));
+
+
+                var upgrader = upgradeConfig.Build();
+
+                var result = upgrader.PerformUpgrade();
+
+                if (!result.Successful)
+                {
+                    Console.WriteLine($"Schema changes Exception: {result.Error.ToString()}");
+                    throw result.Error;
+                }
             }
 
-            //
-            upgradeConfig = DeployChanges.To
-                            .SqlDatabase(builder.ConnectionString)
-                            .JournalTo(new NullJournal())
-                            .WithScriptsFromFileSystem(Path.Combine(scriptsPath, "DbScripts\\DataScript"))
-                            .WithExecutionTimeout(TimeSpan.FromSeconds(timeoutHours * 3600));
-
-            upgrader = upgradeConfig.Build();
-
-            result = upgrader.PerformUpgrade();
-
-            if (!result.Successful)
+            var dataPath = Path.Combine(scriptsPath, "DbScripts\\DataScript");
+            if (Directory.Exists(dataPath))
             {
-                Console.WriteLine($"Data Script Exception: {result.Error.ToString()}");
-                throw result.Error;
+                var upgradeConfig = DeployChanges.To
+                                .SqlDatabase(builder.ConnectionString)
+                                .JournalTo(new NullJournal())
+                                .WithScriptsFromFileSystem(dataPath)
+                                .WithExecutionTimeout(TimeSpan.FromSeconds(timeoutHours * 3600));
+
+                var upgrader = upgradeConfig.Build();
+
+                var result = upgrader.PerformUpgrade();
+
+                if (!result.Successful)
+                {
+                    Console.WriteLine($"Data Script Exception: {result.Error.ToString()}");
+                    throw result.Error;
+                }
             }
 
 
             // Execute Stored Procedure.
-
-            upgradeConfig = DeployChanges.To
-                .SqlDatabase(builder.ConnectionString)
-                .JournalTo(new NullJournal())
-                .WithScriptsFromFileSystem(Path.Combine(scriptsPath, "DbScripts\\StoreProc"))
-                .WithExecutionTimeout(TimeSpan.FromSeconds(timeoutHours * 3600));
-
-            upgrader = upgradeConfig.Build();
-
-            result = upgrader.PerformUpgrade();
-
-            if (!result.Successful)
+            var spPath = Path.Combine(scriptsPath, "DbScripts\\StoreProc");
+            if (Directory.Exists(spPath))
             {
-                Console.WriteLine($"Stored Procedure Exception: {result.Error.ToString()}");
-                throw result.Error;
+                var upgradeConfig = DeployChanges.To
+                    .SqlDatabase(builder.ConnectionString)
+                    .JournalTo(new NullJournal())
+                    .WithScriptsFromFileSystem(spPath)
+                    .WithExecutionTimeout(TimeSpan.FromSeconds(timeoutHours * 3600));
+
+                var upgrader = upgradeConfig.Build();
+
+                var result = upgrader.PerformUpgrade();
+
+                if (!result.Successful)
+                {
+                    Console.WriteLine($"Stored Procedure Exception: {result.Error.ToString()}");
+                    throw result.Error;
+                }
             }
 
             Console.ForegroundColor = ConsoleColor.Green;

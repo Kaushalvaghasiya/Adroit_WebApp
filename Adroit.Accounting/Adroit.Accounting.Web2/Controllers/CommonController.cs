@@ -5,6 +5,7 @@ using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -36,6 +37,7 @@ namespace Adroit.Accounting.Web.Controllers
             return View();
         }
 
+        [AllowAnonymous]
         public JsonResult GetCountries()
         {
             ApiResult result = new ApiResult();
@@ -52,6 +54,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        [AllowAnonymous]
         public JsonResult GetStates(int countryId)
         {
             ApiResult result = new ApiResult();
@@ -68,6 +71,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        [AllowAnonymous]
         public JsonResult GetDistricts(int stateId)
         {
             ApiResult result = new ApiResult();
@@ -84,6 +88,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        [AllowAnonymous]
         public JsonResult GetTalukas(int districtId)
         {
             ApiResult result = new ApiResult();
@@ -100,6 +105,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        [AllowAnonymous]
         public JsonResult GetCities(int stateId=0, int talukaId = 0, int districtId = 0)
         {
             ApiResult result = new ApiResult();
@@ -116,6 +122,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        [AllowAnonymous]
         public JsonResult GSTInvoiceTypes()
         {
             ApiResult result = new ApiResult();
