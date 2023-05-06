@@ -37,6 +37,7 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerSave", connectionString, parameters);
         }
+
         public int Register(Model.Customer customer, string connectionString)
         {
             var parameters = new DynamicParameters();
@@ -67,21 +68,26 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerCustomerRegistration", connectionString, parameters);
         }
+
         public Model.Customer Get(string email, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Email", email);
             return QueryHelper.GetTableDetail<Model.Customer>("sp_CustomerGetByEmail", connectionString, parameters);
         }
+
         public Model.Customer Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             return QueryHelper.GetTableDetail<Model.Customer>("sp_CustomerGet", connectionString, parameters);
         }
-        public List<Model.Customer> List(string connectionString, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+
+        public List<Model.Customer> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();
+            param.Add("@LoginId", loginId);
+            param.Add("@FirmId", firmId);
             param.Add("@Search", search);
             param.Add("@PageStart", pageStart);
             param.Add("@PageSize", pageSize);
@@ -89,6 +95,7 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<Model.Customer>("sp_CustomerList", connectionString, param);
         }
+
         public void Delete(int id, string connectionString)
         {
             var parameters = new DynamicParameters();

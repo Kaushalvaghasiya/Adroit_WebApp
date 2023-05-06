@@ -1,4 +1,6 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerList]
+  @LoginId int,
+  @FirmId int,  
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
