@@ -10,27 +10,8 @@ using System.Data;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class AdminBookController : AdminController
+    public partial class AdminController : Controller
     {
-        protected readonly IBookAdmin BookAdminRepo;
-        protected readonly IAccountAdmin AccountAdminRepo;
-        protected readonly IBillTypeAdmin BillTypeAdminRepo;
-        protected readonly IBillEntryTypeAdmin BillEntryTypeAdminRepo;
-        protected readonly ConfigurationData ConfigurationData;
-        public AdminBookController(
-            IOptions<ConfigurationData> configurationData,
-            IBookAdmin bookAdminRepo,
-            IAccountAdmin accountAdminRepo,
-            IBillTypeAdmin billTypeAdminRepo,
-            IBillEntryTypeAdmin billEntryTypeAdminRepo
-            )
-        {
-            ConfigurationData = configurationData.Value;
-            BookAdminRepo = bookAdminRepo;
-            AccountAdminRepo = accountAdminRepo;
-            BillTypeAdminRepo = billTypeAdminRepo;
-            BillEntryTypeAdminRepo = billEntryTypeAdminRepo;
-        }
         public IActionResult Index()
         {
             return View();
@@ -101,6 +82,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
+
         public JsonResult Delete(int id)
         {
             ApiResult result = new ApiResult();
