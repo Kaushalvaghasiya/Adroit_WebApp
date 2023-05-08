@@ -18,8 +18,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Address3", customer.Address3 ?? "");
             parameters.Add("@CityId", customer.CityId);
             parameters.Add("@StateId", customer.StateId);
-            parameters.Add("@EmailOtp", customer.EmailOtp);
-            parameters.Add("@MobileOtp", customer.MobileOtp);
+            parameters.Add("@PinCode", customer.Pincode);
             parameters.Add("@ContactPersonName", customer.ContactPersonName ?? customer.Name);
             parameters.Add("@Mobile", customer.Mobile);
             parameters.Add("@MobileAlternate", customer.MobileAlternate ?? "");
@@ -29,11 +28,15 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Requirement", customer.Requirement ?? "");
             parameters.Add("@TotalFirm", customer.TotalFirm);
             parameters.Add("@CustomerType", $"{(short)customer.CustomerType}");
+            parameters.Add("@IsDeleted", customer.IsDeleted);
             parameters.Add("@AdharUID", customer.AdharUID ?? "");
-            parameters.Add("@StatusId", $"{(short)customer.StatusId}");
             parameters.Add("@TotalUsers", customer.TotalUsers);
+            parameters.Add("@IsActive", customer.IsActive);
+            parameters.Add("@EmailOtp", customer.EmailOtp);
+            parameters.Add("@MobileOtp", customer.MobileOtp);
+            parameters.Add("@StatusId", $"{(short)customer.StatusId}");
+            parameters.Add("@BusinessName", $"{customer.BusinessName}");
             parameters.Add("@AgreeTerms", customer.AgreeTerms);
-            parameters.Add("@DefaultUserId", customer.DefaultUserId);
 
             return QueryHelper.Save("sp_CustomerSave", connectionString, parameters);
         }

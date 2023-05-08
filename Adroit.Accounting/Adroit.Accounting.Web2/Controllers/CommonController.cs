@@ -18,10 +18,11 @@ namespace Adroit.Accounting.Web.Controllers
         private IDistrict _districtRepo;
         private IGSTInvoiceType _gstInvoiceTypeRepo;
         private readonly ConfigurationData _configurationData;
+        private IBusiness _businessRepo;
 
-        public CommonController(IOptions<ConfigurationData> configurationData, IState stateRepo, ICity cityRepo, 
-                ICountry countryRepo, IDistrict districtRepo, ITaluka talukaRepository, 
-                IGSTInvoiceType gstInvoiceTypeRepo)
+        public CommonController(IOptions<ConfigurationData> configurationData, IState stateRepo, ICity cityRepo,
+                ICountry countryRepo, IDistrict districtRepo, ITaluka talukaRepository,
+                IGSTInvoiceType gstInvoiceTypeRepo, IBusiness business)
         {
             _stateRepo = stateRepo;
             _cityRepo = cityRepo;
@@ -30,6 +31,7 @@ namespace Adroit.Accounting.Web.Controllers
             _districtRepo = districtRepo;
             _talukaRepo = talukaRepository;
             _gstInvoiceTypeRepo = gstInvoiceTypeRepo;
+            _businessRepo = business;
         }
 
         public IActionResult Index()
@@ -106,7 +108,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [AllowAnonymous]
-        public JsonResult GetCities(int stateId=0, int talukaId = 0, int districtId = 0)
+        public JsonResult GetCities(int stateId = 0, int talukaId = 0, int districtId = 0)
         {
             ApiResult result = new ApiResult();
             try
@@ -129,6 +131,23 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _gstInvoiceTypeRepo.GetGSTInvoiceTypeList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetBusiness()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _businessRepo.GetBusinessList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

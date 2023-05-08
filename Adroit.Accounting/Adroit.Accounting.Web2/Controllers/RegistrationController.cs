@@ -28,6 +28,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegistrationController> _logger;
         private readonly IEmailService _emailService;
+
         public RegistrationController(ICustomer customerRepo, IState stateRepo, ICity cityRepo,
                 IOptions<ConfigurationData> configurationData, ICountry countryRepo,
                 IBusiness businessRepo, UserManager<IdentityUser> userManager, IUserStore<IdentityUser> userStore,
@@ -46,7 +47,7 @@ namespace Adroit.Accounting.Web.Controllers
             _emailStore = GetEmailStore();
             _logger = logger;
         }
-        
+
         [AllowAnonymous]
         public IActionResult Index()
         {
@@ -142,7 +143,7 @@ namespace Adroit.Accounting.Web.Controllers
 
             return Json(result);
         }
-        
+
         [AllowAnonymous]
         private IdentityUser CreateUser()
         {

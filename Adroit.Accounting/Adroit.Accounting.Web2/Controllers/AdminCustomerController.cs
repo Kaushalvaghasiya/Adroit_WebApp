@@ -40,5 +40,46 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
+
+        [HttpPost]
+        public JsonResult SaveCustomer([FromBody] Customer savedata)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                savedata.BusinessName = "test"; //Need to change after confimation
+                savedata.AgreeTerms = true;//Need to change after confimation
+                savedata.CustomerType = Model.Enums.CustomerType.Customer; // need to check how to pass enum value in json
+                int id = CustomerRepo.Save(savedata, ConfigurationData.DefaultConnection);
+                if (id > 0)
+                {
+                    result.data = true;
+                    result.result = Constant.API_RESULT_SUCCESS;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [HttpDelete]
+        public JsonResult DeleteCustomer(int id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                CustomerRepo.Delete(id, ConfigurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
     }
 }
