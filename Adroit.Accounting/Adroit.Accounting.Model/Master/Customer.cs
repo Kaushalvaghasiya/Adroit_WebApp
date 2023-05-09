@@ -33,7 +33,10 @@ namespace Adroit.Accounting.Model
         public short BusinessId { get; set; }
         public string Requirement { get; set; }
         public short? TotalFirm { get; set; }
+
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public CustomerType CustomerType { get; set; }
+
         public bool IsDeleted { get; set; }
         public string AdharUID { get; set; }
         public short TotalUsers { get; set; }
