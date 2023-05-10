@@ -49,7 +49,7 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 savedata.BusinessName = "test"; //Need to change after confimation
                 savedata.AgreeTerms = true;//Need to change after confimation
-                savedata.CustomerType = Model.Enums.CustomerType.Customer; // need to check how to pass enum value in json
+               // savedata.CustomerType = Model.Enums.CustomerType.Customer; // need to check how to pass enum value in json
                 int id = CustomerRepo.Save(savedata, ConfigurationData.DefaultConnection);
                 if (id > 0)
                 {
