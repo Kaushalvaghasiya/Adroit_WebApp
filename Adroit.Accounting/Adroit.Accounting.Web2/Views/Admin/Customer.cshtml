@@ -2,18 +2,6 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!--Select2 css -->
-<link href="@Url.Content("~/assets/plugins/select2/select2.min.css")" rel="stylesheet" type="text/css" />
-
-<!--Mutipleselect css-->
-<link href="@Url.Content("~/assets/plugins/multipleselect/multiple-select.css")" rel="stylesheet" type="text/css" />
-
-<!-- Data table css -->
-<link href="@Url.Content("~/assets/plugins/datatable/dataTables.bootstrap4.min.css")" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/assets/plugins/datatable/css/buttons.bootstrap4.min.css" )" rel="stylesheet" type="text/css" />
-<link href="@Url.Content("~/assets/plugins/datatable/responsivebootstrap4.min.css" )" rel="stylesheet" type="text/css" />
-
-
 <div class="dv-list side-app">
     <!-- page-header -->
     <div class="row">
@@ -282,38 +270,7 @@
 
 @section Scripts
     {
-<script src="@Url.Content("~/assets/plugins/select2/select2.full.min.js")"></script>
 
-<!--Jquery Sparkline js-->
-<script src="@Url.Content("~/assets/js/vendors/jquery.sparkline.min.js")"></script>
-
-<!-- Chart Circle js-->
-<script src="@Url.Content("~/assets/js/vendors/circle-progress.min.js")"></script>
-
-<!--Moment js-->
-<script src="@Url.Content("~/assets/plugins/moment/moment.min.js")"></script>
-
-<script src="@Url.Content("~/assets/plugins/select2/select2.full.min.js")"></script>
-<script src="@Url.Content("~/assets/js/select2.js")"></script>
-
-<!--MutipleSelect js-->
-<script src="@Url.Content("~/assets/plugins/multipleselect/multiple-select.js")"></script>
-<script src="@Url.Content("~/assets/plugins/multipleselect/multi-select.js")"></script>
-
-<!-- INTERNAL Data tables -->
-<script src="@Url.Content("~/assets/plugins/datatable/js/jquery.dataTables.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/js/dataTables.bootstrap4.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/js/dataTables.buttons.min.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/js/buttons.bootstrap4.min.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/js/jszip.min.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/js/pdfmake.min.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/js/vfs_fonts.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/js/buttons.html5.min.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/js/buttons.print.min.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/js/buttons.colVis.min.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/dataTables.responsive.min.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/responsive.bootstrap4.min.js")"></script>
-<script src="@Url.Content("~/assets/plugins/datatable/datatable-2.js")"></script>
 <script>
 
       var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
@@ -331,7 +288,7 @@
              $('.dv-list').slideDown();
          });
 
-         datatablelist();
+         //datatablelist();
 
          $(".buttons-copy").removeClass("btn-primary");
          $(".buttons-copy").addClass("btn-outline-primary");
@@ -357,8 +314,9 @@
 
          $(".buttons-colvis").empty();
          $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
-           BindBusinessList();
-           bindStateList();
+
+        BindBusinessList();
+        bindStateList();
           $("#dropState").on('change', function (e) {
                      let stateId = $(this).val();
                      if (stateId > 0) {
@@ -370,421 +328,421 @@
                  });
      });
 
-    //function datatablelist() {
-    //  let columns = [];
-    //  let colDef = [];
-    //          colDef.push({
-    //             "render": function (data, type, row) {
-    //                 return row.name;
-    //             },
-    //             "targets": colDef.length,
-    //             "orderable": false
-    //         });
-    //         colDef.push({
-    //             "render": function (data, type, row) {
-    //                 return row.customerType;
-    //             },
-    //             "targets": colDef.length,
-    //             "orderable": false
-    //         });
-    //         colDef.push({
-    //             "render": function (data, type, row) {
-    //                 return row.city;
-    //             },
-    //             "targets": colDef.length,
-    //             "orderable": false
-    //         });
-    //         colDef.push({
-    //             "render": function (data, type, row) {
-    //                 return row.mobile;
-    //             },
-    //             "targets": colDef.length,
-    //             "orderable": false
-    //         });
-    //         colDef.push({
-    //             "render": function (data, type, row) {
-    //                 return row.totalFirm;
-    //             },
-    //             "targets": colDef.length,
-    //             "orderable": false
-    //         });
-    //          colDef.push({
-    //             "render": function (data, type, row) {
-    //                 let btnAct = "<a onclick='GetDetail(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
-    //                 btnAct += " &nbsp;&nbsp; <a href='#' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
-    //                 btnAct += " &nbsp;&nbsp; <a onclick='Delete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
-    //                 return btnAct;
-    //             },
-    //             "targets": colDef.length,
-    //             "className": "text-center",
-    //             "orderable": false
-    //         });
+    function datatablelist() {
+      let columns = [];
+      let colDef = [];
+              colDef.push({
+                 "render": function (data, type, row) {
+                     return row.name;
+                 },
+                 "targets": colDef.length,
+                 "orderable": false
+             });
+             colDef.push({
+                 "render": function (data, type, row) {
+                     return row.customerType;
+                 },
+                 "targets": colDef.length,
+                 "orderable": false
+             });
+             colDef.push({
+                 "render": function (data, type, row) {
+                     return row.city;
+                 },
+                 "targets": colDef.length,
+                 "orderable": false
+             });
+             colDef.push({
+                 "render": function (data, type, row) {
+                     return row.mobile;
+                 },
+                 "targets": colDef.length,
+                 "orderable": false
+             });
+             colDef.push({
+                 "render": function (data, type, row) {
+                     return row.totalFirm;
+                 },
+                 "targets": colDef.length,
+                 "orderable": false
+             });
+              colDef.push({
+                 "render": function (data, type, row) {
+                     let btnAct = "<a onclick='GetDetail(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
+                     btnAct += " &nbsp;&nbsp; <a href='#' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
+                     btnAct += " &nbsp;&nbsp; <a onclick='Delete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                     return btnAct;
+                 },
+                 "targets": colDef.length,
+                 "className": "text-center",
+                 "orderable": false
+             });
 
-    //         columns.push({ "data": "Name", "name": "Name" });
-    //         columns.push({ "data": "CustomerType", "name": "CustomerType" });
-    //         columns.push({ "data": "City", "name": "City" });
-    //         columns.push({ "data": "Mobile", "name": "Mobile" });
-    //         columns.push({ "data": "TotalFirm", "name": "TotalFirm" });
-    //         columns.push({ "data": "Id", "name": "Id" });
+             columns.push({ "data": "Name", "name": "Name" });
+             columns.push({ "data": "CustomerType", "name": "CustomerType" });
+             columns.push({ "data": "City", "name": "City" });
+             columns.push({ "data": "Mobile", "name": "Mobile" });
+             columns.push({ "data": "TotalFirm", "name": "TotalFirm" });
+             columns.push({ "data": "Id", "name": "Id" });
 
-    //         var table = $('#tblMain').DataTable({
-    //             ordering: false,
-    //             searching: true,
-    //             bInfo: true,
-    //             bLengthChange: false,
-    //             info: false,
-    //             oLanguage: { 'sZeroRecords': 'sEmptyTable' },
-    //             pageLength: 10,
-    //             filter: true,
-    //             paging: true,
-    //             order: [[1, 'asc']],
-    //             pagingType: 'full_numbers',
-    //             orderClasses: false,
-    //             scrollCollapse: true,
-    //             bProcessing: true,
-    //             bServerSide: true,
-    //             stateSave: false,
-    //             columnDefs: colDef,
-    //             columns: columns,
-    //             bPaginate: true,
-    //             ajax: {
-    //                 url: '@(Url.Content("~/Admin/CustomerList"))',
-    //                 type: 'GET',
-    //                 data: function (d) { }
-    //             },
+             var table = $('#tblMain').DataTable({
+                 ordering: false,
+                 searching: true,
+                 bInfo: true,
+                 bLengthChange: false,
+                 info: false,
+                 oLanguage: { 'sZeroRecords': 'sEmptyTable' },
+                 pageLength: 10,
+                 filter: true,
+                 paging: true,
+                 order: [[1, 'asc']],
+                 pagingType: 'full_numbers',
+                 orderClasses: false,
+                 scrollCollapse: true,
+                 bProcessing: true,
+                 bServerSide: true,
+                 stateSave: false,
+                 columnDefs: colDef,
+                 columns: columns,
+                 bPaginate: true,
+                 ajax: {
+                     url: '@(Url.Content("~/Admin/CustomerList"))',
+                     type: 'GET',
+                     data: function (d) { }
+                 },
 
-    //         });
-    // }
+             });
+     }
 
-    //function bindStateList(countryId) {
-    //             try {
-    //                 blockUI('container');
-    //                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + 1, "",
-    //                     function (data) {
-    //                         unblockUI('container');
-    //                         var str = "<option></option>";
-    //                         str += "<option value='0'>Select State</option>";
-    //                         if (data.result == RESULT_SUCCESS) {
-    //                             if (data.data.length > 0) {
-    //                                 for (var i = 0; i < data.data.length; i++) {
-    //                                     str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-    //                                 }
-    //                             }
-    //                             $("#dropState").html(str);
-    //                         } else {
-    //                             showError("", data.data);
-    //                         }
-    //                     },
-    //                     function (error) {
-    //                         unblockUI('container');
-    //                         showError("", error.statusText);
-    //                     });
-    //             }
-    //             catch (err) {
-    //                 unblockUI('container');
-    //                 showError("", e.message);
-    //             }
-    //         }
+    function bindStateList(countryId) {
+                 try {
+                     blockUI('container');
+                     var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + 1, "",
+                         function (data) {
+                             unblockUI('container');
+                             var str = "<option></option>";
+                             str += "<option value='0'>Select State</option>";
+                             if (data.result == RESULT_SUCCESS) {
+                                 if (data.data.length > 0) {
+                                     for (var i = 0; i < data.data.length; i++) {
+                                         str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                     }
+                                 }
+                                 $("#dropState").html(str);
+                             } else {
+                                 showError("", data.data);
+                             }
+                         },
+                         function (error) {
+                             unblockUI('container');
+                             showError("", error.statusText);
+                         });
+                 }
+                 catch (err) {
+                     unblockUI('container');
+                     showError("", e.message);
+                 }
+             }
 
-    //function bindCityList(stateId) {
-    //             try {
-    //                 blockUI('container');
-    //                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?stateId=" + stateId, "",
-    //                     function (data) {
-    //                         unblockUI('container');
-    //                         var str = "<option></option>";
-    //                         if (data.result == RESULT_SUCCESS) {
-    //                             if (data.data.length > 0) {
-    //                                 for (var i = 0; i < data.data.length; i++) {
-    //                                     str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-    //                                 }
-    //                             }
-    //                             $("#dropCity").html(str);
-    //                         } else {
-    //                             showError("", data.data);
-    //                         }
-    //                     },
-    //                     function (error) {
-    //                         unblockUI('container');
-    //                         showError("", error.statusText);
-    //                     });
-    //             }
-    //             catch (err) {
-    //                 unblockUI('container');
-    //                 showError("", e.message);
-    //             }
-    //         }
-    //function BindBusinessList() {
-    //             try {
-    //                 blockUI('container');
-    //                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetBusiness"))", "",
-    //                     function (data) {
-    //                         unblockUI('container');
-    //                         var str = "<option></option>";
-    //                         if (data.result == RESULT_SUCCESS) {
-    //                             if (data.data.length > 0) {
-    //                                 for (var i = 0; i < data.data.length; i++) {
-    //                                     str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-    //                                 }
-    //                             }
-    //                             $("#dropBusiness").html(str);
-    //                         } else {
-    //                             showError("", data.data);
-    //                         }
-    //                     },
-    //                     function (error) {
-    //                         unblockUI('container');
-    //                         showError("", error.statusText);
-    //                     });
-    //             }
-    //             catch (err) {
-    //                 unblockUI('container');
-    //                 showError("", e.message);
-    //              }
-    //         }
-    //function FromReset()
-    //{
-    //         $("#Id").val(0);
-    //         $("#txtCustomerName").val("");
-    //         $("#txtAddressLine1").val("");
-    //         $("#txtAddressLine2").val("");
-    //         $("#txtAddressLine3").val("");
-    //         $("#dropState").select2().val('').trigger("change");
-    //         $("#dropCity").select2().val('').trigger("change");
-    //         $("#dropBusiness").select2().val('').trigger("change");
-    //         $("#txtPinCode").val("");
-    //         $("#txtContactPersonName").val("");
-    //         $("#txtContactMobile").val("");
-    //         $("#txtAlternateMobile").val("");
-    //         $("#txtPhone").val("");
-    //         $("#txtEmail").val("");
-    //         $("#txtRequirements").val("");
-    //         $("#txtTotalFirms").val("");
-    //         $("#txtAadhaarId").val("");
-    //         $("#txtTotalUsers").val("");
-    //    }
+    function bindCityList(stateId) {
+                 try {
+                     blockUI('container');
+                     var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?stateId=" + stateId, "",
+                         function (data) {
+                             unblockUI('container');
+                             var str = "<option></option>";
+                             if (data.result == RESULT_SUCCESS) {
+                                 if (data.data.length > 0) {
+                                     for (var i = 0; i < data.data.length; i++) {
+                                         str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                     }
+                                 }
+                                 $("#dropCity").html(str);
+                             } else {
+                                 showError("", data.data);
+                             }
+                         },
+                         function (error) {
+                             unblockUI('container');
+                             showError("", error.statusText);
+                         });
+                 }
+                 catch (err) {
+                     unblockUI('container');
+                     showError("", e.message);
+                 }
+             }
+    function BindBusinessList() {
+                 try {
+                     blockUI('container');
+                     var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetBusiness"))", "",
+                         function (data) {
+                             unblockUI('container');
+                             var str = "<option></option>";
+                             if (data.result == RESULT_SUCCESS) {
+                                 if (data.data.length > 0) {
+                                     for (var i = 0; i < data.data.length; i++) {
+                                         str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                     }
+                                 }
+                                 $("#dropBusiness").html(str);
+                             } else {
+                                 showError("", data.data);
+                             }
+                         },
+                         function (error) {
+                             unblockUI('container');
+                             showError("", error.statusText);
+                         });
+                 }
+                 catch (err) {
+                     unblockUI('container');
+                     showError("", e.message);
+                  }
+             }
+    function FromReset()
+    {
+             $("#Id").val(0);
+             $("#txtCustomerName").val("");
+             $("#txtAddressLine1").val("");
+             $("#txtAddressLine2").val("");
+             $("#txtAddressLine3").val("");
+             $("#dropState").select2().val('').trigger("change");
+             $("#dropCity").select2().val('').trigger("change");
+             $("#dropBusiness").select2().val('').trigger("change");
+             $("#txtPinCode").val("");
+             $("#txtContactPersonName").val("");
+             $("#txtContactMobile").val("");
+             $("#txtAlternateMobile").val("");
+             $("#txtPhone").val("");
+             $("#txtEmail").val("");
+             $("#txtRequirements").val("");
+             $("#txtTotalFirms").val("");
+             $("#txtAadhaarId").val("");
+             $("#txtTotalUsers").val("");
+        }
 
-    // function SaveDetail() {
-    //         try {
+     function SaveDetail() {
+             try {
 
-    //             if($("#txtCustomerName").val().length<=0 ||$("#txtCustomerName").val()==""){
-    //                    showWarning("", "Please enter name.");
-    //                    $("#txtCustomerName").focus();
-    //                      $('.dv-list').slideUp();
-    //                    return false;
-    //             }
-    //             if($("#txtAddressLine1").val().length<=0 ||$("#txtAddressLine1").val()==""){
-    //                    showWarning("", "Please enter address.");
-    //                    $("#txtAddressLine1").focus();
-    //                      $('.dv-list').slideUp();
-    //                    return false;
-    //             }
-    //              if($("#dropState").val()==""){
-    //                    showWarning("", "Please select state.");
-    //                    $("#dropState").focus();
-    //                      $('.dv-list').slideUp();
-    //                    return false;
-    //             }
-    //              if($("#dropCity").val()==""){
-    //                    showWarning("", "Please select city.");
-    //                    $("#dropCity").focus();
-    //                      $('.dv-list').slideUp();
-    //                    return false;
-    //             }
-    //             if($("#txtContactPersonName").val().length<=0 ||$("#txtContactPersonName").val()==""){
-    //                    showWarning("", "Please enter contact person name.");
-    //                    $("#txtContactPersonName").focus();
-    //                      $('.dv-list').slideUp();
-    //                    return false;
-    //             }
-    //             if($("#txtContactMobile").val().length<=0 ||$("#txtContactMobile").val()==""){
-    //                    showWarning("", "Please enter contact mobile.");
-    //                    $("#txtContactMobile").focus();
-    //                      $('.dv-list').slideUp();
-    //                    return false;
-    //             }
-    //              if($("#txtEmail").val().length<=0 ||$("#txtEmail").val()==""){
-    //                    showWarning("", "Please enter email.");
-    //                    $("#txtEmail").focus();
-    //                      $('.dv-list').slideUp();
-    //                    return false;
-    //             }
-    //             if($("#dropBusiness").val()==""){
-    //                    showWarning("", "Please enter business.");
-    //                    $("#dropBusiness").focus();
-    //                    return false;
-    //             }
-    //             if($("#txtType").val()==""){
-    //                    showWarning("", "Please select customer type.");
-    //                    $("#dropBusiness").focus();
-    //                    return false;
-    //             }
-    //             if($("#txtTotalUsers").val().length<=0 ||$("#txtTotalUsers").val()==""){
-    //                    showWarning("", "Please enter total user.");
-    //                    $("#txtTotalUsers").focus();
-    //                    return false;
-    //             }
-    //            let isValidemail = IsEmail($("#txtEmail").val());
-    //            if (!isValidemail) {
-    //                showWarning("", "Please enter valid email");
-    //                $("#txtEmail").focus();
-    //                return;
-    //            }
+                 if($("#txtCustomerName").val().length<=0 ||$("#txtCustomerName").val()==""){
+                        showWarning("", "Please enter name.");
+                        $("#txtCustomerName").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+                 if($("#txtAddressLine1").val().length<=0 ||$("#txtAddressLine1").val()==""){
+                        showWarning("", "Please enter address.");
+                        $("#txtAddressLine1").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+                  if($("#dropState").val()==""){
+                        showWarning("", "Please select state.");
+                        $("#dropState").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+                  if($("#dropCity").val()==""){
+                        showWarning("", "Please select city.");
+                        $("#dropCity").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+                 if($("#txtContactPersonName").val().length<=0 ||$("#txtContactPersonName").val()==""){
+                        showWarning("", "Please enter contact person name.");
+                        $("#txtContactPersonName").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+                 if($("#txtContactMobile").val().length<=0 ||$("#txtContactMobile").val()==""){
+                        showWarning("", "Please enter contact mobile.");
+                        $("#txtContactMobile").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+                  if($("#txtEmail").val().length<=0 ||$("#txtEmail").val()==""){
+                        showWarning("", "Please enter email.");
+                        $("#txtEmail").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+                 if($("#dropBusiness").val()==""){
+                        showWarning("", "Please enter business.");
+                        $("#dropBusiness").focus();
+                        return false;
+                 }
+                 if($("#txtType").val()==""){
+                        showWarning("", "Please select customer type.");
+                        $("#dropBusiness").focus();
+                        return false;
+                 }
+                 if($("#txtTotalUsers").val().length<=0 ||$("#txtTotalUsers").val()==""){
+                        showWarning("", "Please enter total user.");
+                        $("#txtTotalUsers").focus();
+                        return false;
+                 }
+                let isValidemail = IsEmail($("#txtEmail").val());
+                if (!isValidemail) {
+                    showWarning("", "Please enter valid email");
+                    $("#txtEmail").focus();
+                    return;
+                }
 
-    //             var savedata = new Object();
-    //              savedata.Id = parseInt($("#Id").val());
-    //              savedata.Name=$("#txtCustomerName").val();
-    //              savedata.BusinessId=$("#dropBusiness").val();
-    //              savedata.Address1=$("#txtAddressLine1").val();
-    //              savedata.Address2=$("#txtAddressLine2").val();
-    //              savedata.Address3=$("#txtAddressLine3").val();
-    //              savedata.CityId=parseInt($("#dropCity").val());
-    //              savedata.StateId=parseInt($("#dropState").val());
-    //              savedata.Pincode=$("#txtPinCode").val();
-    //              savedata.ContactPersonName=$("#txtContactPersonName").val();
-    //              savedata.Mobile=$("#txtContactMobile").val();
-    //              savedata.MobileAlternate=$("#txtAlternateMobile").val();
-    //              savedata.Phone=$("#txtPhone").val();
-    //              savedata.Email=$("#txtEmail").val();
-    //              savedata.Requirement=$("#txtRequirements").val();
-    //              savedata.TotalFirm=parseInt($("#txtTotalFirms").val());
-    //              savedata.CustomerType=$("#txtType").val();
-    //              savedata.AdharUID=$("#txtAadhaarId").val();
-    //              savedata.TotalUsers=parseInt($("#txtTotalUsers").val());
-    //              savedata.IsActive=$('#chkActive').is(':checked');
+                 var savedata = new Object();
+                  savedata.Id = parseInt($("#Id").val());
+                  savedata.Name=$("#txtCustomerName").val();
+                  savedata.BusinessId=$("#dropBusiness").val();
+                  savedata.Address1=$("#txtAddressLine1").val();
+                  savedata.Address2=$("#txtAddressLine2").val();
+                  savedata.Address3=$("#txtAddressLine3").val();
+                  savedata.CityId=parseInt($("#dropCity").val());
+                  savedata.StateId=parseInt($("#dropState").val());
+                  savedata.Pincode=$("#txtPinCode").val();
+                  savedata.ContactPersonName=$("#txtContactPersonName").val();
+                  savedata.Mobile=$("#txtContactMobile").val();
+                  savedata.MobileAlternate=$("#txtAlternateMobile").val();
+                  savedata.Phone=$("#txtPhone").val();
+                  savedata.Email=$("#txtEmail").val();
+                  savedata.Requirement=$("#txtRequirements").val();
+                  savedata.TotalFirm=parseInt($("#txtTotalFirms").val());
+                  savedata.CustomerType=$("#txtType").val();
+                  savedata.AdharUID=$("#txtAadhaarId").val();
+                  savedata.TotalUsers=parseInt($("#txtTotalUsers").val());
+                  savedata.IsActive=$('#chkActive').is(':checked');
 
-    //             blockUI('container');
+                 blockUI('container');
 
-    //             $.ajax({
-    //             type: "POST",
-    //             url: "@(Url.Action("SaveCustomer", "Admin"))",
-    //             data: JSON.stringify(savedata),
-    //             contentType: "application/json; charset=utf-8",
-    //             dataType: "json",
-    //             success: function (data) {
-    //                     unblockUI('container');
-    //                     if (data.result == RESULT_SUCCESS) {
-    //                         FromReset();
-    //                         showWarning("", 'Customer saved successfully.');
-    //                         $("#Id").val(0);
-    //                         $('#tblMain').dataTable().fnClearTable();
-    //                         $('#tblMain').dataTable().fnDestroy();
-    //                         datatablelist();
-    //                         $("#btnCancel").click()
-    //                     } else {
-    //                         showError("", data.data);
-    //                     }
-    //                 },
-    //             error: function (error) {
-    //                     unblockUI('container');
-    //                     showError("", error.statusText);
-    //                 }
-    //             });
+                 $.ajax({
+                 type: "POST",
+                 url: "@(Url.Action("SaveCustomer", "Admin"))",
+                 data: JSON.stringify(savedata),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 success: function (data) {
+                         unblockUI('container');
+                         if (data.result == RESULT_SUCCESS) {
+                             FromReset();
+                             showWarning("", 'Customer saved successfully.');
+                             $("#Id").val(0);
+                             $('#tblMain').dataTable().fnClearTable();
+                             $('#tblMain').dataTable().fnDestroy();
+                             datatablelist();
+                             $("#btnCancel").click()
+                         } else {
+                             showError("", data.data);
+                         }
+                     },
+                 error: function (error) {
+                         unblockUI('container');
+                         showError("", error.statusText);
+                     }
+                 });
 
-    //         }
-    //             catch (e) {
-    //             unblockUI('container');
-    //             showError("", e.message);
-    //         }
+             }
+                 catch (e) {
+                 unblockUI('container');
+                 showError("", e.message);
+             }
 
-    //  }
+      }
 
-    //function Delete(id) {
-    //         if (id == 0) {
-    //             id = $('#Id').val();
-    //         }
-    //         try {
-    //             blockUI('container');
-    //             var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomer"))" + "/" + id, "",
-    //                 function (result) {
-    //                     unblockUI('container');
-    //                     var str = "";
-    //                     try {
-    //                         if (result.result == RESULT_SUCCESS) {
-    //                             $('#tblMain').dataTable().fnClearTable();
-    //                             $('#tblMain').dataTable().fnDestroy();
-    //                             datatablelist();
-    //                         } else {
-    //                             showError('Error', result.data); //warning,  success, error, info
-    //                         }
-    //                     } catch (e) {
-    //                         showError('Error', e); //warning,  success, error, info
-    //                     }
-    //                 },
-    //                 function (error) {
-    //                     unblockUI('container');
-    //                 });
-    //         }
-    //         catch (err) {
-    //             unblockUI('container');
-    //         }
-    //     }
+    function Delete(id) {
+             if (id == 0) {
+                 id = $('#Id').val();
+             }
+             try {
+                 blockUI('container');
+                 var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomer"))" + "/" + id, "",
+                     function (result) {
+                         unblockUI('container');
+                         var str = "";
+                         try {
+                             if (result.result == RESULT_SUCCESS) {
+                                 $('#tblMain').dataTable().fnClearTable();
+                                 $('#tblMain').dataTable().fnDestroy();
+                                 datatablelist();
+                             } else {
+                                 showError('Error', result.data); //warning,  success, error, info
+                             }
+                         } catch (e) {
+                             showError('Error', e); //warning,  success, error, info
+                         }
+                     },
+                     function (error) {
+                         unblockUI('container');
+                     });
+             }
+             catch (err) {
+                 unblockUI('container');
+             }
+         }
 
-    //function GetDetail(id) {
-    //         try {
-    //              blockUI('container');
-    //             var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
-    //                 function (result) {
-    //                     unblockUI('container');
-    //                     var str = "";
-    //                     try {
-    //                         if (result.result == RESULT_SUCCESS) {
-    //                                      $("#AddNew").click();
-    //                                      $('#Id').val(result.data.id);
-    //                                      $("#dropState").select2().val(result.data.stateId).trigger("change");
-    //                                      $("#txtCustomerName").val(result.data.name);
-    //                                      $("#dropBusiness").select2().val(result.data.businessId).trigger("change");
-    //                                      $("#txtAddressLine1").val(result.data.address1);
-    //                                      $("#txtAddressLine2").val(result.data.address2);
-    //                                      $("#txtAddressLine3").val(result.data.address3);
-    //                                      $("#txtPinCode").val(result.data.pincode);
-    //                                      $("#txtContactPersonName").val(result.data.contactPersonName);
-    //                                      $("#txtContactMobile").val(result.data.mobile);
-    //                                      $("#txtAlternateMobile").val(result.data.mobileAlternate);
-    //                                      $("#txtPhone").val(result.data.phone);
-    //                                      $("#txtEmail").val(result.data.email);
-    //                                      $("#txtRequirements").val(result.data.requirement);
-    //                                      $("#txtTotalFirms").val(result.data.totalFirm);
-    //                                      $('#chkActive').prop('checked', result.data.isActive);
-    //                                      $("#txtAadhaarId").val(result.data.adharUID);
-    //                                      $("#txtTotalUsers").val(result.data.totalUsers);
-    //                                      $("#txtType").val(result.data.customerType)
-    //                                       var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?stateId=" + result.data.stateId, "",
-    //                                         function (data) {
-    //                                             unblockUI('container');
-    //                                             var str = "<option></option>";
-    //                                             if (data.result == RESULT_SUCCESS) {
-    //                                                 if (data.data.length > 0) {
-    //                                                     for (var i = 0; i < data.data.length; i++) {
-    //                                                         str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-    //                                                     }
-    //                                                 }
-    //                                                 $("#dropCity").html(str);
-    //                                                 $("#dropCity").select2().val(result.data.cityId).trigger("change");
-    //                                             } else {
-    //                                                 showError("", data.data);
-    //                                             }
-    //                                         },
-    //                                         function (error) {
-    //                                             unblockUI('container');
-    //                                             showError("", error.statusText);
-    //                                         });
+    function GetDetail(id) {
+             try {
+                  blockUI('container');
+                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
+                     function (result) {
+                         unblockUI('container');
+                         var str = "";
+                         try {
+                             if (result.result == RESULT_SUCCESS) {
+                                          $("#AddNew").click();
+                                          $('#Id').val(result.data.id);
+                                          $("#dropState").select2().val(result.data.stateId).trigger("change");
+                                          $("#txtCustomerName").val(result.data.name);
+                                          $("#dropBusiness").select2().val(result.data.businessId).trigger("change");
+                                          $("#txtAddressLine1").val(result.data.address1);
+                                          $("#txtAddressLine2").val(result.data.address2);
+                                          $("#txtAddressLine3").val(result.data.address3);
+                                          $("#txtPinCode").val(result.data.pincode);
+                                          $("#txtContactPersonName").val(result.data.contactPersonName);
+                                          $("#txtContactMobile").val(result.data.mobile);
+                                          $("#txtAlternateMobile").val(result.data.mobileAlternate);
+                                          $("#txtPhone").val(result.data.phone);
+                                          $("#txtEmail").val(result.data.email);
+                                          $("#txtRequirements").val(result.data.requirement);
+                                          $("#txtTotalFirms").val(result.data.totalFirm);
+                                          $('#chkActive').prop('checked', result.data.isActive);
+                                          $("#txtAadhaarId").val(result.data.adharUID);
+                                          $("#txtTotalUsers").val(result.data.totalUsers);
+                                          $("#txtType").val(result.data.customerType)
+                                           var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?stateId=" + result.data.stateId, "",
+                                             function (data) {
+                                                 unblockUI('container');
+                                                 var str = "<option></option>";
+                                                 if (data.result == RESULT_SUCCESS) {
+                                                     if (data.data.length > 0) {
+                                                         for (var i = 0; i < data.data.length; i++) {
+                                                             str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                                         }
+                                                     }
+                                                     $("#dropCity").html(str);
+                                                     $("#dropCity").select2().val(result.data.cityId).trigger("change");
+                                                 } else {
+                                                     showError("", data.data);
+                                                 }
+                                             },
+                                             function (error) {
+                                                 unblockUI('container');
+                                                 showError("", error.statusText);
+                                             });
                                     
 
-    //                         } else {
-    //                             showError('Error', result.data); //warning,  success, error, info
-    //                         }
-    //                     } catch (e) {
-    //                         unblockUI('container');
-    //                         showError('Error', e); //warning,  success, error, info
-    //                     }
-    //                 },
-    //                 function (error) {
+                             } else {
+                                 showError('Error', result.data); //warning,  success, error, info
+                             }
+                         } catch (e) {
+                             unblockUI('container');
+                             showError('Error', e); //warning,  success, error, info
+                         }
+                     },
+                     function (error) {
 
-    //                 });
-    //         }
-    //         catch (err) {
-    //         }
-    //     }
+                     });
+             }
+             catch (err) {
+             }
+         }
 </script>
 }
