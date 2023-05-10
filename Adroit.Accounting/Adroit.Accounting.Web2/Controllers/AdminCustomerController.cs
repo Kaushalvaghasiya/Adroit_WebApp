@@ -47,9 +47,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                savedata.BusinessName = "test"; //Need to change after confimation
-                savedata.AgreeTerms = true;//Need to change after confimation
-               // savedata.CustomerType = Model.Enums.CustomerType.Customer; // need to check how to pass enum value in json
+              
                 int id = CustomerRepo.Save(savedata, ConfigurationData.DefaultConnection);
                 if (id > 0)
                 {
