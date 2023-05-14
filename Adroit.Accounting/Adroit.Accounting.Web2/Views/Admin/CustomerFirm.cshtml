@@ -262,7 +262,7 @@
        var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
     $(function (e) {
          window.customerId=GetParameterValues('id')
-         console.log(window.customerId)
+       
 
           $('.dv-list').show();
           $('.dv-detail').hide();
@@ -361,7 +361,7 @@
                colDef.push({
                   "render": function (data, type, row) {
                       let btnAct = "<a onclick='getDetail(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
-                      btnAct += " &nbsp;&nbsp; <a href='#' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
+                      btnAct += " &nbsp;&nbsp; <a onclick='redirect(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
                       btnAct += " &nbsp;&nbsp; <a onclick='customerFirmDelete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
                       return btnAct;
                   },
@@ -754,5 +754,9 @@
                     showError("", e.message);
                 }
             }
+            function redirect(id){
+            var baseUrl= window.location.origin;
+            window.open(baseUrl+"/admin/customerFirmBranch?id="+id,'_blank').focus();
+        }
 </script>
 }

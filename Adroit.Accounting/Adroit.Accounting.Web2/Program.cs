@@ -62,6 +62,8 @@ try
     builder.Services.AddSingleton<IFirmTypeAdmin, FirmTypeAdminRepository>();
     builder.Services.AddSingleton<IGSTFirmType, GSTFirmTypeRepository>();
     builder.Services.AddSingleton<ISoftwareType, SoftwareTypeRepository>();
+    builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
+    builder.Services.AddSingleton<IFirmBranchTypeAdmin, FirmBranchTypeAdminRepository>(); 
 
     if (!builder.Environment.IsDevelopment())
     {

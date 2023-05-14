@@ -22,7 +22,8 @@ namespace Adroit.Accounting.Web.Controllers
         private IFirmTypeAdmin _firmTypeAdminRepo;
         private IGSTFirmType _gstFirmTypeRepo;
         private ISoftwareType _softwareTypeRepo;
-        protected readonly ICustomer _customerRepo;
+        private ICustomer _customerRepo;
+        private IFirmBranchTypeAdmin _firmBranchTypeAdminRepo;
 
         public CommonController(IOptions<ConfigurationData> configurationData, IState stateRepo, ICity cityRepo,
                 ICountry countryRepo, IDistrict districtRepo, ITaluka talukaRepository,
@@ -31,7 +32,8 @@ namespace Adroit.Accounting.Web.Controllers
                 ISoftwareType softwareTypeRepo,
                 IFirmTypeAdmin firmTypeAdminRepo,
                 IGSTFirmType gstFirmTypeRepo,
-                ICustomer customerRepo
+                ICustomer customerRepo,
+                IFirmBranchTypeAdmin firmBranchTypeAdminRepo
             )
         {
             _stateRepo = stateRepo;
@@ -46,6 +48,7 @@ namespace Adroit.Accounting.Web.Controllers
             _gstFirmTypeRepo = gstFirmTypeRepo;
             _softwareTypeRepo = softwareTypeRepo;
             _customerRepo = customerRepo;
+            _firmBranchTypeAdminRepo = firmBranchTypeAdminRepo;
         }
 
         public IActionResult Index()
@@ -230,6 +233,23 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _gstFirmTypeRepo.GetGSTFirmTypeList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetFirmBranchTypeAdminRepo()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _firmBranchTypeAdminRepo.GetFirmBranchTypeAdminList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
