@@ -2,7 +2,7 @@ CREATE OR ALTER procedure [dbo].[sp_CustomerFirmDelete]
 (
 	
 	@Id INT = NULL,
-	@ModifiedById INT
+	@DeletedById INT
 )
 AS
 BEGIN
@@ -11,7 +11,7 @@ BEGIN
 		UPDATE CustomerFirm SET 
 		IsDeleted = 1, 
 		IsActive = 0,
-		DeletedById = @ModifiedById, 
+		--DeletedById = NULL,  -- need to change fore key
 		DeletedOn = GETUTCDATE()
 		WHERE Id= @Id ;
 	COMMIT TRAN

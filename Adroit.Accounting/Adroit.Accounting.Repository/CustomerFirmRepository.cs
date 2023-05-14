@@ -11,7 +11,7 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@DeletedBy", deletedById);
+            parameters.Add("@@DeletedById", deletedById);
             QueryHelper.Save("sp_CustomerFirmDelete", connectionString, parameters);
         }
 

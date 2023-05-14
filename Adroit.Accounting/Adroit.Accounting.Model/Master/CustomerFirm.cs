@@ -37,5 +37,6 @@ namespace Adroit.Accounting.Model
         public string AdharUID { get; set; }
         public bool LRResetOnYearEnd { get; set; }
         public bool CessRequired { get; set; }
+
     }
 }

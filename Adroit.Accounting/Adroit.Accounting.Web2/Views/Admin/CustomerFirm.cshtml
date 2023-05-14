@@ -23,7 +23,7 @@
                                 <i class="fa fa-lock"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New">
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew">
                             <span>
                                 <i class="fa fa-plus"></i>
                             </span>
@@ -80,7 +80,7 @@
                         <span class="input-group-append mr-2">
                             <button class="btn btn-primary" type="button">Go!</button>
                         </span>
-                        <a href="#" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
+                        <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save" onclick="saveDetail()">
                             <span>
                                 <i class="fa fa-save"></i>
                             </span>
@@ -100,12 +100,12 @@
                                 <i class="fa fa-trash-o"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New">
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New" onclick="fromReset()">
                             <span>
                                 <i class="fa fa-plus"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel">
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel">
                             <span>
                                 <i class="fa fa-arrow-left"></i>
                             </span>
@@ -240,17 +240,18 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn btn-primary mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="javascript:void(0);" class="btn btn-primary mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save" onclick="saveDetail()"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="#" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="#" class="btn-back btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
-                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                    <a href="javascript:void(0)" class="btn-back btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" onclick="fromReset()"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="javascript:void(0);" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
             </div>
         </div>
     </div>
     <!-- row end -->
+    <input type="hidden" id="Id" value="0" />
 </div>
 
 @section Scripts
@@ -260,6 +261,9 @@
 
        var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
     $(function (e) {
+         window.customerId=GetParameterValues('id')
+         console.log(window.customerId)
+
           $('.dv-list').show();
           $('.dv-detail').hide();
 
@@ -299,14 +303,23 @@
 
           $(".buttons-colvis").empty();
           $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
-
+          
         bindBusiness();
         bindSoftwareList();
         bindFirmTypeAdminList();
         bindGSTFirmType();
         bindCustomerList();
       });
-
+       function GetParameterValues(param) 
+         {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                var urlparam = url[i].split('=');
+                if (urlparam[0] == param) {
+                return urlparam[1];
+                            }
+                    }
+        }
      function datatablelist() {
        let columns = [];
        let colDef = [];
@@ -349,7 +362,7 @@
                   "render": function (data, type, row) {
                       let btnAct = "<a onclick='getDetail(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
                       btnAct += " &nbsp;&nbsp; <a href='#' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
-                      btnAct += " &nbsp;&nbsp; <a onclick='customerDelete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                      btnAct += " &nbsp;&nbsp; <a onclick='customerFirmDelete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
                       return btnAct;
                   },
                   "targets": colDef.length,
@@ -385,7 +398,7 @@
                   columns: columns,
                   bPaginate: true,
                   ajax: {
-                      url: '@(Url.Content("~/Admin/CustomerFirmList"))',
+                      url: '@(Url.Content("~/Admin/CustomerFirmList?customerId="))'+window.customerId,
                       type: 'GET',
                       data: function (d) { }
                   },
@@ -394,132 +407,103 @@
       }
 
      function fromReset()
-
      {
-              $("#Id").val(0);
-              $("#txtCustomerName").val("");
-              $("#txtAddressLine1").val("");
-              $("#txtAddressLine2").val("");
-              $("#txtAddressLine3").val("");
-              $("#dropState").select2().val('').trigger("change");
-              $("#dropCity").select2().val('').trigger("change");
-              $("#dropBusiness").select2().val('').trigger("change");
-              $("#txtType").val('');
-              $("#txtBusinessName").val("");
-              $("#txtPinCode").val("");
-              $("#txtContactPersonName").val("");
-              $("#txtContactMobile").val("");
-              $("#txtAlternateMobile").val("");
-              $("#txtPhone").val("");
-              $("#txtEmail").val("");
-              $("#txtRequirements").val("");
-              $("#txtTotalFirms").val("");
-              $("#txtAadhaarId").val("");
-              $("#txtTotalUsers").val("");
+        $("#Id").val(0);
+        $("#dropCustomerName").select2().val('').trigger("change");
+        $("#txtFirmName").val("");
+        $("#dropGSTFirmType").select2().val('').trigger("change");
+        $("#dropBusiness").select2().val('').trigger("change");
+        $("#dropFirmType").select2().val('').trigger("change");
+        $("#dropSoftwareType").select2().val('').trigger("change");
+        $("#txtFirmName").val("");
+        $("#txtOwnerName").val("");
+        $("#txtTAN").val("");
+        $("#txtIEC").val('');
+        $("#txtLutBond").val("");
+        $("#txtAadhaarUID").val("");
+        $("#txtTotalBranches").val("");
+        $('.custom-switch-input').prop('checked', false);
      }
 
-      function saveDetail() {
+     function saveDetail()
+     {
          try {
-
-                  if($("#txtCustomerName").val().length<=0 ||$("#txtCustomerName").val()==""){
-                         showWarning("", "Please enter name.");
-                         $("#txtCustomerName").focus();
-                           $('.dv-list').slideUp();
-                         return false;
-                  }
-                  if($("#txtAddressLine1").val().length<=0 ||$("#txtAddressLine1").val()==""){
-                         showWarning("", "Please enter address.");
-                         $("#txtAddressLine1").focus();
-                           $('.dv-list').slideUp();
-                         return false;
-                  }
-                   if($("#dropState").val()==""){
-                         showWarning("", "Please select state.");
-                         $("#dropState").focus();
-                           $('.dv-list').slideUp();
-                         return false;
-                  }
-                   if($("#dropCity").val()==""){
-                         showWarning("", "Please select city.");
-                         $("#dropCity").focus();
-                           $('.dv-list').slideUp();
-                         return false;
-                  }
-                  if($("#txtContactPersonName").val().length<=0 ||$("#txtContactPersonName").val()==""){
-                         showWarning("", "Please enter contact person name.");
-                         $("#txtContactPersonName").focus();
-                           $('.dv-list').slideUp();
-                         return false;
-                  }
-                  if($("#txtContactMobile").val().length<=0 ||$("#txtContactMobile").val()==""){
-                         showWarning("", "Please enter contact mobile.");
-                         $("#txtContactMobile").focus();
-                           $('.dv-list').slideUp();
-                         return false;
-                  }
-                   if($("#txtEmail").val().length<=0 ||$("#txtEmail").val()==""){
-                         showWarning("", "Please enter email.");
-                         $("#txtEmail").focus();
+                  if($("#dropCustomerName").val()=="" ||$("#dropCustomerName").val()=='undefined'){
+                         showWarning("", "select select customer");
+                         $("#dropCustomerName").focus();
                            $('.dv-list').slideUp();
                          return false;
                   }
                   if($("#dropBusiness").val()==""){
-                         showWarning("", "Please enter business.");
+                         showWarning("", "select select business.");
                          $("#dropBusiness").focus();
+                           $('.dv-list').slideUp();
                          return false;
                   }
-                  if($("#txtType").val()==""){
-                         showWarning("", "Please select customer type.");
-                         $("#dropBusiness").focus();
+                   if($("#txtFirmName").val().length<=0 ||$("#txtFirmName").val()==""){
+                         showWarning("", "Please enter  firm name.");
+                         $("#txtFirmName").focus();
+                           $('.dv-list').slideUp();
                          return false;
                   }
-                  if($("#txtTotalUsers").val().length<=0 ||$("#txtTotalUsers").val()==""){
-                         showWarning("", "Please enter total user.");
-                         $("#txtTotalUsers").focus();
+                   if($("#txtOwnerName").val().length<=0 ||$("#txtOwnerName").val()==""){
+                         showWarning("", "Please entry Owner name.");
+                         $("#txtOwnerName").focus();
+                           $('.dv-list').slideUp();
                          return false;
                   }
-                  if($("#txtBusinessName").val().length<=0 ||$("#txtBusinessName").val()==""){
-                         showWarning("", "Please enter Business Name.");
-                         $("#txtTotalUsers").focus();
+                   if($("#dropFirmType").val()==""){
+                         showWarning("", "select  firm type.");
+                         $("#dropFirmType").focus();
+                           $('.dv-list').slideUp();
+                         return false;
+                  }
+                   if($("#dropGSTFirmType").val()==""){
+                         showWarning("", "select  GST firm type.");
+                         $("#dropGSTFirmType").focus();
+                           $('.dv-list').slideUp();
+                         return false;
+                  }
+                  if($("#dropSoftwareType").val()==""){
+                         showWarning("", "select  software.");
+                         $("#dropSoftwareType").focus();
+                           $('.dv-list').slideUp();
                          return false;
                   }
 
-                 let isValidemail = IsEmail($("#txtEmail").val());
-                 if (!isValidemail) {
-                     showWarning("", "Please enter valid email");
-                     $("#txtEmail").focus();
-                     return;
-                 }
+                if($("#txtTotalBranches").val().length<=0 ||$("#txtTotalBranches").val()==""){
+                         showWarning("", "Please entry branch limt.");
+                         $("#txtTotalBranches").focus();
+                           $('.dv-list').slideUp();
+                         return false;
+                  }
+
 
                   var savedata = new Object();
                    savedata.Id = parseInt($("#Id").val());
-                   savedata.Name=$("#txtCustomerName").val();
-                   savedata.BusinessId=$("#dropBusiness").val();
-                   savedata.BusinessName=$("#txtBusinessName").val();
-                   savedata.Address1=$("#txtAddressLine1").val();
-                   savedata.Address2=$("#txtAddressLine2").val();
-                   savedata.Address3=$("#txtAddressLine3").val();
-                   savedata.CityId=parseInt($("#dropCity").val());
-                   savedata.StateId=parseInt($("#dropState").val());
-                   savedata.Pincode=$("#txtPinCode").val();
-                   savedata.ContactPersonName=$("#txtContactPersonName").val();
-                   savedata.Mobile=$("#txtContactMobile").val();
-                   savedata.MobileAlternate=$("#txtAlternateMobile").val();
-                   savedata.Phone=$("#txtPhone").val();
-                   savedata.Email=$("#txtEmail").val();
-                   savedata.Requirement=$("#txtRequirements").val();
-                   savedata.TotalFirm=parseInt($("#txtTotalFirms").val());
-                   savedata.CustomerType=$("#txtType").val();
-                   savedata.AdharUID=$("#txtAadhaarId").val();
-                   savedata.TotalUsers=parseInt($("#txtTotalUsers").val());
+                   savedata.CustomerId=parseInt($("#dropCustomerName").val());
+                   savedata.Title=$("#txtFirmName").val();
+                   savedata.GstFirmTypeId=parseInt($("#dropGSTFirmType").val());
+                   savedata.BusinessId=parseInt($("#dropBusiness").val());
+                   savedata.OwnerName=$("#txtOwnerName").val();
+                   savedata.FirmTypeId=$("#dropFirmType").val();
+                   savedata.SoftwareId=parseInt($("#dropSoftwareType").val());
+                   savedata.TAN=$("#txtTAN").val();
+                   savedata.IECCode=$("#txtIEC").val();
+                   savedata.LutBondNumber=$("#txtLutBond").val();
+                   savedata.AdharUID=$("#txtAadhaarUID").val();
+                   savedata.BranchLimit=parseInt($("#txtTotalBranches").val());
+                   savedata.IsLutBond=$('#chkLutBond').is(':checked');
+                   savedata.IsGTA=$('#txtGTAMember').is(':checked');
+                   savedata.CessRequired=$('#chkCess').is(':checked');
+                   savedata.LRResetOnYearEnd=$('#chkLR').is(':checked');
                    savedata.IsActive=$('#chkActive').is(':checked');
-                   savedata.AgreeTerms = true;
 
-                  blockUI('container');
+                   blockUI('container');
 
                   $.ajax({
                   type: "POST",
-                  url: "@(Url.Action("SaveCustomer", "Admin"))",
+                  url: "@(Url.Action("SaveCustomerFirm", "Admin"))",
                   data: JSON.stringify(savedata),
                   contentType: "application/json; charset=utf-8",
                   dataType: "json",
@@ -527,7 +511,7 @@
                           unblockUI('container');
                           if (data.result == RESULT_SUCCESS) {
                               fromReset();
-                              showWarning("", 'Customer saved successfully.');
+                              showWarning("", 'CustomerFirm saved successfully.');
                               $("#Id").val(0);
                               $('#tblMain').dataTable().fnClearTable();
                               $('#tblMain').dataTable().fnDestroy();
@@ -543,21 +527,21 @@
                       }
                   });
 
-              }
-                  catch (e) {
-                  unblockUI('container');
-                  showError("", e.message);
-              }
+        }
+            catch (e) {
+            unblockUI('container');
+            showError("", e.message);
+        }
 
-       }
+     }
 
-     function customerDelete(id) {
+    function customerFirmDelete(id) {
               if (id == 0) {
                   id = $('#Id').val();
               }
               try {
                   blockUI('container');
-                  var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomer"))" + "/" + id, "",
+                  var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomerFirm"))" + "/" + id, "",
                       function (result) {
                           unblockUI('container');
                           var str = "";
@@ -582,10 +566,10 @@
               }
           }
 
-     function getDetail(id) {
+    function getDetail(id) {
               try {
                    blockUI('container');
-                  var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
+                  var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomerFirm"))" + "/" + id, "",
                       function (result) {
                           unblockUI('container');
                           var str = "";
@@ -593,27 +577,23 @@
                               if (result.result == RESULT_SUCCESS) {
                                            $("#AddNew").click();
                                            $('#Id').val(result.data.id);
-                                           $("#dropState").select2().val(result.data.stateId).trigger("change");
-                                           $("#txtCustomerName").val(result.data.name);
-                                           $("#dropBusiness").select2().val(result.data.businessId).trigger("change");
-                                           $("#txtAddressLine1").val(result.data.address1);
-                                           $("#txtAddressLine2").val(result.data.address2);
-                                           $("#txtAddressLine3").val(result.data.address3);
-                                           $("#txtPinCode").val(result.data.pincode);
-                                           $("#txtContactPersonName").val(result.data.contactPersonName);
-                                           $("#txtContactMobile").val(result.data.mobile);
-                                           $("#txtAlternateMobile").val(result.data.mobileAlternate);
-                                           $("#txtPhone").val(result.data.phone);
-                                           $("#txtEmail").val(result.data.email);
-                                           $("#txtRequirements").val(result.data.requirement);
-                                           $("#txtTotalFirms").val(result.data.totalFirm);
-                                           $('#chkActive').prop('checked', result.data.isActive);
-                                           $("#txtAadhaarId").val(result.data.adharUID);
-                                           $("#txtTotalUsers").val(result.data.totalUsers);
-                                           $("#txtType").val(result.data.customerType);
-                                           $("#txtBusinessName").val(result.data.businessName);
-                                           $("#txtType option:contains(" + result.data.customerType + ")").attr('selected', 'selected');
-                                           $("#hdnCityId").val(result.data.cityId);
+                                           $("#dropCustomerName").select2().val(result.data.customerId).trigger("change");
+                                           $("#txtFirmName").val(result.data.title);
+                                           $("#dropGSTFirmType").select2().val(result.data.gstFirmTypeId).trigger("change");
+                                           $("#dropBusiness").select2().val(result.data.businessId).trigger("change");;
+                                           $("#txtOwnerName").val(result.data.ownerName);
+                                           $("#dropSoftwareType").select2().val(result.data.firmTypeId).trigger("change");
+                                           $("#dropFirmType").select2().val(result.data.softwareId).trigger("change");
+                                           $("#txtTAN").val(result.data.tan);
+                                           $("#txtLutBond").val(result.data.lutBondNumber);
+                                           $("#txtAadhaarUID").val(result.data.adharUID);
+                                           $("#txtTotalBranches").val(result.data.branchLimit);
+                                           $("#chkLutBond").prop('checked',result.data.isLutBond);
+                                           $("#txtGTAMember").prop('checked',result.data.isGTA);
+                                           $("#chkCess").prop('checked',result.data.cessRequired);
+                                           $('#chkLR').prop('checked', result.data.lrResetOnYearEnd);
+                                           $("#chkActive").prop('checked',result.data.isActive);
+                                           $("#txtIEC").val(result.data.iecCode);
 
                               } else {
                                   showError('Error', result.data); //warning,  success, error, info

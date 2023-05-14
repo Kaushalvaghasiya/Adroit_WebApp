@@ -13,18 +13,20 @@ namespace Adroit.Accounting.Web.Controllers
     public partial class AdminController : Controller
     {
         public IActionResult CustomerFirm()
+        
         {
             return View();
         }
+
         [HttpGet]
-        public JsonResult CustomerFirmList(int draw = 0, int start = 0, int length = 10)
+        public JsonResult CustomerFirmList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
         {
             var result = new DataTableList<CustomerFirm>();
             try
             {
                 int sortColumn = 0, loginId = 0, firmId = 0;
                 string sortDirection = "asc", search = "";
-                int customerId = 2;
+                
                 var records = CustomerFirmRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection, customerId).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
@@ -45,7 +47,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-
+                var userName = Adroit.Accounting.Web.Utility.LoginHandler.GetUserName(User); // need to change and Get user id and set add/modifiy/deletedby
                 int id = CustomerFirmRepo.Save(savedata, ConfigurationData.DefaultConnection);
                 if (id > 0)
                 {

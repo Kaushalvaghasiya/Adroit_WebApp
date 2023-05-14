@@ -46,7 +46,7 @@ BEGIN
 						IsDeleted=@IsDeleted,
 						IsActive=@IsActive,
 						OrderNumber=@OrderNumber,
-						ModifiedById=@ModifiedById,
+						ModifiedById=NULL, --need change ref key
 						ModifiedOn=GETUTCDATE(),
 						AdharUID=@AdharUID,
 						LRResetOnYearEnd=@LRResetOnYearEnd,
@@ -59,14 +59,14 @@ BEGIN
 					([CustomerId],[BusinessId],Title,OwnerName,[TAN],IECCode,
 					IsLutBond,LutBondNumber,IsGTA,FirmTypeId,GstFirmTypeId,
 					SoftwareId,BranchLimit,IsDeleted,IsActive,OrderNumber,
-					AddedById,AddedOn,AdharUID,LRResetOnYearEnd,CessRequired
+					AddedOn,AdharUID,LRResetOnYearEnd,CessRequired
 					)
 				VALUES
 					(
 					@CustomerId,@BusinessId,@Title,@OwnerName,@TAN,@IECCode,
 					@IsLutBond,@LutBondNumber,@IsGTA,@FirmTypeId,@GstFirmTypeId,
 					@SoftwareId,@BranchLimit,@IsDeleted,@IsActive,@OrderNumber,
-					@AddedById,GETUTCDATE(),@AdharUID,@LRResetOnYearEnd,@CessRequired
+					GETUTCDATE(),@AdharUID,@LRResetOnYearEnd,@CessRequired
 					)
 
 				SET @Id = SCOPE_IDENTITY()
