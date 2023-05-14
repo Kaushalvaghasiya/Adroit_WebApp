@@ -19,10 +19,20 @@ namespace Adroit.Accounting.Web.Controllers
         private IGSTInvoiceType _gstInvoiceTypeRepo;
         private readonly ConfigurationData _configurationData;
         private IBusiness _businessRepo;
+        private IFirmTypeAdmin _firmTypeAdminRepo;
+        private IGSTFirmType _gstFirmTypeRepo;
+        private ISoftwareType _softwareTypeRepo;
+        protected readonly ICustomer _customerRepo;
 
         public CommonController(IOptions<ConfigurationData> configurationData, IState stateRepo, ICity cityRepo,
                 ICountry countryRepo, IDistrict districtRepo, ITaluka talukaRepository,
-                IGSTInvoiceType gstInvoiceTypeRepo, IBusiness business)
+                IGSTInvoiceType gstInvoiceTypeRepo,
+                IBusiness business,
+                ISoftwareType softwareTypeRepo,
+                IFirmTypeAdmin firmTypeAdminRepo,
+                IGSTFirmType gstFirmTypeRepo,
+                ICustomer customerRepo
+            )
         {
             _stateRepo = stateRepo;
             _cityRepo = cityRepo;
@@ -32,6 +42,10 @@ namespace Adroit.Accounting.Web.Controllers
             _talukaRepo = talukaRepository;
             _gstInvoiceTypeRepo = gstInvoiceTypeRepo;
             _businessRepo = business;
+            _firmTypeAdminRepo = firmTypeAdminRepo;
+            _gstFirmTypeRepo = gstFirmTypeRepo;
+            _softwareTypeRepo = softwareTypeRepo;
+            _customerRepo = customerRepo;
         }
 
         public IActionResult Index()
@@ -157,5 +171,76 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
+
+        [AllowAnonymous]
+        public JsonResult GetSoftware()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _softwareTypeRepo.GetSoftwareTypeList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetFirmTypeAdmin()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _firmTypeAdminRepo.GetFirmTypeAdminList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetCustomer()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerRepo.GetCustomerList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetGSTFirmType()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _gstFirmTypeRepo.GetGSTFirmTypeList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+
+
     }
 }

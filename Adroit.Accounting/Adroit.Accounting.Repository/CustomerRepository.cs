@@ -105,5 +105,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Id", id);
             QueryHelper.Save("sp_CustomerDelete", connectionString, parameters);
         }
+
+        public List<Customer> GetCustomerList(string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            return QueryHelper.GetList<Model.Customer>("sp_CustomerList_Select", connectionString, parameters);
+        }
     }
 }

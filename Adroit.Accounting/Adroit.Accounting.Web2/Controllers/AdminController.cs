@@ -25,6 +25,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly IBillTypeAdmin BillTypeAdminRepo;
         protected readonly IBillEntryTypeAdmin BillEntryTypeAdminRepo;
         protected readonly ConfigurationData ConfigurationData;
+        protected readonly ICustomerFirm CustomerFirmRepo;
 
         public AdminController(
            IOptions<ConfigurationData> configurationData,
@@ -32,7 +33,8 @@ namespace Adroit.Accounting.Web.Controllers
            IAccountAdmin accountAdminRepo,
            IBillTypeAdmin billTypeAdminRepo,
            IBillEntryTypeAdmin billEntryTypeAdminRepo,
-           ICustomer customerRepo
+           ICustomer customerRepo,
+           ICustomerFirm customerFirmRepo
             )
 
         {
@@ -42,6 +44,7 @@ namespace Adroit.Accounting.Web.Controllers
             CustomerRepo = customerRepo;
             BillTypeAdminRepo = billTypeAdminRepo;
             BillEntryTypeAdminRepo = billEntryTypeAdminRepo;
+            CustomerFirmRepo = customerFirmRepo;
         }
     }
 }
