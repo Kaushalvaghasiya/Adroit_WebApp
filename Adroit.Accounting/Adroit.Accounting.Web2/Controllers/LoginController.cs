@@ -74,7 +74,7 @@ namespace Adroit.Accounting.Web.Controllers
                         var userDetail = _userRepository.Get(model.Username, _configurationData.DefaultConnection);
                         var customer = _customerRepository.Get(userDetail.CustomerId, _configurationData.DefaultConnection);
 
-                        await LoginHandler.SetupLogin(HttpContext,
+                        await LoginHandler.SetupLogin(HttpContext, userDetail.ID,
                             model.Username,
                             $"{userDetail.FirstName} {userDetail.LastName}",
                             customer.CustomerType == Model.Enums.CustomerType.BackOffice ? UserType.BackOffice : UserType.Customer
