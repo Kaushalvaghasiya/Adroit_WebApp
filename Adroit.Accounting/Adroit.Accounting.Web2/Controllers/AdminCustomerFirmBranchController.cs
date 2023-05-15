@@ -41,13 +41,13 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveCustomerFirmBranch([FromBody] CustomerFirmBranch customerFirmBranch)
+        public JsonResult SaveCustomerFirmBranch([FromBody] CustomerFirmBranch savedata)
         {
             ApiResult result = new ApiResult();
             try
             {
                 var userName = Adroit.Accounting.Web.Utility.LoginHandler.GetUserName(User); // need to change and Get user id and set add/modifiy/deletedby
-                int id = CustomerFirmBranchRepo.Save(customerFirmBranch, ConfigurationData.DefaultConnection);
+                int id = CustomerFirmBranchRepo.Save(savedata, ConfigurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;

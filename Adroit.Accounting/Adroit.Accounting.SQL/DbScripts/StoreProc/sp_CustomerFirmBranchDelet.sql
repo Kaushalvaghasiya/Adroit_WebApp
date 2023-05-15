@@ -8,7 +8,7 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		UPDATE CustomerFirm SET 
+		UPDATE CustomerFirmBranch SET 
 		IsDeleted = 1, 
 		IsActive = 0,
 		--DeletedById = NULL,  -- need to change fore key

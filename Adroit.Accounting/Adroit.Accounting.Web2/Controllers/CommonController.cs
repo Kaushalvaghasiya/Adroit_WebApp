@@ -24,6 +24,8 @@ namespace Adroit.Accounting.Web.Controllers
         private ISoftwareType _softwareTypeRepo;
         private ICustomer _customerRepo;
         private IFirmBranchTypeAdmin _firmBranchTypeAdminRepo;
+        private IFirm _firmRepo;
+
 
         public CommonController(IOptions<ConfigurationData> configurationData, IState stateRepo, ICity cityRepo,
                 ICountry countryRepo, IDistrict districtRepo, ITaluka talukaRepository,
@@ -33,7 +35,8 @@ namespace Adroit.Accounting.Web.Controllers
                 IFirmTypeAdmin firmTypeAdminRepo,
                 IGSTFirmType gstFirmTypeRepo,
                 ICustomer customerRepo,
-                IFirmBranchTypeAdmin firmBranchTypeAdminRepo
+                IFirmBranchTypeAdmin firmBranchTypeAdminRepo,
+                IFirm firmRepo
             )
         {
             _stateRepo = stateRepo;
@@ -49,6 +52,7 @@ namespace Adroit.Accounting.Web.Controllers
             _softwareTypeRepo = softwareTypeRepo;
             _customerRepo = customerRepo;
             _firmBranchTypeAdminRepo = firmBranchTypeAdminRepo;
+            _firmRepo= firmRepo;
         }
 
         public IActionResult Index()
@@ -244,7 +248,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [AllowAnonymous]
-        public JsonResult GetFirmBranchTypeAdminRepo()
+        public JsonResult GetFirmBranchTypeAdmin()
         {
             ApiResult result = new ApiResult();
             try
@@ -259,7 +263,22 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
+        [AllowAnonymous]
+        public JsonResult GetFirm()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _firmRepo.GetFirmList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
 
 
     }
