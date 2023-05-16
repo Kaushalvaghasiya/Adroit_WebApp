@@ -26,7 +26,10 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 int sortColumn = 0, loginId = 0, firmId = 0;
                 string sortDirection = "asc", search = "";
-
+                //// note: we only sort one column at a time
+                search = Convert.ToString(Request.Query["search[value]"]);
+                //sortColumn = int.Parse(Request.Query["order[0][column]"]);
+                //sortDirection = Convert.ToString(Request.Query["order[0][dir]"]);
                 var records = CustomerRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;

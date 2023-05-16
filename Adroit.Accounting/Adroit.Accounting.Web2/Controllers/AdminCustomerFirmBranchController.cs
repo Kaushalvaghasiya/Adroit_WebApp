@@ -24,8 +24,12 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int sortColumn = 0, loginId = 0;
-                string sortDirection = "asc", search="";
-                
+                string sortDirection = "asc", search = "";
+                //// note: we only sort one column at a time
+                search = Convert.ToString(Request.Query["search[value]"]);
+                //sortColumn = int.Parse(Request.Query["order[0][column]"]);
+                //sortDirection = Convert.ToString(Request.Query["order[0][dir]"]);
+
                 var records = CustomerFirmBranchRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
@@ -46,7 +50,9 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var userName = Adroit.Accounting.Web.Utility.LoginHandler.GetUserName(User); // need to change and Get user id and set add/modifiy/deletedby
+                var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
+                savedata.AddedById = UserId;
+                savedata.ModifiedById = UserId;
                 int id = CustomerFirmBranchRepo.Save(savedata, ConfigurationData.DefaultConnection);
                 if (id > 0)
                 {
@@ -68,8 +74,9 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                //need change login customer id 
-                CustomerFirmBranchRepo.Delete(id,1, ConfigurationData.DefaultConnection);
+                var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
+              
+                CustomerFirmBranchRepo.Delete(id, UserId, ConfigurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

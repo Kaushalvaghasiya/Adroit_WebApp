@@ -13,7 +13,7 @@ namespace Adroit.Accounting.Web.Controllers
     public partial class AdminController : Controller
     {
         public IActionResult CustomerFirm()
-        
+
         {
             return View();
         }
@@ -26,7 +26,10 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 int sortColumn = 0, loginId = 0, firmId = 0;
                 string sortDirection = "asc", search = "";
-                
+                //// note: we only sort one column at a time
+                search = Convert.ToString(Request.Query["search[value]"]);
+                //sortColumn = int.Parse(Request.Query["order[0][column]"]);
+                //sortDirection = Convert.ToString(Request.Query["order[0][dir]"]);
                 var records = CustomerFirmRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection, customerId).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
@@ -47,7 +50,9 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var userName = Adroit.Accounting.Web.Utility.LoginHandler.GetUserName(User); // need to change and Get user id and set add/modifiy/deletedby
+                var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
+                savedata.AddedById = UserId;
+                savedata.ModifiedById = UserId;
                 int id = CustomerFirmRepo.Save(savedata, ConfigurationData.DefaultConnection);
                 if (id > 0)
                 {
@@ -69,8 +74,10 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
+
+                var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
                 //need change login customer id 
-                CustomerFirmRepo.Delete(id,1, ConfigurationData.DefaultConnection);
+                CustomerFirmRepo.Delete(id, UserId, ConfigurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
