@@ -49,8 +49,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Address1", customerFirmBranch.Address1);
             parameters.Add("@Address2", customerFirmBranch.Address2);
             parameters.Add("@Address3", customerFirmBranch.Address3);
-            parameters.Add("@CityId", customerFirmBranch.CityId == null ? $"{(short)customerFirmBranch.CityId}" : null);
-            parameters.Add("@StateId", customerFirmBranch.StateId == null ? $"{(short)customerFirmBranch.StateId}" : null);
+            parameters.Add("@CityId", customerFirmBranch.CityId !=0 ? $"{(short)customerFirmBranch.CityId}" : null);
+            parameters.Add("@StateId", customerFirmBranch.StateId != 0 ? $"{(short)customerFirmBranch.StateId}" : null);
             parameters.Add("@CountryId", $"{(short)customerFirmBranch.CountryId}");
             parameters.Add("@PinCode", customerFirmBranch.Pincode ?? "");
             parameters.Add("@Phone", customerFirmBranch.Phone ?? "");
@@ -65,7 +65,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@RenewalDate", customerFirmBranch.RenewalDate);
             parameters.Add("@SetupPrice", customerFirmBranch.SetupPrice);
             parameters.Add("@RenewalPrice", customerFirmBranch.RenewalPrice);
-            parameters.Add("@OrderNumber", customerFirmBranch.OrderNumber == null ? $"{(short)customerFirmBranch.OrderNumber}" : null);
+            parameters.Add("@OrderNumber", customerFirmBranch.OrderNumber != 0 ? $"{(short)customerFirmBranch.OrderNumber}" : null);
             parameters.Add("@AddedById", customerFirmBranch.AddedById);
             parameters.Add("@ModifiedById", customerFirmBranch.ModifiedById);
             parameters.Add("@IsActive", customerFirmBranch.IsActive);

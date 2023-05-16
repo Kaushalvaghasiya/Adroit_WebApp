@@ -24,7 +24,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int sortColumn = 0, loginId = 0;
-                string sortDirection = "asc", search = "";
+                string sortDirection = "asc", search="";
                 
                 var records = CustomerFirmBranchRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
