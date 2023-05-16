@@ -8,10 +8,11 @@ namespace Adroit.Accounting.Web.Utility
 {
     public class LoginHandler
     {
-        public static async Task SetupLogin(HttpContext context, string userName, string fullName, UserType userType = UserType.Customer)
+        public static async Task SetupLogin(HttpContext context, int userId, string userName, string fullName, UserType userType = UserType.Customer)
         {
             var claims = new List<Claim>
                     {
+                        new Claim(ClaimTypes.SerialNumber, $"{userId}"),
                         new Claim(ClaimTypes.Name, userName),
                         new Claim(ClaimTypes.GivenName, string.IsNullOrWhiteSpace(fullName)?userName:fullName),
                         new Claim(ClaimTypes.Role, $"{userType}"),
@@ -30,6 +31,16 @@ namespace Adroit.Accounting.Web.Utility
             await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
         }
 
+        public static int GetUserId(IPrincipal user)
+        {
+            var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.SerialNumber);
+            if (null != claim)
+            {
+                return Convert.ToInt32(claim.Value);
+            }
+
+            return 0;
+        }
         public static string GetUserFullName(IPrincipal user)
         {
             var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.GivenName);
