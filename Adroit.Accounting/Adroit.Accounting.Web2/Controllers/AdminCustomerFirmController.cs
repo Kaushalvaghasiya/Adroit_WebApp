@@ -50,9 +50,10 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                savedata.AddedById = UserId;
-                savedata.ModifiedById = UserId;
+                //we need add user Id
+                //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
+                //savedata.AddedById = UserId;
+                //savedata.ModifiedById = UserId;
                 int id = CustomerFirmRepo.Save(savedata, ConfigurationData.DefaultConnection);
                 if (id > 0)
                 {
@@ -75,7 +76,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
 
-                var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
+                var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
                 //need change login customer id 
                 CustomerFirmRepo.Delete(id, UserId, ConfigurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;

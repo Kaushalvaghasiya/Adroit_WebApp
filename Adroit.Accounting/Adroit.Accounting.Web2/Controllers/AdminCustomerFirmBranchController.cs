@@ -50,7 +50,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
+                var UserId = 1;//Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
                 savedata.AddedById = UserId;
                 savedata.ModifiedById = UserId;
                 int id = CustomerFirmBranchRepo.Save(savedata, ConfigurationData.DefaultConnection);
@@ -74,7 +74,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
+                var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
               
                 CustomerFirmBranchRepo.Delete(id, UserId, ConfigurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
