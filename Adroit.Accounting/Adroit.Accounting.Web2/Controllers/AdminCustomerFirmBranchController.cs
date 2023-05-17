@@ -1,12 +1,8 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
-using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
-using Adroit.Accounting.Web.Controllers;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Data;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -23,12 +19,11 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableList<CustomerFirmBranch>();
             try
             {
-                int sortColumn = 0, loginId = 0;
-                string sortDirection = "asc", search = "";
+                int loginId = 0;
                 //// note: we only sort one column at a time
-                search = Convert.ToString(Request.Query["search[value]"]);
-                //sortColumn = int.Parse(Request.Query["order[0][column]"]);
-                //sortDirection = Convert.ToString(Request.Query["order[0][dir]"]);
+                var search = Request.Query["search[value]"];
+                var sortColumn = int.Parse(Request.Query["order[0][column]"]);
+                var sortDirection = Request.Query["order[0][dir]"];
 
                 var records = CustomerFirmBranchRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
@@ -75,7 +70,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-              
+
                 CustomerFirmBranchRepo.Delete(id, UserId, ConfigurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }

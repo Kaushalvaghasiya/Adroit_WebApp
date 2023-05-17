@@ -33,7 +33,7 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
             param.Add("@CustomerId", CustomerId);
-            
+
             return QueryHelper.GetList<Model.CustomerFirm>("sp_CustomerFirmList", connectionString, param);
         }
 

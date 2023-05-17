@@ -1,12 +1,8 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
-using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
-using Adroit.Accounting.Web.Controllers;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Data;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -49,7 +45,6 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-
                 int id = CustomerRepo.Save(savedata, ConfigurationData.DefaultConnection);
                 if (id > 0)
                 {

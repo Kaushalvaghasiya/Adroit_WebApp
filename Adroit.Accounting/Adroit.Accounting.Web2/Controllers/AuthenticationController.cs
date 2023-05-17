@@ -1,21 +1,19 @@
 ﻿using Adroit.Accounting.Model;
-using Microsoft.AspNetCore.Mvc;
-using Adroit.Accounting.Repository.IRepository;
-using Adroit.Accounting.Web.Models;
-using Microsoft.Extensions.Options;
-using Adroit.Accounting.Model.Master;
-using Adroit.Accounting.Utility;
 using Adroit.Accounting.Model.Enums;
-using Microsoft.AspNetCore.Identity;
-using System.Text;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Text.Encodings.Web;
+using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
-using Microsoft.CodeAnalysis.Emit;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.Utility;
+using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Authentication;
-using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -27,6 +25,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly ILogger<AuthenticationController> _logger;
+
         public AuthenticationController(ICustomer customerRepo,
             IOptions<ConfigurationData> configurationData,
             IEmailService emailService,
@@ -41,11 +40,10 @@ namespace Adroit.Accounting.Web.Controllers
             _userStore = userStore;
             _logger = logger;
         }
-        
+
         [AllowAnonymous]
         public IActionResult VerifyOtpAndSetPassword(string userId, string code)
         {
-
             ViewBag.IdentityUserId = userId;
             ViewBag.TokenCode = code;
 
@@ -108,7 +106,6 @@ namespace Adroit.Accounting.Web.Controllers
                     result.data = "User does not exists.";
                     result.result = Constant.API_RESULT_ERROR;
                 }
-
             }
             catch (Exception ex)
             {
@@ -216,7 +213,6 @@ namespace Adroit.Accounting.Web.Controllers
                     result.data = "User does not exists.";
                     result.result = Constant.API_RESULT_ERROR;
                 }
-
             }
             catch (Exception ex)
             {

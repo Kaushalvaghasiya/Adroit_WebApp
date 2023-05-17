@@ -24,12 +24,11 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableList<CustomerFirm>();
             try
             {
-                int sortColumn = 0, loginId = 0, firmId = 0;
-                string sortDirection = "asc", search = "";
+                int loginId = 0, firmId = 0;
                 //// note: we only sort one column at a time
-                search = Convert.ToString(Request.Query["search[value]"]);
-                //sortColumn = int.Parse(Request.Query["order[0][column]"]);
-                //sortDirection = Convert.ToString(Request.Query["order[0][dir]"]);
+                var search = Request.Query["search[value]"];
+                var sortColumn = int.Parse(Request.Query["order[0][column]"]);
+                var sortDirection = Request.Query["order[0][dir]"];
                 var records = CustomerFirmRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection, customerId).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
