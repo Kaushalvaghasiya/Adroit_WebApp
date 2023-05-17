@@ -467,14 +467,14 @@
              });
              colDef.push({
                  "render": function (data, type, row) {
-                     return moment(row.addedOn).format(DateFormate);
+                     return row.addedOnStr;
                  },
                  "targets": colDef.length,
                  "orderable": false
              });
                 colDef.push({
                  "render": function (data, type, row) {
-                     return moment(row.renewalDate).format(DateFormate);
+                     return row.renewalDateStr;
                  },
                  "targets": colDef.length,
                  "orderable": false
@@ -768,7 +768,10 @@
                         return;
                     }
                  }
-
+                 var orderNumber=0
+                 if($("#txtOrderNumber").val()!=""){
+                   orderNumber=parseInt($("#txtOrderNumber").val())
+                 }
                  var savedata = new Object();
                   savedata.Id = parseInt($("#Id").val());
                   savedata.Title=$("#txtBranchName").val();
@@ -791,7 +794,7 @@
                   savedata.RenewalDate=moment($("#dtRenewalDate").val()).format(DateFormate);
                   savedata.RenewalPrice=$("#txtRenewalPrice").val();
                   savedata.SetupPrice=$("#txtSetupPrice").val();
-                  savedata.OrderNumber=parseInt($("#txtOrderNumber").val());
+                  savedata.OrderNumber=orderNumber;
                   savedata.Phone=$("#txtPhone").val();
                   savedata.Mobile=$("#txtMobile").val();
                   savedata.MobileAlternate=$("#txtMobileAlternate").val();
@@ -900,7 +903,7 @@
                                         $("#txtEmail").val(result.data.email);
                                         $("#txtEWBAdressLine1").val(result.data.ewbAddress1);
                                         $("#txtEWBAdressLine2").val(result.data.ewbAddress2);
-                                        $("#dtRenewalDate").val(result.data.renewalDate);
+                                        $("#dtRenewalDate").moment(result.data.renewalDateStr).format(DateFormate);
                                         $("#txtRenewalPrice").val(result.data.renewalPrice);
                                         $("#txtSetupPrice").val(result.data.setupPrice);
                                         $("#txtOrderNumber").val(result.data.orderNumber);

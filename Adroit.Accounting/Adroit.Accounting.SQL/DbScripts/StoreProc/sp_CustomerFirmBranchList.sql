@@ -16,7 +16,10 @@ Begin
 		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CustomerFirmBranch.[Title] END ASC,  
 		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN CustomerFirmBranch.[Title] END DESC
 		) AS RowNum,
-	   Count(*) over () AS TotalCount, CustomerFirmBranch.*,[CustomerFirm].Title as CustomerFirm,[FirmBranchTypeAdmin].Title as FirmBranchTypeAdmin, [City].Title as City
+	   Count(*) over () AS TotalCount, CustomerFirmBranch.*,[CustomerFirm].Title as CustomerFirm,
+	   [FirmBranchTypeAdmin].Title as FirmBranchTypeAdmin, [City].Title as City,
+	   CONVERT(VARCHAR(10), CustomerFirmBranch.RenewalDate, 101) as RenewalDateStr,
+	   CONVERT(VARCHAR(10), CustomerFirmBranch.AddedOn, 101) as AddedOnStr
 	  FROM CustomerFirmBranch
 	  LEFT JOIN CustomerFirm ON CustomerFirm.Id=CustomerFirmBranch.FirmId
 	  LEFT JOIN FirmBranchTypeAdmin ON CustomerFirmBranch.FirmBranchTypeId=FirmBranchTypeAdmin.id

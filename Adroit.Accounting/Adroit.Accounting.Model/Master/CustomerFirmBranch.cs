@@ -47,5 +47,8 @@ namespace Adroit.Accounting.Model
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
         public bool IsActive { get; set; }
+
+        public string RenewalDateStr { get; set; }
+        public string AddedOnStr { get; set; }
     }
 }
