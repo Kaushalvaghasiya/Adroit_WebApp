@@ -10,7 +10,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Customer</a></li>
-                       <li><a href="#">Customer Firm</a></li>
+                    <li><a href="#">Customer Firm</a></li>
                     <li class="active"><span>Branches</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -44,7 +44,7 @@
                 </div>
                 <div class="card-body pt-0">
                     <div class="table-responsive">
-                        <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">BRANCH NAME</th>
@@ -55,7 +55,7 @@
                                     <th class="border-bottom-0">CITY</th>
                                     <th class="border-bottom-0">CREATED ON</th>
                                     <th class="border-bottom-0">RENEWAL DATE</th>
-                                    <th class="border-bottom-0 text-center" style="width:80px!important;">Action</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -76,8 +76,8 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Customer</a></li>
-                     <li><a href="#">CustomerFirm</a></li>
-                     <li><a href="#">CustomerBranch</a></li>
+                    <li><a href="#">CustomerFirm</a></li>
+                    <li><a href="#">CustomerBranch</a></li>
                     <li class="active"><span>Branches Add/Edit</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -281,19 +281,19 @@
                                 <input type="text" class="form-control" id="txtRenewalPrice" placeholder="Renewal Price">
                             </div>
                         </div>
-                       @* <div class="col-md-2">
+                        @* <div class="col-md-2">
                             <div class="form-group">
-                                <label for="exampleInputname">Created On</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
-                                        </div>
-                                    </div>
-                                    <input class="form-control" placeholder="MM/DD/YYYY" type="text" readonly id="dtCreateOn">
-                                </div>
+                            <label for="exampleInputname">Created On</label>
+                            <div class="input-group">
+                            <div class="input-group-prepend">
+                            <div class="input-group-text">
+                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                             </div>
-                        </div>*@
+                            </div>
+                            <input class="form-control" placeholder="MM/DD/YYYY" type="text" readonly id="dtCreateOn">
+                            </div>
+                            </div>
+                            </div>*@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputname">Setup Price</label>
@@ -357,32 +357,6 @@
 
          datatablelist();
 
-         $(".buttons-copy").removeClass("btn-primary");
-         $(".buttons-copy").addClass("btn-outline-primary");
-
-         $(".buttons-excel").removeClass("btn-primary");
-         $(".buttons-excel").addClass("btn-outline-primary");
-
-         $(".buttons-pdf").removeClass("btn-primary");
-         $(".buttons-pdf").addClass("btn-outline-primary");
-
-         $(".buttons-colvis").removeClass("btn-primary");
-         $(".buttons-colvis").removeClass("dropdown-toggle");
-         $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
-
-         $(".buttons-copy").empty();
-         $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
-
-         $(".buttons-excel").empty();
-         $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
-
-         $(".buttons-pdf").empty();
-         $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
-
-         $(".buttons-colvis").empty();
-         $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
-
-
           $("#dropState").on('change', function (e) {
                      let stateId = $(this).val();
                      if (stateId > 0) {
@@ -408,6 +382,9 @@
         bindFirmList();
      });
 
+     function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
 
     function GetParameterValues(param)
          {
@@ -428,62 +405,54 @@
                      return row.title;
                  },
                  "targets": colDef.length,
-                 "orderable": false
                   });
               colDef.push({
                  "render": function (data, type, row) {
                      return row.customerFirm;
                  },
                  "targets": colDef.length,
-                 "orderable": false
              });
              colDef.push({
                  "render": function (data, type, row) {
                      return row.firmBranchTypeAdmin;
                  },
                  "targets": colDef.length,
-                 "orderable": false
              });
              colDef.push({
                  "render": function (data, type, row) {
                      return row.pincode;
                  },
                  "targets": colDef.length,
-                 "orderable": false
              });
              colDef.push({
                  "render": function (data, type, row) {
                      return row.gstNumber;
                  },
                  "targets": colDef.length,
-                 "orderable": false
              });
              colDef.push({
                  "render": function (data, type, row) {
                      return row.city;
                  },
                  "targets": colDef.length,
-                 "orderable": false
              });
              colDef.push({
                  "render": function (data, type, row) {
                      return row.addedOnStr;
                  },
                  "targets": colDef.length,
-                 "orderable": false
              });
                 colDef.push({
                  "render": function (data, type, row) {
                      return row.renewalDateStr;
                  },
                  "targets": colDef.length,
-                 "orderable": false
              });
               colDef.push({
                  "render": function (data, type, row) {
-                     let btnAct = "<a onclick='getDetail(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
+                     let btnAct = "<div class='btn-list'><a onclick='getDetail(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
                      btnAct += " &nbsp;&nbsp; <a href='#' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
-                     btnAct += " &nbsp;&nbsp; <a onclick='branchDelete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                     btnAct += " &nbsp;&nbsp; <a onclick='branchDelete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a><div>";
                      return btnAct;
                  },
                  "targets": colDef.length,
@@ -500,31 +469,66 @@
              columns.push({ "data": "renewalDate", "name": "renewalDate" });
              columns.push({ "data": "Id", "name": "Id" });
 
-             var table = $('#tblMain').DataTable({
-                 ordering: false,
-                 searching: true,
-                 bInfo: true,
-                 bLengthChange: false,
-                 info: false,
-                 oLanguage: { 'sZeroRecords': 'sEmptyTable' },
-                 pageLength: 11,
-                 filter: true,
-                 paging: true,
-                 order: [[1, 'asc']],
-                 pagingType: 'full_numbers',
-                 orderClasses: false,
-                 scrollCollapse: true,
-                 bProcessing: true,
-                 bServerSide: true,
-                 stateSave: false,
-                 columnDefs: colDef,
-                 columns: columns,
-                 bPaginate: true,
+              var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'pdf', 'colvis'],
+                processing: true,
+                serverSide: true,
                  ajax: {
                      url: '@(Url.Content("~/Admin/CustomerFirmBranchList?firmId="))'+window.customerfirmId,
                      type: 'GET',
                      data: function (d) { }
                  },
+                  "initComplete": function(settings, json) {
+                    table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
+
+                    $(".buttons-copy").removeClass("btn-primary");
+                    $(".buttons-copy").addClass("btn-outline-primary");
+
+                    $(".buttons-excel").removeClass("btn-primary");
+                    $(".buttons-excel").addClass("btn-outline-primary");
+
+                    $(".buttons-pdf").removeClass("btn-primary");
+                    $(".buttons-pdf").addClass("btn-outline-primary");
+
+                    $(".buttons-colvis").removeClass("btn-primary");
+                    $(".buttons-colvis").removeClass("dropdown-toggle");
+                    $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
+
+                    $(".buttons-copy").empty();
+                    $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
+
+                    $(".buttons-excel").empty();
+                    $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
+
+                    $(".buttons-pdf").empty();
+                    $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
+
+                    $(".buttons-colvis").empty();
+                    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
+                },
+                "drawCallback": function (settings) {
+                }
 
              });
      }
@@ -817,7 +821,7 @@
                              $("#Id").val(0);
                              $('#tblMain').dataTable().fnClearTable();
                              $('#tblMain').dataTable().fnDestroy();
-                             datatablelist();
+                             refreshDatatableList();
                              $("#btnCancel").click()
                          } else {
                              showError("", data.data);
@@ -851,7 +855,7 @@
                              if (result.result == RESULT_SUCCESS) {
                                  $('#tblMain').dataTable().fnClearTable();
                                  $('#tblMain').dataTable().fnDestroy();
-                                 datatablelist();
+                                 refreshDatatableList();
                              } else {
                                  showError('Error', result.data); //warning,  success, error, info
                              }
