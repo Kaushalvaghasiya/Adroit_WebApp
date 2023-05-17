@@ -23,7 +23,7 @@
                                 <i class="fa fa-lock"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew">
+                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew" onclick="fromReset()">
                             <span>
                                 <i class="fa fa-plus"></i>
                             </span>
@@ -50,7 +50,7 @@
                                     <th class="border-bottom-0">OWNER NAME</th>
                                     <th class="border-bottom-0">FIRM TYPE</th>
                                     <th class="border-bottom-0">LIST OF BRANCHES</th>
-                                    <th class="border-bottom-0 text-center" style="width:110px!important;">Action</th>
+                                    <th class="border-bottom-0 text-center" style="width:140px!important;">Action</th>
                                 </tr>
                             </thead>
 
@@ -72,7 +72,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Customer</a></li>
-                    <li class="active"><span>Firms Add/Edit (ID# 100)</span></li>
+                    <li class="active"><span id="activeTabName">Firm Add</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -100,7 +100,7 @@
                                 <i class="fa fa-trash-o"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New" onclick="fromReset()">
+                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New" onclick="fromReset()">
                             <span>
                                 <i class="fa fa-plus"></i>
                             </span>
@@ -316,21 +316,21 @@
                       return row.customerName;
                   },
                   "targets": colDef.length,
-                 
+
               });
               colDef.push({
                   "render": function (data, type, row) {
                       return row.ownerName;
                   },
                   "targets": colDef.length,
-                 
+
               });
               colDef.push({
                   "render": function (data, type, row) {
                       return row.firmType;
                   },
                   "targets": colDef.length,
-                  
+
               });
               colDef.push({
                   "render": function (data, type, row) {
@@ -341,7 +341,8 @@
                colDef.push({
                   "render": function (data, type, row) {
                       let btnAct = "<div class='btn-list'> <a onclick='getDetail(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
-                      btnAct += " &nbsp;&nbsp; <a onclick='redirect(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
+                      btnAct += " &nbsp;&nbsp; <a href='#' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
+                      btnAct += " &nbsp;&nbsp; <a onclick='redirect(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-external-link'></i></a>";
                       btnAct += " &nbsp;&nbsp; <a onclick='customerFirmDelete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
                       return btnAct;
                   },
@@ -357,7 +358,7 @@
               columns.push({ "data": "branchLimit", "name": "branchLimit" });
               columns.push({ "data": "Id", "name": "Id" });
 
-              
+
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
                 lengthChange: false,
@@ -439,6 +440,7 @@
         $("#txtAadhaarUID").val("");
         $("#txtTotalBranches").val("");
         $('.custom-switch-input').prop('checked', false);
+        $("#activeTabName").text("Firm Add");
      }
 
      function saveDetail()
@@ -592,6 +594,7 @@
                           try {
                               if (result.result == RESULT_SUCCESS) {
                                            $("#AddNew").click();
+                                           $("#activeTabName").text("Firm EDT(ID# "+result.data.id+")");
                                            $('#Id').val(result.data.id);
                                            $("#dropCustomerName").select2().val(result.data.customerId).trigger("change");
                                            $("#txtFirmName").val(result.data.title);

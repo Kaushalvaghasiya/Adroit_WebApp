@@ -25,7 +25,7 @@
                                 <i class="fa fa-lock"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew">
+                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" onclick="fromReset()" id="AddNew">
                             <span>
                                 <i class="fa fa-plus"></i>
                             </span>
@@ -55,7 +55,7 @@
                                     <th class="border-bottom-0">CITY</th>
                                     <th class="border-bottom-0">CREATED ON</th>
                                     <th class="border-bottom-0">RENEWAL DATE</th>
-                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                    <th class="border-bottom-0 text-center" style="width:160px!important;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -78,7 +78,7 @@
                     <li><a href="#">Customer</a></li>
                     <li><a href="#">CustomerFirm</a></li>
                     <li><a href="#">CustomerBranch</a></li>
-                    <li class="active"><span>Branches Add/Edit</span></li>
+                    <li class="active"><span id="activeTabName">Branches Add/Edit</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -712,7 +712,8 @@
         $("#txtRenewalPrice").val("");
         $("#txtSetupPrice").val("");
         $("#txtOrderNumber").val("");
-         $('.custom-switch-input').prop('checked', false);
+        $('.custom-switch-input').prop('checked', false);
+        $("#activeTabName").text("Branch Add");
         }
 
      function saveDetail() {
@@ -885,6 +886,7 @@
                          try {
                              if (result.result == RESULT_SUCCESS) {
                                         $("#AddNew").click();
+                                        $("#activeTabName").text("Branch EDT(ID# "+result.data.id+")");
                                         $("#Id").val(result.data.id);
                                         $("#txtBranchName").val(result.data.title);
                                         $("#dropFirm").select2().val(result.data.firmId).trigger("change");
