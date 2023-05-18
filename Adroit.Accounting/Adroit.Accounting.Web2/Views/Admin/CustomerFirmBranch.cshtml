@@ -217,7 +217,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputname">Pincode</label>
-                                <input type="text" class="form-control cls-disable" id="txtPincode" placeholder="Pincode">
+                                <input type="text" class="form-control cls-disable numberonly" id="txtPincode" placeholder="Pincode">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -235,13 +235,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputname">Mobile</label>
-                                <input type="text" class="form-control cls-disable" id="txtMobile" placeholder="Mobile">
+                                <input type="text" class="form-control numberonly cls-disable" id="txtMobile" placeholder="Mobile">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputname">Alternate Mobile</label>
-                                <input type="text" class="form-control cls-disable" id="txtAlternateMobile" placeholder="Alternate Mobile">
+                                <input type="text" class="form-control cls-disable numberonly" id="txtAlternateMobile" placeholder="Alternate Mobile">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -284,13 +284,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputname">Setup Price</label>
-                                <input type="text" class="form-control cls-disable" id="txtSetupPrice" placeholder="Setup Price">
+                                <input type="text" class="form-control cls-disable numberonly" id="txtSetupPrice" placeholder="Setup Price">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="exampleInputname">Order Number</label>
-                                <input type="text" class="form-control cls-disable" id="txtOrderNumber" placeholder="Order Number">
+                                <input type="text" class="form-control cls-disable numberonly" id="txtOrderNumber" placeholder="Order Number">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -801,7 +801,7 @@
                   savedata.ContactPersonName=$("#txtContactPerson").val();
                   savedata.EWBAddress1=$("#txtEWBAdressLine1").val();
                   savedata.EWBAddress2=$("#txtEWBAdressLine2").val();
-                  savedata.RenewalDate=moment($("#dtRenewalDate").val()).format(DateFormate);
+                  savedata.RenewalDate=new Date($("#dtRenewalDate").val());
                   savedata.RenewalPrice=$("#txtRenewalPrice").val();
                   savedata.SetupPrice=$("#txtSetupPrice").val();
                   savedata.OrderNumber=orderNumber;
@@ -914,7 +914,7 @@
                                         $("#txtEmail").val(result.data.email);
                                         $("#txtEWBAdressLine1").val(result.data.ewbAddress1);
                                         $("#txtEWBAdressLine2").val(result.data.ewbAddress2);
-                                        $("#dtRenewalDate").moment(result.data.renewalDateStr).format(DateFormate);
+                                        $("#dtRenewalDate").val(result.data.renewalDateStr);
                                         $("#txtRenewalPrice").val(result.data.renewalPrice);
                                         $("#txtSetupPrice").val(result.data.setupPrice);
                                         $("#txtOrderNumber").val(result.data.orderNumber);
