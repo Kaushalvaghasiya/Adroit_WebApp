@@ -1,19 +1,7 @@
-﻿using Adroit.Accounting.Model;
-using Adroit.Accounting.Model.Enums;
-using Adroit.Accounting.Model.Master;
-using Adroit.Accounting.Repository;
-using Adroit.Accounting.Repository.IRepository;
-using Adroit.Accounting.Utility;
+﻿using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Web.Models;
-using Adroit.Accounting.Web.Utility;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Options;
-using System.Data;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -27,6 +15,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ConfigurationData ConfigurationData;
         protected readonly ICustomerFirm CustomerFirmRepo;
         protected readonly ICustomerFirmBranch CustomerFirmBranchRepo;
+
         public AdminController(
            IOptions<ConfigurationData> configurationData,
            IBookAdmin bookAdminRepo,
