@@ -8,6 +8,7 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class AdminController : Controller
     {
+        [Route("~/admin/customer/firm/branch")]
         public IActionResult CustomerFirmBranch()
         {
             return View();

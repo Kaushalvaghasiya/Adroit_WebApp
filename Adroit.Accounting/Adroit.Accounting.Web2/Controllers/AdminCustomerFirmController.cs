@@ -12,6 +12,7 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class AdminController : Controller
     {
+        [Route("~/admin/customer/firm")]
         public IActionResult CustomerFirm()
 
         {
@@ -74,9 +75,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-
                 var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                //need change login customer id 
+                //need change login customer id
                 CustomerFirmRepo.Delete(id, UserId, ConfigurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
