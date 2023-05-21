@@ -84,7 +84,7 @@
                         <span class="input-group-append mr-2">
                             <button class="btn btn-primary" type="button">Go!</button>
                         </span>
-                        <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save" onclick="saveDetail()">
+                        <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save" onclick="saveDetail()">
                             <span>
                                 <i class="fa fa-save"></i>
                             </span>
@@ -169,19 +169,7 @@
                                 <input type="text" class="form-control cls-disable" id="AddressLine3" placeholder="" maxlength="200">
                             </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="City">City</label>
-                                <select class="form-control select2-show-search cls-disable" id="City">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="Pincode">Pincode</label>
-                                <input type="text" class="form-control cls-disable numberonly " id="PinCode" placeholder="" maxlength="10">
-                            </div>
-                        </div>
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="State">State</label>
@@ -191,8 +179,22 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
+                                <label for="Pincode">Pincode</label>
+                                <input type="text" class="form-control cls-disable numberonly " id="PinCode" placeholder="" maxlength="10">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
                                 <label for="ContactPerson">Contact Person</label>
                                 <input type="text" class="form-control cls-disable" id="ContactPersonName" placeholder="" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="City">City</label>
+                                <select class="form-control select2-show-search cls-disable" id="City">
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -264,7 +266,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="javascript:void(0);" class="btn btn-primary mt-1 cls-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save" onclick="saveDetail()"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="javascript:void(0);" class="btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save" onclick="saveDetail()"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="#" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
@@ -315,17 +317,23 @@
 
     function disableFieldView(id){
         $(".cls-disable").each(function(index, element){
+            $(this).prop('disabled', true);
+        });
 
-        $(this).prop('disabled', true)
-        })
+        $(".cls-a-disable").each(function(index, element){
+            $(this).addClass("anchordisabled");
+        });
         getDetail(id);
 
     }
     function EditMode(id){
-         $(".cls-disable").each(function(index, element){
-
-        $(this).prop('disabled', false)
+        $(".cls-disable").each(function(index, element){
+             $(this).prop('disabled', false);
         })
+        $(".cls-a-disable").each(function(index, element){
+            $(this).removeClass("anchordisabled");
+        })
+
         getDetail(id);
     }
     function refreshDatatableList() {
@@ -564,9 +572,12 @@
 
         $(".cls-disable").each(function(index, element){
 
-        $(this).prop('disabled', false)
-        })
+        $(this).prop('disabled', false);
+        });
+        $(".cls-a-disable").each(function(index, element){
 
+            $(this).removeClass("anchordisabled");
+        });
 
         }
 
@@ -620,7 +631,7 @@
                 $("#Business").focus();
                 return false;
             }
-            if ($("#Type").val() == "" || $("#Type").val() ==0) {
+            if ($("#Type").val() == "" || $("#Type").val() ==0 || $("#Type").val()==null) {
                 showWarning("", "Please select customer type.");
                 $("#Type").focus();
                 return false;
@@ -762,7 +773,8 @@
                             $("#TotalUsers").val(result.data.totalUsers);
                             $("#Type").val(result.data.customerType);
                             $("#BusinessName").val(result.data.businessName);
-                            $("#Type option:contains(" + result.data.customerType + ")").attr('selected', 'selected');
+                            //$("#Type option:contains(" + result.data.customerType + ")").attr('selected', 'selected');
+                            $("#Type").val(result.data.customerTypeValue)
                             $("#hdnCityId").val(result.data.cityId);
 
                         } else {

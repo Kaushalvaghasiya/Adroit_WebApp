@@ -48,5 +48,6 @@ namespace Adroit.Accounting.Model
         public bool AgreeTerms { get; set; }
         public Guid DefaultUserId { get; set; }
         public string City { get; set; }
+        public int? CustomerTypeValue { get; set; }
     }
 }

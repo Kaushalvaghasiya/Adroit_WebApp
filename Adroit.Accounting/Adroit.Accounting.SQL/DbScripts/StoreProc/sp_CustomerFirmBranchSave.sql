@@ -13,7 +13,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchSave]
 	 @StateId int,
 	 @CountryId INT,
 	 @PinCode VARCHAR(12),
-	 @Phone varchar(50),
+	 @Phone varchar(15),
 	 @ContactPersonName varchar(30),
 	 @Mobile varchar(15),
 	 @MobileAlternate varchar(15),

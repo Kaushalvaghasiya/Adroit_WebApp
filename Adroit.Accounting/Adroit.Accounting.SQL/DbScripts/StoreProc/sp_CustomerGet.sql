@@ -4,7 +4,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerGet]
 )
 AS
 BEGIN
-	SELECT *
+	SELECT *,CustomerType as CustomerTypeValue
 	FROM Customer WHERE Id = @Id
 END
 GO
