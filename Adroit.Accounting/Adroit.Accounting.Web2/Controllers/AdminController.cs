@@ -1,5 +1,8 @@
 ﻿using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -15,6 +18,11 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ConfigurationData ConfigurationData;
         protected readonly ICustomerFirm CustomerFirmRepo;
         protected readonly ICustomerFirmBranch CustomerFirmBranchRepo;
+        protected readonly ICustomerUser CustomerUserRepo;
+        private readonly IEmailService EmailService;
+        private readonly UserManager<IdentityUser> UserManager;
+        private readonly IUserStore<IdentityUser> UserStore;
+        private readonly IUserEmailStore<IdentityUser> EmailStore;
 
         public AdminController(
            IOptions<ConfigurationData> configurationData,
@@ -24,7 +32,12 @@ namespace Adroit.Accounting.Web.Controllers
            IBillEntryTypeAdmin billEntryTypeAdminRepo,
            ICustomer customerRepo,
            ICustomerFirm customerFirmRepo,
-           ICustomerFirmBranch customerFirmBranchRepo
+           ICustomerFirmBranch customerFirmBranchRepo,
+           ICustomerUser customerUserRepo,
+           IEmailService emailService,
+           UserManager<IdentityUser> userManager,
+           IUserStore<IdentityUser> userStore
+
             )
 
         {
@@ -36,6 +49,11 @@ namespace Adroit.Accounting.Web.Controllers
             BillEntryTypeAdminRepo = billEntryTypeAdminRepo;
             CustomerFirmRepo = customerFirmRepo;
             CustomerFirmBranchRepo = customerFirmBranchRepo;
+            CustomerUserRepo = customerUserRepo;
+            UserManager = userManager;
+            EmailService = emailService;
+            UserStore = userStore;
+            EmailStore = GetEmailStore();
         }
     }
 }
