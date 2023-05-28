@@ -9,6 +9,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Customer</a></li>
+                    <li><a href="#" id="CustomerNameheader"></a></li>
                     <li class="active"><span>User</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -49,7 +50,7 @@
                                     <th class="border-bottom-0">LAST NAME</th>
                                     <th class="border-bottom-0">CUSTOMER NAME</th>
                                     <th class="border-bottom-0">#BRANCHES</th>
-                                    <th class="border-bottom-0 text-center" style="width:165px!important;">Action</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
 
@@ -71,6 +72,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Customer</a></li>
+                    <li><a href="#" id="CustomerNameheader1"></a></li>
                     <li class="active"><span id="activeTabName">Customer User</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -199,16 +201,10 @@
           });
 
         datatablelist();
-
+        getCustomer(window.customerId);
         bindBranch();
 
-          $("$Branch").select2({
-                  closeOnSelect : false,
-                  placeholder : "Placeholder",
-                  // allowHtml: true,
-                  allowClear: true,
-                  tags: true
-            });
+         
       });
 
      function disableFieldView(id)
@@ -373,7 +369,7 @@
         $("#FirmName").val("");
         $("#Email").val("");
         $('#Branch').val(null).trigger('change');
-        //$("#activeTabName").text("Firm Add");
+        $("#activeTabName").text("User Add");
         $(".cls-disable").each(function(index, element){
          $(this).prop('disabled', false);
         });
@@ -386,12 +382,6 @@
      function saveDetail()
      {
          try {
-                  if($("#Email").val()==""){
-                         showWarning("", "select Enter Email");
-                         $("#Email").focus();
-                         return false;
-                  }
-
                   if($("#FirstName").val()==""){
                          showWarning("", "Entry First Name.");
                          $("#FirstName").focus();
@@ -411,7 +401,15 @@
                         return false;
                 }
 
-
+                if($("#Email").val()!="")
+                 {
+                    let isValidemail = IsEmail($("#Email").val());
+                    if (!isValidemail) {
+                        showWarning("", "Please enter valid email");
+                        $("#Email").focus();
+                        return;
+                    }
+                 }
                   var savedata = new Object();
                    savedata.Id = parseInt($("#Id").val());
                    savedata.CustomerId=parseInt(window.customerId);
@@ -500,9 +498,22 @@
                                            $("#Email").val(result.data.email);
                                            $("#FirstName").val(result.data.firstName);
                                            $("#LastName").val(result.data.lastName);
-                                           //$("#Branch").select2().val(result.data.businessId).trigger("change");;
                                            $("#Active").prop('checked',result.data.isActive);
-                                            $("#Email").addClass("anchordisabled");
+                                           $("#Email").addClass("anchordisabled");
+                                           if(result.data.customerUserBranch !=null)
+                                           {
+                                            var BranchDataLen=result.data.customerUserBranch.split(',').length
+                                            var custBranch=[];
+                                            for(var i=0;i<BranchDataLen;i++)
+                                            {
+                                                custBranch.push(parseInt(result.data.customerUserBranch.split(',')[i]));
+
+                                            }
+                                            $('#Branch').val(custBranch).change();
+                                           }else{
+                                             $('#Branch').val(null).change();
+                                           }
+
                               } else {
                                   showError('Error', result.data); //warning,  success, error, info
                               }
@@ -533,6 +544,13 @@
                                     }
                                 }
                                 $("#Branch").html(str);
+                                    $("$Branch").select2({
+                                        closeOnSelect : false,
+                                        placeholder : "Placeholder",
+                                        // allowHtml: true,
+                                        allowClear: true,
+                                        tags: true
+                                    });
 
                             } else {
                                 showError("", data.data);
@@ -547,6 +565,34 @@
                     unblockUI('container');
                     showError("", e.message);
                 }
-            }
+            };
+
+        function getCustomer(id) {
+                try {
+                    blockUI('container');
+                    var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
+                        function (result) {
+                            unblockUI('container');
+                            var str = "";
+                            try {
+                                if (result.result == RESULT_SUCCESS) {
+                                    $("#CustomerNameheader").text(result.data.name);
+                                    $("#CustomerNameheader1").text(result.data.name);
+                                } else {
+                                    showError('Error', result.data); //warning,  success, error, info
+                                }
+                            } catch (e) {
+                                unblockUI('container');
+                                showError('Error', e); //warning,  success, error, info
+                            }
+                        },
+                        function (error) {
+
+                        });
+                }
+                catch (err) {
+                }
+    }
 </script>
+
 }
