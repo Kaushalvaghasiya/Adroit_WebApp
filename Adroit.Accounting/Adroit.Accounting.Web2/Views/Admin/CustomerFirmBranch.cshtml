@@ -1,0 +1,940 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Master</a></li>
+                    <li><a href="#">Customer</a></li>
+                    <li><a href="#">Customer Firm</a></li>
+                    <li class="active"><span>Branches</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page">
+                            <span>
+                                <i class="fa fa-star"></i>
+                            </span>
+                        </a>
+                        <a href="lockscreen.html" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock">
+                            <span>
+                                <i class="fa fa-lock"></i>
+                            </span>
+                        </a>
+                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew">
+                            <span>
+                                <i class="fa fa-plus"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">BRANCH NAME</th>
+                                    <th class="border-bottom-0">FIRM NAME</th>
+                                    <th class="border-bottom-0">TYPE</th>
+                                    <th class="border-bottom-0">CODE</th>
+                                    <th class="border-bottom-0">GST</th>
+                                    <th class="border-bottom-0">CITY</th>
+                                    <th class="border-bottom-0">CREATED ON</th>
+                                    <th class="border-bottom-0">RENEWAL DATE</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Master</a></li>
+                    <li><a href="#">Customer</a></li>
+                    <li><a href="#">CustomerFirm</a></li>
+                    <li><a href="#">CustomerBranch</a></li>
+                    <li class="active"><span id="activeTabName">Branches Add/Edit</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search GST Number...">
+                        <span class="input-group-append mr-2">
+                            <button class="btn btn-primary" type="button">Go!</button>
+                        </span>
+                        <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save" onclick="saveDetail()">
+                            <span>
+                                <i class="fa fa-save"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
+                            <span>
+                                <i class="fa fa-print"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
+                            <span>
+                                <i class="fa fa-share-alt"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn btn-danger text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
+                            <span>
+                                <i class="fa fa-trash-o"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New">
+                            <span>
+                                <i class="fa fa-plus"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel" onclick="fromReset()">
+                            <span>
+                                <i class="fa fa-arrow-left"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="BranchName">Branch Name</label>
+                                <input type="text" class="form-control cls-disable" id="BranchName" placeholder="Branch name" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Firm">Firm</label>
+                                <select class="form-control select2-show-search cls-disable" id="Firm">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="BranchType">Branch Type</label>
+                                <select class="form-control select2-show-search cls-disable" id="BranchType">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="PrintTitle">Print Title</label>
+                                <input type="text" class="form-control cls-disable" id="PrintTitle" placeholder="Print title" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ShortName">Short Name</label>
+                                <input type="text" class="form-control cls-disable" id="ShortName" placeholder="Short Name" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="GSTNumber">GST Number</label>
+                                <input type="text" class="form-control cls-disable" id="GSTNumber" placeholder="GST Number" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="PAN">PAN</label>
+                                <input type="text" class="form-control cls-disable" id="PAN" placeholder="PAN" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="AddressLine1">Address Line 1</label>
+                                <input type="text" class="form-control cls-disable" id="AddressLin1" placeholder="Address Line 1" maxlength="200">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="AddressLine2">Address Line 2</label>
+                                <input type="text" class="form-control cls-disable" id="AddressLin2" placeholder="Address Line 2" maxlength="200">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="AddressLine3">Address Line 3</label>
+                                <input type="text" class="form-control cls-disable" id="AddressLin3" placeholder="Address Line 3" maxlength="200">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Country">Country</label>
+                                <select class="form-control select2-show-search cls-disable" id="Country">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="State">State</label>
+                                <select class="form-control select2-show-search cls-disable" id="State">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="City">City</label>
+                                <select class="form-control select2-show-search cls-disable" id="City">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Pincode">Pincode</label>
+                                <input type="text" class="form-control cls-disable numberonly" id="Pincode" placeholder="Pincode" maxlength="12">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ContactPerson">Contact Person</label>
+                                <input type="text" class="form-control cls-disable" id="ContactPerson" placeholder="Contact Person" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Phone">Phone</label>
+                                <input type="text" class="form-control cls-disable" id="Phone" placeholder="Phone" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Mobile">Mobile</label>
+                                <input type="text" class="form-control numberonly cls-disable" id="Mobile" placeholder="Mobile" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="AlternateMobile">Alternate Mobile</label>
+                                <input type="text" class="form-control cls-disable numberonly" id="AlternateMobile" placeholder="Alternate Mobile" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Email">Email</label>
+                                <input type="text" class="form-control cls-disable" id="Email" placeholder="Email" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="EWBAddressLine1">EWB Address Line 1</label>
+                                <input type="text" class="form-control cls-disable" id="EWBAdressLine1" placeholder="EWB Address Line 1" maxlength="200">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="EWBAddressLine2">EWB Address Line 2</label>
+                                <input type="text" class="form-control cls-disable" id="EWBAdressLine2" placeholder="EWB Address Line 2" maxlength="200">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="RenewalDate">Renewal Date</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control cls-disable fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="RenewalDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="RenewalPrice">Renewal Price</label>
+                                <input type="text" class="form-control cls-disable" id="RenewalPrice" placeholder="Renewal Price">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="SetupPrice">Setup Price</label>
+                                <input type="text" class="form-control cls-disable numberonly" id="SetupPrice" placeholder="Setup Price">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="OrderNumber">Order Number</label>
+                                <input type="text" class="form-control cls-disable numberonly" id="OrderNumber" placeholder="Order Number">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div><label for="Active">Active</label></div>
+                            <label class="custom-switch">
+                                <input type="checkbox" name="custom-switch-checkbox" class="cls-disable custom-switch-input" id="Active">
+                                <span class="custom-switch-indicator"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="javascript:void(0);" class="btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save" onclick="saveDetail()"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" class="btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-back btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" onclick="fromReset()"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left" onclick="fromReset()"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <input type="hidden" id="Id" value=0 />
+    <input type="hidden" id="hdnCityId" value=0 />
+    <input type="hidden" id="hdnStateId" value=0 />
+</div>
+
+
+@section Scripts
+  {
+<script>
+
+      var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
+      var DateFormate = "@Adroit.Accounting.Utility.Constant.DateFormate";
+     $(function (e) {
+          window.customerfirmId=GetParameterValues('id')
+         $('.dv-list').show();
+         $('.dv-detail').hide();
+
+         $('.btn-add-new').click(function () {
+             $('.dv-list').slideUp();
+             $('.dv-detail').slideDown();
+         });
+
+         $('.btn-back').click(function () {
+             $('.dv-detail').slideUp();
+             $('.dv-list').slideDown();
+         });
+
+         datatablelist();
+
+          $("#State").on('change', function (e) {
+                     let stateId = $(this).val();
+                     if (stateId > 0) {
+                         bindCityList(stateId);
+                     }
+           });
+
+             $("#Country").on('change', function (e) {
+                     let countryId = $(this).val();
+                     if (countryId > 0) {
+                         bindStateList(countryId);
+                     }
+           });
+
+        bindCountryList();
+        bindBusinessTypeList();
+        bindFirmList();
+     });
+
+
+    function disableFieldView(id){
+        $(".cls-disable").each(function(index, element){
+
+             $(this).prop('disabled', true);
+        });
+        $(".cls-a-disable").each(function(index, element){
+
+              $(this).addClass("anchordisabled");
+        });
+
+        getDetail(id);
+
+    }
+    function EditMode(id){
+       $(".cls-disable").each(function(index, element){
+
+            $(this).prop('disabled', false);
+        });
+        $(".cls-a-disable").each(function(index, element){
+
+            $(this).removeClass("anchordisabled");
+        });
+        getDetail(id);
+    }
+
+     function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+    function GetParameterValues(param)
+         {
+                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+                for (var i = 0; i < url.length; i++) {
+                var urlparam = url[i].split('=');
+                if (urlparam[0] == param) {
+                return urlparam[1];
+                            }
+                    }
+        }
+
+    function datatablelist() {
+      let columns = [];
+      let colDef = [];
+                colDef.push({
+                 "render": function (data, type, row) {
+                     return row.title;
+                 },
+                 "targets": colDef.length,
+                  });
+              colDef.push({
+                 "render": function (data, type, row) {
+                     return row.customerFirm;
+                 },
+                 "targets": colDef.length,
+             });
+             colDef.push({
+                 "render": function (data, type, row) {
+                     return row.firmBranchTypeAdmin;
+                 },
+                 "targets": colDef.length,
+             });
+             colDef.push({
+                 "render": function (data, type, row) {
+                     return row.pincode;
+                 },
+                 "targets": colDef.length,
+             });
+             colDef.push({
+                 "render": function (data, type, row) {
+                     return row.gstNumber;
+                 },
+                 "targets": colDef.length,
+             });
+             colDef.push({
+                 "render": function (data, type, row) {
+                     return row.city;
+                 },
+                 "targets": colDef.length,
+             });
+             colDef.push({
+                 "render": function (data, type, row) {
+                     return row.addedOnStr;
+                 },
+                 "targets": colDef.length,
+             });
+                colDef.push({
+                 "render": function (data, type, row) {
+                     return row.renewalDateStr;
+                 },
+                 "targets": colDef.length,
+             });
+              colDef.push({
+                 "render": function (data, type, row) {
+                     let btnAct = "<div class='btn-list'><a onclick='EditMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
+                     btnAct += " &nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
+                     btnAct += " &nbsp;&nbsp; <a onclick='branchDelete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a><div>";
+                     return btnAct;
+                 },
+                 "targets": colDef.length,
+                 "className": "text-center",
+                 "orderable": false
+             });
+
+             columns.push({ "data": "CustomerFirm", "name": "CustomerFirm" });
+             columns.push({ "data": "FirmBranchTypeAdmin", "name": "FirmBranchTypeAdmin" });
+             columns.push({ "data": "Title", "name": "Title" });
+             columns.push({ "data": "GST", "name": "GST" });
+             columns.push({ "data": "City", "name": "City" });
+             columns.push({ "data": "AddedOn", "name": "AddedOn" });
+             columns.push({ "data": "renewalDate", "name": "renewalDate" });
+             columns.push({ "data": "Id", "name": "Id" });
+
+              var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'pdf', 'colvis'],
+                processing: true,
+                serverSide: true,
+                 ajax: {
+                     url: '@(Url.Content("~/Admin/CustomerFirmBranchList?firmId="))'+window.customerfirmId,
+                     type: 'GET',
+                     data: function (d) { }
+                 },
+                  "initComplete": function(settings, json) {
+                    table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
+
+                    $(".buttons-copy").removeClass("btn-primary");
+                    $(".buttons-copy").addClass("btn-outline-primary");
+
+                    $(".buttons-excel").removeClass("btn-primary");
+                    $(".buttons-excel").addClass("btn-outline-primary");
+
+                    $(".buttons-pdf").removeClass("btn-primary");
+                    $(".buttons-pdf").addClass("btn-outline-primary");
+
+                    $(".buttons-colvis").removeClass("btn-primary");
+                    $(".buttons-colvis").removeClass("dropdown-toggle");
+                    $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
+
+                    $(".buttons-copy").empty();
+                    $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
+
+                    $(".buttons-excel").empty();
+                    $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
+
+                    $(".buttons-pdf").empty();
+                    $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
+
+                    $(".buttons-colvis").empty();
+                    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
+                },
+                "drawCallback": function (settings) {
+                }
+
+             });
+     }
+
+    function bindCountryList() {
+                 try {
+                     blockUI('container');
+                     var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCountries"))", "",
+                         function (data) {
+                             unblockUI('container');
+                             var str = "<option value='0'></option>";
+                             str += "<option value='0'>Select Country</option>";
+                             if (data.result == RESULT_SUCCESS) {
+                                 if (data.data.length > 0) {
+                                     for (var i = 0; i < data.data.length; i++) {
+                                         str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                     }
+                                 }
+                                 $("#Country").html(str);
+                             } else {
+                                 showError("", data.data);
+                             }
+                         },
+                         function (error) {
+                             unblockUI('container');
+                             showError("", error.statusText);
+                         });
+                 }
+                 catch (err) {
+                     unblockUI('container');
+                     showError("", e.message);
+                 }
+             }
+    function bindStateList(countryId) {
+                 try {
+                     blockUI('container');
+                     var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
+                         function (data) {
+                             unblockUI('container');
+                             var str = "<option value='0'></option>";
+                             str += "<option value='0'>Select State</option>";
+                             if (data.result == RESULT_SUCCESS) {
+                                 if (data.data.length > 0) {
+                                     for (var i = 0; i < data.data.length; i++) {
+                                         str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                     }
+                                 }
+                                 $("#State").html(str);
+                             } else {
+                                 showError("", data.data);
+                             }
+                             if($("#hdnStateId").val()!=0){
+                                   $("#State").select2().val($("#hdnStateId").val()).trigger("change");
+                             }
+                         },
+                         function (error) {
+                             unblockUI('container');
+                             showError("", error.statusText);
+                         });
+                 }
+                 catch (err) {
+                     unblockUI('container');
+                     showError("", e.message);
+                 }
+             }
+
+    function bindCityList(stateId) {
+                 try {
+                     blockUI('container');
+                     var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?stateId=" + stateId, "",
+                         function (data) {
+                             unblockUI('container');
+                           var str = "<option value='0'>Select City</option>";
+                             if (data.result == RESULT_SUCCESS) {
+                                 if (data.data.length > 0) {
+                                     for (var i = 0; i < data.data.length; i++) {
+                                         str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                     }
+                                 }
+                                 $("#City").html(str);
+                             } else {
+                                 showError("", data.data);
+                             }
+                             if($("#hdnCityId").val()!=0){
+                                   $("#City").select2().val($("#hdnCityId").val()).trigger("change");
+                             }
+                         },
+                         function (error) {
+                             unblockUI('container');
+                             showError("", error.statusText);
+                         });
+                 }
+                 catch (err) {
+                     unblockUI('container');
+                     showError("", e.message);
+                 }
+             }
+
+    function bindBusinessTypeList(stateId) {
+                 try {
+                     blockUI('container');
+                     var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetFirmBranchTypeAdmin"))", "",
+                         function (data) {
+                             unblockUI('container');
+                             var str = "<option value='0'>Select business</option>";
+
+                             if (data.result == RESULT_SUCCESS) {
+                                 if (data.data.length > 0) {
+                                     for (var i = 0; i < data.data.length; i++) {
+                                         str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                     }
+                                 }
+                                 $("#BranchType").html(str);
+                             } else {
+                                 showError("", data.data);
+                             }
+                         },
+                         function (error) {
+                             unblockUI('container');
+                             showError("", error.statusText);
+                         });
+                 }
+                 catch (err) {
+                     unblockUI('container');
+                     showError("", e.message);
+                 }
+             }
+    function bindFirmList() {
+                 try {
+                     blockUI('container');
+                     var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetFirm"))", "",
+                         function (data) {
+                             unblockUI('container');
+                             var str = "<option value='0'>Select Firm</option>";
+                             if (data.result == RESULT_SUCCESS) {
+                                 if (data.data.length > 0) {
+                                     for (var i = 0; i < data.data.length; i++) {
+                                         str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                     }
+                                 }
+                                 $("#Firm").html(str);
+                             } else {
+                                 showError("", data.data);
+                             }
+                         },
+                         function (error) {
+                             unblockUI('container');
+                             showError("", error.statusText);
+                         });
+                 }
+                 catch (err) {
+                     unblockUI('container');
+                     showError("", e.message);
+                  }
+             }
+    function fromReset()
+    {
+        $("#Id").val(0);
+        $("#BranchName").val("");
+        $("#Firm").select2().val('').trigger("change");
+        $("#BranchType").select2().val('').trigger("change");
+        $("#PrintTitle").val("");
+        $("#ShortName").val("");
+        $("#GSTNumber").val("");
+        $("#PAN").val("");
+        $("#AddressLin1").val("");
+        $("#AddressLin2").val("");
+        $("#AddressLin3").val("");
+        $("#Country").select2().val('').trigger("change");
+        $("#State").select2().val('').trigger("change");
+        $("#City").select2().val('').trigger("change");
+        $("#Pincode").val("");
+        $("#ContactPerson").val("");
+        $("#Phone").val("");
+        $("#Mobile").val("");
+        $("#AlternateMobile").val("");
+        $("#Email").val("");
+        $("#EWBAdressLine1").val("");
+        $("#EWBAdressLine2").val("");
+        $("#RenewalDate").val("");
+        $("#RenewalPrice").val("");
+        $("#SetupPrice").val("");
+        $("#OrderNumber").val("");
+        $('.custom-switch-input').prop('checked', false);
+        $("#activeTabName").text("Branch Add");
+        $(".cls-disable").each(function(index, element){
+
+        $(this).prop('disabled', false)
+        });
+        $(".cls-a-disable").each(function(index, element){
+
+            $(this).removeClass("anchordisabled");
+        });
+     }
+
+     function saveDetail() {
+             try {
+
+                 if($("#Firm").val()==0 || $("#Firm").val()==""){
+                        showWarning("", "Please Select Firm");
+                        $("#Firm").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+
+                  if($("#BranchName").val()==""){
+                        showWarning("", "Please entry branch name");
+                        $("#BranchName").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+
+                 if($("#BranchType").val()==0 ||$("#BranchType").val()==""){
+                        showWarning("", "Please Select branch");
+                        $("#BranchType").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+                if($("#Country").val()==0 || $("#Country").val()==""){
+                        showWarning("", "Please Select country");
+                        $("#Country").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+                 if($("#SetupPrice").val()==""){
+                        showWarning("", "Please entry setup price");
+                        $("#SetupPrice").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+
+                 if($("#RenewalPrice").val()==""){
+                        showWarning("", "Please entry Renewal Price");
+                        $("#RenewalPrice").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+                 if($("#RenewalDate").val()==""){
+                        showWarning("", "Please entry Renewal Date");
+                        $("#RenewalDate").focus();
+                          $('.dv-list').slideUp();
+                        return false;
+                 }
+                 if($("#Email").val()!="")
+                 {
+                    let isValidemail = IsEmail($("#Email").val());
+                    if (!isValidemail) {
+                        showWarning("", "Please enter valid email");
+                        $("#Email").focus();
+                        return;
+                    }
+                 }
+                 var orderNumber=0
+                 if($("#OrderNumber").val()!=""){
+                   orderNumber=parseInt($("#OrderNumber").val())
+                 }
+                 var savedata = new Object();
+                  savedata.Id = parseInt($("#Id").val());
+                  savedata.Title=$("#BranchName").val();
+                  savedata.FirmId=parseInt($("#Firm").val());
+                  savedata.FirmBranchTypeId=parseInt($("#BranchType").val());
+                  savedata.PrintTitle=$("#PrintTitle").val();
+                  savedata.ShortTitle=$("#ShortName").val();
+                  savedata.GSTNumber=$("#GSTNumber").val();
+                  savedata.PAN=$("#PAN").val();
+                  savedata.Address1=$("#AddressLin1").val();
+                  savedata.Address2=$("#AddressLin2").val();
+                  savedata.Address3=$("#AddressLin3").val();
+                  savedata.CountryId=parseInt($("#Country").val());
+                  savedata.StateId=$("#State").val();
+                  savedata.CityId=$("#City").val();
+                  savedata.Pincode=$("#Pincode").val();
+                  savedata.ContactPersonName=$("#ContactPerson").val();
+                  savedata.EWBAddress1=$("#EWBAdressLine1").val();
+                  savedata.EWBAddress2=$("#EWBAdressLine2").val();
+                  savedata.RenewalDate=new Date($("#RenewalDate").val());
+                  savedata.RenewalPrice=$("#RenewalPrice").val();
+                  savedata.SetupPrice=$("#SetupPrice").val();
+                  savedata.OrderNumber=orderNumber;
+                  savedata.Phone=$("#Phone").val();
+                  savedata.Mobile=$("#Mobile").val();
+                  savedata.MobileAlternate=$("#MobileAlternate").val();
+                  savedata.IsActive=$('#Active').is(':checked');
+                  savedata.Email=$("#Email").val()
+
+                 blockUI('container');
+
+                 $.ajax({
+                 type: "POST",
+                 url: "@(Url.Action("SaveCustomerFirmBranch", "Admin"))",
+                 data: JSON.stringify(savedata),
+                 contentType: "application/json; charset=utf-8",
+                 dataType: "json",
+                 success: function (data) {
+                         unblockUI('container');
+                         if (data.result == RESULT_SUCCESS) {
+                             fromReset();
+                             showWarning("", 'Customer saved successfully.');
+                             $("#Id").val(0);
+                             refreshDatatableList();
+                             $("#btnCancel").click()
+                         } else {
+                             showError("", data.data);
+                         }
+                     },
+                 error: function (error) {
+                         unblockUI('container');
+                         showError("", error.statusText);
+                     }
+                 });
+
+             }
+                 catch (e) {
+                 unblockUI('container');
+                 showError("", e.message);
+             }
+
+      }
+
+    function branchDelete(id) {
+             if (id == 0) {
+                 id = $('#Id').val();
+             }
+             try {
+                 blockUI('container');
+                 var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomerFirmBranch"))" + "/" + id, "",
+                     function (result) {
+                         unblockUI('container');
+                         var str = "";
+                         try {
+                             if (result.result == RESULT_SUCCESS) {
+                                 refreshDatatableList();
+                             } else {
+                                 showError('Error', result.data); //warning,  success, error, info
+                             }
+                         } catch (e) {
+                             showError('Error', e); //warning,  success, error, info
+                         }
+                     },
+                     function (error) {
+                         unblockUI('container');
+                     });
+             }
+             catch (err) {
+                 unblockUI('container');
+             }
+         }
+    function getDetail(id) {
+             try {
+                  blockUI('container');
+                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomerFirmBranch"))" + "/" + id, "",
+                     function (result) {
+                         unblockUI('container');
+                         var str = "";
+                         try {
+                             if (result.result == RESULT_SUCCESS) {
+                                        $("#AddNew").click();
+                                        $("#activeTabName").text("Branch EDT(ID# "+result.data.id+")");
+                                        $("#Id").val(result.data.id);
+                                        $("#BranchName").val(result.data.title);
+                                        $("#Firm").select2().val(result.data.firmId).trigger("change");
+                                        $("#BranchType").select2().val(result.data.firmBranchTypeId).trigger("change");
+                                        $("#PrintTitle").val(result.data.printTitle);
+                                        $("#ShortName").val(result.data.shortTitle);
+                                        $("#GSTNumber").val(result.data.gstNumber);
+                                        $("#PAN").val(result.data.pan);
+                                        $("#AddressLin1").val(result.data.address1);
+                                        $("#AddressLin2").val(result.data.address2);
+                                        $("#AddressLin3").val(result.data.address3);
+                                        $("#Country").select2().val(result.data.countryId).trigger("change");
+                                        $("#hdnCityId").val(result.data.cityId)
+                                        $("#hdnStateId").val(result.data.stateId)
+                                        $("#Pincode").val(result.data.pincode);
+                                        $("#ContactPerson").val(result.data.contactPersonName);
+                                        $("#Phone").val(result.data.phone);
+                                        $("#Mobile").val(result.data.mobile);
+                                        $("#AlternateMobile").val(result.data.mobileAlternate);
+                                        $("#Email").val(result.data.email);
+                                        $("#EWBAdressLine1").val(result.data.ewbAddress1);
+                                        $("#EWBAdressLine2").val(result.data.ewbAddress2);
+                                        $("#RenewalDate").val(result.data.renewalDateStr);
+                                        $("#RenewalPrice").val(result.data.renewalPrice);
+                                        $("#SetupPrice").val(result.data.setupPrice);
+                                        $("#OrderNumber").val(result.data.orderNumber);
+                                        $('#Active').prop('checked',result.data.isActive);
+
+                             } else {
+                                 showError('Error', result.data); //warning,  success, error, info
+                             }
+                         } catch (e) {
+                             unblockUI('container');
+                             showError('Error', e); //warning,  success, error, info
+                         }
+                     },
+                     function (error) {
+
+                     });
+             }
+             catch (err) {
+             }
+         }
+</script>
+}

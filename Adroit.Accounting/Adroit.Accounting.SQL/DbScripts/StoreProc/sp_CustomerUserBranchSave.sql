@@ -1,27 +1,26 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUserSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUserBranchSave]
 (
 	 @Id int,
+	 @FirstName VARCHAR(5),
+	 @LastName VARCHAR(5),
 	 @UserId uniqueidentifier,
 	 @CustomerId int,
-	 @FirstName varchar(50),
-	 @LastName varchar(50),
-	 @IsActive  bit,
-	 @IsLocked bit,
+	 @IsActive bit,
+	 @OwnerBranchId INT,
+	 @BranchCSV NVARCHAR(max),
 	 @AddedById int,
-	 @OwnerBranchId int,
-	 @ModifiedById int
+	 @ModifiedById INT
 )
 AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+		
+
 		IF EXISTS (SELECT 1 FROM CustomerUser WHERE Id = @Id)
 			BEGIN
 				UPDATE CustomerUser SET
-					CustomerId = @CustomerId, 
-					UserId = @UserId, 
 					IsActive = @IsActive, 
-					IsLocked = @IsLocked, 
 					ModifiedById = @ModifiedById, 
 					OwnerBranchId = @OwnerBranchId,
 					FirstName = @FirstName,
@@ -33,11 +32,23 @@ BEGIN
 			BEGIN
 				INSERT INTO [CustomerUser] 
 					([CustomerId], [UserId], [IsActive], [IsLocked], [IsDeleted], [AddedOn], [OwnerBranchId], [FirstName], [LastName])
-				VALUES (@Id, @UserId, 1, 0, 0, GETUTCDATE(), @OwnerBranchId, @FirstName, @LastName)
+				VALUES (@CustomerId, @UserId, @IsActive, 0, 0, GETUTCDATE(), @OwnerBranchId, @FirstName, @LastName)
 
 				SET @Id = SCOPE_IDENTITY();
 				SELECT @Id;
 			END
+
+			Delete from [CustomerUserBranchMapping]  where UserId=@Id
+
+				INSERT INTO [CustomerUserBranchMapping] 
+					(UserId,BranchId,AddedById,AddedOn)
+					Select 
+					@Id,
+					Id,
+					@AddedById,
+					GETUTCDATE()
+					from dbo.[fnStringToIntArray](@BranchCSV)
+		
 		COMMIT TRAN
 	END TRY
 	BEGIN CATCH

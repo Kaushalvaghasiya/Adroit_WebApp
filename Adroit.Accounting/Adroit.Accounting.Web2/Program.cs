@@ -54,6 +54,18 @@ try
     builder.Services.AddSingleton<IGSTInvoiceType, GSTInvoiceTypeRepository>();
     builder.Services.AddSingleton<ICustomerBrokerBranchMapping, CustomerBrokerBranchMappingRepository>();
     builder.Services.AddSingleton<IBusiness, BusinessRepository>();
+    builder.Services.AddSingleton<IBookAdmin, BookAdminRepository>();
+    builder.Services.AddSingleton<IAccountAdmin, AccountAdminRepository>();
+    builder.Services.AddSingleton<IBillTypeAdmin, BillTypeAdminRepository>();
+    builder.Services.AddSingleton<IBillEntryTypeAdmin, BillEntryTypeAdminRepository>();
+    builder.Services.AddSingleton<ICustomerFirm, CustomerFirmRepository>();
+    builder.Services.AddSingleton<IFirmTypeAdmin, FirmTypeAdminRepository>();
+    builder.Services.AddSingleton<IGSTFirmType, GSTFirmTypeRepository>();
+    builder.Services.AddSingleton<ISoftwareType, SoftwareTypeRepository>();
+    builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
+    builder.Services.AddSingleton<IFirmBranchTypeAdmin, FirmBranchTypeAdminRepository>();
+    builder.Services.AddSingleton<IFirm, FirmRepository>();
+    builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {
@@ -66,7 +78,7 @@ try
 
     //builder.Services.AddSingleton<UserManager>();
 
-    // If you don't want the cookie to be automatically authenticated and assigned HttpContext.User, 
+    // If you don't want the cookie to be automatically authenticated and assigned HttpContext.User,
     // remove the CookieAuthenticationDefaults.AuthenticationScheme parameter passed to AddAuthentication.
     builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options =>
@@ -90,7 +102,7 @@ try
         app.UseHsts();
     }
 
-    // Run SQL Changes 
+    // Run SQL Changes
     Adroit.Accounting.SQL.SQLMigrate.ExecuteSQL(connectionString);
 
     app.ConfigureExceptionHandler(logger);
@@ -109,18 +121,15 @@ try
     app.MapRazorPages();
 
     app.Run();
-
 }
 catch (Exception ex)
 {
     // NLog: catch setup errors
     logger.Error(ex, "Stopped program because of exception");
     throw;
-
 }
 finally
 {
     // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
     NLog.LogManager.Shutdown();
-
 }

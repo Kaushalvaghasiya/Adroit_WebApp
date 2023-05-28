@@ -4,22 +4,25 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class CustomerFirmBranch
+    public partial class CustomerFirmBranch: BaseModel
     {
         public CustomerFirmBranch()
         {
         }
         public int Id { get; set; }
         public int FirmId { get; set; }
+        public string CustomerFirm { get; set; }
         public string Title { get; set; }
         public string PrintTitle { get; set; }
         public string ShortTitle { get; set; }
-        public byte FirmBranchTypeId { get; set; }
+        public int FirmBranchTypeId { get; set; }
+        public string FirmBranchTypeAdmin { get; set; }
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string Address3 { get; set; }
-        public int? CityId { get; set; }
-        public int? StateId { get; set; }
+        public int CityId { get; set; }
+        public string City { get; set; }
+        public int StateId { get; set; }
         public short CountryId { get; set; }
         public string Pincode { get; set; }
         public string Phone { get; set; }
@@ -44,5 +47,8 @@ namespace Adroit.Accounting.Model
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
         public bool IsActive { get; set; }
+
+        public string RenewalDateStr { get; set; }
+        public string AddedOnStr { get; set; }
     }
 }

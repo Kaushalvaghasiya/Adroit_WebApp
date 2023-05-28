@@ -41,6 +41,7 @@ namespace Adroit.Accounting.Web.Utility
 
             return 0;
         }
+
         public static string GetUserFullName(IPrincipal user)
         {
             var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.GivenName);

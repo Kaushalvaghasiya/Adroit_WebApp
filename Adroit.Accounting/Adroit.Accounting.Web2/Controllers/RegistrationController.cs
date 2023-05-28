@@ -1,17 +1,17 @@
 ﻿using Adroit.Accounting.Model;
-using Microsoft.AspNetCore.Mvc;
-using Adroit.Accounting.Repository.IRepository;
-using Adroit.Accounting.Web.Models;
-using Microsoft.Extensions.Options;
-using Adroit.Accounting.Model.Master;
-using Adroit.Accounting.Utility;
 using Adroit.Accounting.Model.Enums;
-using Microsoft.AspNetCore.Identity;
-using System.Text;
-using Microsoft.AspNetCore.WebUtilities;
-using System.Text.Encodings.Web;
+using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.Utility;
+using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -28,6 +28,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegistrationController> _logger;
         private readonly IEmailService _emailService;
+
         public RegistrationController(ICustomer customerRepo, IState stateRepo, ICity cityRepo,
                 IOptions<ConfigurationData> configurationData, ICountry countryRepo,
                 IBusiness businessRepo, UserManager<IdentityUser> userManager, IUserStore<IdentityUser> userStore,
@@ -46,7 +47,7 @@ namespace Adroit.Accounting.Web.Controllers
             _emailStore = GetEmailStore();
             _logger = logger;
         }
-        
+
         [AllowAnonymous]
         public IActionResult Index()
         {
@@ -142,7 +143,7 @@ namespace Adroit.Accounting.Web.Controllers
 
             return Json(result);
         }
-        
+
         [AllowAnonymous]
         private IdentityUser CreateUser()
         {

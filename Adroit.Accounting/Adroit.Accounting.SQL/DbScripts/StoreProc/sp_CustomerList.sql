@@ -1,4 +1,6 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerList]
+  @LoginId int,
+  @FirmId int,  
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -16,7 +18,7 @@ Begin
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN Customer.Email END ASC,  
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN Customer.Email END DESC  
 		) AS RowNum,
-	   Count(*) over () AS TotalRows, Customer.*, [State].Title as [State], [City].Title as [City]
+	   Count(*) over () AS TotalCount, Customer.*, [State].Title as [State], [City].Title as [City]
 	  FROM Customer
 	  LEFT JOIN [State] on Customer.StateId = [State].Id
 	  LEFT JOIN [City] on Customer.CityId = [City].Id

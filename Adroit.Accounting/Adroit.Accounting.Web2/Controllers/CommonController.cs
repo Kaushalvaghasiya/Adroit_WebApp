@@ -18,10 +18,26 @@ namespace Adroit.Accounting.Web.Controllers
         private IDistrict _districtRepo;
         private IGSTInvoiceType _gstInvoiceTypeRepo;
         private readonly ConfigurationData _configurationData;
+        private IBusiness _businessRepo;
+        private IFirmTypeAdmin _firmTypeAdminRepo;
+        private IGSTFirmType _gstFirmTypeRepo;
+        private ISoftwareType _softwareTypeRepo;
+        private ICustomer _customerRepo;
+        private IFirmBranchTypeAdmin _firmBranchTypeAdminRepo;
+        private IFirm _firmRepo;
 
-        public CommonController(IOptions<ConfigurationData> configurationData, IState stateRepo, ICity cityRepo, 
-                ICountry countryRepo, IDistrict districtRepo, ITaluka talukaRepository, 
-                IGSTInvoiceType gstInvoiceTypeRepo)
+
+        public CommonController(IOptions<ConfigurationData> configurationData, IState stateRepo, ICity cityRepo,
+                ICountry countryRepo, IDistrict districtRepo, ITaluka talukaRepository,
+                IGSTInvoiceType gstInvoiceTypeRepo,
+                IBusiness business,
+                ISoftwareType softwareTypeRepo,
+                IFirmTypeAdmin firmTypeAdminRepo,
+                IGSTFirmType gstFirmTypeRepo,
+                ICustomer customerRepo,
+                IFirmBranchTypeAdmin firmBranchTypeAdminRepo,
+                IFirm firmRepo
+            )
         {
             _stateRepo = stateRepo;
             _cityRepo = cityRepo;
@@ -30,6 +46,13 @@ namespace Adroit.Accounting.Web.Controllers
             _districtRepo = districtRepo;
             _talukaRepo = talukaRepository;
             _gstInvoiceTypeRepo = gstInvoiceTypeRepo;
+            _businessRepo = business;
+            _firmTypeAdminRepo = firmTypeAdminRepo;
+            _gstFirmTypeRepo = gstFirmTypeRepo;
+            _softwareTypeRepo = softwareTypeRepo;
+            _customerRepo = customerRepo;
+            _firmBranchTypeAdminRepo = firmBranchTypeAdminRepo;
+            _firmRepo= firmRepo;
         }
 
         public IActionResult Index()
@@ -106,7 +129,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [AllowAnonymous]
-        public JsonResult GetCities(int stateId=0, int talukaId = 0, int districtId = 0)
+        public JsonResult GetCities(int stateId = 0, int talukaId = 0, int districtId = 0)
         {
             ApiResult result = new ApiResult();
             try
@@ -138,5 +161,125 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
+
+        [AllowAnonymous]
+        public JsonResult GetBusiness()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _businessRepo.GetBusinessList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetSoftware()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _softwareTypeRepo.GetSoftwareTypeList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetFirmTypeAdmin()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _firmTypeAdminRepo.GetFirmTypeAdminList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetCustomer()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerRepo.GetCustomerList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetGSTFirmType()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _gstFirmTypeRepo.GetGSTFirmTypeList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [AllowAnonymous]
+        public JsonResult GetFirmBranchTypeAdmin()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _firmBranchTypeAdminRepo.GetFirmBranchTypeAdminList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+        [AllowAnonymous]
+        public JsonResult GetFirm()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _firmRepo.GetFirmList(_configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+
     }
 }

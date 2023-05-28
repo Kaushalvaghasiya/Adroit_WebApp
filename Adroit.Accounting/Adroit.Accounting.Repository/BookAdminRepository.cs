@@ -1,4 +1,5 @@
 ﻿using Adroit.Accounting.Model;
+using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Adroit.Accounting.Repository
 {
-    public class BookAdminRepository
+    public class BookAdminRepository : IBookAdmin
     {
         public int Save(Model.BookAdmin bookAdmin, string connectionString, int loginId = 0, int firmId = 0)
         {
@@ -72,6 +73,7 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_BookAdminSave", connectionString, parameters);
         }
+
         public Model.BookAdmin Get(int id, string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
@@ -80,6 +82,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Id", id);
             return QueryHelper.GetTableDetail<Model.BookAdmin>("sp_BookAdminGet", connectionString, parameters);
         }
+
         public List<Model.BookAdmin> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
@@ -92,6 +95,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<Model.BookAdmin>("sp_BookAdminList", connectionString, parameters);
         }
+
         public bool Delete(int id, string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
@@ -101,7 +105,7 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.Delete("sp_BookAdminDelete", connectionString, parameters);
         }
 
-        public List<Model.BookAdmin> GetBookAdminList(string connectionString, int loginId = 0, int firmId = 0)
+        public List<Model.BookAdmin> GetBookAdminSelectList(string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);

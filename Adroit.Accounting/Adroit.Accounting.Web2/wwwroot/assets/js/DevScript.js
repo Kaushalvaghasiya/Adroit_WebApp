@@ -1,5 +1,11 @@
 ﻿(function ($) {
+    $('.numberonly').keypress(function (e) {
+        var charCode = (e.which) ? e.which : event.keyCode
 
+        if (String.fromCharCode(charCode).match(/[^0-9]/g))
+
+            return false;
+    });
 })(jQuery);
 
 function AjaxCall(methodtype, url, data, succesmethodname, errormethodname) {
@@ -36,12 +42,21 @@ function showWarning(title, message) {
 }
 
 function IsEmail(email) {
-    var regex =
-        /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-    if (!regex.test(email)) {
-        return false;
-    }
-    else {
+    var regex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
+    if (regex.test(email)) {
         return true;
     }
+    else {
+        return false;
+    }
 }
+
+$(function () {
+    'use strict'
+    // Datepicker
+    $('.fc-datepicker').datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        /*numberOfMonths: 2*/
+    });
+});
