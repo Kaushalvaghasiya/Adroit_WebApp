@@ -41,12 +41,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Email", username);
             return QueryHelper.GetTableDetail<UserDetail>("sp_UserGet", connectionString, parameters);
         }
-        public List<UserDetail> List(int customerId, string connectionString)
-        {
-            var param = new DynamicParameters();
-            param.Add("@CustomerId", customerId);
-            return QueryHelper.GetList<UserDetail>("sp_UserList", connectionString, param);
-        }
         public void Delete(int id, int deletedById, string connectionString)
         {
             var parameters = new DynamicParameters();

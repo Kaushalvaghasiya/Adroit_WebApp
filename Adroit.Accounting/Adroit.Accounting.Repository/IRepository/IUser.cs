@@ -5,7 +5,6 @@ namespace Adroit.Accounting.Repository.IRepository
     public interface IUser
     {
         int Save(UserDetail value, string connectionString);
-        List<UserDetail> List(int customerId, string connectionString);
         UserDetail Get(int id, string connectionString);
         UserDetail Get(Guid userId, string connectionString);
         UserDetail Get(string username, string connectionString);
