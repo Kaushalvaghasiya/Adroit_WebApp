@@ -800,7 +800,7 @@ CREATE TABLE [dbo].[CustomerUser](
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
-	[OwnerBranchId] [int] NOT NULL,
+	[OwnerBranchId] [int] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	CONSTRAINT [PK_CustomerUser] PRIMARY KEY CLUSTERED 
