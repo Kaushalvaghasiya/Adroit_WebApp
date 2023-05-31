@@ -54,9 +54,13 @@ function IsEmail(email) {
 $(function () {
     'use strict'
     // Datepicker
-    $('.fc-datepicker').datepicker({
-        showOtherMonths: true,
-        selectOtherMonths: true,
-        /*numberOfMonths: 2*/
-    });
+    try {
+        $('.fc-datepicker').datepicker({
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            /*numberOfMonths: 2*/
+        });
+    } catch (e) {
+
+    }
 });
