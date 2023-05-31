@@ -9,8 +9,8 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Customer</a></li>
-                    <li><a href="#" id="CustomerNameheader"></a></li>
-                    <li class="active"><span>User</span></li>
+                    <li><a href="#">Software</a></li>
+                    <li class="active"><span>Software Master</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -46,10 +46,8 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">FIRST NAME</th>
-                                    <th class="border-bottom-0">LAST NAME</th>
-                                    <th class="border-bottom-0">CUSTOMER NAME</th>
-                                    <th class="border-bottom-0">#BRANCHES</th>
+                                    <th class="border-bottom-0">SOFTWARE NAME</th>
+                                    <th class="border-bottom-0">ORDER NUMBER</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -72,8 +70,8 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Customer</a></li>
-                    <li><a href="#" id="CustomerNameheader1"></a></li>
-                    <li class="active"><span id="activeTabName">Customer User</span></li>
+                      <li><a href="#">Software</a></li>
+                    <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -126,38 +124,17 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label for="LastName">First Name</label>
-                                <input type="text" class="form-control cls-disable" id="FirstName" placeholder="" maxlength="100">
+                                <label for="LastName">Software Name</label>
+                                <input type="text" class="form-control cls-disable" id="SoftwareName" placeholder="" maxlength="20">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label for="LastName">Last Name</label>
-                                <input type="text" class="form-control cls-disable" id="LastName" placeholder="" maxlength="100">
+                                <label for="LastName">Order Number</label>
+                                <input type="text" class="form-control cls-disable numberonly" id="OrderNumber" placeholder="">
                             </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="Email">Email</label>
-                                <input type="text" class="form-control cls-disable" id="Email" placeholder="" maxlength="100">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="Branch">Branch</label>
-                                <select class="form-control select2-show-search cls-disable" id="Branch" multiple="multiple">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div><label for="Active">Active</label></div>
-                            <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" class="cls-disable custom-switch-input" id="Active">
-                                <span class="custom-switch-indicator"></span>
-                            </label>
                         </div>
                     </div>
                 </div>
@@ -184,9 +161,6 @@
     var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
 
     $(function (e) {
-         window.customerId=GetParameterValues('id')
-
-
           $('.dv-list').show();
           $('.dv-detail').hide();
 
@@ -201,10 +175,6 @@
           });
 
         datatablelist();
-        getCustomer(window.customerId);
-        bindBranch();
-
-         
       });
 
      function disableFieldView(id)
@@ -238,45 +208,22 @@
         $('#tblMain').DataTable().ajax.reload();
     }
 
-       function GetParameterValues(param)
-         {
-                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-                for (var i = 0; i < url.length; i++) {
-                var urlparam = url[i].split('=');
-                if (urlparam[0] == param) {
-                return urlparam[1];
-                            }
-                    }
-        }
      function datatablelist() {
        let columns = [];
        let colDef = [];
                colDef.push({
                   "render": function (data, type, row) {
-                      return row.firstName;
+                      return row.title;
                   },
                   "targets": colDef.length,
                   "orderable": false
               });
               colDef.push({
                   "render": function (data, type, row) {
-                      return row.lastName;
+                      return row.orderNumber;
                   },
                   "targets": colDef.length,
 
-              });
-              colDef.push({
-                  "render": function (data, type, row) {
-                      return row.customerName;
-                  },
-                  "targets": colDef.length,
-
-              });
-              colDef.push({
-                  "render": function (data, type, row) {
-                      return row.customerUserBranch;
-                  },
-                  "targets": colDef.length,
               });
                colDef.push({
                   "render": function (data, type, row) {
@@ -290,10 +237,8 @@
                   "orderable": false
               });
 
-              columns.push({ "data": "firstName", "name": "firstName" });
-              columns.push({ "data": "lastName", "name": "lastName" });
-              columns.push({ "data": "customerName", "name": "customerName" });
-              columns.push({ "data": "customerUserBranch", "name": "customerUserBranch" });
+              columns.push({ "data": "title", "name": "title" });
+              columns.push({ "data": "orderNumber", "name": "orderNumber" });
               columns.push({ "data": "Id", "name": "Id" });
 
 
@@ -323,7 +268,7 @@
                 processing: true,
                 serverSide: true,
                   ajax: {
-                      url: '@(Url.Content("~/Admin/CustomerUserList?customerId="))'+window.customerId,
+                      url: '@(Url.Content("~/Admin/SoftwareList"))',
                       type: 'GET',
                       data: function (d) { }
                   },
@@ -364,12 +309,9 @@
      function fromReset()
      {
         $("#Id").val(0);
-        $("#CustomerName").select2().val('').trigger("change");
-        $("#FirstName").val("");
-        $("#FirmName").val("");
-        $("#Email").val("");
-        $('#Branch').val(null).trigger('change');
-        $("#activeTabName").text("User Add");
+        $("#SoftwareName").val("");
+        $("#OrderNumber").val("");
+        $("#activeTabName").text("Add Software");
         $(".cls-disable").each(function(index, element){
          $(this).prop('disabled', false);
         });
@@ -382,48 +324,26 @@
      function saveDetail()
      {
          try {
-                  if($("#FirstName").val()==""){
-                         showWarning("", "Entry First Name.");
-                         $("#FirstName").focus();
+                  if($("#SoftwareName").val()==""){
+                         showWarning("", "Entry Name.");
+                         $("#SoftwareName").focus();
                          return false;
                   }
-                  if($("#LastName").val()==""){
-                         showWarning("", "Entry First Name.");
-                         $("#LastName").focus();
-                           $('.dv-list').slideUp();
+                  if($("#OrderNumber").val()==""){
+                         showWarning("", "Entry order number.");
+                         $("#OrderNumber").focus();
                          return false;
                   }
-                if($("#Branch").val()=="")
-                {
-                        showWarning("", "Please select branch.");
-                        $("#Branch").focus();
-                        $('.dv-list').slideUp();
-                        return false;
-                }
-
-                if($("#Email").val()!="")
-                 {
-                    let isValidemail = IsEmail($("#Email").val());
-                    if (!isValidemail) {
-                        showWarning("", "Please enter valid email");
-                        $("#Email").focus();
-                        return;
-                    }
-                 }
+                
                   var savedata = new Object();
                    savedata.Id = parseInt($("#Id").val());
-                   savedata.CustomerId=parseInt(window.customerId);
-                   savedata.BranchCSV=$("#Branch").val().join(",");
-                   savedata.FirstName=$("#FirstName").val();
-                   savedata.LastName=$("#LastName").val();
-                   savedata.Email=$("#Email").val();
-                   savedata.IsActive=$('#Active').is(':checked');
-
+                   savedata.Title=$("#SoftwareName").val();
+                   savedata.OrderNumber=parseInt($("#OrderNumber").val());
                    blockUI('container');
 
                    $.ajax({
                      type: "POST",
-                     url: "@(Url.Action("SaveCustomerUser", "Admin"))",
+                     url: "@(Url.Action("SaveSoftware", "Admin"))",
                      data: JSON.stringify(savedata),
                      contentType: "application/json; charset=utf-8",
                      dataType: "json",
@@ -432,7 +352,7 @@
                           unblockUI('container');
                           if (data.result == RESULT_SUCCESS) {
                               fromReset();
-                              showWarning("", 'Customer user saved successfully.');
+                              showWarning("", 'Software type saved successfully.');
                               $("#Id").val(0);
                               refreshDatatableList();
                               $("#btnCancel").click()
@@ -460,7 +380,7 @@
               }
               try {
                   blockUI('container');
-                  var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomerUser"))" + "/" + id, "",
+                  var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteSoftware"))" + "/" + id, "",
                       function (result) {
                           unblockUI('container');
                           var str = "<option value=0></option>";
@@ -483,36 +403,22 @@
               }
           }
 
-    function getDetail(id) {
+    function getDetail(id) 
+    {
               try {
                    blockUI('container');
-                  var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomerUser"))" + "/" + id, "",
+                  var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetSoftware"))" + "/" + id, "",
                       function (result) {
                           unblockUI('container');
                           var str = "";
                           try {
-                              if (result.result == RESULT_SUCCESS) {
+                              if (result.result == RESULT_SUCCESS) 
+                              {
                                            $("#AddNew").click();
-                                           $("#activeTabName").text("User EDT(ID# "+result.data.id+")");
+                                           $("#activeTabName").text("Software EDT(ID# "+result.data.id+")");
+                                            $("#SoftwareName").val(result.data.title);
+                                            $("#OrderNumber").val(result.data.orderNumber);
                                            $('#Id').val(result.data.id);
-                                           $("#Email").val(result.data.email);
-                                           $("#FirstName").val(result.data.firstName);
-                                           $("#LastName").val(result.data.lastName);
-                                           $("#Active").prop('checked',result.data.isActive);
-                                           $("#Email").addClass("anchordisabled");
-                                           if(result.data.customerUserBranch !=null)
-                                           {
-                                            var BranchDataLen=result.data.customerUserBranch.split(',').length
-                                            var custBranch=[];
-                                            for(var i=0;i<BranchDataLen;i++)
-                                            {
-                                                custBranch.push(parseInt(result.data.customerUserBranch.split(',')[i]));
-
-                                            }
-                                            $('#Branch').val(custBranch).change();
-                                           }else{
-                                             $('#Branch').val(null).change();
-                                           }
 
                               } else {
                                   showError('Error', result.data); //warning,  success, error, info
@@ -530,69 +436,9 @@
               }
           }
 
-    function bindBranch() {
-                try {
-                    blockUI('container');
-                       var retrundata = AjaxCall("GET", "@(Url.Content("~/Admin/GetCustomerBranch/"))"+window.customerId, "",
-                        function (data) {
-                            unblockUI('container');
-                            var str = "<option value=0></option>";
-                            if (data.result == RESULT_SUCCESS) {
-                                if (data.data.length > 0) {
-                                    for (var i = 0; i < data.data.length; i++) {
-                                        str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-                                    }
-                                }
-                                $("#Branch").html(str);
-                                    $("$Branch").select2({
-                                        closeOnSelect : false,
-                                        placeholder : "Placeholder",
-                                        // allowHtml: true,
-                                        allowClear: true,
-                                        tags: true
-                                    });
+   
 
-                            } else {
-                                showError("", data.data);
-                            }
-                        },
-                        function (error) {
-                            unblockUI('container');
-                            showError("", error.statusText);
-                        });
-                }
-                catch (err) {
-                    unblockUI('container');
-                    showError("", e.message);
-                }
-            };
-
-        function getCustomer(id) {
-                try {
-                    blockUI('container');
-                    var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
-                        function (result) {
-                            unblockUI('container');
-                            var str = "";
-                            try {
-                                if (result.result == RESULT_SUCCESS) {
-                                    $("#CustomerNameheader").text(result.data.name);
-                                    $("#CustomerNameheader1").text(result.data.name);
-                                } else {
-                                    showError('Error', result.data); //warning,  success, error, info
-                                }
-                            } catch (e) {
-                                unblockUI('container');
-                                showError('Error', e); //warning,  success, error, info
-                            }
-                        },
-                        function (error) {
-
-                        });
-                }
-                catch (err) {
-                }
-    }
+        
 </script>
 
 }

@@ -11,6 +11,7 @@
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Customer</a></li>
                     <li><a href="#">Customer Firm</a></li>
+                    <li><a href="#" id="CustomerFirmheader"></a></li>
                     <li class="active"><span>Branches</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -77,6 +78,7 @@
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Customer</a></li>
                     <li><a href="#">CustomerFirm</a></li>
+                    <li><a href="#" id="CustomerFirmheader1"></a></li>
                     <li><a href="#">CustomerBranch</a></li>
                     <li class="active"><span id="activeTabName">Branches Add/Edit</span></li>
                 </ol>
@@ -140,8 +142,10 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Firm">Firm</label>
-                                <select class="form-control select2-show-search cls-disable" id="Firm">
-                                </select>
+                                @*  <select class="form-control select2-show-search cls-disable" id="Firm">
+                                    </select>*@
+                                <label class=form-control><span id="CustomerFirmtext"></span></label>
+                                <input type="hidden" id="Firm" value="" />
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -328,7 +332,8 @@
       var DateFormate = "@Adroit.Accounting.Utility.Constant.DateFormate";
      $(function (e) {
           window.customerfirmId=GetParameterValues('id')
-         $('.dv-list').show();
+         $("#Firm").val(window.customerfirmId);
+          $('.dv-list').show();
          $('.dv-detail').hide();
 
          $('.btn-add-new').click(function () {
@@ -359,7 +364,8 @@
 
         bindCountryList();
         bindBusinessTypeList();
-        bindFirmList();
+        //bindFirmList();
+        getFirmName(window.customerfirmId);
      });
 
 
@@ -694,7 +700,7 @@
     {
         $("#Id").val(0);
         $("#BranchName").val("");
-        $("#Firm").select2().val('').trigger("change");
+        //$("#Firm").select2().val('').trigger("change");
         $("#BranchType").select2().val('').trigger("change");
         $("#PrintTitle").val("");
         $("#ShortName").val("");
@@ -895,7 +901,7 @@
                                         $("#activeTabName").text("Branch EDT(ID# "+result.data.id+")");
                                         $("#Id").val(result.data.id);
                                         $("#BranchName").val(result.data.title);
-                                        $("#Firm").select2().val(result.data.firmId).trigger("change");
+                                        //$("#Firm").select2().val(result.data.firmId).trigger("change");
                                         $("#BranchType").select2().val(result.data.firmBranchTypeId).trigger("change");
                                         $("#PrintTitle").val(result.data.printTitle);
                                         $("#ShortName").val(result.data.shortTitle);
@@ -936,5 +942,33 @@
              catch (err) {
              }
          }
+
+         function getFirmName(id) {
+              try {
+                   blockUI('container');
+                  var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomerFirm"))" + "/" + id, "",
+                      function (result) {
+                          unblockUI('container');
+                          var str = "";
+                          try {
+                              if (result.result == RESULT_SUCCESS) {
+                            $("#CustomerFirmheader").text(result.data.title);
+                            $("#CustomerFirmheader1").text(result.data.title);
+                            $("#CustomerFirmtext").text(result.data.title);
+                              } else {
+                                  showError('Error', result.data); //warning,  success, error, info
+                              }
+                          } catch (e) {
+                              unblockUI('container');
+                              showError('Error', e); //warning,  success, error, info
+                          }
+                      },
+                      function (error) {
+
+                      });
+              }
+              catch (err) {
+              }
+          }
 </script>
 }

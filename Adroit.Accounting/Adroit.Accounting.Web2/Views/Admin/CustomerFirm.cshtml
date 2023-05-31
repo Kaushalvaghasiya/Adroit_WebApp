@@ -9,7 +9,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Customer</a></li>
-                    <li><a href="#"><span id="CustomerNameheader"></span></a></li>
+                    <li><a href="#" id="CustomerNameheader"></a></li>
                     <li class="active"><span>Firms</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -73,6 +73,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Customer</a></li>
+                    <li><a href="#" id="CustomerNameheader1"></a></li>
                     <li class="active"><span id="activeTabName">Firm Add</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -129,8 +130,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="CustomerName">Customer Name</label>
-                                <select class="form-control select2-show-search cls-disable" id="CustomerName">
-                                </select>
+                               
+                                <label class=form-control><span id="CustomerNametext"></span></label>
+                                <input type="hidden" id="CustomerName" value="" />
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -264,9 +266,9 @@
 
     $(function (e) {
          window.customerId=GetParameterValues('id')
-        
-         
 
+
+         $("#CustomerName").val(window.customerId);
           $('.dv-list').show();
           $('.dv-detail').hide();
 
@@ -286,8 +288,8 @@
         bindSoftwareList();
         bindFirmTypeAdminList();
         bindGSTFirmType();
-        bindCustomerList();
-        
+        //bindCustomerList();
+        getCustomer(window.customerId);
       });
 
      function disableFieldView(id)
@@ -456,7 +458,6 @@
      function fromReset()
      {
         $("#Id").val(0);
-        $("#CustomerName").select2().val('').trigger("change");
         $("#FirmName").val("");
         $("#GSTFirmType").select2().val('').trigger("change");
         $("#Business").select2().val('').trigger("change");
@@ -629,7 +630,6 @@
                                            $("#AddNew").click();
                                            $("#activeTabName").text("Firm EDT(ID# "+result.data.id+")");
                                            $('#Id').val(result.data.id);
-                                           $("#CustomerName").select2().val(result.data.customerId).trigger("change");
                                            $("#FirmName").val(result.data.title);
                                            $("#GSTFirmType").select2().val(result.data.gstFirmTypeId).trigger("change");
                                            $("#Business").select2().val(result.data.businessId).trigger("change");;
@@ -806,5 +806,33 @@
                     showError("", e.message);
                 }
             }
+
+    function getCustomer(id) {
+        try {
+            blockUI('container');
+            var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
+                function (result) {
+                    unblockUI('container');
+                    var str = "";
+                    try {
+                        if (result.result == RESULT_SUCCESS) {
+                            $("#CustomerNameheader").text(result.data.name);
+                            $("#CustomerNameheader1").text(result.data.name);
+                            $("#CustomerNametext").text(result.data.name);
+                        } else {
+                            showError('Error', result.data); //warning,  success, error, info
+                        }
+                    } catch (e) {
+                        unblockUI('container');
+                        showError('Error', e); //warning,  success, error, info
+                    }
+                },
+                function (error) {
+
+                });
+        }
+        catch (err) {
+        }
+    }
 </script>
 }
