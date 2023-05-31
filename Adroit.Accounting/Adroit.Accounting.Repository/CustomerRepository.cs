@@ -69,7 +69,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@AgreeTerms", customer.AgreeTerms);
             parameters.Add("@DefaultUserId", customer.DefaultUserId);
 
-            return QueryHelper.Save("sp_CustomerCustomerRegistration", connectionString, parameters);
+            return QueryHelper.Save("sp_CustomerRegistration", connectionString, parameters);
         }
 
         public Model.Customer Get(string email, string connectionString)

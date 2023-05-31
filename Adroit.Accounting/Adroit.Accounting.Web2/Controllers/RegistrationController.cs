@@ -106,7 +106,7 @@ namespace Adroit.Accounting.Web.Controllers
                         StatusId = CustomerStatus.Registered,
                     };
 
-                    int id = _customerRepo.Save(customer, _configurationData.DefaultConnection);
+                    int id = _customerRepo.Register(customer, _configurationData.DefaultConnection);
                     if (id > 0)
                     {
                         result.data = true;
