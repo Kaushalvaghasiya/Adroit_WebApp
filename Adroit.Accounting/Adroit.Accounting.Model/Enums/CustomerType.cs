@@ -2,7 +2,7 @@
 {
     public enum CustomerType
     {
-        BackOffice = -1,
+        BackOffice = 0,
         Inquiry = 1,
         Demo = 2,
         FOC = 3,
