@@ -4,7 +4,9 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmGet]
 )
 AS
 BEGIN
-	SELECT *
-	FROM CustomerFirm WHERE Id = @Id
+	SELECT CustomerFirm.*,Customer.[Name] as CustomerName
+	FROM CustomerFirm 
+	 LEFT JOIN Customer ON CustomerFirm.CustomerId=Customer.id
+	WHERE CustomerFirm.Id = @Id
 END
 GO

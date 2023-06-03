@@ -8,7 +8,7 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Customer</a></li>
+                    <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
                     <li><a href="#" id="CustomerNameheader"></a></li>
                     <li class="active"><span>User</span></li>
                 </ol>
@@ -71,9 +71,9 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Customer</a></li>
+                    <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
                     <li><a href="#" id="CustomerNameheader1"></a></li>
-                    <li class="active"><span id="activeTabName">Customer User</span></li>
+                    <li class="active" onclick="viewList()"><span id="activeTabName">Customer User</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -185,7 +185,8 @@
 
     $(function (e) {
          window.customerId=GetParameterValues('id')
-
+         $("#CustomerNameheader").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+""); 
+         $("#CustomerNameheader1").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+""); 
 
           $('.dv-list').show();
           $('.dv-detail').hide();
@@ -361,6 +362,9 @@
               });
       }
 
+function viewList(){
+    $("#btnCancel").click();
+}
      function fromReset()
      {
         $("#Id").val(0);

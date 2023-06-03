@@ -8,9 +8,9 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Customer</a></li>
+                    <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
                     <li><a href="#" id="CustomerNameheader"></a></li>
-                    <li class="active"><span>Firms</span></li>
+                    <li class="active"><span>Firm</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -72,9 +72,10 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Customer</a></li>
+                    <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
                     <li><a href="#" id="CustomerNameheader1"></a></li>
-                    <li class="active"><span id="activeTabName">Firm Add</span></li>
+                    <li><a href="#" onclick="viewList()">Firm</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -265,10 +266,12 @@
     var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
 
     $(function (e) {
-         window.customerId=GetParameterValues('id')
-
-
-         $("#CustomerName").val(window.customerId);
+         window.customerId=GetParameterValues('id');
+         window.editFirmId=GetParameterValues('editid');
+         $("#CustomerNameheader").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+""); 
+         $("#CustomerNameheader1").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+""); 
+        
+        $("#CustomerName").val(window.customerId);
           $('.dv-list').show();
           $('.dv-detail').hide();
 
@@ -288,8 +291,10 @@
         bindSoftwareList();
         bindFirmTypeAdminList();
         bindGSTFirmType();
-        //bindCustomerList();
         getCustomer(window.customerId);
+        if(window.editFirmId !=null || window.editFirmId !=undefined){
+            getDetail(window.editFirmId);
+        }
       });
 
      function disableFieldView(id)
@@ -323,6 +328,10 @@
         $('#tblMain').DataTable().ajax.reload();
     }
 
+
+function viewList(){
+    $("#btnCancel").click();
+}
        function GetParameterValues(param)
          {
                 var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
@@ -471,7 +480,7 @@
         $("#AadhaarUID").val("");
         $("#TotalBranches").val("");
         $('.custom-switch-input').prop('checked', false);
-        $("#activeTabName").text("Firm Add");
+        $("#activeTabName").text("Add");
         $(".cls-disable").each(function(index, element){
                 $(this).prop('disabled', false);
         });
@@ -628,7 +637,7 @@
                           try {
                               if (result.result == RESULT_SUCCESS) {
                                            $("#AddNew").click();
-                                           $("#activeTabName").text("Firm EDT(ID# "+result.data.id+")");
+                                           $("#activeTabName").text("EDT(ID#"+result.data.id+")");
                                            $('#Id').val(result.data.id);
                                            $("#FirmName").val(result.data.title);
                                            $("#GSTFirmType").select2().val(result.data.gstFirmTypeId).trigger("change");
