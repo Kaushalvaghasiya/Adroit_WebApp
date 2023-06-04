@@ -24,6 +24,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IUserStore<IdentityUser> UserStore;
         private readonly IUserEmailStore<IdentityUser> EmailStore;
         private readonly ISoftwareType SoftwareTypeRepo;
+        private readonly ISoftwarePlan softwarePlanRepo;
 
         public AdminController(
            IOptions<ConfigurationData> configurationData,
@@ -38,7 +39,8 @@ namespace Adroit.Accounting.Web.Controllers
            IEmailService emailService,
            UserManager<IdentityUser> userManager,
            IUserStore<IdentityUser> userStore,
-           ISoftwareType softwareType
+           ISoftwareType softwareType,
+           ISoftwarePlan softwarePlan
 
             )
 
@@ -57,6 +59,7 @@ namespace Adroit.Accounting.Web.Controllers
             UserStore = userStore;
             EmailStore = GetEmailStore();
             SoftwareTypeRepo = softwareType;
+            softwarePlanRepo = softwarePlan;
         }
     }
 }

@@ -4,17 +4,18 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class SoftwarePlan
+    public partial class SoftwarePlan:BaseModel
     {
         public SoftwarePlan()
         {
         }
         public byte Id { get; set; }
         public byte SoftwareId { get; set; }
-        public string Title { get; set; } = string.Empty;
-        public string Business { get; set; } = string.Empty;
-        public string Code { get; set; } = string.Empty;
+        public string Title { get; set; }
+        public string Business { get; set; }
+        public string Code { get; set; }
         public bool IsDeleted { get; set; }
         public decimal Cost { get; set; }
+        public string SoftwareName { get; set; }
     }
 }
