@@ -286,7 +286,7 @@
 <script>
 
     var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
-
+    var backOfficeValue= @((int)CustomerType.BackOffice);
     $(function (e) {
         $('.dv-list').show();
         $('.dv-detail').hide();
@@ -379,10 +379,10 @@
                 btnAct += "&nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
                 btnAct += "<a target='_blank' href='@(Url.Content("~/admin/customer/firm?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-group'></i></a>";
                 btnAct += "<a target='_blank' href='@(Url.Content("~/admin/customer/user?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa-light fa-users'></i></a>";
-               if(row.customerType!="BackOffice")
+               if(row.customerTypeValue!=backOfficeValue)
                {
                 btnAct += "<a onclick='customerDelete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
-                }
+               }
                 return btnAct;
             },
             "targets": colDef.length,
