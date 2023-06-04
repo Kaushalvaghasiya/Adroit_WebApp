@@ -182,9 +182,8 @@
 <script>
 
     var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
-
+    window.customerId=@ViewBag.Id
     $(function (e) {
-         window.customerId=GetParameterValues('id')
          $("#CustomerNameheader").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+""); 
          $("#CustomerNameheader1").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+""); 
 
@@ -238,17 +237,6 @@
     function refreshDatatableList() {
         $('#tblMain').DataTable().ajax.reload();
     }
-
-       function GetParameterValues(param)
-         {
-                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-                for (var i = 0; i < url.length; i++) {
-                var urlparam = url[i].split('=');
-                if (urlparam[0] == param) {
-                return urlparam[1];
-                            }
-                    }
-        }
      function datatablelist() {
        let columns = [];
        let colDef = [];
@@ -497,7 +485,7 @@ function viewList(){
                           try {
                               if (result.result == RESULT_SUCCESS) {
                                            $("#AddNew").click();
-                                           $("#activeTabName").text("User EDT(ID# "+result.data.id+")");
+                                           $("#activeTabName").text("EDIT(ID# "+result.data.id+")");
                                            $('#Id').val(result.data.id);
                                            $("#Email").val(result.data.email);
                                            $("#FirstName").val(result.data.firstName);

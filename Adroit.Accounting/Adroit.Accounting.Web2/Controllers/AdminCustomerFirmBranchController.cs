@@ -9,8 +9,9 @@ namespace Adroit.Accounting.Web.Controllers
     public partial class AdminController : Controller
     {
         [Route("~/admin/customer/firm/branch")]
-        public IActionResult CustomerFirmBranch()
+        public IActionResult CustomerFirmBranch(int? id=0)
         {
+            ViewBag.Id = id;
             return View();
         }
 

@@ -9,8 +9,9 @@ namespace Adroit.Accounting.Web.Controllers
     public partial class AdminController : Controller
 
     {
-        public IActionResult Customer()
+        public IActionResult Customer(int? id=0)
         {
+            ViewBag.Id=id;
             return View();
         }
 

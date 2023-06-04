@@ -12,8 +12,9 @@ namespace Adroit.Accounting.Web.Controllers
     public partial class AdminController : Controller
     {
         [Route("~/admin/customer/user")]
-        public IActionResult CustomerUser()
+        public IActionResult CustomerUser(int? id)
         {
+            ViewBag.Id = id;
             return View();
         }
 

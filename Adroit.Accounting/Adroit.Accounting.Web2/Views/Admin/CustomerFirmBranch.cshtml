@@ -332,11 +332,9 @@
 
       var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
       var DateFormate = "@Adroit.Accounting.Utility.Constant.DateFormate";
+      window.customerfirmId=@ViewBag.Id
      $(function (e) {
-         window.customerfirmId=GetParameterValues('id')
-          
-
-
+         
          $("#Firm").val(window.customerfirmId);
          $('.dv-list').show();
          $('.dv-detail').hide();
@@ -402,17 +400,6 @@ function viewList(){
 }
      function refreshDatatableList() {
             $('#tblMain').DataTable().ajax.reload();
-        }
-
-    function GetParameterValues(param)
-         {
-                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-                for (var i = 0; i < url.length; i++) {
-                var urlparam = url[i].split('=');
-                if (urlparam[0] == param) {
-                return urlparam[1];
-                            }
-                    }
         }
 
     function datatablelist() {
@@ -708,7 +695,6 @@ function viewList(){
     {
         $("#Id").val(0);
         $("#BranchName").val("");
-        //$("#Firm").select2().val('').trigger("change");
         $("#BranchType").select2().val('').trigger("change");
         $("#PrintTitle").val("");
         $("#ShortName").val("");
@@ -906,10 +892,9 @@ function viewList(){
                          try {
                              if (result.result == RESULT_SUCCESS) {
                                         $("#AddNew").click();
-                                        $("#activeTabName").text("EDT(ID# "+result.data.id+")");
+                                        $("#activeTabName").text("EDIT(ID# "+result.data.id+")");
                                         $("#Id").val(result.data.id);
                                         $("#BranchName").val(result.data.title);
-                                        //$("#Firm").select2().val(result.data.firmId).trigger("change");
                                         $("#BranchType").select2().val(result.data.firmBranchTypeId).trigger("change");
                                         $("#PrintTitle").val(result.data.printTitle);
                                         $("#ShortName").val(result.data.shortTitle);
