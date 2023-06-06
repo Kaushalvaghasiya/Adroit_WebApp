@@ -292,7 +292,7 @@
         bindFirmTypeAdminList();
         bindGSTFirmType();
         getCustomer(window.customerId);
-        if(window.editFirmId !=0){
+        if(window.editFirmId >0){
             getDetail(window.editFirmId);
         }
       });
@@ -627,7 +627,7 @@ function viewList(){
                           try {
                               if (result.result == RESULT_SUCCESS) {
                                            $("#AddNew").click();
-                                           $("#activeTabName").text("EDIT(ID#"+result.data.id+")");
+                                           $("#activeTabName").text("EDIT (ID#"+result.data.id+")");
                                            $('#Id').val(result.data.id);
                                            $("#FirmName").val(result.data.title);
                                            $("#GSTFirmType").select2().val(result.data.gstFirmTypeId).trigger("change");
