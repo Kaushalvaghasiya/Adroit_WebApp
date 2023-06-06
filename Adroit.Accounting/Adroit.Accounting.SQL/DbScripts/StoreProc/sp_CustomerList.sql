@@ -18,7 +18,7 @@ Begin
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN Customer.Email END ASC,  
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN Customer.Email END DESC  
 		) AS RowNum,
-	   Count(*) over () AS TotalCount, Customer.*, [State].Title as [State], [City].Title as [City],Customer.CustomerType As customerTypeValue
+	   Count(*) over () AS TotalCount, Customer.*, [State].Title as [State], [City].Title as [City]
 	  FROM Customer
 	  LEFT JOIN [State] on Customer.StateId = [State].Id
 	  LEFT JOIN [City] on Customer.CityId = [City].Id
