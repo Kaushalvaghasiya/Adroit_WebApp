@@ -9,8 +9,9 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Customer</a></li>
-                    <li><a href="#">Customer Firm</a></li>
+                    <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
+                    <li><a href="#" id="CustomerNameheader"></a></li>
+                    <li><a href="#" id="CustomerFirmheaderName">Customer Firm</a></li>
                     <li><a href="#" id="CustomerFirmheader"></a></li>
                     <li class="active"><span>Branches</span></li>
                 </ol>
@@ -76,11 +77,12 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Customer</a></li>
-                    <li><a href="#">CustomerFirm</a></li>
+                    <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
+                    <li><a href="#" id="CustomerNameheader1"></a></li>
+                    <li><a href="#" id="CustomerFirmheaderName1">CustomerFirm</a></li>
                     <li><a href="#" id="CustomerFirmheader1"></a></li>
-                    <li><a href="#">CustomerBranch</a></li>
-                    <li class="active"><span id="activeTabName">Branches Add/Edit</span></li>
+                    <li><a href="#" onclick="viewList()">CustomerBranch</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -330,10 +332,11 @@
 
       var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
       var DateFormate = "@Adroit.Accounting.Utility.Constant.DateFormate";
+      window.customerfirmId=@ViewBag.Id
      $(function (e) {
-          window.customerfirmId=GetParameterValues('id')
+         
          $("#Firm").val(window.customerfirmId);
-          $('.dv-list').show();
+         $('.dv-list').show();
          $('.dv-detail').hide();
 
          $('.btn-add-new').click(function () {
@@ -364,7 +367,6 @@
 
         bindCountryList();
         bindBusinessTypeList();
-        //bindFirmList();
         getFirmName(window.customerfirmId);
      });
 
@@ -393,20 +395,11 @@
         });
         getDetail(id);
     }
-
+function viewList(){
+    $("#btnCancel").click();
+}
      function refreshDatatableList() {
             $('#tblMain').DataTable().ajax.reload();
-        }
-
-    function GetParameterValues(param)
-         {
-                var url = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
-                for (var i = 0; i < url.length; i++) {
-                var urlparam = url[i].split('=');
-                if (urlparam[0] == param) {
-                return urlparam[1];
-                            }
-                    }
         }
 
     function datatablelist() {
@@ -696,11 +689,12 @@
                      showError("", e.message);
                   }
              }
+
+             
     function fromReset()
     {
         $("#Id").val(0);
         $("#BranchName").val("");
-        //$("#Firm").select2().val('').trigger("change");
         $("#BranchType").select2().val('').trigger("change");
         $("#PrintTitle").val("");
         $("#ShortName").val("");
@@ -725,7 +719,7 @@
         $("#SetupPrice").val("");
         $("#OrderNumber").val("");
         $('.custom-switch-input').prop('checked', false);
-        $("#activeTabName").text("Branch Add");
+        $("#activeTabName").text("Add");
         $(".cls-disable").each(function(index, element){
 
         $(this).prop('disabled', false)
@@ -898,10 +892,9 @@
                          try {
                              if (result.result == RESULT_SUCCESS) {
                                         $("#AddNew").click();
-                                        $("#activeTabName").text("Branch EDT(ID# "+result.data.id+")");
+                                        $("#activeTabName").text("EDIT (ID# "+result.data.id+")");
                                         $("#Id").val(result.data.id);
                                         $("#BranchName").val(result.data.title);
-                                        //$("#Firm").select2().val(result.data.firmId).trigger("change");
                                         $("#BranchType").select2().val(result.data.firmBranchTypeId).trigger("change");
                                         $("#PrintTitle").val(result.data.printTitle);
                                         $("#ShortName").val(result.data.shortTitle);
@@ -951,10 +944,22 @@
                           unblockUI('container');
                           var str = "";
                           try {
-                              if (result.result == RESULT_SUCCESS) {
-                            $("#CustomerFirmheader").text(result.data.title);
-                            $("#CustomerFirmheader1").text(result.data.title);
-                            $("#CustomerFirmtext").text(result.data.title);
+                                if (result.result == RESULT_SUCCESS) {
+                                        $("#CustomerFirmheader").text(result.data.title);
+                                        $("#CustomerFirmheader1").text(result.data.title);
+                                        $("#CustomerNameheader").text(result.data.customerName);
+                                        $("#CustomerNameheader1").text(result.data.customerName);
+                                        
+                                        $("#CustomerFirmtext").text(result.data.title); //for add edit firm name 
+
+                                        $("#CustomerNameheader").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+result.data.customerId+""); 
+                                        $("#CustomerNameheader1").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+result.data.customerId+""); 
+                                        $("#CustomerFirmheaderName").attr("href","@(Url.Content("~/../../../admin/customer/firm?id="))"+result.data.customerId+""); 
+                                        $("#CustomerFirmheaderName1").attr("href","@(Url.Content("~/../../../admin/customer/firm?id="))"+result.data.customerId+""); 
+                                        
+                                        $("#CustomerFirmheader").attr("href","@(Url.Content("~/../../../admin/customer/firm?id="))"+result.data.customerId+"&editid="+id); 
+                                        $("#CustomerFirmheader1").attr("href","@(Url.Content("~/../../../admin/customer/firm?id="))"+result.data.customerId+"&editid="+id); 
+
                               } else {
                                   showError('Error', result.data); //warning,  success, error, info
                               }

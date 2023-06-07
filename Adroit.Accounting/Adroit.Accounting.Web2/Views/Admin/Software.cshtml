@@ -7,8 +7,8 @@
         <div class="col-md-12 col-lg-12">
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
-                    <li><a href="#">Master</a></li>
-                    <li><a href="#">Customer</a></li>
+                   <li><a href="#">Master</a></li>
+                    <li><a href="#">Adroit</a></li>
                     <li><a href="#">Software</a></li>
                     <li class="active"><span>Software Master</span></li>
                 </ol>
@@ -69,8 +69,8 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Customer</a></li>
-                      <li><a href="#">Software</a></li>
+                    <li><a href="#">Adroit</a></li>
+                    <li><a href="#" onclick="viewList()">Software</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
@@ -192,6 +192,10 @@
 
     }
 
+function viewList()
+{
+    $("#btnCancel").click();
+}
     function EditMode(id){
         $(".cls-disable").each(function(index, element){
 
@@ -415,7 +419,7 @@
                               if (result.result == RESULT_SUCCESS) 
                               {
                                            $("#AddNew").click();
-                                           $("#activeTabName").text("Software EDT(ID# "+result.data.id+")");
+                                           $("#activeTabName").text("EDIT (ID# "+result.data.id+")");
                                             $("#SoftwareName").val(result.data.title);
                                             $("#OrderNumber").val(result.data.orderNumber);
                                            $('#Id').val(result.data.id);

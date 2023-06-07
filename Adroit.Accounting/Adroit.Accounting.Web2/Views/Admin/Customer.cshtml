@@ -75,7 +75,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
-                    <li><a href="#">Customer</a></li>
+                    <li><a href="#" onclick="viewList()">Customer</a></li>
                     <li class="active"><span id=activeTabName>Add</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -286,6 +286,7 @@
 <script>
 
     var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
+    window.customerId=@ViewBag.Id
 
     $(function (e) {
         $('.dv-list').show();
@@ -313,8 +314,14 @@
                 bindCityList(stateId);
             }
         });
+          if(window.customerId >0){
+            getDetail(window.customerId);
+          }
     });
 
+function viewList(){
+    $("#btnCancel").click();
+}
     function disableFieldView(id){
         $(".cls-disable").each(function(index, element){
             $(this).prop('disabled', true);
@@ -456,6 +463,7 @@
         });
     }
 
+
     function bindStateList(countryId) {
         try {
             blockUI('container');
@@ -569,7 +577,7 @@
         $("#TotalFirms").val("");
         $("#AadhaarId").val("");
         $("#TotalUsers").val("");
-        $("#activeTabName").text("Customer Add");
+        $("#activeTabName").text("Add");
 
         $(".cls-disable").each(function(index, element){
 
@@ -753,7 +761,7 @@
                     try {
                         if (result.result == RESULT_SUCCESS) {
                             $("#AddNew").click();
-                            $("#activeTabName").text("Customer EDT(ID# "+result.data.id+")");
+                            $("#activeTabName").text("EDIT (ID# "+result.data.id+")");
                             $('#Id').val(result.data.id);
                             $("#State").select2().val(result.data.stateId).trigger("change");
                             $("#CustomerName").val(result.data.name);
