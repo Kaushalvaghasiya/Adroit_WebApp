@@ -16,14 +16,6 @@
     <None Remove="DbScripts\StoreProc\fn_fnStringToIntArray.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetUserBranches.sql" />
     <None Remove="DbScripts\StoreProc\sp_AccountAdminList_Select.sql" />
-    <None Remove="DbScripts\StoreProc\sp_AdminSoftwareDelete.sql" />
-    <None Remove="DbScripts\StoreProc\sp_AdminSoftwareGet.sql" />
-    <None Remove="DbScripts\StoreProc\sp_AdminSoftwareList.sql" />
-    <None Remove="DbScripts\StoreProc\sp_AdminSoftwarePlanDelete.sql" />
-    <None Remove="DbScripts\StoreProc\sp_AdminSoftwarePlanGet.sql" />
-    <None Remove="DbScripts\StoreProc\sp_AdminSoftwarePLanList.sql" />
-    <None Remove="DbScripts\StoreProc\sp_AdminSoftwarePlanSave.sql" />
-    <None Remove="DbScripts\StoreProc\sp_AdminSoftwareSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_BillEntryTypeAdminList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_BillTypeAdminList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_BookAdminDelete.sql" />
@@ -66,7 +58,15 @@
     <None Remove="DbScripts\StoreProc\sp_FirmList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_GSTInvoiceTypeList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_GSTTypeFirmTypeList_Select.sql" />
+    <None Remove="DbScripts\StoreProc\sp_SoftwareDelete.sql" />
+    <None Remove="DbScripts\StoreProc\sp_SoftwareGet.sql" />
+    <None Remove="DbScripts\StoreProc\sp_SoftwareList.sql" />
     <None Remove="DbScripts\StoreProc\sp_SoftwareList_Select.sql" />
+    <None Remove="DbScripts\StoreProc\sp_SoftwarePlanDelete.sql" />
+    <None Remove="DbScripts\StoreProc\sp_SoftwarePlanGet.sql" />
+    <None Remove="DbScripts\StoreProc\sp_SoftwarePlanList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_SoftwarePlanSave.sql" />
+    <None Remove="DbScripts\StoreProc\sp_SoftwareSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_StateList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_TalukaList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_UserActivate.sql" />
@@ -75,6 +75,7 @@
     <None Remove="DbScripts\StoreProc\sp_UserGet.sql" />
     <None Remove="DbScripts\Tables\0001 Initial.sql" />
     <None Remove="DbScripts\Tables\0002 CustomerUser.sql" />
+    <None Remove="DbScripts\Tables\0003 DropRenameSP.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -84,16 +85,16 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_AccountAdminList_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminSoftwarePlanList.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_SoftwarePlanList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminSoftwarePlanGet.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_SoftwarePlanGet.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminSoftwarePlanDelete.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_SoftwarePlanDelete.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminSoftwarePlanSave.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_SoftwarePlanSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_BillEntryTypeAdminList_Select.sql">
@@ -144,7 +145,7 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerBrokerBranchMappingList_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminSoftwareDelete.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_SoftwareDelete.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchDelet.sql">
@@ -153,13 +154,13 @@
     <EmbeddedResource Include="DbScripts\StoreProc\fn_GetUserBranches.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminSoftwareGet.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_SoftwareGet.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminSoftwareList.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_SoftwareList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminSoftwareSave.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_SoftwareSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUserDelete.sql">
@@ -256,6 +257,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_TalukaList_Select.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\Tables\0003 DropRenameSP.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\Tables\0002 CustomerUser.sql">

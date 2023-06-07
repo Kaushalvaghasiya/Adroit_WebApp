@@ -11,14 +11,14 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            QueryHelper.Save("sp_AdminSoftwarePlanDelete", connectionString, parameters);
+            QueryHelper.Save("sp_SoftwarePlanDelete", connectionString, parameters);
         }
 
         public SoftwarePlan Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<Model.SoftwarePlan>("sp_AdminSoftwarePlanGet", connectionString, parameters);
+            return QueryHelper.GetTableDetail<Model.SoftwarePlan>("sp_SoftwarePlanGet", connectionString, parameters);
         }
 
         public List<SoftwarePlan> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
@@ -31,7 +31,7 @@ namespace Adroit.Accounting.Repository
             param.Add("@PageSize", pageSize);
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<Model.SoftwarePlan>("sp_AdminSoftwarePlanList", connectionString, param);
+            return QueryHelper.GetList<Model.SoftwarePlan>("sp_SoftwarePlanList", connectionString, param);
         }
 
         public int Save(SoftwarePlan softwarePlan, string connectionString)
@@ -44,7 +44,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Code",softwarePlan.Code);
             parameters.Add("@Cost", softwarePlan.Cost);
             parameters.Add("@IsDeleted", softwarePlan.IsDeleted);
-            return QueryHelper.Save("sp_AdminSoftwarePlanSave", connectionString, parameters);
+            return QueryHelper.Save("sp_SoftwarePlanSave", connectionString, parameters);
         }
     }
 }

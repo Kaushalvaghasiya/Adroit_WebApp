@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_AdminSoftwarePlanSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_SoftwarePlanSave]
 (
 	 @Id int,
 	 @Title VARCHAR(100),

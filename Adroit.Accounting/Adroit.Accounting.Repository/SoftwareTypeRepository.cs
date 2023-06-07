@@ -11,14 +11,14 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            QueryHelper.Save("sp_AdminSoftwareDelete", connectionString, parameters);
+            QueryHelper.Save("sp_SoftwareDelete", connectionString, parameters);
         }
 
         public Software Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<Model.Software>("sp_AdminSoftwareGet", connectionString, parameters);
+            return QueryHelper.GetTableDetail<Model.Software>("sp_SoftwareGet", connectionString, parameters);
         }
 
         public List<Software> GetSoftwareTypeList(string connectionString)
@@ -37,7 +37,7 @@ namespace Adroit.Accounting.Repository
             param.Add("@PageSize", pageSize);
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<Model.Software>("sp_AdminSoftwareList", connectionString, param);
+            return QueryHelper.GetList<Model.Software>("sp_SoftwareList", connectionString, param);
         }
 
         public int Save(Software software, string connectionString)
@@ -47,7 +47,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Title", software.Title);
             parameters.Add("@orderNumber", software.OrderNumber);
             parameters.Add("@IsDeleted", software.IsDeleted);
-            return QueryHelper.Save("sp_AdminSoftwareSave", connectionString, parameters);
+            return QueryHelper.Save("sp_SoftwareSave", connectionString, parameters);
         }
     }
 }

@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_AdminSoftwarePlanGet]
+CREATE OR ALTER PROCEDURE [dbo].[sp_SoftwarePlanGet]
 (
 	@Id INT
 )
