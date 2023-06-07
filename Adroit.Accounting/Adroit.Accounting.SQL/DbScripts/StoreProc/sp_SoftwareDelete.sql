@@ -1,4 +1,4 @@
-CREATE OR ALTER procedure [dbo].[sp_AdminSoftwarePlanDelete]
+CREATE OR ALTER procedure [dbo].[sp_SoftwareDelete]
 (
 	@Id INT
 )
@@ -6,7 +6,7 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		UPDATE SoftwarePlan SET 
+		UPDATE Software SET 
 			IsDeleted = 1
 		WHERE Id= @Id ;
 	COMMIT TRAN

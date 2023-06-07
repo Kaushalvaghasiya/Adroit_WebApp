@@ -1,4 +1,4 @@
-CREATE OR ALTER Procedure [dbo].[sp_AdminSoftwareList]
+CREATE OR ALTER Procedure [dbo].[sp_SoftwareList]
   @LoginId int,
   @FirmId int,  
   @Search VARCHAR(100) = '',
