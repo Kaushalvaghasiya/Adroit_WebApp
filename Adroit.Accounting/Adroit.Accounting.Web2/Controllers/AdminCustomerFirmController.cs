@@ -13,9 +13,11 @@ namespace Adroit.Accounting.Web.Controllers
     public partial class AdminController : Controller
     {
         [Route("~/admin/customer/firm")]
-        public IActionResult CustomerFirm()
-
+        public IActionResult CustomerFirm(int? id = 0, int? editid = 0)
         {
+
+            ViewBag.Id = id;
+            ViewBag.EditId = editid;
             return View();
         }
 
