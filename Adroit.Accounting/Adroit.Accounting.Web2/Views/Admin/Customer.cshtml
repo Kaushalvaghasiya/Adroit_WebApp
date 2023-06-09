@@ -17,12 +17,12 @@
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <a href="#" class="btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page">
                             <span>
                                 <i class="fa fa-star"></i>
                             </span>
                         </a>
-                        <a href="lockscreen.html" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock">
                             <span>
                                 <i class="fa fa-lock"></i>
                             </span>
@@ -75,31 +75,31 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
-                    <li><a href="#" onclick="viewList()">Customer</a></li>
+                    <li><a href="#" class="btn-back">Customer</a></li>
                     <li class="active"><span id=activeTabName>Add</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search Customer...">
                         <span class="input-group-append mr-2">
-                            <button class="btn btn-primary" type="button">Go!</button>
+                            <button class="btn btn-primary" type="button" onclick="showUnderDevMsg()">Go!</button>
                         </span>
-                        <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save" onclick="saveDetail()">
+                        <a href="javascript:void(0);" onclick="saveDetail()" class="btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
                             <span>
                                 <i class="fa fa-save"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
                             <span>
                                 <i class="fa fa-print"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
                             <span>
                                 <i class="fa fa-share-alt"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn btn-danger text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="delete">
+                        <a href="#" onclick="deleteCustomerEdit()" class="btn btn-danger text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="delete">
                             <span>
                                 <i class="fa fa-trash-o"></i>
                             </span>
@@ -109,7 +109,7 @@
                                 <i class="fa fa-plus"></i>
                             </span>
                         </a>
-                        <a href="javascript:void(0);" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" onclick="fromReset()">
+                        <a href="javascript:void(0);" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel">
                             <span>
                                 <i class="fa fa-arrow-left"></i>
                             </span>
@@ -231,9 +231,9 @@
                             <div class="form-group">
                                 <label for="Type">Type</label>
                                 <select asp-for="CustomerType"
-                                        class="form-control cls-disable" id="Type"
+                                        class="form-control select2-show-search cls-disable" id="Type"
                                         asp-items="Html.GetEnumSelectList<CustomerType>()">
-                                    <option value=0>Select type ...</option>
+                                    <option></option>
                                 </select>
 
                             </div>
@@ -266,11 +266,11 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="javascript:void(0);" class="btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save" onclick="saveDetail()"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
-                    <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="#" class="btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="#" class="btn-back btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="javascript:void(0);" onclick="saveDetail()" class="btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="javascript:void(0);" onclick="showUnderDevMsg()" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="javascript:void(0);" onclick="showUnderDevMsg()" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="javascript:void(0);" onclick="deleteCustomerEdit()" class="btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="javascript:void(0);" onclick="fromReset()" class="btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="New"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="javascript:void(0);" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" id="btnCancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
             </div>
@@ -286,66 +286,53 @@
 <script>
 
     var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
-    window.customerId=@ViewBag.Id
-
+    var backOfficeValue= "@CustomerType.BackOffice";
     $(function (e) {
         $('.dv-list').show();
         $('.dv-detail').hide();
 
-        $('.btn-add-new').click(function () {
-            $('.dv-list').slideUp();
-            $('.dv-detail').slideDown();
+            $('.btn-add-new').click(function () {
+                $('.dv-list').slideUp();
+                $('.dv-detail').slideDown();
+                $(".btn-danger").hide();
+                fromReset();
+            });
+
+            $('.btn-back').click(function () {
+                $('.dv-detail').slideUp();
+                $('.dv-list').slideDown();
+            });
+
+            datatablelist();
+
+            bindBusinessList();
+
+            bindStateList();
+
+            $("#State").on('change', function (e) {
+                let stateId = $(this).val();
+                if (stateId > 0) {
+                    bindCityList(stateId);
+                }
+            });
+              if(window.customerId >0){
+                getDetail(window.customerId,false);
+              }
         });
 
-        $('.btn-back').click(function () {
-            $('.dv-detail').slideUp();
-            $('.dv-list').slideDown();
-        });
+        function disableFieldView(id){
 
-        datatablelist();
+            getDetail(id,true);
 
-        bindBusinessList();
+        }
+        function EditMode(id){
 
-        bindStateList();
 
-        $("#State").on('change', function (e) {
-            let stateId = $(this).val();
-            if (stateId > 0) {
-                bindCityList(stateId);
-            }
-        });
-          if(window.customerId >0){
-            getDetail(window.customerId);
-          }
-    });
-
-function viewList(){
-    $("#btnCancel").click();
-}
-    function disableFieldView(id){
-        $(".cls-disable").each(function(index, element){
-            $(this).prop('disabled', true);
-        });
-
-        $(".cls-a-disable").each(function(index, element){
-            $(this).addClass("anchordisabled");
-        });
-        getDetail(id);
-
-    }
-    function EditMode(id){
-        $(".cls-disable").each(function(index, element){
-             $(this).prop('disabled', false);
-        })
-        $(".cls-a-disable").each(function(index, element){
-            $(this).removeClass("anchordisabled");
-        })
-
-        getDetail(id);
-    }
-    function refreshDatatableList() {
-        $('#tblMain').DataTable().ajax.reload();
-    }
+            getDetail(id,false);
+        }
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
 
     function datatablelist() {
         let columns = [];
@@ -385,421 +372,458 @@ function viewList(){
                 let btnAct = "<div class='btn-list'><a onclick='EditMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
                 btnAct += "&nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
                 btnAct += "<a target='_blank' href='@(Url.Content("~/admin/customer/firm?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-institution'></i></a>";
-                btnAct += "<a target='_blank' href='@(Url.Content("~/admin/customer/user?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-user'></i></a>";
+                btnAct += "<a target='_blank' href='@(Url.Content("~/admin/customer/user?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa-light fa-users'></i></a>";
+               if(row.customerType!=backOfficeValue)
+               {
                 btnAct += "<a onclick='customerDelete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
+               }
                 return btnAct;
             },
             "targets": colDef.length,
             "className": "text-center",
         });
 
-        columns.push({ "data": "Name", "name": "Name" });
-        columns.push({ "data": "CustomerType", "name": "CustomerType" });
-        columns.push({ "data": "City", "name": "City" });
-        columns.push({ "data": "Mobile", "name": "Mobile" });
-        columns.push({ "data": "TotalFirm", "name": "TotalFirm" });
-        columns.push({ "data": "Id", "name": "Id" });
+            columns.push({ "data": "Name", "name": "Name" });
+            columns.push({ "data": "CustomerType", "name": "CustomerType" });
+            columns.push({ "data": "City", "name": "City" });
+            columns.push({ "data": "Mobile", "name": "Mobile" });
+            columns.push({ "data": "TotalFirm", "name": "TotalFirm" });
+            columns.push({ "data": "Id", "name": "Id" });
 
-        var table = $('#tblMain').DataTable({
-            "bAutoWidth": false,
-            lengthChange: false,
-            ordering: true,
-            searching: true,
-            paging: true,
-            pageLength: 50,
-            order: [[0, 'asc']],
-            pagingType: 'full_numbers',
-            orderClasses: false,
-            //scrollCollapse: true,
-            //stateSave: false,
-            columnDefs: colDef,
-            columns: columns,
-            language: {
-                paginate: {
-                    next: '<i class="fa fa-angle-right"></i>', // or '→'
-                    previous: '<i class="fa fa-angle-left"></i>', // or '←'
-                    first: '<i class="fa fa-angle-double-left"></i>', // or '→'
-                    last: '<i class="fa fa-angle-double-right"></i>' // or '←'
-                }
-            },
-            buttons: ['copy', 'excel', 'pdf', 'colvis'],
-            processing: true,
-            serverSide: true,
-            ajax: {
-                url: '@(Url.Content("~/Admin/CustomerList"))',
-                type: 'GET',
-                data: function (d) { }
-            },
-            "initComplete": function(settings, json) {
-                table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
-
-                $(".buttons-copy").removeClass("btn-primary");
-                $(".buttons-copy").addClass("btn-outline-primary");
-
-                $(".buttons-excel").removeClass("btn-primary");
-                $(".buttons-excel").addClass("btn-outline-primary");
-
-                $(".buttons-pdf").removeClass("btn-primary");
-                $(".buttons-pdf").addClass("btn-outline-primary");
-
-                $(".buttons-colvis").removeClass("btn-primary");
-                $(".buttons-colvis").removeClass("dropdown-toggle");
-                $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
-
-                $(".buttons-copy").empty();
-                $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
-
-                $(".buttons-excel").empty();
-                $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
-
-                $(".buttons-pdf").empty();
-                $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
-
-                $(".buttons-colvis").empty();
-                $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
-            },
-            "drawCallback": function (settings) {
-            }
-        });
-    }
-
-
-    function bindStateList(countryId) {
-        try {
-            blockUI('container');
-            var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + 1, "",
-                function (data) {
-                    unblockUI('container');
-                    var str = "<option></option>";
-                    str += "<option value='0'>Select State</option>";
-                    if (data.result == RESULT_SUCCESS) {
-                        if (data.data.length > 0) {
-                            for (var i = 0; i < data.data.length; i++) {
-                                str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-                            }
-                        }
-                        $("#State").html(str);
-                    } else {
-                        showError("", data.data);
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                function (error) {
-                    unblockUI('container');
-                    showError("", error.statusText);
-                });
-        }
-        catch (err) {
-            unblockUI('container');
-            showError("", e.message);
-        }
-    }
-
-    function bindCityList(stateId) {
-        try {
-            blockUI('container');
-            var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?stateId=" + stateId, "",
-                function (data) {
-                    unblockUI('container');
-                    var str = "<option></option>";
-                       str += "<option value='0'>Select city</option>";
-                    if (data.result == RESULT_SUCCESS) {
-                        if (data.data.length > 0) {
-                            for (var i = 0; i < data.data.length; i++) {
-                                str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-                            }
-                        }
-                        $("#City").html(str);
-                    } else {
-                        showError("", data.data);
-                    }
-                    if ($("#hdnCityId").val() != 0) {
-                        $("#City").select2().val($("#hdnCityId").val()).trigger("change");
-                    }
+                buttons: ['copy', 'excel', 'pdf', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Admin/CustomerList"))',
+                    type: 'GET',
+                    data: function (d) { }
                 },
-                function (error) {
-                    unblockUI('container');
-                    showError("", error.statusText);
-                });
-        }
-        catch (err) {
-            unblockUI('container');
-            showError("", e.message);
-        }
-    }
+                "initComplete": function(settings, json) {
+                    table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
 
-    function bindBusinessList() {
-        try {
-            blockUI('container');
-            var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetBusiness"))", "",
-                function (data) {
-                    unblockUI('container');
-                    var str = "<option></option>";
-                    if (data.result == RESULT_SUCCESS) {
-                        if (data.data.length > 0) {
-                            for (var i = 0; i < data.data.length; i++) {
-                                str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-                            }
-                        }
-                        $("#Business").html(str);
-                    } else {
-                        showError("", data.data);
-                    }
+                    $(".buttons-copy").removeClass("btn-primary");
+                    $(".buttons-copy").addClass("btn-outline-primary");
+
+                    $(".buttons-excel").removeClass("btn-primary");
+                    $(".buttons-excel").addClass("btn-outline-primary");
+
+                    $(".buttons-pdf").removeClass("btn-primary");
+                    $(".buttons-pdf").addClass("btn-outline-primary");
+
+                    $(".buttons-colvis").removeClass("btn-primary");
+                    $(".buttons-colvis").removeClass("dropdown-toggle");
+                    $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
+
+                    $(".buttons-copy").empty();
+                    $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
+
+                    $(".buttons-excel").empty();
+                    $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
+
+                    $(".buttons-pdf").empty();
+                    $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
+
+                    $(".buttons-colvis").empty();
+                    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
                 },
-                function (error) {
-                    unblockUI('container');
-                    showError("", error.statusText);
-                });
-        }
-        catch (err) {
-            unblockUI('container');
-            showError("", e.message);
-        }
-    }
-
-    function fromReset() {
-        $("#Id").val(0);
-        $("#CustomerName").val("");
-        $("#AddressLine1").val("");
-        $("#AddressLine2").val("");
-        $("#AddressLine3").val("");
-        $("#State").select2().val('').trigger("change");
-        $("#City").select2().val('').trigger("change");
-        $("#Business").select2().val('').trigger("change");
-        $("#Type").val('');
-        $("#BusinessName").val("");
-        $("#PinCode").val("");
-        $("#ContactPersonName").val("");
-        $("#ContactMobile").val("");
-        $("#AlternateMobile").val("");
-        $("#Phone").val("");
-        $("#Email").val("");
-        $("#Requirements").val("");
-        $("#TotalFirms").val("");
-        $("#AadhaarId").val("");
-        $("#TotalUsers").val("");
-        $("#activeTabName").text("Add");
-
-        $(".cls-disable").each(function(index, element){
-
-        $(this).prop('disabled', false);
-        });
-        $(".cls-a-disable").each(function(index, element){
-
-            $(this).removeClass("anchordisabled");
-        });
-
-        }
-
-    function saveDetail() {
-        try {
-
-            if ($("#CustomerName").val().length <= 0 || $("#txtCustomerName").val() == "") {
-                showWarning("", "Please enter name.");
-                $("#CustomerName").focus();
-                $('.dv-list').slideUp();
-                return false;
-            }
-            if ($("#AddressLine1").val().length <= 0 || $("#AddressLine1").val() == "") {
-                showWarning("", "Please enter address.");
-                $("#AddressLine1").focus();
-                $('.dv-list').slideUp();
-                return false;
-            }
-            if ($("#State").val() == "" || $("#State").val() ==0) {
-                showWarning("", "Please select state.");
-                $("#State").focus();
-                $('.dv-list').slideUp();
-                return false;
-            }
-            if ($("#City").val() == "" || $("#City").val() ==0) {
-                showWarning("", "Please select city.");
-                $("#City").focus();
-                $('.dv-list').slideUp();
-                return false;
-            }
-            if ($("#ContactPersonName").val().length <= 0 || $("#ContactPersonName").val() == "") {
-                showWarning("", "Please enter contact person name.");
-                $("#ContactPersonName").focus();
-                $('.dv-list').slideUp();
-                return false;
-            }
-            if ($("#ContactMobile").val().length <= 0 || $("#ContactMobile").val() == "") {
-                showWarning("", "Please enter contact mobile.");
-                $("#ContactMobile").focus();
-                $('.dv-list').slideUp();
-                return false;
-            }
-            if ($("#Email").val().length <= 0 || $("#Email").val() == "") {
-                showWarning("", "Please enter email.");
-                $("#Email").focus();
-                $('.dv-list').slideUp();
-                return false;
-            }
-            if ($("#Business").val() == "") {
-                showWarning("", "Please enter business.");
-                $("#Business").focus();
-                return false;
-            }
-            if ($("#Type").val() == "" || $("#Type").val() ==0 || $("#Type").val()==null) {
-                showWarning("", "Please select customer type.");
-                $("#Type").focus();
-                return false;
-            }
-            if ($("#TotalUsers").val().length <= 0 || $("#TotalUsers").val() == "") {
-                showWarning("", "Please enter total user.");
-                $("#TotalUsers").focus();
-                return false;
-            }
-            if ($("#BusinessName").val().length <= 0 || $("#BusinessName").val() == "") {
-                showWarning("", "Please enter Business Name.");
-                $("#txtTotalUsers").focus();
-                return false;
-            }
-
-            let isValidemail = IsEmail($("#Email").val());
-            if (!isValidemail) {
-                showWarning("", "Please enter valid email");
-                $("#Email").focus();
-                return false;
-            }
-
-            var savedata = new Object();
-            savedata.Id = parseInt($("#Id").val());
-            savedata.Name = $("#CustomerName").val();
-            savedata.BusinessId = $("#Business").val();
-            savedata.BusinessName = $("#BusinessName").val();
-            savedata.Address1 = $("#AddressLine1").val();
-            savedata.Address2 = $("#AddressLine2").val();
-            savedata.Address3 = $("#AddressLine3").val();
-            savedata.CityId = parseInt($("#City").val());
-            savedata.StateId = parseInt($("#State").val());
-            savedata.Pincode = $("#PinCode").val();
-            savedata.ContactPersonName = $("#ContactPersonName").val();
-            savedata.Mobile = $("#ContactMobile").val();
-            savedata.MobileAlternate = $("#AlternateMobile").val();
-            savedata.Phone = $("#Phone").val();
-            savedata.Email = $("#Email").val();
-            savedata.Requirement = $("#Requirements").val();
-            savedata.TotalFirm = parseInt($("#TotalFirms").val());
-            savedata.CustomerType = $("#Type").val();
-            savedata.AdharUID = $("#AadhaarId").val();
-            savedata.TotalUsers = parseInt($("#TotalUsers").val());
-            savedata.IsActive = $('#Active').is(':checked');
-            savedata.AgreeTerms = true;
-
-            blockUI('container');
-
-            $.ajax({
-                type: "POST",
-                url: "@(Url.Action("SaveCustomer", "Admin"))",
-                data: JSON.stringify(savedata),
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (data) {
-                    unblockUI('container');
-                    if (data.result == RESULT_SUCCESS) {
-                        fromReset();
-                        showWarning("", 'Customer saved successfully.');
-                        $("#Id").val(0);
-                        refreshDatatableList();
-                        $("#btnCancel").click();
-
-                    } else {
-                        showError("", data.data);
-                    }
-                },
-                error: function (error) {
-                    unblockUI('container');
-                    showError("", error.statusText);
+                "drawCallback": function (settings) {
                 }
             });
-
-        }
-        catch (e) {
-            unblockUI('container');
-            showError("", e.message);
         }
 
-    }
 
-    function customerDelete(id) {
-        if (id == 0) {
-            id = $('#Id').val();
-        }
-        try {
-            blockUI('container');
-            var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomer"))" + "/" + id, "",
-                function (result) {
-                    unblockUI('container');
-                    var str = "";
-                    try {
-                        if (result.result == RESULT_SUCCESS) {
-                            refreshDatatableList();
-                        } else {
-                            showError('Error', result.data); //warning,  success, error, info
-                        }
-                    } catch (e) {
-                        showError('Error', e); //warning,  success, error, info
-                    }
-                },
-                function (error) {
-                    unblockUI('container');
-                });
-        }
-        catch (err) {
-            unblockUI('container');
-        }
-    }
-
-    function getDetail(id) {
-        try {
-            blockUI('container');
-            var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
-                function (result) {
-                    unblockUI('container');
-                    var str = "";
-                    try {
-                        if (result.result == RESULT_SUCCESS) {
-                            $("#AddNew").click();
-                            $("#activeTabName").text("EDIT (ID# "+result.data.id+")");
-                            $('#Id').val(result.data.id);
-                            $("#State").select2().val(result.data.stateId).trigger("change");
-                            $("#CustomerName").val(result.data.name);
-                            $("#Business").select2().val(result.data.businessId).trigger("change");
-                            $("#AddressLine1").val(result.data.address1);
-                            $("#AddressLine2").val(result.data.address2);
-                            $("#AddressLine3").val(result.data.address3);
-                            $("#PinCode").val(result.data.pincode);
-                            $("#ContactPersonName").val(result.data.contactPersonName);
-                            $("#ContactMobile").val(result.data.mobile);
-                            $("#AlternateMobile").val(result.data.mobileAlternate);
-                            $("#Phone").val(result.data.phone);
-                            $("#Email").val(result.data.email);
-                            $("#Requirements").val(result.data.requirement);
-                            $("#TotalFirms").val(result.data.totalFirm);
-                            $('#Active').prop('checked', result.data.isActive);
-                            $("#AadhaarId").val(result.data.adharUID);
-                            $("#TotalUsers").val(result.data.totalUsers);
-                            $("#Type").val(result.data.customerType);
-                            $("#BusinessName").val(result.data.businessName);
-                            //$("#Type option:contains(" + result.data.customerType + ")").attr('selected', 'selected');
-                            $("#Type").val(result.data.customerTypeValue)
-                            $("#hdnCityId").val(result.data.cityId);
-
-                        } else {
-                            showError('Error', result.data); //warning,  success, error, info
-                        }
-                    } catch (e) {
+        function bindStateList(countryId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + 1, "",
+                    function (data) {
                         unblockUI('container');
-                        showError('Error', e); //warning,  success, error, info
-                    }
-                },
-                function (error) {
+                        var str = "<option></option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                }
+                            }
+                            $("#State").html(str);
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
 
+        function bindCityList(stateId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?stateId=" + stateId, "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "<option></option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                }
+                            }
+                            $("#City").html(str);
+                        } else {
+                            showError("", data.data);
+                        }
+                        if ($("#hdnCityId").val() != 0) {
+                            $("#City").select2().val($("#hdnCityId").val()).trigger("change");
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindBusinessList() {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetBusiness"))", "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "<option></option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                }
+                            }
+                            $("#Business").html(str);
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function fromReset() {
+            $("#Id").val(0);
+            $("#CustomerName").val("");
+            $("#AddressLine1").val("");
+            $("#AddressLine2").val("");
+            $("#AddressLine3").val("");
+            $("#State").select2().val('').trigger("change");
+            $("#City").select2().val('').trigger("change");
+            $("#Business").select2().val('').trigger("change");
+            $("#Type").select2().val('').trigger("change");
+            $("#BusinessName").val("");
+            $("#PinCode").val("");
+            $("#ContactPersonName").val("");
+            $("#ContactMobile").val("");
+            $("#AlternateMobile").val("");
+            $("#Phone").val("");
+            $("#Email").val("");
+            $("#Requirements").val("");
+            $("#TotalFirms").val("");
+            $("#AadhaarId").val("");
+            $("#TotalUsers").val("");
+            $("#activeTabName").text("Add");
+
+            $(".cls-disable").each(function(index, element){
+
+            $(this).prop('disabled', false);
+            });
+            $(".cls-a-disable").each(function(index, element){
+
+                $(this).removeClass("anchordisabled");
+            });
+
+            }
+
+        function saveDetail() {
+            try {
+
+                if ($("#CustomerName").val().length <= 0 || $("#txtCustomerName").val() == "") {
+                    showWarning("", "Please enter name.");
+                    $("#CustomerName").focus();
+                    $('.dv-list').slideUp();
+                    return false;
+                }
+                if ($("#AddressLine1").val().length <= 0 || $("#AddressLine1").val() == "") {
+                    showWarning("", "Please enter address.");
+                    $("#AddressLine1").focus();
+                    $('.dv-list').slideUp();
+                    return false;
+                }
+                if ($("#State").val() == "" || $("#State").val() ==0) {
+                    showWarning("", "Please select state.");
+                    $("#State").focus();
+                    $('.dv-list').slideUp();
+                    return false;
+                }
+                if ($("#City").val() == "" || $("#City").val() ==0) {
+                    showWarning("", "Please select city.");
+                    $("#City").focus();
+                    $('.dv-list').slideUp();
+                    return false;
+                }
+                if ($("#ContactPersonName").val().length <= 0 || $("#ContactPersonName").val() == "") {
+                    showWarning("", "Please enter contact person name.");
+                    $("#ContactPersonName").focus();
+                    $('.dv-list').slideUp();
+                    return false;
+                }
+                if ($("#ContactMobile").val().length <= 0 || $("#ContactMobile").val() == "") {
+                    showWarning("", "Please enter contact mobile.");
+                    $("#ContactMobile").focus();
+                    $('.dv-list').slideUp();
+                    return false;
+                }
+                if ($("#Email").val().length <= 0 || $("#Email").val() == "") {
+                    showWarning("", "Please enter email.");
+                    $("#Email").focus();
+                    $('.dv-list').slideUp();
+                    return false;
+                }
+                if ($("#Business").val() == "") {
+                    showWarning("", "Please enter business.");
+                    $("#Business").focus();
+                    return false;
+                }
+                if ($("#Type").val() == "" || $("#Type").val()==null) {
+                    showWarning("", "Please select customer type.");
+                    $("#Type").focus();
+                    return false;
+                }
+                if ($("#TotalUsers").val().length <= 0 || $("#TotalUsers").val() == "") {
+                    showWarning("", "Please enter total user.");
+                    $("#TotalUsers").focus();
+                    return false;
+                }
+                if ($("#BusinessName").val().length <= 0 || $("#BusinessName").val() == "") {
+                    showWarning("", "Please enter Business Name.");
+                    $("#txtTotalUsers").focus();
+                    return false;
+                }
+
+                let isValidemail = IsEmail($("#Email").val());
+                if (!isValidemail) {
+                    showWarning("", "Please enter valid email");
+                    $("#Email").focus();
+                    return false;
+                }
+
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.Name = $("#CustomerName").val();
+                savedata.BusinessId = $("#Business").val();
+                savedata.BusinessName = $("#BusinessName").val();
+                savedata.Address1 = $("#AddressLine1").val();
+                savedata.Address2 = $("#AddressLine2").val();
+                savedata.Address3 = $("#AddressLine3").val();
+                savedata.CityId = parseInt($("#City").val());
+                savedata.StateId = parseInt($("#State").val());
+                savedata.Pincode = $("#PinCode").val();
+                savedata.ContactPersonName = $("#ContactPersonName").val();
+                savedata.Mobile = $("#ContactMobile").val();
+                savedata.MobileAlternate = $("#AlternateMobile").val();
+                savedata.Phone = $("#Phone").val();
+                savedata.Email = $("#Email").val();
+                savedata.Requirement = $("#Requirements").val();
+                savedata.TotalFirm = parseInt($("#TotalFirms").val());
+                savedata.CustomerType = $("#Type").val();
+                savedata.AdharUID = $("#AadhaarId").val();
+                savedata.TotalUsers = parseInt($("#TotalUsers").val());
+                savedata.IsActive = $('#Active').is(':checked');
+                savedata.AgreeTerms = true;
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveCustomer", "Admin"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Customer saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
                 });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
         }
-        catch (err) {
+
+        function customerDelete(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomer"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
         }
-    }
+
+        function getDetail(id,isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                //$("#AddNew").click();
+                                $(".btn-add-new").click();
+                                if(isViewMode){
+                                    displaymode();
+                                }else{
+                                    EditmodeEnable();
+                                }
+                                $("#activeTabName").text("EDIT (ID# "+result.data.id+")");
+                                $('#Id').val(result.data.id);
+                                $("#State").select2().val(result.data.stateId).trigger("change");
+                                $("#CustomerName").val(result.data.name);
+                                $("#Business").select2().val(result.data.businessId).trigger("change");
+                                $("#AddressLine1").val(result.data.address1);
+                                $("#AddressLine2").val(result.data.address2);
+                                $("#AddressLine3").val(result.data.address3);
+                                $("#PinCode").val(result.data.pincode);
+                                $("#ContactPersonName").val(result.data.contactPersonName);
+                                $("#ContactMobile").val(result.data.mobile);
+                                $("#AlternateMobile").val(result.data.mobileAlternate);
+                                $("#Phone").val(result.data.phone);
+                                $("#Email").val(result.data.email);
+                                $("#Requirements").val(result.data.requirement);
+                                $("#TotalFirms").val(result.data.totalFirm);
+                                $('#Active').prop('checked', result.data.isActive);
+                                $("#AadhaarId").val(result.data.adharUID);
+                                $("#TotalUsers").val(result.data.totalUsers);
+                                //$("#Type").val(result.data.customerType);
+                                $("#BusinessName").val(result.data.businessName);
+                                $("#Type").val(result.data.customerTypeValue).trigger("change")
+                                $("#hdnCityId").val(result.data.cityId);
+                                $(".btn-danger").show();
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+        function showUnderDevMsg(){
+            showInfo("","Under Development");
+        }
+        function deleteCustomerEdit(){
+            if($('#Id').val()>0){
+                customerDelete($('#Id').val());
+            }else{
+                showError('Error', "select customer for delete");
+            }
+
+        }
+        function displaymode(){
+            $(".cls-disable").each(function(index, element){
+                $(this).prop('disabled', true);
+            });
+
+            $(".cls-a-disable").each(function(index, element){
+                $(this).addClass("anchordisabled");
+            });
+        }
+        function EditmodeEnable(){
+            $(".cls-disable").each(function(index, element){
+                 $(this).prop('disabled', false);
+            })
+            $(".cls-a-disable").each(function(index, element){
+                $(this).removeClass("anchordisabled");
+            })
+        }
+
 </script>
 }

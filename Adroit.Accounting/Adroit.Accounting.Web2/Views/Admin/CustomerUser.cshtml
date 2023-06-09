@@ -14,12 +14,12 @@
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <a href="#" class="btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page">
                             <span>
                                 <i class="fa fa-star"></i>
                             </span>
                         </a>
-                        <a href="lockscreen.html" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock">
                             <span>
                                 <i class="fa fa-lock"></i>
                             </span>
@@ -73,7 +73,7 @@
                     <li><a href="#">Master</a></li>
                     <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
                     <li><a href="#" id="CustomerNameheader1"></a></li>
-                    <li class="active" onclick="viewList()"><span id="activeTabName">Customer User</span></li>
+                    <li class="active" class="btn-back"><span id="activeTabName">Customer User</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -86,27 +86,27 @@
                                 <i class="fa fa-save"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
                             <span>
                                 <i class="fa fa-print"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
                             <span>
                                 <i class="fa fa-share-alt"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn btn-danger text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
+                        <a href="#" onclick="deleteCustomerUserEdit()" class="btn btn-danger text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
                             <span>
                                 <i class="fa fa-trash-o"></i>
                             </span>
                         </a>
-                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New" onclick="fromReset()">
+                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New">
                             <span>
                                 <i class="fa fa-plus"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel" onclick="fromReset()">
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel">
                             <span>
                                 <i class="fa fa-arrow-left"></i>
                             </span>
@@ -162,12 +162,12 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="javascript:void(0);" class="btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save" onclick="saveDetail()"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
-                    <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="#" class="btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="javascript:void(0)" class="btn-back btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" onclick="fromReset()"><i class="fa fa-plus"></i>&nbsp;New</a>
-                    <a href="javascript:void(0);" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                    <a href="javascript:void(0);" onclick="saveDetail()" class="btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save" ><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" onclick="deleteCustomerUserEdit()" class="btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="javascript:void(0)" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" ><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="javascript:void(0);"  class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
             </div>
         </div>
@@ -193,6 +193,8 @@
           $('.btn-add-new').click(function () {
               $('.dv-list').slideUp();
               $('.dv-detail').slideDown();
+               $(".btn-danger").hide();
+                  fromReset();
           });
 
           $('.btn-back').click(function () {
@@ -209,29 +211,12 @@
 
      function disableFieldView(id)
      {
-        $(".cls-disable").each(function(index, element){
-
-             $(this).prop('disabled', true);
-        });
-        $(".cls-a-disable").each(function(index, element){
-
-              $(this).addClass("anchordisabled");
-        });
-
-        getDetail(id);
-
+        getDetail(id,true);
     }
 
     function EditMode(id){
-        $(".cls-disable").each(function(index, element){
-
-            $(this).prop('disabled', false);
-        });
-        $(".cls-a-disable").each(function(index, element){
-
-            $(this).removeClass("anchordisabled");
-        });
-        getDetail(id);
+        
+        getDetail(id,false);
     }
 
     function refreshDatatableList() {
@@ -350,15 +335,12 @@
               });
       }
 
-function viewList(){
-    $("#btnCancel").click();
-}
      function fromReset()
      {
         $("#Id").val(0);
         $("#CustomerName").select2().val('').trigger("change");
         $("#FirstName").val("");
-        $("#FirmName").val("");
+        $("#LastName").val("");
         $("#Email").val("");
         $('#Branch').val(null).trigger('change');
         $("#activeTabName").text("User Add");
@@ -427,7 +409,7 @@ function viewList(){
                               showWarning("", 'Customer user saved successfully.');
                               $("#Id").val(0);
                               refreshDatatableList();
-                              $("#btnCancel").click()
+                                $('.btn-back').click();
                           } else {
                               showError("", data.data);
                           }
@@ -455,10 +437,12 @@ function viewList(){
                   var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomerUser"))" + "/" + id, "",
                       function (result) {
                           unblockUI('container');
-                          var str = "<option value=0></option>";
+                          var str = "<option></option>";
                           try {
                               if (result.result == RESULT_SUCCESS) {
-                                 refreshDatatableList();
+                                  refreshDatatableList();
+                                  fromReset();
+                                $('.btn-back').click();
                               } else {
                                   showError('Error', result.data); //warning,  success, error, info
                               }
@@ -475,7 +459,7 @@ function viewList(){
               }
           }
 
-    function getDetail(id) {
+    function getDetail(id,isViewMode) {
               try {
                    blockUI('container');
                   var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomerUser"))" + "/" + id, "",
@@ -484,7 +468,13 @@ function viewList(){
                           var str = "";
                           try {
                               if (result.result == RESULT_SUCCESS) {
-                                           $("#AddNew").click();
+                                           @* $("#AddNew").click(); *@
+                                           $(".btn-add-new").click();
+                                            if(isViewMode){
+                                                displaymode();
+                                            }else{
+                                                EditmodeEnable();
+                                            }
                                            $("#activeTabName").text("EDIT (ID# "+result.data.id+")");
                                            $('#Id').val(result.data.id);
                                            $("#Email").val(result.data.email);
@@ -505,6 +495,7 @@ function viewList(){
                                            }else{
                                              $('#Branch').val(null).change();
                                            }
+                                             $(".btn-danger").show();
 
                               } else {
                                   showError('Error', result.data); //warning,  success, error, info
@@ -528,7 +519,7 @@ function viewList(){
                        var retrundata = AjaxCall("GET", "@(Url.Content("~/Admin/GetCustomerBranch/"))"+window.customerId, "",
                         function (data) {
                             unblockUI('container');
-                            var str = "<option value=0></option>";
+                            var str = "<option></option>";
                             if (data.result == RESULT_SUCCESS) {
                                 if (data.data.length > 0) {
                                     for (var i = 0; i < data.data.length; i++) {
@@ -585,6 +576,36 @@ function viewList(){
                 catch (err) {
                 }
     }
+     function showUnderDevMsg()
+    {
+            showInfo("","Under Development");
+        }
+        function deleteCustomerUserEdit(){
+            if($('#Id').val()>0){
+            customerFirmDelete($('#Id').val());
+            }else{
+                showError('Error', "select customer user for delete");
+            }
+
+        }
+
+         function displaymode(){
+            $(".cls-disable").each(function(index, element){
+                $(this).prop('disabled', true);
+            });
+
+            $(".cls-a-disable").each(function(index, element){
+                $(this).addClass("anchordisabled");
+            });
+        }
+        function EditmodeEnable(){
+            $(".cls-disable").each(function(index, element){
+                 $(this).prop('disabled', false);
+            })
+            $(".cls-a-disable").each(function(index, element){
+                $(this).removeClass("anchordisabled");
+            })
+        }
 </script>
 
 }

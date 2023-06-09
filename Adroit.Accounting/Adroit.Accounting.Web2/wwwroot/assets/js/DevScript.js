@@ -40,6 +40,9 @@ function showError(title, message) {
 function showWarning(title, message) {
     swal(title, message, "warning");
 }
+function showInfo(title, message) {
+    swal(title, message, "info");
+}
 
 function IsEmail(email) {
     var regex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
