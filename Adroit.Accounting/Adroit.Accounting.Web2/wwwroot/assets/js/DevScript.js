@@ -1,11 +1,68 @@
 ﻿(function ($) {
+    $.fn.inputFilter = function (inputFilter) {
+        return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+            if (inputFilter(this.value)) {
+                this.oldValue = this.value;
+                this.oldSelectionStart = this.selectionStart;
+                this.oldSelectionEnd = this.selectionEnd;
+            } else if (this.hasOwnProperty("oldValue")) {
+                this.value = this.oldValue;
+                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+            }
+        });
+    };
+
+
+}(jQuery));
+
+(function ($) {
     $('.numberonly').keypress(function (e) {
-        var charCode = (e.which) ? e.which : event.keyCode
+        var charCode = (e.which) ? e.which : e.keyCode
 
         if (String.fromCharCode(charCode).match(/[^0-9]/g))
 
             return false;
     });
+
+    $(".money").inputFilter(function (value) {
+        return /^\d*[.]?\d{0,2}$/.test(value);
+    });
+
+    $(".integer").inputFilter(function (value) {
+        return /^\d*$/.test(value);
+    });
+
+    $(".time").keypress(function (event) {
+        var regexs = [/[0-2]/, /[0-9]/, /:/, /[0-5]/, /[0-9]/];
+        var key = event.which;
+        var string = $(this).val() + String.fromCharCode(key)
+        var characters = string.split("");
+        var isBackspace = key === 8;
+        var shouldTest = characters.length < 5 && !isBackspace;
+        var passed = !(characters.length > 5 && !isBackspace);
+        if (shouldTest) {
+            for (var i = 0; i < characters.length; i++) {
+                var character = characters[i];
+                var regex = regexs[i];
+                var testFailed = !regex.test(character);
+                if (testFailed) {
+                    passed = false;
+                    break;
+                }
+            }
+        }
+        if (passed) {
+            characters = string.split(":");
+            if (characters[0] == "") {
+                passed = false;
+            }
+            else {
+                passed = (parseInt(characters[0]) <= 23);
+            }
+        }
+        return passed;
+    });
+
 })(jQuery);
 
 function AjaxCall(methodtype, url, data, succesmethodname, errormethodname) {
