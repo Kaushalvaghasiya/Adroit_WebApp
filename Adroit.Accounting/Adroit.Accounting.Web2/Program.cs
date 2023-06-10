@@ -67,6 +67,7 @@ try
     builder.Services.AddSingleton<IFirm, FirmRepository>();
     builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
     builder.Services.AddSingleton<ISoftwarePlan, SoftwarePlanRepository>();
+    builder.Services.AddSingleton<ICommon, CommonRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

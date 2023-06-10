@@ -6,6 +6,7 @@ using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
+using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -25,6 +26,7 @@ namespace Adroit.Accounting.Web.Controllers
         private ICustomer _customerRepo;
         private IFirmBranchTypeAdmin _firmBranchTypeAdminRepo;
         private IFirm _firmRepo;
+        private ICommon _commonRepository;
 
 
         public CommonController(IOptions<ConfigurationData> configurationData, IState stateRepo, ICity cityRepo,
@@ -36,7 +38,8 @@ namespace Adroit.Accounting.Web.Controllers
                 IGSTFirmType gstFirmTypeRepo,
                 ICustomer customerRepo,
                 IFirmBranchTypeAdmin firmBranchTypeAdminRepo,
-                IFirm firmRepo
+                IFirm firmRepo,
+                ICommon commonRepository
             )
         {
             _stateRepo = stateRepo;
@@ -52,7 +55,8 @@ namespace Adroit.Accounting.Web.Controllers
             _softwareTypeRepo = softwareTypeRepo;
             _customerRepo = customerRepo;
             _firmBranchTypeAdminRepo = firmBranchTypeAdminRepo;
-            _firmRepo= firmRepo;
+            _firmRepo = firmRepo;
+            _commonRepository = commonRepository;
         }
 
         public IActionResult Index()
@@ -145,7 +149,6 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [AllowAnonymous]
         public JsonResult GSTInvoiceTypes()
         {
             ApiResult result = new ApiResult();
@@ -179,7 +182,6 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [AllowAnonymous]
         public JsonResult GetSoftware()
         {
             ApiResult result = new ApiResult();
@@ -196,7 +198,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [AllowAnonymous]
+
         public JsonResult GetFirmTypeAdmin()
         {
             ApiResult result = new ApiResult();
@@ -213,7 +215,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [AllowAnonymous]
+
         public JsonResult GetCustomer()
         {
             ApiResult result = new ApiResult();
@@ -230,7 +232,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [AllowAnonymous]
+
         public JsonResult GetGSTFirmType()
         {
             ApiResult result = new ApiResult();
@@ -247,7 +249,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [AllowAnonymous]
+
         public JsonResult GetFirmBranchTypeAdmin()
         {
             ApiResult result = new ApiResult();
@@ -263,7 +265,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-        [AllowAnonymous]
+
         public JsonResult GetFirm()
         {
             ApiResult result = new ApiResult();
@@ -280,6 +282,23 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        [Route("~/Common/GetTableValues/{TableName}/{ColumnName}")]
+        public JsonResult GetTableValues(string TableName, string ColumnName)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = (from item in _commonRepository.GetList(_configurationData.DefaultConnection, TableName, ColumnName).ToList()
+                               select new DropdownViewModel() { Text = item, Value = item }).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
 
     }
 }

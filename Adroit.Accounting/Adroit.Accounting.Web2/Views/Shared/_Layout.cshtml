@@ -1781,6 +1781,33 @@
         function logout() {
             $('#logoutForm').submit();
         }
+
+        function bindTableFieldData(element, tablename, columnname) {
+            try {
+                var option = new Option("", "", false, false);
+                $("#" + element).append(option).trigger('change');
+
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetTableValues"))" + "/" + tablename + "/" + columnname, "",
+                    function (data) {
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data != null) {
+                                data.data.forEach(function (item) {
+                                    var option = new Option(item.text, item.value, false, false);
+                                    $("#" + element).append(option).trigger('change');
+                                });
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                showError("", e.message);
+            }
+        }
     </script>
 </body>
 </html>
