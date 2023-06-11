@@ -268,7 +268,14 @@
         window.editFirmId=@ViewBag.EditId
         var dataTableObj;
         $(function (e) {
-             $("#CustomerNameheader").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+"");
+            
+            
+            bindBusiness();
+            bindSoftwareList();
+            bindFirmTypeAdminList();
+            bindGSTFirmType();
+            datatablelist();
+            $("#CustomerNameheader").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+"");
              $("#CustomerNameheader1").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+"");
 
             $("#CustomerName").val(window.customerId);
@@ -286,12 +293,7 @@
                   $('.dv-list').slideDown();
               });
 
-            datatablelist();
-
-            bindBusiness();
-            bindSoftwareList();
-            bindFirmTypeAdminList();
-            bindGSTFirmType();
+            
             getCustomer(window.customerId);
             if(window.editFirmId >0){
                 getDetail(window.editFirmId,false);
@@ -631,8 +633,8 @@
                                                $("#GSTFirmType").select2().val(result.data.gstFirmTypeId).trigger("change");
                                                $("#Business").select2().val(result.data.businessId).trigger("change");;
                                                $("#OwnerName").val(result.data.ownerName);
-                                               $("#SoftwareType").select2().val(result.data.firmTypeId).trigger("change");
-                                               $("#FirmType").select2().val(result.data.softwareId).trigger("change");
+                                               $("#SoftwareType").select2().val(result.data.softwareId).trigger("change");
+                                               $("#FirmType").select2().val(result.data.firmTypeId).trigger("change");
                                                $("#TAN").val(result.data.tan);
                                                $("#LutBondN").val(result.data.lutBondNumber);
                                                $("#AadhaarUID").val(result.data.adharUID);
@@ -646,10 +648,10 @@
                                               
                                                 if(dataTableObj.data().count()<=1)
                                                 {
-                                                    $(".btn-danger").hide();
+                                                    $(".btn-delete").hide();
 
                                                 }else{
-                                                     $(".btn-danger").show();
+                                                     $(".btn-delete").show();
                                                 }
                                   } else {
                                       showError('Error', result.data); //warning,  success, error, info

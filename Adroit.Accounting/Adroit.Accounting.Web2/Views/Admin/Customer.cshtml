@@ -279,6 +279,7 @@
     </div>
     <!-- row end -->
     <input type="hidden" id="hdnCityId" value=0 />
+    <input type="hidden" id="hdnStateId" value=0 />
 </div>
 
 @section Scripts
@@ -288,7 +289,10 @@
 
     var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
     var backOfficeValue= "@CustomerType.BackOffice";
+    window.customerId=@ViewBag.Id
     $(function (e) {
+          bindBusinessList();
+          bindStateList();
         $('.dv-list').show();
         $('.dv-detail').hide();
 
@@ -304,11 +308,6 @@
             });
 
             datatablelist();
-
-            bindBusinessList();
-
-            bindStateList();
-
             $("#State").on('change', function (e) {
                 let stateId = $(this).val();
                 if (stateId > 0) {
@@ -376,8 +375,8 @@
             "render": function (data, type, row) {
                 let btnAct = "<div class='btn-list'><a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
                 btnAct += "&nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
-                btnAct += "<a target='_blank' href='@(Url.Content("~/admin/customer/firm?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-institution'></i></a>";
-                btnAct += "<a target='_blank' href='@(Url.Content("~/admin/customer/user?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa-light fa-users'></i></a>";
+                btnAct += "<a href='@(Url.Content("~/admin/customer/firm?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-institution'></i></a>";
+                btnAct += "<a href='@(Url.Content("~/admin/customer/user?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-users'></i></a>";
                if(row.customerType!=backOfficeValue)
                {
                 btnAct += "<a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
@@ -481,6 +480,9 @@
                         unblockUI('container');
                         showError("", error.statusText);
                     });
+                    if ($("#hdnStateId").val() != 0) {
+                            $("#State").select2().val($("#hdnStateId").val()).trigger("change");
+                        }
             }
             catch (err) {
                 unblockUI('container');
@@ -783,7 +785,8 @@
                                 $("#BusinessName").val(result.data.businessName);
                                 $("#Type").val(result.data.customerTypeValue).trigger("change")
                                 $("#hdnCityId").val(result.data.cityId);
-                                $(".btn-danger").show();
+                                $("#hdnStateId").val(result.data.stateId);
+                                $(".btn-delete").show();
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
