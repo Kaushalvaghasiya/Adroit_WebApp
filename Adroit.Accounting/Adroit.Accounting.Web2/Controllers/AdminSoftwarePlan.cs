@@ -11,7 +11,7 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class AdminController : Controller
     {
-        [Route("~/admin/softwarePlan")]
+        [Route("~/admin/softwareplan")]
         public IActionResult SoftwarePlan()
         {
             return View();

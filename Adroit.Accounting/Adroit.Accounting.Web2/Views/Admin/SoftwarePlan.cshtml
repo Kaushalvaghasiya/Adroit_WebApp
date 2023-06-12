@@ -83,7 +83,7 @@
                         <span class="input-group-append mr-2">
                             <button class="btn btn-primary" type="button">Go!</button>
                         </span>
-                        <a href="javascript:void(0);" class="btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save" onclick="saveDetail()">
+                        <a href="javascript:void(0);" class="btn-save btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
                             <span>
                                 <i class="fa fa-save"></i>
                             </span>
@@ -98,7 +98,7 @@
                                 <i class="fa fa-share-alt"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="deletePlanEdit()" class="btn btn-danger text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
+                        <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-delete btn-danger text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
                             <span>
                                 <i class="fa fa-trash-o"></i>
                             </span>
@@ -141,7 +141,8 @@
                             <div class="form-group">
                                 <label for="SubSoftwareName">Sub Software Name</label>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control cls-disable" id="SubSoftwareName" maxlength="100" placeholder="Sub Software Name">
+                                    <select class="form-control select2-show-search-add cls-disable" maxlength="100" id="SubSoftwareName">
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -152,7 +153,7 @@
                             <div class="form-group">
                                 <label for="Code">Code</label>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control cls-disable" id="Code" placeholder="Code" maxlength="5">
+                                    <select class="form-control select2-show-search-add cls-disable" maxlength="5" id="Code"></select>
                                 </div>
                             </div>
                         </div>
@@ -160,7 +161,7 @@
                             <div class="form-group">
                                 <label for="Business">Business</label>
                                 <div class="col-md-12 pl-2">
-                                    <input type="text" class="form-control cls-disable" id="Business" placeholder="Business" maxlength="20">
+                                    <select class="form-control select2-show-search-add cls-disable" maxlength="20" id="Business"></select>
                                 </div>
                             </div>
                         </div>
@@ -170,7 +171,7 @@
                             <div class="form-group">
                                 <label for="Cost">Cost</label>
                                 <div class="col-md-12">
-                                    <input type="text" class="form-control cls-disable" id="Cost" placeholder="Cost">
+                                    <input type="text" class="form-control cls-disable money" id="Cost" placeholder="Cost" maxlength="15">
                                 </div>
                             </div>
                         </div>
@@ -179,10 +180,10 @@
                 </div>
             </div>
             <div class="card-footer text-right">
-                <a href="javascript:void(0);" class="btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save" onclick="saveDetail()"><i class="fa fa-save"></i>&nbsp;Save</a>
+                <a href="javascript:void(0);" class="btn-save btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
                 <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                 <a href="#" onclick="showUnderDevMsg()" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                <a href="#" onclick="deletePlanEdit()" class="btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-delete btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
                 <a href="javascript:void(0)" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
                 <a href="javascript:void(0);" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
             </div>
@@ -196,7 +197,7 @@
 @section Scripts
     {
 
-    <script>
+<script>
 
         var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
 
@@ -205,10 +206,7 @@
             $('.dv-detail').hide();
 
             $('.btn-add-new').click(function () {
-                $('.dv-list').slideUp();
-                $('.dv-detail').slideDown();
-                $(".btn-danger").hide();
-                fromReset();
+                addClick();
             });
 
             $('.btn-back').click(function () {
@@ -216,16 +214,34 @@
                 $('.dv-list').slideDown();
             });
 
-            datatablelist();
-            bindSoftwareList();
-        });
+            $('.btn-save').click(function () {
+                saveItem();
+            });
+
+        datatablelist();
+        bindSoftwareList();
+        bindTableFieldData('SubSoftwareName', 'SoftwarePlan', 'Title');
+        bindTableFieldData('Business', 'SoftwarePlan', 'Business');
+        bindTableFieldData('Code', 'SoftwarePlan', 'Code');
+      });
+
+        
+        function addClick()
+        {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            $(".btn-delete").hide();
+            fromReset();
+           $("#SoftwareName").focus();
+        }
+
 
         function disableFieldView(id) {
             getDetail(id, true);
 
         }
 
-        function EditMode(id) {
+        function editMode(id) {
             getDetail(id, false);
         }
 
@@ -273,9 +289,9 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    let btnAct = "<div class='btn-list'> <a onclick='EditMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
+                    let btnAct = "<div class='btn-list'> <a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
                     btnAct += " &nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
-                    btnAct += " &nbsp;&nbsp; <a onclick='DeleteData(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
+                    btnAct += " &nbsp;&nbsp; <a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
                     return btnAct;
                 },
                 "targets": colDef.length,
@@ -355,24 +371,25 @@
             });
         }
 
-        function fromReset() {
-            $("#Id").val(0);
-            $("#SoftwareName").select2().val('').trigger("change");
-            $("#SubSoftwareName").val("");
-            $("#Code").val("");
-            $("#Business").val("");
-            $("#Cost").val("");
-            $("#activeTabName").text("Add Software");
-            $(".cls-disable").each(function (index, element) {
-                $(this).prop('disabled', false);
-            });
-            $(".cls-a-disable").each(function (index, element) {
+     function fromReset()
+     {
+        $("#Id").val(0);
+        $("#SoftwareName").select2().val('').trigger("change");
+        $("#SubSoftwareName").select2().val('').trigger("change");
+        $("#Code").select2().val('').trigger("change");
+        $("#Business").select2().val('').trigger("change");;
+        $("#Cost").val("");
+        $("#activeTabName").text("Add Software plan");
+        $(".cls-disable").each(function(index, element){
+         $(this).prop('disabled', false);
+        });
+         $(".cls-a-disable").each(function(index, element){
 
                 $(this).removeClass("anchordisabled");
             });
         }
 
-        function saveDetail() {
+        function saveItem() {
             try {
                 if ($("#SoftwareName").val() == "") {
                     showWarning("", "select software Name.");
@@ -443,18 +460,15 @@
 
         }
 
-        function DeleteData(id) {
-            if (id == 0) {
-                id = $('#Id').val();
-            }
-            try {
-                blockUI('container');
-                var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteSoftwarePlan"))" + "/" + id, "",
-                    function (result) {
-                        unblockUI('container');
-                        var str = "<option value=0></option>";
-                        try {
-                            if (result.result == RESULT_SUCCESS) {
+    function deleteItem(id) {
+              try {
+                  blockUI('container');
+                  var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteSoftwarePlan"))" + "/" + id, "",
+                      function (result) {
+                          unblockUI('container');
+                          var str = "<option></option>";
+                          try {
+                              if (result.result == RESULT_SUCCESS) {
                                 refreshDatatableList();
                                 fromReset();
                                 $('.btn-back').click();
@@ -474,27 +488,28 @@
             }
         }
 
-        function getDetail(id, isViewMode) {
-            try {
-                blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetSoftwarePlan"))" + "/" + id, "",
-                    function (result) {
-                        unblockUI('container');
-                        var str = "";
-                        try {
-                            if (result.result == RESULT_SUCCESS) {
-        
-                                $(".btn-add-new").click();
-                                if (isViewMode) {
-                                    displaymode();
-                                } else {
-                                    EditmodeEnable();
-                                }
-                                $("#activeTabName").text("Software plan EDT(ID# " + result.data.id + ")");
+    function getDetail(id,isViewMode)
+    {
+              try {
+                   blockUI('container');
+                  var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetSoftwarePlan"))" + "/" + id, "",
+                      function (result) {
+                          unblockUI('container');
+                          var str = "";
+                          try {
+                              if (result.result == RESULT_SUCCESS)
+                              {
+                                addClick();
+                                    if(isViewMode){
+                                        displayMode();
+                                    }else{
+                                        editModeEnable();
+                                    }
+                                $("#activeTabName").text("Software plan EDT(ID# "+result.data.id+")");
                                 $("#SoftwareName").val(result.data.softwareId).trigger("change");
-                                $("#SubSoftwareName").val(result.data.title);
-                                $("#Code").val(result.data.code);
-                                $("#Business").val(result.data.business);
+                                $("#SubSoftwareName").val(result.data.title).trigger("change");
+                                $("#Code").val(result.data.code).trigger("change");
+                                $("#Business").val(result.data.business).trigger("change");
                                 $("#Cost").val(result.data.cost);
                                 $('#Id').val(result.data.id);
                                 $(".btn-delete").show();
@@ -515,47 +530,52 @@
             }
         }
 
-        function bindSoftwareList() {
-            try {
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetSoftware"))", "",
-                    function (data) {
-                        unblockUI('container');
-                        var str = "<option value=0></option>";
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+    function bindSoftwareList() {
+                try {
+                    blockUI('container');
+                    var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetSoftware"))", "",
+                        function (data) {
+                            unblockUI('container');
+                            var str = "<option></option>";
+                            if (data.result == RESULT_SUCCESS) {
+                                if (data.data.length > 0) {
+                                    for (var i = 0; i < data.data.length; i++) {
+                                        str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                    }
                                 }
+                                $("#SoftwareName").html(str);
+                            } else {
+                                showError("", data.data);
                             }
-                            $("#SoftwareName").html(str);
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
-
-        function showUnderDevMsg() {
-            showInfo("", "Under Development");
-        }
-        function deletePlanEdit() {
-            if ($('#Id').val() > 0) {
-                DeleteData($('#Id').val());
-            } else {
-                showError('Error', "select plan for delete");
+                        },
+                        function (error) {
+                            unblockUI('container');
+                            showError("", error.statusText);
+                        });
+                }
+                catch (err) {
+                    unblockUI('container');
+                    showError("", e.message);
+                }
             }
 
+         function deleteItemConfirmation(id) {
+            swal({
+                title: "Alert",
+                text: "Are you really want to delete?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel'
+            },function(isconfirmed)
+            {
+                if (isconfirmed) {
+                    deleteItem(id == 0 ? $('#Id').val(): id);
+                }
+            });
         }
-        function displaymode() {
+
+        function displayMode() {
             $(".cls-disable").each(function (index, element) {
                 $(this).prop('disabled', true);
             });
@@ -564,7 +584,7 @@
                 $(this).addClass("anchordisabled");
             });
         }
-        function EditmodeEnable() {
+        function editModeEnable() {
             $(".cls-disable").each(function (index, element) {
                 $(this).prop('disabled', false);
             })
@@ -572,6 +592,6 @@
                 $(this).removeClass("anchordisabled");
             })
         }
-    </script>
+</script>
 
 }
