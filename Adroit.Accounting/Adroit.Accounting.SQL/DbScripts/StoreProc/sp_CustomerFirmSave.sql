@@ -27,7 +27,7 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM Customer WHERE Id = @Id)
+		IF EXISTS (SELECT 1 FROM CustomerFirm WHERE Id = @Id)
 			BEGIN
 				UPDATE CustomerFirm SET
 						[CustomerId]=@CustomerId,

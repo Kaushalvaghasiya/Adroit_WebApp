@@ -84,7 +84,7 @@
                         <span class="input-group-append mr-2">
                             <button class="btn btn-primary" type="button" onclick="showUnderDevMsg()">Go!</button>
                         </span>
-                        <a href="javascript:void(0);" onclick="saveDetail()" class="btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
+                        <a href="javascript:void(0);"  class="btn-save btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
                             <span>
                                 <i class="fa fa-save"></i>
                             </span>
@@ -99,7 +99,7 @@
                                 <i class="fa fa-share-alt"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="deleteCustomerEdit()" class="btn btn-danger text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="delete">
+                        <a href="#" onclick="deleteItemConfirmation(0)" class=" btn-delete btn btn-danger text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="delete">
                             <span>
                                 <i class="fa fa-trash-o"></i>
                             </span>
@@ -134,7 +134,7 @@
                             <div class="form-group">
                                 <input type="hidden" id="Id" value="0" />
                                 <label for="CustomerName">Customer Name</label>
-                                <input type="text" class="form-control cls-disable" id="CustomerName" placeholder="" maxlength="50">
+                                <input type="text" class="form-control cls-disable" id="CustomerName" placeholder="" maxlength="150">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -179,9 +179,11 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="Pincode">Pincode</label>
-                                <input type="text" class="form-control cls-disable numberonly " id="PinCode" placeholder="" maxlength="10">
+                                <label for="City">City</label>
+                                <select class="form-control select2-show-search cls-disable" id="City">
+                                </select>
                             </div>
+                           
                         </div>
 
                         <div class="col-md-3">
@@ -191,22 +193,21 @@
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="City">City</label>
-                                <select class="form-control select2-show-search cls-disable" id="City">
-                                </select>
+                             <div class="form-group">
+                                <label for="Pincode">Pincode</label>
+                                <input type="text" class="form-control cls-disable numberonly " id="PinCode" placeholder="" maxlength="10">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="ContactMobile">Contact Mobile</label>
-                                <input type="text" class="form-control numberonly cls-disable" id="ContactMobile" placeholder="" maxlength="15">
+                                <input type="text" class="form-control numberonly cls-disable" id="ContactMobile" placeholder="" maxlength="10">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="AlternateMobile">Alternate Mobile</label>
-                                <input type="text" class="form-control numberonly cls-disable" id="AlternateMobile" placeholder="" maxlength="15">
+                                <input type="text" class="form-control numberonly cls-disable" id="AlternateMobile" placeholder="" maxlength="10">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -224,7 +225,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="Requirements">Requirements</label>
-                                <input type="text" class="form-control cls-disable" id="Requirements" placeholder="">
+                                <input type="text" class="form-control cls-disable" id="Requirements" placeholder="" maxlength="3000">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -241,7 +242,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="TotalFirms">Total Firms</label>
-                                <input type="text" class="form-control numberonly cls-disable" id="TotalFirms" placeholder="">
+                                <input type="text" class="form-control numberonly cls-disable" id="TotalFirms" placeholder="" maxlength="5">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -266,11 +267,11 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="javascript:void(0);" onclick="saveDetail()" class="btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="javascript:void(0);"  class="btn-save btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="javascript:void(0);" onclick="showUnderDevMsg()" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="javascript:void(0);" onclick="showUnderDevMsg()" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="javascript:void(0);" onclick="deleteCustomerEdit()" class="btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="javascript:void(0);" onclick="fromReset()" class="btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="New"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="javascript:void(0);" onclick="deleteItemConfirmation(0)" class="btn-delete btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="javascript:void(0);" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="New"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="javascript:void(0);" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" id="btnCancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
             </div>
@@ -278,6 +279,7 @@
     </div>
     <!-- row end -->
     <input type="hidden" id="hdnCityId" value=0 />
+    <input type="hidden" id="hdnStateId" value=0 />
 </div>
 
 @section Scripts
@@ -287,28 +289,25 @@
 
     var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
     var backOfficeValue= "@CustomerType.BackOffice";
+    window.customerId=@ViewBag.Id
     $(function (e) {
+          bindBusinessList();
+          bindStateList();
         $('.dv-list').show();
         $('.dv-detail').hide();
 
             $('.btn-add-new').click(function () {
-                $('.dv-list').slideUp();
-                $('.dv-detail').slideDown();
-                $(".btn-danger").hide();
-                fromReset();
+                addClick()
             });
-
+            $('.btn-save').click(function () {
+                saveItem();
+            });
             $('.btn-back').click(function () {
                 $('.dv-detail').slideUp();
                 $('.dv-list').slideDown();
             });
 
             datatablelist();
-
-            bindBusinessList();
-
-            bindStateList();
-
             $("#State").on('change', function (e) {
                 let stateId = $(this).val();
                 if (stateId > 0) {
@@ -319,15 +318,20 @@
                 getDetail(window.customerId,false);
               }
         });
+    
+     function addClick()
+        {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            $(".btn-delete").hide();
+            fromReset();
+            $("#CustomerName").focus();
+        }
 
         function disableFieldView(id){
-
             getDetail(id,true);
-
         }
-        function EditMode(id){
-
-
+        function editMode(id){
             getDetail(id,false);
         }
         function refreshDatatableList() {
@@ -369,13 +373,13 @@
         });
         colDef.push({
             "render": function (data, type, row) {
-                let btnAct = "<div class='btn-list'><a onclick='EditMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
+                let btnAct = "<div class='btn-list'><a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
                 btnAct += "&nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
-                btnAct += "<a target='_blank' href='@(Url.Content("~/admin/customer/firm?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-institution'></i></a>";
-                btnAct += "<a target='_blank' href='@(Url.Content("~/admin/customer/user?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa-light fa-users'></i></a>";
+                btnAct += "<a href='@(Url.Content("~/admin/customer/firm?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-institution'></i></a>";
+                btnAct += "<a href='@(Url.Content("~/admin/customer/user?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-users'></i></a>";
                if(row.customerType!=backOfficeValue)
                {
-                btnAct += "<a onclick='customerDelete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
+                btnAct += "<a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
                }
                 return btnAct;
             },
@@ -476,6 +480,9 @@
                         unblockUI('container');
                         showError("", error.statusText);
                     });
+                    if ($("#hdnStateId").val() != 0) {
+                            $("#State").select2().val($("#hdnStateId").val()).trigger("change");
+                        }
             }
             catch (err) {
                 unblockUI('container');
@@ -578,7 +585,7 @@
 
             }
 
-        function saveDetail() {
+        function saveItem() {
             try {
 
                 if ($("#CustomerName").val().length <= 0 || $("#txtCustomerName").val() == "") {
@@ -709,7 +716,7 @@
 
         }
 
-        function customerDelete(id) {
+        function deleteItem(id) {
             if (id == 0) {
                 id = $('#Id').val();
             }
@@ -749,12 +756,11 @@
                         var str = "";
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                //$("#AddNew").click();
-                                $(".btn-add-new").click();
+                                addClick();
                                 if(isViewMode){
-                                    displaymode();
+                                    displayMode();
                                 }else{
-                                    EditmodeEnable();
+                                    editModeEnable();
                                 }
                                 $("#activeTabName").text("EDIT (ID# "+result.data.id+")");
                                 $('#Id').val(result.data.id);
@@ -779,7 +785,8 @@
                                 $("#BusinessName").val(result.data.businessName);
                                 $("#Type").val(result.data.customerTypeValue).trigger("change")
                                 $("#hdnCityId").val(result.data.cityId);
-                                $(".btn-danger").show();
+                                $("#hdnStateId").val(result.data.stateId);
+                                $(".btn-delete").show();
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -796,18 +803,22 @@
             catch (err) {
             }
         }
-        function showUnderDevMsg(){
-            showInfo("","Under Development");
+        function deleteItemConfirmation(id) {
+            swal({
+                title: "Alert",
+			    text: "Are you really want to delete?",
+			    type: "warning",
+			    showCancelButton: true,
+			    confirmButtonText: 'Delete',
+			    cancelButtonText: 'Cancel'
+            },function(isconfirmed)
+            {
+                if (isconfirmed) {
+                    deleteItem(id == 0 ? $('#Id').val(): id);
+                }
+            });
         }
-        function deleteCustomerEdit(){
-            if($('#Id').val()>0){
-                customerDelete($('#Id').val());
-            }else{
-                showError('Error', "select customer for delete");
-            }
-
-        }
-        function displaymode(){
+        function displayMode(){
             $(".cls-disable").each(function(index, element){
                 $(this).prop('disabled', true);
             });
@@ -816,7 +827,7 @@
                 $(this).addClass("anchordisabled");
             });
         }
-        function EditmodeEnable(){
+        function editModeEnable(){
             $(".cls-disable").each(function(index, element){
                  $(this).prop('disabled', false);
             })

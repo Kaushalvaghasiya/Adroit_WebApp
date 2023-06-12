@@ -83,7 +83,7 @@
                         <span class="input-group-append mr-2">
                             <button class="btn btn-primary" type="button">Go!</button>
                         </span>
-                        <a href="javascript:void(0);" onclick="saveDetail()" class="btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
+                        <a href="javascript:void(0);"  class="btn-save btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
                             <span>
                                 <i class="fa fa-save"></i>
                             </span>
@@ -98,12 +98,12 @@
                                 <i class="fa fa-share-alt"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="deleteCustomerFirmEdit()" class="btn btn-danger text-white mr-2 btn-sm disable-button" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
+                        <a href="#" onclick="deleteItemConfirmation()" class="btn-delete btn btn-danger text-white mr-2 btn-sm disable-button" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
                             <span>
                                 <i class="fa fa-trash-o"></i>
                             </span>
                         </a>
-                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New" onclick="fromReset()">
+                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New">
                             <span>
                                 <i class="fa fa-plus"></i>
                             </span>
@@ -244,11 +244,11 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="javascript:void(0);" onclick="saveDetail()" class="btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="javascript:void(0);"  class="btn-save btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="javascript:void(0)" onclick="showUnderDevMsg()" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="javascript:void(0)" onclick="showUnderDevMsg()" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="javascript:void(0)" onclick="deleteCustomerFirmEdit()" class="btn btn-danger mt-1 disable-button" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="javascript:void(0)"  class="btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" onclick="fromReset()"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="javascript:void(0)" onclick="deleteItemConfirmation()" class="btn-delete btn btn-danger mt-1 disable-button" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="javascript:void(0)"  class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="javascript:void(0);" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
             </div>
@@ -268,7 +268,14 @@
         window.editFirmId=@ViewBag.EditId
         var dataTableObj;
         $(function (e) {
-             $("#CustomerNameheader").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+"");
+            
+            
+            bindBusiness();
+            bindSoftwareList();
+            bindFirmTypeAdminList();
+            bindGSTFirmType();
+            datatablelist();
+            $("#CustomerNameheader").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+"");
              $("#CustomerNameheader1").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+"");
 
             $("#CustomerName").val(window.customerId);
@@ -276,35 +283,37 @@
               $('.dv-detail').hide();
 
               $('.btn-add-new').click(function () {
-                  $('.dv-list').slideUp();
-                  $('.dv-detail').slideDown();
-                  $(".btn-danger").hide();
-                  fromReset();
+                 addClick();
               });
-
+             $('.btn-save').click(function () {
+                saveItem();
+            });
               $('.btn-back').click(function () {
                   $('.dv-detail').slideUp();
                   $('.dv-list').slideDown();
               });
 
-            datatablelist();
-
-            bindBusiness();
-            bindSoftwareList();
-            bindFirmTypeAdminList();
-            bindGSTFirmType();
+            
             getCustomer(window.customerId);
             if(window.editFirmId >0){
                 getDetail(window.editFirmId,false);
             }
           });
 
+        function addClick()
+        {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            $(".btn-delete").hide();
+            fromReset();
+            $("#FirmName").focus();
+        }
          function disableFieldView(id)
          {
             getDetail(id,true);
          }
 
-        function EditMode(id){
+        function editMode(id){
             
             getDetail(id,false);
         }
@@ -352,12 +361,12 @@
                   });
                    colDef.push({
                       "render": function (data, type, row) {
-                          let btnAct = "<div class='btn-list'> <a onclick='EditMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
+                          let btnAct = "<div class='btn-list'> <a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
                           btnAct += " &nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
                           btnAct += "<a href='@(Url.Content("~/admin/customer/firm/branch?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-sitemap'></i></a>";
                           if(row.totalCount>1)
                           {
-                          btnAct += " &nbsp;&nbsp; <a onclick='customerFirmDelete(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
+                          btnAct += " &nbsp;&nbsp; <a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
                           }
                           return btnAct;
                       },
@@ -463,12 +472,9 @@
                 $(this).removeClass("anchordisabled");
             });
 
-
-
-
          }
 
-         function saveDetail()
+         function saveItem()
          {
              try {
                       if($("#CustomerName").val()=="" ||$("#CustomerName").val()=="0"){
@@ -576,7 +582,7 @@
 
          }
 
-        function customerFirmDelete(id) {
+        function deleteItem(id) {
                   if (id == 0) {
                       id = $('#Id').val();
                   }
@@ -615,12 +621,11 @@
                               var str = "";
                               try {
                                   if (result.result == RESULT_SUCCESS) {
-                                               @* $("#AddNew").click(); *@
-                                                $(".btn-add-new").click();
+                                               addClick();
                                                     if(isViewMode){
-                                                        displaymode();
+                                                        displayMode();
                                                     }else{
-                                                        EditmodeEnable();
+                                                        editModeEnable();
                                                     }
                                                $("#activeTabName").text("EDIT (ID#"+result.data.id+")");
                                                $('#Id').val(result.data.id);
@@ -628,8 +633,8 @@
                                                $("#GSTFirmType").select2().val(result.data.gstFirmTypeId).trigger("change");
                                                $("#Business").select2().val(result.data.businessId).trigger("change");;
                                                $("#OwnerName").val(result.data.ownerName);
-                                               $("#SoftwareType").select2().val(result.data.firmTypeId).trigger("change");
-                                               $("#FirmType").select2().val(result.data.softwareId).trigger("change");
+                                               $("#SoftwareType").select2().val(result.data.softwareId).trigger("change");
+                                               $("#FirmType").select2().val(result.data.firmTypeId).trigger("change");
                                                $("#TAN").val(result.data.tan);
                                                $("#LutBondN").val(result.data.lutBondNumber);
                                                $("#AadhaarUID").val(result.data.adharUID);
@@ -643,10 +648,10 @@
                                               
                                                 if(dataTableObj.data().count()<=1)
                                                 {
-                                                    $(".btn-danger").hide();
+                                                    $(".btn-delete").hide();
 
                                                 }else{
-                                                     $(".btn-danger").show();
+                                                     $(".btn-delete").show();
                                                 }
                                   } else {
                                       showError('Error', result.data); //warning,  success, error, info
@@ -838,15 +843,23 @@
          function showUnderDevMsg(){
                 showInfo("","Under Development");
             }
-            function deleteCustomerFirmEdit(){
-                if($('#Id').val()>0){
-                customerFirmDelete($('#Id').val());
-                }else{
-                    showError('Error', "select customer Firm for delete");
-                }
 
-            }
-        function displaymode(){
+         function deleteItemConfirmation(id) {
+            swal({
+                title: "Alert",
+			    text: "Are you really want to delete?",
+			    type: "warning",
+			    showCancelButton: true,
+			    confirmButtonText: 'Delete',
+			    cancelButtonText: 'Cancel'
+            },function(isconfirmed)
+            {
+                if (isconfirmed) {
+                    deleteItem(id == 0 ? $('#Id').val(): id);
+                }
+            });
+        }
+        function displayMode(){
             $(".cls-disable").each(function(index, element){
                 $(this).prop('disabled', true);
             });
@@ -855,7 +868,7 @@
                 $(this).addClass("anchordisabled");
             });
         }
-        function EditmodeEnable(){
+        function editModeEnable(){
             $(".cls-disable").each(function(index, element){
                  $(this).prop('disabled', false);
             })
