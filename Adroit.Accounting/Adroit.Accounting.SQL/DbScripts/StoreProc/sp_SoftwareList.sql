@@ -13,8 +13,10 @@ Begin
 	 (   
 	  SELECT  
 	   ROW_NUMBER() over (ORDER BY
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN Software.[Title] END ASC,  
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN Software.[Title] END DESC  
+		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN Software.[Title] END ASC,  
+		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN Software.[Title] END DESC ,
+		  CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN Software.[OrderNumber] END ASC,  
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN Software.[OrderNumber] END DESC 
 		) AS RowNum,
 	   Count(*) over () AS TotalCount, Software.* 
 	  FROM Software

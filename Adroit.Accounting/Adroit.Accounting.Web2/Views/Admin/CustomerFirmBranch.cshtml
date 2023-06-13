@@ -95,17 +95,17 @@
                                 <i class="fa fa-save"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
                             <span>
                                 <i class="fa fa-print"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
                             <span>
                                 <i class="fa fa-share-alt"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-delete  btn-danger disable-button text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
+                        <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-delete  btn-danger disable-button text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
                             <span>
                                 <i class="fa fa-trash-o"></i>
                             </span>
@@ -115,7 +115,7 @@
                                 <i class="fa fa-plus"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel" onclick="fromReset()">
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel">
                             <span>
                                 <i class="fa fa-arrow-left"></i>
                             </span>
@@ -296,7 +296,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="OrderNumber">Order Number</label>
-                                <input type="text" class="form-control cls-disable numberonly" id="OrderNumber" placeholder="Order Number">
+                                <input type="text" class="form-control cls-disable numberonly" id="OrderNumber" placeholder="Order Number" maxlength="2">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -310,9 +310,9 @@
                 </div>
                 <div class="card-footer text-right">
                     <a href="javascript:void(0);" class="btn-save btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
-                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="#" onclick="deleteItemConfirmation(0)" class="btn-delete btn btn-danger mt-1 disable-button" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-success mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" onclick="deleteItemConfirmation(0)" class="btn-delete btn btn-danger mt-1 disable-button cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
                     <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
@@ -717,9 +717,9 @@
         $(this).prop('disabled', false)
         });
         $(".cls-a-disable").each(function(index, element){
-
-            $(this).removeClass("anchordisabled");
+          $(this).show();
         });
+        $(".btn-delete").hide();
      }
 
      function saveItem() {
@@ -796,8 +796,8 @@
                   savedata.Address2=$("#AddressLin2").val();
                   savedata.Address3=$("#AddressLin3").val();
                   savedata.CountryId=parseInt($("#Country").val());
-                  savedata.StateId=$("#State").val();
-                  savedata.CityId=$("#City").val();
+                  savedata.StateId= $("#State").val() !=''? $("#State").val():0;
+                  savedata.CityId=$("#City").val()!=''? $("#City").val():0;
                   savedata.Pincode=$("#Pincode").val();
                   savedata.ContactPersonName=$("#ContactPerson").val();
                   savedata.EWBAddress1=$("#EWBAdressLine1").val();
@@ -852,7 +852,7 @@
              }
              try {
                  blockUI('container');
-                 var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomerFirmBranch"))" + "/" + id, "",
+                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteCustomerFirmBranch"))" + "/" + id, "",
                      function (result) {
                          unblockUI('container');
                          var str = "";
@@ -919,7 +919,7 @@
                                         $("#OrderNumber").val(result.data.orderNumber);
                                         $('#Active').prop('checked',result.data.isActive);
 
-                                                if(datatable.data().count()<=1)
+                                                if(isViewMode || datatable.data().count()<=1)
                                                 {
                                                    $(".btn-delete").hide();
                                                 }else{
@@ -1004,16 +1004,16 @@
         });
 
         $(".cls-a-disable").each(function(index, element){
-            $(this).addClass("anchordisabled");
-        });
+                 $(this).hide();
+            });
     }
     function editModeEnable(){
         $(".cls-disable").each(function(index, element){
              $(this).prop('disabled', false);
         })
-        $(".cls-a-disable").each(function(index, element){
-            $(this).removeClass("anchordisabled");
-        })
+          $(".cls-a-disable").each(function(index, element){
+                $(this).show();
+            })
     }
 </script>
 }

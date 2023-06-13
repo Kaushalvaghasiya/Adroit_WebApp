@@ -86,17 +86,17 @@
                                 <i class="fa fa-save"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
                             <span>
                                 <i class="fa fa-print"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
                             <span>
                                 <i class="fa fa-share-alt"></i>
                             </span>
-                        </a>
-                        <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-delete btn-danger text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
+                        </a> 
+                        <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-delete btn-danger text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
                             <span>
                                 <i class="fa fa-trash-o"></i>
                             </span>
@@ -162,12 +162,12 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="javascript:void(0);" class="btn btn-save btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save" ><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
-                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-delete btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="javascript:void(0)" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" ><i class="fa fa-plus"></i>&nbsp;New</a>
-                    <a href="javascript:void(0);"  class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                    <a href="javascript:void(0);" class="btn btn-save btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-success mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-delete btn-danger mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="javascript:void(0)" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="javascript:void(0);" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
             </div>
         </div>
@@ -181,439 +181,440 @@
 
 <script>
 
-    var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
-    window.customerId=@ViewBag.Id
-    $(function (e) {
-         $("#CustomerNameheader").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+""); 
-         $("#CustomerNameheader1").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+""); 
+        var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
+        window.customerId=@ViewBag.Id
+        $(function (e) {
+             $("#CustomerNameheader").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+"");
+             $("#CustomerNameheader1").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+"");
 
-          $('.dv-list').show();
-          $('.dv-detail').hide();
+              $('.dv-list').show();
+              $('.dv-detail').hide();
 
-          $('.btn-add-new').click(function () {
-              addClick();
+              $('.btn-add-new').click(function () {
+                  addClick();
+              });
+              $('.btn-save').click(function () {
+                    saveItem();
+                });
+
+              $('.btn-back').click(function () {
+                  $('.dv-detail').slideUp();
+                  $('.dv-list').slideDown();
+              });
+
+            datatablelist();
+            getCustomer(window.customerId);
+            bindBranch();
+
           });
-          $('.btn-save').click(function () {
-                saveItem();
-            });
 
-          $('.btn-back').click(function () {
-              $('.dv-detail').slideUp();
-              $('.dv-list').slideDown();
-          });
-
-        datatablelist();
-        getCustomer(window.customerId);
-        bindBranch();
-         
-      });
-
-     function disableFieldView(id)
-     {
-        getDetail(id,true);
-    }
-
-    function editMode(id){
-        
-        getDetail(id,false);
-    }
-    function addClick()
-        {
-            $('.dv-list').slideUp();
-            $('.dv-detail').slideDown();
-            $(".btn-delete").hide();
-            fromReset();
-            $("#FirstName").focus();
+         function disableFieldView(id)
+         {
+            getDetail(id,true);
         }
-    function refreshDatatableList() {
-        $('#tblMain').DataTable().ajax.reload();
-    }
-     function datatablelist() {
-       let columns = [];
-       let colDef = [];
-               colDef.push({
-                  "render": function (data, type, row) {
-                      return row.firstName;
-                  },
-                  "targets": colDef.length,
-                  "orderable": false
-              });
-              colDef.push({
-                  "render": function (data, type, row) {
-                      return row.lastName;
-                  },
-                  "targets": colDef.length,
 
-              });
-              colDef.push({
-                  "render": function (data, type, row) {
-                      return row.customerName;
-                  },
-                  "targets": colDef.length,
+        function editMode(id){
 
-              });
-              colDef.push({
-                  "render": function (data, type, row) {
-                      return row.customerUserBranch;
-                  },
-                  "targets": colDef.length,
-              });
-               colDef.push({
-                  "render": function (data, type, row) {
-                      let btnAct = "<div class='btn-list'> <a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
-                          btnAct += " &nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
-                          btnAct += " &nbsp;&nbsp; <a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
-                      return btnAct;
-                  },
-                  "targets": colDef.length,
-                  "className": "text-center",
-                  "orderable": false
-              });
-
-              columns.push({ "data": "firstName", "name": "firstName" });
-              columns.push({ "data": "lastName", "name": "lastName" });
-              columns.push({ "data": "customerName", "name": "customerName" });
-              columns.push({ "data": "customerUserBranch", "name": "customerUserBranch" });
-              columns.push({ "data": "Id", "name": "Id" });
-
-
-            var table = $('#tblMain').DataTable({
-                "bAutoWidth": false,
-                lengthChange: false,
-                ordering: true,
-                searching: true,
-                paging: true,
-                pageLength: 50,
-                order: [[0, 'asc']],
-                pagingType: 'full_numbers',
-                orderClasses: false,
-                //scrollCollapse: true,
-                //stateSave: false,
-                columnDefs: colDef,
-                columns: columns,
-                language: {
-                    paginate: {
-                        next: '<i class="fa fa-angle-right"></i>', // or '→'
-                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
-                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
-                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
-                    }
-                },
-                buttons: ['copy', 'excel', 'pdf', 'colvis'],
-                processing: true,
-                serverSide: true,
-                  ajax: {
-                      url: '@(Url.Content("~/Admin/CustomerUserList?customerId="))'+window.customerId,
-                      type: 'GET',
-                      data: function (d) { }
-                  },
-                   "initComplete": function(settings, json) {
-                    table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
-
-                    $(".buttons-copy").removeClass("btn-primary");
-                    $(".buttons-copy").addClass("btn-outline-primary");
-
-                    $(".buttons-excel").removeClass("btn-primary");
-                    $(".buttons-excel").addClass("btn-outline-primary");
-
-                    $(".buttons-pdf").removeClass("btn-primary");
-                    $(".buttons-pdf").addClass("btn-outline-primary");
-
-                    $(".buttons-colvis").removeClass("btn-primary");
-                    $(".buttons-colvis").removeClass("dropdown-toggle");
-                    $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
-
-                    $(".buttons-copy").empty();
-                    $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
-
-                    $(".buttons-excel").empty();
-                    $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
-
-                    $(".buttons-pdf").empty();
-                    $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
-
-                    $(".buttons-colvis").empty();
-                    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
-                },
-                "drawCallback": function (settings) {
-                }
-
-              });
-      }
-
-     function fromReset()
-     {
-        $("#Id").val(0);
-        $("#CustomerName").select2().val('').trigger("change");
-        $("#FirstName").val("");
-        $("#LastName").val("");
-        $("#Email").val("");
-        $('#Branch').val(null).trigger('change');
-        $("#activeTabName").text("User Add");
-        $(".cls-disable").each(function(index, element){
-         $(this).prop('disabled', false);
-        });
-         $(".cls-a-disable").each(function(index, element){
-
-            $(this).removeClass("anchordisabled");
-        });
-     }
-
-     function saveItem()
-     {
-         try {
-                  if($("#FirstName").val()==""){
-                         showWarning("", "Entry First Name.");
-                         $("#FirstName").focus();
-                         return false;
-                  }
-                  if($("#LastName").val()==""){
-                         showWarning("", "Entry First Name.");
-                         $("#LastName").focus();
-                           $('.dv-list').slideUp();
-                         return false;
-                  }
-                if($("#Branch").val()=="")
-                {
-                        showWarning("", "Please select branch.");
-                        $("#Branch").focus();
-                        $('.dv-list').slideUp();
-                        return false;
-                }
-
-                if($("#Email").val()!="")
-                 {
-                    let isValidemail = IsEmail($("#Email").val());
-                    if (!isValidemail) {
-                        showWarning("", "Please enter valid email");
-                        $("#Email").focus();
-                        return;
-                    }
-                 }
-                  var savedata = new Object();
-                   savedata.Id = parseInt($("#Id").val());
-                   savedata.CustomerId=parseInt(window.customerId);
-                   savedata.BranchCSV=$("#Branch").val().join(",");
-                   savedata.FirstName=$("#FirstName").val();
-                   savedata.LastName=$("#LastName").val();
-                   savedata.Email=$("#Email").val();
-                   savedata.IsActive=$('#Active').is(':checked');
-
-                   blockUI('container');
-
-                   $.ajax({
-                     type: "POST",
-                     url: "@(Url.Action("SaveCustomerUser", "Admin"))",
-                     data: JSON.stringify(savedata),
-                     contentType: "application/json; charset=utf-8",
-                     dataType: "json",
-                     async: true,
-                     success: function (data) {
-                          unblockUI('container');
-                          if (data.result == RESULT_SUCCESS) {
-                              fromReset();
-                              showWarning("", 'Customer user saved successfully.');
-                              $("#Id").val(0);
-                              refreshDatatableList();
-                                $('.btn-back').click();
-                          } else {
-                              showError("", data.data);
-                          }
+            getDetail(id,false);
+        }
+        function addClick()
+            {
+                $('.dv-list').slideUp();
+                $('.dv-detail').slideDown();
+                $(".btn-delete").hide();
+                fromReset();
+                $("#FirstName").focus();
+            }
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+         function datatablelist() {
+           let columns = [];
+           let colDef = [];
+                   colDef.push({
+                      "render": function (data, type, row) {
+                          return row.firstName;
                       },
-                  error: function (error) {
-                          unblockUI('container');
-                          showError("", error.statusText);
-                      }
+                      "targets": colDef.length,
+                      "orderable": false
+                  });
+                  colDef.push({
+                      "render": function (data, type, row) {
+                          return row.lastName;
+                      },
+                      "targets": colDef.length,
+
+                  });
+                  colDef.push({
+                      "render": function (data, type, row) {
+                          return row.customerName;
+                      },
+                      "targets": colDef.length,
+
+                  });
+                  colDef.push({
+                      "render": function (data, type, row) {
+                          return row.customerUserBranch;
+                      },
+                      "targets": colDef.length,
+                  });
+                   colDef.push({
+                      "render": function (data, type, row) {
+                          let btnAct = "<div class='btn-list'> <a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
+                              btnAct += " &nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
+                              btnAct += " &nbsp;&nbsp; <a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
+                          return btnAct;
+                      },
+                      "targets": colDef.length,
+                      "className": "text-center",
+                      "orderable": false
                   });
 
-        }
-            catch (e) {
-            unblockUI('container');
-            showError("", e.message);
-        }
+                  columns.push({ "data": "firstName", "name": "firstName" });
+                  columns.push({ "data": "lastName", "name": "lastName" });
+                  columns.push({ "data": "customerName", "name": "customerName" });
+                  columns.push({ "data": "customerUserBranch", "name": "customerUserBranch" });
+                  columns.push({ "data": "Id", "name": "Id" });
 
-     }
 
-    function deleteItem(id) {
-              if (id == 0) {
-                  id = $('#Id').val();
-              }
-              try {
-                  blockUI('container');
-                  var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomerUser"))" + "/" + id, "",
-                      function (result) {
-                          unblockUI('container');
-                          var str = "<option></option>";
-                          try {
-                              if (result.result == RESULT_SUCCESS) {
-                                  refreshDatatableList();
-                                  fromReset();
-                                $('.btn-back').click();
-                              } else {
-                                  showError('Error', result.data); //warning,  success, error, info
-                              }
-                          } catch (e) {
-                              showError('Error', e); //warning,  success, error, info
-                          }
+                var table = $('#tblMain').DataTable({
+                    "bAutoWidth": false,
+                    lengthChange: false,
+                    ordering: true,
+                    searching: true,
+                    paging: true,
+                    pageLength: 50,
+                    order: [[0, 'asc']],
+                    pagingType: 'full_numbers',
+                    orderClasses: false,
+                    //scrollCollapse: true,
+                    //stateSave: false,
+                    columnDefs: colDef,
+                    columns: columns,
+                    language: {
+                        paginate: {
+                            next: '<i class="fa fa-angle-right"></i>', // or '→'
+                            previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                            first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                            last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                        }
+                    },
+                    buttons: ['copy', 'excel', 'pdf', 'colvis'],
+                    processing: true,
+                    serverSide: true,
+                      ajax: {
+                          url: '@(Url.Content("~/Admin/CustomerUserList?customerId="))'+window.customerId,
+                          type: 'GET',
+                          data: function (d) { }
                       },
-                      function (error) {
-                          unblockUI('container');
-                      });
-              }
-              catch (err) {
-                  unblockUI('container');
-              }
+                       "initComplete": function(settings, json) {
+                        table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
+
+                        $(".buttons-copy").removeClass("btn-primary");
+                        $(".buttons-copy").addClass("btn-outline-primary");
+
+                        $(".buttons-excel").removeClass("btn-primary");
+                        $(".buttons-excel").addClass("btn-outline-primary");
+
+                        $(".buttons-pdf").removeClass("btn-primary");
+                        $(".buttons-pdf").addClass("btn-outline-primary");
+
+                        $(".buttons-colvis").removeClass("btn-primary");
+                        $(".buttons-colvis").removeClass("dropdown-toggle");
+                        $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
+
+                        $(".buttons-copy").empty();
+                        $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
+
+                        $(".buttons-excel").empty();
+                        $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
+
+                        $(".buttons-pdf").empty();
+                        $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
+
+                        $(".buttons-colvis").empty();
+                        $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
+                    },
+                    "drawCallback": function (settings) {
+                    }
+
+                  });
           }
 
-    function getDetail(id,isViewMode) {
-              try {
-                   blockUI('container');
-                  var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomerUser"))" + "/" + id, "",
-                      function (result) {
-                          unblockUI('container');
-                          var str = "";
-                          try {
-                              if (result.result == RESULT_SUCCESS) {
-                                           addClick();
-                                            if(isViewMode){
-                                                displayMode();
-                                            }else{
-                                                editModeEnable();
-                                            }
-                                           $("#activeTabName").text("EDIT (ID# "+result.data.id+")");
-                                           $('#Id').val(result.data.id);
-                                           $("#Email").val(result.data.email);
-                                           $("#FirstName").val(result.data.firstName);
-                                           $("#LastName").val(result.data.lastName);
-                                           $("#Active").prop('checked',result.data.isActive);
-                                           $("#Email").addClass("anchordisabled");
-                                           if(result.data.customerUserBranch !=null)
-                                           {
-                                            var BranchDataLen=result.data.customerUserBranch.split(',').length
-                                            var custBranch=[];
-                                            for(var i=0;i<BranchDataLen;i++)
-                                            {
-                                                custBranch.push(parseInt(result.data.customerUserBranch.split(',')[i]));
+         function fromReset()
+         {
+            $("#Id").val(0);
+            $("#CustomerName").select2().val('').trigger("change");
+            $("#FirstName").val("");
+            $("#LastName").val("");
+            $("#Email").val("");
+            $('#Branch').val(null).trigger('change');
+            $("#activeTabName").text("User Add");
+            $(".cls-disable").each(function(index, element){
+             $(this).prop('disabled', false);
+            });
+             $(".cls-a-disable").each(function(index, element){
+                 $(this).show();
 
-                                            }
-                                            $('#Branch').val(custBranch).change();
-                                           }else{
-                                             $('#Branch').val(null).change();
-                                           }
-                                             $(".btn-delete").show();
+            });
+             $(".btn-delete").hide();
+         }
 
-                              } else {
-                                  showError('Error', result.data); //warning,  success, error, info
-                              }
-                          } catch (e) {
+         function saveItem()
+         {
+             try {
+                      if($("#FirstName").val()==""){
+                             showWarning("", "Entry First Name.");
+                             $("#FirstName").focus();
+                             return false;
+                      }
+                      if($("#LastName").val()==""){
+                             showWarning("", "Entry First Name.");
+                             $("#LastName").focus();
+                               $('.dv-list').slideUp();
+                             return false;
+                      }
+                    if($("#Branch").val()=="")
+                    {
+                            showWarning("", "Please select branch.");
+                            $("#Branch").focus();
+                            $('.dv-list').slideUp();
+                            return false;
+                    }
+
+                    if($("#Email").val()!="")
+                     {
+                        let isValidemail = IsEmail($("#Email").val());
+                        if (!isValidemail) {
+                            showWarning("", "Please enter valid email");
+                            $("#Email").focus();
+                            return;
+                        }
+                     }
+                      var savedata = new Object();
+                       savedata.Id = parseInt($("#Id").val());
+                       savedata.CustomerId=parseInt(window.customerId);
+                       savedata.BranchCSV=$("#Branch").val().join(",");
+                       savedata.FirstName=$("#FirstName").val();
+                       savedata.LastName=$("#LastName").val();
+                       savedata.Email=$("#Email").val();
+                       savedata.IsActive=$('#Active').is(':checked');
+
+                       blockUI('container');
+
+                       $.ajax({
+                         type: "POST",
+                         url: "@(Url.Action("SaveCustomerUser", "Admin"))",
+                         data: JSON.stringify(savedata),
+                         contentType: "application/json; charset=utf-8",
+                         dataType: "json",
+                         async: true,
+                         success: function (data) {
                               unblockUI('container');
-                              showError('Error', e); //warning,  success, error, info
+                              if (data.result == RESULT_SUCCESS) {
+                                  fromReset();
+                                  showWarning("", 'Customer user saved successfully.');
+                                  $("#Id").val(0);
+                                  refreshDatatableList();
+                                    $('.btn-back').click();
+                              } else {
+                                  showError("", data.data);
+                              }
+                          },
+                      error: function (error) {
+                              unblockUI('container');
+                              showError("", error.statusText);
                           }
-                      },
-                      function (error) {
-
                       });
+
+            }
+                catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+         }
+
+        function deleteItem(id) {
+                  if (id == 0) {
+                      id = $('#Id').val();
+                  }
+                  try {
+                      blockUI('container');
+                      var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteCustomerUser"))" + "/" + id, "",
+                          function (result) {
+                              unblockUI('container');
+                              var str = "<option></option>";
+                              try {
+                                  if (result.result == RESULT_SUCCESS) {
+                                      refreshDatatableList();
+                                      fromReset();
+                                    $('.btn-back').click();
+                                  } else {
+                                      showError('Error', result.data); //warning,  success, error, info
+                                  }
+                              } catch (e) {
+                                  showError('Error', e); //warning,  success, error, info
+                              }
+                          },
+                          function (error) {
+                              unblockUI('container');
+                          });
+                  }
+                  catch (err) {
+                      unblockUI('container');
+                  }
               }
-              catch (err) {
+
+        function getDetail(id,isViewMode) {
+                  try {
+                       blockUI('container');
+                      var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomerUser"))" + "/" + id, "",
+                          function (result) {
+                              unblockUI('container');
+                              var str = "";
+                              try {
+                                  if (result.result == RESULT_SUCCESS) {
+                                               addClick();
+                                                if(isViewMode){
+                                                    displayMode();
+                                                }else{
+                                                    editModeEnable();
+                                                }
+                                               $("#activeTabName").text("EDIT (ID# "+result.data.id+")");
+                                               $('#Id').val(result.data.id);
+                                               $("#Email").val(result.data.email);
+                                               $("#FirstName").val(result.data.firstName);
+                                               $("#LastName").val(result.data.lastName);
+                                               $("#Active").prop('checked',result.data.isActive);
+                                               $("#Email").addClass("anchordisabled");
+                                               if(result.data.customerUserBranch !=null)
+                                               {
+                                                var BranchDataLen=result.data.customerUserBranch.split(',').length
+                                                var custBranch=[];
+                                                for(var i=0;i<BranchDataLen;i++)
+                                                {
+                                                    custBranch.push(parseInt(result.data.customerUserBranch.split(',')[i]));
+
+                                                }
+                                                $('#Branch').val(custBranch).change();
+                                               }else{
+                                                 $('#Branch').val(null).change();
+                                               }
+                                                 //$(".btn-delete").show();
+
+                                  } else {
+                                      showError('Error', result.data); //warning,  success, error, info
+                                  }
+                              } catch (e) {
+                                  unblockUI('container');
+                                  showError('Error', e); //warning,  success, error, info
+                              }
+                          },
+                          function (error) {
+
+                          });
+                  }
+                  catch (err) {
+                  }
               }
-          }
 
-    function bindBranch() {
-                try {
-                    blockUI('container');
-                       var retrundata = AjaxCall("GET", "@(Url.Content("~/Admin/GetCustomerBranch/"))"+window.customerId, "",
-                        function (data) {
-                            unblockUI('container');
-                            var str = "<option></option>";
-                            if (data.result == RESULT_SUCCESS) {
-                                if (data.data.length > 0) {
-                                    for (var i = 0; i < data.data.length; i++) {
-                                        str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-                                    }
-                                }
-                                $("#Branch").html(str);
-                                    $("$Branch").select2({
-                                        closeOnSelect : false,
-                                        placeholder : "Placeholder",
-                                        // allowHtml: true,
-                                        allowClear: true,
-                                        tags: true
-                                    });
-
-                            } else {
-                                showError("", data.data);
-                            }
-                        },
-                        function (error) {
-                            unblockUI('container');
-                            showError("", error.statusText);
-                        });
-                }
-                catch (err) {
-                    unblockUI('container');
-                    showError("", e.message);
-                }
-            };
-
-        function getCustomer(id) {
-                try {
-                    blockUI('container');
-                    var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
-                        function (result) {
-                            unblockUI('container');
-                            var str = "";
-                            try {
-                                if (result.result == RESULT_SUCCESS) {
-                                    $("#CustomerNameheader").text(result.data.name);
-                                    $("#CustomerNameheader1").text(result.data.name);
-                                } else {
-                                    showError('Error', result.data); //warning,  success, error, info
-                                }
-                            } catch (e) {
+        function bindBranch() {
+                    try {
+                        blockUI('container');
+                           var retrundata = AjaxCall("GET", "@(Url.Content("~/Admin/GetCustomerBranch/"))"+window.customerId, "",
+                            function (data) {
                                 unblockUI('container');
-                                showError('Error', e); //warning,  success, error, info
-                            }
-                        },
-                        function (error) {
+                                var str = "<option></option>";
+                                if (data.result == RESULT_SUCCESS) {
+                                    if (data.data.length > 0) {
+                                        for (var i = 0; i < data.data.length; i++) {
+                                            str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                        }
+                                    }
+                                    $("#Branch").html(str);
+                                        $("$Branch").select2({
+                                            closeOnSelect : false,
+                                            placeholder : "Placeholder",
+                                            // allowHtml: true,
+                                            allowClear: true,
+                                            tags: true
+                                        });
 
-                        });
-                }
-                catch (err) {
-                }
-    }
-    
-        function deleteItemConfirmation(id) {
-            swal({
-                title: "Alert",
-			    text: "Are you really want to delete?",
-			    type: "warning",
-			    showCancelButton: true,
-			    confirmButtonText: 'Delete',
-			    cancelButtonText: 'Cancel'
-            },function(isconfirmed)
-            {
-                if (isconfirmed) {
-                    deleteItem(id == 0 ? $('#Id').val(): id);
-                }
-            });
-        }
-         function displayMode(){
-            $(".cls-disable").each(function(index, element){
-                $(this).prop('disabled', true);
-            });
+                                } else {
+                                    showError("", data.data);
+                                }
+                            },
+                            function (error) {
+                                unblockUI('container');
+                                showError("", error.statusText);
+                            });
+                    }
+                    catch (err) {
+                        unblockUI('container');
+                        showError("", e.message);
+                    }
+                };
 
-            $(".cls-a-disable").each(function(index, element){
-                $(this).addClass("anchordisabled");
-            });
+            function getCustomer(id) {
+                    try {
+                        blockUI('container');
+                        var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
+                            function (result) {
+                                unblockUI('container');
+                                var str = "";
+                                try {
+                                    if (result.result == RESULT_SUCCESS) {
+                                        $("#CustomerNameheader").text(result.data.name);
+                                        $("#CustomerNameheader1").text(result.data.name);
+                                    } else {
+                                        showError('Error', result.data); //warning,  success, error, info
+                                    }
+                                } catch (e) {
+                                    unblockUI('container');
+                                    showError('Error', e); //warning,  success, error, info
+                                }
+                            },
+                            function (error) {
+
+                            });
+                    }
+                    catch (err) {
+                    }
         }
-        function editModeEnable(){
-            $(".cls-disable").each(function(index, element){
-                 $(this).prop('disabled', false);
-            })
-            $(".cls-a-disable").each(function(index, element){
-                $(this).removeClass("anchordisabled");
-            })
-        }
+
+            function deleteItemConfirmation(id) {
+                swal({
+                    title: "Alert",
+                    text: "Are you really want to delete?",
+                    type: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: 'Delete',
+                    cancelButtonText: 'Cancel'
+                },function(isconfirmed)
+                {
+                    if (isconfirmed) {
+                        deleteItem(id == 0 ? $('#Id').val(): id);
+                    }
+                });
+            }
+             function displayMode(){
+                $(".cls-disable").each(function(index, element){
+                    $(this).prop('disabled', true);
+                });
+
+                $(".cls-a-disable").each(function(index, element){
+                     $(this).hide();
+                });
+            }
+            function editModeEnable(){
+                $(".cls-disable").each(function(index, element){
+                     $(this).prop('disabled', false);
+                })
+                  $(".cls-a-disable").each(function(index, element){
+                    $(this).show();
+                })
+            }
 </script>
 
 }

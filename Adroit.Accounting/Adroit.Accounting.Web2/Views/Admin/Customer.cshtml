@@ -89,17 +89,17 @@
                                 <i class="fa fa-save"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
                             <span>
                                 <i class="fa fa-print"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
                             <span>
                                 <i class="fa fa-share-alt"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="deleteItemConfirmation(0)" class=" btn-delete btn btn-danger text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="delete">
+                        <a href="#" onclick="deleteItemConfirmation(0)" class=" btn-delete btn btn-danger text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="delete">
                             <span>
                                 <i class="fa fa-trash-o"></i>
                             </span>
@@ -268,9 +268,9 @@
                 </div>
                 <div class="card-footer text-right">
                     <a href="javascript:void(0);"  class="btn-save btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="javascript:void(0);" onclick="showUnderDevMsg()" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
-                    <a href="javascript:void(0);" onclick="showUnderDevMsg()" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="javascript:void(0);" onclick="deleteItemConfirmation(0)" class="btn-delete btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="javascript:void(0);" onclick="showUnderDevMsg()" class="btn btn-blue mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="javascript:void(0);" onclick="showUnderDevMsg()" class="btn btn-success mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="javascript:void(0);" onclick="deleteItemConfirmation(0)" class="btn-delete btn btn-danger mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
                     <a href="javascript:void(0);" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="New"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="javascript:void(0);" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" id="btnCancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
@@ -580,9 +580,9 @@
             });
             $(".cls-a-disable").each(function(index, element){
 
-                $(this).removeClass("anchordisabled");
+                $(this).show();
             });
-
+            $(".btn-delete").hide();
             }
 
         function saveItem() {
@@ -722,7 +722,7 @@
             }
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteCustomer"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteCustomer"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -786,7 +786,7 @@
                                 $("#Type").val(result.data.customerTypeValue).trigger("change")
                                 $("#hdnCityId").val(result.data.cityId);
                                 $("#hdnStateId").val(result.data.stateId);
-                                $(".btn-delete").show();
+                                //$(".btn-delete").show();
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -824,15 +824,15 @@
             });
 
             $(".cls-a-disable").each(function(index, element){
-                $(this).addClass("anchordisabled");
+                 $(this).hide();
             });
         }
         function editModeEnable(){
             $(".cls-disable").each(function(index, element){
                  $(this).prop('disabled', false);
             })
-            $(".cls-a-disable").each(function(index, element){
-                $(this).removeClass("anchordisabled");
+           $(".cls-a-disable").each(function(index, element){
+                $(this).show();
             })
         }
 

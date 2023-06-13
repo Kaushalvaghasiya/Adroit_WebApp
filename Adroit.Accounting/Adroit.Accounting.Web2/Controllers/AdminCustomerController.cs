@@ -60,8 +60,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
-        [HttpDelete]
+        [HttpGet]
         public JsonResult DeleteCustomer(int id)
         {
             ApiResult result = new ApiResult();

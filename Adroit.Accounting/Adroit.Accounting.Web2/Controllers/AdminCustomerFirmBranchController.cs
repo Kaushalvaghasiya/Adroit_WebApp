@@ -65,7 +65,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [HttpDelete]
+        [HttpGet]
         public JsonResult DeleteCustomerFirmBranch(int id)
         {
             ApiResult result = new ApiResult();

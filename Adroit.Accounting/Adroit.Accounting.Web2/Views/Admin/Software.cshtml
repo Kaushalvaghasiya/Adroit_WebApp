@@ -84,27 +84,27 @@
                                 <i class="fa fa-save"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
                             <span>
                                 <i class="fa fa-print"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
+                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
                             <span>
                                 <i class="fa fa-share-alt"></i>
                             </span>
                         </a>
-                        <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-danger text-white mr-2 btn-sm btn-delete" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
+                        <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-danger text-white mr-2 btn-sm btn-delete cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
                             <span>
                                 <i class="fa fa-trash-o"></i>
                             </span>
                         </a>
-                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New" onclick="fromReset()">
+                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New">
                             <span>
                                 <i class="fa fa-plus"></i>
                             </span>
                         </a>
-                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel" onclick="fromReset()">
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel">
                             <span>
                                 <i class="fa fa-arrow-left"></i>
                             </span>
@@ -139,18 +139,18 @@
                                 </div>
                             </div>
                             @*<div class="form-group">
-                            <label for="LastName">Order Number</label>
-                            <input type="text" class="form-control cls-disable numberonly" id="OrderNumber" placeholder="">
-                            </div>*@
+                                <label for="LastName">Order Number</label>
+                                <input type="text" class="form-control cls-disable numberonly" id="OrderNumber" placeholder="">
+                                </div>*@
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
                     <a href="javascript:void(0);" class="btn-save btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
-                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-danger mt-1 btn-delete" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="javascript:void(0)" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="new" onclick="fromReset()"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" onclick="showUnderDevMsg()" class="btn btn-success mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-danger mt-1 btn-delete cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="javascript:void(0)" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="new"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="javascript:void(0);" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
             </div>
@@ -163,319 +163,319 @@
 @section Scripts
     {
 
-    <script>
+<script>
 
-        var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
+    var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
 
-        $(function (e) {
-            $('.dv-list').show();
-            $('.dv-detail').hide();
+    $(function (e) {
+        $('.dv-list').show();
+        $('.dv-detail').hide();
 
-            $('.btn-save').click(function () {
-                saveItem();
-            });
-
-            $('.btn-add-new').click(function () {
-                addClick();
-
-                //Set auto max value 
-                var maxvalue = parseInt($('#OrderNumber option:last-child').val()) + 1;
-                $("#OrderNumber").append(new Option(maxvalue, maxvalue, true, true)).trigger('change');
-            });
-
-            $('.btn-back').click(function () {
-                $('.dv-detail').slideUp();
-                $('.dv-list').slideDown();
-            });
-
-            bindTableFieldData('OrderNumber', 'Software', 'OrderNumber');
-            bindDatatableList();
+        $('.btn-save').click(function () {
+            saveItem();
         });
 
-        function addClick()
-        {
-            $('.dv-list').slideUp();
-            $('.dv-detail').slideDown();
-            $(".btn-delete").hide();
-            fromReset();
-            $("#SoftwareName").focus();
-        }
+        $('.btn-add-new').click(function () {
+            addClick();
 
-        function disableFieldView(id) {
-            getDetail(id, true);
-        }
+            //Set auto max value
+            var maxvalue = parseInt($('#OrderNumber option:last-child').val()) + 1;
+            $("#OrderNumber").append(new Option(maxvalue, maxvalue, true, true)).trigger('change');
+        });
 
-        function editMode(id) {
-            getDetail(id, false);
-        }
+        $('.btn-back').click(function () {
+            $('.dv-detail').slideUp();
+            $('.dv-list').slideDown();
+        });
 
-        function refreshDatatableList() {
-            $('#tblMain').DataTable().ajax.reload();
-        }
+        bindTableFieldData('OrderNumber', 'Software', 'OrderNumber');
+        bindDatatableList();
+    });
 
-        function bindDatatableList() {
-            let columns = [];
-            let colDef = [];
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.title;
-                },
-                "targets": colDef.length,
-                "orderable": false
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.orderNumber;
-                },
-                "targets": colDef.length,
+    function addClick()
+    {
+        $('.dv-list').slideUp();
+        $('.dv-detail').slideDown();
+        $(".btn-delete").hide();
+        fromReset();
+        $("#SoftwareName").focus();
+    }
 
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    let btnAct = "<div class='btn-list'> <a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
-                    btnAct += " &nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
-                    btnAct += " &nbsp;&nbsp; <a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
-                    return btnAct;
-                },
-                "targets": colDef.length,
-                "className": "text-center",
-                "orderable": false
-            });
+    function disableFieldView(id) {
+        getDetail(id, true);
+    }
 
-            columns.push({ "data": "title", "name": "title" });
-            columns.push({ "data": "orderNumber", "name": "orderNumber" });
-            columns.push({ "data": "Id", "name": "Id" });
+    function editMode(id) {
+        getDetail(id, false);
+    }
+
+    function refreshDatatableList() {
+        $('#tblMain').DataTable().ajax.reload();
+    }
+
+    function bindDatatableList() {
+        let columns = [];
+        let colDef = [];
+        colDef.push({
+            "render": function (data, type, row) {
+                return row.title;
+            },
+            "targets": colDef.length,
+
+        });
+        colDef.push({
+            "render": function (data, type, row) {
+                return row.orderNumber;
+            },
+            "targets": colDef.length,
+
+        });
+        colDef.push({
+            "render": function (data, type, row) {
+                let btnAct = "<div class='btn-list'> <a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
+                btnAct += " &nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
+                btnAct += " &nbsp;&nbsp; <a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
+                return btnAct;
+            },
+            "targets": colDef.length,
+            "className": "text-center",
+            "orderable": false
+        });
+
+        columns.push({ "data": "title", "name": "title" });
+        columns.push({ "data": "orderNumber", "name": "orderNumber" });
+        columns.push({ "data": "Id", "name": "Id" });
 
 
-            var table = $('#tblMain').DataTable({
-                "bAutoWidth": false,
-                lengthChange: false,
-                ordering: true,
-                searching: true,
-                paging: true,
-                pageLength: 50,
-                order: [[0, 'asc']],
-                pagingType: 'full_numbers',
-                orderClasses: false,
-                //scrollCollapse: true,
-                //stateSave: false,
-                columnDefs: colDef,
-                columns: columns,
-                language: {
-                    paginate: {
-                        next: '<i class="fa fa-angle-right"></i>', // or '→'
-                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
-                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
-                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+        var table = $('#tblMain').DataTable({
+            "bAutoWidth": false,
+            lengthChange: false,
+            ordering: true,
+            searching: true,
+            paging: true,
+            pageLength: 50,
+            order: [[0, 'asc']],
+            pagingType: 'full_numbers',
+            orderClasses: false,
+            //scrollCollapse: true,
+            //stateSave: false,
+            columnDefs: colDef,
+            columns: columns,
+            language: {
+                paginate: {
+                    next: '<i class="fa fa-angle-right"></i>', // or '→'
+                    previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                    first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                    last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                }
+            },
+            buttons: ['copy', 'excel', 'pdf', 'colvis'],
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: '@(Url.Content("~/Admin/SoftwareList"))',
+                type: 'GET',
+                data: function (d) { }
+            },
+            "initComplete": function (settings, json) {
+                table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
+
+                $(".buttons-copy").removeClass("btn-primary");
+                $(".buttons-copy").addClass("btn-outline-primary");
+
+                $(".buttons-excel").removeClass("btn-primary");
+                $(".buttons-excel").addClass("btn-outline-primary");
+
+                $(".buttons-pdf").removeClass("btn-primary");
+                $(".buttons-pdf").addClass("btn-outline-primary");
+
+                $(".buttons-colvis").removeClass("btn-primary");
+                $(".buttons-colvis").removeClass("dropdown-toggle");
+                $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
+
+                $(".buttons-copy").empty();
+                $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
+
+                $(".buttons-excel").empty();
+                $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
+
+                $(".buttons-pdf").empty();
+                $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
+
+                $(".buttons-colvis").empty();
+                $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
+            },
+            "drawCallback": function (settings) {
+            }
+
+        });
+    }
+
+    function fromReset() {
+        $("#Id").val(0);
+        $("#SoftwareName").val("");
+        $("#OrderNumber").val("");
+        $("#activeTabName").text("Add Software");
+        $(".cls-disable").each(function (index, element) {
+            $(this).prop('disabled', false);
+        });
+        $(".cls-a-disable").each(function (index, element) {
+            $(this).show();
+        });
+        $(".btn-delete").hide();
+    }
+
+    function saveItem() {
+        try {
+            if ($("#SoftwareName").val() == "") {
+                showWarning("", "Entry Name.");
+                $("#SoftwareName").focus();
+                return false;
+            }
+            if ($("#OrderNumber").val() == "") {
+                showWarning("", "Entry order number.");
+                $("#OrderNumber").focus();
+                return false;
+            }
+
+            var savedata = new Object();
+            savedata.Id = parseInt($("#Id").val());
+            savedata.Title = $("#SoftwareName").val();
+            savedata.OrderNumber = parseInt($("#OrderNumber").val());
+            blockUI('container');
+
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("SaveSoftware", "Admin"))",
+                data: JSON.stringify(savedata),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                async: true,
+                success: function (data) {
+                    unblockUI('container');
+                    if (data.result == RESULT_SUCCESS) {
+                        fromReset();
+                        showWarning("", 'Software type saved successfully.');
+                        $("#Id").val(0);
+                        refreshDatatableList();
+                        $('.btn-back').click();
+                    } else {
+                        showError("", data.data);
                     }
                 },
-                buttons: ['copy', 'excel', 'pdf', 'colvis'],
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: '@(Url.Content("~/Admin/SoftwareList"))',
-                    type: 'GET',
-                    data: function (d) { }
-                },
-                "initComplete": function (settings, json) {
-                    table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
-
-                    $(".buttons-copy").removeClass("btn-primary");
-                    $(".buttons-copy").addClass("btn-outline-primary");
-
-                    $(".buttons-excel").removeClass("btn-primary");
-                    $(".buttons-excel").addClass("btn-outline-primary");
-
-                    $(".buttons-pdf").removeClass("btn-primary");
-                    $(".buttons-pdf").addClass("btn-outline-primary");
-
-                    $(".buttons-colvis").removeClass("btn-primary");
-                    $(".buttons-colvis").removeClass("dropdown-toggle");
-                    $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
-
-                    $(".buttons-copy").empty();
-                    $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
-
-                    $(".buttons-excel").empty();
-                    $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
-
-                    $(".buttons-pdf").empty();
-                    $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
-
-                    $(".buttons-colvis").empty();
-                    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
-                },
-                "drawCallback": function (settings) {
+                error: function (error) {
+                    unblockUI('container');
+                    showError("", error.statusText);
                 }
-
             });
+
+        }
+        catch (e) {
+            unblockUI('container');
+            showError("", e.message);
         }
 
-        function fromReset() {
-            $("#Id").val(0);
-            $("#SoftwareName").val("");
-            $("#OrderNumber").val("");
-            $("#activeTabName").text("Add Software");
-            $(".cls-disable").each(function (index, element) {
-                $(this).prop('disabled', false);
-            });
-            $(".cls-a-disable").each(function (index, element) {
+    }
 
-                $(this).removeClass("anchordisabled");
-            });
-        }
-
-        function saveItem() {
-            try {
-                if ($("#SoftwareName").val() == "") {
-                    showWarning("", "Entry Name.");
-                    $("#SoftwareName").focus();
-                    return false;
-                }
-                if ($("#OrderNumber").val() == "") {
-                    showWarning("", "Entry order number.");
-                    $("#OrderNumber").focus();
-                    return false;
-                }
-
-                var savedata = new Object();
-                savedata.Id = parseInt($("#Id").val());
-                savedata.Title = $("#SoftwareName").val();
-                savedata.OrderNumber = parseInt($("#OrderNumber").val());
-                blockUI('container');
-
-                $.ajax({
-                    type: "POST",
-                    url: "@(Url.Action("SaveSoftware", "Admin"))",
-                    data: JSON.stringify(savedata),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    async: true,
-                    success: function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            fromReset();
-                            showWarning("", 'Software type saved successfully.');
-                            $("#Id").val(0);
+    function deleteItem(id) {
+        try {
+            blockUI('container');
+            var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteSoftware"))" + "/" + id, "",
+                function (result) {
+                    unblockUI('container');
+                    try {
+                        if (result.result == RESULT_SUCCESS) {
                             refreshDatatableList();
+                            fromReset();
                             $('.btn-back').click();
                         } else {
-                            showError("", data.data);
+                            showError('Error', result.data); //warning,  success, error, info
                         }
-                    },
-                    error: function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
+                    } catch (e) {
+                        showError('Error', e); //warning,  success, error, info
                     }
+                },
+                function (error) {
+                    unblockUI('container');
                 });
-
-            }
-            catch (e) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-
         }
+        catch (err) {
+            unblockUI('container');
+        }
+    }
 
-        function deleteItem(id) {
-            try {
-                blockUI('container');
-                var retrundata = AjaxCall("Delete", "@(Url.Content("~/Admin/DeleteSoftware"))" + "/" + id, "",
-                    function (result) {
-                        unblockUI('container');
-                        try {
-                            if (result.result == RESULT_SUCCESS) {
-                                refreshDatatableList();
-                                fromReset();
-                                $('.btn-back').click();
+    function getDetail(id, isViewMode) {
+        try {
+            blockUI('container');
+            var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetSoftware"))" + "/" + id, "",
+                function (result) {
+                    unblockUI('container');
+                    var str = "";
+                    try {
+                        if (result.result == RESULT_SUCCESS) {
+                            addClick();
+                            if (isViewMode) {
+                                displayMode();
+                                $("#activeTabName").text("ID# " + result.data.id);
                             } else {
-                                showError('Error', result.data); //warning,  success, error, info
+                                editModeEnable();
+                                $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                //$(".btn-delete").show();
                             }
-                        } catch (e) {
-                            showError('Error', e); //warning,  success, error, info
+
+                            $('#Id').val(result.data.id);
+                            $("#SoftwareName").val(result.data.title);
+                            $("#OrderNumber").val(result.data.orderNumber).trigger('change');
+                        } else {
+                            showError('Error', result.data); //warning,  success, error, info
                         }
-                    },
-                    function (error) {
+                    } catch (e) {
                         unblockUI('container');
-                    });
+                        showError('Error', e); //warning,  success, error, info
+                    }
+                },
+                function (error) {
+
+                });
+        }
+        catch (err) {
+        }
+    }
+    function deleteItemConfirmation(id) {
+        swal({
+            title: "Alert",
+            text: "Are you really want to delete?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonText: 'Delete',
+            cancelButtonText: 'Cancel'
+        },function(isconfirmed)
+        {
+            if (isconfirmed) {
+                deleteItem(id == 0 ? $('#Id').val(): id);
             }
-            catch (err) {
-                unblockUI('container');
-            }
-        }
+        });
+    }
 
-        function getDetail(id, isViewMode) {
-            try {
-                blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetSoftware"))" + "/" + id, "",
-                    function (result) {
-                        unblockUI('container');
-                        var str = "";
-                        try {
-                            if (result.result == RESULT_SUCCESS) {
-                                addClick();
-                                if (isViewMode) {
-                                    displayMode();
-                                    $("#activeTabName").text("ID# " + result.data.id);
-                                } else {
-                                    editModeEnable();
-                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
-                                    $(".btn-delete").show();
-                                }
+    function displayMode() {
+        $(".cls-disable").each(function (index, element) {
+            $(this).prop('disabled', true);
+        });
 
-                                $('#Id').val(result.data.id);
-                                $("#SoftwareName").val(result.data.title);
-                                $("#OrderNumber").val(result.data.orderNumber).trigger('change');
-                            } else {
-                                showError('Error', result.data); //warning,  success, error, info
-                            }
-                        } catch (e) {
-                            unblockUI('container');
-                            showError('Error', e); //warning,  success, error, info
-                        }
-                    },
-                    function (error) {
+        $(".cls-a-disable").each(function(index, element){
+             $(this).hide();
+        });
+    }
 
-                    });
-            }
-            catch (err) {
-            }
-        }
-        function deleteItemConfirmation(id) {
-            swal({
-                title: "Alert",
-			    text: "Are you really want to delete?",
-			    type: "warning",
-			    showCancelButton: true,
-			    confirmButtonText: 'Delete',
-			    cancelButtonText: 'Cancel'
-            },function(isconfirmed)
-            {
-                if (isconfirmed) {
-                    deleteItem(id == 0 ? $('#Id').val(): id);
-                }
-            });
-        }
+    function editModeEnable() {
+        $(".cls-disable").each(function (index, element) {
+            $(this).prop('disabled', false);
+        })
+         $(".cls-a-disable").each(function(index, element){
+            $(this).show();
+        })
+    }
 
-        function displayMode() {
-            $(".cls-disable").each(function (index, element) {
-                $(this).prop('disabled', true);
-            });
-
-            $(".cls-a-disable").each(function (index, element) {
-                $(this).addClass("anchordisabled");
-            });
-        }
-
-        function editModeEnable() {
-            $(".cls-disable").each(function (index, element) {
-                $(this).prop('disabled', false);
-            })
-            $(".cls-a-disable").each(function (index, element) {
-                $(this).removeClass("anchordisabled");
-            })
-        }
-
-    </script>
+</script>
 
 }
