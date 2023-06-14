@@ -1,5 +1,6 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
@@ -72,7 +73,7 @@ namespace Adroit.Accounting.Web.Controllers
         [HttpGet]
         public JsonResult GetAccountList(int draw = 0, int start = 0, int length = 10)
         {
-            var result = new DataTableList<CustomerAccount>();
+            var result = new DataTableListViewModel<CustomerGridViewModel>();
             try
             {
                 int sortColumn = 0, loginId = 0, firmId = 0;
@@ -90,7 +91,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             catch (Exception ex)
             {
-                result.data = new List<CustomerAccount>();
+                result.data = new List<CustomerGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
             }

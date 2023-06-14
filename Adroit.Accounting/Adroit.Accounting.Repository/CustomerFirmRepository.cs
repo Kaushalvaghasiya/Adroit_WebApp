@@ -1,4 +1,5 @@
 ﻿using Adroit.Accounting.Model;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
@@ -22,7 +23,7 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.GetTableDetail<Model.CustomerFirm>("sp_CustomerFirmGet", connectionString, parameters);
         }
 
-        public List<CustomerFirm> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder, int CustomerId)
+        public List<CustomerFirmGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder, int CustomerId)
         {
             var param = new DynamicParameters();
             param.Add("@LoginId", loginId);
@@ -34,7 +35,7 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             param.Add("@CustomerId", CustomerId);
 
-            return QueryHelper.GetList<Model.CustomerFirm>("sp_CustomerFirmList", connectionString, param);
+            return QueryHelper.GetList<CustomerFirmGridViewModel>("sp_CustomerFirmList", connectionString, param);
         }
 
         public int Save(CustomerFirm customerFirm, string connectionString)

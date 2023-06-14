@@ -4,14 +4,12 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class Software:BaseModel
+    public partial class Software
     {
-        public Software()
-        {
-        }
         public byte Id { get; set; }
         public string Title { get; set; }
         public bool IsDeleted { get; set; }
         public byte? OrderNumber { get; set; }
+        public bool Active { get; set; }
     }
 }

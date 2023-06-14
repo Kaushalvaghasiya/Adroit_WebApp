@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
+using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -21,7 +22,7 @@ namespace Adroit.Accounting.Web.Controllers
         [HttpGet]
         public JsonResult CustomerUserList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
         {
-            var result = new DataTableList<CustomerUser>();
+            var result = new DataTableListViewModel<CustomerUserGridViewModel>();
             try
             {
                 int loginId = 0, firmId = 0;
@@ -29,14 +30,14 @@ namespace Adroit.Accounting.Web.Controllers
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = CustomerUserRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection, customerId).ToList();
+                var records = _customerUserRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection, customerId).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
             }
             catch (Exception ex)
             {
-                result.data = new List<CustomerUser>();
+                result.data = new List<CustomerUserGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
             }
@@ -55,21 +56,21 @@ namespace Adroit.Accounting.Web.Controllers
 
                 if (savedata.Id == 0)
                 {
-                    var user = await UserManager.FindByNameAsync(savedata.Email);
+                    var user = await _userManager.FindByNameAsync(savedata.Email);
                     if (user != null)
                     {
                         throw new Exception("This email is already associated with another account, please choose different email.");
                     }
                     user = CreateUser();
-                    await UserStore.SetUserNameAsync(user, savedata.Email, CancellationToken.None);
-                    await EmailStore.SetEmailAsync(user, savedata.Email, CancellationToken.None);
-                    var res = await UserManager.CreateAsync(user);
+                    await _userStore.SetUserNameAsync(user, savedata.Email, CancellationToken.None);
+                    await _emailStore.SetEmailAsync(user, savedata.Email, CancellationToken.None);
+                    var res = await _userManager.CreateAsync(user);
                     if (res.Succeeded)
                     {
-                        var userId = await UserManager.GetUserIdAsync(user);
+                        var userId = await _userManager.GetUserIdAsync(user);
                         savedata.UserId = new Guid(userId);
 
-                        int id = CustomerUserRepo.Save(savedata, ConfigurationData.DefaultConnection);
+                        int id = _customerUserRepository.Save(savedata, _configurationData.DefaultConnection);
                         if (id > 0)
                         {
                             result.data = true;
@@ -89,7 +90,7 @@ namespace Adroit.Accounting.Web.Controllers
                 }
                 else
                 {
-                    int id = CustomerUserRepo.Save(savedata, ConfigurationData.DefaultConnection);
+                    int id = _customerUserRepository.Save(savedata, _configurationData.DefaultConnection);
                     if (id > 0)
                     {
                         result.data = true;
@@ -114,7 +115,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
                                //need change login customer id
                 int DeletedById = 1; //need to set from session
-                CustomerUserRepo.Delete(id, DeletedById, ConfigurationData.DefaultConnection);
+                _customerUserRepository.Delete(id, DeletedById, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -131,7 +132,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = CustomerUserRepo.Get(id, ConfigurationData.DefaultConnection);
+                result.data = _customerUserRepository.Get(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -148,7 +149,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = CustomerUserRepo.GetBranchWIthFirmName(id, ConfigurationData.DefaultConnection);
+                result.data = _customerUserRepository.GetBranchWIthFirmName(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -177,11 +178,11 @@ namespace Adroit.Accounting.Web.Controllers
         [AllowAnonymous]
         private IUserEmailStore<IdentityUser> GetEmailStore()
         {
-            if (!UserManager.SupportsUserEmail)
+            if (!_userManager.SupportsUserEmail)
             {
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
-            return (IUserEmailStore<IdentityUser>)UserStore;
+            return (IUserEmailStore<IdentityUser>)_userStore;
         }
     }
 }

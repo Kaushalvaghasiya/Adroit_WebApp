@@ -52,10 +52,8 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Index()
         {
             RegistrationViewModel model = new RegistrationViewModel();
-            model.CountryList = (from item in _countryRepo.GetCountryList(_configurationData.DefaultConnection).AsEnumerable()
-                                 select new DropdownViewModel { Value = $"{item.Id}", Text = item.Title }).ToList();
-            model.BusinessList = (from item in _businessRepo.GetBusinessList(_configurationData.DefaultConnection).AsEnumerable()
-                                  select new DropdownViewModel { Value = $"{item.Id}", Text = item.Title }).ToList();
+            model.CountryList = _countryRepo.GetCountryList(_configurationData.DefaultConnection).ToList();
+            model.BusinessList = _businessRepo.GetBusinessList(_configurationData.DefaultConnection).ToList();
 
             return View(model);
         }

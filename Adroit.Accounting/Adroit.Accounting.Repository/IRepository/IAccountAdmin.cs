@@ -1,9 +1,9 @@
-﻿using Adroit.Accounting.Model;
+﻿using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Repository.IRepository
 {
     public interface IAccountAdmin
     {
-        List<Model.AccountAdmin> GetAccountAdminList(string connectionString, int loginId = 0, int firmId = 0);
+        List<DropdownViewModel> GetAccountAdminList(string connectionString, int loginId = 0, int firmId = 0);
     }
 }

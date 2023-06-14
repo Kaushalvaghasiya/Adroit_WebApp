@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Adroit.Accounting.Model
 {
-    public partial class Customer : BaseModel
+    public partial class Customer
     {
         public Customer()
         {

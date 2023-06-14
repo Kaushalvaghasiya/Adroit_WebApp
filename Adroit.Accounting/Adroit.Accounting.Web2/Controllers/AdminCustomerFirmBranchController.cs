@@ -1,5 +1,6 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace Adroit.Accounting.Web.Controllers
         [HttpGet]
         public JsonResult CustomerFirmBranchList(int draw = 0, int start = 0, int length = 10, int firmId = 0)
         {
-            var result = new DataTableList<CustomerFirmBranch>();
+            var result = new DataTableListViewModel<CustomerFirmBranchGridViewModel>();
             try
             {
                 int loginId = 0;
@@ -27,14 +28,14 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = CustomerFirmBranchRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerFirmBranchRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
             }
             catch (Exception ex)
             {
-                result.data = new List<CustomerFirmBranch>();
+                result.data = new List<CustomerFirmBranchGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
             }
@@ -50,7 +51,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var UserId = 1;//Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
                 savedata.AddedById = UserId;
                 savedata.ModifiedById = UserId;
-                int id = CustomerFirmBranchRepo.Save(savedata, ConfigurationData.DefaultConnection);
+                int id = _customerFirmBranchRepository.Save(savedata, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -73,7 +74,7 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
 
-                CustomerFirmBranchRepo.Delete(id, UserId, ConfigurationData.DefaultConnection);
+                _customerFirmBranchRepository.Delete(id, UserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -90,7 +91,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = CustomerFirmBranchRepo.Get(id, ConfigurationData.DefaultConnection);
+                result.data = _customerFirmBranchRepository.Get(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

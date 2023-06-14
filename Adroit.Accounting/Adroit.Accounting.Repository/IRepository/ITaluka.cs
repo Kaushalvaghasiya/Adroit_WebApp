@@ -1,14 +1,9 @@
-﻿using Adroit.Accounting.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Repository.IRepository
 {
     public interface ITaluka
     {
-        List<Model.Taluka> GetTalukaList(string connectionString, int districtId);
+        List<DropdownViewModel> GetTalukaList(string connectionString, int districtId);
     }
 }

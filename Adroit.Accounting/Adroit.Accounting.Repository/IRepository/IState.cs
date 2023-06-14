@@ -1,9 +1,9 @@
-﻿using Adroit.Accounting.Model;
+﻿using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Repository.IRepository
 {
     public interface IState
     {
-        List<Model.State> GetStateList(string connectionString, int countryId);
+        List<DropdownViewModel> GetStateList(string connectionString, int countryId);
     }
 }

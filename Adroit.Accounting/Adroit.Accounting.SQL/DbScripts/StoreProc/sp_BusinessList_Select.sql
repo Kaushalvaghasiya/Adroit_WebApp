@@ -1,8 +1,9 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_BusinessList_Select]
 AS
 BEGIN
-	SELECT Id,Title
+	SELECT Id As Value,Title As Text
 	FROM Business
-	ORDER BY OrderNumber
+	WHERE IsDeleted = 0 AND Active = 1
+	ORDER BY OrderNumber, Title
 END
 GO

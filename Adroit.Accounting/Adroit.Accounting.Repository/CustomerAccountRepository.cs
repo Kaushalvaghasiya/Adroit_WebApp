@@ -1,4 +1,5 @@
 ﻿using Adroit.Accounting.Model;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
@@ -7,7 +8,7 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerAccountRepository : ICustomerAccount
     {
-        public int Save(Model.CustomerAccount customerAccount, string connectionString, int loginId = 0, int firmId = 0)
+        public int Save(CustomerAccount customerAccount, string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
@@ -60,15 +61,15 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerAccountSave", connectionString, parameters);
         }
-        public Model.CustomerAccount Get(int id, string connectionString, int loginId = 0, int firmId = 0)
+        public CustomerAccount Get(int id, string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<Model.CustomerAccount>("sp_CustomerAccountGet", connectionString, parameters);
+            return QueryHelper.GetTableDetail<CustomerAccount>("sp_CustomerAccountGet", connectionString, parameters);
         }
-        public List<Model.CustomerAccount> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<CustomerGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
@@ -78,7 +79,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<Model.CustomerAccount>("sp_CustomerAccountList", connectionString, parameters);
+            return QueryHelper.GetList<CustomerGridViewModel>("sp_CustomerAccountList", connectionString, parameters);
         }
         public bool Delete(int id, string connectionString, int loginId = 0, int firmId = 0)
         {
@@ -89,12 +90,12 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.Delete("sp_CustomerAccountDelete", connectionString, parameters);
         }
 
-        public List<Model.CustomerAccount> GetCustomerAccountList(string connectionString, int loginId = 0, int firmId = 0)
+        public List<DropdownViewModel> GetCustomerAccountList(string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
-            return QueryHelper.GetList<Model.CustomerAccount>("sp_CustomerAccountList_Select", connectionString, parameters);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountList_Select", connectionString, parameters);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Adroit.Accounting.Model;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
@@ -19,10 +20,10 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<Model.CustomerFirmBranch>("sp_CustomerFirmBranchGet", connectionString, parameters);
+            return QueryHelper.GetTableDetail<CustomerFirmBranch>("sp_CustomerFirmBranchGet", connectionString, parameters);
         }
 
-        public List<CustomerFirmBranch> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder)
+        public List<CustomerFirmBranchGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder)
         {
             var param = new DynamicParameters();
             param.Add("@LoginId", loginId);
@@ -33,7 +34,7 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
 
-            return QueryHelper.GetList<Model.CustomerFirmBranch>("sp_CustomerFirmBranchList", connectionString, param);
+            return QueryHelper.GetList<CustomerFirmBranchGridViewModel>("sp_CustomerFirmBranchList", connectionString, param);
         }
 
         public int Save(CustomerFirmBranch customerFirmBranch, string connectionString)
@@ -49,7 +50,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Address1", customerFirmBranch.Address1);
             parameters.Add("@Address2", customerFirmBranch.Address2);
             parameters.Add("@Address3", customerFirmBranch.Address3);
-            parameters.Add("@CityId", customerFirmBranch.CityId !=0 ? $"{(short)customerFirmBranch.CityId}" : null);
+            parameters.Add("@CityId", customerFirmBranch.CityId != 0 ? $"{(short)customerFirmBranch.CityId}" : null);
             parameters.Add("@StateId", customerFirmBranch.StateId != 0 ? $"{(short)customerFirmBranch.StateId}" : null);
             parameters.Add("@CountryId", $"{(short)customerFirmBranch.CountryId}");
             parameters.Add("@PinCode", customerFirmBranch.Pincode ?? "");

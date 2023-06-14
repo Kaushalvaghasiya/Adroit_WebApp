@@ -1,14 +1,9 @@
-﻿using Adroit.Accounting.Model;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Repository.IRepository
 {
     public interface IFirmTypeAdmin
     {
-        List<Model.FirmTypeAdmin> GetFirmTypeAdminList(string connectionString);
+        List<DropdownViewModel> GetFirmTypeAdminList(string connectionString);
     }
 }

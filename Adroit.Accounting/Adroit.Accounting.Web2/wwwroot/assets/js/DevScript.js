@@ -124,3 +124,17 @@ $(function () {
 
     }
 });
+
+function setScreenMode(readonly) {
+    $(".mode-ed").each(function (index, element) {
+        $(this).prop('disabled', readonly);
+    });
+
+    $(".mode-hide").each(function (index, element) {
+        if (readonly) {
+            $(this).hide();
+        } else {
+            $(this).show();
+        }
+    });
+}
