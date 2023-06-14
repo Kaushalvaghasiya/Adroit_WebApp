@@ -1,5 +1,6 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +19,7 @@ namespace Adroit.Accounting.Web.Controllers
         [HttpGet]
         public JsonResult CustomerList(int draw = 0, int start = 0, int length = 10)
         {
-            var result = new DataTableList<Customer>();
+            var result = new DataTableListViewModel<CustomerGridViewModel>();
             try
             {
                 int loginId = 0, firmId = 0;
@@ -26,14 +27,14 @@ namespace Adroit.Accounting.Web.Controllers
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = CustomerRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
             }
             catch (Exception ex)
             {
-                result.data = new List<Customer>();
+                result.data = new List<CustomerGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
             }
@@ -46,7 +47,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int id = CustomerRepo.Save(savedata, ConfigurationData.DefaultConnection);
+                int id = _customerRepository.Save(savedata, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -66,7 +67,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                CustomerRepo.Delete(id, ConfigurationData.DefaultConnection);
+                _customerRepository.Delete(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -83,7 +84,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = CustomerRepo.Get(id, ConfigurationData.DefaultConnection);
+                result.data = _customerRepository.Get(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

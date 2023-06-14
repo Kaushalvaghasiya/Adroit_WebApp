@@ -13,5 +13,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@columnname", columnName);
             return QueryHelper.GetList<string>("sp_GetColumnData", connectionString, parameters);
         }
+
+        public List<DropdownViewModel> GetDropdownList(string connectionString, string tableName, string columnName)
+        {
+            return (from item in GetList(connectionString, tableName, columnName).ToList()
+                    select new DropdownViewModel() { Text = item, Value = item }).ToList();
+        }
     }
 }

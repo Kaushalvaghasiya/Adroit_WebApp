@@ -7,55 +7,61 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.Repository;
 
 namespace Adroit.Accounting.Web.Controllers
 {
     public class CommonController : Controller
     {
-        private IState _stateRepo;
-        private ICity _cityRepo;
-        private ICountry _countryRepo;
-        private ITaluka _talukaRepo;
-        private IDistrict _districtRepo;
-        private IGSTInvoiceType _gstInvoiceTypeRepo;
+        private IState _stateRepository;
+        private ICity _cityRepository;
+        private ICountry _countryRepository;
+        private ITaluka _talukaRepository;
+        private IDistrict _districtRepository;
+        private IGSTInvoiceType _gstInvoiceTypeRepository;
         private readonly ConfigurationData _configurationData;
-        private IBusiness _businessRepo;
-        private IFirmTypeAdmin _firmTypeAdminRepo;
-        private IGSTFirmType _gstFirmTypeRepo;
-        private ISoftwareType _softwareTypeRepo;
-        private ICustomer _customerRepo;
-        private IFirmBranchTypeAdmin _firmBranchTypeAdminRepo;
-        private IFirm _firmRepo;
+        private IBusiness _businessRepository;
+        private IFirmTypeAdmin _firmTypeAdminRepository;
+        private IGSTFirmType _gstFirmTypeRepository;
+        private ISoftware _softwareRepository;
+        private ICustomer _customerRepository;
+        private IFirmBranchTypeAdmin _firmBranchTypeAdminRepository;
+        private IFirm _firmRepository;
         private ICommon _commonRepository;
 
 
-        public CommonController(IOptions<ConfigurationData> configurationData, IState stateRepo, ICity cityRepo,
-                ICountry countryRepo, IDistrict districtRepo, ITaluka talukaRepository,
-                IGSTInvoiceType gstInvoiceTypeRepo,
-                IBusiness business,
-                ISoftwareType softwareTypeRepo,
-                IFirmTypeAdmin firmTypeAdminRepo,
-                IGSTFirmType gstFirmTypeRepo,
-                ICustomer customerRepo,
-                IFirmBranchTypeAdmin firmBranchTypeAdminRepo,
-                IFirm firmRepo,
-                ICommon commonRepository
+        public CommonController(
+            IOptions<ConfigurationData> configurationData, 
+            IState stateRepository, 
+            ICity cityRepository,
+            ICountry countryRepository, 
+            IDistrict districtRepository, 
+            ITaluka talukaRepository,
+            IGSTInvoiceType gstInvoiceTypeRepository,
+            IBusiness businessRepository,
+            ISoftware softwareRepository,
+            IFirmTypeAdmin firmTypeAdminRepository,
+            IGSTFirmType gstFirmTypeRepository,
+            ICustomer customerRepository,
+            IFirmBranchTypeAdmin firmBranchTypeAdminRepository,
+            IFirm firmRepository,
+            ICommon commonRepository
             )
         {
-            _stateRepo = stateRepo;
-            _cityRepo = cityRepo;
+            _stateRepository = stateRepository;
+            _cityRepository = cityRepository;
             _configurationData = configurationData.Value;
-            _countryRepo = countryRepo;
-            _districtRepo = districtRepo;
-            _talukaRepo = talukaRepository;
-            _gstInvoiceTypeRepo = gstInvoiceTypeRepo;
-            _businessRepo = business;
-            _firmTypeAdminRepo = firmTypeAdminRepo;
-            _gstFirmTypeRepo = gstFirmTypeRepo;
-            _softwareTypeRepo = softwareTypeRepo;
-            _customerRepo = customerRepo;
-            _firmBranchTypeAdminRepo = firmBranchTypeAdminRepo;
-            _firmRepo = firmRepo;
+            _countryRepository = countryRepository;
+            _districtRepository = districtRepository;
+            _talukaRepository = talukaRepository;
+            _gstInvoiceTypeRepository = gstInvoiceTypeRepository;
+            _businessRepository = businessRepository;
+            _firmTypeAdminRepository = firmTypeAdminRepository;
+            _gstFirmTypeRepository = gstFirmTypeRepository;
+            _softwareRepository = softwareRepository;
+            _customerRepository = customerRepository;
+            _firmBranchTypeAdminRepository = firmBranchTypeAdminRepository;
+            _firmRepository = firmRepository;
             _commonRepository = commonRepository;
         }
 
@@ -70,7 +76,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _countryRepo.GetCountryList(_configurationData.DefaultConnection).ToList();
+                result.data = _countryRepository.GetCountryList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -87,7 +93,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _stateRepo.GetStateList(_configurationData.DefaultConnection, countryId).ToList();
+                result.data = _stateRepository.GetStateList(_configurationData.DefaultConnection, countryId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -104,7 +110,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _districtRepo.GetDistrictList(_configurationData.DefaultConnection, stateId).ToList();
+                result.data = _districtRepository.GetDistrictList(_configurationData.DefaultConnection, stateId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -121,7 +127,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _talukaRepo.GetTalukaList(_configurationData.DefaultConnection, districtId).ToList();
+                result.data = _talukaRepository.GetTalukaList(_configurationData.DefaultConnection, districtId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -138,7 +144,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _cityRepo.GetCityList(_configurationData.DefaultConnection, 0, talukaId, 0).ToList();
+                result.data = _cityRepository.GetCityList(_configurationData.DefaultConnection, 0, talukaId, 0).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -154,7 +160,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _gstInvoiceTypeRepo.GetGSTInvoiceTypeList(_configurationData.DefaultConnection).ToList();
+                result.data = _gstInvoiceTypeRepository.GetGSTInvoiceTypeList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -171,7 +177,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _businessRepo.GetBusinessList(_configurationData.DefaultConnection).ToList();
+                result.data = _businessRepository.GetBusinessList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -181,13 +187,12 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
         public JsonResult GetSoftware()
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _softwareTypeRepo.GetSoftwareTypeList(_configurationData.DefaultConnection).ToList();
+                result.data = _softwareRepository.SelectList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -204,7 +209,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _firmTypeAdminRepo.GetFirmTypeAdminList(_configurationData.DefaultConnection).ToList();
+                result.data = _firmTypeAdminRepository.GetFirmTypeAdminList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -221,7 +226,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerRepo.GetCustomerList(_configurationData.DefaultConnection).ToList();
+                result.data = _customerRepository.GetCustomerList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -238,7 +243,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _gstFirmTypeRepo.GetGSTFirmTypeList(_configurationData.DefaultConnection).ToList();
+                result.data = _gstFirmTypeRepository.GetGSTFirmTypeList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -255,7 +260,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _firmBranchTypeAdminRepo.GetFirmBranchTypeAdminList(_configurationData.DefaultConnection).ToList();
+                result.data = _firmBranchTypeAdminRepository.GetFirmBranchTypeAdminList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -271,7 +276,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _firmRepo.GetFirmList(_configurationData.DefaultConnection).ToList();
+                result.data = _firmRepository.GetFirmList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -288,8 +293,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = (from item in _commonRepository.GetList(_configurationData.DefaultConnection, TableName, ColumnName).ToList()
-                               select new DropdownViewModel() { Text = item, Value = item }).ToList();
+                result.data = _commonRepository.GetList(_configurationData.DefaultConnection, TableName, ColumnName);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -299,6 +303,5 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
     }
 }

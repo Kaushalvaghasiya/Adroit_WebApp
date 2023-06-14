@@ -4,7 +4,7 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class CustomerFirmBranch: BaseModel
+    public partial class CustomerFirmBranch
     {
         public CustomerFirmBranch()
         {

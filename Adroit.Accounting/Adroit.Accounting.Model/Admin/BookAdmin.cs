@@ -4,7 +4,7 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class BookAdmin : BaseModel
+    public partial class BookAdmin
     {
         public BookAdmin()
         {

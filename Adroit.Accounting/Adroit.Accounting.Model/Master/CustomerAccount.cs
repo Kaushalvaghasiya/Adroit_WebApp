@@ -4,7 +4,7 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class CustomerAccount : BaseModel
+    public partial class CustomerAccount
     {
         public CustomerAccount()
         {

@@ -1,4 +1,5 @@
 ﻿using Adroit.Accounting.Model;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
@@ -12,7 +13,7 @@ namespace Adroit.Accounting.Repository
 {
     public class BookAdminRepository : IBookAdmin
     {
-        public int Save(Model.BookAdmin bookAdmin, string connectionString, int loginId = 0, int firmId = 0)
+        public int Save(BookAdmin bookAdmin, string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
@@ -73,17 +74,15 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_BookAdminSave", connectionString, parameters);
         }
-
-        public Model.BookAdmin Get(int id, string connectionString, int loginId = 0, int firmId = 0)
+        public BookAdmin Get(int id, string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<Model.BookAdmin>("sp_BookAdminGet", connectionString, parameters);
+            return QueryHelper.GetTableDetail<BookAdmin>("sp_BookAdminGet", connectionString, parameters);
         }
-
-        public List<Model.BookAdmin> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<BookAdminGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
@@ -93,9 +92,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<Model.BookAdmin>("sp_BookAdminList", connectionString, parameters);
+            return QueryHelper.GetList<BookAdminGridViewModel>("sp_BookAdminList", connectionString, parameters);
         }
-
         public bool Delete(int id, string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
@@ -104,13 +102,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Id", id);
             return QueryHelper.Delete("sp_BookAdminDelete", connectionString, parameters);
         }
-
-        public List<Model.BookAdmin> GetBookAdminSelectList(string connectionString, int loginId = 0, int firmId = 0)
+        public List<BookAdmin> GetBookAdminSelectList(string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
-            return QueryHelper.GetList<Model.BookAdmin>("sp_BookAdminList_Select", connectionString, parameters);
+            return QueryHelper.GetList<BookAdmin>("sp_BookAdminList_Select", connectionString, parameters);
         }
     }
 }

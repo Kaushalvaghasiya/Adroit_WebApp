@@ -3,8 +3,9 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_BillEntryTypeAdminList_Select]
 	@FirmId int
 AS
 BEGIN
-	SELECT *
+	SELECT Id As Value,Title As Text
 	FROM BillEntryTypeAdmin
+	WHERE Active = 1
 	ORDER BY Title, Code
 END
 GO

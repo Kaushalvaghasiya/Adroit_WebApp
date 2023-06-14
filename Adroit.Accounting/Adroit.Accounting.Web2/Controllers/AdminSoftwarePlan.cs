@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
+using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -20,7 +21,7 @@ namespace Adroit.Accounting.Web.Controllers
         [HttpGet]
         public JsonResult SoftwarePlanList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
         {
-            var result = new DataTableList<SoftwarePlan>();
+            var result = new DataTableListViewModel<SoftwarePlanGridViewModel>();
             try
             {
                 int loginId = 0, firmId = 0;
@@ -28,14 +29,14 @@ namespace Adroit.Accounting.Web.Controllers
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = softwarePlanRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _softwarePlanRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
             }
             catch (Exception ex)
             {
-                result.data = new List<SoftwarePlan>();
+                result.data = new List<SoftwarePlanGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
             }
@@ -51,7 +52,7 @@ namespace Adroit.Accounting.Web.Controllers
                 //we need add user Id
                 //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
                
-                int id = softwarePlanRepo.Save(savedata, ConfigurationData.DefaultConnection);
+                int id = _softwarePlanRepository.Save(savedata, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -72,7 +73,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                softwarePlanRepo.Delete(id, ConfigurationData.DefaultConnection);
+                _softwarePlanRepository.Delete(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -89,7 +90,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = softwarePlanRepo.Get(id, ConfigurationData.DefaultConnection);
+                result.data = _softwarePlanRepository.Get(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

@@ -1,5 +1,6 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Controllers;
@@ -24,7 +25,7 @@ namespace Adroit.Accounting.Web.Controllers
         [HttpGet]
         public JsonResult CustomerFirmList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
         {
-            var result = new DataTableList<CustomerFirm>();
+            var result = new DataTableListViewModel<CustomerFirmGridViewModel>();
             try
             {
                 int loginId = 0, firmId = 0;
@@ -32,14 +33,14 @@ namespace Adroit.Accounting.Web.Controllers
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = CustomerFirmRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection, customerId).ToList();
+                var records = _customerFirmRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection, customerId).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
             }
             catch (Exception ex)
             {
-                result.data = new List<CustomerFirm>();
+                result.data = new List<CustomerFirmGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
             }
@@ -56,7 +57,7 @@ namespace Adroit.Accounting.Web.Controllers
                 //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
                 //savedata.AddedById = UserId;
                 //savedata.ModifiedById = UserId;
-                int id = CustomerFirmRepo.Save(savedata, ConfigurationData.DefaultConnection);
+                int id = _customerFirmRepository.Save(savedata, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -79,7 +80,7 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
                 //need change login customer id
-                CustomerFirmRepo.Delete(id, UserId, ConfigurationData.DefaultConnection);
+                _customerFirmRepository.Delete(id, UserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -96,7 +97,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = CustomerFirmRepo.Get(id, ConfigurationData.DefaultConnection);
+                result.data = _customerFirmRepository.Get(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

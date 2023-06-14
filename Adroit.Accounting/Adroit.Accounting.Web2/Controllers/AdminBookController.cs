@@ -1,5 +1,6 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int id = BookAdminRepo.Save(model, ConfigurationData.DefaultConnection);
+                int id = _bookAdminRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -40,7 +41,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = BookAdminRepo.Get(id, ConfigurationData.DefaultConnection, 0, 0);
+                result.data = _bookAdminRepository.Get(id, _configurationData.DefaultConnection, 0, 0);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -54,7 +55,7 @@ namespace Adroit.Accounting.Web.Controllers
         [HttpGet]
         public JsonResult List(int draw = 0, int start = 0, int length = 10)
         {
-            var result = new DataTableList<BookAdmin>();
+            var result = new DataTableListViewModel<BookAdminGridViewModel>();
             try
             {
                 int sortColumn = 0, loginId = 0, firmId = 0;
@@ -65,14 +66,14 @@ namespace Adroit.Accounting.Web.Controllers
                 //sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 //sortDirection = Convert.ToString(Request.Query["order[0][dir]"]);
 
-                var records = BookAdminRepo.List(ConfigurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _bookAdminRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
             }
             catch (Exception ex)
             {
-                result.data = new List<BookAdmin>();
+                result.data = new List<BookAdminGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
             }
@@ -84,7 +85,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = BookAdminRepo.Delete(id, ConfigurationData.DefaultConnection, 0, 0);
+                result.data = _bookAdminRepository.Delete(id, _configurationData.DefaultConnection, 0, 0);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -101,7 +102,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = 0, firmId = 0;
-                result.data = AccountAdminRepo.GetAccountAdminList(ConfigurationData.DefaultConnection, loginId, firmId).ToList(); ;
+                result.data = _accountAdminRepository.GetAccountAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -118,7 +119,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = 0, firmId = 0;
-                result.data = BillTypeAdminRepo.GetBillTypeAdminList(ConfigurationData.DefaultConnection, loginId, firmId).ToList(); ;
+                result.data = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -135,7 +136,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = 0, firmId = 0;
-                result.data = BillEntryTypeAdminRepo.GetBillEntryTypeAdminList(ConfigurationData.DefaultConnection, loginId, firmId).ToList(); ;
+                result.data = _billEntryTypeAdminRepository.GetBillEntryTypeAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

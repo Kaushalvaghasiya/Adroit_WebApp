@@ -1,8 +1,9 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_FirmList_Select]
 AS
 BEGIN
-	SELECT Id,Title
+	SELECT Id As Value,Title As Text
 	FROM CustomerFirm
-	ORDER BY CustomerFirm.Title
+	WHERE IsDeleted = 0 AND IsActive = 1
+	ORDER BY Title
 END
 GO

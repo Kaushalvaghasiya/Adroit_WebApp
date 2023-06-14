@@ -4,7 +4,7 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class SoftwarePlan:BaseModel
+    public partial class SoftwarePlan
     {
         public SoftwarePlan()
         {

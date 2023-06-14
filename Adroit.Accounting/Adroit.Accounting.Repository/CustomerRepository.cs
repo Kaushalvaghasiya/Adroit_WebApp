@@ -1,4 +1,5 @@
 ﻿using Adroit.Accounting.Model;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
@@ -7,7 +8,7 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerRepository : ICustomer
     {
-        public int Save(Model.Customer customer, string connectionString)
+        public int Save(Customer customer, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", customer.Id);
@@ -41,7 +42,7 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.Save("sp_CustomerSave", connectionString, parameters);
         }
 
-        public int Register(Model.Customer customer, string connectionString)
+        public int Register(Customer customer, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", customer.Id);
@@ -72,21 +73,21 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.Save("sp_CustomerRegistration", connectionString, parameters);
         }
 
-        public Model.Customer Get(string email, string connectionString)
+        public Customer Get(string email, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Email", email);
-            return QueryHelper.GetTableDetail<Model.Customer>("sp_CustomerGetByEmail", connectionString, parameters);
+            return QueryHelper.GetTableDetail<Customer>("sp_CustomerGetByEmail", connectionString, parameters);
         }
 
-        public Model.Customer Get(int id, string connectionString)
+        public Customer Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<Model.Customer>("sp_CustomerGet", connectionString, parameters);
+            return QueryHelper.GetTableDetail<Customer>("sp_CustomerGet", connectionString, parameters);
         }
 
-        public List<Model.Customer> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<CustomerGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();
             param.Add("@LoginId", loginId);
@@ -96,7 +97,7 @@ namespace Adroit.Accounting.Repository
             param.Add("@PageSize", pageSize);
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<Model.Customer>("sp_CustomerList", connectionString, param);
+            return QueryHelper.GetList<CustomerGridViewModel>("sp_CustomerList", connectionString, param);
         }
 
         public void Delete(int id, string connectionString)
@@ -106,10 +107,10 @@ namespace Adroit.Accounting.Repository
             QueryHelper.Save("sp_CustomerDelete", connectionString, parameters);
         }
 
-        public List<Customer> GetCustomerList(string connectionString)
+        public List<DropdownViewModel> GetCustomerList(string connectionString)
         {
             var parameters = new DynamicParameters();
-            return QueryHelper.GetList<Model.Customer>("sp_CustomerList_Select", connectionString, parameters);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerList_Select", connectionString, parameters);
         }
     }
 }

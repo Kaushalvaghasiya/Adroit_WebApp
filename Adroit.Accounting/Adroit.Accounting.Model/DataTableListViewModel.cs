@@ -1,6 +1,6 @@
 ﻿namespace Adroit.Accounting.Model
 {
-    public class DataTableList<T>
+    public class DataTableListViewModel<T>
     {
         public long draw { get; set; }
         public int recordsTotal { get; set; }

@@ -4,31 +4,13 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CityList_Select]
  @DistrictId int = 0
 AS
 BEGIN
-	IF @StateId > 0
-	BEGIN
-		SELECT City.Id,City.Title
-		FROM City
-		JOIN Taluka on City.TalukaId = Taluka.Id
-		JOIN District on Taluka.DistrictId = District.Id
-		WHERE District.StateId = @StateId
-	END
-	ELSE IF @DistrictId > 0
-	BEGIN
-		SELECT City.Id,City.Title
-		FROM City
-		JOIN Taluka on City.TalukaId = Taluka.Id
-		WHERE Taluka.DistrictId = @DistrictId
-	END
-	ELSE IF @TalukaId > 0
-	BEGIN
-		SELECT City.Id,City.Title
-		FROM City
-		WHERE City.TalukaId = @TalukaId
-	END
-	ELSE
-	BEGIN
-		SELECT Id,Title
-		FROM City
-	END
+	SELECT City.Id As Value,City.Title As Text
+	FROM City
+	JOIN Taluka on City.TalukaId = Taluka.Id
+	JOIN District on Taluka.DistrictId = District.Id
+	WHERE (@StateId = 0 OR District.StateId = @StateId)
+	AND (@DistrictId = 0 OR Taluka.DistrictId = @DistrictId)
+	AND (@TalukaId = 0 OR City.TalukaId = @TalukaId)
+	AND City.Active = 1 AND Taluka.Active = 1 AND District.Active = 1
 END
 GO

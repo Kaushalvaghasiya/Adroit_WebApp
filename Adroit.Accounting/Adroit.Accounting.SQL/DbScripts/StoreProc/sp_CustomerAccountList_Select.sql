@@ -3,7 +3,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountList_Select]
 	@FirmId int
 AS
 BEGIN
-	SELECT [CustomerAccount].Id, [Name]
+	SELECT [CustomerAccount].Id As Value, [Name] As Text
 	FROM [CustomerAccount] 
 	WHERE IsDeleted = 0 and IsActive = 1
 	ORDER BY [Name]

@@ -4,12 +4,8 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class CustomerUser : BaseModel
+    public partial class CustomerUser
     {
-        public CustomerUser()
-        {
-        }
-
         public int Id { get; set; }
         public string? Title { get; set; }
         public int CustomerId { get; set; }
