@@ -1780,18 +1780,42 @@
     <script src="@Url.Content("~/assets/js/custom.js")"></script>
     <script src="@Url.Content("~/assets/js/DevScript.js")"></script>
 
-    @if (IsSectionDefined("Scripts"))
-    {
-        @RenderSection("Scripts", required: false)
-    }
-
     <script>
+        $(function (e) {
+            $(".btn-save").on("click", function () {
+                saveItem();
+            });
+
+            $(".btn-add-new").on("click", function () {
+                addClick();
+            });
+
+            $(".btn-back").on("click", function () {
+                $('.dv-detail').slideUp();
+                $('.dv-list').slideDown();
+            });
+
+            $(".btn-edit").on("click", function () {
+                editMode(parseInt($(this).attr("data-value")));
+            });
+            
+            $(".btn-disableview").on("click", function () {
+                disableFieldView(parseInt($(this).attr("data-value")));
+            });
+
+            $(".btn-delete").on("click", function () {
+                deleteItemConfirmation(parseInt($(this).attr("data-value")));
+            });
+
+            $(".btn-underdevelopment").on("click", function () {
+                showInfo("","Under Development");
+            });
+        });
+
         function logout() {
             $('#logoutForm').submit();
         }
-         function showUnderDevMsg(){
-                showInfo("","Under Development");
-            }
+
         function bindTableFieldData(element, tablename, columnname) {
             try {
                 var option = new Option("", "", false, false);
@@ -1822,5 +1846,11 @@
             showInfo("", "Under Development");
         }
     </script>
+    
+    @if (IsSectionDefined("Scripts"))
+    {
+        @RenderSection("Scripts", required: false)
+    }
+
 </body>
 </html>

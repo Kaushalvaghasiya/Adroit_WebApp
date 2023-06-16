@@ -17,8 +17,7 @@ BEGIN
 						Active = @active
 					WHERE ID = @Id
 			END
-
-			ELSE If EXISTS (SELECT 1 FROM Software WHERE Title = @Title AND IsDeleted = 1)
+		ELSE If EXISTS (SELECT 1 FROM Software WHERE Title = @Title AND IsDeleted = 1)
 			BEGIN
 				UPDATE  Software SET
 						OrderNumber = @OrderNumber,
@@ -26,8 +25,7 @@ BEGIN
 						IsDeleted = 0
 					WHERE Title = @Title
 
-					SELECT @Id=Id FROM Software WHERE Title = @Title
-				
+				SELECT @Id=Id FROM Software WHERE Title = @Title
 			END
 		ELSE 
 			BEGIN

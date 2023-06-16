@@ -17,11 +17,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Active", software.Active);
             return QueryHelper.Save("sp_SoftwareSave", connectionString, parameters);
         }
-        public Software Get(int id, string connectionString)
+        public SoftwareViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<Software>("sp_SoftwareGet", connectionString, parameters);
+            return QueryHelper.GetTableDetail<SoftwareViewModel>("sp_SoftwareGet", connectionString, parameters);
         }
         public void Delete(int id, string connectionString)
         {

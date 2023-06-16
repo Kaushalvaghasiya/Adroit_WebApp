@@ -1,21 +1,23 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Utility;
-using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using System.Text;
 using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.SQL.Tables;
 
 namespace Adroit.Accounting.Web.Controllers
 {
     public partial class AdminController : Controller
     {
-        [Route("~/admin/softwareplan")]
         public IActionResult SoftwarePlan()
         {
-            return View();
+            var model = new SoftwarePlanViewModel();
+            model.SoftwareList = _softwareRepository.SelectList(_configurationData.DefaultConnection);
+            model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, SoftwarePlanTable._TableName, SoftwarePlanTable.Title);
+            model.BusinessList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, SoftwarePlanTable._TableName, SoftwarePlanTable.Business);
+            model.CodeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, SoftwarePlanTable._TableName, SoftwarePlanTable.Code);
+
+            return View(model);
         }
 
         [HttpGet]
@@ -51,7 +53,7 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 //we need add user Id
                 //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-               
+
                 int id = _softwarePlanRepository.Save(savedata, _configurationData.DefaultConnection);
                 if (id > 0)
                 {

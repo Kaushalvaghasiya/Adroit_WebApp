@@ -4,7 +4,7 @@
 
 namespace Adroit.Accounting.Model.ViewModel
 {
-    public class SoftwarePlanGridViewModel : SoftwarePlan
+    public class SoftwarePlanGridViewModel : SoftwarePlanViewModel
     {
         public int RowNum { get; set; }
         public int TotalCount { get; set; }
