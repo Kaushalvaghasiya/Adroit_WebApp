@@ -86,9 +86,9 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-12">
                             <div class="form-group">
-                                <label for="SoftwareName">Software Name</label>
+                                <label for="Title">Software Name</label>
                                 <div class="col-md-12 pl-2">
-                                    <select class="form-control select2-show-search-add mode-ed" id="SoftwareName">
+                                    <select class="form-control select2-show-search-add mode-ed" id="Title">
                                         <option></option>
                                         @{
                                             if (Model.SoftwareList != null)
@@ -151,8 +151,6 @@
 
     <script>
 
-        var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
-
         $(function (e) {
             $('.dv-list').show();
             $('.dv-detail').hide();
@@ -166,7 +164,7 @@
             fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
-            $("#SoftwareName").focus();
+            $("#Title").focus();
 
             //Set auto max value
             var maxvalue = parseInt($('#OrderNumber option:last-child').val()) + 1;
@@ -300,7 +298,7 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#SoftwareName").val(null).trigger('change');
+            $("#Title").val(null).trigger('change');
             $("#OrderNumber").val(null).trigger('change');
             $("#Active").prop('checked', false);
             $("#activeTabName").text("Add");
@@ -310,21 +308,21 @@
 
         function saveItem() {
             try {
-                if ($("#SoftwareName").val() == "") {
+                if ($("#Title").val() == "") {
                     showWarning("", "Please enter valid software name.");
-                    $("#SoftwareName").focus();
+                    $("#Title").focus();
                     return false;
                 }
 
-                if ($("#SoftwareName").val().length > 20) {
+                if ($("#Title").val().length > 20) {
                     showWarning("", "Software name must be upto 20 characters long.");
-                    $("#SoftwareName").focus();
+                    $("#Title").focus();
                     return false;
                 }
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
-                savedata.Title = $("#SoftwareName").val();
+                savedata.Title = $("#Title").val();
                 savedata.OrderNumber = parseInt($("#OrderNumber").val());
                 if (isNaN(savedata.OrderNumber)) {
                     $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
@@ -383,7 +381,7 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                $('#SoftwareName option[value="' + $('#SoftwareName').val() + '"]').detach();
+                                $('#Title option[value="' + $('#Title').val() + '"]').detach();
                                 refreshDatatableList();
                                 fromReset();
                                 $('.btn-back').click();
@@ -422,7 +420,7 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#SoftwareName").val(result.data.title).trigger('change');
+                                $("#Title").val(result.data.title).trigger('change');
                                 $("#OrderNumber").val(result.data.orderNumber).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
                             } else {

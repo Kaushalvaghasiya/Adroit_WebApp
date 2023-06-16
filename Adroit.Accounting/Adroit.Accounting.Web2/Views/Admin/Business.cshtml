@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.SoftwarePlanViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.BusinessViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -11,7 +11,7 @@
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
                     <li><a href="#">Software</a></li>
-                    <li class="active"><span>Software Plan</span></li>
+                    <li class="active"><span>Business</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -35,11 +35,8 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">PLAN NAME</th>
-                                    <th class="border-bottom-0">SOFTWARE NAME</th>
-                                    <th class="border-bottom-0">CODE</th>
-                                    <th class="border-bottom-0">BUSINESS</th>
-                                    <th class="border-bottom-0">COST</th>
+                                    <th class="border-bottom-0">BUSINESS NAME</th>
+                                    <th class="border-bottom-0" style="width:130px">ORDER NUMBER</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
@@ -63,7 +60,7 @@
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
                     <li><a href="#">Software</a></li>
-                    <li><a href="#" class="btn-back">Plan</a></li>
+                    <li><a href="#" class="btn-back">Business</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
@@ -87,49 +84,11 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-6 col-md-12">
+                        <div class="col-lg-8 col-md-12">
                             <div class="form-group">
-                                <label for="SoftwareId">Software Name</label>
-                                <div class="col-md-12 pl-2">
-                                    <select class="form-control select2-show-search mode-ed" id="SoftwareId">
-                                        <option></option>
-                                        @{
-                                            if (Model.SoftwareList != null)
-                                            {
-                                                foreach (var o in Model.SoftwareList)
-                                                {
-                                                    <option value="@o.Value">@o.Text</option>
-                                                }
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label for="Title">Plan</label>
+                                <label for="Title">Business Name</label>
                                 <div class="col-md-12 pl-2">
                                     <select class="form-control select2-show-search-add mode-ed" id="Title">
-                                        <option></option>
-                                        @{
-                                            if (Model.TitleList != null)
-                                            {
-                                                foreach (var o in Model.TitleList)
-                                                {
-                                                    <option value="@o.Value">@o.Text</option>
-                                                }
-                                            }
-                                        }
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label for="Business">Business</label>
-                                <div class="col-md-12 pl-2">
-                                    <select class="form-control select2-show-search-add mode-ed" id="Business">
                                         <option></option>
                                         @{
                                             if (Model.BusinessList != null)
@@ -144,30 +103,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-12">
+                        <div class="col-lg-4 col-md-12">
                             <div class="form-group">
-                                <label for="Code">Code</label>
+                                <label for="OrderNumber">Order Number</label>
                                 <div class="col-md-12 pl-2">
-                                    <select class="form-control select2-show-search-add mode-ed" id="Code">
+                                    <select class="form-control select2-show-search-add mode-ed" id="OrderNumber">
                                         <option></option>
                                         @{
-                                            if (Model.CodeList != null)
+                                            if (Model.OrderNumberList != null)
                                             {
-                                                foreach (var o in Model.CodeList)
+                                                foreach (var o in Model.OrderNumberList)
                                                 {
                                                     <option value="@o.Value">@o.Text</option>
                                                 }
                                             }
                                         }
                                     </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label for="Cost">Cost</label>
-                                <div class="col-md-12">
-                                    <input type="text" class="form-control cls-disable money" id="Cost" placeholder="Cost" maxlength="15">
                                 </div>
                             </div>
                         </div>
@@ -213,8 +164,11 @@
             fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
-            $("#SoftwareId").focus();
+            $("#Title").focus();
 
+            //Set auto max value
+            var maxvalue = parseInt($('#OrderNumber option:last-child').val()) + 1;
+            $("#OrderNumber").append(new Option(maxvalue, maxvalue, true, true)).trigger('change');
             $("#Active").prop('checked', true);
         }
 
@@ -238,30 +192,11 @@
                     return row.title;
                 },
                 "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.softwareName;
-                },
-                "targets": colDef.length,
 
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.business;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.code;
-                },
-                "targets": colDef.length,
-                "className": "text-center"
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.cost.toFixed(2);
+                    return row.orderNumber;
                 },
                 "targets": colDef.length,
                 "className": "text-center"
@@ -286,13 +221,11 @@
                 "orderable": false
             });
 
-            columns.push({ "data": "softwareName", "name": "softwareName" });
             columns.push({ "data": "title", "name": "title" });
-            columns.push({ "data": "business", "name": "business" });
-            columns.push({ "data": "code", "name": "code" });
-            columns.push({ "data": "cost", "name": "cost" });
+            columns.push({ "data": "orderNumber", "name": "orderNumber" });
             columns.push({ "data": "active", "name": "active" });
-            columns.push({ "data": "Id", "name": "Id" });
+            columns.push({ "data": "id", "name": "id" });
+
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -320,7 +253,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/admin/softwareplanlist"))',
+                    url: '@(Url.Content("~/admin/businesslist"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -344,7 +277,7 @@
                     $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
 
                     $(".buttons-colvis").empty();
-                    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
+                    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');                    
                 },
                 "drawCallback": function (settings) {
                     $(".btn-edit").on("click", function () {
@@ -365,10 +298,8 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#SoftwareId").val(null).trigger('change');
             $("#Title").val(null).trigger('change');
-            $("#Business").val(null).trigger('change');
-            $("#Code").val(null).trigger('change');
+            $("#OrderNumber").val(null).trigger('change');
             $("#Active").prop('checked', false);
             $("#activeTabName").text("Add");
             setScreenMode(false);
@@ -377,68 +308,41 @@
 
         function saveItem() {
             try {
-                if ($("#SoftwareId").val() == "") {
-                    showWarning("", "Please select software name.");
-                    $("#SoftwareId").focus();
-                    return false;
-                }
-
                 if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid software plan title.");
+                    showWarning("", "Please enter valid business name.");
                     $("#Title").focus();
                     return false;
                 }
 
                 if ($("#Title").val().length > 20) {
-                    showWarning("", "Software plan title must be upto 100 characters long.");
+                    showWarning("", "Business name must be upto 200 characters long.");
                     $("#Title").focus();
                     return false;
                 }
 
-                if ($("#Business").val() == "") {
-                    showWarning("", "Please enter valid business name.");
-                    $("#Business").focus();
-                    return false;
-                }
-
-                if ($("#Business").val().length > 20) {
-                    showWarning("", "Business name must be upto 20 characters long.");
-                    $("#Business").focus();
-                    return false;
-                }
-
-                if ($("#Code").val() == "") {
-                    showWarning("", "Please enter valid code.");
-                    $("#Code").focus();
-                    return false;
-                }
-
-                if ($("#Code").val().length != 5) {
-                    showWarning("", "Code must be 5 characters long.");
-                    $("#Code").focus();
-                    return false;
-                }
-                
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
-                savedata.SoftwareId = $("#SoftwareId").val();
                 savedata.Title = $("#Title").val();
-                savedata.Business = $("#Business").val();
-                savedata.Code = $("#Code").val();
-                savedata.Cost = parseFloat($("#Cost").val());
-                if (isNaN(savedata.Cost)) {
-                    showWarning("", "Please provide valid software plan cost.");
-                    $("#Cost").focus();
+                savedata.OrderNumber = parseInt($("#OrderNumber").val());
+                if (isNaN(savedata.OrderNumber)) {
+                    $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
+                    showWarning("", "Please provide valid order number.");
+                    $("#OrderNumber").focus();
+                    return false;
+                }
+                if (savedata.OrderNumber > 255) {
+                    $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
+                    showWarning("", "Please provide valid order number less than or equal to 255.");
+                    $("#OrderNumber").focus();
                     return false;
                 }
 
                 savedata.Active = $("#Active").prop('checked');
-
                 blockUI('container');
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveSoftwarePlan", "Admin"))",
+                    url: "@(Url.Action("SaveBusiness", "Admin"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -447,7 +351,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Software plan saved successfully.');
+                            showWarning("", 'Business saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -472,11 +376,12 @@
         function deleteItem(id) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteSoftwarePlan"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteBusiness"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
+                                $('#Title option[value="' + $('#Title').val() + '"]').detach();
                                 refreshDatatableList();
                                 fromReset();
                                 $('.btn-back').click();
@@ -499,7 +404,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetSoftwarePlan"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetBusiness"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -515,11 +420,8 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#SoftwareId").val(result.data.softwareId).trigger('change');
                                 $("#Title").val(result.data.title).trigger('change');
-                                $("#Business").val(result.data.business).trigger('change');
-                                $("#Code").val(result.data.code).trigger('change');
-                                $("#Cost").val(result.data.cost);
+                                $("#OrderNumber").val(result.data.orderNumber).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info

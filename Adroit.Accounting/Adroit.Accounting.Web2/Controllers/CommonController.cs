@@ -177,7 +177,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _businessRepository.GetBusinessList(_configurationData.DefaultConnection).ToList();
+                result.data = _businessRepository.SelectList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

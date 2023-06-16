@@ -53,7 +53,7 @@ namespace Adroit.Accounting.Web.Controllers
         {
             RegistrationViewModel model = new RegistrationViewModel();
             model.CountryList = _countryRepo.GetCountryList(_configurationData.DefaultConnection).ToList();
-            model.BusinessList = _businessRepo.GetBusinessList(_configurationData.DefaultConnection).ToList();
+            model.BusinessList = _businessRepo.SelectList(_configurationData.DefaultConnection).ToList();
 
             return View(model);
         }
