@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Adroit.Accounting.Model.ViewModel.SoftwarePlanViewModel
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="dv-list side-app">
@@ -14,21 +15,9 @@
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page">
-                            <span>
-                                <i class="fa fa-star"></i>
-                            </span>
-                        </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock">
-                            <span>
-                                <i class="fa fa-lock"></i>
-                            </span>
-                        </a>
-                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew">
-                            <span>
-                                <i class="fa fa-plus"></i>
-                            </span>
-                        </a>
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New"><span><i class="fa fa-plus"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -46,15 +35,15 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
+                                    <th class="border-bottom-0">PLAN NAME</th>
                                     <th class="border-bottom-0">SOFTWARE NAME</th>
-                                    <th class="border-bottom-0">SUB SOFTWARE NAME</th>
                                     <th class="border-bottom-0">CODE</th>
                                     <th class="border-bottom-0">BUSINESS</th>
                                     <th class="border-bottom-0">COST</th>
+                                    <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
-
                             <tbody>
                             </tbody>
                         </table>
@@ -74,45 +63,15 @@
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
                     <li><a href="#">Software</a></li>
-                    <li><a href="#" class="btn-back">Plans</a></li>
+                    <li><a href="#" class="btn-back">Plan</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search Firm...">
-                        <span class="input-group-append mr-2">
-                            <button class="btn btn-primary" type="button">Go!</button>
-                        </span>
-                        <a href="javascript:void(0);" class="btn-save btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
-                            <span>
-                                <i class="fa fa-save"></i>
-                            </span>
-                        </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
-                            <span>
-                                <i class="fa fa-print"></i>
-                            </span>
-                        </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
-                            <span>
-                                <i class="fa fa-share-alt"></i>
-                            </span>
-                        </a>
-                        <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-delete btn-danger text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
-                            <span>
-                                <i class="fa fa-trash-o"></i>
-                            </span>
-                        </a>
-                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New">
-                            <span>
-                                <i class="fa fa-plus"></i>
-                            </span>
-                        </a>
-                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel">
-                            <span>
-                                <i class="fa fa-arrow-left"></i>
-                            </span>
-                        </a>
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -128,32 +87,41 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12 col-lg-6">
+                        <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="SoftwareName">Software Name</label>
+                                <label for="SoftwareId">Software Name</label>
                                 <div class="col-md-12 pl-2">
-                                    <select class="form-control select2-show-search cls-disable" id="SoftwareName">
+                                    <select class="form-control select2-show-search mode-ed" id="SoftwareId">
+                                        <option></option>
+                                        @{
+                                            if (Model.SoftwareList != null)
+                                            {
+                                                foreach (var o in Model.SoftwareList)
+                                                {
+                                                    <option value="@o.Value">@o.Text</option>
+                                                }
+                                            }
+                                        }
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="SubSoftwareName">Sub Software Name</label>
-                                <div class="col-md-12">
-                                    <select class="form-control select2-show-search-add cls-disable" maxlength="100" id="SubSoftwareName">
+                                <label for="Title">Plan</label>
+                                <div class="col-md-12 pl-2">
+                                    <select class="form-control select2-show-search-add mode-ed" id="Title">
+                                        <option></option>
+                                        @{
+                                            if (Model.TitleList != null)
+                                            {
+                                                foreach (var o in Model.TitleList)
+                                                {
+                                                    <option value="@o.Value">@o.Text</option>
+                                                }
+                                            }
+                                        }
                                     </select>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-lg-6">
-                            <div class="form-group">
-                                <label for="Code">Code</label>
-                                <div class="col-md-12">
-                                    <select class="form-control select2-show-search-add cls-disable" maxlength="5" id="Code"></select>
                                 </div>
                             </div>
                         </div>
@@ -161,13 +129,41 @@
                             <div class="form-group">
                                 <label for="Business">Business</label>
                                 <div class="col-md-12 pl-2">
-                                    <select class="form-control select2-show-search-add cls-disable" maxlength="20" id="Business"></select>
+                                    <select class="form-control select2-show-search-add mode-ed" id="Business">
+                                        <option></option>
+                                        @{
+                                            if (Model.BusinessList != null)
+                                            {
+                                                foreach (var o in Model.BusinessList)
+                                                {
+                                                    <option value="@o.Value">@o.Text</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12 col-lg-6">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="Code">Code</label>
+                                <div class="col-md-12 pl-2">
+                                    <select class="form-control select2-show-search-add mode-ed" id="Code">
+                                        <option></option>
+                                        @{
+                                            if (Model.CodeList != null)
+                                            {
+                                                foreach (var o in Model.CodeList)
+                                                {
+                                                    <option value="@o.Value">@o.Text</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label for="Cost">Cost</label>
                                 <div class="col-md-12">
@@ -175,17 +171,23 @@
                                 </div>
                             </div>
                         </div>
-
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <div><label for="Active">Active</label></div>
+                                <label class="custom-switch">
+                                    <input id="Active" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="card-footer text-right">
-                <a href="javascript:void(0);" class="btn-save btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
-                <a href="#" onclick="showUnderDevMsg()" class="btn btn-success mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                <a href="#" onclick="deleteItemConfirmation(0)" class="btn btn-delete btn-danger mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                <a href="javascript:void(0)" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
-                <a href="javascript:void(0);" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="new"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
             </div>
         </div>
     </div>
@@ -193,11 +195,10 @@
     <input type="hidden" id="Id" value="0" />
 </div>
 
-
 @section Scripts
     {
 
-<script>
+    <script>
 
         var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
 
@@ -205,40 +206,22 @@
             $('.dv-list').show();
             $('.dv-detail').hide();
 
-            $('.btn-add-new').click(function () {
-                addClick();
-            });
+            bindDatatableList();
+        });
 
-            $('.btn-back').click(function () {
-                $('.dv-detail').slideUp();
-                $('.dv-list').slideDown();
-            });
-
-            $('.btn-save').click(function () {
-                saveItem();
-            });
-
-        datatablelist();
-        bindSoftwareList();
-        bindTableFieldData('SubSoftwareName', 'SoftwarePlan', 'Title');
-        bindTableFieldData('Business', 'SoftwarePlan', 'Business');
-        bindTableFieldData('Code', 'SoftwarePlan', 'Code');
-      });
-
-
-        function addClick()
-        {
+        function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
-            $(".btn-delete").hide();
             fromReset();
-           $("#SoftwareName").focus();
-        }
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#SoftwareId").focus();
 
+            $("#Active").prop('checked', true);
+        }
 
         function disableFieldView(id) {
             getDetail(id, true);
-
         }
 
         function editMode(id) {
@@ -249,26 +232,18 @@
             $('#tblMain').DataTable().ajax.reload();
         }
 
-        function datatablelist() {
+        function bindDatatableList() {
             let columns = [];
             let colDef = [];
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.softwareName;
-                },
-                "targets": colDef.length,
-                "orderable": false
-            });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.title;
                 },
                 "targets": colDef.length,
-
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.code;
+                    return row.softwareName;
                 },
                 "targets": colDef.length,
 
@@ -278,20 +253,34 @@
                     return row.business;
                 },
                 "targets": colDef.length,
-
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.cost;
+                    return row.code;
                 },
                 "targets": colDef.length,
-
+                "className": "text-center"
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    let btnAct = "<div class='btn-list'> <a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
-                    btnAct += " &nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
-                    btnAct += " &nbsp;&nbsp; <a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
+                    return row.cost.toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.active ? "Yes" : "No";
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-disableview btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
                     return btnAct;
                 },
                 "targets": colDef.length,
@@ -304,8 +293,8 @@
             columns.push({ "data": "business", "name": "business" });
             columns.push({ "data": "code", "name": "code" });
             columns.push({ "data": "cost", "name": "cost" });
+            columns.push({ "data": "active", "name": "active" });
             columns.push({ "data": "Id", "name": "Id" });
-
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -313,7 +302,7 @@
                 ordering: true,
                 searching: true,
                 paging: true,
-                pageLength: 50,
+                pageLength: 20,
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
@@ -329,11 +318,11 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                buttons: ['copy', 'excel', 'pdf', 'colvis'],
+                buttons: ['copy', 'excel', 'colvis'],
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/Admin/SoftwarePlanList"))',
+                    url: '@(Url.Content("~/admin/softwareplanlist"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -346,9 +335,6 @@
                     $(".buttons-excel").removeClass("btn-primary");
                     $(".buttons-excel").addClass("btn-outline-primary");
 
-                    $(".buttons-pdf").removeClass("btn-primary");
-                    $(".buttons-pdf").addClass("btn-outline-primary");
-
                     $(".buttons-colvis").removeClass("btn-primary");
                     $(".buttons-colvis").removeClass("dropdown-toggle");
                     $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
@@ -359,71 +345,96 @@
                     $(".buttons-excel").empty();
                     $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
 
-                    $(".buttons-pdf").empty();
-                    $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
-
                     $(".buttons-colvis").empty();
                     $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
                 },
                 "drawCallback": function (settings) {
+                    $(".btn-edit").on("click", function () {
+                        editMode(parseInt($(this).attr("data-value")));
+                    });
+
+                    $(".btn-disableview").on("click", function () {
+                        disableFieldView(parseInt($(this).attr("data-value")));
+                    });
+
+                    $(".btn-delete-grid").on("click", function () {
+                        deleteItemConfirmation(parseInt($(this).attr("data-value")));
+                    });
                 }
 
             });
         }
 
-     function fromReset()
-     {
-        $("#Id").val(0);
-        $("#SoftwareName").select2().val('').trigger("change");
-        $("#SubSoftwareName").select2().val('').trigger("change");
-        $("#Code").select2().val('').trigger("change");
-        $("#Business").select2().val('').trigger("change");;
-        $("#Cost").val("");
-        $("#activeTabName").text("Add Software plan");
-        $(".cls-disable").each(function(index, element){
-         $(this).prop('disabled', false);
-        });
-         $(".cls-a-disable").each(function(index, element){
-            $(this).show();
-         });
+        function fromReset() {
+            $("#Id").val(0);
+            $("#SoftwareId").val(null).trigger('change');
+            $("#Title").val(null).trigger('change');
+            $("#Business").val(null).trigger('change');
+            $("#Code").val(null).trigger('change');
+            $("#Active").prop('checked', false);
+            $("#activeTabName").text("Add");
+            setScreenMode(false);
             $(".btn-delete").hide();
         }
 
         function saveItem() {
             try {
-                if ($("#SoftwareName").val() == "") {
-                    showWarning("", "select software Name.");
-                    $("#SoftwareName").focus();
+                if ($("#SoftwareId").val() == "") {
+                    showWarning("", "Please select software name.");
+                    $("#SoftwareId").focus();
                     return false;
                 }
-                if ($("#SubSoftwareName").val() == "") {
-                    showWarning("", "Entry software name.");
-                    $("#SubSoftwareName").focus();
+
+                if ($("#Title").val() == "") {
+                    showWarning("", "Please enter valid software plan title.");
+                    $("#Title").focus();
                     return false;
                 }
-                if ($("#Code").val() == "") {
-                    showWarning("", "Entry code.");
-                    $("#Code").focus();
+
+                if ($("#Title").val().length > 20) {
+                    showWarning("", "Software plan title must be upto 100 characters long.");
+                    $("#Title").focus();
                     return false;
                 }
+
                 if ($("#Business").val() == "") {
-                    showWarning("", "Entry bussiness.");
+                    showWarning("", "Please enter valid business name.");
                     $("#Business").focus();
                     return false;
                 }
-                if ($("#Cost").val() == "") {
-                    showWarning("", "Entry Cost.");
+
+                if ($("#Business").val().length > 20) {
+                    showWarning("", "Business name must be upto 20 characters long.");
+                    $("#Business").focus();
+                    return false;
+                }
+
+                if ($("#Code").val() == "") {
+                    showWarning("", "Please enter valid code.");
+                    $("#Code").focus();
+                    return false;
+                }
+
+                if ($("#Code").val().length != 5) {
+                    showWarning("", "Code must be 5 characters long.");
+                    $("#Code").focus();
+                    return false;
+                }
+                
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.SoftwareId = $("#SoftwareId").val();
+                savedata.Title = $("#Title").val();
+                savedata.Business = $("#Business").val();
+                savedata.Code = $("#Code").val();
+                savedata.Cost = parseFloat($("#Cost").val());
+                if (isNaN(savedata.Cost)) {
+                    showWarning("", "Please provide valid software plan cost.");
                     $("#Cost").focus();
                     return false;
                 }
 
-                var savedata = new Object();
-                savedata.Id = parseInt($("#Id").val());
-                savedata.SoftwareId = $("#SoftwareName").val();
-                savedata.Title = $("#SubSoftwareName").val();
-                savedata.Business = $("#Business").val();
-                savedata.Code = $("#Code").val();
-                savedata.Cost = $("#Cost").val();
+                savedata.Active = $("#Active").prop('checked');
 
                 blockUI('container');
 
@@ -438,7 +449,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Software type saved successfully.');
+                            showWarning("", 'Software plan saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -460,15 +471,14 @@
 
         }
 
-    function deleteItem(id) {
-              try {
-                  blockUI('container');
-                  var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteSoftwarePlan"))" + "/" + id, "",
-                      function (result) {
-                          unblockUI('container');
-                          var str = "<option></option>";
-                          try {
-                              if (result.result == RESULT_SUCCESS) {
+        function deleteItem(id) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteSoftwarePlan"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
                                 refreshDatatableList();
                                 fromReset();
                                 $('.btn-back').click();
@@ -488,32 +498,31 @@
             }
         }
 
-    function getDetail(id,isViewMode)
-    {
-              try {
-                   blockUI('container');
-                  var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetSoftwarePlan"))" + "/" + id, "",
-                      function (result) {
-                          unblockUI('container');
-                          var str = "";
-                          try {
-                              if (result.result == RESULT_SUCCESS)
-                              {
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetSoftwarePlan"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
                                 addClick();
-                                    if(isViewMode){
-                                        displayMode();
-                                    }else{
-                                        editModeEnable();
-                                    }
-                                $("#activeTabName").text("Software plan EDT(ID# "+result.data.id+")");
-                                $("#SoftwareName").val(result.data.softwareId).trigger("change");
-                                $("#SubSoftwareName").val(result.data.title).trigger("change");
-                                $("#Code").val(result.data.code).trigger("change");
-                                $("#Business").val(result.data.business).trigger("change");
-                                $("#Cost").val(result.data.cost);
-                                $('#Id').val(result.data.id);
-                                //$(".btn-delete").show();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
 
+                                $('#Id').val(result.data.id);
+                                $("#SoftwareId").val(result.data.softwareId).trigger('change');
+                                $("#Title").val(result.data.title).trigger('change');
+                                $("#Business").val(result.data.business).trigger('change');
+                                $("#Code").val(result.data.code).trigger('change');
+                                $("#Cost").val(result.data.cost);
+                                $("#Active").prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -529,37 +538,7 @@
             catch (err) {
             }
         }
-
-    function bindSoftwareList() {
-                try {
-                    blockUI('container');
-                    var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetSoftware"))", "",
-                        function (data) {
-                            unblockUI('container');
-                            var str = "<option></option>";
-                            if (data.result == RESULT_SUCCESS) {
-                                if (data.data.length > 0) {
-                                    for (var i = 0; i < data.data.length; i++) {
-                                        str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-                                    }
-                                }
-                                $("#SoftwareName").html(str);
-                            } else {
-                                showError("", data.data);
-                            }
-                        },
-                        function (error) {
-                            unblockUI('container');
-                            showError("", error.statusText);
-                        });
-                }
-                catch (err) {
-                    unblockUI('container');
-                    showError("", e.message);
-                }
-            }
-
-         function deleteItemConfirmation(id) {
+        function deleteItemConfirmation(id) {
             swal({
                 title: "Alert",
                 text: "Are you really want to delete?",
@@ -567,30 +546,13 @@
                 showCancelButton: true,
                 confirmButtonText: 'Delete',
                 cancelButtonText: 'Cancel'
-            },function(isconfirmed)
-            {
+            }, function (isconfirmed) {
                 if (isconfirmed) {
-                    deleteItem(id == 0 ? $('#Id').val(): id);
+                    deleteItem(id == 0 ? $('#Id').val() : id);
                 }
             });
         }
 
-        function displayMode() {
-            $(".cls-disable").each(function (index, element) {
-                $(this).prop('disabled', true);
-            });
-            $(".cls-a-disable").each(function(index, element){
-                 $(this).hide();
-            });
-        }
-        function editModeEnable() {
-            $(".cls-disable").each(function (index, element) {
-                $(this).prop('disabled', false);
-            })
-            $(".cls-a-disable").each(function(index, element){
-                $(this).show();
-            })
-        }
-</script>
+    </script>
 
 }

@@ -11,6 +11,6 @@ namespace Adroit.Accounting.Repository.IRepository
 
         int Save(SoftwarePlan softwarePlan, string connectionString);
 
-        SoftwarePlan Get(int id, string connectionString);
+        SoftwarePlanViewModel Get(int id, string connectionString);
     }
 }
