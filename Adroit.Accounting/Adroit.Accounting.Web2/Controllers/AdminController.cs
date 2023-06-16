@@ -24,7 +24,8 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ISoftware _softwareRepository;
         private readonly ISoftwarePlan _softwarePlanRepository;
-        private ICommon _commonRepository;
+        private readonly ICommon _commonRepository;
+        private readonly IBusiness _businessRepository;
 
         public AdminController(
             IOptions<ConfigurationData> configurationData,
@@ -41,7 +42,8 @@ namespace Adroit.Accounting.Web.Controllers
             IUserStore<IdentityUser> userStore,
             ISoftware softwareRepository,
             ISoftwarePlan softwarePlanRepository,
-            ICommon commonRepository
+            ICommon commonRepository,
+            IBusiness businessRepository
             )
 
         {
@@ -61,6 +63,7 @@ namespace Adroit.Accounting.Web.Controllers
             _softwareRepository = softwareRepository;
             _softwarePlanRepository = softwarePlanRepository;
             _commonRepository = commonRepository;
+            _businessRepository = businessRepository;
         }
     }
 }
