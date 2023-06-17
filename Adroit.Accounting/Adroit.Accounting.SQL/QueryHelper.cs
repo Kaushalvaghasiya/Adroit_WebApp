@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace Adroit.Accounting.SQL
 {
@@ -53,6 +54,11 @@ namespace Adroit.Accounting.SQL
                 var result = conn.Query(query, param, commandType: CommandType.StoredProcedure);
                 return true;
             }
+        }
+
+        public static SqlConnection GetConnection(string connectionString)
+        {
+            return CommonDataOperations.GetConnection(connectionString);
         }
     }
 }

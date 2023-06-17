@@ -87,7 +87,7 @@
                         <div class="col-lg-8 col-md-12">
                             <div class="form-group">
                                 <label for="Title">Software Name</label>
-                                <div class="col-md-12 pl-2">
+                                <div class="col-md-12">
                                     <select class="form-control select2-show-search-add mode-ed" id="Title">
                                         <option></option>
                                         @{
@@ -106,7 +106,7 @@
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
                                 <label for="OrderNumber">Order Number</label>
-                                <div class="col-md-12 pl-2">
+                                <div class="col-md-12">
                                     <select class="form-control select2-show-search-add mode-ed" id="OrderNumber">
                                         <option></option>
                                         @{
@@ -125,10 +125,12 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <div><label for="Active">Active</label></div>
-                                <label class="custom-switch">
-                                    <input id="Active" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
-                                    <span class="custom-switch-indicator"></span>
-                                </label>
+                                <div class="col-md-12">
+                                    <label class="custom-switch">
+                                        <input id="Active" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                        <span class="custom-switch-indicator"></span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -212,7 +214,7 @@
                 "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
                     btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
-                    btnAct += "<a href='#' class='btn-disableview btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-disableview btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
                     btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
                     return btnAct;
                 },
@@ -277,7 +279,7 @@
                     $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
 
                     $(".buttons-colvis").empty();
-                    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');                    
+                    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
                 },
                 "drawCallback": function (settings) {
                     $(".btn-edit").on("click", function () {

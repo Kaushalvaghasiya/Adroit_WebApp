@@ -36,6 +36,7 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">BUSINESS NAME</th>
+                                    <th class="border-bottom-0">SOFTWARE</th>
                                     <th class="border-bottom-0" style="width:130px">ORDER NUMBER</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
@@ -84,10 +85,10 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label for="Title">Business Name</label>
-                                <div class="col-md-12 pl-2">
+                                <div class="col-md-12">
                                     <select class="form-control select2-show-search-add mode-ed" id="Title">
                                         <option></option>
                                         @{
@@ -103,10 +104,28 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="SoftwareIds">Software</label>
+                                <div class="col-md-12">
+                                    <select id="SoftwareIds" multiple="multiple" class="filter-multi mode-ed-multi">
+                                        @{
+                                            if (Model.SoftwareList != null)
+                                            {
+                                                foreach (var o in Model.SoftwareList)
+                                                {
+                                                    <option value="@o.Value">@o.Text</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label for="OrderNumber">Order Number</label>
-                                <div class="col-md-12 pl-2">
+                                <div class="col-md-12">
                                     <select class="form-control select2-show-search-add mode-ed" id="OrderNumber">
                                         <option></option>
                                         @{
@@ -125,10 +144,16 @@
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <div><label for="Active">Active</label></div>
-                                <label class="custom-switch">
-                                    <input id="Active" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
-                                    <span class="custom-switch-indicator"></span>
-                                </label>
+                                <div class="col-md-12">
+                                    <label class="custom-switch">
+                                        <input id="Active" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                        <span class="custom-switch-indicator"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group" style="height:100px">
                             </div>
                         </div>
                     </div>
@@ -196,6 +221,13 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
+                    return row.softwareName;
+                },
+                "targets": colDef.length,
+
+            });
+            colDef.push({
+                "render": function (data, type, row) {
                     return row.orderNumber;
                 },
                 "targets": colDef.length,
@@ -211,9 +243,9 @@
             colDef.push({
                 "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
-                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
-                    btnAct += "<a href='#' class='btn-disableview btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='customer firm' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
-                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-disableview btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
                     return btnAct;
                 },
                 "targets": colDef.length,
@@ -222,6 +254,7 @@
             });
 
             columns.push({ "data": "title", "name": "title" });
+            columns.push({ "data": "softwareName", "name": "softwareName" });
             columns.push({ "data": "orderNumber", "name": "orderNumber" });
             columns.push({ "data": "active", "name": "active" });
             columns.push({ "data": "id", "name": "id" });
@@ -277,7 +310,7 @@
                     $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
 
                     $(".buttons-colvis").empty();
-                    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');                    
+                    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
                 },
                 "drawCallback": function (settings) {
                     $(".btn-edit").on("click", function () {
@@ -301,8 +334,8 @@
             $("#Title").val(null).trigger('change');
             $("#OrderNumber").val(null).trigger('change');
             $("#Active").prop('checked', false);
+            $("#SoftwareIds").multipleSelect('uncheckAll');
             $("#activeTabName").text("Add");
-            setScreenMode(false);
             $(".btn-delete").hide();
         }
 
@@ -314,8 +347,14 @@
                     return false;
                 }
 
-                if ($("#Title").val().length > 20) {
+                if ($("#Title").val().length > 200) {
                     showWarning("", "Business name must be upto 200 characters long.");
+                    $("#Title").focus();
+                    return false;
+                }
+
+                if ($("#SoftwareIds").val() == "") {
+                    showWarning("", "Please select valid software for this business.");
                     $("#Title").focus();
                     return false;
                 }
@@ -336,6 +375,8 @@
                     $("#OrderNumber").focus();
                     return false;
                 }
+
+                savedata.SoftwareIds = $("#SoftwareIds").val().join(",");
 
                 savedata.Active = $("#Active").prop('checked');
                 blockUI('container');
@@ -423,6 +464,8 @@
                                 $("#Title").val(result.data.title).trigger('change');
                                 $("#OrderNumber").val(result.data.orderNumber).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
+                                var selectedSoftwares = result.data.softwareIds.split(',');
+                                $("#SoftwareIds").multipleSelect('setSelects', selectedSoftwares);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }

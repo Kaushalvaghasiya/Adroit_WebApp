@@ -4,7 +4,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_BusinessGet]
 )
 AS
 BEGIN
-	SELECT *
+	SELECT *, dbo.fn_GetBusinessSoftwareIds(Id) AS SoftwareIds
 	FROM Business WHERE Id = @Id
 END
 GO
