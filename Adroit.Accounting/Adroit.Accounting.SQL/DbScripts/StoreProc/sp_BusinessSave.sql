@@ -3,7 +3,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_BusinessSave]
 	 @Id tinyint,
 	 @Title VARCHAR(20),
 	 @Active bit,
-	 @OrderNumber tinyint
+	 @OrderNumber tinyint,
+	 @SoftwareIds VARCHAR(250)
 )
 AS
 BEGIN
@@ -16,6 +17,9 @@ BEGIN
 					OrderNumber = @OrderNumber,
 					Active = @active
 				WHERE ID = @Id
+
+				DELETE BusinessSoftwareMapping WHERE BusinessId = @Id
+				INSERT INTO BusinessSoftwareMapping (BusinessId, SoftwareId) SELECT @Id, S.Id from dbo.[fnStringToIntArray](@SoftwareIds) AS S
 			END
 		ELSE If EXISTS (SELECT 1 FROM Business WHERE Title = @Title AND IsDeleted = 1)
 			BEGIN
@@ -24,8 +28,10 @@ BEGIN
 					Active = @Active,
 					IsDeleted = 0
 				WHERE Title = @Title
-
 				SELECT @Id=Id FROM Software WHERE Title = @Title
+
+				DELETE BusinessSoftwareMapping WHERE BusinessId = @Id
+				INSERT INTO BusinessSoftwareMapping (BusinessId, SoftwareId) SELECT @Id, S.Id from dbo.[fnStringToIntArray](@SoftwareIds) AS S
 			END
 		ELSE 
 			BEGIN
@@ -35,7 +41,8 @@ BEGIN
 					(@Title, @OrderNumber, @Active)
 
 				SET @Id = SCOPE_IDENTITY()
-				
+
+				INSERT INTO BusinessSoftwareMapping (BusinessId, SoftwareId) SELECT @Id, S.Id from dbo.[fnStringToIntArray](@SoftwareIds) AS S
 			END
 
 		COMMIT TRAN

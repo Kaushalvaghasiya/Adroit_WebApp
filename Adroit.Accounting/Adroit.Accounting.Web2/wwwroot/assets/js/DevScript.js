@@ -137,4 +137,9 @@ function setScreenMode(readonly) {
             $(this).show();
         }
     });
+
+    $(".mode-ed-multi").each(function (index, element) {
+        $("#SoftwareIds").multipleSelect(readonly ? 'disable' :'enable');
+    });
+    
 }

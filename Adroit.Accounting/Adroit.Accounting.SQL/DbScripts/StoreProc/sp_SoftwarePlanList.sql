@@ -30,7 +30,12 @@ Begin
 		FROM SoftwarePlan
 		LEFT JOIN Software on SoftwarePlan.SoftwareId=Software.Id
 		WHERE SoftwarePlan.IsDeleted = 0
-		AND (Coalesce(@Search,'') = '' OR SoftwarePlan.[Title] like '%'+ @Search + '%'  OR SoftwarePlan.[business] like '%'+ @Search + '%')
+		AND (Coalesce(@Search,'') = '' 
+				OR SoftwarePlan.[Title] like '%'+ @Search + '%'
+				OR Software.[Title] like '%'+ @Search + '%'
+				OR SoftwarePlan.[Business] like '%'+ @Search + '%'  
+				OR SoftwarePlan.[Code] like '%'+ @Search + '%'  
+			)
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
 End

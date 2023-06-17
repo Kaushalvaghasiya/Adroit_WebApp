@@ -29,7 +29,8 @@
 
 	//filter-multiple
 	$('.filter-multi').multipleSelect({
-		filter: true
+		filter: true,
+		minimumCountSelected: 5
 	})
 
 	//group-filter

@@ -15,6 +15,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Title", software.Title);
             parameters.Add("@OrderNumber", software.OrderNumber);
             parameters.Add("@Active", software.Active);
+            parameters.Add("@SoftwareIds", software.SoftwareIds);
+            
             return QueryHelper.Save("sp_BusinessSave", connectionString, parameters);
         }
         public BusinessViewModel Get(int id, string connectionString)
