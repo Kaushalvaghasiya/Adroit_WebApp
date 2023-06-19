@@ -1,7 +1,7 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_BusinessSave]
 (
 	 @Id tinyint,
-	 @Title VARCHAR(20),
+	 @Title VARCHAR(200),
 	 @Active bit,
 	 @OrderNumber tinyint,
 	 @SoftwareIds VARCHAR(250)
@@ -23,12 +23,13 @@ BEGIN
 			END
 		ELSE If EXISTS (SELECT 1 FROM Business WHERE Title = @Title AND IsDeleted = 1)
 			BEGIN
+				SELECT @Id=Id FROM Business WHERE Title = @Title
 				UPDATE Business SET
 					OrderNumber = @OrderNumber,
 					Active = @Active,
 					IsDeleted = 0
 				WHERE Title = @Title
-				SELECT @Id=Id FROM Software WHERE Title = @Title
+
 
 				DELETE BusinessSoftwareMapping WHERE BusinessId = @Id
 				INSERT INTO BusinessSoftwareMapping (BusinessId, SoftwareId) SELECT @Id, S.Id from dbo.[fnStringToIntArray](@SoftwareIds) AS S
