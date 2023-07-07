@@ -4,6 +4,6 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface IState
     {
-        List<DropdownViewModel> GetStateList(string connectionString, int countryId);
+        List<DropdownViewModel> SelectList(string connectionString, int countryId);
     }
 }

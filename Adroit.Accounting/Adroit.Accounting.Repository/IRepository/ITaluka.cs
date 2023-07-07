@@ -4,6 +4,6 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface ITaluka
     {
-        List<DropdownViewModel> GetTalukaList(string connectionString, int districtId);
+        List<DropdownViewModel> SelectList(string connectionString, int districtId);
     }
 }

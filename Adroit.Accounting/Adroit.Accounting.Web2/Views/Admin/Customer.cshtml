@@ -1,5 +1,5 @@
 ﻿@using Adroit.Accounting.Model.Enums
-@model Adroit.Accounting.Model.Customer
+@model Adroit.Accounting.Model.ViewModel.CustomerViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -52,9 +52,10 @@
                                     <th class="border-bottom-0">CUSTOMER</th>
                                     <th class="border-bottom-0">TYPE</th>
                                     <th class="border-bottom-0">CITY</th>
+                                    <th class="border-bottom-0">STATUS</th>
                                     <th class="border-bottom-0">MOBILE</th>
                                     <th class="border-bottom-0"> #FIRMs</th>
-                                    <th class="border-bottom-0 text-center" style="width:190px!important;">Action</th>
+                                    <th class="border-bottom-0 text-center" style="width:200px!important;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,7 +85,7 @@
                         <span class="input-group-append mr-2">
                             <button class="btn btn-primary" type="button" onclick="showUnderDevMsg()">Go!</button>
                         </span>
-                        <a href="javascript:void(0);"  class="btn-save btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
+                        <a href="javascript:void(0);" class="btn-save btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
                             <span>
                                 <i class="fa fa-save"></i>
                             </span>
@@ -129,145 +130,200 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-
                         <div class="col-md-4">
                             <div class="form-group">
                                 <input type="hidden" id="Id" value="0" />
                                 <label for="CustomerName">Customer Name</label>
-                                <input type="text" class="form-control cls-disable" id="CustomerName" placeholder="" maxlength="150">
+                                <input type="text" class="form-control mode-ed-multi" id="CustomerName" placeholder="" maxlength="150">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="BusinessName">Business Name</label>
-                                <input type="text" class="form-control cls-disable" id="BusinessName" placeholder="" maxlength="250">
+                                <input type="text" class="form-control mode-ed-multi" id="BusinessName" placeholder="" maxlength="250">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Business">Business</label>
-                                <select class="form-control select2-show-search cls-disable" id="Business">
+                                <label for="BusinessId">Business</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="BusinessId">
+                                    @{
+                                        if (Model.BusinessList != null)
+                                        {
+                                            foreach (var o in Model.BusinessList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
                                 </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="AddressLine1">Address Line 1</label>
-                                <input type="text" class="form-control cls-disable" id="AddressLine1" placeholder="" maxlength="200">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="AddressLine2">Address Line 2</label>
-                                <input type="text" class="form-control cls-disable" id="AddressLine2" placeholder="" maxlength="200">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="AddressLine3">Address Line 3</label>
-                                <input type="text" class="form-control cls-disable" id="AddressLine3" placeholder="" maxlength="200">
+                                <label for="Address1">Address Line 1</label>
+                                <input type="text" class="form-control mode-ed-multi" id="Address1" placeholder="" maxlength="200">
                             </div>
                         </div>
-
-                        <div class="col-md-3">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="State">State</label>
-                                <select class="form-control select2-show-search cls-disable" id="State">
+                                <label for="Address2">Address Line 2</label>
+                                <input type="text" class="form-control mode-ed-multi" id="Address2" placeholder="" maxlength="200">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Address3">Address Line 3</label>
+                                <input type="text" class="form-control mode-ed-multi" id="Address3" placeholder="" maxlength="200">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Country">Country</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="Country">
+                                    @{
+                                        if (Model.CountryList != null)
+                                        {
+                                            foreach (var o in Model.CountryList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="StateId">State</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="StateId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="District">District</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="District">
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="City">City</label>
-                                <select class="form-control select2-show-search cls-disable" id="City">
+                                <label for="Taluka">Taluka</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="Taluka">
                                 </select>
                             </div>
-                           
                         </div>
-
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="ContactPerson">Contact Person</label>
-                                <input type="text" class="form-control cls-disable" id="ContactPersonName" placeholder="" maxlength="100">
+                                <label for="CityId">City</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="CityId">
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-3">
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="Pincode">Pincode</label>
-                                <input type="text" class="form-control cls-disable numberonly " id="PinCode" placeholder="" maxlength="10">
+                                <input type="text" class="form-control mode-ed-multi numberonly " id="PinCode" placeholder="" maxlength="10">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="ContactMobile">Contact Mobile</label>
-                                <input type="text" class="form-control numberonly cls-disable" id="ContactMobile" placeholder="" maxlength="10">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="AlternateMobile">Alternate Mobile</label>
-                                <input type="text" class="form-control numberonly cls-disable" id="AlternateMobile" placeholder="" maxlength="10">
-                            </div>
-                        </div>
-                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Phone#">Phone#</label>
-                                <input type="text" class="form-control numberonly cls-disable" id="Phone" placeholder="" maxlength="20">
+                                <input type="text" class="form-control mode-ed-multi" id="Phone" placeholder="" maxlength="20">
                             </div>
                         </div>
-                        <div class="col-md-8">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ContactPersonName">Contact Person</label>
+                                <input type="text" class="form-control mode-ed-multi" id="ContactPersonName" placeholder="" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Mobile">Contact Mobile</label>
+                                <input type="text" class="form-control numberonly mode-ed-multi" id="Mobile" placeholder="" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="MobileAlternate">Alternate Mobile</label>
+                                <input type="text" class="form-control numberonly mode-ed-multi" id="MobileAlternate" placeholder="" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="Email">Email</label>
-                                <input type="text" class="form-control cls-disable" id="Email" placeholder="" maxlength="50">
+                                <input type="text" class="form-control mode-ed-multi" id="Email" placeholder="" maxlength="50">
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="Requirements">Requirements</label>
-                                <input type="text" class="form-control cls-disable" id="Requirements" placeholder="" maxlength="3000">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="Type">Type</label>
-                                <select asp-for="CustomerType"
-                                        class="form-control select2-show-search cls-disable" id="Type"
-                                        asp-items="Html.GetEnumSelectList<CustomerType>()">
-                                    <option></option>
-                                </select>
-
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="TotalFirms">Total Firms</label>
-                                <input type="text" class="form-control numberonly cls-disable" id="TotalFirms" placeholder="" maxlength="5">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="TotalUsers">Total Users</label>
-                                <input type="text" class="form-control numberonly cls-disable" id="TotalUsers" placeholder="">
+                                <input type="text" class="form-control mode-ed-multi" id="Requirements" placeholder="" maxlength="5000">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="AadhaarUID">Aadhaar UID</label>
-                                <input type="text" class="form-control cls-disable" id="AadhaarId" placeholder="" maxlength="12">
+                                <input type="text" class="form-control mode-ed-multi" id="AadhaarUID" placeholder="" maxlength="12">
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div><label for="Active">Active</label></div>
+                            <div class="form-group">
+                                <label for="Type">Type</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="CustomerType">
+                                    @{
+                                        if (Model.CustomerTypeList != null)
+                                        {
+                                            foreach (var o in Model.CustomerTypeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="TotalFirms">Total Firms</label>
+                                <input type="text" class="form-control numberonly mode-ed-multi" id="TotalFirms" placeholder="" maxlength="3">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="TotalUsers">Total Users</label>
+                                <input type="text" class="form-control numberonly mode-ed-multi" id="TotalUsers" placeholder="" maxlength="3">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="StatusId">Status</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="StatusId">
+                                    @{
+                                        if (Model.StatusList != null)
+                                        {
+                                            foreach (var o in Model.StatusList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div><label for="IsActive">Active</label></div>
                             <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" id="Active" class="custom-switch-input cls-disable">
+                                <input type="checkbox" name="custom-switch-checkbox" id="IsActive" class="custom-switch-input mode-ed-multi">
                                 <span class="custom-switch-indicator"></span>
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="javascript:void(0);"  class="btn-save btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="javascript:void(0);" class="btn-save btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="javascript:void(0);" onclick="showUnderDevMsg()" class="btn btn-blue mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="javascript:void(0);" onclick="showUnderDevMsg()" class="btn btn-success mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="javascript:void(0);" onclick="deleteItemConfirmation(0)" class="btn-delete btn btn-danger mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
@@ -278,117 +334,130 @@
         </div>
     </div>
     <!-- row end -->
-    <input type="hidden" id="hdnCityId" value=0 />
-    <input type="hidden" id="hdnStateId" value=0 />
+    <input type="hidden" id="hdnCountry" value="0" />
+    <input type="hidden" id="hdnStateId" value="0" />
+    <input type="hidden" id="hdnDistrict" value="0" />
+    <input type="hidden" id="hdnTaluka" value="0" />
+    <input type="hidden" id="hdnCityId" value="0" />
+
 </div>
 
 @section Scripts
     {
 
-<script>
+    <script>
 
-    var backOfficeValue= "@CustomerType.BackOffice";
-    window.customerId=@ViewBag.Id
-    $(function (e) {
-          bindBusinessList();
-          bindStateList();
-        $('.dv-list').show();
-        $('.dv-detail').hide();
+        $(function (e) {
+            $('.dv-list').show();
+            $('.dv-detail').hide();
 
-            $('.btn-add-new').click(function () {
-                addClick()
-            });
-            $('.btn-save').click(function () {
-                saveItem();
-            });
-            $('.btn-back').click(function () {
-                $('.dv-detail').slideUp();
-                $('.dv-list').slideDown();
+            bindDatatableList();
+
+            $("#Country").on('change', function (e) {
+                bindStateList($(this).val());
             });
 
-            datatablelist();
-            $("#State").on('change', function (e) {
-                let stateId = $(this).val();
-                if (stateId > 0) {
-                    bindCityList(stateId);
-                }
+            $("#StateId").on('change', function (e) {
+                bindDistrictList($(this).val());
             });
-              if(window.customerId >0){
-                getDetail(window.customerId,false);
-              }
+
+            $("#District").on('change', function (e) {
+                bindTalukaList($(this).val());
+            });
+
+            $("#Taluka").on('change', function (e) {
+                bindCityList($(this).val());
+            });
+
+            if (@Model.Id > 0) {
+                getDetail(@Model.Id, false);
+            }
         });
-    
-     function addClick()
-        {
+
+        function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
-            $(".btn-delete").hide();
             fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
             $("#CustomerName").focus();
+
+            $("#Active").prop('checked', true);
         }
 
-        function disableFieldView(id){
-            getDetail(id,true);
+        function disableFieldView(id) {
+            getDetail(id, true);
         }
-        function editMode(id){
-            getDetail(id,false);
+
+        function editMode(id) {
+            getDetail(id, false);
         }
+
         function refreshDatatableList() {
             $('#tblMain').DataTable().ajax.reload();
         }
 
-    function datatablelist() {
-        let columns = [];
-        let colDef = [];
-        colDef.push({
-            "render": function (data, type, row) {
-                return row.name;
-            },
-            "targets": colDef.length,
-        });
-        colDef.push({
-            "render": function (data, type, row) {
-                return row.customerType;
-            },
-            "targets": colDef.length,
-        });
-        colDef.push({
-            "render": function (data, type, row) {
-                return row.city;
-            },
-            "targets": colDef.length,
-        });
-        colDef.push({
-            "render": function (data, type, row) {
-                return row.mobile;
-            },
-            "targets": colDef.length,
-        });
-        colDef.push({
-            "render": function (data, type, row) {
-                return row.totalFirm;
-            },
-            "targets": colDef.length,
-        });
-        colDef.push({
-            "render": function (data, type, row) {
-                let btnAct = "<div class='btn-list'><a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
-                btnAct += "&nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
-                btnAct += "<a href='@(Url.Content("~/admin/customer/firm?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Firm'><i class='fa fa-institution'></i></a>";
-                btnAct += "<a href='@(Url.Content("~/admin/customer/user?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Users'><i class='fa fa-users'></i></a>";
-               if(row.customerType!=backOfficeValue)
-               {
-                btnAct += "<a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
-               }
-                return btnAct;
-            },
-            "targets": colDef.length,
-            "className": "text-center",
-        });
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.name;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.customerType;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.city;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.statusId;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.mobile;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.totalFirm ?? 0) + "/" + row.numberOfFirmsCreated;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-disableview btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='@(Url.Content("~/admin/customer/firm?id="))" + row.id + "' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Firm'><i class='fa fa-institution'></i></a>";
+                    btnAct += "<a href='@(Url.Content("~/admin/customer/user?id="))" + row.id + "' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Users'><i class='fa fa-users'></i></a>";
+                    if (row.customerType != "@CustomerType.BackOffice") {
+                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
+                    }
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                //"className": "text-center",
+            });
 
             columns.push({ "data": "Name", "name": "Name" });
             columns.push({ "data": "CustomerType", "name": "CustomerType" });
             columns.push({ "data": "City", "name": "City" });
+            columns.push({ "data": "Status", "name": "Status" });
             columns.push({ "data": "Mobile", "name": "Mobile" });
             columns.push({ "data": "TotalFirm", "name": "TotalFirm" });
             columns.push({ "data": "Id", "name": "Id" });
@@ -415,7 +484,7 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                buttons: ['copy', 'excel', 'pdf', 'colvis'],
+                buttons: ['copy', 'excel', 'colvis'],
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -423,7 +492,7 @@
                     type: 'GET',
                     data: function (d) { }
                 },
-                "initComplete": function(settings, json) {
+                "initComplete": function (settings, json) {
                     table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
 
                     $(".buttons-copy").removeClass("btn-primary");
@@ -431,9 +500,6 @@
 
                     $(".buttons-excel").removeClass("btn-primary");
                     $(".buttons-excel").addClass("btn-outline-primary");
-
-                    $(".buttons-pdf").removeClass("btn-primary");
-                    $(".buttons-pdf").addClass("btn-outline-primary");
 
                     $(".buttons-colvis").removeClass("btn-primary");
                     $(".buttons-colvis").removeClass("dropdown-toggle");
@@ -445,69 +511,44 @@
                     $(".buttons-excel").empty();
                     $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
 
-                    $(".buttons-pdf").empty();
-                    $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
-
                     $(".buttons-colvis").empty();
                     $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
                 },
                 "drawCallback": function (settings) {
+                    $(".btn-edit").on("click", function () {
+                        editMode(parseInt($(this).attr("data-value")));
+                    });
+
+                    $(".btn-disableview").on("click", function () {
+                        disableFieldView(parseInt($(this).attr("data-value")));
+                    });
+
+                    $(".btn-delete-grid").on("click", function () {
+                        deleteItemConfirmation(parseInt($(this).attr("data-value")));
+                    });
                 }
             });
         }
 
-
         function bindStateList(countryId) {
             try {
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + 1, "",
-                    function (data) {
-                        unblockUI('container');
-                        var str = "<option></option>";
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-                                }
-                            }
-                            $("#State").html(str);
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-                    if ($("#hdnStateId").val() != 0) {
-                            $("#State").select2().val($("#hdnStateId").val()).trigger("change");
-                        }
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
+                $("#StateId").empty();
 
-        function bindCityList(stateId) {
-            try {
+                if (countryId == '' || countryId == null) return;
+
                 blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?stateId=" + stateId, "",
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
                     function (data) {
                         unblockUI('container');
-                        var str = "<option></option>";
                         if (data.result == RESULT_SUCCESS) {
                             if (data.data.length > 0) {
                                 for (var i = 0; i < data.data.length; i++) {
-                                    str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                    $('#StateId').append(new Option(data.data[i].text, data.data[i].value, false, false));
                                 }
                             }
-                            $("#City").html(str);
+                            $('#StateId').val($("#hdnStateId").val()).trigger('change');
                         } else {
                             showError("", data.data);
-                        }
-                        if ($("#hdnCityId").val() != 0) {
-                            $("#City").select2().val($("#hdnCityId").val()).trigger("change");
                         }
                     },
                     function (error) {
@@ -521,20 +562,84 @@
             }
         }
 
-        function bindBusinessList() {
+        function bindDistrictList(stateId) {
             try {
+                $("#District").empty();
+                if (stateId == '' || stateId == null) return;
+
                 blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetBusiness"))", "",
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetDistricts"))" + "?stateId=" + stateId, "",
                     function (data) {
                         unblockUI('container');
-                        var str = "<option></option>";
                         if (data.result == RESULT_SUCCESS) {
                             if (data.data.length > 0) {
                                 for (var i = 0; i < data.data.length; i++) {
-                                    str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
+                                    $('#District').append(new Option(data.data[i].text, data.data[i].value, false, false));
                                 }
                             }
-                            $("#Business").html(str);
+                            $('#District').val($("#hdnDistrict").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindTalukaList(districtId) {
+            try {
+                $("#Taluka").empty();
+                if (districtId == '' || districtId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetTalukas"))" + "?districtId=" + districtId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#Taluka').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#Taluka').val($("#hdnTaluka").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindCityList(talukaId) {
+            try {
+                $("#CityId").empty();
+                if (talukaId == '' || talukaId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?talukaId=" + talukaId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#CityId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#CityId').val($("#hdnCityId").val()).trigger('change');
                         } else {
                             showError("", data.data);
                         }
@@ -553,88 +658,135 @@
         function fromReset() {
             $("#Id").val(0);
             $("#CustomerName").val("");
-            $("#AddressLine1").val("");
-            $("#AddressLine2").val("");
-            $("#AddressLine3").val("");
-            $("#State").select2().val('').trigger("change");
-            $("#City").select2().val('').trigger("change");
-            $("#Business").select2().val('').trigger("change");
-            $("#Type").select2().val('').trigger("change");
             $("#BusinessName").val("");
+            $("#BusinessId").select2().val('').trigger("change");
+            $("#Address1").val("");
+            $("#Address2").val("");
+            $("#Address3").val("");
+            $("#Country").select2().val('').trigger("change");
+            $("#StateId").select2().val('').trigger("change");
+            $("#District").select2().val('').trigger("change");
+            $("#Taluka").select2().val('').trigger("change");
+            $("#CityId").select2().val('').trigger("change");
+            $("#Business").select2().val('').trigger("change");
+            $("#CustomerType").select2().val('').trigger("change");
+            $("#StatusId").select2().val('').trigger("change");
             $("#PinCode").val("");
             $("#ContactPersonName").val("");
-            $("#ContactMobile").val("");
-            $("#AlternateMobile").val("");
+            $("#Mobile").val("");
+            $("#MobileAlternate").val("");
             $("#Phone").val("");
             $("#Email").val("");
             $("#Requirements").val("");
             $("#TotalFirms").val("");
-            $("#AadhaarId").val("");
+            $("#AadhaarUID").val("");
             $("#TotalUsers").val("");
+
+            $("#hdnCountry").val("");
+            $("#hdnStateId").val("");
+            $("#hdnDistrict").val("");
+            $("#hdnTaluka").val("");
+            $("#hdnCityId").val("");
+
             $("#activeTabName").text("Add");
-
-            $(".cls-disable").each(function(index, element){
-
-            $(this).prop('disabled', false);
-            });
-            $(".cls-a-disable").each(function(index, element){
-
-                $(this).show();
-            });
             $(".btn-delete").hide();
-            }
+        }
 
         function saveItem() {
             try {
-
-                if ($("#CustomerName").val().length <= 0 || $("#txtCustomerName").val() == "") {
+                if ($("#CustomerName").val() == "") {
                     showWarning("", "Please enter name.");
                     $("#CustomerName").focus();
-                    $('.dv-list').slideUp();
                     return false;
                 }
-                if ($("#AddressLine1").val().length <= 0 || $("#AddressLine1").val() == "") {
+                if ($("#CustomerName").val().length <= 2) {
+                    showWarning("", "Enter valid customer name.");
+                    $("#CustomerName").focus();
+                    return false;
+                }
+                if ($("#BusinessName").val() == "") {
+                    showWarning("", "Please enter Business Name.");
+                    $("#BusinessName").focus();
+                    return false;
+                }
+                if ($("#BusinessName").val().length <= 2) {
+                    showWarning("", "Please enter valid business name.");
+                    $("#BusinessName").focus();
+                    return false;
+                }
+                if ($("#BusinessId").val() == null || $("#BusinessId").val() == "") {
+                    showWarning("", "Please select business.");
+                    $("#BusinessId").focus();
+                    return false;
+                }
+                if ($("#Address1").val() == "") {
                     showWarning("", "Please enter address.");
-                    $("#AddressLine1").focus();
-                    $('.dv-list').slideUp();
+                    $("#Address1").focus();
                     return false;
                 }
-                if ($("#State").val() == "" || $("#State").val() ==0) {
+                if ($("#Country").val() == null || $("#Country").val() == "") {
+                    showWarning("", "Please select country.");
+                    $("#Country").focus();
+                    return false;
+                }
+                if ($("#StateId").val() == null || $("#StateId").val() == "") {
                     showWarning("", "Please select state.");
-                    $("#State").focus();
-                    $('.dv-list').slideUp();
+                    $("#StateId").focus();
                     return false;
                 }
-                if ($("#City").val() == "" || $("#City").val() ==0) {
+                if ($("#District").val() == null || $("#District").val() == "") {
+                    showWarning("", "Please select district.");
+                    $("#District").focus();
+                    return false;
+                }
+                if ($("#Taluka").val() == null || $("#Taluka").val() == "") {
+                    showWarning("", "Please select taluka.");
+                    $("#Taluka").focus();
+                    return false;
+                }
+                if ($("#CityId").val() == null || $("#CityId").val() == "") {
                     showWarning("", "Please select city.");
-                    $("#City").focus();
-                    $('.dv-list').slideUp();
+                    $("#CityId").focus();
                     return false;
                 }
-                if ($("#ContactPersonName").val().length <= 0 || $("#ContactPersonName").val() == "") {
+                if ($("#ContactPersonName").val() == "") {
                     showWarning("", "Please enter contact person name.");
                     $("#ContactPersonName").focus();
-                    $('.dv-list').slideUp();
                     return false;
                 }
-                if ($("#ContactMobile").val().length <= 0 || $("#ContactMobile").val() == "") {
+                if ($("#ContactPersonName").val().length <= 2) {
+                    showWarning("", "Please enter valid contact person name.");
+                    $("#ContactPersonName").focus();
+                    return false;
+                }
+                if ($("#Mobile").val() == "") {
                     showWarning("", "Please enter contact mobile.");
-                    $("#ContactMobile").focus();
-                    $('.dv-list').slideUp();
+                    $("#Mobile").focus();
                     return false;
                 }
-                if ($("#Email").val().length <= 0 || $("#Email").val() == "") {
+                if ($("#Mobile").val().length != 10) {
+                    showWarning("", "Please enter valid mobile number.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if ($("#MobileAlternate").val().length >= 1) {
+                    if ($("#MobileAlternate").val().length != 10) {
+                        showWarning("", "Please enter valid alternate mobile number.");
+                        $("#MobileAlternate").focus();
+                        return false;
+                    }
+                }
+                if ($("#Email").val() == "") {
                     showWarning("", "Please enter email.");
                     $("#Email").focus();
-                    $('.dv-list').slideUp();
                     return false;
                 }
-                if ($("#Business").val() == "") {
-                    showWarning("", "Please enter business.");
-                    $("#Business").focus();
+                if ($("#AadhaarUID").val().length != 12) {
+                    showWarning("", "Please enter valid Aadhaar UID.");
+                    $("#txtTotalUsers").focus();
                     return false;
                 }
-                if ($("#Type").val() == "" || $("#Type").val()==null) {
+                if ($("#CustomerType").val() == "" || $("#CustomerType").val() == null) {
                     showWarning("", "Please select customer type.");
                     $("#Type").focus();
                     return false;
@@ -644,42 +796,78 @@
                     $("#TotalUsers").focus();
                     return false;
                 }
-                if ($("#BusinessName").val().length <= 0 || $("#BusinessName").val() == "") {
-                    showWarning("", "Please enter Business Name.");
-                    $("#txtTotalUsers").focus();
+                if (!isNumber($("#Mobile").val())) {
+                    showWarning("", "Please enter valid mobile number.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if (!isNumber($("#MobileAlternate").val())) {
+                    showWarning("", "Please enter valid alternate mobile number.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if (!isNumber($("#AadhaarUID").val())) {
+                    showWarning("", "Please enter valid Aadhaar UID.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if (!isEmail($("#Email").val())) {
+                    showWarning("", "Please enter valid email");
+                    $("#Email").focus();
                     return false;
                 }
 
-                let isValidemail = IsEmail($("#Email").val());
-                if (!isValidemail) {
-                    showWarning("", "Please enter valid email");
-                    $("#Email").focus();
+                if ($("#StatusId").val() == null || $("#StatusId").val() == "") {
+                    showWarning("", "Please select status.");
+                    $("#StatusId").focus();
+                    return false;
+                }
+
+                if (!isNumber($("#TotalFirms").val())) {
+                    showWarning("", "Please enter valid number of firms.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if (parseInt($("#TotalFirms").val()) == 0) {
+                    showWarning("", "Please enter valid number of firms.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if (!isNumber($("#TotalUsers").val())) {
+                    showWarning("", "Please enter valid number of users.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if (parseInt($("#TotalUsers").val()) == 0) {
+                    showWarning("", "Please enter valid number of users.");
+                    $("#TotalUsers").focus();
                     return false;
                 }
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Name = $("#CustomerName").val();
-                savedata.BusinessId = $("#Business").val();
+                savedata.BusinessId = $("#BusinessId").val();
                 savedata.BusinessName = $("#BusinessName").val();
-                savedata.Address1 = $("#AddressLine1").val();
-                savedata.Address2 = $("#AddressLine2").val();
-                savedata.Address3 = $("#AddressLine3").val();
-                savedata.CityId = parseInt($("#City").val());
-                savedata.StateId = parseInt($("#State").val());
+                savedata.Address1 = $("#Address1").val();
+                savedata.Address2 = $("#Address2").val();
+                savedata.Address3 = $("#Address3").val();
+                savedata.CityId = parseInt($("#CityId").val());
+                savedata.StateId = parseInt($("#StateId").val());
                 savedata.Pincode = $("#PinCode").val();
                 savedata.ContactPersonName = $("#ContactPersonName").val();
-                savedata.Mobile = $("#ContactMobile").val();
-                savedata.MobileAlternate = $("#AlternateMobile").val();
+                savedata.Mobile = $("#Mobile").val();
+                savedata.MobileAlternate = $("#MobileAlternate").val();
                 savedata.Phone = $("#Phone").val();
                 savedata.Email = $("#Email").val();
                 savedata.Requirement = $("#Requirements").val();
                 savedata.TotalFirm = parseInt($("#TotalFirms").val());
-                savedata.CustomerType = $("#Type").val();
-                savedata.AdharUID = $("#AadhaarId").val();
+                savedata.CustomerType = $("#CustomerType").val();
+                savedata.AdharUID = $("#AadhaarUID").val();
                 savedata.TotalUsers = parseInt($("#TotalUsers").val());
                 savedata.IsActive = $('#Active').is(':checked');
                 savedata.AgreeTerms = true;
+                savedata.StatusId = $("#StatusId").val();
 
                 blockUI('container');
 
@@ -746,7 +934,7 @@
             }
         }
 
-        function getDetail(id,isViewMode) {
+        function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
@@ -756,37 +944,41 @@
                         try {
                             if (result.result == RESULT_SUCCESS) {
                                 addClick();
-                                if(isViewMode){
-                                    displayMode();
-                                }else{
-                                    editModeEnable();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
-                                $("#activeTabName").text("EDIT (ID# "+result.data.id+")");
+
                                 $('#Id').val(result.data.id);
-                                $("#State").select2().val(result.data.stateId).trigger("change");
                                 $("#CustomerName").val(result.data.name);
-                                $("#Business").select2().val(result.data.businessId).trigger("change");
-                                $("#AddressLine1").val(result.data.address1);
-                                $("#AddressLine2").val(result.data.address2);
-                                $("#AddressLine3").val(result.data.address3);
+                                $("#BusinessName").val(result.data.businessName);
+                                $("#BusinessId").select2().val(result.data.businessId).trigger("change");
+                                $("#Address1").val(result.data.address1);
+                                $("#Address2").val(result.data.address2);
+                                $("#Address3").val(result.data.address3);
                                 $("#PinCode").val(result.data.pincode);
                                 $("#ContactPersonName").val(result.data.contactPersonName);
-                                $("#ContactMobile").val(result.data.mobile);
-                                $("#AlternateMobile").val(result.data.mobileAlternate);
+                                $("#Mobile").val(result.data.mobile);
+                                $("#MobileAlternate").val(result.data.mobileAlternate);
                                 $("#Phone").val(result.data.phone);
                                 $("#Email").val(result.data.email);
                                 $("#Requirements").val(result.data.requirement);
+                                $("#AadhaarUID").val(result.data.adharUID);
                                 $("#TotalFirms").val(result.data.totalFirm);
-                                $('#Active').prop('checked', result.data.isActive);
-                                $("#AadhaarId").val(result.data.adharUID);
                                 $("#TotalUsers").val(result.data.totalUsers);
-                                //$("#Type").val(result.data.customerType);
-                                $("#BusinessName").val(result.data.businessName);
-                                $("#Type").val(result.data.customerTypeValue).trigger("change")
-                                $("#hdnCityId").val(result.data.cityId);
-                                $("#hdnStateId").val(result.data.stateId);
-                                //$(".btn-delete").show();
+                                $('#Active').prop('checked', result.data.isActive);
+                                $("#CustomerType").val(result.data.customerTypeId).trigger("change");
+                                $("#StatusId").val(result.data.statusTypeId).trigger("change");
 
+                                $("#hdnCountry").val(result.data.countryId);
+                                $("#hdnStateId").val(result.data.stateId);
+                                $("#hdnDistrict").val(result.data.districtId);
+                                $("#hdnTaluka").val(result.data.talukaId);
+                                $("#hdnCityId").val(result.data.cityId);
+                                $("#Country").select2().val(result.data.countryId).trigger("change");
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -802,38 +994,21 @@
             catch (err) {
             }
         }
+
         function deleteItemConfirmation(id) {
             swal({
                 title: "Alert",
-			    text: "Are you really want to delete?",
-			    type: "warning",
-			    showCancelButton: true,
-			    confirmButtonText: 'Delete',
-			    cancelButtonText: 'Cancel'
-            },function(isconfirmed)
-            {
+                text: "Are you really want to delete?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel'
+            }, function (isconfirmed) {
                 if (isconfirmed) {
-                    deleteItem(id == 0 ? $('#Id').val(): id);
+                    deleteItem(id == 0 ? $('#Id').val() : id);
                 }
             });
         }
-        function displayMode(){
-            $(".cls-disable").each(function(index, element){
-                $(this).prop('disabled', true);
-            });
 
-            $(".cls-a-disable").each(function(index, element){
-                 $(this).hide();
-            });
-        }
-        function editModeEnable(){
-            $(".cls-disable").each(function(index, element){
-                 $(this).prop('disabled', false);
-            })
-           $(".cls-a-disable").each(function(index, element){
-                $(this).show();
-            })
-        }
-
-</script>
+    </script>
 }

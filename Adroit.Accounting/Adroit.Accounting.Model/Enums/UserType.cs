@@ -1,4 +1,4 @@
-﻿namespace Adroit.Accounting.Utility
+﻿namespace Adroit.Accounting.Model.Enums
 {
     public enum UserType
     {

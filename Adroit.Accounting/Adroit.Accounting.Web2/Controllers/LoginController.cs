@@ -1,4 +1,5 @@
-﻿using Adroit.Accounting.Repository.IRepository;
+﻿using Adroit.Accounting.Model.Enums;
+using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;

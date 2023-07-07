@@ -7,7 +7,7 @@ namespace Adroit.Accounting.Repository
 {
     public class FirmTypeAdminRepository : IFirmTypeAdmin
     {
-        public List<DropdownViewModel> GetFirmTypeAdminList(string connectionString)
+        public List<DropdownViewModel> SelectList(string connectionString)
         {
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_FirmAdminTypeList_Select", connectionString, parameters);

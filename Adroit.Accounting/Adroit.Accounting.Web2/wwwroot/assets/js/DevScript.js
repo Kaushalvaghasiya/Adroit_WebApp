@@ -101,7 +101,7 @@ function showInfo(title, message) {
     swal(title, message, "info");
 }
 
-function IsEmail(email) {
+function isEmail(email) {
     var regex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
     if (regex.test(email)) {
         return true;
@@ -109,6 +109,9 @@ function IsEmail(email) {
     else {
         return false;
     }
+}
+function isNumber(text) {
+    return /^\d*$/.test(text);
 }
 
 $(function () {

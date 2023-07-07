@@ -4,6 +4,6 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface IFirmBranchTypeAdmin
     {
-        List<DropdownViewModel> GetFirmBranchTypeAdminList(string connectionString);
+        List<DropdownViewModel> SelectList(string connectionString);
     }
 }

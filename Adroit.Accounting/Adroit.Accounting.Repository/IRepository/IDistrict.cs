@@ -4,6 +4,6 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface IDistrict
     {
-        List<DropdownViewModel> GetDistrictList(string connectionString, int stateId);
+        List<DropdownViewModel> SelectList(string connectionString, int stateId);
     }
 }
