@@ -172,14 +172,17 @@ function gridInitComplete(table) {
 
 function gridDrawCallback(row) {
     $(".btn-edit").on("click", function () {
-        editMode(parseInt($(row).attr("data-value")));
+        //editMode(parseInt($(row).attr("data-value")));
+        editMode(parseInt($(this).attr("data-value")));
     });
 
-    $(".btn-disableview").on("click", function () {
-        disableFieldView(parseInt($(row).attr("data-value")));
+    $(".btn-view").on("click", function () {
+        //disableFieldView(parseInt($(row).attr("data-value")));
+        disableFieldView(parseInt($(this).attr("data-value")));
     });
 
     $(".btn-delete-grid").on("click", function () {
-        deleteItemConfirmation(parseInt($(row).attr("data-value")));
+        //deleteItemConfirmation(parseInt($(row).attr("data-value")));
+        deleteItemConfirmation(parseInt($(this).attr("data-value")));
     });
 }
