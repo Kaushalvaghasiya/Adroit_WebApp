@@ -28,7 +28,7 @@ Begin
 	   [Taluka].Id as TalukaId, 
 	   [Taluka].Title as Taluka, 
 	   [City].Title as City,
-	   (SELECT COUNT(*) FROM CustomerFirm WHERE CustomerFirm.CustomerId = Customer.Id) AS NumberOfFirmsCreated
+	   (SELECT COUNT(*) FROM CustomerFirm WHERE CustomerFirm.CustomerId = Customer.Id AND IsDeleted = 0) AS NumberOfFirmsCreated
 	  FROM Customer
 	  LEFT JOIN [City] on Customer.CityId = [City].Id
 	  LEFT JOIN [Taluka] on [City].TalukaId = [Taluka].Id
