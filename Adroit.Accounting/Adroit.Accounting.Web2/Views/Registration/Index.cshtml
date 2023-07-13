@@ -70,6 +70,11 @@
     <!-- Color-skins css -->
     <link id="theme" rel="stylesheet" type="text/css" media="all" href="@Url.Content("~/assets/colors/color-skins/color.css")" />
 
+    <style>
+        #global-loader {
+            background:rgba(255, 255, 255, 0.6);
+        }
+    </style>
 </head>
 
 <body class="app sidebar-mini">
@@ -305,7 +310,7 @@
 
             $("#Email").change(function () {
                 let email = $(this).val();
-                let isValidemail = IsEmail(email);
+                let isValidemail = isEmail(email);
                 if (isValidemail) {
                     try {
                         var retrundata = AjaxCall("GET", "@(Url.Content("~/Registration/EmailExists"))" + "?email=" + email, "",

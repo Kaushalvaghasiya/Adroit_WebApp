@@ -6,7 +6,7 @@ namespace Adroit.Accounting.Repository
 {
     public class StateRepository : IState
     {
-        public List<DropdownViewModel> GetStateList(string connectionString, int countryId = 0)
+        public List<DropdownViewModel> SelectList(string connectionString, int countryId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@CountryId", countryId);

@@ -59,7 +59,7 @@ try
     builder.Services.AddSingleton<IBillTypeAdmin, BillTypeAdminRepository>();
     builder.Services.AddSingleton<IBillEntryTypeAdmin, BillEntryTypeAdminRepository>();
     builder.Services.AddSingleton<ICustomerFirm, CustomerFirmRepository>();
-    builder.Services.AddSingleton<IFirmTypeAdmin, FirmTypeAdminRepository>();
+    builder.Services.AddSingleton<IFirmType, FirmTypeRepository>();
     builder.Services.AddSingleton<IGSTFirmType, GSTFirmTypeRepository>();
     builder.Services.AddSingleton<ISoftware, SoftwareRepository>();
     builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();

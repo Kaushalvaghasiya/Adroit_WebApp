@@ -7,7 +7,7 @@ namespace Adroit.Accounting.Repository
 {
     public class GSTInvoiceTypeRepository : IGSTInvoiceType
     {
-        public List<DropdownViewModel> GetGSTInvoiceTypeList(string connectionString)
+        public List<DropdownViewModel> SelectList(string connectionString)
         {
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_GSTInvoiceTypeList_Select", connectionString, parameters);

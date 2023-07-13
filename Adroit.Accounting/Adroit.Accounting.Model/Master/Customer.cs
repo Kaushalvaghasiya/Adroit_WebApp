@@ -42,12 +42,11 @@ namespace Adroit.Accounting.Model
         public short TotalUsers { get; set; }
         public bool IsActive { get; set; }
         public string Password { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
         public CustomerStatus StatusId { get; set; }
         public string TokenCode { get; set; }
         public string IdentityUserId { get; set; }
         public bool AgreeTerms { get; set; }
         public Guid DefaultUserId { get; set; }
-        public string City { get; set; }
-        public int? CustomerTypeValue { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Adroit.Accounting.Model.ViewModel.CustomerFirmViewModel
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="dv-list side-app">
@@ -9,7 +10,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
-                    <li><a href="#" id="CustomerNameheader"></a></li>
+                    <li><a href="~/admin/customer?id=@Model.Customer.Id">@Model.Customer.Name</a></li>
                     <li class="active"><span>Firm</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -47,10 +48,9 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">FIRM NAME</th>
-                                    <th class="border-bottom-0">CUSTOMER NAME</th>
                                     <th class="border-bottom-0">OWNER NAME</th>
                                     <th class="border-bottom-0">FIRM TYPE</th>
-                                    <th class="border-bottom-0">LIST OF BRANCHES</th>
+                                    <th class="border-bottom-0">#BRANCHES</th>
                                     <th class="border-bottom-0 text-center" style="width:165px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -73,7 +73,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
-                    <li><a href="#" id="CustomerNameheader1"></a></li>
+                    <li><a href="~/admin/customer?id=@Model.Customer.Id">@Model.Customer.Name</a></li>
                     <li><a href="#" class="btn-back">Firm</a></li>
                     <li class="active"><span id="activeTabName">Add</span></li>
                 </ol>
@@ -83,36 +83,10 @@
                         <span class="input-group-append mr-2">
                             <button class="btn btn-primary" type="button">Go!</button>
                         </span>
-                        <a href="javascript:void(0);"  class="btn-save btn btn-primary text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
-                            <span>
-                                <i class="fa fa-save"></i>
-                            </span>
-                        </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-blue text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print">
-                            <span>
-                                <i class="fa fa-print"></i>
-                            </span>
-                        </a>
-                        <a href="#" onclick="showUnderDevMsg()" class="btn btn-success text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send">
-                            <span>
-                                <i class="fa fa-share-alt"></i>
-                            </span>
-                        </a>
-                        <a href="#" onclick="deleteItemConfirmation()" class="btn-delete btn btn-danger text-white mr-2 btn-sm cls-a-disable" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete">
-                            <span>
-                                <i class="fa fa-trash-o"></i>
-                            </span>
-                        </a>
-                        <a href="javascript:void(0);" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New">
-                            <span>
-                                <i class="fa fa-plus"></i>
-                            </span>
-                        </a>
-                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel">
-                            <span>
-                                <i class="fa fa-arrow-left"></i>
-                            </span>
-                        </a>
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -130,125 +104,163 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="CustomerName">Customer Name</label>
-
-                                <label class=form-control><span id="CustomerNametext"></span></label>
-                                <input type="hidden" id="CustomerName" value="" />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="FirmName">Firm Name</label>
-                                <input type="text" class="form-control cls-disable" id="FirmName" placeholder="" maxlength="100">
+                                <label for="Title">Firm Name</label>
+                                <input type="text" class="form-control mode-ed-multi" id="Title" placeholder="" maxlength="100">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="GSTFirmType">GST Firm Type</label>
-                                <select class="form-control select2-show-search cls-disable" id="GSTFirmType">
+                                <label for="GstFirmTypeId">GST Firm Type</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="GstFirmTypeId">
+                                    @{
+                                        if (Model.GSTFirmTypeList != null)
+                                        {
+                                            foreach (var o in Model.GSTFirmTypeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="Business">Business</label>
-                                <select class="form-control select2-show-search cls-disable" id="Business">
+                                <label for="FirmTypeId">Firm Type</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="FirmTypeId">
+                                    @{
+                                        if (Model.FirmTypeList != null)
+                                        {
+                                            foreach (var o in Model.FirmTypeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="BusinessId">Business</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="BusinessId">
+                                    @{
+                                        if (Model.BusinessList != null)
+                                        {
+                                            foreach (var o in Model.BusinessList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="SoftwareId">Software</label>
+                                <select class="form-control select2-show-search mode-ed-multi" id="SoftwareId">
+                                    @{
+                                        if (Model.SoftwareList != null)
+                                        {
+                                            foreach (var o in Model.SoftwareList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="OwnerName">Owner Name</label>
-                                <input type="text" class="form-control cls-disable" id="OwnerName" placeholder="" maxlength="100">
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="FirmType">Firm Type</label>
-                                <select class="form-control select2-show-search cls-disable" id="FirmType">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="SoftwareType">Software Type</label>
-                                <select class="form-control select2-show-search cls-disable" id="SoftwareType">
-                                </select>
+                                <input type="text" class="form-control mode-ed-multi" id="OwnerName" placeholder="" maxlength="100">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="TAN#">TAN#</label>
-                                <input type="text" class="form-control cls-disable" id="TAN" placeholder="" maxlength="30">
+                                <input type="text" class="form-control mode-ed-multi" id="TAN" placeholder="" maxlength="30">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="IEC#">IEC#</label>
-                                <input type="text" class="form-control cls-disable" id="IEC" placeholder="" maxlength="30">
+                                <label for="IECCode">IEC#</label>
+                                <input type="text" class="form-control mode-ed-multi" id="IECCode" placeholder="" maxlength="30">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="AadhaarUID">Aadhaar UID</label>
-                                <input type="text" class="form-control cls-disable" id="AadhaarUID" placeholder="" maxlength="12">
+                                <label for="AdharUID">Aadhaar UID</label>
+                                <input type="text" class="form-control mode-ed-multi" id="AdharUID" placeholder="" maxlength="12">
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div><label for="Lut Bond">Lut Bond</label></div>
-                            <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox " class="custom-switch-input cls-disable" id="LutBond">
-                                <span class="custom-switch-indicator"></span>
-                            </label>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="LutBond#">Lut Bond#</label>
-                                <input type="text" class="form-control cls-disable numberonly" id="LutBondN" placeholder="" maxlength="30">
+                                <label for="BranchLimit">Total Branches</label>
+                                <input type="text" class="form-control mode-ed-multi numberonly" id="BranchLimit" placeholder="5">
                             </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div><label for="GTAMember">GTA Member</label></div>
-                            <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input cls-disable" id="GTAMember">
-                                <span class="custom-switch-indicator"></span>
-                            </label>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="TotalBranches">Total Branches</label>
-                                <input type="text" class="form-control cls-disable numberonly" id="TotalBranches" placeholder="">
+                                <div><label for="CessRequired">Cess Required</label></div>
+                                <label class="custom-switch">
+                                    <input type="checkbox" name="custom-switch-checkbox" class="form-control custom-switch-input mode-ed-multi" id="CessRequired">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
                             </div>
                         </div>
                         <div class="col-md-3">
-                            <div><label for="CessRequired">Cess Required</label></div>
-                            <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input cls-disable" id="Cess">
-                                <span class="custom-switch-indicator"></span>
-                            </label>
+                            <div class="form-group">
+                                <div><label for="IsLutBond">Lut Bond</label></div>
+                                <label class="custom-switch">
+                                    <input type="checkbox" name="custom-switch-checkbox " class="form-control custom-switch-input mode-ed-multi" id="IsLutBond">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <div><label for="LRResetOnYearEnd">LR Reset On Year End</label></div>
-                            <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox " class="custom-switch-input cls-disable" id="LR">
-                                <span class="custom-switch-indicator"></span>
-                            </label>
+                            <div class="form-group">
+                                <label for="LutBondNumber">Lut Bond#</label>
+                                <input type="text" class="form-control mode-ed-multi numberonly" id="LutBondNumber" placeholder="" maxlength="30">
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <div><label for="Active">Active</label></div>
-                            <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" class="cls-disable custom-switch-input" id="Active">
-                                <span class="custom-switch-indicator"></span>
-                            </label>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div><label for="IsGTA">GTA Member</label></div>
+                                <label class="custom-switch">
+                                    <input type="checkbox" name="custom-switch-checkbox" class="form-control custom-switch-input mode-ed-multi" id="IsGTA">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div><label for="LRResetOnYearEnd">LR Reset On Year End</label></div>
+                                <label class="custom-switch">
+                                    <input type="checkbox" name="custom-switch-checkbox " class="form-control custom-switch-input mode-ed-multi" id="LRResetOnYearEnd">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div><label for="IsActive">Active</label></div>
+                                <label class="custom-switch">
+                                    <input type="checkbox" name="custom-switch-checkbox" class="form-control mode-ed-multi custom-switch-input" id="IsActive">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="javascript:void(0);"  class="btn-save btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="javascript:void(0);" class="btn-save btn btn-primary mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="javascript:void(0)" onclick="showUnderDevMsg()" class="btn btn-blue mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="javascript:void(0)" onclick="showUnderDevMsg()" class="btn btn-success mt-1 cls-a-disable" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="javascript:void(0)" onclick="deleteItemConfirmation()" class="cls-a-disable btn-delete btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="javascript:void(0)"  class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="javascript:void(0)" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="javascript:void(0);" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
             </div>
@@ -256,574 +268,336 @@
     </div>
     <!-- row end -->
     <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="CustomerId" value="@Model.Customer.Id" />
 </div>
 
 @section Scripts
     {
 
-<script>
+    <script>
 
-        window.customerId=@ViewBag.Id
-        window.editFirmId=@ViewBag.EditId
-        var dataTableObj;
+        window.editFirmId = @ViewBag.EditId;
+
         $(function (e) {
-            
-            
-            bindBusiness();
-            bindSoftwareList();
-            bindFirmTypeAdminList();
-            bindGSTFirmType();
-            datatablelist();
-            $("#CustomerNameheader").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+"");
-             $("#CustomerNameheader1").attr("href","@(Url.Content("~/../../../admin/customer?id="))"+window.customerId+"");
+            $('.dv-list').show();
+            $('.dv-detail').hide();
 
-            $("#CustomerName").val(window.customerId);
-              $('.dv-list').show();
-              $('.dv-detail').hide();
+            bindDatatableList();
 
-              $('.btn-add-new').click(function () {
-                 addClick();
-              });
-             $('.btn-save').click(function () {
-                saveItem();
-            });
-              $('.btn-back').click(function () {
-                  $('.dv-detail').slideUp();
-                  $('.dv-list').slideDown();
-              });
-
-            
-            getCustomer(window.customerId);
-            if(window.editFirmId >0){
-                getDetail(window.editFirmId,false);
+            if (window.editFirmId > 0) {
+                getDetail(window.editFirmId, false);
             }
-          });
+        });
 
-        function addClick()
-        {
+        function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
             $(".btn-delete").hide();
             fromReset();
-            $("#FirmName").focus();
+            $("#Title").focus();
         }
-         function disableFieldView(id)
-         {
-            getDetail(id,true);
-         }
 
-        function editMode(id){
-            
-            getDetail(id,false);
+        function disableFieldView(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
         }
 
         function refreshDatatableList() {
             $('#tblMain').DataTable().ajax.reload();
         }
 
-         function datatablelist() {
-           let columns = [];
-           let colDef = [];
-                   colDef.push({
-                      "render": function (data, type, row) {
-                          return row.title;
-                      },
-                      "targets": colDef.length,
-                      "orderable": false
-                  });
-                  colDef.push({
-                      "render": function (data, type, row) {
-                          return row.customerName;
-                      },
-                      "targets": colDef.length,
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.title;
+                },
+                "targets": colDef.length,
+                "orderable": false
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.ownerName;
+                },
+                "targets": colDef.length,
 
-                  });
-                  colDef.push({
-                      "render": function (data, type, row) {
-                          return row.ownerName;
-                      },
-                      "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.firmType;
+                },
+                "targets": colDef.length,
 
-                  });
-                  colDef.push({
-                      "render": function (data, type, row) {
-                          return row.firmType;
-                      },
-                      "targets": colDef.length,
-
-                  });
-                  colDef.push({
-                      "render": function (data, type, row) {
-                          return row.branchLimit;
-                      },
-                      "targets": colDef.length,
-                  });
-                   colDef.push({
-                      "render": function (data, type, row) {
-                          let btnAct = "<div class='btn-list'> <a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
-                          btnAct += " &nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
-                          btnAct += "<a href='@(Url.Content("~/admin/customer/firm/branch?id="))"+row.id+"' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Branches'><i class='fa fa-sitemap'></i></a>";
-                          if(row.totalCount>1)
-                          {
-                          btnAct += " &nbsp;&nbsp; <a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
-                          }
-                          return btnAct;
-                      },
-                      "targets": colDef.length,
-                      "className": "text-center",
-                      "orderable": false
-                  });
-
-                  columns.push({ "data": "title", "name": "title" });
-                  columns.push({ "data": "customerName", "name": "customerName" });
-                  columns.push({ "data": "ownerName", "name": "ownerName" });
-                  columns.push({ "data": "firmType", "name": "firmType" });
-                  columns.push({ "data": "branchLimit", "name": "branchLimit" });
-                  columns.push({ "data": "Id", "name": "Id" });
-
-
-                 dataTableObj = $('#tblMain').DataTable({
-                    "bAutoWidth": false,
-                    lengthChange: false,
-                    ordering: true,
-                    searching: true,
-                    paging: true,
-                    pageLength: 50,
-                    order: [[0, 'asc']],
-                    pagingType: 'full_numbers',
-                    orderClasses: false,
-                    //scrollCollapse: true,
-                    //stateSave: false,
-                    columnDefs: colDef,
-                    columns: columns,
-                    language: {
-                        paginate: {
-                            next: '<i class="fa fa-angle-right"></i>', // or '→'
-                            previous: '<i class="fa fa-angle-left"></i>', // or '←'
-                            first: '<i class="fa fa-angle-double-left"></i>', // or '→'
-                            last: '<i class="fa fa-angle-double-right"></i>' // or '←'
-                        }
-                    },
-                    buttons: ['copy', 'excel', 'pdf', 'colvis'],
-                    processing: true,
-                    serverSide: true,
-                      ajax: {
-                          url: '@(Url.Content("~/Admin/CustomerFirmList?customerId="))'+window.customerId,
-                          type: 'GET',
-                          data: function (d) { }
-                      },
-                       "initComplete": function(settings, json) {
-                        dataTableObj.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
-
-                        $(".buttons-copy").removeClass("btn-primary");
-                        $(".buttons-copy").addClass("btn-outline-primary");
-
-                        $(".buttons-excel").removeClass("btn-primary");
-                        $(".buttons-excel").addClass("btn-outline-primary");
-
-                        $(".buttons-pdf").removeClass("btn-primary");
-                        $(".buttons-pdf").addClass("btn-outline-primary");
-
-                        $(".buttons-colvis").removeClass("btn-primary");
-                        $(".buttons-colvis").removeClass("dropdown-toggle");
-                        $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
-
-                        $(".buttons-copy").empty();
-                        $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
-
-                        $(".buttons-excel").empty();
-                        $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
-
-                        $(".buttons-pdf").empty();
-                        $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
-
-                        $(".buttons-colvis").empty();
-                        $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
-                    },
-                    "drawCallback": function (settings) {
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.numberOfBranchesCreated + "/" + (row.branchLimit ?? 0);
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> <a onclick='editMode(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-warning small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>";
+                    btnAct += " &nbsp;&nbsp; <a href='#'onclick='disableFieldView(" + row.id + ");' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>";
+                    btnAct += "<a href='@(Url.Content("~/admin/customer/firm/branch?id="))" + row.id + "' class='btn btn-outline-info small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Branches'><i class='fa fa-sitemap'></i></a>";
+                    //Only allow delete, there are more than 1 firm. Minimum 1 firm must exist for any customer.
+                    if (row.totalCount > 1) {
+                        btnAct += " &nbsp;&nbsp; <a onclick='deleteItemConfirmation(" + row.id + ");' href='javascript:void(0);' class='btn btn-outline-danger small-icon-btn' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a></div>";
                     }
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
 
-                  });
-          }
+            columns.push({ "data": "title", "name": "title" });
+            columns.push({ "data": "ownerName", "name": "ownerName" });
+            columns.push({ "data": "firmType", "name": "firmType" });
+            columns.push({ "data": "branchLimit", "name": "branchLimit" });
+            columns.push({ "data": "Id", "name": "Id" });
 
-         function fromReset()
-         {
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Admin/CustomerFirmList?customerId="))' + @Model.Customer.Id,
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function fromReset() {
             $("#Id").val(0);
-            $("#FirmName").val("");
-            $("#GSTFirmType").select2().val('').trigger("change");
-            $("#Business").select2().val('').trigger("change");
-            $("#FirmType").select2().val('').trigger("change");
-            $("#SoftwareType").select2().val('').trigger("change");
-            $("#FirmName").val("");
+            $("#Title").val("");
+            $("#GstFirmTypeId").select2().val('').trigger("change");
+            $("#FirmTypeId").select2().val('').trigger("change");
+            $("#SoftwareId").select2().val('').trigger("change");
+            $("#BusinessId").select2().val('').trigger("change");
             $("#OwnerName").val("");
             $("#TAN").val("");
             $("#IEC").val('');
-            $("#LutBondN").val("");
-            $("#AadhaarUID").val("");
-            $("#TotalBranches").val("");
-            $('.custom-switch-input').prop('checked', false);
+            $("#IsGTA").prop('checked', false);
+            $("#IsLutBond").prop('checked', false);
+            $("#LutBondNumber").val("");
+            $("#AdharUID").val("");
+            $("#BranchLimit").val("");
+            $("#CessRequired").prop('checked', false);
+            $("#IsActive").prop('checked', false);
+
             $("#activeTabName").text("Add");
-            $(".cls-disable").each(function(index, element){
-                    $(this).prop('disabled', false);
-            });
-             $(".cls-a-disable").each(function(index, element){
-
-                $(this).show();
-            });
             $(".btn-delete").hide();
-         }
+        }
 
-         function saveItem()
-         {
-             try {
-                      if($("#CustomerName").val()=="" ||$("#CustomerName").val()=="0"){
-                             showWarning("", "select select customer");
-                             $("#CustomerName").focus();
-                               $('.dv-list').slideUp();
-                             return false;
-                      }
-                      if($("#Business").val()=="" || $("#Business").val()=="0"){
-                             showWarning("", "select select business.");
-                             $("#Business").focus();
-                               $('.dv-list').slideUp();
-                             return false;
-                      }
-                       if($("#FirmName").val().length<=0 ||$("#FirmName").val()==""){
-                             showWarning("", "Please enter  firm name.");
-                             $("#FirmName").focus();
-                               $('.dv-list').slideUp();
-                             return false;
-                      }
-                       if($("#OwnerName").val().length<=0 ||$("#OwnerName").val()==""){
-                             showWarning("", "Please entry Owner name.");
-                             $("#OwnerName").focus();
-                               $('.dv-list').slideUp();
-                             return false;
-                      }
-                       if($("#FirmType").val()=="" || $("#FirmType").val()=="0"){
-                             showWarning("", "select  firm type.");
-                             $("#FirmType").focus();
-                               $('.dv-list').slideUp();
-                             return false;
-                      }
-                       if($("#GSTFirmType").val()=="" || $("#GSTFirmType").val()=="0"){
-                             showWarning("", "select  GST firm type.");
-                             $("#GSTFirmType").focus();
-                               $('.dv-list').slideUp();
-                             return false;
-                      }
-                      if($("#SoftwareType").val()=="" || $("#SoftwareType").val()=="0"){
-                             showWarning("", "select  software.");
-                             $("#SoftwareType").focus();
-                               $('.dv-list').slideUp();
-                             return false;
-                      }
+        function saveItem() {
+            try {
+                if ($("#Title").val().trim() == "") {
+                    showWarning("", "Please provide firm name");
+                    $("#Title").focus();
+                    return false;
+                }
+                if ($("#OwnerName").val().trim() == "") {
+                    showWarning("", "Please provide owner name.");
+                    $("#OwnerName").focus();
+                    return false;
+                }
+                if ($("#BusinessId").val() == null || $("#BusinessId").val() == "") {
+                    showWarning("", "Please select business.");
+                    $("#BusinessId").focus();
+                    return false;
+                }
+                if ($("#GstFirmTypeId").val() == null || $("#GstFirmTypeId").val() == "") {
+                    showWarning("", "Please select gst firm type.");
+                    $("#GstFirmTypeId").focus();
+                    return false;
+                }
+                if ($("#FirmTypeId").val() == null || $("#FirmTypeId").val() == "") {
+                    showWarning("", "select  GST firm type.");
+                    $("#FirmTypeId").focus();
+                    return false;
+                }
+                if ($("#SoftwareId").val() == null || $("#SoftwareId").val() == "") {
+                    showWarning("", "Please select software.");
+                    $("#SoftwareId").focus();
+                    return false;
+                }
+                if ($("#AdharUID").val().trim().length != 12) {
+                    showWarning("", "Please enter valid Aadhaar UID.");
+                    $("#AdharUID").focus();
+                    return false;
+                }
+                if (!isNumber($("#AdharUID").val())) {
+                    showWarning("", "Please enter valid number of Adhar UID.");
+                    $("#AdharUID").focus();
+                    return false;
+                }
+                if ($("#BranchLimit").val().length <= 0 || $("#BranchLimit").val() == "") {
+                    showWarning("", "Please enter total branches.");
+                    $("#BranchLimit").focus();
+                    return false;
+                }
+                if (!isNumber($("#BranchLimit").val())) {
+                    showWarning("", "Please enter valid number of branches.");
+                    $("#BranchLimit").focus();
+                    return false;
+                }
 
-                    if($("#TotalBranches").val().length<=0 ||$("#TotalBranches").val()==""){
-                             showWarning("", "Please entry branch limt.");
-                             $("#TotalBranches").focus();
-                               $('.dv-list').slideUp();
-                             return false;
-                      }
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.CustomerId = parseInt($("#CustomerId").val());
+                savedata.BusinessId = parseInt($("#BusinessId").val());
+                savedata.Title = $("#Title").val();
+                savedata.OwnerName = $("#OwnerName").val();
+                savedata.TAN = $("#TAN").val();
+                savedata.IECCode = $("#IECCode").val();
+                savedata.IsLutBond = $('#IsLutBond').is(':checked');
+                savedata.LutBondNumber = $("#LutBondNumber").val();
+                savedata.IsGTA = $('#IsGTA').is(':checked');
+                savedata.FirmTypeId = $("#FirmTypeId").val();
+                savedata.GstFirmTypeId = parseInt($("#GstFirmTypeId").val());
+                savedata.SoftwareId = parseInt($("#SoftwareId").val());
+                savedata.BranchLimit = parseInt($("#BranchLimit").val());
+                savedata.IsActive = $('#IsActive').is(':checked');
+                savedata.AdharUID = $("#AdharUID").val();
+                savedata.LRResetOnYearEnd = $('#LRResetOnYearEnd').is(':checked');
+                savedata.CessRequired = $('#CessRequired').is(':checked');
 
+                blockUI('container');
 
-                      var savedata = new Object();
-                       savedata.Id = parseInt($("#Id").val());
-                       savedata.CustomerId=parseInt($("#CustomerName").val());
-                       savedata.Title=$("#FirmName").val();
-                       savedata.GstFirmTypeId=parseInt($("#GSTFirmType").val());
-                       savedata.BusinessId=parseInt($("#Business").val());
-                       savedata.OwnerName=$("#OwnerName").val();
-                       savedata.FirmTypeId=$("#FirmType").val();
-                       savedata.SoftwareId=parseInt($("#SoftwareType").val());
-                       savedata.TAN=$("#TAN").val();
-                       savedata.IECCode=$("#IEC").val();
-                       savedata.LutBondNumber=$("#LutBondN").val();
-                       savedata.AdharUID=$("#AadhaarUID").val();
-                       savedata.BranchLimit=parseInt($("#TotalBranches").val());
-                       savedata.IsLutBond=$('#LutBond').is(':checked');
-                       savedata.IsGTA=$('#GTAMember').is(':checked');
-                       savedata.CessRequired=$('#Cess').is(':checked');
-                       savedata.LRResetOnYearEnd=$('#LR').is(':checked');
-                       savedata.IsActive=$('#Active').is(':checked');
-
-                       blockUI('container');
-
-                      $.ajax({
-                      type: "POST",
-                      url: "@(Url.Action("SaveCustomerFirm", "Admin"))",
-                      data: JSON.stringify(savedata),
-                      contentType: "application/json; charset=utf-8",
-                      dataType: "json",
-                      success: function (data) {
-                              unblockUI('container');
-                              if (data.result == RESULT_SUCCESS) {
-                                  fromReset();
-                                  showWarning("", 'CustomerFirm saved successfully.');
-                                  $("#Id").val(0);
-                                  refreshDatatableList();
-                                $('.btn-back').click();
-                              } else {
-                                  showError("", data.data);
-                              }
-                          },
-                      error: function (error) {
-                              unblockUI('container');
-                              showError("", error.statusText);
-                          }
-                      });
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveCustomerFirm", "Admin"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Customer firm saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
 
             }
-                catch (e) {
+            catch (e) {
                 unblockUI('container');
                 showError("", e.message);
             }
 
-         }
+        }
 
         function deleteItem(id) {
-                  if (id == 0) {
-                      id = $('#Id').val();
-                  }
-                  try {
-                      blockUI('container');
-                      var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteCustomerFirm"))" + "/" + id, "",
-                          function (result) {
-                              unblockUI('container');
-                              try {
-                                  if (result.result == RESULT_SUCCESS) {
-                                     refreshDatatableList();
-                                      fromReset();
-                                      $('.btn-back').click();
-                                  } else {
-                                      showError('Error', result.data); //warning,  success, error, info
-                                  }
-                              } catch (e) {
-                                  showError('Error', e); //warning,  success, error, info
-                              }
-                          },
-                          function (error) {
-                              unblockUI('container');
-                          });
-                  }
-                  catch (err) {
-                      unblockUI('container');
-                  }
-              }
-
-        function getDetail(id,isViewMode) {
-                  try {
-                       blockUI('container');
-                      var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomerFirm"))" + "/" + id, "",
-                          function (result) {
-                              unblockUI('container');
-                              var str = "";
-                              try {
-                                  if (result.result == RESULT_SUCCESS) {
-                                               addClick();
-                                                    if(isViewMode){
-                                                        displayMode();
-                                                    }else{
-                                                        editModeEnable();
-                                                    }
-                                               $("#activeTabName").text("EDIT (ID#"+result.data.id+")");
-                                               $('#Id').val(result.data.id);
-                                               $("#FirmName").val(result.data.title);
-                                               $("#GSTFirmType").select2().val(result.data.gstFirmTypeId).trigger("change");
-                                               $("#Business").select2().val(result.data.businessId).trigger("change");;
-                                               $("#OwnerName").val(result.data.ownerName);
-                                               $("#SoftwareType").select2().val(result.data.softwareId).trigger("change");
-                                               $("#FirmType").select2().val(result.data.firmTypeId).trigger("change");
-                                               $("#TAN").val(result.data.tan);
-                                               $("#LutBondN").val(result.data.lutBondNumber);
-                                               $("#AadhaarUID").val(result.data.adharUID);
-                                               $("#TotalBranches").val(result.data.branchLimit);
-                                               $("#LutBond").prop('checked',result.data.isLutBond);
-                                               $("#GTAMember").prop('checked',result.data.isGTA);
-                                               $("#Cess").prop('checked',result.data.cessRequired);
-                                               $('#LR').prop('checked', result.data.lrResetOnYearEnd);
-                                               $("#Active").prop('checked',result.data.isActive);
-                                               $("#IEC").val(result.data.iecCode);
-                                              
-                                                if(isViewMode || dataTableObj.data().count()<=1)
-                                                {
-                                                    $(".btn-delete").hide();
-
-                                                }else{
-                                                     $(".btn-delete").show();
-                                                }
-                                  } else {
-                                      showError('Error', result.data); //warning,  success, error, info
-                                  }
-                              } catch (e) {
-                                  unblockUI('container');
-                                  showError('Error', e); //warning,  success, error, info
-                              }
-                          },
-                          function (error) {
-
-                          });
-                  }
-                  catch (err) {
-                  }
-              }
-
-        function bindBusiness() {
-                    try {
-                        blockUI('container');
-                           var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetBusiness"))", "",
-                            function (data) {
-                                unblockUI('container');
-                                var str = "<option></option>";
-                                if (data.result == RESULT_SUCCESS) {
-                                    if (data.data.length > 0) {
-                                        for (var i = 0; i < data.data.length; i++) {
-                                            str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-                                        }
-                                    }
-                                    $("#Business").html(str);
-                                } else {
-                                    showError("", data.data);
-                                }
-                            },
-                            function (error) {
-                                unblockUI('container');
-                                showError("", error.statusText);
-                            });
-                    }
-                    catch (err) {
-                        unblockUI('container');
-                        showError("", e.message);
-                    }
-                }
-
-        function bindSoftwareList() {
-                    try {
-                        blockUI('container');
-                        var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetSoftware"))", "",
-                            function (data) {
-                                unblockUI('container');
-                                var str = "<option></option>";
-                                if (data.result == RESULT_SUCCESS) {
-                                    if (data.data.length > 0) {
-                                        for (var i = 0; i < data.data.length; i++) {
-                                            str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-                                        }
-                                    }
-                                    $("#SoftwareType").html(str);
-                                } else {
-                                    showError("", data.data);
-                                }
-                            },
-                            function (error) {
-                                unblockUI('container');
-                                showError("", error.statusText);
-                            });
-                    }
-                    catch (err) {
-                        unblockUI('container');
-                        showError("", e.message);
-                    }
-                }
-
-        function bindFirmTypeAdminList() {
-                    try {
-                        blockUI('container');
-                        var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetFirmTypeAdmin"))", "",
-                            function (data) {
-                                unblockUI('container');
-                                var str = "<option></option>";
-                                if (data.result == RESULT_SUCCESS) {
-                                    if (data.data.length > 0) {
-                                        for (var i = 0; i < data.data.length; i++) {
-                                            str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-                                        }
-                                    }
-                                    $("#FirmType").html(str);
-                                } else {
-                                    showError("", data.data);
-                                }
-                            },
-                            function (error) {
-                                unblockUI('container');
-                                showError("", error.statusText);
-                            });
-                    }
-                    catch (err) {
-                        unblockUI('container');
-                        showError("", e.message);
-                    }
-                }
-
-        function bindGSTFirmType() {
-                    try {
-                        blockUI('container');
-                        var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetGSTFirmType"))", "",
-                            function (data) {
-                                unblockUI('container');
-                                var str = "<option></option>";
-                                if (data.result == RESULT_SUCCESS) {
-                                    if (data.data.length > 0) {
-                                        for (var i = 0; i < data.data.length; i++) {
-                                            str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["title"] + "</option>");
-                                        }
-                                    }
-                                    $("#GSTFirmType").html(str);
-                                } else {
-                                    showError("", data.data);
-                                }
-                            },
-                            function (error) {
-                                unblockUI('container');
-                                showError("", error.statusText);
-                            });
-                    }
-                    catch (err) {
-                        unblockUI('container');
-                        showError("", e.message);
-                    }
-                }
-        function bindCustomerList() {
-                    try {
-                        blockUI('container');
-                        var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCustomer"))", "",
-                            function (data) {
-                                unblockUI('container');
-                                var str = "<option></option>";
-                                if (data.result == RESULT_SUCCESS) {
-                                    if (data.data.length > 0) {
-                                        for (var i = 0; i < data.data.length; i++) {
-                                            str += ("<option value='" + data.data[i]['id'] + "'>" + data.data[i]["name"] + "</option>");
-                                        }
-                                    }
-                                    $("#CustomerName").html(str);
-                                } else {
-                                    showError("", data.data);
-                                }
-                            },
-                            function (error) {
-                                unblockUI('container');
-                                showError("", error.statusText);
-                            });
-                    }
-                    catch (err) {
-                        unblockUI('container');
-                        showError("", e.message);
-                    }
-                }
-
-        function getCustomer(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteCustomerFirm"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomerFirm"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                $("#CustomerNameheader").text(result.data.name);
-                                $("#CustomerNameheader1").text(result.data.name);
-                                $("#CustomerNametext").text(result.data.name);
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+
+                                $('#Id').val(result.data.id);
+                                $('#CustomerId').val(result.data.customerId);
+                                $("#BusinessId").val(result.data.businessId).trigger("change");;
+                                $("#Title").val(result.data.title);
+                                $("#OwnerName").val(result.data.ownerName);
+                                $("#TAN").val(result.data.tan);
+                                $("#IECCode").val(result.data.iecCode);
+                                $("#IsLutBond").prop('checked', result.data.isLutBond);
+                                $("#LutBondNumber").val(result.data.lutBondNumber);
+                                $("#IsGTA").val(result.data.isGTA);
+                                $("#FirmTypeId").val(result.data.firmTypeId).trigger("change");
+                                $("#GstFirmTypeId").val(result.data.gstFirmTypeId).trigger("change");
+                                $("#SoftwareId").val(result.data.softwareId).trigger("change");
+                                $("#BranchLimit").val(result.data.branchLimit);
+                                $("#IsActive").prop('checked', result.data.isActive);
+                                $("#AdharUID").val(result.data.adharUID);
+                                $("#CessRequired").prop('checked', result.data.cessRequired);
+                                $('#LRResetOnYearEnd').prop('checked', result.data.lrResetOnYearEnd);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -839,41 +613,21 @@
             catch (err) {
             }
         }
-         function showUnderDevMsg(){
-                showInfo("","Under Development");
-            }
 
-         function deleteItemConfirmation(id) {
+        function deleteItemConfirmation(id) {
             swal({
                 title: "Alert",
-			    text: "Are you really want to delete?",
-			    type: "warning",
-			    showCancelButton: true,
-			    confirmButtonText: 'Delete',
-			    cancelButtonText: 'Cancel'
-            },function(isconfirmed)
-            {
+                text: "Are you really want to delete?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: 'Delete',
+                cancelButtonText: 'Cancel'
+            }, function (isconfirmed) {
                 if (isconfirmed) {
-                    deleteItem(id == 0 ? $('#Id').val(): id);
+                    deleteItem(id == 0 ? $('#Id').val() : id);
                 }
             });
         }
-        function displayMode(){
-            $(".cls-disable").each(function(index, element){
-                $(this).prop('disabled', true);
-            });
 
-            $(".cls-a-disable").each(function(index, element){
-                 $(this).hide();
-            });
-        }
-        function editModeEnable(){
-            $(".cls-disable").each(function(index, element){
-                 $(this).prop('disabled', false);
-            })
-            $(".cls-a-disable").each(function(index, element){
-                $(this).show();
-            })
-        }
-</script>
+    </script>
 }

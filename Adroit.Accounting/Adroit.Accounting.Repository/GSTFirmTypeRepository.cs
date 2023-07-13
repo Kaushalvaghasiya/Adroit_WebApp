@@ -8,7 +8,7 @@ namespace Adroit.Accounting.Repository
 {
     public class GSTFirmTypeRepository : IGSTFirmType
     {
-        public List<DropdownViewModel> GetGSTFirmTypeList(string connectionString)
+        public List<DropdownViewModel> SelectList(string connectionString)
         {
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_GSTTypeFirmTypeList_Select", connectionString, parameters);

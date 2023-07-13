@@ -7,7 +7,7 @@ namespace Adroit.Accounting.Repository
 {
     public class FirmBranchTypeAdminRepository : IFirmBranchTypeAdmin
     {
-        public List<DropdownViewModel> GetFirmBranchTypeAdminList(string connectionString)
+        public List<DropdownViewModel> SelectList(string connectionString)
         {
             var parameters = new DynamicParameters();
             

@@ -4,6 +4,6 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface IGSTInvoiceType
     {
-        List<DropdownViewModel> GetGSTInvoiceTypeList(string connectionString);
+        List<DropdownViewModel> SelectList(string connectionString);
     }
 }

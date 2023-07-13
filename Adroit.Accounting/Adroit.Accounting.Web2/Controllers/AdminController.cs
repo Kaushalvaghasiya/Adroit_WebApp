@@ -1,4 +1,5 @@
-﻿using Adroit.Accounting.Repository.IRepository;
+﻿using Adroit.Accounting.Repository;
+using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Identity;
@@ -26,6 +27,9 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly ICommon _commonRepository;
         private readonly IBusiness _businessRepository;
+        private ICountry _countryRepository;
+        private IGSTFirmType _gSTFirmTypeRepository;
+        private IFirmType _firmTypeRepository;
 
         public AdminController(
             IOptions<ConfigurationData> configurationData,
@@ -43,7 +47,10 @@ namespace Adroit.Accounting.Web.Controllers
             ISoftware softwareRepository,
             ISoftwarePlan softwarePlanRepository,
             ICommon commonRepository,
-            IBusiness businessRepository
+            IBusiness businessRepository,
+            ICountry countryRepository,
+            IGSTFirmType gSTFirmTypeRepository,
+            IFirmType firmTypeRepository
             )
 
         {
@@ -64,6 +71,9 @@ namespace Adroit.Accounting.Web.Controllers
             _softwarePlanRepository = softwarePlanRepository;
             _commonRepository = commonRepository;
             _businessRepository = businessRepository;
+            _countryRepository = countryRepository;
+            _gSTFirmTypeRepository= gSTFirmTypeRepository;
+            _firmTypeRepository = firmTypeRepository;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace Adroit.Accounting.Web.Controllers
         private IGSTInvoiceType _gstInvoiceTypeRepository;
         private readonly ConfigurationData _configurationData;
         private IBusiness _businessRepository;
-        private IFirmTypeAdmin _firmTypeAdminRepository;
+        private IFirmType _firmTypeRepository;
         private IGSTFirmType _gstFirmTypeRepository;
         private ISoftware _softwareRepository;
         private ICustomer _customerRepository;
@@ -40,7 +40,7 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTInvoiceType gstInvoiceTypeRepository,
             IBusiness businessRepository,
             ISoftware softwareRepository,
-            IFirmTypeAdmin firmTypeAdminRepository,
+            IFirmType firmTypeRepository,
             IGSTFirmType gstFirmTypeRepository,
             ICustomer customerRepository,
             IFirmBranchTypeAdmin firmBranchTypeAdminRepository,
@@ -56,7 +56,7 @@ namespace Adroit.Accounting.Web.Controllers
             _talukaRepository = talukaRepository;
             _gstInvoiceTypeRepository = gstInvoiceTypeRepository;
             _businessRepository = businessRepository;
-            _firmTypeAdminRepository = firmTypeAdminRepository;
+            _firmTypeRepository = firmTypeRepository;
             _gstFirmTypeRepository = gstFirmTypeRepository;
             _softwareRepository = softwareRepository;
             _customerRepository = customerRepository;
@@ -76,7 +76,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _countryRepository.GetCountryList(_configurationData.DefaultConnection).ToList();
+                result.data = _countryRepository.SelectList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -93,7 +93,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _stateRepository.GetStateList(_configurationData.DefaultConnection, countryId).ToList();
+                result.data = _stateRepository.SelectList(_configurationData.DefaultConnection, countryId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -110,7 +110,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _districtRepository.GetDistrictList(_configurationData.DefaultConnection, stateId).ToList();
+                result.data = _districtRepository.SelectList(_configurationData.DefaultConnection, stateId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -127,7 +127,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _talukaRepository.GetTalukaList(_configurationData.DefaultConnection, districtId).ToList();
+                result.data = _talukaRepository.SelectList(_configurationData.DefaultConnection, districtId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -144,7 +144,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _cityRepository.GetCityList(_configurationData.DefaultConnection, 0, talukaId, 0).ToList();
+                result.data = _cityRepository.SelectList(_configurationData.DefaultConnection, 0, talukaId, 0).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -160,7 +160,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _gstInvoiceTypeRepository.GetGSTInvoiceTypeList(_configurationData.DefaultConnection).ToList();
+                result.data = _gstInvoiceTypeRepository.SelectList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -209,7 +209,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _firmTypeAdminRepository.GetFirmTypeAdminList(_configurationData.DefaultConnection).ToList();
+                result.data = _firmTypeRepository.SelectList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -226,7 +226,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerRepository.GetCustomerList(_configurationData.DefaultConnection).ToList();
+                result.data = _customerRepository.SelectList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -243,7 +243,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _gstFirmTypeRepository.GetGSTFirmTypeList(_configurationData.DefaultConnection).ToList();
+                result.data = _gstFirmTypeRepository.SelectList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -260,7 +260,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _firmBranchTypeAdminRepository.GetFirmBranchTypeAdminList(_configurationData.DefaultConnection).ToList();
+                result.data = _firmBranchTypeAdminRepository.SelectList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

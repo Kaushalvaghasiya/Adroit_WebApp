@@ -8,7 +8,7 @@ namespace Adroit.Accounting.Repository
 {
     public class TalukaRepository : ITaluka
     {
-        public List<DropdownViewModel> GetTalukaList(string connectionString, int districtId = 0)
+        public List<DropdownViewModel> SelectList(string connectionString, int districtId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@DistrictId", districtId);

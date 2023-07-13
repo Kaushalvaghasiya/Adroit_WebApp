@@ -18,10 +18,23 @@ Begin
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN Customer.Email END ASC,  
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN Customer.Email END DESC  
 		) AS RowNum,
-	   Count(*) over () AS TotalCount, Customer.*, [State].Title as [State], [City].Title as [City]
+	   Count(*) over () AS TotalCount, 
+	   Customer.*, 
+	   [Country].Id as CountryId, 
+	   [Country].Title as Country, 
+	   [State].Title as State, 
+	   [District].Id as DistrictId, 
+	   [District].Title as District, 
+	   [Taluka].Id as TalukaId, 
+	   [Taluka].Title as Taluka, 
+	   [City].Title as City,
+	   (SELECT COUNT(*) FROM CustomerFirm WHERE CustomerFirm.CustomerId = Customer.Id) AS NumberOfFirmsCreated
 	  FROM Customer
-	  LEFT JOIN [State] on Customer.StateId = [State].Id
 	  LEFT JOIN [City] on Customer.CityId = [City].Id
+	  LEFT JOIN [Taluka] on [City].TalukaId = [Taluka].Id
+	  LEFT JOIN [District] on [Taluka].DistrictId = [District].Id
+	  LEFT JOIN [State] on [District].StateId = [State].Id
+	  LEFT JOIN [Country] on [State].CountryId = [Country].Id
 	  WHERE Customer.IsDeleted = 0
 	  AND (Coalesce(@Search,'') = '' OR Customer.[Name] like '%'+ @Search + '%')
 	 ) AS T   

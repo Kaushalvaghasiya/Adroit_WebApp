@@ -1,4 +1,4 @@
-﻿using Adroit.Accounting.Utility;
+﻿using Adroit.Accounting.Model.Enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
