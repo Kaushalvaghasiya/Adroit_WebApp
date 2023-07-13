@@ -11,7 +11,6 @@ namespace Adroit.Accounting.Model
         }
         public int Id { get; set; }
         public int CustomerId { get; set; }
-        public string CustomerName { get; set; }
         public short BusinessId { get; set; }
         public string Title { get; set; }
         public string OwnerName { get; set; }

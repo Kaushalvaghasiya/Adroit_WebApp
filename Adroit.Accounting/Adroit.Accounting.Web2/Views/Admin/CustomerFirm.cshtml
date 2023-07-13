@@ -181,13 +181,13 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="AdharUID">Aadhaar UID</label>
-                                <input type="text" class="form-control mode-ed" id="AdharUID" placeholder="" maxlength="12">
+                                <input type="text" class="form-control mode-ed numberonly" id="AdharUID" placeholder="" maxlength="12">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="BranchLimit">Total Branches</label>
-                                <input type="text" class="form-control mode-ed numberonly" id="BranchLimit" placeholder="5">
+                                <input type="text" class="form-control mode-ed numberonly" id="BranchLimit" maxlength="5">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -445,12 +445,12 @@
                     $("#SoftwareId").focus();
                     return false;
                 }
-                if ($("#AdharUID").val().trim().length != 12) {
+                if ($("#AadhaarUID").val().trim().length > 0 && $("#AdharUID").val().trim().length != 12) {
                     showWarning("", "Please enter valid Aadhaar UID.");
                     $("#AdharUID").focus();
                     return false;
                 }
-                if (!isNumber($("#AdharUID").val())) {
+                if ($("#AadhaarUID").val().trim().length > 0 && !isNumber($("#AdharUID").val())) {
                     showWarning("", "Please enter valid number of Adhar UID.");
                     $("#AdharUID").focus();
                     return false;

@@ -4,9 +4,10 @@
 
 namespace Adroit.Accounting.Model.ViewModel
 {
-    public class CustomerFirmBranchGridViewModel : CustomerFirmBranchViewModel
+    public class CustomerFirmBranchViewModel : CustomerFirmBranch
     {
-        public int RowNum { get; set; }
-        public int TotalCount { get; set; }
+        public List<DropdownViewModel> CountryList { get; set; }
+        public List<DropdownViewModel> SoftwarePlanList { get; set; }
+        public CustomerFirmViewModel Firm { get; set; }
     }
 }

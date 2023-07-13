@@ -7,8 +7,25 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE Customer SET 
-			IsDeleted = 1
-		WHERE Id= @Id ;
+			IsDeleted = 1, 
+			DeletedOn = GETUTCDATE() 
+		WHERE Id= @Id
+
+		UPDATE CustomerFirm 
+			SET IsDeleted = 1, 
+			DeletedOn = GETUTCDATE() 
+		WHERE CustomerId = @Id
+
+		UPDATE CustomerFirmBranch 
+			SET IsDeleted = 1, 
+			DeletedOn = GETUTCDATE() 
+		WHERE FirmId IN (SELECT ID FROM CustomerFirm WHERE CustomerId = @Id)
+
+		UPDATE CustomerUser 
+			SET IsDeleted = 1, 
+			DeletedOn = GETUTCDATE() 
+		WHERE CustomerId = @Id	
+
 	COMMIT TRAN
 	END TRY
 	BEGIN CATCH
