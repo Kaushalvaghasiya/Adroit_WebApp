@@ -177,12 +177,27 @@ function gridDrawCallback(row) {
     });
 
     $(".btn-view").on("click", function () {
-        //disableFieldView(parseInt($(row).attr("data-value")));
-        disableFieldView(parseInt($(this).attr("data-value")));
+        //viewMode(parseInt($(row).attr("data-value")));
+        viewMode(parseInt($(this).attr("data-value")));
     });
 
     $(".btn-delete-grid").on("click", function () {
         //deleteItemConfirmation(parseInt($(row).attr("data-value")));
         deleteItemConfirmation(parseInt($(this).attr("data-value")));
+    });
+}
+
+function deleteItemConfirmation(id) {
+    swal({
+        title: "Alert",
+        text: "Are you really want to delete?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Delete',
+        cancelButtonText: 'Cancel'
+    }, function (isconfirmed) {
+        if (isconfirmed) {
+            deleteItem(id == 0 ? $('#Id').val() : id);
+        }
     });
 }
