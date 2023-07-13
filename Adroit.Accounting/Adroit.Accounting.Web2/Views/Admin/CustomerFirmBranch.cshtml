@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Adroit.Accounting.Model.ViewModel.CustomerFirmBranchViewModel
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,9 +11,9 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
-                    <li><a href="#" id="CustomerNameheader"></a></li>
-                    <li><a href="#" id="CustomerFirmheaderName">Firm</a></li>
-                    <li><a href="#" id="CustomerFirmheader"></a></li>
+                    <li><a href="~/admin/customer?id=@Model.Firm.Customer.Id">@Model.Firm.Customer.Name</a></li>
+                    <li><a href="~/admin/customer/firm?id=@Model.Firm.Customer.Id">Firms</a></li>
+                    <li><a href="~/admin/customer/firm?id=@(Model.Firm.Customer.Id)&editid=@(Model.Firm.Id)">@Model.Firm.Title</a></li>
                     <li class="active"><span>Branches</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -66,10 +67,10 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
-                    <li><a href="#" id="CustomerNameheader1"></a></li>
-                    <li><a href="#" id="CustomerFirmheaderName1">CustomerFirm</a></li>
-                    <li><a href="#" id="CustomerFirmheader1"></a></li>
-                    <li><a href="#" class="btn-back">CustomerBranch</a></li>
+                    <li><a href="~/admin/customer?id=@Model.Firm.Customer.Id">@Model.Firm.Customer.Name</a></li>
+                    <li><a href="~/admin/customer/firm?id=@Model.Firm.Customer.Id">Firms</a></li>
+                    <li><a href="~/admin/customer/firm?id=@(Model.Firm.Customer.Id)&editid=@(Model.Firm.Id)">@Model.Firm.Title</a></li>
+                    <li><a href="#" class="btn-back">Branches</a></li>
                     <li class="active"><span id="activeTabName">Add</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -815,15 +816,5 @@
             catch (err) {
             }
         }
-
-        //$("#CustomerNameheader1").text(result.data.customerName);
-        //$("#CustomerFirmtext").text(result.data.title); //for add edit firm name
-        //$("#CustomerNameheader").attr("href", "@(Url.Content("~/../../../admin/customer?id="))" + result.data.customerId + "");
-        //$("#CustomerNameheader1").attr("href", "@(Url.Content("~/../../../admin/customer?id="))" + result.data.customerId + "");
-        //$("#CustomerFirmheaderName").attr("href", "@(Url.Content("~/../../../admin/customer/firm?id="))" + result.data.customerId + "");
-        //$("#CustomerFirmheaderName1").attr("href", "@(Url.Content("~/../../../admin/customer/firm?id="))" + result.data.customerId + "");
-        //$("#CustomerFirmheader").attr("href", "@(Url.Content("~/../../../admin/customer/firm?id="))" + result.data.customerId + "&editid=" + id);
-        //$("#CustomerFirmheader1").attr("href", "@(Url.Content("~/../../../admin/customer/firm?id="))" + result.data.customerId + "&editid=" + id);
-
     </script>
 }

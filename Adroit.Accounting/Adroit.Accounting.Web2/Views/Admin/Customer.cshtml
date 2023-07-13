@@ -103,7 +103,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="BusinessName">Business Name</label>
+                                <label for="BusinessName">Business (Firm) Name</label>
                                 <input type="text" class="form-control mode-ed" id="BusinessName" placeholder="" maxlength="250">
                             </div>
                         </div>
@@ -718,12 +718,12 @@
                     $("#Email").focus();
                     return false;
                 }
-                if ($("#AadhaarUID").val().trim().length != 12) {
+                if ($("#AadhaarUID").val().trim().length > 0 && $("#AadhaarUID").val().trim().length != 12) {
                     showWarning("", "Please enter valid Aadhaar UID.");
                     $("#AadhaarUID").focus();
                     return false;
                 }
-                if (!isNumber($("#AadhaarUID").val().trim())) {
+                if ($("#AadhaarUID").val().trim().length > 0 && !isNumber($("#AadhaarUID").val().trim())) {
                     showWarning("", "Please enter valid Aadhaar UID.");
                     $("#AadhaarUID").focus();
                     return false;
