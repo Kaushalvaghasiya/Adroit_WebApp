@@ -263,17 +263,14 @@
     {
 
     <script>
-
-        window.editFirmId = @ViewBag.EditId;
-
         $(function (e) {
             $('.dv-list').show();
             $('.dv-detail').hide();
 
             bindDatatableList();
 
-            if (window.editFirmId > 0) {
-                getDetail(window.editFirmId, false);
+            if (@ViewBag.EditId > 0) {
+                getDetail(@ViewBag.EditId, false);
             }
         });
 
@@ -286,7 +283,7 @@
             $("#Title").focus();
         }
 
-        function disableFieldView(id) {
+        function viewMode(id) {
             getDetail(id, true);
         }
 
@@ -603,21 +600,6 @@
             }
             catch (err) {
             }
-        }
-
-        function deleteItemConfirmation(id) {
-            swal({
-                title: "Alert",
-                text: "Are you really want to delete?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonText: 'Delete',
-                cancelButtonText: 'Cancel'
-            }, function (isconfirmed) {
-                if (isconfirmed) {
-                    deleteItem(id == 0 ? $('#Id').val() : id);
-                }
-            });
         }
 
     </script>
