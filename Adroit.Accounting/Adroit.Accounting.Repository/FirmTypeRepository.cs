@@ -5,7 +5,7 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class FirmTypeAdminRepository : IFirmTypeAdmin
+    public class FirmTypeRepository : IFirmType
     {
         public List<DropdownViewModel> SelectList(string connectionString)
         {

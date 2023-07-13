@@ -314,11 +314,13 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div><label for="IsActive">Active</label></div>
-                            <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" id="IsActive" class="custom-switch-input mode-ed-multi">
-                                <span class="custom-switch-indicator"></span>
-                            </label>
+                            <div class="form-group">
+                                <div><label for="IsActive">Active</label></div>
+                                <label class="custom-switch">
+                                    <input type="checkbox" name="custom-switch-checkbox" id="IsActive" class="custom-switch-input mode-ed-multi">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>                            
                         </div>
                     </div>
                 </div>
@@ -411,7 +413,6 @@
                     return row.customerType;
                 },
                 "targets": colDef.length,
-                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -433,7 +434,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.totalFirm ?? 0) + "/" + row.numberOfFirmsCreated;
+                    return row.numberOfFirmsCreated  + "/" + (row.totalFirm ?? 0);
                 },
                 "targets": colDef.length,
                 "className": "text-center",
@@ -694,22 +695,22 @@
 
         function saveItem() {
             try {
-                if ($("#CustomerName").val() == "") {
+                if ($("#CustomerName").val().trim() == "") {
                     showWarning("", "Please enter name.");
                     $("#CustomerName").focus();
                     return false;
                 }
-                if ($("#CustomerName").val().length <= 2) {
+                if ($("#CustomerName").val().trim().length <= 2) {
                     showWarning("", "Enter valid customer name.");
                     $("#CustomerName").focus();
                     return false;
                 }
-                if ($("#BusinessName").val() == "") {
+                if ($("#BusinessName").val().trim() == "") {
                     showWarning("", "Please enter Business Name.");
                     $("#BusinessName").focus();
                     return false;
                 }
-                if ($("#BusinessName").val().length <= 2) {
+                if ($("#BusinessName").val().trim().length <= 2) {
                     showWarning("", "Please enter valid business name.");
                     $("#BusinessName").focus();
                     return false;
@@ -719,7 +720,7 @@
                     $("#BusinessId").focus();
                     return false;
                 }
-                if ($("#Address1").val() == "") {
+                if ($("#Address1").val().trim() == "") {
                     showWarning("", "Please enter address.");
                     $("#Address1").focus();
                     return false;
@@ -749,41 +750,46 @@
                     $("#CityId").focus();
                     return false;
                 }
-                if ($("#ContactPersonName").val() == "") {
+                if ($("#ContactPersonName").val().trim() == "") {
                     showWarning("", "Please enter contact person name.");
                     $("#ContactPersonName").focus();
                     return false;
                 }
-                if ($("#ContactPersonName").val().length <= 2) {
+                if ($("#ContactPersonName").val().trim().length <= 2) {
                     showWarning("", "Please enter valid contact person name.");
                     $("#ContactPersonName").focus();
                     return false;
                 }
-                if ($("#Mobile").val() == "") {
+                if ($("#Mobile").val().trim() == "") {
                     showWarning("", "Please enter contact mobile.");
                     $("#Mobile").focus();
                     return false;
                 }
-                if ($("#Mobile").val().length != 10) {
+                if ($("#Mobile").val().trim().length != 10) {
                     showWarning("", "Please enter valid mobile number.");
                     $("#Mobile").focus();
                     return false;
                 }
-                if ($("#MobileAlternate").val().length >= 1) {
-                    if ($("#MobileAlternate").val().length != 10) {
+                if ($("#MobileAlternate").val().trim().length >= 1) {
+                    if ($("#MobileAlternate").val().trim().length != 10) {
                         showWarning("", "Please enter valid alternate mobile number.");
                         $("#MobileAlternate").focus();
                         return false;
                     }
                 }
-                if ($("#Email").val() == "") {
+                if ($("#Email").val().trim() == "") {
                     showWarning("", "Please enter email.");
                     $("#Email").focus();
                     return false;
                 }
-                if ($("#AadhaarUID").val().length != 12) {
+                if ($("#AadhaarUID").val().trim().length != 12) {
                     showWarning("", "Please enter valid Aadhaar UID.");
-                    $("#txtTotalUsers").focus();
+                    $("#AadhaarUID").focus();
+                    return false;
+                }
+                if (!isNumber($("#AadhaarUID").val().trim())) {
+                    showWarning("", "Please enter valid Aadhaar UID.");
+                    $("#AadhaarUID").focus();
                     return false;
                 }
                 if ($("#CustomerType").val() == "" || $("#CustomerType").val() == null) {
@@ -796,22 +802,22 @@
                     $("#TotalUsers").focus();
                     return false;
                 }
-                if (!isNumber($("#Mobile").val())) {
+                if (!isNumber($("#Mobile").val().trim())) {
                     showWarning("", "Please enter valid mobile number.");
                     $("#Mobile").focus();
                     return false;
                 }
-                if (!isNumber($("#MobileAlternate").val())) {
+                if (!isNumber($("#MobileAlternate").val().trim())) {
                     showWarning("", "Please enter valid alternate mobile number.");
                     $("#Mobile").focus();
                     return false;
                 }
-                if (!isNumber($("#AadhaarUID").val())) {
+                if (!isNumber($("#AadhaarUID").val().trim())) {
                     showWarning("", "Please enter valid Aadhaar UID.");
                     $("#Mobile").focus();
                     return false;
                 }
-                if (!isEmail($("#Email").val())) {
+                if (!isEmail($("#Email").val().trim())) {
                     showWarning("", "Please enter valid email");
                     $("#Email").focus();
                     return false;
@@ -838,12 +844,7 @@
                     $("#Mobile").focus();
                     return false;
                 }
-                if (parseInt($("#TotalUsers").val()) == 0) {
-                    showWarning("", "Please enter valid number of users.");
-                    $("#TotalUsers").focus();
-                    return false;
-                }
-
+               
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Name = $("#CustomerName").val();
@@ -955,7 +956,7 @@
                                 $('#Id').val(result.data.id);
                                 $("#CustomerName").val(result.data.name);
                                 $("#BusinessName").val(result.data.businessName);
-                                $("#BusinessId").select2().val(result.data.businessId).trigger("change");
+                                $("#BusinessId").val(result.data.businessId).trigger("change");
                                 $("#Address1").val(result.data.address1);
                                 $("#Address2").val(result.data.address2);
                                 $("#Address3").val(result.data.address3);
@@ -978,7 +979,7 @@
                                 $("#hdnDistrict").val(result.data.districtId);
                                 $("#hdnTaluka").val(result.data.talukaId);
                                 $("#hdnCityId").val(result.data.cityId);
-                                $("#Country").select2().val(result.data.countryId).trigger("change");
+                                $("#Country").val(result.data.countryId).trigger("change");
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }

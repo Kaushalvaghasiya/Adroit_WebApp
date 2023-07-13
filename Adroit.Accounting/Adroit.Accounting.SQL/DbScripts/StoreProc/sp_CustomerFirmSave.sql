@@ -55,6 +55,15 @@ BEGIN
 			END
 		ELSE
 			BEGIN
+				declare @firmlimit int = 0
+				declare @firmcreated int = 0
+				SELECT @firmlimit = TotalFirm FROM Customer Where Id = @CustomerId
+				SELECT @firmcreated = count(*) FROM CustomerFirm Where CustomerId = @CustomerId ANd IsDeleted = 0
+				IF (@firmcreated >= @firmlimit)
+				BEGIN
+					RAISERROR ('%s', 16, 1, 'Firm limit exceeded');
+				END
+
 				INSERT INTO CustomerFirm
 					([CustomerId],[BusinessId],Title,OwnerName,[TAN],IECCode,
 					IsLutBond,LutBondNumber,IsGTA,FirmTypeId,GstFirmTypeId,

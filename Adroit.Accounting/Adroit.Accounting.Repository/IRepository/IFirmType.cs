@@ -2,7 +2,7 @@
 
 namespace Adroit.Accounting.Repository.IRepository
 {
-    public interface IFirmTypeAdmin
+    public interface IFirmType
     {
         List<DropdownViewModel> SelectList(string connectionString);
     }

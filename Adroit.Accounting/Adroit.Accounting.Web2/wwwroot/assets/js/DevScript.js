@@ -146,3 +146,40 @@ function setScreenMode(readonly) {
     });
     
 }
+
+function gridInitComplete(table) {
+    table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
+
+    $(".buttons-copy").removeClass("btn-primary");
+    $(".buttons-copy").addClass("btn-outline-primary");
+
+    $(".buttons-excel").removeClass("btn-primary");
+    $(".buttons-excel").addClass("btn-outline-primary");
+
+    $(".buttons-colvis").removeClass("btn-primary");
+    $(".buttons-colvis").removeClass("dropdown-toggle");
+    $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
+
+    $(".buttons-copy").empty();
+    $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
+
+    $(".buttons-excel").empty();
+    $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
+
+    $(".buttons-colvis").empty();
+    $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
+}
+
+function gridDrawCallback(row) {
+    $(".btn-edit").on("click", function () {
+        editMode(parseInt($(row).attr("data-value")));
+    });
+
+    $(".btn-disableview").on("click", function () {
+        disableFieldView(parseInt($(row).attr("data-value")));
+    });
+
+    $(".btn-delete-grid").on("click", function () {
+        deleteItemConfirmation(parseInt($(row).attr("data-value")));
+    });
+}

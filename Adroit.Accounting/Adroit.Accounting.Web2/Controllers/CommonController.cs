@@ -21,7 +21,7 @@ namespace Adroit.Accounting.Web.Controllers
         private IGSTInvoiceType _gstInvoiceTypeRepository;
         private readonly ConfigurationData _configurationData;
         private IBusiness _businessRepository;
-        private IFirmTypeAdmin _firmTypeAdminRepository;
+        private IFirmType _firmTypeRepository;
         private IGSTFirmType _gstFirmTypeRepository;
         private ISoftware _softwareRepository;
         private ICustomer _customerRepository;
@@ -40,7 +40,7 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTInvoiceType gstInvoiceTypeRepository,
             IBusiness businessRepository,
             ISoftware softwareRepository,
-            IFirmTypeAdmin firmTypeAdminRepository,
+            IFirmType firmTypeRepository,
             IGSTFirmType gstFirmTypeRepository,
             ICustomer customerRepository,
             IFirmBranchTypeAdmin firmBranchTypeAdminRepository,
@@ -56,7 +56,7 @@ namespace Adroit.Accounting.Web.Controllers
             _talukaRepository = talukaRepository;
             _gstInvoiceTypeRepository = gstInvoiceTypeRepository;
             _businessRepository = businessRepository;
-            _firmTypeAdminRepository = firmTypeAdminRepository;
+            _firmTypeRepository = firmTypeRepository;
             _gstFirmTypeRepository = gstFirmTypeRepository;
             _softwareRepository = softwareRepository;
             _customerRepository = customerRepository;
@@ -209,7 +209,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _firmTypeAdminRepository.SelectList(_configurationData.DefaultConnection).ToList();
+                result.data = _firmTypeRepository.SelectList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

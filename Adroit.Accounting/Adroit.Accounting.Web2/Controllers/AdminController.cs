@@ -28,6 +28,8 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICommon _commonRepository;
         private readonly IBusiness _businessRepository;
         private ICountry _countryRepository;
+        private IGSTFirmType _gSTFirmTypeRepository;
+        private IFirmType _firmTypeRepository;
 
         public AdminController(
             IOptions<ConfigurationData> configurationData,
@@ -46,7 +48,9 @@ namespace Adroit.Accounting.Web.Controllers
             ISoftwarePlan softwarePlanRepository,
             ICommon commonRepository,
             IBusiness businessRepository,
-            ICountry countryRepository
+            ICountry countryRepository,
+            IGSTFirmType gSTFirmTypeRepository,
+            IFirmType firmTypeRepository
             )
 
         {
@@ -68,6 +72,8 @@ namespace Adroit.Accounting.Web.Controllers
             _commonRepository = commonRepository;
             _businessRepository = businessRepository;
             _countryRepository = countryRepository;
+            _gSTFirmTypeRepository= gSTFirmTypeRepository;
+            _firmTypeRepository = firmTypeRepository;
         }
     }
 }

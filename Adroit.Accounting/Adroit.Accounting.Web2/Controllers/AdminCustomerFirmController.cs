@@ -1,13 +1,9 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.Repository;
 using Adroit.Accounting.Utility;
-using Adroit.Accounting.Web.Controllers;
-using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Data;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -16,10 +12,16 @@ namespace Adroit.Accounting.Web.Controllers
         [Route("~/admin/customer/firm")]
         public IActionResult CustomerFirm(int? id = 0, int? editid = 0)
         {
+            CustomerFirmViewModel model = new();
+            model.BusinessList = _businessRepository.SelectList(_configurationData.DefaultConnection);
+            model.GSTFirmTypeList = _gSTFirmTypeRepository.SelectList(_configurationData.DefaultConnection);
+            model.FirmTypeList = _firmTypeRepository.SelectList(_configurationData.DefaultConnection);
+            model.SoftwareList = _softwareRepository.SelectList(_configurationData.DefaultConnection);
+            model.Customer = _customerRepository.Get(id ?? 0, _configurationData.DefaultConnection);
 
-            ViewBag.Id = id;
             ViewBag.EditId = editid;
-            return View();
+
+            return View(model);
         }
 
         [HttpGet]

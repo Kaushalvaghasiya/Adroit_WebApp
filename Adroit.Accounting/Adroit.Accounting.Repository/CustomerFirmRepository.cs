@@ -12,15 +12,15 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@@DeletedById", deletedById);
+            parameters.Add("@DeletedById", deletedById);
             QueryHelper.Save("sp_CustomerFirmDelete", connectionString, parameters);
         }
 
-        public CustomerFirm Get(int id, string connectionString)
+        public CustomerFirmViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<Model.CustomerFirm>("sp_CustomerFirmGet", connectionString, parameters);
+            return QueryHelper.GetTableDetail<CustomerFirmViewModel>("sp_CustomerFirmGet", connectionString, parameters);
         }
 
         public List<CustomerFirmGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder, int CustomerId)
