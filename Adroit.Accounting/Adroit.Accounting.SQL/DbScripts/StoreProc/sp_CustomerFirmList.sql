@@ -23,7 +23,7 @@ Begin
 	   CustomerFirm.*, 
 	   [FirmTypeAdmin].Title as [FirmType],
 	   [Customer].[Name] as CustomerName ,
-	   (SELECT COUNT(*) FROM CustomerFirmBranch WHERE CustomerFirmBranch.FirmId = CustomerFirm.Id) AS NumberOfBranchesCreated
+	   (SELECT COUNT(*) FROM CustomerFirmBranch WHERE CustomerFirmBranch.FirmId = CustomerFirm.Id AND IsDeleted = 0) AS NumberOfBranchesCreated
 	  FROM CustomerFirm
 	  LEFT JOIN [FirmTypeAdmin] on CustomerFirm.FirmTypeId = [FirmTypeAdmin].Id
 	  LEFT JOIN	[Customer] ON CustomerFirm.CustomerId=[Customer].Id	
