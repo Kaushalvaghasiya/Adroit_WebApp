@@ -12,7 +12,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult ProductSize()
         {
             ProductSizeViewModel model = new();
-            model.SizeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductSizeAdminTable._TableName, ProductSizeAdminTable.Title);
+            model.ProductSizeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductSizeAdminTable._TableName, ProductSizeAdminTable.Title);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductSizeAdminTable._TableName, ProductSizeAdminTable.OrderNumber);
 
             return View(model);
