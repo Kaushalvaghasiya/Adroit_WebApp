@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_SizeSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSizeSave]
 (
 	 @Id int,
 	 @Title NVARCHAR(50),

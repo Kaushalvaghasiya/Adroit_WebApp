@@ -1,4 +1,4 @@
-CREATE OR ALTER Procedure [dbo].[sp_SizeList]
+CREATE OR ALTER Procedure [dbo].[sp_ProductSizeList]
   @LoginId int,
   @FirmId int,  
   @Search VARCHAR(100) = '',

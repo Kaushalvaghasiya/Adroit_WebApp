@@ -27,7 +27,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly ICommon _commonRepository;
         private readonly IColor _colorRepository;
-        private readonly ISize _sizeRepository;
+        private readonly IProductSize _productSizeRepository;
         private readonly IBusiness _businessRepository;
         private ICountry _countryRepository;
         private IGSTFirmType _gSTFirmTypeRepository;
@@ -50,7 +50,7 @@ namespace Adroit.Accounting.Web.Controllers
             ISoftwarePlan softwarePlanRepository,
             ICommon commonRepository,
             IColor colorReposotory,
-            ISize sizeRepository,
+            IProductSize productSizeRepository,
             IBusiness businessRepository,
             ICountry countryRepository,
             IGSTFirmType gSTFirmTypeRepository,
@@ -75,7 +75,7 @@ namespace Adroit.Accounting.Web.Controllers
             _softwarePlanRepository = softwarePlanRepository;
             _commonRepository = commonRepository;
             _colorRepository = colorReposotory;
-            _sizeRepository = sizeRepository;
+            _productSizeRepository = productSizeRepository;
             _businessRepository = businessRepository;
             _countryRepository = countryRepository;
             _gSTFirmTypeRepository= gSTFirmTypeRepository;

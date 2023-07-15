@@ -6,7 +6,7 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class SizeRepository : ISize
+    public class ProductSizeRepository : IProductSize
     {
         public int Save(ProductSizeAdmin productSizeAdmin, string connectionString)
         {
@@ -15,21 +15,21 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Title", productSizeAdmin.Title);
             parameters.Add("@OrderNumber", productSizeAdmin.OrderNumber);
             parameters.Add("@Active", productSizeAdmin.Active);
-            return QueryHelper.Save("sp_SizeSave", connectionString, parameters);
+            return QueryHelper.Save("sp_ProductSizeSave", connectionString, parameters);
         }
         public void Delete(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            QueryHelper.Save("sp_SizeDelete", connectionString, parameters);
+            QueryHelper.Save("sp_ProductSizeDelete", connectionString, parameters);
         }
-        public SizeViewModel Get(int id, string connectionString)
+        public ProductSizeViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<SizeViewModel>("sp_SizeGet", connectionString, parameters);
+            return QueryHelper.GetTableDetail<ProductSizeViewModel>("sp_ProductSizeGet", connectionString, parameters);
         }
-        public List<SizeGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<ProductSizeGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();
             param.Add("@LoginId", loginId);
@@ -39,7 +39,7 @@ namespace Adroit.Accounting.Repository
             param.Add("@PageSize", pageSize);
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<SizeGridViewModel>("sp_SizeList", connectionString, param);
+            return QueryHelper.GetList<ProductSizeGridViewModel>("sp_ProductSizeList", connectionString, param);
         }
     }
 }
