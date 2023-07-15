@@ -35,7 +35,7 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">SIZE</th>
+                                    <th class="border-bottom-0">PRODUCT SIZE</th>
                                     <th class="border-bottom-0" style="width:130px">ORDER NUMBER</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
@@ -86,7 +86,7 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-12">
                             <div class="form-group">
-                                <label for="Title">Colour Name</label>
+                                <label for="Title">Product Size</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="Title">
                                     <option></option>
                                     @{
@@ -250,7 +250,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/admin/sizelist"))',
+                    url: '@(Url.Content("~/admin/productsizelist"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -277,13 +277,13 @@
         function saveItem() {
             try {
                 if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid size.");
+                    showWarning("", "Please enter valid product size.");
                     $("#Title").focus();
                     return false;
                 }
 
                 if ($("#Title").val().length > 50) {
-                    showWarning("", "Size must be upto 50 characters long.");
+                    showWarning("", "Product Size must be upto 50 characters long.");
                     $("#Title").focus();
                     return false;
                 }
@@ -310,7 +310,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveSize", "Admin"))",
+                    url: "@(Url.Action("SaveProductSize", "Admin"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -319,7 +319,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Size saved successfully.');
+                            showWarning("", 'Product Size saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -344,7 +344,7 @@
         function deleteItem(id) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteSize"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteProductSize"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -372,7 +372,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetSize"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetProductSize"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
