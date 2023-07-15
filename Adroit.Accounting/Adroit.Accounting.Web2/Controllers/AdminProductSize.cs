@@ -9,7 +9,7 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class AdminController : Controller
     {
-        public IActionResult Size()
+        public IActionResult ProductSize()
         {
             ProductSizeViewModel model = new();
             model.SizeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductSizeAdminTable._TableName, ProductSizeAdminTable.Title);
@@ -19,7 +19,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult SizeList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
+        public JsonResult ProductSizeList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
         {
             var result = new DataTableListViewModel<ProductSizeGridViewModel>();
             try
@@ -44,7 +44,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveSize([FromBody] ProductSizeAdmin savedata)
+        public JsonResult ProductSaveSize([FromBody] ProductSizeAdmin savedata)
         {
             ApiResult result = new ApiResult();
             try
@@ -68,7 +68,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult DeleteSize(int id)
+        public JsonResult DeleteProductSize(int id)
         {
             ApiResult result = new ApiResult();
             try
@@ -88,7 +88,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetSize(int id)
+        public JsonResult GetProductSize(int id)
         {
             ApiResult result = new ApiResult();
             try
