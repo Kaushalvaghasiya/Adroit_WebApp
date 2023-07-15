@@ -69,6 +69,7 @@ try
     builder.Services.AddSingleton<ISoftwarePlan, SoftwarePlanRepository>();
     builder.Services.AddSingleton<ICommon, CommonRepository>();
     builder.Services.AddSingleton<IColor, ColorRepository>();
+    builder.Services.AddSingleton<ISize, SizeRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

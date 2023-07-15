@@ -12,6 +12,12 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class ProductSizeAdminTable
+    {
+        public const string _TableName = "ProductSizeAdmin";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     public sealed class SoftwarePlanTable
     {
         public const string _TableName = "SoftwarePlan";
