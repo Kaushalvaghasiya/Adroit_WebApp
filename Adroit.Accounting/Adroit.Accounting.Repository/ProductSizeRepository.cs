@@ -27,7 +27,7 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<ProductSizeViewModel>("sp_ProductSizeGet", connectionString, parameters);
+            return QueryHelper.Get<ProductSizeViewModel>("sp_ProductSizeGet", connectionString, parameters);
         }
         public List<ProductSizeGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
