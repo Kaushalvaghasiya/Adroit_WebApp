@@ -28,14 +28,14 @@ namespace Adroit.Accounting.Web.Controllers
         private IFirmBranchTypeAdmin _firmBranchTypeAdminRepository;
         private IFirm _firmRepository;
         private ICommon _commonRepository;
-
+        private IGSTCollection _gstCollection;
 
         public CommonController(
-            IOptions<ConfigurationData> configurationData, 
-            IState stateRepository, 
+            IOptions<ConfigurationData> configurationData,
+            IState stateRepository,
             ICity cityRepository,
-            ICountry countryRepository, 
-            IDistrict districtRepository, 
+            ICountry countryRepository,
+            IDistrict districtRepository,
             ITaluka talukaRepository,
             IGSTInvoiceType gstInvoiceTypeRepository,
             IBusiness businessRepository,
@@ -45,7 +45,8 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomer customerRepository,
             IFirmBranchTypeAdmin firmBranchTypeAdminRepository,
             IFirm firmRepository,
-            ICommon commonRepository
+            ICommon commonRepository,
+            IGSTCollection gstCollection
             )
         {
             _stateRepository = stateRepository;
@@ -63,13 +64,12 @@ namespace Adroit.Accounting.Web.Controllers
             _firmBranchTypeAdminRepository = firmBranchTypeAdminRepository;
             _firmRepository = firmRepository;
             _commonRepository = commonRepository;
+            _gstCollection = gstCollection;
         }
-
         public IActionResult Index()
         {
             return View();
         }
-
         [AllowAnonymous]
         public JsonResult GetCountries()
         {
@@ -86,7 +86,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
         [AllowAnonymous]
         public JsonResult GetStates(int countryId)
         {
@@ -103,7 +102,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
         [AllowAnonymous]
         public JsonResult GetDistricts(int stateId)
         {
@@ -120,7 +118,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
         [AllowAnonymous]
         public JsonResult GetTalukas(int districtId)
         {
@@ -137,7 +134,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
         [AllowAnonymous]
         public JsonResult GetCities(int stateId = 0, int talukaId = 0, int districtId = 0)
         {
@@ -154,7 +150,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
         public JsonResult GSTInvoiceTypes()
         {
             ApiResult result = new ApiResult();
@@ -170,7 +165,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
         [AllowAnonymous]
         public JsonResult GetBusiness()
         {
@@ -202,8 +196,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
-
         public JsonResult GetFirmTypeAdmin()
         {
             ApiResult result = new ApiResult();
@@ -219,8 +211,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
-
         public JsonResult GetCustomer()
         {
             ApiResult result = new ApiResult();
@@ -236,8 +226,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
-
         public JsonResult GetGSTFirmType()
         {
             ApiResult result = new ApiResult();
@@ -253,8 +241,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
-
         public JsonResult GetFirmBranchTypeAdmin()
         {
             ApiResult result = new ApiResult();
@@ -270,7 +256,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
         public JsonResult GetFirm()
         {
             ApiResult result = new ApiResult();
@@ -286,7 +271,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
         [Route("~/Common/GetTableValues/{TableName}/{ColumnName}")]
         public JsonResult GetTableValues(string TableName, string ColumnName)
         {
@@ -294,6 +278,22 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _commonRepository.GetList(_configurationData.DefaultConnection, TableName, ColumnName);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+        [Route("~/Common/GetGSTCollection/{GSTNumber}")]
+        public JsonResult GetGSTCollection(string GSTNumber)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _gstCollection.Get(GSTNumber, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

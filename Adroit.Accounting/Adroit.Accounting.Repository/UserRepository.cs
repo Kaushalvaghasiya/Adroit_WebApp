@@ -27,19 +27,19 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<UserDetail>("sp_UserGet", connectionString, parameters);
+            return QueryHelper.Get<UserDetail>("sp_UserGet", connectionString, parameters);
         }
         public UserDetail Get(Guid userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@UserId", userId);
-            return QueryHelper.GetTableDetail<UserDetail>("sp_UserGet", connectionString, parameters);
+            return QueryHelper.Get<UserDetail>("sp_UserGet", connectionString, parameters);
         }
         public UserDetail Get(string username, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Email", username);
-            return QueryHelper.GetTableDetail<UserDetail>("sp_UserGet", connectionString, parameters);
+            return QueryHelper.Get<UserDetail>("sp_UserGet", connectionString, parameters);
         }
         public void Delete(int id, int deletedById, string connectionString)
         {

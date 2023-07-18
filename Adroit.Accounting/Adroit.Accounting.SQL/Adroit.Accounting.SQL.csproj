@@ -16,6 +16,8 @@
     <None Remove="DbScripts\StoreProc\fn_fnStringToIntArray.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetBusinessSoftwareIds.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetBusinessSoftwareName.sql" />
+    <None Remove="DbScripts\StoreProc\fn_GetCustomerStatus.sql" />
+    <None Remove="DbScripts\StoreProc\fn_GetCustomerType.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetUserBranches.sql" />
     <None Remove="DbScripts\StoreProc\sp_AccountAdminList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_BillEntryTypeAdminList_Select.sql" />
@@ -24,6 +26,7 @@
     <None Remove="DbScripts\StoreProc\sp_BookAdminGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_BookAdminList.sql" />
     <None Remove="DbScripts\StoreProc\sp_BookAdminSave.sql" />
+    <None Remove="DbScripts\StoreProc\sp_BranchTypeList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_BranchWithFirmList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_BusinessDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_BusinessGet.sql" />
@@ -67,8 +70,13 @@
     <None Remove="DbScripts\StoreProc\sp_FirmBranchTypeAdminList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_FirmList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetColumnData.sql" />
+    <None Remove="DbScripts\StoreProc\sp_GSTCollectionGetByGSTNumber.sql" />
     <None Remove="DbScripts\StoreProc\sp_GSTInvoiceTypeList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_GSTTypeFirmTypeList_Select.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductSizeDelete.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductSizeGet.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductSizeList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductSizeSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_SoftwareDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_SoftwareGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_SoftwareList.sql" />
@@ -76,6 +84,7 @@
     <None Remove="DbScripts\StoreProc\sp_SoftwarePlanDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_SoftwarePlanGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_SoftwarePlanList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_SoftwarePlanList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_SoftwarePlanSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_SoftwareSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_StateList_Select.sql" />
@@ -95,13 +104,26 @@
     <None Remove="DbScripts\Tables\0008 140-CUSTOMER _FIRM_BRANCH_USER_ADMIN_HTML_Recheck_Change_Coding.sql" />
     <None Remove="DbScripts\Tables\0009 Active Switch in all master tables - Update.sql" />
     <None Remove="DbScripts\Tables\0010 140-CustomerDelete.sql" />
+    <None Remove="DbScripts\Tables\0011 140-CustomerBranch Plan.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="DbScripts\StoreProc\fn_GetCustomerStatus.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\fn_GetCustomerType.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\fn_GetBusinessSoftwareIds.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\fn_GetBusinessSoftwareName.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_BranchTypeList_Select.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_GSTCollectionGetByGSTNumber.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_GetColumnData.sql">
@@ -131,6 +153,15 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ColorList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductSizeDelete.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductSizeGet.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductSizeList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_SoftwarePlanList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -141,6 +172,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ColorSave.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_SoftwarePlanList_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_SoftwarePlanSave.sql">
@@ -314,6 +348,9 @@
     <EmbeddedResource Include="DbScripts\Tables\0000 MembershipTables.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\Tables\0011 140-CustomerBranch Plan.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\Tables\0010 140-CustomerDelete.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -355,6 +392,12 @@
 
   <ItemGroup>
     <Folder Include="DbScripts\DataScript\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductSizeSave.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
 </Project>

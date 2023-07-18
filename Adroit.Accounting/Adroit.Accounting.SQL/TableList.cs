@@ -32,4 +32,10 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class CustomerFirmBranchTable
+    {
+        public const string _TableName = "CustomerFirmBranch";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
 }

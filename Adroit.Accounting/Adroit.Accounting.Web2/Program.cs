@@ -11,12 +11,16 @@ using Adroit.Accounting.Web.Utility;
 using Adroit.Accounting.Model;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Repository;
+using System.Globalization;
+using System.ComponentModel;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
 
 try
 {
+    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+
     var builder = WebApplication.CreateBuilder(args);
 
     // NLog: Setup NLog for Dependency injection
@@ -37,7 +41,12 @@ try
         options.FallbackPolicy = options.DefaultPolicy;
     });
 
-    builder.Services.AddControllersWithViews();
+    builder.Services
+        .AddControllersWithViews()
+        .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new CustomDateTimeConverter());
+    });
 
     builder.Services.Configure<ConfigurationData>(builder.Configuration.GetSection("ConnectionStrings"));
     builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
@@ -68,6 +77,8 @@ try
     builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
     builder.Services.AddSingleton<ISoftwarePlan, SoftwarePlanRepository>();
     builder.Services.AddSingleton<ICommon, CommonRepository>();
+    builder.Services.AddSingleton<IBranchType, BranchTypeRepository>();
+    builder.Services.AddSingleton<IGSTCollection, GSTCollectionRepository>();
     builder.Services.AddSingleton<IColor, ColorRepository>();
     builder.Services.AddSingleton<IProductSize, ProductSizeRepository>();
 

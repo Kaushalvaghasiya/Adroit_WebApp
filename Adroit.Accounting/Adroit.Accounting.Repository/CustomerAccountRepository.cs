@@ -8,56 +8,56 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerAccountRepository : ICustomerAccount
     {
-        public int Save(CustomerAccount customerAccount, string connectionString, int loginId = 0, int firmId = 0)
+        public int Save(CustomerAccount value, string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
-            parameters.Add("@Id", customerAccount.Id);
-            parameters.Add("@Name", customerAccount.Name);
-            parameters.Add("@PrintName", customerAccount.PrintName);
-            parameters.Add("@AccountGroupId", customerAccount.AccountGroupId);
-            parameters.Add("@Address1", customerAccount.Address1);
-            parameters.Add("@Address2", customerAccount.Address2);
-            parameters.Add("@Address3", customerAccount.Address3);
-            parameters.Add("@CityId", customerAccount.CityId);
-            parameters.Add("@StateId", customerAccount.StateId);
-            parameters.Add("@CountryId", customerAccount.CountryId);
-            parameters.Add("@Pincode", customerAccount.Pincode);
-            parameters.Add("@KM", customerAccount.KM);
-            parameters.Add("@ContactPersonName", customerAccount.ContactPersonName);
-            parameters.Add("@Mobile", customerAccount.Mobile);
-            parameters.Add("@MobileAlternate", customerAccount.MobileAlternate);
-            parameters.Add("@Email", customerAccount.Email);
-            parameters.Add("@GSTNumber", customerAccount.GSTNumber);
-            parameters.Add("@PAN", customerAccount.PAN);
-            parameters.Add("@AreaName", customerAccount.AreaName);
-            parameters.Add("@RateWithGST", customerAccount.RateWithGST);
-            parameters.Add("@GSTInvoiceTypeId", customerAccount.GSTInvoiceTypeId);
-            parameters.Add("@EximCode", customerAccount.EximCode);
-            parameters.Add("@IsIGST", customerAccount.IsIGST);
-            parameters.Add("@GSTNumberTransport", customerAccount.GSTNumberTransport);
-            parameters.Add("@TransportName", customerAccount.TransportName);
-            parameters.Add("@VehicleNumber", customerAccount.VehicleNumber);
-            parameters.Add("@DeliveryAccountBranchMappingId", customerAccount.DeliveryAccountBranchMappingId);
-            parameters.Add("@ShippingAccountBranchMappingId", customerAccount.ShippingAccountBranchMappingId);
-            parameters.Add("@BrokerMappingId", customerAccount.BrokerMappingId);
-            parameters.Add("@CreditDays", customerAccount.CreditDays);
-            parameters.Add("@Discount", customerAccount.Discount);
-            parameters.Add("@TDS", customerAccount.TDS);
-            parameters.Add("@TCS", customerAccount.TCS);
-            parameters.Add("@CreditLimit", customerAccount.CreditLimit);
-            parameters.Add("@InterestRate", customerAccount.InterestRate);
-            parameters.Add("@Commission", customerAccount.Commission);
-            parameters.Add("@IsEcommerce", customerAccount.IsEcommerce);
-            parameters.Add("@AdharUID", customerAccount.AdharUID);
-            parameters.Add("@TAN", customerAccount.TAN);
-            parameters.Add("@CompositParty", customerAccount.CompositParty);
-            parameters.Add("@RCMParty", customerAccount.RCMParty);
-            parameters.Add("@CapitalPercentage", customerAccount.CapitalPercentage);
-            parameters.Add("@OwnerBranchId", customerAccount.OwnerBranchId);
-            parameters.Add("@IsDeleted", customerAccount.IsDeleted);
-            parameters.Add("@IsActive", customerAccount.IsActive);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@Name", value.Name);
+            parameters.Add("@PrintName", value.PrintName);
+            parameters.Add("@AccountGroupId", value.AccountGroupId);
+            parameters.Add("@Address1", value.Address1);
+            parameters.Add("@Address2", value.Address2);
+            parameters.Add("@Address3", value.Address3);
+            parameters.Add("@CityId", value.CityId);
+            parameters.Add("@StateId", value.StateId);
+            parameters.Add("@CountryId", value.CountryId);
+            parameters.Add("@Pincode", value.Pincode);
+            parameters.Add("@KM", value.KM);
+            parameters.Add("@ContactPersonName", value.ContactPersonName);
+            parameters.Add("@Mobile", value.Mobile);
+            parameters.Add("@MobileAlternate", value.MobileAlternate);
+            parameters.Add("@Email", value.Email);
+            parameters.Add("@GSTNumber", value.GSTNumber);
+            parameters.Add("@PAN", value.PAN);
+            parameters.Add("@AreaName", value.AreaName);
+            parameters.Add("@RateWithGST", value.RateWithGST);
+            parameters.Add("@GSTInvoiceTypeId", value.GSTInvoiceTypeId);
+            parameters.Add("@EximCode", value.EximCode);
+            parameters.Add("@IsIGST", value.IsIGST);
+            parameters.Add("@GSTNumberTransport", value.GSTNumberTransport);
+            parameters.Add("@TransportName", value.TransportName);
+            parameters.Add("@VehicleNumber", value.VehicleNumber);
+            parameters.Add("@DeliveryAccountBranchMappingId", value.DeliveryAccountBranchMappingId);
+            parameters.Add("@ShippingAccountBranchMappingId", value.ShippingAccountBranchMappingId);
+            parameters.Add("@BrokerMappingId", value.BrokerMappingId);
+            parameters.Add("@CreditDays", value.CreditDays);
+            parameters.Add("@Discount", value.Discount);
+            parameters.Add("@TDS", value.TDS);
+            parameters.Add("@TCS", value.TCS);
+            parameters.Add("@CreditLimit", value.CreditLimit);
+            parameters.Add("@InterestRate", value.InterestRate);
+            parameters.Add("@Commission", value.Commission);
+            parameters.Add("@IsEcommerce", value.IsEcommerce);
+            parameters.Add("@AdharUID", value.AdharUID);
+            parameters.Add("@TAN", value.TAN);
+            parameters.Add("@CompositParty", value.CompositParty);
+            parameters.Add("@RCMParty", value.RCMParty);
+            parameters.Add("@CapitalPercentage", value.CapitalPercentage);
+            parameters.Add("@OwnerBranchId", value.OwnerBranchId);
+            parameters.Add("@IsDeleted", value.IsDeleted);
+            parameters.Add("@IsActive", value.IsActive);
 
             return QueryHelper.Save("sp_CustomerAccountSave", connectionString, parameters);
         }
@@ -67,7 +67,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<CustomerAccount>("sp_CustomerAccountGet", connectionString, parameters);
+            return QueryHelper.Get<CustomerAccount>("sp_CustomerAccountGet", connectionString, parameters);
         }
         public List<CustomerGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {

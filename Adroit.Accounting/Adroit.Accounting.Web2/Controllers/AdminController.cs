@@ -29,9 +29,10 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IColor _colorRepository;
         private readonly IProductSize _productSizeRepository;
         private readonly IBusiness _businessRepository;
-        private ICountry _countryRepository;
-        private IGSTFirmType _gSTFirmTypeRepository;
-        private IFirmType _firmTypeRepository;
+        private readonly ICountry _countryRepository;
+        private readonly IGSTFirmType _gSTFirmTypeRepository;
+        private readonly IFirmType _firmTypeRepository;
+        private readonly IBranchType _branchType;
 
         public AdminController(
             IOptions<ConfigurationData> configurationData,
@@ -54,7 +55,8 @@ namespace Adroit.Accounting.Web.Controllers
             IBusiness businessRepository,
             ICountry countryRepository,
             IGSTFirmType gSTFirmTypeRepository,
-            IFirmType firmTypeRepository
+            IFirmType firmTypeRepository,
+            IBranchType branchType
             )
 
         {
@@ -80,6 +82,7 @@ namespace Adroit.Accounting.Web.Controllers
             _countryRepository = countryRepository;
             _gSTFirmTypeRepository= gSTFirmTypeRepository;
             _firmTypeRepository = firmTypeRepository;
+            _branchType = branchType;
         }
     }
 }

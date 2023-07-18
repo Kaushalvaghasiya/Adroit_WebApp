@@ -100,6 +100,30 @@ function showWarning(title, message) {
 function showInfo(title, message) {
     swal(title, message, "info");
 }
+function notySuccess(message) {
+    notif({
+        msg: message,
+        type: "success"
+    });
+}
+function notyError(message) {
+    notif({
+        msg: message,
+        type: "error"
+    });
+}
+function notyWarning(message) {
+    notif({
+        msg: message,
+        type: "warning"
+    });
+}
+function notyInfo(message) {
+    notif({
+        msg: message,
+        type: "info"
+    });
+}
 
 function isEmail(email) {
     var regex = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
@@ -121,6 +145,7 @@ $(function () {
         $('.fc-datepicker').datepicker({
             showOtherMonths: true,
             selectOtherMonths: true,
+            dateFormat: 'dd/mm/yy'
             /*numberOfMonths: 2*/
         });
     } catch (e) {
@@ -142,9 +167,9 @@ function setScreenMode(readonly) {
     });
 
     $(".mode-ed-multi").each(function (index, element) {
-        $("#SoftwareIds").multipleSelect(readonly ? 'disable' :'enable');
+        $("#SoftwareIds").multipleSelect(readonly ? 'disable' : 'enable');
     });
-    
+
 }
 
 function gridInitComplete(table) {
@@ -200,4 +225,9 @@ function deleteItemConfirmation(id) {
             deleteItem(id == 0 ? $('#Id').val() : id);
         }
     });
+}
+
+function getDate(value) {
+    var data = value.split('/');
+    return data[2] + '/' + data[1] + '/' + data[0];
 }

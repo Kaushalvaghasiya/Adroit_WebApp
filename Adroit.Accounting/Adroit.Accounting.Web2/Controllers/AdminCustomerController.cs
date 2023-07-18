@@ -51,12 +51,12 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveCustomer([FromBody] Customer savedata)
+        public JsonResult SaveCustomer([FromBody] Customer model)
         {
             ApiResult result = new ApiResult();
             try
             {
-                int id = _customerRepository.Save(savedata, _configurationData.DefaultConnection);
+                int id = _customerRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;

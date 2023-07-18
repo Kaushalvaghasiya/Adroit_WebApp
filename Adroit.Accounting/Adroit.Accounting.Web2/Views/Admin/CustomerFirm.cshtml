@@ -67,10 +67,10 @@
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search Firm...">
+                        @*<input type="text" class="form-control" placeholder="Search Firm...">
                         <span class="input-group-append mr-2">
                             <button class="btn btn-primary" type="button">Go!</button>
-                        </span>
+                        </span>*@
                         <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
                         <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
                         <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
@@ -277,9 +277,9 @@
         function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
-            $(".btn-delete").hide();
             fromReset();
             setScreenMode(false);
+            $(".btn-delete").hide();
             $("#Title").focus();
         }
 
@@ -303,7 +303,6 @@
                     return row.title;
                 },
                 "targets": colDef.length,
-                "orderable": false
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -377,9 +376,11 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/Admin/CustomerFirmList?customerId="))' + @Model.Customer.Id,
+                    url: '@(Url.Content("~/Admin/CustomerFirmList"))',
                     type: 'GET',
-                    data: function (d) { }
+                    data: function (d) { 
+                        d.customerId = @Model.Customer.Id;
+                    }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
@@ -445,12 +446,12 @@
                     $("#SoftwareId").focus();
                     return false;
                 }
-                if ($("#AadhaarUID").val().trim().length > 0 && $("#AdharUID").val().trim().length != 12) {
+                if ($("#AdharUID").val().trim().length > 0 && $("#AdharUID").val().trim().length != 12) {
                     showWarning("", "Please enter valid Aadhaar UID.");
                     $("#AdharUID").focus();
                     return false;
                 }
-                if ($("#AadhaarUID").val().trim().length > 0 && !isNumber($("#AdharUID").val())) {
+                if ($("#AdharUID").val().trim().length > 0 && !isNumber($("#AdharUID").val())) {
                     showWarning("", "Please enter valid number of Adhar UID.");
                     $("#AdharUID").focus();
                     return false;

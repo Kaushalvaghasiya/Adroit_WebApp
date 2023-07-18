@@ -4,8 +4,16 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchGet]
 )
 AS
 BEGIN
-	SELECT *, CONVERT(VARCHAR(10), CustomerFirmBranch.RenewalDate, 101) as RenewalDateStr,
-	   CONVERT(VARCHAR(10), CustomerFirmBranch.AddedOn, 101) as AddedOnStr
-	FROM CustomerFirmBranch WHERE Id = @Id
+	SELECT 
+		CustomerFirmBranch.*, 
+		Taluka.Id As TalukaId,
+		District.Id As DistrictId
+	FROM CustomerFirmBranch 
+	LEFT JOIN City ON CustomerFirmBranch.CityId = City.Id
+	LEFT JOIN Taluka ON City.TalukaId = Taluka.Id
+	LEFT JOIN District ON Taluka.DistrictId = District.Id
+	LEFT JOIN State ON District.StateId = State.Id
+	LEFT JOIN Country ON State.CountryId = Country.Id
+	WHERE CustomerFirmBranch.Id = @Id
 END
 GO

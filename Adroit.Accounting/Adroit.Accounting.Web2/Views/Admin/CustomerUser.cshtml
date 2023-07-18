@@ -235,7 +235,6 @@
                           return row.firstName;
                       },
                       "targets": colDef.length,
-                      "orderable": false
                   });
                   colDef.push({
                       "render": function (data, type, row) {
@@ -302,9 +301,11 @@
                     processing: true,
                     serverSide: true,
                       ajax: {
-                          url: '@(Url.Content("~/Admin/CustomerUserList?customerId="))'+window.customerId,
+                          url: '@(Url.Content("~/Admin/CustomerUserList"))',
                           type: 'GET',
-                          data: function (d) { }
+                          data: function (d) { 
+                              d.customerId = window.customerId;
+                          }
                       },
                        "initComplete": function(settings, json) {
                         table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');

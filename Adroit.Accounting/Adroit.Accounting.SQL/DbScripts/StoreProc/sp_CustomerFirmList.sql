@@ -14,10 +14,14 @@ Begin
 	 (   
 	  SELECT  
 	   ROW_NUMBER() over (ORDER BY
-		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CustomerFirm.[OwnerName] END ASC,  
-		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN CustomerFirm.[OwnerName] END DESC,
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CustomerFirm.[Title] END ASC,  
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CustomerFirm.[Title] END DESC  
+		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CustomerFirm.Title END ASC,
+		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN CustomerFirm.Title END DESC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CustomerFirm.OwnerName END ASC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CustomerFirm.OwnerName END DESC,
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN [FirmTypeAdmin].Title END ASC,
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN [FirmTypeAdmin].Title END DESC,
+		 CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN (SELECT COUNT(*) FROM CustomerFirmBranch WHERE CustomerFirmBranch.FirmId = CustomerFirm.Id AND IsDeleted = 0) END ASC,
+		 CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN (SELECT COUNT(*) FROM CustomerFirmBranch WHERE CustomerFirmBranch.FirmId = CustomerFirm.Id AND IsDeleted = 0) END DESC
 		) AS RowNum,
 	   Count(*) over () AS TotalCount, 
 	   CustomerFirm.*, 
