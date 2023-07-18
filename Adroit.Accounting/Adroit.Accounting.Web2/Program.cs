@@ -79,6 +79,8 @@ try
     builder.Services.AddSingleton<ICommon, CommonRepository>();
     builder.Services.AddSingleton<IBranchType, BranchTypeRepository>();
     builder.Services.AddSingleton<IGSTCollection, GSTCollectionRepository>();
+    builder.Services.AddSingleton<IColor, ColorRepository>();
+    builder.Services.AddSingleton<IProductSize, ProductSizeRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

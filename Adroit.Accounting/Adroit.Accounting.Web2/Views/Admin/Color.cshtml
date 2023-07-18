@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.SoftwareViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.ColorViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -10,8 +10,8 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
-                    <li><a href="#">Software</a></li>
-                    <li class="active"><span>Software Master</span></li>
+                    <li><a href="#">Product</a></li>
+                    <li class="active"><span>Colour</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -35,7 +35,7 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">SOFTWARE NAME</th>
+                                    <th class="border-bottom-0">COLOUR NAME</th>
                                     <th class="border-bottom-0" style="width:130px">ORDER NUMBER</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
@@ -59,8 +59,8 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
-                    <li><a href="#">Software</a></li>
-                    <li><a href="#" class="btn-back">Software Master</a></li>
+                    <li><a href="#">Product</a></li>
+                    <li><a href="#" class="btn-back">Colour</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
@@ -86,13 +86,13 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-12">
                             <div class="form-group">
-                                <label for="Title">Software Name</label>
+                                <label for="Title">Colour Name</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="Title">
                                     <option></option>
                                     @{
-                                        if (Model.SoftwareList != null)
+                                        if (Model.ColorList != null)
                                         {
-                                            foreach (var o in Model.SoftwareList)
+                                            foreach (var o in Model.ColorList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -250,7 +250,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/admin/softwarelist"))',
+                    url: '@(Url.Content("~/admin/colorlist"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -277,13 +277,13 @@
         function saveItem() {
             try {
                 if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid software name.");
+                    showWarning("", "Please enter valid colour name.");
                     $("#Title").focus();
                     return false;
                 }
 
-                if ($("#Title").val().length > 20) {
-                    showWarning("", "Software name must be upto 20 characters long.");
+                if ($("#Title").val().length > 50) {
+                    showWarning("", "Colour name must be upto 50 characters long.");
                     $("#Title").focus();
                     return false;
                 }
@@ -298,9 +298,9 @@
                     $("#OrderNumber").focus();
                     return false;
                 }
-                if (savedata.OrderNumber > 25000) {
+                if (savedata.OrderNumber > 255) {
                     $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
-                    showWarning("", "Please provide valid order number less than or equal to 25000.");
+                    showWarning("", "Please provide valid order number less than or equal to 255.");
                     $("#OrderNumber").focus();
                     return false;
                 }
@@ -310,7 +310,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveSoftware", "Admin"))",
+                    url: "@(Url.Action("SaveColor", "Admin"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -319,7 +319,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Software saved successfully.');
+                            showWarning("", 'Colour saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -344,7 +344,7 @@
         function deleteItem(id) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteSoftware"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteColor"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -372,7 +372,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetSoftware"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetColor"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";

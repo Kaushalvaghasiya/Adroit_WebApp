@@ -1,0 +1,10 @@
+CREATE OR ALTER PROCEDURE [dbo].[sp_ColorGet]
+(
+	@Id INT
+)
+AS
+BEGIN
+	SELECT *
+	FROM ColorAdmin WHERE Id = @Id
+END
+GO
