@@ -20,7 +20,7 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<CustomerFirmViewModel>("sp_CustomerFirmGet", connectionString, parameters);
+            return QueryHelper.Get<CustomerFirmViewModel>("sp_CustomerFirmGet", connectionString, parameters);
         }
 
         public List<CustomerFirmGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder, int CustomerId)
@@ -38,31 +38,31 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.GetList<CustomerFirmGridViewModel>("sp_CustomerFirmList", connectionString, param);
         }
 
-        public int Save(CustomerFirm customerFirm, string connectionString)
+        public int Save(CustomerFirm value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Id", customerFirm.Id);
-            parameters.Add("@CustomerId", customerFirm.CustomerId);
-            parameters.Add("@BusinessId", $"{(short)customerFirm.BusinessId}");
-            parameters.Add("@Title", customerFirm.Title);
-            parameters.Add("@OwnerName ", customerFirm.OwnerName);
-            parameters.Add("@TAN ", customerFirm.TAN ?? "");
-            parameters.Add("@IECCode ", customerFirm.IECCode ?? "");
-            parameters.Add("@IsLutBond ", customerFirm.IsLutBond);
-            parameters.Add("@LutBondNumber", customerFirm.LutBondNumber ?? "");
-            parameters.Add("@IsGTA ", customerFirm.IsGTA);
-            parameters.Add("@FirmTypeId ", customerFirm.FirmTypeId);
-            parameters.Add("@GstFirmTypeId ", customerFirm.GstFirmTypeId);
-            parameters.Add("@SoftwareId ", customerFirm.SoftwareId);
-            parameters.Add("@BranchLimit ", $"{(short)customerFirm.BranchLimit}");
-            parameters.Add("@IsDeleted ", customerFirm.IsDeleted);
-            parameters.Add("@IsActive ", customerFirm.IsActive);
-            parameters.Add("@ModifiedById", customerFirm.ModifiedById);
-            parameters.Add("@OrderNumber ", customerFirm.OrderNumber);
-            parameters.Add("@AddedById ", customerFirm.AddedById);
-            parameters.Add("@AdharUID", customerFirm.AdharUID);
-            parameters.Add("@LRResetOnYearEnd", customerFirm.LRResetOnYearEnd);
-            parameters.Add("@CessRequired", customerFirm.CessRequired);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@CustomerId", value.CustomerId);
+            parameters.Add("@BusinessId", value.BusinessId);
+            parameters.Add("@Title", value.Title);
+            parameters.Add("@OwnerName ", value.OwnerName);
+            parameters.Add("@TAN ", value.TAN);
+            parameters.Add("@IECCode ", value.IECCode);
+            parameters.Add("@IsLutBond ", value.IsLutBond);
+            parameters.Add("@LutBondNumber", value.LutBondNumber);
+            parameters.Add("@IsGTA ", value.IsGTA);
+            parameters.Add("@FirmTypeId ", value.FirmTypeId);
+            parameters.Add("@GstFirmTypeId ", value.GstFirmTypeId);
+            parameters.Add("@SoftwareId ", value.SoftwareId);
+            parameters.Add("@BranchLimit ", value.BranchLimit);
+            parameters.Add("@IsDeleted ", value.IsDeleted);
+            parameters.Add("@IsActive ", value.IsActive);
+            parameters.Add("@ModifiedById", value.ModifiedById);
+            parameters.Add("@OrderNumber ", value.OrderNumber);
+            parameters.Add("@AddedById ", value.AddedById);
+            parameters.Add("@AdharUID", value.AdharUID);
+            parameters.Add("@LRResetOnYearEnd", value.LRResetOnYearEnd);
+            parameters.Add("@CessRequired", value.CessRequired);
 
             return QueryHelper.Save("sp_CustomerFirmSave", connectionString, parameters);
         }

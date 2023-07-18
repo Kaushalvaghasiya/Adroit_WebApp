@@ -45,32 +45,32 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SaveCustomerUser([FromBody] CustomerUser savedata)
+        public async Task<JsonResult> SaveCustomerUser([FromBody] CustomerUser model)
         {
             ApiResult result = new ApiResult();
             try
             {
                 //we need add user Id
                 //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                savedata.OwnerBranchId = 1;// need set from session
+                model.OwnerBranchId = 1;// need set from session
 
-                if (savedata.Id == 0)
+                if (model.Id == 0)
                 {
-                    var user = await _userManager.FindByNameAsync(savedata.Email);
+                    var user = await _userManager.FindByNameAsync(model.Email);
                     if (user != null)
                     {
                         throw new Exception("This email is already associated with another account, please choose different email.");
                     }
                     user = CreateUser();
-                    await _userStore.SetUserNameAsync(user, savedata.Email, CancellationToken.None);
-                    await _emailStore.SetEmailAsync(user, savedata.Email, CancellationToken.None);
+                    await _userStore.SetUserNameAsync(user, model.Email, CancellationToken.None);
+                    await _emailStore.SetEmailAsync(user, model.Email, CancellationToken.None);
                     var res = await _userManager.CreateAsync(user);
                     if (res.Succeeded)
                     {
                         var userId = await _userManager.GetUserIdAsync(user);
-                        savedata.UserId = new Guid(userId);
+                        model.UserId = new Guid(userId);
 
-                        int id = _customerUserRepository.Save(savedata, _configurationData.DefaultConnection);
+                        int id = _customerUserRepository.Save(model, _configurationData.DefaultConnection);
                         if (id > 0)
                         {
                             result.data = true;
@@ -90,7 +90,7 @@ namespace Adroit.Accounting.Web.Controllers
                 }
                 else
                 {
-                    int id = _customerUserRepository.Save(savedata, _configurationData.DefaultConnection);
+                    int id = _customerUserRepository.Save(model, _configurationData.DefaultConnection);
                     if (id > 0)
                     {
                         result.data = true;

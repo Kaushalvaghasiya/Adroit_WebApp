@@ -300,10 +300,10 @@
         </div>
     </div>
     <!-- row end -->
-    <input type="hidden" id="hdnCountry" value="0" />
+    <input type="hidden" id="hdnCountryId" value="0" />
     <input type="hidden" id="hdnStateId" value="0" />
-    <input type="hidden" id="hdnDistrict" value="0" />
-    <input type="hidden" id="hdnTaluka" value="0" />
+    <input type="hidden" id="hdnDistrictId" value="0" />
+    <input type="hidden" id="hdnTalukaId" value="0" />
     <input type="hidden" id="hdnCityId" value="0" />
 
 </div>
@@ -418,6 +418,7 @@
                 },
                 "targets": colDef.length,
                 //"className": "text-center",
+                "orderable": false
             });
 
             columns.push({ "data": "Name", "name": "Name" });
@@ -514,7 +515,7 @@
                                     $('#District').append(new Option(data.data[i].text, data.data[i].value, false, false));
                                 }
                             }
-                            $('#District').val($("#hdnDistrict").val()).trigger('change');
+                            $('#District').val($("#hdnDistrictId").val()).trigger('change');
                         } else {
                             showError("", data.data);
                         }
@@ -545,7 +546,7 @@
                                     $('#Taluka').append(new Option(data.data[i].text, data.data[i].value, false, false));
                                 }
                             }
-                            $('#Taluka').val($("#hdnTaluka").val()).trigger('change');
+                            $('#Taluka').val($("#hdnTalukaId").val()).trigger('change');
                         } else {
                             showError("", data.data);
                         }
@@ -596,18 +597,18 @@
             $("#Id").val(0);
             $("#CustomerName").val("");
             $("#BusinessName").val("");
-            $("#BusinessId").select2().val('').trigger("change");
+            $("#BusinessId").val('').trigger("change");
             $("#Address1").val("");
             $("#Address2").val("");
             $("#Address3").val("");
-            $("#Country").select2().val('').trigger("change");
-            $("#StateId").select2().val('').trigger("change");
-            $("#District").select2().val('').trigger("change");
-            $("#Taluka").select2().val('').trigger("change");
-            $("#CityId").select2().val('').trigger("change");
-            $("#Business").select2().val('').trigger("change");
-            $("#CustomerType").select2().val('').trigger("change");
-            $("#StatusId").select2().val('').trigger("change");
+            $("#Country").val('').trigger("change");
+            $("#StateId").val('').trigger("change");
+            $("#District").val('').trigger("change");
+            $("#Taluka").val('').trigger("change");
+            $("#CityId").val('').trigger("change");
+            $("#Business").val('').trigger("change");
+            $("#CustomerType").val('').trigger("change");
+            $("#StatusId").val('').trigger("change");
             $("#PinCode").val("");
             $("#ContactPersonName").val("");
             $("#Mobile").val("");
@@ -618,11 +619,12 @@
             $("#TotalFirms").val("");
             $("#AadhaarUID").val("");
             $("#TotalUsers").val("");
+            $("#IsActive").prop('checked', false);
 
-            $("#hdnCountry").val("");
+            $("#hdnCountryId").val("");
             $("#hdnStateId").val("");
-            $("#hdnDistrict").val("");
-            $("#hdnTaluka").val("");
+            $("#hdnDistrictId").val("");
+            $("#hdnTalukaId").val("");
             $("#hdnCityId").val("");
 
             $("#activeTabName").text("Add");
@@ -910,10 +912,10 @@
                                 $("#CustomerType").val(result.data.customerTypeId).trigger("change");
                                 $("#StatusId").val(result.data.statusTypeId).trigger("change");
 
-                                $("#hdnCountry").val(result.data.countryId);
+                                $("#hdnCountryId").val(result.data.countryId);
                                 $("#hdnStateId").val(result.data.stateId);
-                                $("#hdnDistrict").val(result.data.districtId);
-                                $("#hdnTaluka").val(result.data.talukaId);
+                                $("#hdnDistrictId").val(result.data.districtId);
+                                $("#hdnTalukaId").val(result.data.talukaId);
                                 $("#hdnCityId").val(result.data.cityId);
                                 $("#Country").val(result.data.countryId).trigger("change");
                             } else {

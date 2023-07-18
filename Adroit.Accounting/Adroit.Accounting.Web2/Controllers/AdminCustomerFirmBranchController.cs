@@ -1,6 +1,7 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.SQL.Tables;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,18 @@ namespace Adroit.Accounting.Web.Controllers
     public partial class AdminController : Controller
     {
         [Route("~/admin/customer/firm/branch")]
-        public IActionResult CustomerFirmBranch(int? id=0)
+        public IActionResult CustomerFirmBranch(int id)
         {
-            ViewBag.Id = id;
-            return View();
+            CustomerFirmBranchViewModel model = new();
+            model.Firm = _customerFirmRepository.Get(id, _configurationData.DefaultConnection);
+            model.Firm.Customer = _customerRepository.Get(model.Firm.CustomerId, _configurationData.DefaultConnection);
+
+            model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
+            model.SoftwarePlanList = _softwarePlanRepository.SelectList(model.Firm.SoftwareId, _configurationData.DefaultConnection);
+            model.BranchTypeList = _branchType.SelectList(_configurationData.DefaultConnection);
+            model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchTable._TableName, CustomerFirmBranchTable.OrderNumber);
+
+            return View(model);
         }
 
         [HttpGet]
@@ -43,15 +52,15 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveCustomerFirmBranch([FromBody] CustomerFirmBranch savedata)
+        public JsonResult SaveCustomerFirmBranch([FromBody] CustomerFirmBranch model)
         {
             ApiResult result = new ApiResult();
             try
             {
                 var UserId = 1;//Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                savedata.AddedById = UserId;
-                savedata.ModifiedById = UserId;
-                int id = _customerFirmBranchRepository.Save(savedata, _configurationData.DefaultConnection);
+                model.AddedById = UserId;
+                model.ModifiedById = UserId;
+                int id = _customerFirmBranchRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;

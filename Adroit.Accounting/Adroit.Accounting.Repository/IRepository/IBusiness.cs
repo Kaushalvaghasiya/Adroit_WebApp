@@ -5,7 +5,7 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface IBusiness
     {
-        int Save(Business software, string connectionString);
+        int Save(Business value, string connectionString);
         BusinessViewModel Get(int id, string connectionString);
         void Delete(int id, string connectionString);
         List<DropdownViewModel> SelectList(string connectionString);

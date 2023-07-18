@@ -16,11 +16,11 @@ namespace Adroit.Accounting.Repository
             QueryHelper.Save("sp_CustomerFirmBranchDelete", connectionString, parameters);
         }
 
-        public CustomerFirmBranch Get(int id, string connectionString)
+        public CustomerFirmBranchViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<CustomerFirmBranch>("sp_CustomerFirmBranchGet", connectionString, parameters);
+            return QueryHelper.Get<CustomerFirmBranchViewModel>("sp_CustomerFirmBranchGet", connectionString, parameters);
         }
 
         public List<CustomerFirmBranchGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder)
@@ -37,39 +37,40 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.GetList<CustomerFirmBranchGridViewModel>("sp_CustomerFirmBranchList", connectionString, param);
         }
 
-        public int Save(CustomerFirmBranch customerFirmBranch, string connectionString)
+        public int Save(CustomerFirmBranch value, string connectionString)
         {
             var parameters = new DynamicParameters();
 
-            parameters.Add("@Id", customerFirmBranch.Id);
-            parameters.Add("@FirmId", $"{(short)customerFirmBranch.FirmId}");
-            parameters.Add("@Title", customerFirmBranch.Title);
-            parameters.Add("@PrintTitle", customerFirmBranch.PrintTitle);
-            parameters.Add("@ShortTitle", customerFirmBranch.ShortTitle);
-            parameters.Add("@FirmBranchTypeId", $"{(short)customerFirmBranch.FirmBranchTypeId}");
-            parameters.Add("@Address1", customerFirmBranch.Address1);
-            parameters.Add("@Address2", customerFirmBranch.Address2);
-            parameters.Add("@Address3", customerFirmBranch.Address3);
-            parameters.Add("@CityId", customerFirmBranch.CityId != 0 ? $"{(short)customerFirmBranch.CityId}" : null);
-            parameters.Add("@StateId", customerFirmBranch.StateId != 0 ? $"{(short)customerFirmBranch.StateId}" : null);
-            parameters.Add("@CountryId", $"{(short)customerFirmBranch.CountryId}");
-            parameters.Add("@PinCode", customerFirmBranch.Pincode ?? "");
-            parameters.Add("@Phone", customerFirmBranch.Phone ?? "");
-            parameters.Add("@ContactPersonName", customerFirmBranch.ContactPersonName ?? null);
-            parameters.Add("@Mobile", customerFirmBranch.Mobile ?? null);
-            parameters.Add("@MobileAlternate", customerFirmBranch.MobileAlternate ?? null);
-            parameters.Add("@Email", customerFirmBranch.Email ?? null);
-            parameters.Add("@GSTNumber", customerFirmBranch.GSTNumber ?? null);
-            parameters.Add("@PAN", customerFirmBranch.PAN ?? null);
-            parameters.Add("@EWBAddress1", customerFirmBranch.EWBAddress1 ?? null);
-            parameters.Add("@EWBAddress2", customerFirmBranch.EWBAddress2 ?? null);
-            parameters.Add("@RenewalDate", customerFirmBranch.RenewalDate);
-            parameters.Add("@SetupPrice", customerFirmBranch.SetupPrice);
-            parameters.Add("@RenewalPrice", customerFirmBranch.RenewalPrice);
-            parameters.Add("@OrderNumber", customerFirmBranch.OrderNumber != 0 ? $"{(short)customerFirmBranch.OrderNumber}" : null);
-            parameters.Add("@AddedById", customerFirmBranch.AddedById);
-            parameters.Add("@ModifiedById", customerFirmBranch.ModifiedById);
-            parameters.Add("@IsActive", customerFirmBranch.IsActive);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@FirmId", value.FirmId);
+            parameters.Add("@Title", value.Title);
+            parameters.Add("@PrintTitle", value.PrintTitle);
+            parameters.Add("@ShortTitle", value.ShortTitle);
+            parameters.Add("@FirmBranchTypeId", value.FirmBranchTypeId);
+            parameters.Add("@Address1", value.Address1);
+            parameters.Add("@Address2", value.Address2);
+            parameters.Add("@Address3", value.Address3);
+            parameters.Add("@CityId", value.CityId);
+            parameters.Add("@StateId", value.StateId);
+            parameters.Add("@CountryId", value.CountryId);
+            parameters.Add("@PinCode", value.Pincode);
+            parameters.Add("@Phone", value.Phone);
+            parameters.Add("@ContactPersonName", value.ContactPersonName);
+            parameters.Add("@Mobile", value.Mobile);
+            parameters.Add("@MobileAlternate", value.MobileAlternate);
+            parameters.Add("@Email", value.Email);
+            parameters.Add("@GSTNumber", value.GSTNumber);
+            parameters.Add("@PAN", value.PAN);
+            parameters.Add("@EWBAddress1", value.EWBAddress1);
+            parameters.Add("@EWBAddress2", value.EWBAddress2);
+            parameters.Add("@RenewalDate", value.RenewalDate);
+            parameters.Add("@SetupPrice", value.SetupPrice);
+            parameters.Add("@RenewalPrice", value.RenewalPrice);
+            parameters.Add("@OrderNumber", value.OrderNumber);
+            parameters.Add("@AddedById", value.AddedById);
+            parameters.Add("@ModifiedById", value.ModifiedById);
+            parameters.Add("@IsActive", value.IsActive);
+            parameters.Add("@SoftwarePlanId", value.SoftwarePlanId);
 
             return QueryHelper.Save("sp_CustomerFirmBranchSave", connectionString, parameters);
         }

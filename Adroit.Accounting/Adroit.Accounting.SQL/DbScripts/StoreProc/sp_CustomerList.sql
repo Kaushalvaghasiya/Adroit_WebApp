@@ -13,10 +13,18 @@ Begin
 	 (   
 	  SELECT  
 	   ROW_NUMBER() over (ORDER BY
-	   CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN Customer.[Name] END ASC,  
+		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN Customer.[Name] END ASC,
 		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN Customer.[Name] END DESC,
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN Customer.Email END ASC,  
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN Customer.Email END DESC  
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN dbo.[fn_GetCustomerType](Customer.CustomerType) END ASC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN dbo.[fn_GetCustomerType](Customer.CustomerType) END DESC,
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN [City].Title END ASC,
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN [City].Title END DESC,
+		 CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN dbo.[fn_GetCustomerStatus](Customer.StatusId) END ASC,
+		 CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN dbo.[fn_GetCustomerStatus](Customer.StatusId) END DESC,
+		 CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN Customer.Mobile END ASC,
+		 CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN Customer.Mobile END DESC,
+		 CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN (SELECT COUNT(*) FROM CustomerFirm WHERE CustomerFirm.CustomerId = Customer.Id AND IsDeleted = 0) END ASC,
+		 CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN (SELECT COUNT(*) FROM CustomerFirm WHERE CustomerFirm.CustomerId = Customer.Id AND IsDeleted = 0) END DESC
 		) AS RowNum,
 	   Count(*) over () AS TotalCount, 
 	   Customer.*, 

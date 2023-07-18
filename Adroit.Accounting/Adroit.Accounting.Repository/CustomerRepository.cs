@@ -1,4 +1,5 @@
-﻿using Adroit.Accounting.Model;
+﻿
+using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
@@ -8,67 +9,67 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerRepository : ICustomer
     {
-        public int Save(Customer customer, string connectionString)
+        public int Save(Customer value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Id", customer.Id);
-            parameters.Add("@Name", customer.Name);
-            parameters.Add("@BusinessName", customer.BusinessName);
-            parameters.Add("@Address1", customer.Address1 ?? "");
-            parameters.Add("@Address2", customer.Address2 ?? "");
-            parameters.Add("@Address3", customer.Address3 ?? "");
-            parameters.Add("@CityId", customer.CityId);
-            parameters.Add("@StateId", customer.StateId);
-            parameters.Add("@PinCode", customer.Pincode);
-            parameters.Add("@ContactPersonName", customer.ContactPersonName ?? customer.Name);
-            parameters.Add("@Mobile", customer.Mobile);
-            parameters.Add("@MobileAlternate", customer.MobileAlternate ?? "");
-            parameters.Add("@Phone", customer.Phone ?? "");
-            parameters.Add("@Email", customer.Email);
-            parameters.Add("@BusinessId", customer.BusinessId);
-            parameters.Add("@Requirement", customer.Requirement ?? "");
-            parameters.Add("@TotalFirm", customer.TotalFirm);
-            parameters.Add("@CustomerType", $"{(short)customer.CustomerType}");
-            parameters.Add("@IsDeleted", customer.IsDeleted);
-            parameters.Add("@AdharUID", customer.AdharUID ?? "");
-            parameters.Add("@TotalUsers", customer.TotalUsers);
-            parameters.Add("@IsActive", customer.IsActive);
-            parameters.Add("@EmailOtp", customer.EmailOtp);
-            parameters.Add("@MobileOtp", customer.MobileOtp);
-            parameters.Add("@StatusId", $"{(short)customer.StatusId}");
-            parameters.Add("@BusinessName", $"{customer.BusinessName}");
-            parameters.Add("@AgreeTerms", customer.AgreeTerms);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@Name", value.Name);
+            parameters.Add("@BusinessName", value.BusinessName);
+            parameters.Add("@Address1", value.Address1);
+            parameters.Add("@Address2", value.Address2);
+            parameters.Add("@Address3", value.Address3);
+            parameters.Add("@CityId", value.CityId);
+            parameters.Add("@StateId", value.StateId);
+            parameters.Add("@PinCode", value.Pincode);
+            parameters.Add("@ContactPersonName", value.ContactPersonName);
+            parameters.Add("@Mobile", value.Mobile);
+            parameters.Add("@MobileAlternate", value.MobileAlternate);
+            parameters.Add("@Phone", value.Phone ?? "");
+            parameters.Add("@Email", value.Email);
+            parameters.Add("@BusinessId", value.BusinessId);
+            parameters.Add("@Requirement", value.Requirement);
+            parameters.Add("@TotalFirm", value.TotalFirm);
+            parameters.Add("@CustomerType", $"{(short)value.CustomerType}");
+            parameters.Add("@IsDeleted", value.IsDeleted);
+            parameters.Add("@AdharUID", value.AdharUID);
+            parameters.Add("@TotalUsers", value.TotalUsers);
+            parameters.Add("@IsActive", value.IsActive);
+            parameters.Add("@EmailOtp", value.EmailOtp);
+            parameters.Add("@MobileOtp", value.MobileOtp);
+            parameters.Add("@StatusId", $"{(short)value.StatusId}");
+            parameters.Add("@BusinessName", value.BusinessName);
+            parameters.Add("@AgreeTerms", value.AgreeTerms);
 
             return QueryHelper.Save("sp_CustomerSave", connectionString, parameters);
         }
 
-        public int Register(Customer customer, string connectionString)
+        public int Register(Customer value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Id", customer.Id);
-            parameters.Add("@Name", customer.Name);
-            parameters.Add("@BusinessName", customer.BusinessName);
-            parameters.Add("@Address1", customer.Address1 ?? "");
-            parameters.Add("@Address2", customer.Address2 ?? "");
-            parameters.Add("@Address3", customer.Address3 ?? "");
-            parameters.Add("@CityId", customer.CityId);
-            parameters.Add("@StateId", customer.StateId);
-            parameters.Add("@EmailOtp", customer.EmailOtp);
-            parameters.Add("@MobileOtp", customer.MobileOtp);
-            parameters.Add("@ContactPersonName", customer.ContactPersonName ?? customer.Name);
-            parameters.Add("@Mobile", customer.Mobile);
-            parameters.Add("@MobileAlternate", customer.MobileAlternate ?? "");
-            parameters.Add("@Phone", customer.Phone ?? "");
-            parameters.Add("@Email", customer.Email);
-            parameters.Add("@BusinessId", customer.BusinessId);
-            parameters.Add("@Requirement", customer.Requirement ?? "");
-            parameters.Add("@TotalFirm", customer.TotalFirm);
-            parameters.Add("@CustomerType", $"{(short)customer.CustomerType}");
-            parameters.Add("@AdharUID", customer.AdharUID ?? "");
-            parameters.Add("@StatusId", $"{(short)customer.StatusId}");
-            parameters.Add("@TotalUsers", customer.TotalUsers);
-            parameters.Add("@AgreeTerms", customer.AgreeTerms);
-            parameters.Add("@DefaultUserId", customer.DefaultUserId);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@Name", value.Name);
+            parameters.Add("@BusinessName", value.BusinessName);
+            parameters.Add("@Address1", value.Address1);
+            parameters.Add("@Address2", value.Address2);
+            parameters.Add("@Address3", value.Address3);
+            parameters.Add("@CityId", value.CityId);
+            parameters.Add("@StateId", value.StateId);
+            parameters.Add("@EmailOtp", value.EmailOtp);
+            parameters.Add("@MobileOtp", value.MobileOtp);
+            parameters.Add("@ContactPersonName", value.ContactPersonName);
+            parameters.Add("@Mobile", value.Mobile);
+            parameters.Add("@MobileAlternate", value.MobileAlternate);
+            parameters.Add("@Phone", value.Phone);
+            parameters.Add("@Email", value.Email);
+            parameters.Add("@BusinessId", value.BusinessId);
+            parameters.Add("@Requirement", value.Requirement);
+            parameters.Add("@TotalFirm", value.TotalFirm);
+            parameters.Add("@CustomerType", $"{(short)value.CustomerType}");
+            parameters.Add("@AdharUID", value.AdharUID);
+            parameters.Add("@StatusId", $"{(short)value.StatusId}");
+            parameters.Add("@TotalUsers", value.TotalUsers);
+            parameters.Add("@AgreeTerms", value.AgreeTerms);
+            parameters.Add("@DefaultUserId", value.DefaultUserId);
 
             return QueryHelper.Save("sp_CustomerRegistration", connectionString, parameters);
         }
@@ -77,14 +78,14 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Email", email);
-            return QueryHelper.GetTableDetail<CustomerViewModel>("sp_CustomerGetByEmail", connectionString, parameters);
+            return QueryHelper.Get<CustomerViewModel>("sp_CustomerGetByEmail", connectionString, parameters);
         }
 
         public CustomerViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<CustomerViewModel>("sp_CustomerGet", connectionString, parameters);
+            return QueryHelper.Get<CustomerViewModel>("sp_CustomerGet", connectionString, parameters);
         }
 
         public List<CustomerGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")

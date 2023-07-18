@@ -8,14 +8,14 @@ namespace Adroit.Accounting.Repository
 {
     public class BusinessRepository : IBusiness
     {
-        public int Save(Business software, string connectionString)
+        public int Save(Business value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Id", software.Id);
-            parameters.Add("@Title", software.Title);
-            parameters.Add("@OrderNumber", software.OrderNumber);
-            parameters.Add("@Active", software.Active);
-            parameters.Add("@SoftwareIds", software.SoftwareIds);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@Title", value.Title);
+            parameters.Add("@OrderNumber", value.OrderNumber);
+            parameters.Add("@Active", value.Active);
+            parameters.Add("@SoftwareIds", value.SoftwareIds);
             
             return QueryHelper.Save("sp_BusinessSave", connectionString, parameters);
         }
@@ -23,7 +23,7 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<BusinessViewModel>("sp_BusinessGet", connectionString, parameters);
+            return QueryHelper.Get<BusinessViewModel>("sp_BusinessGet", connectionString, parameters);
         }
         public void Delete(int id, string connectionString)
         {

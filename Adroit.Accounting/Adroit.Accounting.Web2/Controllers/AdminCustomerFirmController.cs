@@ -1,7 +1,6 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.Repository;
 using Adroit.Accounting.Utility;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,11 +12,11 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult CustomerFirm(int? id = 0, int? editid = 0)
         {
             CustomerFirmViewModel model = new();
+            model.Customer = _customerRepository.Get(id ?? 0, _configurationData.DefaultConnection);
             model.BusinessList = _businessRepository.SelectList(_configurationData.DefaultConnection);
             model.GSTFirmTypeList = _gSTFirmTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.FirmTypeList = _firmTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.SoftwareList = _softwareRepository.SelectList(_configurationData.DefaultConnection);
-            model.Customer = _customerRepository.Get(id ?? 0, _configurationData.DefaultConnection);
 
             ViewBag.EditId = editid;
 
@@ -50,7 +49,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveCustomerFirm([FromBody] CustomerFirm savedata)
+        public JsonResult SaveCustomerFirm([FromBody] CustomerFirm model)
         {
             ApiResult result = new ApiResult();
             try
@@ -59,7 +58,7 @@ namespace Adroit.Accounting.Web.Controllers
                 //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
                 //savedata.AddedById = UserId;
                 //savedata.ModifiedById = UserId;
-                int id = _customerFirmRepository.Save(savedata, _configurationData.DefaultConnection);
+                int id = _customerFirmRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;

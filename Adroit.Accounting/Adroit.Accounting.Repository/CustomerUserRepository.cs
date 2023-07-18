@@ -20,7 +20,7 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@userId", id);
-            return QueryHelper.GetTableDetail<CustomerUser>("sp_CustomerUserGet", connectionString, parameters);
+            return QueryHelper.Get<CustomerUser>("sp_CustomerUserGet", connectionString, parameters);
         }
 
         public List<DropdownViewModel> GetBranchWIthFirmName(int id, string connectionString)
@@ -44,19 +44,19 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.GetList<CustomerUserGridViewModel>("sp_CustomerUserList", connectionString, param);
         }
 
-        public int Save(CustomerUser customerUser, string connectionString)
+        public int Save(CustomerUser value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Id", customerUser.Id);
-            parameters.Add("@FirstName", customerUser.FirstName);
-            parameters.Add("@LastName", customerUser.LastName);
-            parameters.Add("@UserId", customerUser.UserId);
-            parameters.Add("@CustomerId", customerUser.CustomerId);
-            parameters.Add("@IsActive", customerUser.IsActive);
-            parameters.Add("@OwnerBranchId", customerUser.OwnerBranchId);
-            parameters.Add("@BranchCSV", customerUser.BranchCSV);
-            parameters.Add("@AddedById", customerUser.AddedById);
-            parameters.Add("@ModifiedById", customerUser.ModifiedById);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@FirstName", value.FirstName);
+            parameters.Add("@LastName", value.LastName);
+            parameters.Add("@UserId", value.UserId);
+            parameters.Add("@CustomerId", value.CustomerId);
+            parameters.Add("@IsActive", value.IsActive);
+            parameters.Add("@OwnerBranchId", value.OwnerBranchId);
+            parameters.Add("@BranchCSV", value.BranchCSV);
+            parameters.Add("@AddedById", value.AddedById);
+            parameters.Add("@ModifiedById", value.ModifiedById);
 
             return QueryHelper.Save("sp_CustomerUserBranchSave", connectionString, parameters);
         }

@@ -5,7 +5,7 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface ICustomerFirm
     {
-        int Save(CustomerFirm customerFirm, string connectionString);
+        int Save(CustomerFirm value, string connectionString);
 
         CustomerFirmViewModel Get(int id, string connectionString);
 

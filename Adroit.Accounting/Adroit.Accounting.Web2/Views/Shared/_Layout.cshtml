@@ -70,6 +70,10 @@
 
     <link href="@Url.Content("~/assets/plugins/sweet-alert/sweetalert.css")" rel="stylesheet" type="text/css" />
 
+    <!-- Notifications  css -->
+    <link href="@Url.Content("~/assets/plugins/notify-growl/css/jquery.growl.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/assets/plugins/notify-growl/css/notifIt.css")" rel="stylesheet" />
+
     <!--Fonts-->
     <link href="@Url.Content("~/assets/colors/fonts/font1.css")" rel="stylesheet" type="text/css" />
 
@@ -1780,6 +1784,13 @@
     <script src="@Url.Content("~/assets/plugins/spectrum-date-picker/spectrum.js")"></script>
     <script src="@Url.Content("~/assets/plugins/spectrum-date-picker/jquery-ui.js")"></script>
     <script src="@Url.Content("~/assets/plugins/input-mask/jquery.maskedinput.js")"></script>
+
+    <!-- Notifications js -->
+    <script src="@Url.Content("~/assets/plugins/notify-growl/js/rainbow.js")"></script>
+    @*<script src="@Url.Content("~/assets/plugins/notify-growl/js/sample.js")"></script>*@
+    <script src="@Url.Content("~/assets/plugins/notify-growl/js/jquery.growl.js")"></script>
+    <script src="@Url.Content("~/assets/plugins/notify-growl/js/notifIt.js")"></script>
+
     <!-- Custom js-->
     <script src="@Url.Content("~/assets/js/custom.js")"></script>
     <script src="@Url.Content("~/assets/js/DevScript.js")"></script>
@@ -1815,6 +1826,10 @@
 
             $(".btn-underdevelopment").on("click", function () {
                 showInfo("","Under Development");
+            });
+
+            $(".go-search").on("click", function () {
+                goSearch($('#GoSearchQuery').val());
             });
         });
 

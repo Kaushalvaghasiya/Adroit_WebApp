@@ -8,20 +8,20 @@ namespace Adroit.Accounting.Repository
 {
     public class SoftwareRepository : ISoftware
     {
-        public int Save(Software software, string connectionString)
+        public int Save(Software value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Id", software.Id);
-            parameters.Add("@Title", software.Title);
-            parameters.Add("@OrderNumber", software.OrderNumber);
-            parameters.Add("@Active", software.Active);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@Title", value.Title);
+            parameters.Add("@OrderNumber", value.OrderNumber);
+            parameters.Add("@Active", value.Active);
             return QueryHelper.Save("sp_SoftwareSave", connectionString, parameters);
         }
         public SoftwareViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.GetTableDetail<SoftwareViewModel>("sp_SoftwareGet", connectionString, parameters);
+            return QueryHelper.Get<SoftwareViewModel>("sp_SoftwareGet", connectionString, parameters);
         }
         public void Delete(int id, string connectionString)
         {

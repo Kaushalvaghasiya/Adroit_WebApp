@@ -19,5 +19,6 @@ namespace Adroit.Accounting.Model
         public string City { get; set; }
         public string Pincode { get; set; }
         public System.DateTime AddedOn { get; set; }
+        public bool Active { get; set; }
     }
 }

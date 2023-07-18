@@ -46,7 +46,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SaveSoftwarePlan([FromBody] SoftwarePlan savedata)
+        public JsonResult SaveSoftwarePlan([FromBody] SoftwarePlan model)
         {
             ApiResult result = new ApiResult();
             try
@@ -54,7 +54,7 @@ namespace Adroit.Accounting.Web.Controllers
                 //we need add user Id
                 //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
 
-                int id = _softwarePlanRepository.Save(savedata, _configurationData.DefaultConnection);
+                int id = _softwarePlanRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;

@@ -28,7 +28,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchSave]
 	 @OrderNumber smallint,
 	 @AddedById INT,
 	 @ModifiedById INT,
-	 @IsActive bit
+	 @IsActive bit,
+	 @SoftwarePlanId tinyint
 )
 AS
 BEGIN
@@ -64,26 +65,35 @@ BEGIN
 					OrderNumber= @OrderNumber, 
 					ModifiedById=NULL,  --need to set parameter value
 					ModifiedOn=GETUTCDATE(),
-					IsActive=@IsActive
+					IsActive=@IsActive,
+					SoftwarePlanId = @SoftwarePlanId
 					WHERE ID = @Id
 			END
 		ELSE
 			BEGIN
+				declare @branchlimit int = 0
+				declare @branchcreated int = 0
+				SELECT @branchlimit = BranchLimit FROM CustomerFirm Where Id = @FirmId
+				SELECT @branchcreated = count(*) FROM CustomerFirmBranch Where FirmId = @FirmId ANd IsDeleted = 0
+				IF (@branchcreated >= @branchlimit)
+				BEGIN
+					RAISERROR ('%s', 16, 1, 'Branch limit exceeded');
+				END
+
 				INSERT INTO CustomerFirmBranch
 					(FirmId,Title,PrintTitle,ShortTitle,FirmBranchTypeId,Address1,Address2,Address3,CityId,
 					StateId,CountryId,Pincode,Phone,ContactPersonName,Mobile,MobileAlternate,Email,GSTNumber,
-					PAN,EWBAddress1,EWBAddress2,RenewalDate,SetupPrice,RenewalPrice,OrderNumber,AddedById,AddedOn,IsActive)
+					PAN,EWBAddress1,EWBAddress2,RenewalDate,SetupPrice,RenewalPrice,OrderNumber,AddedById,AddedOn,IsActive,
+					SoftwarePlanId)
 				VALUES
 					(@FirmId,@Title,@PrintTitle,@ShortTitle,@FirmBranchTypeId,@Address1,@Address2,@Address3,@CityId,
 					@StateId,@CountryId,@PinCode,@Phone,@ContactPersonName,@Mobile,@MobileAlternate,@Email,@GSTNumber,
-					@PAN,@EWBAddress1,@EWBAddress2,@RenewalDate,@SetupPrice,@RenewalPrice,@OrderNumber,NULL,GETUTCDATE(),@IsActive
+					@PAN,@EWBAddress1,@EWBAddress2,@RenewalDate,@SetupPrice,@RenewalPrice,@OrderNumber,NULL,GETUTCDATE(),@IsActive,
+					@SoftwarePlanId
 					)
 
 				SET @Id = SCOPE_IDENTITY()
-
-				
 			END
-
 		COMMIT TRAN
 		SELECT @Id
 	END TRY
@@ -91,7 +101,10 @@ BEGIN
 		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
 		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
 		ROLLBACK TRAN
-
+		IF (CHARINDEX('IX_CustomerFirmBranch', @message) > 0)
+		BEGIN
+			SET @message = 'Branch ('+ @Title +') already exist!'
+		END
 		RAISERROR ('%s', 16, 1, @message);
 	END CATCH
 END
