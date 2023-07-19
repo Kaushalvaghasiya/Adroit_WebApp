@@ -17,7 +17,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string Country { get; set; }
         public string District { get; set; }
         public string Taluka { get; set; }
-        public int? CountryId { get; set; }
+        public short? CountryId { get; set; }
         public int? DistrictId { get; set; }
         public int? TalukaId { get; set; }
         public int NumberOfFirmsCreated { get; set; }

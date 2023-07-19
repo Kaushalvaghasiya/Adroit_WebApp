@@ -148,7 +148,7 @@
                             <div class="form-group">
                                 <label for="SoftwareId">Software</label>
                                 <select class="form-control select2-show-search mode-ed" id="SoftwareId">
-                                    @{
+                                    @*@{
                                         if (Model.SoftwareList != null)
                                         {
                                             foreach (var o in Model.SoftwareList)
@@ -156,7 +156,7 @@
                                                 <option value="@o.Value">@o.Text</option>
                                             }
                                         }
-                                    }
+                                    }*@
                                 </select>
                             </div>
                         </div>
@@ -257,6 +257,8 @@
     <!-- row end -->
     <input type="hidden" id="Id" value="0" />
     <input type="hidden" id="CustomerId" value="@Model.Customer.Id" />
+    <input type="hidden" id="hdnSoftwareId" value="@Model.SoftwareId" />
+    
 </div>
 
 @section Scripts
@@ -267,19 +269,28 @@
             $('.dv-list').show();
             $('.dv-detail').hide();
 
+            $("#BusinessId").on('change', function (e) {
+                bindSoftwareList($(this).val());
+            });
+
             bindDatatableList();
 
             if (@ViewBag.EditId > 0) {
                 getDetail(@ViewBag.EditId, false);
+            }else{
+                $("#BusinessId").val("@Model.Customer.BusinessId").trigger("change");
             }
         });
 
-        function addClick() {
+        function addClick(isedit) {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
             fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
+            if (isedit == undefined || !isedit) {
+            $("#BusinessId").val("@Model.Customer.BusinessId").trigger("change");
+            }
             $("#Title").focus();
         }
 
@@ -560,7 +571,7 @@
                         var str = "";
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                addClick();
+                                addClick(true);
                                 if (isViewMode) {
                                     setScreenMode(true);
                                     $("#activeTabName").text("VIEW ID# " + result.data.id);
@@ -571,7 +582,6 @@
 
                                 $('#Id').val(result.data.id);
                                 $('#CustomerId').val(result.data.customerId);
-                                $("#BusinessId").val(result.data.businessId).trigger("change");;
                                 $("#Title").val(result.data.title);
                                 $("#OwnerName").val(result.data.ownerName);
                                 $("#TAN").val(result.data.tan);
@@ -582,11 +592,13 @@
                                 $("#FirmTypeId").val(result.data.firmTypeId).trigger("change");
                                 $("#GstFirmTypeId").val(result.data.gstFirmTypeId).trigger("change");
                                 $("#SoftwareId").val(result.data.softwareId).trigger("change");
+                                $("#hdnSoftwareId").val(result.data.softwareId);
                                 $("#BranchLimit").val(result.data.branchLimit);
                                 $("#IsActive").prop('checked', result.data.isActive);
                                 $("#AdharUID").val(result.data.adharUID);
                                 $("#CessRequired").prop('checked', result.data.cessRequired);
                                 $('#LRResetOnYearEnd').prop('checked', result.data.lrResetOnYearEnd);
+                                $("#BusinessId").val(result.data.businessId).trigger("change");;
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -603,5 +615,35 @@
             }
         }
 
+        function bindSoftwareList(businessId) {
+            try {
+                $("#SoftwareId").empty();
+                if (businessId == '' || businessId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetSoftwareByBusiness"))" + "?id=" + businessId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#SoftwareId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#SoftwareId').val($("#hdnSoftwareId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
     </script>
 }

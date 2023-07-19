@@ -17,7 +17,6 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerSave]
 	 @Requirement nvarchar(max),
 	 @TotalFirm smallint,
 	 @CustomerType varchar(1),
-	 @IsDeleted bit,
 	 @AdharUID varchar(12),
 	 @TotalUsers smallint,
 	 @IsActive bit,
@@ -37,10 +36,10 @@ BEGIN
 					[Name] = @Name,
 					Address1 = @Address1,
 					Address2 = @Address2,
-					Address3=@Address3,
+					Address3 = @Address3,
 					CityId = @CityId,
 					StateId = @StateId,
-					Pincode=@Pincode,
+					Pincode = @Pincode,
 					ContactPersonName = @ContactPersonName,
 					Mobile = @Mobile,
 					MobileAlternate = @MobileAlternate,
@@ -50,34 +49,20 @@ BEGIN
 					Requirement = @Requirement,
 					TotalFirm = @TotalFirm,
 					CustomerType = @CustomerType,
-					IsDeleted=@IsDeleted,
 					AdharUID = @AdharUID,
 					TotalUsers = @TotalUsers,
-					IsActive=@IsActive,
+					IsActive = @IsActive,
 					EmailOtp = @EmailOtp,
 					MobileOtp = @MobileOtp,
-					StatusId=@StatusId,
-					BusinessName=@BusinessName,
+					StatusId = @StatusId,
+					BusinessName = @BusinessName,
 					AgreeTerms = @AgreeTerms
 					WHERE ID = @Id
 			END
 		ELSE
 			BEGIN
-				INSERT INTO Customer
-					([Name], Address1, Address2,Address3, CityId, StateId,Pincode,ContactPersonName, Mobile, MobileAlternate, Phone, Email, BusinessId, Requirement, TotalFirm, CustomerType,IsDeleted ,
-					 AdharUID, TotalUsers, IsActive, EmailOtp,MobileOtp,StatusId,BusinessName, AgreeTerms)
-				VALUES
-					(
-				 @Name,@Address1,@Address2 ,@Address3 ,@CityId ,@StateId,@PinCode ,@ContactPersonName ,@Mobile,
-				 @MobileAlternate,@Phone,@Email,@BusinessId,@Requirement,@TotalFirm,@CustomerType,@IsDeleted,
-				 @AdharUID,@TotalUsers,@IsActive,@EmailOtp,@MobileOtp,@StatusId,@BusinessName,@AgreeTerms
-					)
-
-				SET @Id = SCOPE_IDENTITY()
-
-				
+				RAISERROR ('%s', 16, 1, 'Customer not found!');
 			END
-
 		COMMIT TRAN
 		SELECT @Id
 	END TRY

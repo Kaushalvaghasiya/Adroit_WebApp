@@ -5,13 +5,11 @@ using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
+using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
-using System.Text;
-using System.Text.Encodings.Web;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -63,32 +61,12 @@ namespace Adroit.Accounting.Web.Controllers
         public async Task<JsonResult> Save([FromBody] RegistrationViewModel model)
         {
             ApiResult result = new ApiResult();
+            IdentityUser user = null;
             try
             {
-                var user = await _userManager.FindByNameAsync(model.Email);
-                if (user != null)
-                {
-                    throw new Exception("This email is already associated with another account, please choose different email.");
-                }
-
-                Customer customer = _customerRepo.Get(model.Email, _configurationData.DefaultConnection);
-                if (customer != null)
-                {
-                    throw new Exception("This email is already used, please choose different email.");
-                }
-
-                user = CreateUser();
-                await _userStore.SetUserNameAsync(user, model.Email, CancellationToken.None);
-                await _emailStore.SetEmailAsync(user, model.Email, CancellationToken.None);
-
-                //Create membership user
-                var res = await _userManager.CreateAsync(user);
-                if (res.Succeeded)
-                {
-                    var userId = await _userManager.GetUserIdAsync(user);
-                    customer = new Customer()
+                var data = await Common.RegisterCustomer<RegistrationController>(_userManager, _userStore, _emailStore, _emailService, _configurationData, Request, _logger, _customerRepo,
+                    new Customer()
                     {
-                        DefaultUserId = Guid.Parse(userId),
                         Name = model.BusinessName,
                         BusinessName = model.BusinessName,
                         BusinessId = model.BusinessId,
@@ -102,34 +80,15 @@ namespace Adroit.Accounting.Web.Controllers
                         MobileOtp = RandomNumber.SixDigigNumber(),
                         CustomerType = CustomerType.Inquiry,
                         StatusId = CustomerStatus.Registered,
-                    };
-
-                    int id = _customerRepo.Register(customer, _configurationData.DefaultConnection);
-                    if (id > 0)
-                    {
-                        result.data = true;
-                        result.result = Constant.API_RESULT_SUCCESS;
-                        //send email
-                        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-
-                        string url = $"{Request.Scheme}://{Request.Host.ToUriComponent()}/Authentication/VerifyOtpAndSetPassword?userId={userId}&code={code}";
-                        var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\OTPEmail.html"));
-                        msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(model.Name) ? model.Name : "")
-                                                .Replace("{OTP}", customer.EmailOtp)
-                                                .Replace("{ResetUrl}", HtmlEncoder.Default.Encode(url));
-                        _emailService.SendEmail(model.Email, "Adroit Accounting System - Registration Verifiction", msgBody);
-                    }
+                    });
+                if (data.id > 0)
+                {
+                    result.data = data.id;
+                    result.result = Constant.API_RESULT_SUCCESS;
                 }
                 else
                 {
-                    StringBuilder errors = new StringBuilder();
-                    foreach (var item in res.Errors)
-                    {
-                        errors.AppendLine(item.Description);
-                    }
-                    result.data = errors.ToString();
-                    result.result = Constant.API_RESULT_ERROR;
+                    throw new Exception(data.error);
                 }
             }
             catch (Exception ex)

@@ -34,6 +34,13 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_SoftwareList_Select", connectionString, parameters);
         }
+        public List<DropdownViewModel> SelectList(short businessId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@BusinessId", businessId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_SoftwareList_Select", connectionString, parameters);
+        }
+
         public List<SoftwareGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();

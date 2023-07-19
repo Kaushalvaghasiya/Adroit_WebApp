@@ -303,5 +303,21 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
+
+        public JsonResult GetSoftwareByBusiness(short id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _softwareRepository.SelectList(id, _configurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
     }
 }

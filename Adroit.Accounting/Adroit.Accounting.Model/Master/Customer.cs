@@ -18,12 +18,10 @@ namespace Adroit.Accounting.Model
         public string Address1 { get; set; }
         public string Address2 { get; set; }
         public string Address3 { get; set; }
-        public short CountryId { get; set; }
         public int CityId { get; set; }
         public int? StateId { get; set; }
         public string Pincode { get; set; }
         public string ContactPersonName { get; set; }
-        public string CountryCallingCode { get; set; }
         public string Mobile { get; set; }
         public string MobileOtp { get; set; }
         public string MobileAlternate { get; set; }
@@ -41,11 +39,8 @@ namespace Adroit.Accounting.Model
         public string AdharUID { get; set; }
         public short TotalUsers { get; set; }
         public bool IsActive { get; set; }
-        public string Password { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public CustomerStatus StatusId { get; set; }
-        public string TokenCode { get; set; }
-        public string IdentityUserId { get; set; }
         public bool AgreeTerms { get; set; }
         public Guid DefaultUserId { get; set; }
     }

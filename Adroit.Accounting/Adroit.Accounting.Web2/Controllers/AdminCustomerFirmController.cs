@@ -16,7 +16,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.BusinessList = _businessRepository.SelectList(_configurationData.DefaultConnection);
             model.GSTFirmTypeList = _gSTFirmTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.FirmTypeList = _firmTypeRepository.SelectList(_configurationData.DefaultConnection);
-            model.SoftwareList = _softwareRepository.SelectList(_configurationData.DefaultConnection);
+            //model.SoftwareList = _softwareRepository.SelectList(_configurationData.DefaultConnection);
 
             ViewBag.EditId = editid;
 
