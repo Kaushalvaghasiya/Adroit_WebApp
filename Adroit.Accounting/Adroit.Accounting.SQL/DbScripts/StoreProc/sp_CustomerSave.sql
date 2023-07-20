@@ -2,6 +2,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerSave]
 (
 	 @Id int,
 	 @Name varchar(50),
+	 @BusinessName varchar(250),
 	 @Address1 varchar(200),
 	 @Address2 varchar(200),
 	 @Address3 varchar(200),
@@ -23,7 +24,6 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerSave]
 	 @EmailOtp varchar(6),
 	 @MobileOtp varchar(6),
 	 @StatusId varchar(1),
-	 @BusinessName varchar(250),
 	 @AgreeTerms bit
 )
 AS

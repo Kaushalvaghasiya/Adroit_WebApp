@@ -31,13 +31,13 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@TotalFirm", value.TotalFirm);
             parameters.Add("@CustomerType", $"{(short)value.CustomerType}");
             parameters.Add("@AdharUID", value.AdharUID ?? "");
-            parameters.Add("@StatusId", $"{(short)value.StatusId}");
             parameters.Add("@TotalUsers", value.TotalUsers);
-            parameters.Add("@AgreeTerms", value.AgreeTerms);
+            parameters.Add("@IsActive", value.IsActive);
             parameters.Add("@EmailOtp", value.EmailOtp ?? "");
             parameters.Add("@MobileOtp", value.MobileOtp ?? "");
-            parameters.Add("@IsActive", value.IsActive);
-            parameters.Add("@DefaultUserId", value.DefaultUserId);
+            parameters.Add("@StatusId", $"{(short)value.StatusId}");
+            parameters.Add("@AgreeTerms", value.AgreeTerms);
+            //parameters.Add("@DefaultUserId", value.DefaultUserId);
 
             return QueryHelper.Save("sp_CustomerSave", connectionString, parameters);
         }
