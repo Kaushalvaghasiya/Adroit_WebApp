@@ -467,15 +467,13 @@
                     $("#AdharUID").focus();
                     return false;
                 }
-                if ($("#BranchLimit").val().length <= 0 || $("#BranchLimit").val() == "") {
-                    showWarning("", "Please enter total branches.");
-                    $("#BranchLimit").focus();
-                    return false;
-                }
                 if (!isNumber($("#BranchLimit").val())) {
                     showWarning("", "Please enter valid number of branches.");
                     $("#BranchLimit").focus();
                     return false;
+                }
+                if ($("#BranchLimit").val() == "" || parseInt($("#BranchLimit").val()) <= 0) {
+                    $("#BranchLimit").val("1");
                 }
 
                 var savedata = new Object();

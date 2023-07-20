@@ -616,9 +616,9 @@
             $("#Phone").val("");
             $("#Email").val("");
             $("#Requirements").val("");
-            $("#TotalFirms").val("");
+            $("#TotalFirms").val("1");
             $("#AadhaarUID").val("");
-            $("#TotalUsers").val("");
+            $("#TotalUsers").val("1");
             $("#IsActive").prop('checked', false);
 
             $("#hdnCountryId").val("");
@@ -732,12 +732,7 @@
                 }
                 if ($("#CustomerType").val() == "" || $("#CustomerType").val() == null) {
                     showWarning("", "Please select customer type.");
-                    $("#Type").focus();
-                    return false;
-                }
-                if ($("#TotalUsers").val().length <= 0 || $("#TotalUsers").val() == "") {
-                    showWarning("", "Please enter total user.");
-                    $("#TotalUsers").focus();
+                    $("#CustomerType").focus();
                     return false;
                 }
                 if (!isNumber($("#Mobile").val().trim())) {
@@ -747,12 +742,7 @@
                 }
                 if (!isNumber($("#MobileAlternate").val().trim())) {
                     showWarning("", "Please enter valid alternate mobile number.");
-                    $("#Mobile").focus();
-                    return false;
-                }
-                if (!isNumber($("#AadhaarUID").val().trim())) {
-                    showWarning("", "Please enter valid Aadhaar UID.");
-                    $("#Mobile").focus();
+                    $("#MobileAlternate").focus();
                     return false;
                 }
                 if (!isEmail($("#Email").val().trim())) {
@@ -760,7 +750,6 @@
                     $("#Email").focus();
                     return false;
                 }
-
                 if ($("#StatusId").val() == null || $("#StatusId").val() == "") {
                     showWarning("", "Please select status.");
                     $("#StatusId").focus();
@@ -769,20 +758,20 @@
 
                 if (!isNumber($("#TotalFirms").val())) {
                     showWarning("", "Please enter valid number of firms.");
-                    $("#Mobile").focus();
+                    $("#TotalFirms").focus();
                     return false;
                 }
-                if (parseInt($("#TotalFirms").val()) == 0) {
-                    showWarning("", "Please enter valid number of firms.");
-                    $("#Mobile").focus();
-                    return false;
+                if (parseInt($("#TotalFirms").val()) <= 0) {
+                    $("#TotalFirms").val("1");
                 }
                 if (!isNumber($("#TotalUsers").val())) {
                     showWarning("", "Please enter valid number of users.");
-                    $("#Mobile").focus();
+                    $("#TotalUsers").focus();
                     return false;
                 }
-               
+                if (parseInt($("#TotalUsers").val()) <= 0) {
+                    $("#TotalUsers").val("1");
+                }
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Name = $("#CustomerName").val();
