@@ -58,7 +58,7 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 if (model.Id == 0)
                 {
-                    var data = await Common.RegisterCustomer<AdminController>(_userManager, _userStore, _emailStore, _emailService, _configurationData, Request, _logger, _customerRepository,
+                    var data = await Common.RegisterCustomer(_userManager, _userStore, _emailStore, _emailService, _configurationData, Request, _logger, _customerRepository,
                     new Customer()
                     {
                         Name = model.Name,

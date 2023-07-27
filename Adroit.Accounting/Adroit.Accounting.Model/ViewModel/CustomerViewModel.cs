@@ -21,8 +21,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public int? DistrictId { get; set; }
         public int? TalukaId { get; set; }
         public int NumberOfFirmsCreated { get; set; }
-
-        public int CustomerTypeId { get { return (byte)this.CustomerType; } }
-        public int StatusTypeId { get { return (byte)this.StatusId; } }
+        public byte CustomerTypeId { get { return (byte)this.CustomerType; } }
+        public byte StatusTypeId { get { return (byte)this.StatusId; } }
     }
 }

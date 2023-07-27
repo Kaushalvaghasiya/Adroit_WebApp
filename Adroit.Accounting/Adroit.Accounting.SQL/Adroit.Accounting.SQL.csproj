@@ -27,7 +27,6 @@
     <None Remove="DbScripts\StoreProc\sp_BookAdminList.sql" />
     <None Remove="DbScripts\StoreProc\sp_BookAdminSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_BranchTypeList_Select.sql" />
-    <None Remove="DbScripts\StoreProc\sp_BranchWithFirmList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_BusinessDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_BusinessGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_BusinessList.sql" />
@@ -50,7 +49,9 @@
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchDelet.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchSave.sql" />
+    <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchWithFirmList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmList.sql" />
@@ -61,10 +62,10 @@
     <None Remove="DbScripts\StoreProc\sp_CustomerList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerRegistration.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerSave.sql" />
-    <None Remove="DbScripts\StoreProc\sp_CustomerUserBranchSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerUserDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomeruSERGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerUserList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_CustomerUserSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_DistrictList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_FirmAdminTypeList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_FirmBranchTypeAdminList_Select.sql" />
@@ -95,17 +96,7 @@
     <None Remove="DbScripts\StoreProc\sp_UserGet.sql" />
     <None Remove="DbScripts\Tables\0000 MembershipTables.sql" />
     <None Remove="DbScripts\Tables\0001 Initial.sql" />
-    <None Remove="DbScripts\Tables\0002 CustomerUser.sql" />
-    <None Remove="DbScripts\Tables\0003 DropRenameSP.sql" />
-    <None Remove="DbScripts\Tables\0004 Customer.sql" />
-    <None Remove="DbScripts\Tables\0005 Active Switch in all master tables.sql" />
-    <None Remove="DbScripts\Tables\0006 76-SoftwarePlan.sql" />
-    <None Remove="DbScripts\Tables\0007 77-Business.sql" />
-    <None Remove="DbScripts\Tables\0008 140-CUSTOMER _FIRM_BRANCH_USER_ADMIN_HTML_Recheck_Change_Coding.sql" />
-    <None Remove="DbScripts\Tables\0009 Active Switch in all master tables - Update.sql" />
-    <None Remove="DbScripts\Tables\0010 140-CustomerDelete.sql" />
-    <None Remove="DbScripts\Tables\0011 140-CustomerBranch Plan.sql" />
-    <None Remove="DbScripts\Tables\0012 140-Customer.sql" />
+    <None Remove="DbScripts\Tables\0002 Initial - Data.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -122,6 +113,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_BranchTypeList_Select.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchList_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_GSTCollectionGetByGSTNumber.sql">
@@ -289,7 +283,7 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerList_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_BranchWithFirmList_Select.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchWithFirmList_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_FirmList_Select.sql">
@@ -328,7 +322,7 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUserBranchSave.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUserSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerRegistration.sql">
@@ -349,37 +343,7 @@
     <EmbeddedResource Include="DbScripts\Tables\0000 MembershipTables.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0012 140-Customer.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0011 140-CustomerBranch Plan.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0010 140-CustomerDelete.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0009 Active Switch in all master tables - Update.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0006 76-SoftwarePlan.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0008 140-CUSTOMER _FIRM_BRANCH_USER_ADMIN_HTML_Recheck_Change_Coding.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0007 77-Business.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0005 Active Switch in all master tables.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0004 Customer.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0003 DropRenameSP.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0002 CustomerUser.sql">
+    <EmbeddedResource Include="DbScripts\Tables\0002 Initial - Data.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\Tables\0001 Initial.sql">

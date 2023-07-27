@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
 using Adroit.Accounting.Model.ViewModel;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text.Encodings.Web;
+using Adroit.Accounting.Web.Utility;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -15,8 +18,11 @@ namespace Adroit.Accounting.Web.Controllers
         [Route("~/admin/customer/user")]
         public IActionResult CustomerUser(int? id)
         {
-            ViewBag.Id = id;
-            return View();
+            CustomerUserViewModel model = new();
+            model.Customer = _customerRepository.Get(id ?? 0, _configurationData.DefaultConnection);
+            model.BranchList = _customerFirmBranchRepository.SelectList(model.Customer.Id, true, _configurationData.DefaultConnection);
+
+            return View(model);
         }
 
         [HttpGet]
@@ -52,15 +58,17 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 //we need add user Id
                 //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                model.OwnerBranchId = 1;// need set from session
+                model.OwnerBranchId = null;// need set from session
+                model.AddedById = LoginHandler.GetUserId(User);
 
                 if (model.Id == 0)
                 {
                     var user = await _userManager.FindByNameAsync(model.Email);
                     if (user != null)
                     {
-                        throw new Exception("This email is already associated with another account, please choose different email.");
+                        throw new Exception("This email is already associated with another user, please choose different email.");
                     }
+
                     user = CreateUser();
                     await _userStore.SetUserNameAsync(user, model.Email, CancellationToken.None);
                     await _emailStore.SetEmailAsync(user, model.Email, CancellationToken.None);
@@ -70,9 +78,33 @@ namespace Adroit.Accounting.Web.Controllers
                         var userId = await _userManager.GetUserIdAsync(user);
                         model.UserId = new Guid(userId);
 
-                        int id = _customerUserRepository.Save(model, _configurationData.DefaultConnection);
+                        int id = 0;
+                        try
+                        {
+                            id = _customerUserRepository.Save(model, _configurationData.DefaultConnection);
+                        }
+                        catch (Exception ex)
+                        {
+                            //Delete membership user
+                            await _userManager.DeleteAsync(user);
+
+                            throw;
+                        }
+
                         if (id > 0)
                         {
+                            var customer = _customerRepository.Get(model.CustomerId, _configurationData.DefaultConnection);
+
+                            //send email
+                            var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false)));
+                            string url = $"{Request.Scheme}://{Request.Host.ToUriComponent()}/Authentication/ResetPassword?code={code}";
+
+                            var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), @"wwwroot\EmailTemplate\ResetPassword.html"));
+                            msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(customer.Name) ? customer.Name : customer.Email);
+                            msgBody = msgBody.Replace("{ResetUrl}", HtmlEncoder.Default.Encode(url));
+                            var emailresult = _emailService.SendEmail(customer.Email, "Adroit Accounting System - Password Reset", msgBody);
+                            _logger.LogError($"AuthenticationController.ForgotPassword Send Email to {customer.Email} Result: {emailresult}");
+
                             result.data = true;
                             result.result = Constant.API_RESULT_SUCCESS;
                         }
@@ -90,6 +122,8 @@ namespace Adroit.Accounting.Web.Controllers
                 }
                 else
                 {
+                    //Update user
+                    model.ModifiedById = LoginHandler.GetUserId(User);
                     int id = _customerUserRepository.Save(model, _configurationData.DefaultConnection);
                     if (id > 0)
                     {
@@ -112,10 +146,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                               //need change login customer id
-                int DeletedById = 1; //need to set from session
-                _customerUserRepository.Delete(id, DeletedById, _configurationData.DefaultConnection);
+                int deletedById = LoginHandler.GetUserId(User);
+                _customerUserRepository.Delete(id, deletedById, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -133,23 +165,6 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _customerUserRepository.Get(id, _configurationData.DefaultConnection);
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
-        [HttpGet]
-        public JsonResult GetCustomerBranch(int id)
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                result.data = _customerUserRepository.GetBranchWIthFirmName(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

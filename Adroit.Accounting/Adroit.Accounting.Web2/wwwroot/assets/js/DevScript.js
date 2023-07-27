@@ -167,7 +167,8 @@ function setScreenMode(readonly) {
     });
 
     $(".mode-ed-multi").each(function (index, element) {
-        $("#SoftwareIds").multipleSelect(readonly ? 'disable' : 'enable');
+        //$(".mode-ed-multi").multipleSelect(readonly ? 'disable' : 'enable');
+        //This is removing selected items, so commented out.
     });
 
 }

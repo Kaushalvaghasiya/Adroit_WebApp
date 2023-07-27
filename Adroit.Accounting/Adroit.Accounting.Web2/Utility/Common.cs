@@ -18,24 +18,23 @@ namespace Adroit.Accounting.Web.Utility
 {
     public class Common
     {
-        public async static Task<(int id, string error)> RegisterCustomer<T>(
+        public async static Task<(int id, string error)> RegisterCustomer(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             IUserEmailStore<IdentityUser> emailStore,
             IEmailService emailService,
             ConfigurationData configurationData,
             HttpRequest request,
-            ILogger<T> logger,
+            ILogger logger,
             ICustomer customerRepository,
             Customer model
             )
         {
-            IdentityUser user = null;
             int id = 0;
             string error = "";
             try
             {
-                user = await userManager.FindByNameAsync(model.Email);
+                var user = await userManager.FindByNameAsync(model.Email);
                 if (user != null)
                 {
                     throw new Exception("This email is already associated with another account, please choose different email.");
@@ -59,7 +58,7 @@ namespace Adroit.Accounting.Web.Utility
                     customer = new Customer()
                     {
                         DefaultUserId = Guid.Parse(userId),
-                        Name = model.BusinessName,
+                        Name = model.Name,
                         BusinessName = model.BusinessName,
                         BusinessId = model.BusinessId,
                         Address1 = model.Address1,
@@ -85,7 +84,19 @@ namespace Adroit.Accounting.Web.Utility
                         StatusId = model.StatusId,
                     };
 
-                    id = customerRepository.Register(customer, configurationData.DefaultConnection);
+                    try
+                    {
+                        id = customerRepository.Register(customer, configurationData.DefaultConnection);
+                    }
+                    catch (Exception ex)
+                    {
+                        logger.LogError(ex, "CustomerRepository.Register");
+
+                        //Delete membership user
+                        await userManager.DeleteAsync(user);
+
+                        throw;
+                    }
                     if (id > 0)
                     {
                         //send email
@@ -97,7 +108,7 @@ namespace Adroit.Accounting.Web.Utility
                         msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(model.Name) ? model.Name : "")
                                                 .Replace("{OTP}", customer.EmailOtp)
                                                 .Replace("{ResetUrl}", HtmlEncoder.Default.Encode(url));
-                        emailService.SendEmail(model.Email, "Adroit Accounting System - Registration Verifiction", msgBody);
+                        emailService.SendEmail(model.Email, "Adroit Accounting System - Account Verification", msgBody);
                     }
                 }
                 else
@@ -113,11 +124,7 @@ namespace Adroit.Accounting.Web.Utility
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "RegistrationController.Save");
-                if (user != null)
-                {
-                    await userManager.DeleteAsync(user);
-                }
+                logger.LogError(ex, "Common.RegisterCustomer");
 
                 error = ErrorHandler.GetError(ex);
             }

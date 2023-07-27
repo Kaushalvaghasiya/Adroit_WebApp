@@ -61,13 +61,12 @@ namespace Adroit.Accounting.Web.Controllers
         public async Task<JsonResult> Save([FromBody] RegistrationViewModel model)
         {
             ApiResult result = new ApiResult();
-            IdentityUser user = null;
             try
             {
-                var data = await Common.RegisterCustomer<RegistrationController>(_userManager, _userStore, _emailStore, _emailService, _configurationData, Request, _logger, _customerRepo,
+                var data = await Common.RegisterCustomer(_userManager, _userStore, _emailStore, _emailService, _configurationData, Request, _logger, _customerRepo,
                     new Customer()
                     {
-                        Name = model.BusinessName,
+                        Name = model.Name,
                         BusinessName = model.BusinessName,
                         BusinessId = model.BusinessId,
                         StateId = model.StateId,

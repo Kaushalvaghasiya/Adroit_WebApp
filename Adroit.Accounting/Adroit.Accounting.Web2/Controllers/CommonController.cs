@@ -26,7 +26,6 @@ namespace Adroit.Accounting.Web.Controllers
         private ISoftware _softwareRepository;
         private ICustomer _customerRepository;
         private IFirmBranchTypeAdmin _firmBranchTypeAdminRepository;
-        private IFirm _firmRepository;
         private ICommon _commonRepository;
         private IGSTCollection _gstCollection;
 
@@ -44,7 +43,6 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTFirmType gstFirmTypeRepository,
             ICustomer customerRepository,
             IFirmBranchTypeAdmin firmBranchTypeAdminRepository,
-            IFirm firmRepository,
             ICommon commonRepository,
             IGSTCollection gstCollection
             )
@@ -62,7 +60,6 @@ namespace Adroit.Accounting.Web.Controllers
             _softwareRepository = softwareRepository;
             _customerRepository = customerRepository;
             _firmBranchTypeAdminRepository = firmBranchTypeAdminRepository;
-            _firmRepository = firmRepository;
             _commonRepository = commonRepository;
             _gstCollection = gstCollection;
         }
@@ -256,21 +253,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-        public JsonResult GetFirm()
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                result.data = _firmRepository.GetFirmList(_configurationData.DefaultConnection).ToList();
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
+
         [Route("~/Common/GetTableValues/{TableName}/{ColumnName}")]
         public JsonResult GetTableValues(string TableName, string ColumnName)
         {
@@ -287,6 +270,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
+
         [Route("~/Common/GetGSTCollection/{GSTNumber}")]
         public JsonResult GetGSTCollection(string GSTNumber)
         {
