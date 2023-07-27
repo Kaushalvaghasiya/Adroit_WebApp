@@ -1,8 +1,3 @@
-/****** Object:  Table [dbo].[AccountAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountAdmin](
@@ -58,11 +53,7 @@ CREATE TABLE [dbo].[AccountAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[AccountGroupAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountGroupAdmin](
@@ -90,11 +81,7 @@ CREATE TABLE [dbo].[AccountGroupAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[AccountGroupHeaderAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupHeaderAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountGroupHeaderAdmin](
@@ -115,11 +102,7 @@ CREATE TABLE [dbo].[AccountGroupHeaderAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[AccountGroupType]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountGroupType](
@@ -136,11 +119,7 @@ CREATE TABLE [dbo].[AccountGroupType](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[BillEntryTypeAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BillEntryTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BillEntryTypeAdmin](
@@ -156,11 +135,7 @@ CREATE TABLE [dbo].[BillEntryTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[BillTypeAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BillTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BillTypeAdmin](
@@ -179,11 +154,7 @@ CREATE TABLE [dbo].[BillTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[BookAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BookAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BookAdmin](
@@ -248,11 +219,7 @@ CREATE TABLE [dbo].[BookAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[BookTypeAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BookTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BookTypeAdmin](
@@ -271,11 +238,7 @@ CREATE TABLE [dbo].[BookTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Broker]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Broker]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Broker](
@@ -308,11 +271,7 @@ CREATE TABLE [dbo].[Broker](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Business]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Business]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Business](
@@ -328,11 +287,7 @@ CREATE TABLE [dbo].[Business](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[BusinessSoftwareMapping]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BusinessSoftwareMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BusinessSoftwareMapping](
@@ -351,11 +306,7 @@ CREATE TABLE [dbo].[BusinessSoftwareMapping](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[City]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[City]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[City](
@@ -370,11 +321,7 @@ CREATE TABLE [dbo].[City](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ColorAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ColorAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ColorAdmin](
@@ -394,11 +341,7 @@ CREATE TABLE [dbo].[ColorAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Country]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Country]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Country](
@@ -417,11 +360,7 @@ CREATE TABLE [dbo].[Country](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Customer]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Customer]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Customer](
@@ -464,11 +403,7 @@ CREATE TABLE [dbo].[Customer](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerAccount]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccount]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccount](
@@ -537,11 +472,7 @@ CREATE TABLE [dbo].[CustomerAccount](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerAccountBranchMapping]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountBranchMapping](
@@ -565,11 +496,7 @@ CREATE TABLE [dbo].[CustomerAccountBranchMapping](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerAccountGroup]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountGroup]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountGroup](
@@ -603,11 +530,7 @@ CREATE TABLE [dbo].[CustomerAccountGroup](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerAccountGroupHeader]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountGroupHeader]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountGroupHeader](
@@ -633,11 +556,7 @@ CREATE TABLE [dbo].[CustomerAccountGroupHeader](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerAccountOpeningBalance]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountOpeningBalance]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountOpeningBalance](
@@ -659,11 +578,7 @@ CREATE TABLE [dbo].[CustomerAccountOpeningBalance](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerBook]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBook]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerBook](
@@ -744,11 +659,7 @@ CREATE TABLE [dbo].[CustomerBook](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerBookBranchMapping]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBookBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerBookBranchMapping](
@@ -771,11 +682,7 @@ CREATE TABLE [dbo].[CustomerBookBranchMapping](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerBrokerBranchMapping]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBrokerBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerBrokerBranchMapping](
@@ -799,11 +706,7 @@ CREATE TABLE [dbo].[CustomerBrokerBranchMapping](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirm]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirm]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirm](
@@ -840,11 +743,7 @@ CREATE TABLE [dbo].[CustomerFirm](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirmBranch]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranch]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranch](
@@ -895,11 +794,7 @@ CREATE TABLE [dbo].[CustomerFirmBranch](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirmBranchLRRate]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchLRRate]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranchLRRate](
@@ -932,11 +827,7 @@ CREATE TABLE [dbo].[CustomerFirmBranchLRRate](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirmBranchTransportContractRateSetting]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchTransportContractRateSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranchTransportContractRateSetting](
@@ -956,11 +847,7 @@ CREATE TABLE [dbo].[CustomerFirmBranchTransportContractRateSetting](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirmBranchTransportSetting]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchTransportSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranchTransportSetting](
@@ -989,11 +876,7 @@ CREATE TABLE [dbo].[CustomerFirmBranchTransportSetting](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerFirmTransportSetting]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmTransportSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmTransportSetting](
@@ -1026,11 +909,7 @@ CREATE TABLE [dbo].[CustomerFirmTransportSetting](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerUser]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerUser]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerUser](
@@ -1061,11 +940,7 @@ CREATE TABLE [dbo].[CustomerUser](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[CustomerUserBranchMapping]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerUserBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerUserBranchMapping](
@@ -1089,11 +964,7 @@ CREATE TABLE [dbo].[CustomerUserBranchMapping](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[District]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[District]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[District](
@@ -1108,11 +979,7 @@ CREATE TABLE [dbo].[District](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Driver]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Driver]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Driver](
@@ -1144,11 +1011,7 @@ CREATE TABLE [dbo].[Driver](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[DriverTypeAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DriverTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[DriverTypeAdmin](
@@ -1168,11 +1031,7 @@ CREATE TABLE [dbo].[DriverTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[FinanceYear]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FinanceYear]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[FinanceYear](
@@ -1190,11 +1049,7 @@ CREATE TABLE [dbo].[FinanceYear](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[FirmBranchTypeAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FirmBranchTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[FirmBranchTypeAdmin](
@@ -1210,11 +1065,7 @@ CREATE TABLE [dbo].[FirmBranchTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[FirmTypeAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FirmTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[FirmTypeAdmin](
@@ -1234,11 +1085,7 @@ CREATE TABLE [dbo].[FirmTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTCalculation]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTCalculation]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTCalculation](
@@ -1258,11 +1105,7 @@ CREATE TABLE [dbo].[GSTCalculation](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTCollection]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTCollection]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTCollection](
@@ -1287,11 +1130,7 @@ CREATE TABLE [dbo].[GSTCollection](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTFirmType]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTFirmType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTFirmType](
@@ -1311,11 +1150,7 @@ CREATE TABLE [dbo].[GSTFirmType](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTInvoiceType]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTInvoiceType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTInvoiceType](
@@ -1339,11 +1174,7 @@ CREATE TABLE [dbo].[GSTInvoiceType](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTPort]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTPort]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTPort](
@@ -1368,11 +1199,7 @@ CREATE TABLE [dbo].[GSTPort](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTRate]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTRate]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTRate](
@@ -1388,11 +1215,7 @@ CREATE TABLE [dbo].[GSTRate](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTReason]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTReason]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTReason](
@@ -1409,11 +1232,7 @@ CREATE TABLE [dbo].[GSTReason](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTTransportMode]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTTransportMode]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTTransportMode](
@@ -1433,11 +1252,7 @@ CREATE TABLE [dbo].[GSTTransportMode](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[GSTUQC]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTUQC]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTUQC](
@@ -1467,11 +1282,7 @@ CREATE TABLE [dbo].[GSTUQC](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[LRBookingRange]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[LRBookingRange]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[LRBookingRange](
@@ -1498,11 +1309,7 @@ CREATE TABLE [dbo].[LRBookingRange](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[MenuSetting]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[MenuSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[MenuSetting](
@@ -1780,11 +1587,7 @@ CREATE TABLE [dbo].[MenuSetting](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[PoductOpeningStock]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PoductOpeningStock]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[PoductOpeningStock](
@@ -1809,11 +1612,7 @@ CREATE TABLE [dbo].[PoductOpeningStock](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Product]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Product]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Product](
@@ -1882,11 +1681,7 @@ CREATE TABLE [dbo].[Product](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductAmtCalcOn]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductAmtCalcOn]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductAmtCalcOn](
@@ -1903,11 +1698,7 @@ CREATE TABLE [dbo].[ProductAmtCalcOn](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductBranchMapping]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductBranchMapping](
@@ -1931,11 +1722,7 @@ CREATE TABLE [dbo].[ProductBranchMapping](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductCategory]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductCategory]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductCategory](
@@ -1955,11 +1742,7 @@ CREATE TABLE [dbo].[ProductCategory](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductColor]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductColor]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductColor](
@@ -1988,11 +1771,7 @@ CREATE TABLE [dbo].[ProductColor](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductDesignNumber]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductDesignNumber]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductDesignNumber](
@@ -2021,11 +1800,7 @@ CREATE TABLE [dbo].[ProductDesignNumber](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductFabric]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductFabric]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductFabric](
@@ -2054,11 +1829,7 @@ CREATE TABLE [dbo].[ProductFabric](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductGroup]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductGroup]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductGroup](
@@ -2087,11 +1858,7 @@ CREATE TABLE [dbo].[ProductGroup](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductPacking]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductPacking]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductPacking](
@@ -2120,11 +1887,7 @@ CREATE TABLE [dbo].[ProductPacking](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductQualityType]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductQualityType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductQualityType](
@@ -2144,11 +1907,7 @@ CREATE TABLE [dbo].[ProductQualityType](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductShadeNumber]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductShadeNumber]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductShadeNumber](
@@ -2177,11 +1936,7 @@ CREATE TABLE [dbo].[ProductShadeNumber](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductSize]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductSize]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductSize](
@@ -2210,11 +1965,7 @@ CREATE TABLE [dbo].[ProductSize](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductSizeAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductSizeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductSizeAdmin](
@@ -2234,11 +1985,7 @@ CREATE TABLE [dbo].[ProductSizeAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductStockType]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductStockType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductStockType](
@@ -2258,11 +2005,7 @@ CREATE TABLE [dbo].[ProductStockType](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ProductSubGroup]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductSubGroup]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductSubGroup](
@@ -2291,11 +2034,7 @@ CREATE TABLE [dbo].[ProductSubGroup](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[ReportTemplate]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ReportTemplate]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ReportTemplate](
@@ -2323,11 +2062,7 @@ CREATE TABLE [dbo].[ReportTemplate](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[SalesBillFromAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SalesBillFromAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[SalesBillFromAdmin](
@@ -2346,11 +2081,7 @@ CREATE TABLE [dbo].[SalesBillFromAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Software]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Software]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Software](
@@ -2370,11 +2101,7 @@ CREATE TABLE [dbo].[Software](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[SoftwarePlan]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SoftwarePlan]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[SoftwarePlan](
@@ -2402,11 +2129,7 @@ CREATE TABLE [dbo].[SoftwarePlan](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[State]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[State]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[State](
@@ -2424,11 +2147,7 @@ CREATE TABLE [dbo].[State](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[SystemSetting]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SystemSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[SystemSetting](
@@ -2445,11 +2164,7 @@ CREATE TABLE [dbo].[SystemSetting](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Taluka]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Taluka]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Taluka](
@@ -2464,11 +2179,7 @@ CREATE TABLE [dbo].[Taluka](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportDesc]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportDesc]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportDesc](
@@ -2497,11 +2208,7 @@ CREATE TABLE [dbo].[TransportDesc](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportDescAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportDescAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportDescAdmin](
@@ -2521,11 +2228,7 @@ CREATE TABLE [dbo].[TransportDescAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRBranchCityMapping]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRBranchCityMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRBranchCityMapping](
@@ -2550,11 +2253,7 @@ CREATE TABLE [dbo].[TransportLRBranchCityMapping](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRCharges]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRCharges]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRCharges](
@@ -2574,11 +2273,7 @@ CREATE TABLE [dbo].[TransportLRCharges](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRDelivery]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRDelivery]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRDelivery](
@@ -2598,11 +2293,7 @@ CREATE TABLE [dbo].[TransportLRDelivery](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRDeliveryType]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRDeliveryType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRDeliveryType](
@@ -2622,11 +2313,7 @@ CREATE TABLE [dbo].[TransportLRDeliveryType](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRPayType]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRPayType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRPayType](
@@ -2646,11 +2333,7 @@ CREATE TABLE [dbo].[TransportLRPayType](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportLRRateOn]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRRateOn]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRRateOn](
@@ -2666,11 +2349,7 @@ CREATE TABLE [dbo].[TransportLRRateOn](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportPacking]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportPacking]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportPacking](
@@ -2699,11 +2378,7 @@ CREATE TABLE [dbo].[TransportPacking](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[TransportPackingAdmin]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportPackingAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportPackingAdmin](
@@ -2723,11 +2398,7 @@ CREATE TABLE [dbo].[TransportPackingAdmin](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[VehicleModel]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[VehicleModel]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[VehicleModel](
@@ -2754,11 +2425,7 @@ CREATE TABLE [dbo].[VehicleModel](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[VehicleOwner]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[VehicleOwner]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[VehicleOwner](
@@ -2799,11 +2466,7 @@ CREATE TABLE [dbo].[VehicleOwner](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Vehilcle]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Vehilcle]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Vehilcle](
@@ -2856,11 +2519,7 @@ CREATE TABLE [dbo].[Vehilcle](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-AccountOutStanding-Z]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-AccountOutStanding-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-AccountOutStanding-Z](
@@ -2884,11 +2543,7 @@ CREATE TABLE [dbo].[Z-AccountOutStanding-Z](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-CreditDebitNoteDetail-Z]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-CreditDebitNoteDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-CreditDebitNoteDetail-Z](
@@ -2915,11 +2570,7 @@ CREATE TABLE [dbo].[Z-CreditDebitNoteDetail-Z](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-CreditDebitNoteMaster-Z]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-CreditDebitNoteMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-CreditDebitNoteMaster-Z](
@@ -2973,11 +2624,7 @@ CREATE TABLE [dbo].[Z-CreditDebitNoteMaster-Z](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-JournalDetail-Z]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-JournalDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-JournalDetail-Z](
@@ -3003,11 +2650,7 @@ CREATE TABLE [dbo].[Z-JournalDetail-Z](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-JournalMaster-Z]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-JournalMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-JournalMaster-Z](
@@ -3032,11 +2675,7 @@ CREATE TABLE [dbo].[Z-JournalMaster-Z](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-LRBooking-Z]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-LRBooking-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-LRBooking-Z](
@@ -3098,11 +2737,7 @@ CREATE TABLE [dbo].[Z-LRBooking-Z](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-PurchaseBillDetail-Z]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-PurchaseBillDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-PurchaseBillDetail-Z](
@@ -3161,11 +2796,7 @@ CREATE TABLE [dbo].[Z-PurchaseBillDetail-Z](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-PurchaseBillMaster-Z]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-PurchaseBillMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-PurchaseBillMaster-Z](
@@ -3241,11 +2872,7 @@ CREATE TABLE [dbo].[Z-PurchaseBillMaster-Z](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-SalesBillDetailExport-Z]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-SalesBillDetailExport-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-SalesBillDetailExport-Z](
@@ -3264,11 +2891,7 @@ CREATE TABLE [dbo].[Z-SalesBillDetailExport-Z](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-SalesBillDetail-Z]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-SalesBillDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-SalesBillDetail-Z](
@@ -3328,11 +2951,7 @@ CREATE TABLE [dbo].[Z-SalesBillDetail-Z](
 ) ON [PRIMARY]
 END
 GO
-/****** Object:  Table [dbo].[Z-SalesBillMaster-Z]    Script Date: 26/07/2023 23:16:06 ******/
-SET ANSI_NULLS ON
-GO
-SET QUOTED_IDENTIFIER ON
-GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-SalesBillMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-SalesBillMaster-Z](
@@ -3416,7 +3035,7 @@ END
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Broker]    Script Date: 26/07/2023 23:16:06 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Broker]') AND name = N'IX_Broker')
 CREATE NONCLUSTERED INDEX [IX_Broker] ON [dbo].[Broker]
 (
@@ -3424,7 +3043,7 @@ CREATE NONCLUSTERED INDEX [IX_Broker] ON [dbo].[Broker]
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-/****** Object:  Index [IX_CustomerFirmBranchTransportContractRateSetting]    Script Date: 26/07/2023 23:16:06 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchTransportContractRateSetting]') AND name = N'IX_CustomerFirmBranchTransportContractRateSetting')
 CREATE NONCLUSTERED INDEX [IX_CustomerFirmBranchTransportContractRateSetting] ON [dbo].[CustomerFirmBranchTransportContractRateSetting]
 (
@@ -3434,7 +3053,7 @@ CREATE NONCLUSTERED INDEX [IX_CustomerFirmBranchTransportContractRateSetting] ON
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_Driver]    Script Date: 26/07/2023 23:16:06 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Driver]') AND name = N'IX_Driver')
 CREATE NONCLUSTERED INDEX [IX_Driver] ON [dbo].[Driver]
 (
@@ -3444,7 +3063,7 @@ CREATE NONCLUSTERED INDEX [IX_Driver] ON [dbo].[Driver]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_ProductAmtCalcOn]    Script Date: 26/07/2023 23:16:06 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductAmtCalcOn]') AND name = N'IX_ProductAmtCalcOn')
 CREATE NONCLUSTERED INDEX [IX_ProductAmtCalcOn] ON [dbo].[ProductAmtCalcOn]
 (
@@ -3454,7 +3073,7 @@ CREATE NONCLUSTERED INDEX [IX_ProductAmtCalcOn] ON [dbo].[ProductAmtCalcOn]
 GO
 SET ANSI_PADDING ON
 GO
-/****** Object:  Index [IX_TransportLRRateOn]    Script Date: 26/07/2023 23:16:06 ******/
+
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRRateOn]') AND name = N'IX_TransportLRRateOn')
 CREATE NONCLUSTERED INDEX [IX_TransportLRRateOn] ON [dbo].[TransportLRRateOn]
 (
