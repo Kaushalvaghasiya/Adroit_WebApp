@@ -4,9 +4,9 @@
 
 namespace Adroit.Accounting.Model.ViewModel
 {
-    public class ProductSizeViewModel: ProductSizeAdmin
+    public class BranchTypeAdminGridViewModel : BranchTypeAdminViewModel
     {
-        public List<DropdownViewModel> ProductSizeList { get; set; }
-        public List<DropdownViewModel> OrderNumberList { get; set; }
+        public int RowNum { get; set; }
+        public int TotalCount { get; set; }
     }
 }

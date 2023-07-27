@@ -11,7 +11,7 @@ namespace Adroit.Accounting.Web.Controllers
     {
         public IActionResult ProductSize()
         {
-            ProductSizeViewModel model = new();
+            ProductSizeAdminViewModel model = new();
             model.ProductSizeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductSizeAdminTable._TableName, ProductSizeAdminTable.Title);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductSizeAdminTable._TableName, ProductSizeAdminTable.OrderNumber);
 
@@ -21,7 +21,7 @@ namespace Adroit.Accounting.Web.Controllers
         [HttpGet]
         public JsonResult ProductSizeList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
         {
-            var result = new DataTableListViewModel<ProductSizeGridViewModel>();
+            var result = new DataTableListViewModel<ProductSizeAdminGridViewModel>();
             try
             {
                 int loginId = 0, firmId = 0;
@@ -36,7 +36,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             catch (Exception ex)
             {
-                result.data = new List<ProductSizeGridViewModel>();
+                result.data = new List<ProductSizeAdminGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
             }

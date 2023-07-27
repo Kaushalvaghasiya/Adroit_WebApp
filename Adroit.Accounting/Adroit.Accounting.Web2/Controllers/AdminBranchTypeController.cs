@@ -9,19 +9,19 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class AdminController : Controller
     {
-        public IActionResult Software()
+        public IActionResult BranchType()
         {
-            SoftwareViewModel model = new();
-            model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, SoftwareTable._TableName, SoftwareTable.Title);
-            model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, SoftwareTable._TableName, SoftwareTable.OrderNumber);
+            BranchTypeAdminViewModel model = new();
+            model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BranchTypeAdminTable._TableName, BranchTypeAdminTable.Title);
+            model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BranchTypeAdminTable._TableName, BranchTypeAdminTable.OrderNumber);
 
             return View(model);
         }
 
         [HttpGet]
-        public JsonResult SoftwareList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
+        public JsonResult BranchTypeList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
         {
-            var result = new DataTableListViewModel<SoftwareGridViewModel>();
+            var result = new DataTableListViewModel<BranchTypeAdminGridViewModel>();
             try
             {
                 int loginId = 0, firmId = 0;
@@ -29,14 +29,14 @@ namespace Adroit.Accounting.Web.Controllers
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _softwareRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _branchTypeRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
             }
             catch (Exception ex)
             {
-                result.data = new List<SoftwareGridViewModel>();
+                result.data = new List<BranchTypeAdminGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
             }
@@ -44,15 +44,12 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveSoftware([FromBody] Software model)
+        public JsonResult SaveBranchType([FromBody] BranchTypeAdmin model)
         {
             ApiResult result = new ApiResult();
             try
             {
-                //we need add user Id
-                //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-
-                int id = _softwareRepository.Save(model, _configurationData.DefaultConnection);
+                int id = _branchTypeRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -68,15 +65,12 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult DeleteSoftware(int id)
+        public JsonResult DeleteBranchType(int id)
         {
             ApiResult result = new ApiResult();
             try
             {
-                var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                               //need change login customer id
-                int DeletedById = 1; //need to set from session
-                _softwareRepository.Delete(id, _configurationData.DefaultConnection);
+                _branchTypeRepository.Delete(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -88,12 +82,12 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetSoftware(int id)
+        public JsonResult GetBranchType(int id)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _softwareRepository.Get(id, _configurationData.DefaultConnection);
+                result.data = _branchTypeRepository.Get(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

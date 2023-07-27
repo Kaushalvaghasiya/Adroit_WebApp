@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_FirmBranchTypeAdminList_Select]
+CREATE OR ALTER PROCEDURE [dbo].[sp_BranchTypeAdminList_Select]
 AS
 BEGIN
 	SELECT Id As Value,Title As Text

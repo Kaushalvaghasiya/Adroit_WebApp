@@ -19,7 +19,7 @@ namespace Adroit.Accounting.Web.Controllers
 
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
             model.SoftwarePlanList = _softwarePlanRepository.SelectList(model.Firm.SoftwareId, _configurationData.DefaultConnection);
-            model.BranchTypeList = _branchType.SelectList(_configurationData.DefaultConnection);
+            model.BranchTypeList = _branchTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchTable._TableName, CustomerFirmBranchTable.OrderNumber);
 
             return View(model);

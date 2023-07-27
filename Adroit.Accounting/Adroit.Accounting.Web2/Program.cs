@@ -72,14 +72,14 @@ try
     builder.Services.AddSingleton<IGSTFirmType, GSTFirmTypeRepository>();
     builder.Services.AddSingleton<ISoftware, SoftwareRepository>();
     builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
-    builder.Services.AddSingleton<IFirmBranchTypeAdmin, FirmBranchTypeAdminRepository>();
+    builder.Services.AddSingleton<IBranchTypeAdmin, BranchTypeAdminRepository>();
     builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
     builder.Services.AddSingleton<ISoftwarePlan, SoftwarePlanRepository>();
     builder.Services.AddSingleton<ICommon, CommonRepository>();
-    builder.Services.AddSingleton<IBranchType, BranchTypeRepository>();
+    builder.Services.AddSingleton<IBranchTypeAdmin, BranchTypeAdminRepository>();
     builder.Services.AddSingleton<IGSTCollection, GSTCollectionRepository>();
     builder.Services.AddSingleton<IColor, ColorRepository>();
-    builder.Services.AddSingleton<IProductSize, ProductSizeRepository>();
+    builder.Services.AddSingleton<IProductSizeAdmin, ProductSizeAdminRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

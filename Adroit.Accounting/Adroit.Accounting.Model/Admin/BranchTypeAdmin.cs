@@ -4,14 +4,15 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class FirmBranchTypeAdmin
+    public partial class BranchTypeAdmin
     {
-        public FirmBranchTypeAdmin()
+        public BranchTypeAdmin()
         {
         }
         public byte Id { get; set; }
         public string Title { get; set; }
         public byte? OrderNumber { get; set; }
         public bool IsDeleted { get; set; }
+        public bool Active { get; set; }
     }
 }

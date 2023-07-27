@@ -17,10 +17,10 @@ Begin
 		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN Business.[Title] END DESC,
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN dbo.fn_GetBusinessSoftwareName (Business.Id) END ASC,  
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN dbo.fn_GetBusinessSoftwareName (Business.Id) END DESC,
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN Business.[OrderNumber] END ASC,  
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN Business.[OrderNumber] END DESC,
-		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN Business.[Active] END ASC,  
-		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN Business.[Active] END DESC
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN Business.[OrderNumber] END ASC,  
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN Business.[OrderNumber] END DESC,
+		 CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN Business.[Active] END ASC,  
+		 CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN Business.[Active] END DESC
 		) AS RowNum,
 	   Count(*) over () AS TotalCount, 
 	   Business.* ,

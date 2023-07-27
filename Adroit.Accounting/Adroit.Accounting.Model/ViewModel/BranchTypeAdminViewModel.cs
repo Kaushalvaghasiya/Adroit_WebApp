@@ -4,12 +4,9 @@
 
 namespace Adroit.Accounting.Model.ViewModel
 {
-    public class BusinessViewModel : Business
+    public class BranchTypeAdminViewModel : BranchTypeAdmin
     {
         public List<DropdownViewModel> TitleList { get; set; }
         public List<DropdownViewModel> OrderNumberList { get; set; }
-        public List<DropdownViewModel> SoftwareList { get; set; }
-
-        public string SoftwareName { get; set; }
     }
 }

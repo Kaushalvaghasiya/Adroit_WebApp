@@ -12,7 +12,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Color()
         {
             ColorViewModel model = new();
-            model.ColorList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ColorAdminTable._TableName, ColorAdminTable.Title);
+            model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ColorAdminTable._TableName, ColorAdminTable.Title);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ColorAdminTable._TableName, ColorAdminTable.OrderNumber);
 
             return View(model);

@@ -12,7 +12,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Business()
         {
             BusinessViewModel model = new();
-            model.BusinessList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BusinessTable._TableName, BusinessTable.Title);
+            model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BusinessTable._TableName, BusinessTable.Title);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BusinessTable._TableName, BusinessTable.OrderNumber);
             model.SoftwareList = _softwareRepository.SelectList(_configurationData.DefaultConnection);
 

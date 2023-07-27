@@ -4,9 +4,9 @@
 
 namespace Adroit.Accounting.Model.ViewModel
 {
-    public class SoftwareViewModel: Software
+    public class ProductSizeAdminGridViewModel : ProductSizeAdminViewModel
     {
-        public List<DropdownViewModel> TitleList { get; set; }
-        public List<DropdownViewModel> OrderNumberList { get; set; }
+        public int RowNum { get; set; }
+        public int TotalCount { get; set; }
     }
 }
