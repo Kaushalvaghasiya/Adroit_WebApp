@@ -1,4 +1,5 @@
 CREATE OR ALTER Procedure [dbo].[sp_ColorList]
+(
   @LoginId int,
   @FirmId int,  
   @Search VARCHAR(100) = '',
@@ -6,6 +7,7 @@ CREATE OR ALTER Procedure [dbo].[sp_ColorList]
   @PageSize INT = 10,
   @SortColumn INT = 0,
   @SortOrder NVARCHAR(10) = 'ASC'
+)
 As
 Set Nocount on;
 Begin

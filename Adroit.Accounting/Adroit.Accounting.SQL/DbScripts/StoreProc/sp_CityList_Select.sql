@@ -1,7 +1,9 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CityList_Select]
+(
  @StateId int = 0,
  @TalukaId int = 0,
  @DistrictId int = 0
+)
 AS
 BEGIN
 	SELECT City.Id As Value,City.Title As Text

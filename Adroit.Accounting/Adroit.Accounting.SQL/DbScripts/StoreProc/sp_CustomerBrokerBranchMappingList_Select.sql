@@ -1,6 +1,8 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerBrokerBranchMappingList_Select]
+(
 	@LoginId int, 
 	@FirmId int
+)
 AS
 BEGIN
 	SELECT [CustomerBrokerBranchMapping].Id As Value, [Broker].[Name] As Text

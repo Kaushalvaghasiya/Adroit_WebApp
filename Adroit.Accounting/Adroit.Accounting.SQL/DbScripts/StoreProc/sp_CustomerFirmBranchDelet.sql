@@ -1,6 +1,5 @@
 CREATE OR ALTER procedure [dbo].[sp_CustomerFirmBranchDelete]
 (
-	
 	@Id INT = NULL,
 	@DeletedById INT
 )

@@ -1,8 +1,8 @@
 CREATE OR ALTER procedure [dbo].[sp_CustomerAccountDelete]
 (
-	@LoginId int
-	,@FirmId int
-	,@Id INT
+	@LoginId int,
+	@FirmId int,
+	@Id INT
 )
 AS
 BEGIN
