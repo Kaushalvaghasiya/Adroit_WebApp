@@ -18,7 +18,8 @@ $.fn.extend({
         tree.addClass("tree");
         tree.find('li').has("ul").each(function () {
             var branch = $(this); //li with children ul
-            branch.prepend("<i class='si " + closedClass + "'></i>");
+            branch.prepend("<i class='si " + openedClass + "'></i>");
+            //branch.prepend("<i class='si " + closedClass + "'></i>");
             branch.addClass('branch');
             branch.on('click', function (e) {
                 if (this == e.target) {
@@ -27,7 +28,7 @@ $.fn.extend({
                     $(this).children().children().toggle();
                 }
             })
-            branch.children().children().toggle();
+            //branch.children().children().toggle(); //uncommented to open all by default
         });
 		tree.find('.branch i').each(function () {
             $(this).on('click', function (e) {

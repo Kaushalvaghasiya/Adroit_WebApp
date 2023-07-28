@@ -1315,11 +1315,11 @@ BEGIN
 CREATE TABLE [dbo].[MenuSetting](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[SoftwareId] [tinyint] NOT NULL,
-	[SoftwarePlanId] [tinyint] NOT NULL,
-	[CustomerId] [int] NOT NULL,
-	[CusomerFirmId] [int] NOT NULL,
-	[CustomerFirmBranchId] [int] NOT NULL,
-	[CustomerUserId] [int] NOT NULL,
+	[SoftwarePlanId] [tinyint] NULL,
+	[CustomerId] [int] NULL,
+	[CusomerFirmId] [int] NULL,
+	[CustomerFirmBranchId] [int] NULL,
+	[CustomerUserId] [int] NULL,
 	[Master__Adroit__Software__Software_Master] [bit] NOT NULL,
 	[Master__Adroit__Software__Plan] [bit] NOT NULL,
 	[Master__Adroit__Software__Businesses] [bit] NOT NULL,
@@ -4040,6 +4040,7 @@ BEGIN
 ALTER TABLE [dbo].[LRBookingRange] ADD  CONSTRAINT [DF__LRBooking__Activ__69279377]  DEFAULT ((1)) FOR [Active]
 END
 GO
+
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_MenuSetting_Master__Adroit__Software__Software_Master]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[MenuSetting] ADD  CONSTRAINT [DF_MenuSetting_Master__Adroit__Software__Software_Master]  DEFAULT ((0)) FOR [Master__Adroit__Software__Software_Master]
@@ -5279,6 +5280,8 @@ IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF
 BEGIN
 ALTER TABLE [dbo].[MenuSetting] ADD  CONSTRAINT [DF_MenuSetting_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
 END
+GO
+
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_PoductOpeningStock_Amount]') AND type = 'D')
 BEGIN

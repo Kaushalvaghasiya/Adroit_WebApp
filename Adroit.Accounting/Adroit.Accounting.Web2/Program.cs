@@ -80,6 +80,7 @@ try
     builder.Services.AddSingleton<IGSTCollection, GSTCollectionRepository>();
     builder.Services.AddSingleton<IColor, ColorRepository>();
     builder.Services.AddSingleton<IProductSizeAdmin, ProductSizeAdminRepository>();
+    builder.Services.AddSingleton<IMenuSetting, MenuSettingRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

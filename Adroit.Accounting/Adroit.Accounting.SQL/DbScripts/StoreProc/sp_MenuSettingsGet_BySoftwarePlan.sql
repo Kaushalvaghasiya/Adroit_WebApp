@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_MenuSettingsGet_BySoftware]
+CREATE OR ALTER PROCEDURE [dbo].[sp_MenuSettingsGet_BySoftwarePlan]
 (
 	@SoftwarePlanId TINYINT
 )

@@ -2,6 +2,7 @@
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Utility;
+using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
@@ -79,9 +80,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                //need change login customer id
-                _customerFirmRepository.Delete(id, UserId, _configurationData.DefaultConnection);
+                var userId = LoginHandler.GetUserId(User);
+                _customerFirmRepository.Delete(id, userId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

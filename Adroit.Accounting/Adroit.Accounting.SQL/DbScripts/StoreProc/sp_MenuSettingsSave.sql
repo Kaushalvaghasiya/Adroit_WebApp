@@ -1,5 +1,6 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_MenuSettingsSave]
 (
+    @Id int,
     @SoftwareId tinyint,
     @SoftwarePlanId tinyint,
     @CustomerId int,
@@ -257,17 +258,9 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_MenuSettingsSave]
 )
 AS
 BEGIN
-	DECLARE @Id INT
-
     BEGIN TRAN
     BEGIN TRY
-        IF EXISTS (SELECT Id FROM MenuSetting 
-                WHERE SoftwareId = @SoftwareId 
-                    AND @SoftwarePlanId = @SoftwarePlanId 
-                    AND @CustomerId = @CustomerId 
-                    AND @CusomerFirmId = @CusomerFirmId
-                    AND @CustomerFirmBranchId = @CustomerFirmBranchId
-                    AND @CustomerUserId = @CustomerUserId)
+        IF EXISTS (SELECT Id FROM MenuSetting WHERE Id = @Id)
         BEGIN
             UPDATE MenuSetting SET
                 Master__Adroit__Software__Software_Master = @Master__Adroit__Software__Software_Master,
@@ -519,12 +512,13 @@ BEGIN
                 SettingsAndUtilities__Transport_Setting__LR_Booking_Range = @SettingsAndUtilities__Transport_Setting__LR_Booking_Range,
                 ModifiedById = @UserId, 
                 ModifiedOn = GETUTCDate()
-            WHERE SoftwareId = @SoftwareId 
-                AND @SoftwarePlanId = @SoftwarePlanId 
-                AND @CustomerId = @CustomerId 
-                AND @CusomerFirmId = @CusomerFirmId
-                AND @CustomerFirmBranchId = @CustomerFirmBranchId
-                AND @CustomerUserId = @CustomerUserId
+            WHERE Id = @Id 
+            --WHERE SoftwareId = @SoftwareId 
+            --    AND @SoftwarePlanId = @SoftwarePlanId 
+            --    AND @CustomerId = @CustomerId 
+            --    AND @CusomerFirmId = @CusomerFirmId
+            --    AND @CustomerFirmBranchId = @CustomerFirmBranchId
+            --    AND @CustomerUserId = @CustomerUserId
         END
         ELSE 
         BEGIN
@@ -717,12 +711,19 @@ BEGIN
         END
         
         COMMIT TRAN
+
         SELECT @Id
     END TRY
     BEGIN CATCH
         DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
         SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
         ROLLBACK TRAN
+
+        IF (CHARINDEX('IX_MenuSetting', @message) > 0)
+		BEGIN
+			SET @message = 'Menu setting already exist!'
+		END
+
         RAISERROR ('%s', 16, 1, @message);
     END CATCH
 END
