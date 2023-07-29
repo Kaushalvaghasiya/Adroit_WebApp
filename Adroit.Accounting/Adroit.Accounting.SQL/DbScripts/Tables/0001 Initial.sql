@@ -1370,8 +1370,9 @@ CREATE TABLE [dbo].[MenuSetting](
 	[Master__Machine] [bit] NOT NULL,
 	[Master__Yarn_Shade] [bit] NOT NULL,
 	[Master__Yarn_Recipes] [bit] NOT NULL,
+	[Master__Lot_Number] [bit] NOT NULL,
 	[Master__Process] [bit] NOT NULL,
-	[Master__Cataloge] [bit] NOT NULL,
+	[Master__Catalogue] [bit] NOT NULL,
 	[Master__Employee] [bit] NOT NULL,
 	[Master__Location__City] [bit] NOT NULL,
 	[Master__Location__Branch_City_Mapping] [bit] NOT NULL,
@@ -1571,6 +1572,7 @@ CREATE TABLE [dbo].[MenuSetting](
 	[AddedById] [int] NOT NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_MenuSetting] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -4040,7 +4042,6 @@ BEGIN
 ALTER TABLE [dbo].[LRBookingRange] ADD  CONSTRAINT [DF__LRBooking__Activ__69279377]  DEFAULT ((1)) FOR [Active]
 END
 GO
-
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_MenuSetting_Master__Adroit__Software__Software_Master]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[MenuSetting] ADD  CONSTRAINT [DF_MenuSetting_Master__Adroit__Software__Software_Master]  DEFAULT ((0)) FOR [Master__Adroit__Software__Software_Master]
@@ -4298,7 +4299,7 @@ END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_MenuSetting_Master__Cataloge]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[MenuSetting] ADD  CONSTRAINT [DF_MenuSetting_Master__Cataloge]  DEFAULT ((0)) FOR [Master__Cataloge]
+ALTER TABLE [dbo].[MenuSetting] ADD  CONSTRAINT [DF_MenuSetting_Master__Cataloge]  DEFAULT ((0)) FOR [Master__Catalogue]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_MenuSetting_Master__Employee]') AND type = 'D')
@@ -5281,7 +5282,10 @@ BEGIN
 ALTER TABLE [dbo].[MenuSetting] ADD  CONSTRAINT [DF_MenuSetting_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
 END
 GO
-
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_MenuSetting_Active]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[MenuSetting] ADD  CONSTRAINT [DF_MenuSetting_Active]  DEFAULT ((1)) FOR [Active]
+END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_PoductOpeningStock_Amount]') AND type = 'D')
 BEGIN

@@ -57,8 +57,9 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_MenuSettingsSave]
     @Master__Machine bit,
     @Master__Yarn_Shade bit,
     @Master__Yarn_Recipes bit,
+    @Master__Lot_Number bit,
     @Master__Process bit,
-    @Master__Cataloge bit,
+    @Master__Catalogue bit,
     @Master__Employee bit,
     @Master__Location__City bit,
     @Master__Location__Branch_City_Mapping bit,
@@ -254,7 +255,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_MenuSettingsSave]
     @SettingsAndUtilities__Transport_Setting__LR_Rate bit,
     @SettingsAndUtilities__Transport_Setting__Contract_Rate bit,
     @SettingsAndUtilities__Transport_Setting__LR_Booking_Range bit,
-    @UserId int
+    @UserId int,
+    @Active bit
 )
 AS
 BEGIN
@@ -313,8 +315,9 @@ BEGIN
                 Master__Machine = @Master__Machine,
                 Master__Yarn_Shade = @Master__Yarn_Shade,
                 Master__Yarn_Recipes = @Master__Yarn_Recipes,
+                Master__Lot_Number = @Master__Lot_Number,
                 Master__Process = @Master__Process,
-                Master__Cataloge = @Master__Cataloge,
+                Master__Catalogue = @Master__Catalogue,
                 Master__Employee = @Master__Employee,
                 Master__Location__City = @Master__Location__City,
                 Master__Location__Branch_City_Mapping = @Master__Location__Branch_City_Mapping,
@@ -510,6 +513,7 @@ BEGIN
                 SettingsAndUtilities__Transport_Setting__LR_Rate = @SettingsAndUtilities__Transport_Setting__LR_Rate,
                 SettingsAndUtilities__Transport_Setting__Contract_Rate = @SettingsAndUtilities__Transport_Setting__Contract_Rate,
                 SettingsAndUtilities__Transport_Setting__LR_Booking_Range = @SettingsAndUtilities__Transport_Setting__LR_Booking_Range,
+                Active = @Active,
                 ModifiedById = @UserId, 
                 ModifiedOn = GETUTCDate()
             WHERE Id = @Id 
@@ -537,7 +541,7 @@ BEGIN
                     Master__Account__Add, Master__Account__Secondary_Account_Group, Master__Account__Primary_Account_Group, 
                     Master__Product__Add, Master__Product__Design, Master__Product__Colour, Master__Product__Size, Master__Product__Fabric, 
                     Master__Product__Group, Master__Product__Sub_Group, Master__Product__Shade, Master__Product__Packing, Master__Broker, 
-                    Master__Machine, Master__Yarn_Shade, Master__Yarn_Recipes, Master__Process, Master__Cataloge, Master__Employee, 
+                    Master__Machine, Master__Yarn_Shade, Master__Yarn_Recipes, Master__Lot_Number, Master__Process, Master__Catalogue, Master__Employee, 
                     Master__Location__City, Master__Location__Branch_City_Mapping, Master__Vehicles, Master__Drivers, Master__LR__Packing, 
                     Master__LR__Description, 
                     Transaction__Booking__LR, Transaction__Booking__Chalan, Transaction__Booking__Invoice, Transaction__Delivery__Chalan_Receive, 
@@ -613,7 +617,7 @@ BEGIN
                     SettingsAndUtilities__Delete_Previous_Year__Box_Production, SettingsAndUtilities__Transport_Setting__Firm, 
                     SettingsAndUtilities__Transport_Setting__Branch, SettingsAndUtilities__Transport_Setting__LR_Rate, 
                     SettingsAndUtilities__Transport_Setting__Contract_Rate, SettingsAndUtilities__Transport_Setting__LR_Booking_Range, 
-                    AddedOn, AddedById)
+                    AddedOn, AddedById, Active)
                 VALUES (@SoftwareId, @SoftwarePlanId, @CustomerId, @CusomerFirmId, @CustomerFirmBranchId, @CustomerUserId,
                     @Master__Adroit__Software__Software_Master, @Master__Adroit__Software__Plan, @Master__Adroit__Software__Businesses,
                     @Master__Adroit__Customer__Customers, @Master__Adroit__Customer__Branch_Types, @Master__Adroit__Customer__Menu_Setting,
@@ -629,7 +633,7 @@ BEGIN
                     @Master__Account__Add, @Master__Account__Secondary_Account_Group, @Master__Account__Primary_Account_Group,
                     @Master__Product__Add, @Master__Product__Design, @Master__Product__Colour, @Master__Product__Size, @Master__Product__Fabric,
                     @Master__Product__Group, @Master__Product__Sub_Group, @Master__Product__Shade, @Master__Product__Packing, @Master__Broker,
-                    @Master__Machine, @Master__Yarn_Shade, @Master__Yarn_Recipes, @Master__Process, @Master__Cataloge, @Master__Employee,
+                    @Master__Machine, @Master__Yarn_Shade, @Master__Yarn_Recipes, @Master__Lot_Number, @Master__Process, @Master__Catalogue, @Master__Employee,
                     @Master__Location__City, @Master__Location__Branch_City_Mapping, @Master__Vehicles, @Master__Drivers, @Master__LR__Packing,
                     @Master__LR__Description,
                     @Transaction__Booking__LR, @Transaction__Booking__Chalan, @Transaction__Booking__Invoice, @Transaction__Delivery__Chalan_Receive,
@@ -705,7 +709,7 @@ BEGIN
                     @SettingsAndUtilities__Delete_Previous_Year__Box_Production, @SettingsAndUtilities__Transport_Setting__Firm,
                     @SettingsAndUtilities__Transport_Setting__Branch, @SettingsAndUtilities__Transport_Setting__LR_Rate,
                     @SettingsAndUtilities__Transport_Setting__Contract_Rate, @SettingsAndUtilities__Transport_Setting__LR_Booking_Range,
-                    GETUTCDATE(), @UserId)
+                    GETUTCDATE(), @UserId, @Active)
             
             SET @Id = SCOPE_IDENTITY()
         END

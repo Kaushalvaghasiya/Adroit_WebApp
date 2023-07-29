@@ -38,6 +38,7 @@
                                     <th class="border-bottom-0">FIRM NAME</th>
                                     <th class="border-bottom-0">OWNER NAME</th>
                                     <th class="border-bottom-0">FIRM TYPE</th>
+                                    <th class="border-bottom-0">SOFTWARE NAME</th>
                                     <th class="border-bottom-0">#BRANCHES</th>
                                     <th class="border-bottom-0 text-center" style="width:165px!important;">Action</th>
                                 </tr>
@@ -331,6 +332,13 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
+                    return row.softwareName;
+                },
+                "targets": colDef.length,
+
+            });
+            colDef.push({
+                "render": function (data, type, row) {
                     return row.numberOfBranchesCreated + "/" + (row.branchLimit ?? 0);
                 },
                 "targets": colDef.length,
@@ -358,6 +366,7 @@
             columns.push({ "data": "ownerName", "name": "ownerName" });
             columns.push({ "data": "firmType", "name": "firmType" });
             columns.push({ "data": "branchLimit", "name": "branchLimit" });
+            columns.push({ "data": "softwareName", "name": "softwareName" });
             columns.push({ "data": "Id", "name": "Id" });
 
 

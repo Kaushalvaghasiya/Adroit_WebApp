@@ -1,5 +1,4 @@
-﻿
-using Adroit.Accounting.Model;
+﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
@@ -41,7 +40,6 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerSave", connectionString, parameters);
         }
-
         public int Register(Customer value, string connectionString)
         {
             var parameters = new DynamicParameters();
@@ -73,21 +71,18 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerRegistration", connectionString, parameters);
         }
-
         public CustomerViewModel Get(string email, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Email", email);
             return QueryHelper.Get<CustomerViewModel>("sp_CustomerGetByEmail", connectionString, parameters);
         }
-
         public CustomerViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             return QueryHelper.Get<CustomerViewModel>("sp_CustomerGet", connectionString, parameters);
         }
-
         public List<CustomerGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();
@@ -100,18 +95,28 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<CustomerGridViewModel>("sp_CustomerList", connectionString, param);
         }
-
         public void Delete(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             QueryHelper.Save("sp_CustomerDelete", connectionString, parameters);
         }
-
         public List<DropdownViewModel> SelectList(string connectionString)
         {
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerList_Select", connectionString, parameters);
+        }
+        public List<DropdownViewModel> SelectListBySoftware(byte softwareId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", softwareId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerListBySoftware_Select", connectionString, parameters);
+        }
+        public List<DropdownViewModel> SelectListBySoftwarePlan(byte softwarePlanId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", softwarePlanId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerListBySoftwarePlan_Select", connectionString, parameters);
         }
     }
 }

@@ -31,7 +31,8 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<CustomerUserGridViewModel>();
             try
             {
-                int loginId = 0, firmId = 0;
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
@@ -58,7 +59,7 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 //we need add user Id
                 //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                model.OwnerBranchId = null;// need set from session
+                model.OwnerBranchId = LoginHandler.GetBranchId(User);
                 model.AddedById = LoginHandler.GetUserId(User);
 
                 if (model.Id == 0)
@@ -146,8 +147,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int deletedById = LoginHandler.GetUserId(User);
-                _customerUserRepository.Delete(id, deletedById, _configurationData.DefaultConnection);
+                _customerUserRepository.Delete(id, LoginHandler.GetUserId(User), _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

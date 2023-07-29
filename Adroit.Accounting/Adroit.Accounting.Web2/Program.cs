@@ -12,7 +12,6 @@ using Adroit.Accounting.Model;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Repository;
 using System.Globalization;
-using System.ComponentModel;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");

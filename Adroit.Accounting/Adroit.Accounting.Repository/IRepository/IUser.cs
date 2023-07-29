@@ -1,4 +1,5 @@
 ﻿using Adroit.Accounting.Model;
+using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Repository.IRepository
 {
@@ -11,5 +12,6 @@ namespace Adroit.Accounting.Repository.IRepository
         void Delete(int id, int deletedById, string connectionString);
         void Active(int id, int activatedByUserId, string connectionString);
         void Deactive(int id, int deactivatedByUserId, string connectionString);
+        List<DropdownViewModel> SelectList(int customerId, string connectionString);
     }
 }

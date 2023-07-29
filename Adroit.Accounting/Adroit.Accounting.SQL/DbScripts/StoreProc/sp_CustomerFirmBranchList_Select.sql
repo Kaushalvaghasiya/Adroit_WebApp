@@ -1,15 +1,15 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchList_Select]
-(@CustomerId INT)
+(@FirmId INT)
 AS
 BEGIN
-	SELECT branch.Id As Value, branch.Title As Text
-	FROM Customer as c
-	INNER JOIN CustomerFirm as firm on c.Id = Firm.CustomerId
-	INNER JOIN CustomerFirmBranch as branch on firm.Id = branch.FirmId
-	WHERE c.id = @CustomerId
-	AND c.IsDeleted = 0
-	AND firm.IsDeleted = 0
-	AND branch.IsDeleted = 0
-	ORDER BY firm.Title, branch.Title
+	SELECT 
+		CustomerFirmBranch.Id As Value, 
+		CustomerFirmBranch.Title As Text
+	FROM CustomerFirm 
+	INNER JOIN CustomerFirmBranch on CustomerFirm.Id = CustomerFirmBranch.FirmId
+	WHERE CustomerFirm.Id = @FirmId 
+	AND CustomerFirm.IsDeleted = 0
+	AND CustomerFirmBranch.IsDeleted = 0
+	ORDER BY CustomerFirmBranch.Title
 END
 GO

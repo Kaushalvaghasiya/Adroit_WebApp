@@ -5,6 +5,7 @@ using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
+using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -117,7 +118,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = 0, firmId = 0;
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 result.data = _customerAccountGroupRepo.GetCustomerAccountGroupList(_configurationData.DefaultConnection, loginId, firmId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
@@ -133,7 +135,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = 0, firmId = 0;
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 result.data = _customerBrokerBranchMappingRepo.GetCustomerBrokerBranchMappingList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
@@ -149,7 +152,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = 0, firmId = 0;
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 result.data = _customerAccountRepo.GetCustomerAccountList(_configurationData.DefaultConnection, loginId, firmId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }

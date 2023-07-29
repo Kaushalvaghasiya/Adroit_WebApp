@@ -11,6 +11,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> BusinessList { get; set; }
         public List<DropdownViewModel> SoftwareList { get; set; }
         public CustomerViewModel Customer { get; set; }
+        public string FirmType { get; set; }
+        public string SoftwareName { get; set; }
         public int NumberOfBranchesCreated { get; set; }
     }
 }

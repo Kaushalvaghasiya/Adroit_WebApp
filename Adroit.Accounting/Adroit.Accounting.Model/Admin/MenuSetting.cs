@@ -8,11 +8,11 @@ namespace Adroit.Accounting.Model
     {
         public int Id { get; set; }
         public byte SoftwareId { get; set; }
-        public byte SoftwarePlanId { get; set; }
-        public int CustomerId { get; set; }
-        public int CusomerFirmId { get; set; }
-        public int CustomerFirmBranchId { get; set; }
-        public int CustomerUserId { get; set; }
+        public byte? SoftwarePlanId { get; set; }
+        public int? CustomerId { get; set; }
+        public int? CusomerFirmId { get; set; }
+        public int? CustomerFirmBranchId { get; set; }
+        public int? CustomerUserId { get; set; }
         public bool Master__Adroit__Software__Software_Master { get; set; }
         public bool Master__Adroit__Software__Plan { get; set; }
         public bool Master__Adroit__Software__Businesses { get; set; }
@@ -62,9 +62,10 @@ namespace Adroit.Accounting.Model
         public bool Master__Broker { get; set; }
         public bool Master__Machine { get; set; }
         public bool Master__Yarn_Shade { get; set; }
+        public bool Master__Lot_Number { get; set; }
         public bool Master__Yarn_Recipes { get; set; }
         public bool Master__Process { get; set; }
-        public bool Master__Cataloge { get; set; }
+        public bool Master__Catalogue { get; set; }
         public bool Master__Employee { get; set; }
         public bool Master__Location__City { get; set; }
         public bool Master__Location__Branch_City_Mapping { get; set; }
@@ -261,5 +262,6 @@ namespace Adroit.Accounting.Model
         public bool SettingsAndUtilities__Transport_Setting__Contract_Rate { get; set; }
         public bool SettingsAndUtilities__Transport_Setting__LR_Booking_Range { get; set; }
         public int UserId { get; set; }
+        public bool Active { get; set; } = true;
     }
 }

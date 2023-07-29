@@ -4,6 +4,7 @@ using Adroit.Accounting.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.SQL.Tables;
+using Adroit.Accounting.Web.Utility;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -24,7 +25,8 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<ProductSizeAdminGridViewModel>();
             try
             {
-                int loginId = 0, firmId = 0;
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
@@ -73,9 +75,6 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                               //need change login customer id
-                int DeletedById = 1; //need to set from session
                 _productSizeRepository.Delete(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }

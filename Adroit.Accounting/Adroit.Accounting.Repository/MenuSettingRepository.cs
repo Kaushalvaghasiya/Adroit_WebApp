@@ -68,8 +68,9 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Master__Machine", value.Master__Machine);
             parameters.Add("@Master__Yarn_Shade", value.Master__Yarn_Shade);
             parameters.Add("@Master__Yarn_Recipes", value.Master__Yarn_Recipes);
+            parameters.Add("@Master__Lot_Number", value.Master__Yarn_Shade);
             parameters.Add("@Master__Process", value.Master__Process);
-            parameters.Add("@Master__Cataloge", value.Master__Cataloge);
+            parameters.Add("@Master__Catalogue", value.Master__Catalogue);
             parameters.Add("@Master__Employee", value.Master__Employee);
             parameters.Add("@Master__Location__City", value.Master__Location__City);
             parameters.Add("@Master__Location__Branch_City_Mapping", value.Master__Location__Branch_City_Mapping);
@@ -266,6 +267,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SettingsAndUtilities__Transport_Setting__Contract_Rate", value.SettingsAndUtilities__Transport_Setting__Contract_Rate);
             parameters.Add("@SettingsAndUtilities__Transport_Setting__LR_Booking_Range", value.SettingsAndUtilities__Transport_Setting__LR_Booking_Range);
             parameters.Add("@UserId", value.UserId);
+            parameters.Add("@Active", value.Active);
 
             return QueryHelper.Save("sp_MenuSettingsSave", connectionString, parameters);
         }

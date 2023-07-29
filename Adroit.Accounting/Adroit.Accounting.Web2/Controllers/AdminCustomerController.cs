@@ -1,12 +1,8 @@
 ﻿using Adroit.Accounting.Model;
-using Adroit.Accounting.Model.Enums;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.SQL.Tables;
 using Adroit.Accounting.Utility;
-using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
@@ -31,7 +27,8 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<CustomerGridViewModel>();
             try
             {
-                int loginId = 0, firmId = 0;
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);

@@ -3,6 +3,7 @@ using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
+using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
@@ -101,7 +102,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = 0, firmId = 0;
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 result.data = _accountAdminRepository.GetAccountAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
@@ -118,7 +120,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = 0, firmId = 0;
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 result.data = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
@@ -135,7 +138,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = 0, firmId = 0;
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 result.data = _billEntryTypeAdminRepository.GetBillEntryTypeAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }

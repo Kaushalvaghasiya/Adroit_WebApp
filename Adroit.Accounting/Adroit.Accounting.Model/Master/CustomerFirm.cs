@@ -20,7 +20,6 @@ namespace Adroit.Accounting.Model
         public string LutBondNumber { get; set; }
         public bool IsGTA { get; set; }
         public short FirmTypeId { get; set; }
-        public  string FirmType { get;set; }
         public byte GstFirmTypeId { get; set; }
         public byte SoftwareId { get; set; }
         public short BranchLimit { get; set; }

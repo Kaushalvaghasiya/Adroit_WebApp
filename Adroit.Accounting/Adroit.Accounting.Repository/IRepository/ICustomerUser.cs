@@ -9,6 +9,6 @@ namespace Adroit.Accounting.Repository.IRepository
         void Delete(int id, int DeletedById, string connectionString);
         int Save(CustomerUser value, string connectionString);
         CustomerUserViewModel Get(int id, string connectionString);
-        List<DropdownViewModel> SelectList(string connectionString);
+        List<DropdownViewModel> SelectList(int customerId, string connectionString);
     }
 }
