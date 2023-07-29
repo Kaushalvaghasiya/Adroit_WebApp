@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerListBySoftware_Select]
+CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerListBySoftwarePlan_Select]
 (
 	@Id TINYINT
 )
