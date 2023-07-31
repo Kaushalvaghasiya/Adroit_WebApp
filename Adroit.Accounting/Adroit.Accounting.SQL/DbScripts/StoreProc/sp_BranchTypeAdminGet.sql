@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_BusinessGet]
+CREATE OR ALTER PROCEDURE [dbo].[sp_BranchTypeAdminGet]
 (
 	@Id INT
 )

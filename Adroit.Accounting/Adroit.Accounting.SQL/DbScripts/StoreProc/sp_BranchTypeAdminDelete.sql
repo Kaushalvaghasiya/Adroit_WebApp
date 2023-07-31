@@ -1,4 +1,4 @@
-CREATE OR ALTER procedure [dbo].[sp_BusinessDelete]
+CREATE OR ALTER procedure [dbo].[sp_BranchTypeAdminDelete]
 (
 	@Id INT
 )

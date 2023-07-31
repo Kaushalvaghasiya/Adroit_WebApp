@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_MenuSettingsSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_MenuSettingsDelete]
 (
     @Id INT
 )
