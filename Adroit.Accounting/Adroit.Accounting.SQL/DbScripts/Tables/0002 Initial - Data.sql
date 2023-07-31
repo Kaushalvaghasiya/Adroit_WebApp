@@ -16,53 +16,53 @@ SET IDENTITY_INSERT [dbo].[Software] OFF
 GO
 SET IDENTITY_INSERT [dbo].[SoftwarePlan] ON 
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (1, 1, N'REGULAR', N'Transport', N'AF01', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (1, 1, N'REGULAR', N'Transport', N'AF001', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (2, 1, N'BOOKING', N'Transport', N'AF02', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (2, 1, N'BOOKING', N'Transport', N'AF002', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (3, 1, N'BOOKING+GST', N'Transport', N'AF03', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (3, 1, N'BOOKING+GST', N'Transport', N'AF003', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (4, 1, N'BOOKING+ACC', N'Transport', N'AF04', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (4, 1, N'BOOKING+ACC', N'Transport', N'AF004', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (5, 1, N'BOOKING+ACC+GST', N'Transport', N'AF05', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (5, 1, N'BOOKING+ACC+GST', N'Transport', N'AF005', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (6, 1, N'DELIVERY', N'Transport', N'AF06', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (6, 1, N'DELIVERY', N'Transport', N'AF006', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (7, 1, N'DELIVERY+GST', N'Transport', N'AF07', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (7, 1, N'DELIVERY+GST', N'Transport', N'AF007', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (8, 1, N'DELIVERY+ACC', N'Transport', N'AF08', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (8, 1, N'DELIVERY+ACC', N'Transport', N'AF008', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (9, 1, N'DELIVERY+ACC+GST', N'Transport', N'AF09', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (9, 1, N'DELIVERY+ACC+GST', N'Transport', N'AF009', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (10, 1, N'BOOKING+DELIVERY', N'Transport', N'AF10', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (10, 1, N'BOOKING+DELIVERY', N'Transport', N'AF010', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (11, 1, N'BOOKING+DELIVERY+ACC', N'Transport', N'AF11', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (11, 1, N'BOOKING+DELIVERY+ACC', N'Transport', N'AF011', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (12, 1, N'BOOKING+DELIVERY+GST', N'Transport', N'AF12', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (12, 1, N'BOOKING+DELIVERY+GST', N'Transport', N'AF012', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (13, 1, N'BOOKING+DELIVERY+ACC+GST', N'Transport', N'AF13', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (13, 1, N'BOOKING+DELIVERY+ACC+GST', N'Transport', N'AF013', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (14, 2, N'SINGLE', N'BILLSOFT', N'BS01', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (14, 2, N'SINGLE', N'BILLSOFT', N'BS001', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (15, 2, N'BETWEEN DATE', N'BILLSOFT', N'BS02', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (15, 2, N'BETWEEN DATE', N'BILLSOFT', N'BS002', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (16, 6, N'RAPIER', N'MARKET RAPIER', N'RP01', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (16, 6, N'RAPIER', N'MARKET RAPIER', N'RP001', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (17, 3, N'SINGLE', N'MARKET', N'MK01', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (17, 3, N'SINGLE', N'MARKET', N'MK001', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (18, 3, N'BETWEEN DATE', N'MARKET', N'MK02', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (18, 3, N'BETWEEN DATE', N'MARKET', N'MK002', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (19, 3, N'JOBWORK_SINGLE', N'MARKET JOBWORK', N'MK03', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (19, 3, N'JOBWORK_SINGLE', N'MARKET JOBWORK', N'MK003', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (20, 3, N'JOBWORK_BETWEEN DATE', N'MARKET JOBWORK', N'MK04', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (20, 3, N'JOBWORK_BETWEEN DATE', N'MARKET JOBWORK', N'MK004', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (21, 4, N'SINGLE', N'GREY MANUFACTURER', N'TM01', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (21, 4, N'SINGLE', N'GREY MANUFACTURER', N'TM00', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (22, 4, N'BETWEEN DATE', N'GREY MANUFACTURER', N'TM02', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (22, 4, N'BETWEEN DATE', N'GREY MANUFACTURER', N'TM002', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (23, 5, N'SINGLE', N'YARN MANUFACTURER', N'TM03', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (23, 5, N'SINGLE', N'YARN MANUFACTURER', N'TM003', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
-INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (24, 5, N'BETWEEN DATE', N'YARN MANUFACTURER', N'TM04', 0, CAST(0.00 AS Decimal(16, 2)))
+INSERT [dbo].[SoftwarePlan] ([Id], [SoftwareId], [Title], [Business], [Code], [IsDeleted], [Cost]) VALUES (24, 5, N'BETWEEN DATE', N'YARN MANUFACTURER', N'TM004', 0, CAST(0.00 AS Decimal(16, 2)))
 GO
 SET IDENTITY_INSERT [dbo].[SoftwarePlan] OFF
 GO
