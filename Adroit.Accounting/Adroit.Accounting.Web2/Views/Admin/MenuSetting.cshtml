@@ -2516,8 +2516,7 @@
         function bindSoftwarePlanList(softwareId) {
             try {
                 $("#SoftwarePlanId").empty();
-                $("#CustomerId").empty();
-
+                
                 if (softwareId == '' || softwareId == null) return;
 
                 blockUI('container');
@@ -2530,12 +2529,17 @@
                                     $('#SoftwarePlanId').append(new Option(data.data[i].text, data.data[i].value, false, false));
                                 }
                             }
-                            $('#SoftwarePlanId').val($("#hdSoftwarePlanId").val()).trigger('change');
+
+                            if ($("#hdSoftwarePlanId").val() == '')
+                            {
+                                bindCustomerBySoftware(softwareId);
+                            }else{
+                                $('#SoftwarePlanId').val($("#hdSoftwarePlanId").val()).trigger('change');
+                            }
+                            
                         } else {
                             showError("", data.data);
                         }
-
-                        bindCustomerBySoftware(softwareId);
                     },
                     function (error) {
                         unblockUI('container');
