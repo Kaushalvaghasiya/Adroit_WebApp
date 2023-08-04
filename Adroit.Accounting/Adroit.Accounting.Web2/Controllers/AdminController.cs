@@ -35,6 +35,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IBranchTypeAdmin _branchTypeRepository;
         private readonly ILogger<AdminController> _logger;
         private readonly IMenuSetting _menuSettingRepository;
+        private readonly IBoxSetting _boxSettingRepository;
         public AdminController(
             IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
@@ -59,7 +60,8 @@ namespace Adroit.Accounting.Web.Controllers
             IFirmType firmTypeRepository,
             IBranchTypeAdmin branchTypeRepository,
             ILogger<AdminController> logger,
-            IMenuSetting menuSettingRepository
+            IMenuSetting menuSettingRepository,
+            IBoxSetting boxSettingRepository
             )
 
         {
@@ -88,6 +90,7 @@ namespace Adroit.Accounting.Web.Controllers
             _branchTypeRepository = branchTypeRepository;
             _logger = logger;
             _menuSettingRepository = menuSettingRepository;
+            _boxSettingRepository = boxSettingRepository;
         }
     }
 }

@@ -936,7 +936,7 @@
                                                                 </li>
                                                                 <li>
                                                                     <div class="form-group form-group-tree-node">
-                                                                        <label class="custom-switch">Booking Register&nbsp;<input id="Reports__BookAndRegister__LR_Delivery_Register__Delivery_Register" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input menusetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                                                        <label class="custom-switch">Delivery Register&nbsp;<input id="Reports__BookAndRegister__LR_Delivery_Register__Delivery_Register" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input menusetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
                                                                     </div>
                                                                 </li>
                                                                 <li>
@@ -1003,7 +1003,7 @@
                                                         </li>
                                                         <li>
                                                             <div class="form-group form-group-tree-node">
-                                                                <label class="custom-switch">Broker Register&nbsp;<input id="Reports__BookAndRegister__Brokrage_Register" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input menusetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                                                <label class="custom-switch">Brokerage Register&nbsp;<input id="Reports__BookAndRegister__Brokrage_Register" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input menusetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
                                                             </div>
                                                         </li>
                                                     </ul>
@@ -1723,31 +1723,43 @@
             bindDatatableList();
 
             $("#SoftwareId").on('change', function (e) {
+                if ($(this).val() == null) return;
+
                 bindSoftwarePlanList($(this).val());
                 getDetailBySoftware($(this).val());
             });
 
             $("#SoftwarePlanId").on('change', function (e) {
+                if ($(this).val() == null) return;
+
                 bindCustomerBySoftwarePlan($(this).val());
                 getDetailBySoftwarePlan($(this).val());
             });
 
             $("#CustomerId").on('change', function (e) {
+                if ($(this).val() == null) return;
+
                 bindFirm($(this).val());
                 bindUser($(this).val());
                 getDetailByCustomer($(this).val());
             });
 
             $("#CusomerFirmId").on('change', function (e) {
+                if ($(this).val() == null) return;
+
                 bindBranch($(this).val());
                 getDetailByFirm($(this).val());
             });
 
             $("#CustomerFirmBranchId").on('change', function (e) {
+                if ($(this).val() == null) return;
+
                 getDetailByBranch($(this).val());
             });
 
             $("#CustomerUserId").on('change', function (e) {
+                if ($(this).val() == null) return;
+
                 getDetailByUser($(this).val());
             });
         });
@@ -2188,7 +2200,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Business saved successfully.');
+                            showWarning("", 'Menu settings successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();

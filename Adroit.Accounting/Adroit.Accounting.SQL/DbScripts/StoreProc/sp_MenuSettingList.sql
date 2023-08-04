@@ -18,10 +18,12 @@ Begin
 				CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN ISNULL(Customer.Name, '') END DESC,
 				CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN ISNULL(CustomerFirm.Title, '') END ASC,
 				CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN ISNULL(CustomerFirm.Title, '') END DESC,
-				CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN ISNULL(CustomerUser.FirstName, '') + ' ' + ISNULL(CustomerUser.LastName, '') END ASC,
-				CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN ISNULL(CustomerUser.FirstName, '') + ' ' + ISNULL(CustomerUser.LastName, '') END DESC,
-				CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN MenuSetting.Active END ASC,
-				CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN MenuSetting.Active END DESC
+				CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN ISNULL(CustomerFirmBranch.Title, '') END ASC,
+				CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN ISNULL(CustomerFirmBranch.Title, '') END DESC,
+				CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN ISNULL(CustomerUser.FirstName, '') + ' ' + ISNULL(CustomerUser.LastName, '') END ASC,
+				CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN ISNULL(CustomerUser.FirstName, '') + ' ' + ISNULL(CustomerUser.LastName, '') END DESC,
+				CASE WHEN @SortColumn = 6 AND @SortOrder ='ASC' THEN MenuSetting.Active END ASC,
+				CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN MenuSetting.Active END DESC
 				) AS RowNum,
 			Count(*) over () AS TotalCount, 
 			MenuSetting.*,
