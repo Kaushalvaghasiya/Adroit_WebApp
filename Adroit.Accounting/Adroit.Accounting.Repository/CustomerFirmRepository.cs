@@ -15,14 +15,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@DeletedById", deletedById);
             QueryHelper.Save("sp_CustomerFirmDelete", connectionString, parameters);
         }
-
         public CustomerFirmViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             return QueryHelper.Get<CustomerFirmViewModel>("sp_CustomerFirmGet", connectionString, parameters);
         }
-
         public List<CustomerFirmGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder, int CustomerId)
         {
             var param = new DynamicParameters();
@@ -37,7 +35,6 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.GetList<CustomerFirmGridViewModel>("sp_CustomerFirmList", connectionString, param);
         }
-
         public int Save(CustomerFirm value, string connectionString)
         {
             var parameters = new DynamicParameters();
@@ -65,6 +62,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@CessRequired", value.CessRequired);
 
             return QueryHelper.Save("sp_CustomerFirmSave", connectionString, parameters);
+        }
+        public List<DropdownViewModel> SelectList(int customerId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@CustomerId", customerId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmList_Select", connectionString, parameters);
         }
     }
 }

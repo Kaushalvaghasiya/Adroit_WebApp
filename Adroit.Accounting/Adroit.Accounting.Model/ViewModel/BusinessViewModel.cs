@@ -6,7 +6,7 @@ namespace Adroit.Accounting.Model.ViewModel
 {
     public class BusinessViewModel : Business
     {
-        public List<DropdownViewModel> BusinessList { get; set; }
+        public List<DropdownViewModel> TitleList { get; set; }
         public List<DropdownViewModel> OrderNumberList { get; set; }
         public List<DropdownViewModel> SoftwareList { get; set; }
 

@@ -38,4 +38,10 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class BranchTypeAdminTable
+    {
+        public const string _TableName = "FirmBranchTypeAdmin";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
 }

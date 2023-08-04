@@ -12,7 +12,6 @@ using Adroit.Accounting.Model;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Repository;
 using System.Globalization;
-using System.ComponentModel;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -72,15 +71,16 @@ try
     builder.Services.AddSingleton<IGSTFirmType, GSTFirmTypeRepository>();
     builder.Services.AddSingleton<ISoftware, SoftwareRepository>();
     builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
-    builder.Services.AddSingleton<IFirmBranchTypeAdmin, FirmBranchTypeAdminRepository>();
-    builder.Services.AddSingleton<IFirm, FirmRepository>();
+    builder.Services.AddSingleton<IBranchTypeAdmin, BranchTypeAdminRepository>();
     builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
     builder.Services.AddSingleton<ISoftwarePlan, SoftwarePlanRepository>();
     builder.Services.AddSingleton<ICommon, CommonRepository>();
-    builder.Services.AddSingleton<IBranchType, BranchTypeRepository>();
+    builder.Services.AddSingleton<IBranchTypeAdmin, BranchTypeAdminRepository>();
     builder.Services.AddSingleton<IGSTCollection, GSTCollectionRepository>();
     builder.Services.AddSingleton<IColor, ColorRepository>();
-    builder.Services.AddSingleton<IProductSize, ProductSizeRepository>();
+    builder.Services.AddSingleton<IProductSizeAdmin, ProductSizeAdminRepository>();
+    builder.Services.AddSingleton<IMenuSetting, MenuSettingRepository>();
+    builder.Services.AddSingleton<IBoxSetting, BoxSettingRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

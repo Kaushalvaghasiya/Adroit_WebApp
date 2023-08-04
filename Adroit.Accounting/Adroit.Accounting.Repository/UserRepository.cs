@@ -62,5 +62,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@ModifiedById", deactivatedByUserId);
             QueryHelper.Save("sp_UserDeactivate", connectionString, parameters);
         }
+        public List<DropdownViewModel> SelectList(int customerId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@CustomerId", customerId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerUserList_Select", connectionString, parameters);
+        }
     }
 }

@@ -15,14 +15,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@@DeletedById", deletedById);
             QueryHelper.Save("sp_CustomerFirmBranchDelete", connectionString, parameters);
         }
-
         public CustomerFirmBranchViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             return QueryHelper.Get<CustomerFirmBranchViewModel>("sp_CustomerFirmBranchGet", connectionString, parameters);
         }
-
         public List<CustomerFirmBranchGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder)
         {
             var param = new DynamicParameters();
@@ -36,7 +34,6 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.GetList<CustomerFirmBranchGridViewModel>("sp_CustomerFirmBranchList", connectionString, param);
         }
-
         public int Save(CustomerFirmBranch value, string connectionString)
         {
             var parameters = new DynamicParameters();
@@ -74,6 +71,17 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerFirmBranchSave", connectionString, parameters);
         }
-
+        public List<DropdownViewModel> SelectList(int customerId, bool withFirmName = false, string connectionString = "")
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@CustomerId", customerId);
+            return QueryHelper.GetList<DropdownViewModel>(withFirmName ? "sp_CustomerFirmBranchWithFirmListByCustomer_Select" : "sp_CustomerFirmBranchListByCustomer_Select", connectionString, parameters);
+        }
+        public List<DropdownViewModel> SelectList(int firmId, string connectionString = "")
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@FirmId", firmId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmBranchList_Select", connectionString, parameters);
+        }
     }
 }

@@ -2,6 +2,7 @@
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Utility;
+using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
@@ -16,7 +17,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.BusinessList = _businessRepository.SelectList(_configurationData.DefaultConnection);
             model.GSTFirmTypeList = _gSTFirmTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.FirmTypeList = _firmTypeRepository.SelectList(_configurationData.DefaultConnection);
-            model.SoftwareList = _softwareRepository.SelectList(_configurationData.DefaultConnection);
+            //model.SoftwareList = _softwareRepository.SelectList(_configurationData.DefaultConnection);
 
             ViewBag.EditId = editid;
 
@@ -29,7 +30,8 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<CustomerFirmGridViewModel>();
             try
             {
-                int loginId = 0, firmId = 0;
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
@@ -54,10 +56,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                //we need add user Id
-                //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                //savedata.AddedById = UserId;
-                //savedata.ModifiedById = UserId;
+                model.AddedById = LoginHandler.GetUserId(User);
+                model.ModifiedById = LoginHandler.GetUserId(User);
                 int id = _customerFirmRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
@@ -79,9 +79,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                //need change login customer id
-                _customerFirmRepository.Delete(id, UserId, _configurationData.DefaultConnection);
+                _customerFirmRepository.Delete(id, LoginHandler.GetUserId(User), _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

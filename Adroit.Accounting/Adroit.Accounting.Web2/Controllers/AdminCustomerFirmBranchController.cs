@@ -4,6 +4,7 @@ using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.SQL.Tables;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
+using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
@@ -19,7 +20,7 @@ namespace Adroit.Accounting.Web.Controllers
 
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
             model.SoftwarePlanList = _softwarePlanRepository.SelectList(model.Firm.SoftwareId, _configurationData.DefaultConnection);
-            model.BranchTypeList = _branchType.SelectList(_configurationData.DefaultConnection);
+            model.BranchTypeList = _branchTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchTable._TableName, CustomerFirmBranchTable.OrderNumber);
 
             return View(model);
@@ -31,7 +32,7 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<CustomerFirmBranchGridViewModel>();
             try
             {
-                int loginId = 0;
+                int loginId = LoginHandler.GetUserId(User);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
@@ -57,9 +58,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var UserId = 1;//Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                model.AddedById = UserId;
-                model.ModifiedById = UserId;
+                model.AddedById = LoginHandler.GetUserId(User);
+                model.ModifiedById = LoginHandler.GetUserId(User);
                 int id = _customerFirmBranchRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
@@ -81,9 +81,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var UserId = 1;// Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-
-                _customerFirmBranchRepository.Delete(id, UserId, _configurationData.DefaultConnection);
+                _customerFirmBranchRepository.Delete(id, LoginHandler.GetUserId(User), _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

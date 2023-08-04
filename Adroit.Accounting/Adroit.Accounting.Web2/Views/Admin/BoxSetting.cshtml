@@ -1,0 +1,1011 @@
+﻿@model Adroit.Accounting.Model.ViewModel.BoxSettingViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Master</a></li>
+                    <li><a href="#">Adroit</a></li>
+                    <li><a href="#">Customer</a></li>
+                    <li><a href="#">Box Setting</a></li>
+                    <li class="active"><span>List</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">SOFTWARE</th>
+                                    <th class="border-bottom-0">CUSTOMER</th>
+                                    <th class="border-bottom-0">FIRM</th>
+                                    <th class="border-bottom-0">ACTIVE</th>
+                                    <th class="border-bottom-0 text-center" style="width:210px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Master</a></li>
+                    <li><a href="#">Adroit</a></li>
+                    <li><a href="#">Customer</a></li>
+                    <li><a href="#" class="btn-back">Box Setting</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="SoftwareId">Software</label>
+                                <select class="form-control select2-show-search mode-ed" id="SoftwareId">
+                                    @{
+                                        if (Model.SoftwareList != null)
+                                        {
+                                            foreach (var o in Model.SoftwareList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="CustomerId">Customer Id</label>
+                                <select class="form-control select2-show-search mode-ed" id="CustomerId"></select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="CusomerFirmId">Firm</label>
+                                <select class="form-control select2-show-search mode-ed" id="CusomerFirmId"></select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <div><label for="Active">Active</label></div>
+                                <label class="custom-switch"><input id="Active" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed"><span class="custom-switch-indicator"></span></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <ul id="tree_product">
+                                <li>
+                                    <a href="#">Product</a>
+                                    <ul>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Product Name&nbsp;<input id="Product_ProductName" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Product Name2&nbsp;<input id="Product_ProductName2" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Product Name3&nbsp;<input id="Product_ProductName3" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Code/ SKU&nbsp;<input id="Product_CodeSKU" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Design&nbsp;<input id="Product_Design" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Colour&nbsp;<input id="Product_Colour" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Size&nbsp;<input id="Product_Size" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Fabric&nbsp;<input id="Product_Fabric" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">MRP&nbsp;<input id="Product_MRP" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Distributor Rate&nbsp;<input id="Product_DistributorRate" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Dealer Rate&nbsp;<input id="Product_DealerRate" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Avg. Pack&nbsp;<input id="Product_AvgPack" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Box Pack&nbsp;<input id="Product_BoxPack" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Product Packing&nbsp;<input id="Product_ProductPacking" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Central Cess&nbsp;<input id="Product_CentralCess" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">State Cess&nbsp;<input id="Product_StateCess" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Group&nbsp;<input id="Product_Group" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Sub Group&nbsp;<input id="Product_SubGroup" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Discount&nbsp;<input id="Product_Discount" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">FIFO Rate&nbsp;<input id="Product_FIFORate" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Op. Stock Qty.&nbsp;<input id="Product_OpStockQty" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Purchase Rate&nbsp;<input id="Product_PurchaseRate" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Calculation On&nbsp;<input id="Product_CalculationOn" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Cut&nbsp;<input id="Product_Cut" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Rol Min.&nbsp;<input id="Product_RolMin" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Rol Max.&nbsp;<input id="Product_RolMax" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Op. Stock Nos.&nbsp;<input id="Product_OpStockNos" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Loose Qty&nbsp;<input id="Product_LooseQty" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Purchase Rate Update&nbsp;<input id="Product_PurchaseRateUpdate" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Quality Type&nbsp;<input id="Product_QualityType" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Yarn Denier/ Wt.&nbsp;<input id="Product_YarnDenierWt" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Rate/ Meter&nbsp;<input id="Product_RateMeter" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Yarn Shade No.&nbsp;<input id="Product_YarnShadeNo" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4">
+                            <ul id="tree_account">
+                                <li>
+                                    <a href="#">Account</a>
+                                    <ul>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Taluka&nbsp;<input id="Account_Taluka" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">District&nbsp;<input id="Account_District" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Country&nbsp;<input id="Account_Country" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Area&nbsp;<input id="Account_Area" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Transporter Name&nbsp;<input id="Account_TransporterName" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Transporter GST#&nbsp;<input id="Account_TransporterGSTNo" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Vehicle#&nbsp;<input id="Account_VehicleNumber" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Broker&nbsp;<input id="Account_Broker" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Delivery Party&nbsp;<input id="Account_DeliveryParty" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Haste Party&nbsp;<input id="Account_HasteParty" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Shipping Party&nbsp;<input id="Account_ShippingParty" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-lg-4">
+                            <ul id="tree_generalexpensemulti">
+                                <li>
+                                    <a href="#">General Expense Multi</a>
+                                    <ul>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Group&nbsp;<input id="GeneralExpenseMulti_Group" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Discount&nbsp;<input id="GeneralExpenseMulti_Discount" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Other Charges&nbsp;<input id="GeneralExpenseMulti_OtherCharges" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Group 2&nbsp;<input id="GeneralExpenseMulti_Group2" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Discount 2&nbsp;<input id="GeneralExpenseMulti_Discount2" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Other Charges 2&nbsp;<input id="GeneralExpenseMulti_OtherCharges2" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">TDS&nbsp;<input id="GeneralExpenseMulti_TDS" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">SGST&nbsp;<input id="GeneralExpenseMulti_SGST" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">CGST&nbsp;<input id="GeneralExpenseMulti_CGST" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">IGST&nbsp;<input id="GeneralExpenseMulti_IGST" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">State Cess&nbsp;<input id="GeneralExpenseMulti_StateCess" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">Central Cess&nbsp;<input id="GeneralExpenseMulti_CentralCess" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="form-group form-group-tree-node">
+                                                <label class="custom-switch">TCS&nbsp;<input id="GeneralExpenseMulti_TCS" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input boxsetting-checkbox mode-ed"><span class="custom-switch-indicator"></span></label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="new"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="hdCustomerId" value="0" />
+    <input type="hidden" id="hdCusomerFirmId" value="0" />
+</div>
+
+@section Scripts
+    {
+
+    <script>
+
+        $(function (e) {
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+            $('#tree_product').treed();
+            $('#tree_account').treed();
+            $('#tree_generalexpensemulti').treed();
+
+            bindDatatableList();
+
+            $("#SoftwareId").on('change', function (e) {
+                if ($(this).val() == null) return;
+
+                bindCustomerBySoftware($(this).val());
+            });
+
+            $("#CustomerId").on('change', function (e) {
+                if ($(this).val() == null) return;
+
+                bindFirm($(this).val());
+            });
+
+            $("#CusomerFirmId").on('change', function (e) {
+                if ($(this).val() == null) return;
+
+                getDetailByFirm($(this).val());
+            });
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#Title").focus();
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.softwareTitle;
+                },
+                "targets": colDef.length,
+                "className": "maxwidth400"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.customerName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.customerFirmTitle;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.active ? "Yes" : "No";
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "softwareTitle", "name": "softwareTitle" });
+            columns.push({ "data": "customerName", "name": "customerName" });
+            columns.push({ "data": "customerFirmTitle", "name": "customerFirmTitle" });
+            columns.push({ "data": "active", "name": "active" });
+            columns.push({ "data": "id", "name": "id" });
+
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 20,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/admin/boxsettinglist"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function fromReset() {
+            $("#Id").val(0);
+            $("#hdCustomerId").val(0);
+            $("#hdCusomerFirmId").val(0);
+
+            $("#SoftwareId").val(null).trigger('change');
+            $("#CustomerId").val(null).trigger('change');
+            $("#CusomerFirmId").val(null).trigger('change');
+
+            $("#Active").prop('checked', true);
+            $(".boxsetting-checkbox ").prop('checked', false);
+
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+        }
+
+        function saveItem() {
+            try {
+                if ($("#SoftwareId").val() == "") {
+                    showWarning("", "Please select software.");
+                    $("#Title").focus();
+                    return false;
+                }
+
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.SoftwareId = $("#SoftwareId").val();
+                savedata.CustomerId = $("#CustomerId").val();
+                savedata.CusomerFirmId = $("#CusomerFirmId").val();
+
+                savedata.Active = $("#Active").prop('checked');
+
+                savedata.Product_ProductName = $("#Product_ProductName").prop('checked');
+                savedata.Product_ProductName2 = $("#Product_ProductName2").prop('checked');
+                savedata.Product_ProductName3 = $("#Product_ProductName3").prop('checked');
+                savedata.Product_CodeSKU = $("#Product_CodeSKU").prop('checked');
+                savedata.Product_Design = $("#Product_Design").prop('checked');
+                savedata.Product_Colour = $("#Product_Colour").prop('checked');
+                savedata.Product_Size = $("#Product_Size").prop('checked');
+                savedata.Product_Fabric = $("#Product_Fabric").prop('checked');
+                savedata.Product_MRP = $("#Product_MRP").prop('checked');
+                savedata.Product_DistributorRate = $("#Product_DistributorRate").prop('checked');
+                savedata.Product_DealerRate = $("#Product_DealerRate").prop('checked');
+                savedata.Product_AvgPack = $("#Product_AvgPack").prop('checked');
+                savedata.Product_BoxPack = $("#Product_BoxPack").prop('checked');
+                savedata.Product_ProductPacking = $("#Product_ProductPacking").prop('checked');
+                savedata.Product_CentralCess = $("#Product_CentralCess").prop('checked');
+                savedata.Product_StateCess = $("#Product_StateCess").prop('checked');
+                savedata.Product_Group = $("#Product_Group").prop('checked');
+                savedata.Product_SubGroup = $("#Product_SubGroup").prop('checked');
+                savedata.Product_Discount = $("#Product_Discount").prop('checked');
+                savedata.Product_FIFORate = $("#Product_FIFORate").prop('checked');
+                savedata.Product_OpStockQty = $("#Product_OpStockQty").prop('checked');
+                savedata.Product_PurchaseRate = $("#Product_PurchaseRate").prop('checked');
+                savedata.Product_CalculationOn = $("#Product_CalculationOn").prop('checked');
+                savedata.Product_Cut = $("#Product_Cut").prop('checked');
+                savedata.Product_RolMin = $("#Product_RolMin").prop('checked');
+                savedata.Product_RolMax = $("#Product_RolMax").prop('checked');
+                savedata.Product_OpStockNos = $("#Product_OpStockNos").prop('checked');
+                savedata.Product_LooseQty = $("#Product_LooseQty").prop('checked');
+                savedata.Product_PurchaseRateUpdate = $("#Product_PurchaseRateUpdate").prop('checked');
+                savedata.Product_QualityType = $("#Product_QualityType").prop('checked');
+                savedata.Product_YarnDenierWt = $("#Product_YarnDenierWt").prop('checked');
+                savedata.Product_RateMeter = $("#Product_RateMeter").prop('checked');
+                savedata.Product_YarnShadeNo = $("#Product_YarnShadeNo").prop('checked');
+                savedata.Account_Taluka = $("#Account_Taluka").prop('checked');
+                savedata.Account_District = $("#Account_District").prop('checked');
+                savedata.Account_Country = $("#Account_Country").prop('checked');
+                savedata.Account_Area = $("#Account_Area").prop('checked');
+                savedata.Account_TransporterName = $("#Account_TransporterName").prop('checked');
+                savedata.Account_TransporterGSTNo = $("#Account_TransporterGSTNo").prop('checked');
+                savedata.Account_VehicleNumber = $("#Account_VehicleNumber").prop('checked');
+                savedata.Account_Broker = $("#Account_Broker").prop('checked');
+                savedata.Account_DeliveryParty = $("#Account_DeliveryParty").prop('checked');
+                savedata.Account_HasteParty = $("#Account_HasteParty").prop('checked');
+                savedata.Account_ShippingParty = $("#Account_ShippingParty").prop('checked');
+                savedata.GeneralExpenseMulti_Group = $("#GeneralExpenseMulti_Group").prop('checked');
+                savedata.GeneralExpenseMulti_Discount = $("#GeneralExpenseMulti_Discount").prop('checked');
+                savedata.GeneralExpenseMulti_OtherCharges = $("#GeneralExpenseMulti_OtherCharges").prop('checked');
+                savedata.GeneralExpenseMulti_Group2 = $("#GeneralExpenseMulti_Group2").prop('checked');
+                savedata.GeneralExpenseMulti_Discount2 = $("#GeneralExpenseMulti_Discount2").prop('checked');
+                savedata.GeneralExpenseMulti_OtherCharges2 = $("#GeneralExpenseMulti_OtherCharges2").prop('checked');
+                savedata.GeneralExpenseMulti_TDS = $("#GeneralExpenseMulti_TDS").prop('checked');
+                savedata.GeneralExpenseMulti_SGST = $("#GeneralExpenseMulti_SGST").prop('checked');
+                savedata.GeneralExpenseMulti_CGST = $("#GeneralExpenseMulti_CGST").prop('checked');
+                savedata.GeneralExpenseMulti_IGST = $("#GeneralExpenseMulti_IGST").prop('checked');
+                savedata.GeneralExpenseMulti_StateCess = $("#GeneralExpenseMulti_StateCess").prop('checked');
+                savedata.GeneralExpenseMulti_CentralCess = $("#GeneralExpenseMulti_CentralCess").prop('checked');
+                savedata.GeneralExpenseMulti_TCS = $("#GeneralExpenseMulti_TCS").prop('checked');
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveBoxSetting", "Admin"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    async: true,
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Box settings saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function deleteItem(id) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteBoxSetting"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                $('#Title option[value="' + $('#Title').val() + '"]').detach();
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetBoxSetting"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+
+                                $("#hdCustomerId").val(result.data.customerId);
+                                $("#hdCusomerFirmId").val(result.data.cusomerFirmId);
+
+                                $('#Id').val(result.data.id);
+                                $("#SoftwareId").val(result.data.softwareId).trigger('change');
+                                $("#Active").prop('checked', result.data.active);
+
+                                setBoxOptions(result.data);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getDetailBySoftware(id) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetBoxSettingBySoftware"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                setBoxOptions(result.data);
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getDetailByCustomer(id) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetBoxSettingByCustomer"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                setBoxOptions(result.data);
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getDetailByFirm(id) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetBoxSettingByCustomerFirm"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                setBoxOptions(result.data);
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function setBoxOptions(data) {
+            if (data == null) return;
+
+            $("#Product_ProductName").prop('checked', data.product_ProductName);
+            $("#Product_ProductName2").prop('checked', data.product_ProductName2);
+            $("#Product_ProductName3").prop('checked', data.product_ProductName3);
+            $("#Product_CodeSKU").prop('checked', data.product_CodeSKU);
+            $("#Product_Design").prop('checked', data.product_Design);
+            $("#Product_Colour").prop('checked', data.product_Colour);
+            $("#Product_Size").prop('checked', data.product_Size);
+            $("#Product_Fabric").prop('checked', data.product_Fabric);
+            $("#Product_MRP").prop('checked', data.product_MRP);
+            $("#Product_DistributorRate").prop('checked', data.product_DistributorRate);
+            $("#Product_DealerRate").prop('checked', data.product_DealerRate);
+            $("#Product_AvgPack").prop('checked', data.product_AvgPack);
+            $("#Product_BoxPack").prop('checked', data.product_BoxPack);
+            $("#Product_ProductPacking").prop('checked', data.product_ProductPacking);
+            $("#Product_CentralCess").prop('checked', data.product_CentralCess);
+            $("#Product_StateCess").prop('checked', data.product_StateCess);
+            $("#Product_Group").prop('checked', data.product_Group);
+            $("#Product_SubGroup").prop('checked', data.product_SubGroup);
+            $("#Product_Discount").prop('checked', data.product_Discount);
+            $("#Product_FIFORate").prop('checked', data.product_FIFORate);
+            $("#Product_OpStockQty").prop('checked', data.product_OpStockQty);
+            $("#Product_PurchaseRate").prop('checked', data.product_PurchaseRate);
+            $("#Product_CalculationOn").prop('checked', data.product_CalculationOn);
+            $("#Product_Cut").prop('checked', data.product_Cut);
+            $("#Product_RolMin").prop('checked', data.product_RolMin);
+            $("#Product_RolMax").prop('checked', data.product_RolMax);
+            $("#Product_OpStockNos").prop('checked', data.product_OpStockNos);
+            $("#Product_LooseQty").prop('checked', data.product_LooseQty);
+            $("#Product_PurchaseRateUpdate").prop('checked', data.product_PurchaseRateUpdate);
+            $("#Product_QualityType").prop('checked', data.product_QualityType);
+            $("#Product_YarnDenierWt").prop('checked', data.product_YarnDenierWt);
+            $("#Product_RateMeter").prop('checked', data.product_RateMeter);
+            $("#Product_YarnShadeNo").prop('checked', data.product_YarnShadeNo);
+            $("#Account_Taluka").prop('checked', data.account_Taluka);
+            $("#Account_District").prop('checked', data.account_District);
+            $("#Account_Country").prop('checked', data.account_Country);
+            $("#Account_Area").prop('checked', data.account_Area);
+            $("#Account_TransporterName").prop('checked', data.account_TransporterName);
+            $("#Account_TransporterGSTNo").prop('checked', data.account_TransporterGSTNo);
+            $("#Account_VehicleNumber").prop('checked', data.account_VehicleNumber);
+            $("#Account_Broker").prop('checked', data.account_Broker);
+            $("#Account_DeliveryParty").prop('checked', data.account_DeliveryParty);
+            $("#Account_HasteParty").prop('checked', data.account_HasteParty);
+            $("#Account_ShippingParty").prop('checked', data.account_ShippingParty);
+            $("#GeneralExpenseMulti_Group").prop('checked', data.generalExpenseMulti_Group);
+            $("#GeneralExpenseMulti_Discount").prop('checked', data.generalExpenseMulti_Discount);
+            $("#GeneralExpenseMulti_OtherCharges").prop('checked', data.generalExpenseMulti_OtherCharges);
+            $("#GeneralExpenseMulti_Group2").prop('checked', data.generalExpenseMulti_Group2);
+            $("#GeneralExpenseMulti_Discount2").prop('checked', data.generalExpenseMulti_Discount2);
+            $("#GeneralExpenseMulti_OtherCharges2").prop('checked', data.generalExpenseMulti_OtherCharges2);
+            $("#GeneralExpenseMulti_TDS").prop('checked', data.generalExpenseMulti_TDS);
+            $("#GeneralExpenseMulti_SGST").prop('checked', data.generalExpenseMulti_SGST);
+            $("#GeneralExpenseMulti_CGST").prop('checked', data.generalExpenseMulti_CGST);
+            $("#GeneralExpenseMulti_IGST").prop('checked', data.generalExpenseMulti_IGST);
+            $("#GeneralExpenseMulti_StateCess").prop('checked', data.generalExpenseMulti_StateCess);
+            $("#GeneralExpenseMulti_CentralCess").prop('checked', data.generalExpenseMulti_CentralCess);
+            $("#GeneralExpenseMulti_TCS").prop('checked', data.generalExpenseMulti_TCS);
+
+        }
+
+        function bindCustomerBySoftware(softwareId) {
+            try {
+                $("#CustomerId").empty();
+
+                if (softwareId == '' || softwareId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCustomerBySoftware/"))" + softwareId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#CustomerId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#CustomerId').val($("#hdCustomerId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+
+                        if ($("#hdCustomerId").val() == "0")
+                        {
+                            getDetailBySoftware(softwareId);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindFirm(customerId) {
+            try {
+                $("#CusomerFirmId").empty();
+
+                if (customerId == '' || customerId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetFirmList/?customerId="))" + customerId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#CusomerFirmId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#CusomerFirmId').val($("#hdCusomerFirmId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+
+                        if ($("#hdCusomerFirmId").val() == "0") {
+                            getDetailByCustomer(customerId);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+    </script>
+
+}

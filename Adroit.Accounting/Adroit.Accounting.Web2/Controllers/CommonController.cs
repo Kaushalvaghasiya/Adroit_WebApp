@@ -1,13 +1,10 @@
 ﻿using Adroit.Accounting.Model.Master;
-using Adroit.Accounting.Model;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
-using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.Repository;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -24,12 +21,14 @@ namespace Adroit.Accounting.Web.Controllers
         private IFirmType _firmTypeRepository;
         private IGSTFirmType _gstFirmTypeRepository;
         private ISoftware _softwareRepository;
+        private ISoftwarePlan _softwarePlanRepository;
         private ICustomer _customerRepository;
-        private IFirmBranchTypeAdmin _firmBranchTypeAdminRepository;
-        private IFirm _firmRepository;
+        private ICustomerFirm _customerFirmRepository;
+        private ICustomerFirmBranch _customerFirmBranchRepository;
+        private ICustomerUser _customerUserRepository;
         private ICommon _commonRepository;
         private IGSTCollection _gstCollection;
-
+        private IBranchTypeAdmin _branchTypeAdminRepository;
         public CommonController(
             IOptions<ConfigurationData> configurationData,
             IState stateRepository,
@@ -40,13 +39,16 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTInvoiceType gstInvoiceTypeRepository,
             IBusiness businessRepository,
             ISoftware softwareRepository,
+            ISoftwarePlan softwarePlanRepository,
             IFirmType firmTypeRepository,
             IGSTFirmType gstFirmTypeRepository,
             ICustomer customerRepository,
-            IFirmBranchTypeAdmin firmBranchTypeAdminRepository,
-            IFirm firmRepository,
+            ICustomerFirm customerFirmRepository,
+            ICustomerFirmBranch customerFirmBranchRepository,
+            ICustomerUser customerUserRepository,
             ICommon commonRepository,
-            IGSTCollection gstCollection
+            IGSTCollection gstCollection,
+            IBranchTypeAdmin branchTypeAdminRepository
             )
         {
             _stateRepository = stateRepository;
@@ -60,11 +62,14 @@ namespace Adroit.Accounting.Web.Controllers
             _firmTypeRepository = firmTypeRepository;
             _gstFirmTypeRepository = gstFirmTypeRepository;
             _softwareRepository = softwareRepository;
+            _softwarePlanRepository = softwarePlanRepository;
             _customerRepository = customerRepository;
-            _firmBranchTypeAdminRepository = firmBranchTypeAdminRepository;
-            _firmRepository = firmRepository;
+            _customerFirmRepository = customerFirmRepository;
+            _customerFirmBranchRepository = customerFirmBranchRepository;
+            _customerUserRepository = customerUserRepository;
             _commonRepository = commonRepository;
             _gstCollection = gstCollection;
+            _branchTypeAdminRepository = branchTypeAdminRepository;
         }
         public IActionResult Index()
         {
@@ -196,6 +201,21 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
+        public JsonResult GetSoftwarePlan(byte id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _softwarePlanRepository.SelectList(id, _configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
         public JsonResult GetFirmTypeAdmin()
         {
             ApiResult result = new ApiResult();
@@ -226,6 +246,82 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
+        public JsonResult GetCustomerBySoftware(byte id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerRepository.SelectListBySoftware(id, _configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+        public JsonResult GetCustomerBySoftwarePlan(byte id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerRepository.SelectListBySoftwarePlan(id, _configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+        public JsonResult GetFirmList(int customerId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerFirmRepository.SelectList(customerId, _configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+        public JsonResult GetBranchList(int firmId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerFirmBranchRepository.SelectList(firmId, _configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        public JsonResult GetUserList(int customerId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerUserRepository.SelectList(customerId, _configurationData.DefaultConnection).ToList();
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
         public JsonResult GetGSTFirmType()
         {
             ApiResult result = new ApiResult();
@@ -246,7 +342,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _firmBranchTypeAdminRepository.SelectList(_configurationData.DefaultConnection).ToList();
+                result.data = _branchTypeAdminRepository.SelectList(_configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -256,21 +352,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-        public JsonResult GetFirm()
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                result.data = _firmRepository.GetFirmList(_configurationData.DefaultConnection).ToList();
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
+
         [Route("~/Common/GetTableValues/{TableName}/{ColumnName}")]
         public JsonResult GetTableValues(string TableName, string ColumnName)
         {
@@ -287,6 +369,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
+
         [Route("~/Common/GetGSTCollection/{GSTNumber}")]
         public JsonResult GetGSTCollection(string GSTNumber)
         {
@@ -294,6 +377,22 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _gstCollection.Get(GSTNumber, _configurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        public JsonResult GetSoftwareByBusiness(short id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _softwareRepository.SelectList(id, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

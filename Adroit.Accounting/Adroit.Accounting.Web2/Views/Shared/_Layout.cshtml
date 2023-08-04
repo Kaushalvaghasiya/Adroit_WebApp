@@ -70,6 +70,9 @@
 
     <link href="@Url.Content("~/assets/plugins/sweet-alert/sweetalert.css")" rel="stylesheet" type="text/css" />
 
+    <!--- Internal Treeview -->
+    <link href="@Url.Content("~/assets/plugins/treeview/treeview.css")" rel="stylesheet" type="text/css" />
+
     <!-- Notifications  css -->
     <link href="@Url.Content("~/assets/plugins/notify-growl/css/jquery.growl.css")" rel="stylesheet" />
     <link href="@Url.Content("~/assets/plugins/notify-growl/css/notifIt.css")" rel="stylesheet" />
@@ -91,9 +94,9 @@
             color: #020202 !important;
         }
 
-        .dropdown-item.buttons-columnVisibility:hover {
-            color: #467fcf !important;
-        }
+            .dropdown-item.buttons-columnVisibility:hover {
+                color: #467fcf !important;
+            }
 
         .dt-buttons .dt-button-collection.dropdown-menu {
             top: 100% !important
@@ -138,9 +141,8 @@
             min-height: 96vh;
         }
 
-        .maxwidth400
-        {
-            max-width:400px;
+        .maxwidth400 {
+            max-width: 400px;
         }
 
     </style>
@@ -519,18 +521,18 @@
                                             <li aria-haspopup="true" class="sub-menu-sub">
                                                 <a href="#">Software</a>
                                                 <ul class="sub-menu">
-                                                    <li aria-haspopup="true"><a href=@Url.Action("software", "admin")>Software Master</a></li>
-                                                    <li aria-haspopup="true"><a href=@Url.Action("softwareplan", "admin")>Plans</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("software", "admin")">Software Master</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("softwareplan", "admin")">Plans</a></li>
                                                     <li aria-haspopup="true"><a href="@Url.Action("Business", "admin")">Businesses</a></li>
                                                 </ul>
                                             </li>
                                             <li aria-haspopup="true" class="sub-menu-sub">
                                                 <a href="#">Customer</a>
                                                 <ul class="sub-menu">
-                                                    <li aria-haspopup="true"><a href=@Url.Action("customer", "admin")>Customers</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Branch Types</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Menu Settings</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Box Settings</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("customer", "admin")">Customers</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("branchtype", "admin")">Branch Types</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("menusetting", "admin")">Menu Settings</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("boxsetting", "admin")">Box Settings</a></li>
                                                 </ul>
                                             </li>
                                             <li aria-haspopup="true" class="sub-menu-sub">
@@ -590,7 +592,7 @@
                                             <li aria-haspopup="true"><a href="#">Firms</a></li>
                                             <li aria-haspopup="true"><a href="#">Branches</a></li>
                                             <li aria-haspopup="true"><a href="#">Users</a></li>
-                                            </ul>
+                                        </ul>
                                     </li>
                                     <li aria-haspopup="true" class="sub-menu-sub">
                                         <a href="#">Account</a>
@@ -615,6 +617,13 @@
                                         </ul>
                                     </li>
                                     <li aria-haspopup="true"><a href="#">Broker</a></li>
+                                    <li aria-haspopup="true"><a href="#">Machine</a></li>
+                                    <li aria-haspopup="true"><a href="#">Yarn Shade</a></li>
+                                    <li aria-haspopup="true"><a href="#">Yarn Recipes</a></li>
+                                    <li aria-haspopup="true"><a href="#">Lot Number</a></li>
+                                    <li aria-haspopup="true"><a href="#">Process</a></li>
+                                    <li aria-haspopup="true"><a href="#">Catalogue</a></li>
+                                    <li aria-haspopup="true"><a href="#">Employee</a></li>
                                     <li aria-haspopup="true" class="sub-menu-sub">
                                         <a href="#">Location</a>
                                         <ul class="sub-menu">
@@ -756,6 +765,8 @@
                                                     <li aria-haspopup="true"><a href="#">Sales vs Ledger</a></li>
                                                     <li aria-haspopup="true"><a href="#">Purchase</a></li>
                                                     <li aria-haspopup="true"><a href="#">Purchase vs Ledger</a></li>
+                                                    <li aria-haspopup="true"><a href="#">Aiging Register</a></li>
+                                                    <li aria-haspopup="true"><a href="#">Interest Calculator</a></li>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -793,7 +804,9 @@
                                             <li aria-haspopup="true"><a href="#">Day Book</a></li>
                                             <li aria-haspopup="true"><a href="#">Voucher Book</a></li>
                                             <li aria-haspopup="true"><a href="#">TDS & TCS Register</a></li>
-                                            <li aria-haspopup="true"><a href="#">Broker Register</a></li>
+                                            <li aria-haspopup="true"><a href="#">Credit/Debit Note Register</a></li>
+                                            <li aria-haspopup="true"><a href="#">Payroll Register</a></li>
+                                            <li aria-haspopup="true"><a href="#">Brokerage Register</a></li>
                                         </ul>
                                     </li>
                                     <li aria-haspopup="true" class="sub-menu-sub">
@@ -810,7 +823,15 @@
                                     <li aria-haspopup="true" class="sub-menu-sub">
                                         <a href="#">Prod. & Inventory</a>
                                         <ul class="sub-menu">
-                                            <li aria-haspopup="true"><a href="#">Prod. Register</a></li>
+                                            <li aria-haspopup="true">
+                                                <a href="#">Prod. Register</a>
+                                                <ul class="sub-menu" class="sub-menu-sub">
+                                                    <li aria-haspopup="true"><a href="#">Yarn</a></li>
+                                                    <li aria-haspopup="true"><a href="#">Beam</a></li>
+                                                    <li aria-haspopup="true"><a href="#">Grey</a></li>
+                                                    <li aria-haspopup="true"><a href="#">General</a></li>
+                                                </ul>
+                                            </li>
                                             <li aria-haspopup="true"><a href="#">Batch Master Register</a></li>
                                             <li aria-haspopup="true"><a href="#">Issue Register</a></li>
                                             <li aria-haspopup="true"><a href="#">Receive Register</a></li>
@@ -1785,6 +1806,9 @@
     <script src="@Url.Content("~/assets/plugins/spectrum-date-picker/jquery-ui.js")"></script>
     <script src="@Url.Content("~/assets/plugins/input-mask/jquery.maskedinput.js")"></script>
 
+    <!--- Internal Treeview js -->
+    <script src="@Url.Content("~/assets/plugins/treeview/treeview.js")"></script>
+
     <!-- Notifications js -->
     <script src="@Url.Content("~/assets/plugins/notify-growl/js/rainbow.js")"></script>
     @*<script src="@Url.Content("~/assets/plugins/notify-growl/js/sample.js")"></script>*@
@@ -1815,7 +1839,7 @@
             //$(".btn-edit").on("click", function () {
             //    editMode(parseInt($(this).attr("data-value")));
             //});
-            
+
             //$(".btn-disableview").on("click", function () {
             //    viewMode(parseInt($(this).attr("data-value")));
             //});
@@ -1825,7 +1849,7 @@
             //});
 
             $(".btn-underdevelopment").on("click", function () {
-                showInfo("","Under Development");
+                showInfo("", "Under Development");
             });
 
             $(".go-search").on("click", function () {
@@ -1863,11 +1887,11 @@
                 showError("", e.message);
             }
         }
-         function showUnderDevMsg() {
+        function showUnderDevMsg() {
             showInfo("", "Under Development");
         }
     </script>
-    
+
     @if (IsSectionDefined("Scripts"))
     {
         @RenderSection("Scripts", required: false)

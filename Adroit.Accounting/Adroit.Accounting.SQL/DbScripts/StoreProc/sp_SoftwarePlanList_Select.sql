@@ -1,7 +1,7 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_SoftwarePlanList_Select] (@softwareId tinyint)
 AS
 BEGIN
-	SELECT [SoftwarePlan].Id As Value, [Software].Title + ' - ' + [SoftwarePlan].Title As Text
+	SELECT [SoftwarePlan].Id As Value, [Software].Title + ' - ' + [SoftwarePlan].Title + ' (' + [SoftwarePlan].Code + ')' As Text
 	FROM [Software]
 	INNER JOIN [SoftwarePlan] on [Software].Id = [SoftwarePlan].SoftwareId
 	WHERE [Software].Id = @softwareId 

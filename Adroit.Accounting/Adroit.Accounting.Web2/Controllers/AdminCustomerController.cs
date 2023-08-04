@@ -1,12 +1,8 @@
 ﻿using Adroit.Accounting.Model;
-using Adroit.Accounting.Model.Enums;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.SQL.Tables;
 using Adroit.Accounting.Utility;
-using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
@@ -31,7 +27,8 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<CustomerGridViewModel>();
             try
             {
-                int loginId = 0, firmId = 0;
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
@@ -51,16 +48,60 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveCustomer([FromBody] Customer model)
+        public async Task<JsonResult> SaveCustomer([FromBody] CustomerViewModel model)
         {
             ApiResult result = new ApiResult();
             try
             {
-                int id = _customerRepository.Save(model, _configurationData.DefaultConnection);
-                if (id > 0)
+                if (model.Id == 0)
                 {
-                    result.data = true;
-                    result.result = Constant.API_RESULT_SUCCESS;
+                    var data = await Common.RegisterCustomer(_userManager, _userStore, _emailStore, _emailService, _configurationData, Request, _logger, _customerRepository,
+                    new Customer()
+                    {
+                        Name = model.Name,
+                        BusinessName = model.BusinessName,
+                        BusinessId = model.BusinessId,
+                        StateId = model.StateId,
+                        CityId = model.CityId,
+                        Address1 = model.Address1,
+                        Address2 = model.Address2,
+                        Address3 = model.Address3,
+                        AdharUID = model.AdharUID,
+                        ContactPersonName = model.ContactPersonName,
+                        IsActive = model.IsActive,
+                        MobileAlternate = model.MobileAlternate,
+                        Phone = model.Phone,
+                        Pincode = model.Pincode,
+                        TotalFirm = model.TotalFirm,
+                        TotalUsers = model.TotalUsers,
+                        Mobile = model.Mobile,
+                        Email = model.Email,
+                        Requirement = model.Requirement ?? "",
+                        AgreeTerms = model.AgreeTerms,
+                        EmailOtp = RandomNumber.SixDigigNumber(),
+                        MobileOtp = RandomNumber.SixDigigNumber(),
+                        CustomerType = model.CustomerType,
+                        StatusId = model.StatusId,
+                    });
+
+                    if (data.id > 0)
+                    {
+                        result.data = true;
+                        result.result = Constant.API_RESULT_SUCCESS;
+                    }
+                    else
+                    {
+                        throw new Exception(data.error);
+                    }
+                }
+                else
+                {
+                    int id = _customerRepository.Save(model, _configurationData.DefaultConnection);
+                    if (id > 0)
+                    {
+                        result.data = true;
+                        result.result = Constant.API_RESULT_SUCCESS;
+                    }
                 }
             }
             catch (Exception ex)
@@ -68,6 +109,7 @@ namespace Adroit.Accounting.Web.Controllers
                 result.data = ErrorHandler.GetError(ex);
                 result.result = Constant.API_RESULT_ERROR;
             }
+
             return Json(result);
         }
         [HttpGet]

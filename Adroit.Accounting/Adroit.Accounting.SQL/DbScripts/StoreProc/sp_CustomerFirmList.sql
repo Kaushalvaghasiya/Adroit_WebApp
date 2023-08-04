@@ -8,7 +8,6 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmList]
   @SortColumn INT = 0,
   @SortOrder NVARCHAR(10) = 'ASC'
 As
-Set Nocount on;
 Begin
 	SELECT * FROM
 	 (   
@@ -20,6 +19,8 @@ Begin
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CustomerFirm.OwnerName END DESC,
 		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN [FirmTypeAdmin].Title END ASC,
 		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN [FirmTypeAdmin].Title END DESC,
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN Software.Title END ASC,
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN Software.Title END DESC,
 		 CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN (SELECT COUNT(*) FROM CustomerFirmBranch WHERE CustomerFirmBranch.FirmId = CustomerFirm.Id AND IsDeleted = 0) END ASC,
 		 CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN (SELECT COUNT(*) FROM CustomerFirmBranch WHERE CustomerFirmBranch.FirmId = CustomerFirm.Id AND IsDeleted = 0) END DESC
 		) AS RowNum,
@@ -27,14 +28,19 @@ Begin
 	   CustomerFirm.*, 
 	   [FirmTypeAdmin].Title as [FirmType],
 	   [Customer].[Name] as CustomerName ,
+	   Software.Title as SoftwareName,
 	   (SELECT COUNT(*) FROM CustomerFirmBranch WHERE CustomerFirmBranch.FirmId = CustomerFirm.Id AND IsDeleted = 0) AS NumberOfBranchesCreated
 	  FROM CustomerFirm
 	  LEFT JOIN [FirmTypeAdmin] on CustomerFirm.FirmTypeId = [FirmTypeAdmin].Id
-	  LEFT JOIN	[Customer] ON CustomerFirm.CustomerId=[Customer].Id	
+	  LEFT JOIN	[Customer] ON CustomerFirm.CustomerId = [Customer].Id	
+	  LEFT JOIN	Software ON CustomerFirm.SoftwareId = Software.Id	
 	  WHERE CustomerFirm.IsDeleted = 0 and [CustomerFirm].customerId=@CustomerId
-	  AND (Coalesce(@Search,'') = '' OR CustomerFirm.[OwnerName] like '%'+ @Search + '%')
+	  AND (Coalesce(@Search,'') = '' 
+			OR CustomerFirm.Title like '%'+ @Search + '%'
+			OR CustomerFirm.[OwnerName] like '%'+ @Search + '%'
+			OR [FirmTypeAdmin].Title like '%'+ @Search + '%'
+			OR Software.Title like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
 End
-Set Nocount off;
 GO

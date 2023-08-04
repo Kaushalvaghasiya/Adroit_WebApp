@@ -42,6 +42,27 @@ namespace Adroit.Accounting.Web.Utility
             return 0;
         }
 
+        public static int GetFirmId(IPrincipal user)
+        {
+            //var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.SerialNumber);
+            //if (null != claim)
+            //{
+            //    return Convert.ToInt32(claim.Value);
+            //}
+
+            return 0;
+        }
+        public static int? GetBranchId(IPrincipal user)
+        {
+            //var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.SerialNumber);
+            //if (null != claim)
+            //{
+            //    return Convert.ToInt32(claim.Value);
+            //}
+
+            return null;
+        }
+
         public static string GetUserFullName(IPrincipal user)
         {
             var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.GivenName);

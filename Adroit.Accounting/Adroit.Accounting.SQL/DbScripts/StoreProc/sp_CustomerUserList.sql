@@ -8,24 +8,31 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerUserList]
   @SortColumn INT = 0,
   @SortOrder NVARCHAR(10) = 'ASC'
 As
-Set Nocount on;
 Begin
 	SELECT * FROM
 	 (   
 	  SELECT  
 	   ROW_NUMBER() over (ORDER BY
-		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CustomerUser.[FirstName] END ASC,  
-		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN CustomerUser.[LastName] END DESC,
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CustomerUser.[FirstName] END ASC,  
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CustomerUser.[LastName] END DESC  
+		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN [FirstName] + ' ' + [LastName] END ASC,
+		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN [FirstName] + ' ' + [LastName] END DESC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN AspNetUsers.Email END ASC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN AspNetUsers.Email END DESC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CustomerUser.IsActive END ASC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CustomerUser.IsActive END DESC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CustomerUser.AllowUpdateUserMenuSettingToCustomer END ASC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CustomerUser.AllowUpdateUserMenuSettingToCustomer END DESC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN dbo.[fn_GetUserBranches](CustomerUser.Id) END ASC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN dbo.[fn_GetUserBranches](CustomerUser.Id) END DESC
 		) AS RowNum,
-	   Count(*) over () AS TotalCount, CustomerUser.*,dbo.[GetUserBranches](CustomerUser.id) as CustomerUserBranch,Customer.Name as CustomerName
+	   Count(*) over () AS TotalCount, 
+	   CustomerUser.*,
+	   dbo.[fn_GetUserBranches](CustomerUser.Id) as CustomerUserBranches,
+	   AspNetUsers.Email
 	  FROM CustomerUser
-	  LEFT JOIN Customer on Customer.id=CustomerUser.CustomerId
+	  INNER JOIN AspNetUsers ON CustomerUser.UserId = AspNetUsers.Id
 	  WHERE CustomerUser.IsDeleted = 0 and CustomerUser.CustomerId=@CustomerId
 	  AND (Coalesce(@Search,'') = '' OR CustomerUser.[FirstName] like '%'+ @Search + '%' OR CustomerUser.[LastName] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
 End
-Set Nocount off;
 GO

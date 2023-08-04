@@ -1,5 +1,4 @@
-﻿
-@model Adroit.Accounting.Model.ViewModel.RegistrationViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.RegistrationViewModel
 @{
     Layout = null;
 }
@@ -72,7 +71,7 @@
 
     <style>
         #global-loader {
-            background:rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.6);
         }
     </style>
 </head>
@@ -335,7 +334,7 @@
                     }
                 } else {
                     $("#Email").focus();
-                    showError("", "Please enter valid email");
+                    showError("", "Please enter valid email.");
                 }
             });
 
@@ -408,6 +407,11 @@
             }
             if ($("#Email").val() == "") {
                 showWarning("", "Please provide your email.");
+                $("#Email").focus();
+                return false;
+            }
+            if (!isEmail($("#Email").val().trim())) {
+                showWarning("", "Please enter valid email");
                 $("#Email").focus();
                 return false;
             }

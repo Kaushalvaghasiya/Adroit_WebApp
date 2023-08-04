@@ -1,6 +1,8 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountList_Select]
+(
 	@LoginId int, 
 	@FirmId int
+)
 AS
 BEGIN
 	SELECT [CustomerAccount].Id As Value, [Name] As Text
