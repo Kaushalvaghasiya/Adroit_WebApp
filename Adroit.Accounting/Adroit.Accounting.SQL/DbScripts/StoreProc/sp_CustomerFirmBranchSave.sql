@@ -101,10 +101,15 @@ BEGIN
 		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
 		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
 		ROLLBACK TRAN
-		IF (CHARINDEX('IX_CustomerFirmBranch', @message) > 0)
+		IF (CHARINDEX('IX_CustomerFirmBranchShortTitle', @message) > 0)
+		BEGIN
+			SET @message = 'Branch short title ('+ @ShortTitle +') already exist!'
+		END
+		ELSE IF (CHARINDEX('IX_CustomerFirmBranch', @message) > 0)
 		BEGIN
 			SET @message = 'Branch ('+ @Title +') already exist!'
 		END
+
 		RAISERROR ('%s', 16, 1, @message);
 	END CATCH
 END

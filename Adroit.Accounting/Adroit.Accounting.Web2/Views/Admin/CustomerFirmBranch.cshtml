@@ -38,10 +38,11 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
+                                    <th class="border-bottom-0">ORDER#</th>
                                     <th class="border-bottom-0">BRANCH NAME</th>
+                                    <th class="border-bottom-0">SHORT NAME</th>
                                     <th class="border-bottom-0">TYPE</th>
                                     <th class="border-bottom-0">PINCODE</th>
-                                    <th class="border-bottom-0">GST</th>
                                     <th class="border-bottom-0">CITY</th>
                                     <th class="border-bottom-0">CREATED ON</th>
                                     <th class="border-bottom-0">RENEWAL DATE</th>
@@ -126,12 +127,6 @@
                                 <input type="text" class="form-control mode-ed" id="PrintTitle" placeholder="Print title" maxlength="100">
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="ShortTitle">Short Name</label>
-                                <input type="text" class="form-control mode-ed" id="ShortTitle" placeholder="Short Name" maxlength="10">
-                            </div>
-                        </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="GSTNumber">GST Number</label>
@@ -142,6 +137,12 @@
                             <div class="form-group">
                                 <label for="PAN">PAN</label>
                                 <input type="text" class="form-control mode-ed" id="PAN" placeholder="PAN" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ShortTitle">Short Name</label>
+                                <input type="text" class="form-control mode-ed" id="ShortTitle" placeholder="Short Name" maxlength="10">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -374,6 +375,18 @@
                 bindCityList($(this).val());
             });
 
+            $("#SoftwarePlanId").on('change', function (e) {
+                if ($("#SetupPrice").val() == "") {
+                    getSoftwarePlanDetail($(this).val());
+                }
+            });
+
+            $('#GSTNumber').on('input', function (e) {
+                var gst = $('#GSTNumber').val();
+                if (gst.length == 15 && $('#PAN').val() == "") {
+                    $('#PAN').val(gst.substring(2, 12));
+                }
+            });
         });
 
         function addClick() {
@@ -383,6 +396,14 @@
             setScreenMode(false);
             $(".btn-delete").hide();
             $("#BranchName").focus();
+            var renewalDate = new Date();
+            renewalDate.setFullYear(renewalDate.getFullYear() + 1);
+
+            var day = ('0' + renewalDate.getDate()).slice(-2);
+            var month = ('0' + (renewalDate.getMonth() + 1)).slice(-2);
+            var year = renewalDate.getFullYear();
+
+            $("#RenewalDate").val(day + "/" + month + "/" + year);
         }
 
         function viewMode(id) {
@@ -418,7 +439,19 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
+                    return row.orderNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
                     return row.title;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.shortTitle;
                 },
                 "targets": colDef.length,
             });
@@ -431,12 +464,6 @@
             colDef.push({
                 "render": function (data, type, row) {
                     return row.pincode;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.gstNumber;
                 },
                 "targets": colDef.length,
             });
@@ -478,10 +505,11 @@
                 "orderable": false
             });
 
+            columns.push({ "data": "OrderNumber", "name": "OrderNumber" });
             columns.push({ "data": "Title", "name": "Title" });
+            columns.push({ "data": "ShortTitle", "name": "ShortTitle" });
             columns.push({ "data": "FirmBranchTypeAdmin", "name": "FirmBranchTypeAdmin" });
             columns.push({ "data": "PINCODE", "name": "PINCODE" });
-            columns.push({ "data": "GST", "name": "GST" });
             columns.push({ "data": "City", "name": "City" });
             columns.push({ "data": "AddedOn", "name": "AddedOn" });
             columns.push({ "data": "RenewalDate", "name": "RenewalDate" });
@@ -517,7 +545,7 @@
                     type: 'GET',
                     data: function (d) {
                         d.firmId = @Model.Firm.Id
-                                    }
+                                                    }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
@@ -938,7 +966,7 @@
                                 $("#RenewalDate").val(result.data.renewalDateString);
                                 $("#RenewalPrice").val(result.data.renewalPrice);
                                 $("#SetupPrice").val(result.data.setupPrice);
-                                $("#OrderNumber").val(result.data.orderNumber);
+                                $("#OrderNumber").val(result.data.orderNumber).trigger("change");
 
                                 $("#hdnCountryId").val(result.data.countryId);
                                 $("#hdnStateId").val(result.data.stateId);
@@ -993,6 +1021,35 @@
                                 } else {
                                     notyError("GST# " + gstNumber + " not found.");
                                 }
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getSoftwarePlanDetail(id) {
+            if (id == null || id == "") return;
+
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetSoftwarePlan"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                $("#SetupPrice").val(result.data.cost);
+                                $("#RenewalPrice").val(result.data.cost);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
