@@ -40,12 +40,12 @@ Begin
 		LEFT JOIN CustomerFirm on MenuSetting.CusomerFirmId = CustomerFirm.Id
 		LEFT JOIN CustomerFirmBranch on MenuSetting.CustomerFirmBranchId = CustomerFirmBranch.Id
 		LEFT JOIN CustomerUser on MenuSetting.CustomerUserId = CustomerUser.Id
-		WHERE Software.IsDeleted = 0
-			AND ISNULL(SoftwarePlan.IsDeleted, 0) = 0
-			AND ISNULL(Customer.IsDeleted, 0) = 0
-			AND ISNULL(CustomerFirm.IsDeleted, 0) = 0
-			AND ISNULL(CustomerFirmBranch.IsDeleted, 0) = 0
-			AND ISNULL(CustomerUser.IsDeleted, 0) = 0
+		WHERE Software.Deleted = 0
+			AND ISNULL(SoftwarePlan.Deleted, 0) = 0
+			AND Customer.Deleted = 0
+			AND CustomerFirm.Deleted = 0
+			AND CustomerFirmBranch.Deleted = 0
+			AND CustomerUser.DeletedOn IS NULL
 			AND (Coalesce(@Search,'') = '' 
 				OR Software.Title like '%'+ @Search + '%'
 				OR ISNULL(SoftwarePlan.Title, '') like '%'+ @Search + '%'

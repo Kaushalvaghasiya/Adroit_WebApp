@@ -68,7 +68,7 @@ namespace Adroit.Accounting.Web.Controllers
                         Address3 = model.Address3,
                         AdharUID = model.AdharUID,
                         ContactPersonName = model.ContactPersonName,
-                        IsActive = model.IsActive,
+                        Active = model.Active,
                         MobileAlternate = model.MobileAlternate,
                         Phone = model.Phone,
                         Pincode = model.Pincode,

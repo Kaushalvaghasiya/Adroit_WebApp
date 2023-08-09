@@ -8,8 +8,9 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		UPDATE BookAdmin 
-		SET IsDeleted = 1, IsActive = 0
+		UPDATE BookAdmin SET 
+			Deleted = 1, 
+			Active = 0
 		WHERE Id= @Id;
 	
 		COMMIT TRAN

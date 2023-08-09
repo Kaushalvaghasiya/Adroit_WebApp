@@ -14,6 +14,5 @@ namespace Adroit.Accounting.Model
         public string Title { get; set; }
         public System.DateTime YearFrom { get; set; }
         public System.DateTime YearTo { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }

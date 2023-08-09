@@ -28,7 +28,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchSave]
 	 @OrderNumber smallint,
 	 @AddedById INT,
 	 @ModifiedById INT,
-	 @IsActive bit,
+	 @Active bit,
 	 @SoftwarePlanId tinyint
 )
 AS
@@ -65,7 +65,7 @@ BEGIN
 					OrderNumber= @OrderNumber, 
 					ModifiedById=NULL,  --need to set parameter value
 					ModifiedOn=GETUTCDATE(),
-					IsActive=@IsActive,
+					Active=@Active,
 					SoftwarePlanId = @SoftwarePlanId
 					WHERE ID = @Id
 			END
@@ -74,7 +74,7 @@ BEGIN
 				declare @branchlimit int = 0
 				declare @branchcreated int = 0
 				SELECT @branchlimit = BranchLimit FROM CustomerFirm Where Id = @FirmId
-				SELECT @branchcreated = count(*) FROM CustomerFirmBranch Where FirmId = @FirmId ANd IsDeleted = 0
+				SELECT @branchcreated = count(*) FROM CustomerFirmBranch Where FirmId = @FirmId ANd Deleted = 0
 				IF (@branchcreated >= @branchlimit)
 				BEGIN
 					RAISERROR ('%s', 16, 1, 'Branch limit exceeded');
@@ -83,13 +83,13 @@ BEGIN
 				INSERT INTO CustomerFirmBranch
 					(FirmId,Title,PrintTitle,ShortTitle,FirmBranchTypeId,Address1,Address2,Address3,CityId,
 					StateId,CountryId,Pincode,Phone,ContactPersonName,Mobile,MobileAlternate,Email,GSTNumber,
-					PAN,EWBAddress1,EWBAddress2,RenewalDate,SetupPrice,RenewalPrice,OrderNumber,AddedById,AddedOn,IsActive,
-					SoftwarePlanId)
+					PAN,EWBAddress1,EWBAddress2,RenewalDate,SetupPrice,RenewalPrice,OrderNumber,AddedById,AddedOn,
+					Active,SoftwarePlanId)
 				VALUES
 					(@FirmId,@Title,@PrintTitle,@ShortTitle,@FirmBranchTypeId,@Address1,@Address2,@Address3,@CityId,
 					@StateId,@CountryId,@PinCode,@Phone,@ContactPersonName,@Mobile,@MobileAlternate,@Email,@GSTNumber,
-					@PAN,@EWBAddress1,@EWBAddress2,@RenewalDate,@SetupPrice,@RenewalPrice,@OrderNumber,NULL,GETUTCDATE(),@IsActive,
-					@SoftwarePlanId
+					@PAN,@EWBAddress1,@EWBAddress2,@RenewalDate,@SetupPrice,@RenewalPrice,@OrderNumber,NULL,GETUTCDATE(),
+					@Active,@SoftwarePlanId
 					)
 
 				SET @Id = SCOPE_IDENTITY()

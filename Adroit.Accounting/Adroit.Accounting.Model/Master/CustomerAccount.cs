@@ -52,7 +52,6 @@ namespace Adroit.Accounting.Model
         public bool CompositParty { get; set; }
         public bool RCMParty { get; set; }
         public decimal CapitalPercentage { get; set; }
-        public bool IsDeleted { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int AddedById { get; set; }
         public int? DeletedById { get; set; }
@@ -60,7 +59,7 @@ namespace Adroit.Accounting.Model
         public int OwnerBranchId { get; set; }
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
 
         public string AccountGroup { get; set; }
         public string City { get; set; }

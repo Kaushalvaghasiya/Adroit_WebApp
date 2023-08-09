@@ -23,14 +23,14 @@ BEGIN
 						Active = @active
 					WHERE ID = @Id
 			END
-		ELSE If EXISTS (SELECT 1 FROM SoftwarePlan WHERE SoftwareId = @SoftwareId AND Title = @Title AND IsDeleted = 1)
+		ELSE If EXISTS (SELECT 1 FROM SoftwarePlan WHERE SoftwareId = @SoftwareId AND Title = @Title AND Deleted = 1)
 			BEGIN
 				UPDATE  SoftwarePlan SET
 						Business = @Bussiness,
 						Code = @Code,
 						Cost = @Cost,
 						Active = @active,
-						IsDeleted = 0
+						Deleted = 0
 					WHERE SoftwareId = @SoftwareId AND Title = @Title 
 
 				SELECT @Id=Id FROM SoftwarePlan WHERE SoftwareId = @SoftwareId AND Title = @Title 

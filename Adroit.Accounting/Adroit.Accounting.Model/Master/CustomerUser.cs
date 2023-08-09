@@ -10,9 +10,8 @@ namespace Adroit.Accounting.Model
         public int CustomerId { get; set; }
         public Guid? UserId { get; set; }
         public string Email { get; set; }
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
         public bool IsLocked { get; set; }
-        public bool IsDeleted { get; set; }
         public int? AddedById { get; set; }
         public DateTime AddedOn { get; set; }
         public int? ModifiedById { get; set; }

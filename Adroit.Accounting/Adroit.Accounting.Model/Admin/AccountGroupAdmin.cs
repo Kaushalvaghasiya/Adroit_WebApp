@@ -16,7 +16,6 @@ namespace Adroit.Accounting.Model
         public byte TypeId { get; set; }
         public int? AccountGroupHeaderId { get; set; }
         public int? OrderNumber { get; set; }
-        public bool IsDeleted { get; set; }
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace Adroit.Accounting.Model
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
         public string CustomerName { get; set; } = "";
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
         public bool IsLock { get; set; }
         public bool IsDelete { get; set; }
         public string PhoneNumber { get; set; } = "";

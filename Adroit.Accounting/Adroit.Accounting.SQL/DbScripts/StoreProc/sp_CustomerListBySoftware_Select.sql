@@ -10,9 +10,9 @@ BEGIN
 	INNER JOIN CustomerFirm ON Customer.Id = CustomerFirm.CustomerId
 	INNER JOIN Software ON CustomerFirm.SoftwareId = Software.Id
 	WHERE Software.Id = @Id
-	AND Customer.IsDeleted = 0
-	AND CustomerFirm.IsDeleted = 0
-	AND Software.IsDeleted = 0
+	AND Customer.Deleted = 0
+	AND CustomerFirm.Deleted = 0
+	AND Software.Deleted = 0
 	ORDER BY Customer.[Name] + ' (' + Customer.BusinessName + ')', Customer.Id
 END
 GO

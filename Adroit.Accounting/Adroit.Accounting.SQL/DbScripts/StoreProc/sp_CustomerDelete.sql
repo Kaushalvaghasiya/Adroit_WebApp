@@ -7,23 +7,23 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE Customer SET 
-			IsDeleted = 1, 
-			DeletedOn = GETUTCDATE() 
+			DeletedOn = GETUTCDATE() ,
+			Deleted = 1
 		WHERE Id= @Id
 
-		UPDATE CustomerFirm 
-			SET IsDeleted = 1, 
-			DeletedOn = GETUTCDATE() 
+		UPDATE CustomerFirm SET 
+			DeletedOn = GETUTCDATE() ,
+			Deleted = 1
 		WHERE CustomerId = @Id
 
-		UPDATE CustomerFirmBranch 
-			SET IsDeleted = 1, 
-			DeletedOn = GETUTCDATE() 
+		UPDATE CustomerFirmBranch SET 
+			DeletedOn = GETUTCDATE() ,
+			Deleted = 1
 		WHERE FirmId IN (SELECT ID FROM CustomerFirm WHERE CustomerId = @Id)
 
-		UPDATE CustomerUser 
-			SET IsDeleted = 1, 
-			DeletedOn = GETUTCDATE() 
+		UPDATE CustomerUser SET 
+			DeletedOn = GETUTCDATE() ,
+			Deleted = 1
 		WHERE CustomerId = @Id	
 
 	COMMIT TRAN

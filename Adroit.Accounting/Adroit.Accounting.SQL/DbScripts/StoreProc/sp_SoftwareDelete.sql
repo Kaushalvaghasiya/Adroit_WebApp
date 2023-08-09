@@ -7,11 +7,11 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE SoftwarePlan SET 
-			IsDeleted = 1
+			Deleted = 1
 		WHERE SoftwareId= @Id ;
 
 		UPDATE Software SET 
-			IsDeleted = 1
+			Deleted = 1
 		WHERE Id= @Id ;
 	COMMIT TRAN
 	END TRY

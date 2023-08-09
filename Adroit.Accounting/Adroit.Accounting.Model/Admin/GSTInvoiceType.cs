@@ -16,6 +16,5 @@ namespace Adroit.Accounting.Model
         public string TitleCDNUR { get; set; }
         public string PayType { get; set; }
         public byte? OrderNumber { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }

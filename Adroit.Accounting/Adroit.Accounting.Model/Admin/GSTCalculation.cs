@@ -12,6 +12,5 @@ namespace Adroit.Accounting.Model
         public byte Id { get; set; }
         public string Title { get; set; }
         public byte? OrderNumber { get; set; }
-        public bool IsDeleted { get; set; }
     }
 }

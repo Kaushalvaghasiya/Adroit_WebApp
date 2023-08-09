@@ -30,7 +30,7 @@ Begin
 	  FROM CustomerAccount
 	  LEFT JOIN [CustomerAccountGroup] on CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id
 	  LEFT JOIN [City] on CustomerAccount.CityId = [City].Id
-	  WHERE CustomerAccount.IsDeleted = 0
+	  WHERE CustomerAccount.Deleted = 0
 	  AND (Coalesce(@Search,'') = '' OR CustomerAccount.[Name] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

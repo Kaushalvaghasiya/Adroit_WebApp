@@ -56,8 +56,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@RCMParty", value.RCMParty);
             parameters.Add("@CapitalPercentage", value.CapitalPercentage);
             parameters.Add("@OwnerBranchId", value.OwnerBranchId);
-            parameters.Add("@IsDeleted", value.IsDeleted);
-            parameters.Add("@IsActive", value.IsActive);
+            parameters.Add("@Active", value.Active);
 
             return QueryHelper.Save("sp_CustomerAccountSave", connectionString, parameters);
         }
