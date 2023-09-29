@@ -15,5 +15,7 @@ namespace Adroit.Accounting.Model
         public string TitleEWay { get; set; } = string.Empty;
         public string Code { get; set; } = string.Empty;
         public short CountryId { get; set; }
+        public string CountryName { get; set; }
+        public bool Active { get; set; }
     }
 }
