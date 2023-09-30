@@ -1,4 +1,3 @@
- --exec [dbo].[sp_GetColumnData] 'SoftwarePlan','title'
 CREATE OR ALTER   PROC [dbo].[sp_GetColumnData] (@tablename nvarchar(100) , @columnname  nvarchar(100) )
 AS BEGIN
 IF EXISTS(SELECT *

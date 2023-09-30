@@ -1,4 +1,3 @@
---EXEC  [dbo].[sp_DistrictList] 1,1,'a'
 CREATE OR ALTER   Procedure [dbo].[sp_DistrictList]
   @LoginId int,
   @FirmId int,  
@@ -16,14 +15,20 @@ Begin
 		(ORDER BY
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN District.[Title] END ASC,  
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN District.[Title] END DESC,
-			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN District.[Active] END ASC,  
-			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN District.[Active] END DESC
+			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN [State].[Title] END ASC,  
+			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN [State].[Title] END DESC,
+			CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN Country.[Title] END ASC,  
+			CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN Country.[Title] END DESC,
+			CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN District.[Active] END ASC,  
+			CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN District.[Active] END DESC
 		) AS RowNum,
 		Count(*) over () AS TotalCount, 
 		District.*,
-		State.Title as StateName
+		State.Title as StateName,
+		Country.Title as CountryName
 		FROM District
 		LEFT JOIN State on State.Id=District.StateId
+		LEFT JOIN Country on Country.id=State.countryId
 		WHERE 
 		 (Coalesce(@Search,'') = '' 
 				OR District.[Title] like '%'+ @Search + '%'

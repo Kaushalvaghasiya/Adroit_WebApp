@@ -1,4 +1,3 @@
---EXEC [dbo].[sp_TalukaSave] '0','bac',1,'1'
 CREATE OR ALTER PROCEDURE [dbo].[sp_TalukaSave]
 (
 	 @Id int,

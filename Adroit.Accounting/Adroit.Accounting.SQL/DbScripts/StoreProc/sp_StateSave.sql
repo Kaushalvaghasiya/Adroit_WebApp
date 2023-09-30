@@ -1,4 +1,3 @@
---EXEC [dbo].[sp_StateSave] '0','bac','DFG','DD','CA01',1,1
 CREATE OR ALTER PROCEDURE [dbo].[sp_StateSave]
 (
 	 @Id INT,

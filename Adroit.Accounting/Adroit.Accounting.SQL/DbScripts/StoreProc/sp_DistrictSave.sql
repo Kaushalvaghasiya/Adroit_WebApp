@@ -1,4 +1,3 @@
---EXEC [dbo].[sp_DistrictSave] '0','bac',1,'1'
 CREATE OR ALTER PROCEDURE [dbo].[sp_DistrictSave]
 (
 	 @Id int,

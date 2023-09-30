@@ -1,4 +1,3 @@
---EXEC  [dbo].[sp_StateList] 1,1,'a'
 CREATE OR ALTER Procedure [dbo].[sp_StateList]
   @LoginId int,
   @FirmId int,  
@@ -22,6 +21,8 @@ Begin
 			CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN [State].[TitleEWay] END DESC,
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN [State].[Code] END ASC,  
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN [State].[Code] END DESC,
+			CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN [Country].[Title] END ASC,  
+			CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN [Country].[Title] END DESC,
 			CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN [State].[Active] END ASC,  
 			CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN [State].[Active] END DESC
 		) AS RowNum,

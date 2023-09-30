@@ -1,4 +1,3 @@
---EXEC [dbo].[sp_TalukaGet] 1
 CREATE OR ALTER PROCEDURE [dbo].[sp_TalukaGet]
 (
 	@Id INT

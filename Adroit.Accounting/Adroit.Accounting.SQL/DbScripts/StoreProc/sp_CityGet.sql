@@ -1,4 +1,3 @@
---EXEC [dbo].[sp_CityGet] 1
 CREATE OR ALTER PROCEDURE [dbo].[sp_CityGet]
 (
 	@Id INT

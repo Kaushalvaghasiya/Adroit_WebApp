@@ -1,4 +1,3 @@
---EXEC  [dbo].[sp_CountryList] 1,1,'a'
 CREATE OR ALTER     Procedure [dbo].[sp_CountryList]
   @LoginId int,
   @FirmId int,  

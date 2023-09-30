@@ -1,4 +1,3 @@
---EXEC [dbo].[sp_CountrySave] '0','bac','+98','1'
 CREATE OR ALTER PROCEDURE [dbo].[sp_CountrySave]
 (
 	 @Id int,
@@ -18,7 +17,7 @@ BEGIN
 						Active = @active
 					WHERE ID = @Id
 			END
-		ELSE If EXISTS (SELECT 1 FROM Country WHERE Title = @Title AND PhoneCode = @PhoneCode AND Active = 0)
+		ELSE If EXISTS (SELECT 1 FROM Country WHERE Title = @Title)
 			BEGIN
 				UPDATE  Country SET
 						Title = @Title,

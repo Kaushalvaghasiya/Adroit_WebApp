@@ -1,4 +1,3 @@
---EXEC  [dbo].[sp_CityList] 1,1,'a'
 CREATE OR ALTER Procedure [dbo].[sp_CityList]
   @LoginId int,
   @FirmId int,  

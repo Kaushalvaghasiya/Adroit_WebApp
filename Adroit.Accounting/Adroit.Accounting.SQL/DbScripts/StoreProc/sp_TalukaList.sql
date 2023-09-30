@@ -1,4 +1,3 @@
---EXEC  [dbo].[sp_TalukaList] 1,1,'a'
 CREATE OR ALTER Procedure [dbo].[sp_TalukaList]
   @LoginId int,
   @FirmId int,  

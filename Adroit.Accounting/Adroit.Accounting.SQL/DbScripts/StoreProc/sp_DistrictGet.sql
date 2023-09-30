@@ -1,4 +1,3 @@
---EXEC [dbo].[sp_DistrictGet] 1
 CREATE OR ALTER   PROCEDURE [dbo].[sp_DistrictGet]
 (
 	@Id INT
