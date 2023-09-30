@@ -14,7 +14,8 @@ namespace Adroit.Accounting.Web.Controllers
         {
             var model = new CityViewModel();
             model.TalukaList = _districtRepository.SelectList(_configurationData.DefaultConnection, 0);
-            model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CountryTable._TableName, CountryTable.Title);
+            model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CityTable._TableName, CityTable.Title);
+
             return View(model);
         }
 

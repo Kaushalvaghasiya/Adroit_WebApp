@@ -13,16 +13,30 @@ Begin
 	(   
 		SELECT ROW_NUMBER() over 
 		(ORDER BY
-			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN Taluka.[Title] END ASC,  
-			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN Taluka.[Title] END DESC,
-			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN Taluka.[Active] END ASC,  
-			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN Taluka.[Active] END DESC
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN City.[Title] END ASC,  
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN City.[Title] END DESC,
+			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN Taluka.[Title] END ASC,  
+			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN Taluka.[Title] END DESC,
+			CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN District.[Title] END ASC,  
+			CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN District.[Title] END DESC,
+			CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN State.[Title] END ASC,  
+			CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN State.[Title] END DESC,
+			CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN Country.[Title] END ASC,  
+			CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN Country.[Title] END DESC,
+			CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN Taluka.[Active] END ASC,  
+			CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN Taluka.[Active] END DESC
 		) AS RowNum,
 		Count(*) over () AS TotalCount, 
 		City.*,
-		Taluka.Title as TalukaName
+		Taluka.Title as TalukaName,
+		District.Title as DistrictName,
+		State.Title as StateName,
+		Country.Title as CountryName
 		FROM City
 		LEFT JOIN Taluka on Taluka.Id=City.TalukaId
+		LEFT JOIN District on District.Id=Taluka.DistrictId
+		LEFT JOIN State on State.id=District.stateId
+		LEFT JOIN Country on country.id=State.countryId
 		WHERE 
 		 (Coalesce(@Search,'') = '' 
 				OR City.[Title] like '%'+ @Search + '%'
