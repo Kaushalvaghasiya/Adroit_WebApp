@@ -9,5 +9,5 @@ BEGIN
 			Taluka.Title as DistrictName
 	FROM Taluka
 	INNER JOIN District ON District.Id = Taluka.DistrictId 
-	WHERE District.Id = @Id
+	WHERE Taluka.Id = @Id
 END
