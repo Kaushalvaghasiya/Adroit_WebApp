@@ -13,9 +13,5 @@ namespace Adroit.Accounting.Model
         public string Title { get; set; } = string.Empty;
         public int DistrictId { get; set; }
         public bool Active { get; set; }
-        public string DistrictName { get; set; }
-        public string StateName { get; set; }
-        public string CountryName { get; set; }
-
     }
 }
