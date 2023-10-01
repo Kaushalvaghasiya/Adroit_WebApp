@@ -9,6 +9,9 @@ namespace Adroit.Accounting.Model.ViewModel
        
         public List<DropdownViewModel> TitleList { get; set; }
         public List<DropdownViewModel> TalukaList { get; set; }
-
+        public string TalukaName { get; set; }
+        public string DistrictName { get; set; }
+        public string StateName { get; set; }
+        public string CountryName { get; set; }
     }
 }
