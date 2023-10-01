@@ -10,7 +10,7 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class AdminController : Controller
     {
-        public IActionResult StatePlan()
+        public IActionResult State()
         {
             var model = new StateViewModel();
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
