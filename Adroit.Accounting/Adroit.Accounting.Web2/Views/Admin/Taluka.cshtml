@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.CountryViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.TalukaViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -11,7 +11,7 @@
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
                     <li><a href="#">Location</a></li>
-                    <li class="active"><span>Country</span></li>
+                    <li class="active"><span>Taluka</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -35,8 +35,10 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
+                                    <th class="border-bottom-0">TALUKA NAME</th>
+                                    <th class="border-bottom-0">DISTRICT NAME</th>
+                                    <th class="border-bottom-0">STATE NAME</th>
                                     <th class="border-bottom-0">COUNTRY NAME</th>
-                                    <th class="border-bottom-0">PHONE CODE</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
@@ -60,7 +62,7 @@
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
                     <li><a href="#">Location</a></li>
-                    <li><a href="#" class="btn-back">Country</a></li>
+                    <li><a href="#" class="btn-back">Taluka</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
@@ -85,7 +87,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="Title">Country</label>
+                                <label for="Title">Taluka</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="Title">
                                     <option></option>
                                     @{
@@ -102,13 +104,13 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="PhoneCode">PhoneCode</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="PhoneCode">
+                                <label for="District">District</label>
+                                <select class="form-control select2-show-search mode-ed" id="DistrictId">
                                     <option></option>
                                     @{
-                                        if (Model.PhoneCodeLsit != null)
+                                        if (Model.DistrictList != null)
                                         {
-                                            foreach (var o in Model.PhoneCodeLsit)
+                                            foreach (var o in Model.DistrictList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -148,7 +150,7 @@
         $(function (e) {
             $('.dv-list').show();
             $('.dv-detail').hide();
-            
+
             bindDatatableList();
         });
 
@@ -157,7 +159,7 @@
             $('.dv-detail').slideDown();
             fromReset();
             setScreenMode(false);
-            
+
             $("#Title").focus();
 
             $("#Active").prop('checked', true);
@@ -186,12 +188,26 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.phoneCode;
+                    return row.districtName;
                 },
                 "targets": colDef.length,
 
             });
-            
+
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.stateName;
+                },
+                "targets": colDef.length,
+
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.countryName;
+                },
+                "targets": colDef.length,
+
+            });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.active ? "Yes" : "No";
@@ -213,7 +229,9 @@
             });
 
             columns.push({ "data": "title", "name": "title" });
-            columns.push({ "data": "phoneCode", "name": "phoneCode" });
+            columns.push({ "data": "districtName", "name": "districtName" });
+            columns.push({ "data": "stateName", "name": "stateName" });
+            columns.push({ "data": "countryName", "name": "countryName" });
             columns.push({ "data": "active", "name": "active" });
             columns.push({ "data": "Id", "name": "Id" });
 
@@ -243,7 +261,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/admin/CountryList"))',
+                    url: '@(Url.Content("~/admin/TalukaList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -260,7 +278,7 @@
         function fromReset() {
             $("#Id").val(0);
             $("#Title").val(null).trigger('change');
-            $("#PhoneCode").val(null).trigger('change');
+            $("#DistrictId").val(null).trigger('change');
             $("#Active").prop('checked', false);
             $("#activeTabName").text("Add");
             setScreenMode(false);
@@ -270,40 +288,34 @@
             try {
 
                 if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid Country title.");
+                    showWarning("", "Please enter valid Taluka title.");
                     $("#Title").focus();
                     return false;
                 }
 
                 if ($("#Title").val().length > 100) {
-                    showWarning("", "Country title must be upto 100 characters long.");
+                    showWarning("", "Taluka title must be upto 100 characters long.");
                     $("#Title").focus();
                     return false;
                 }
 
-                if ($("#PhoneCode").val() == "") {
-                    showWarning("", "Please enter valid code.");
-                    $("#Code").focus();
-                    return false;
-                }
-
-                if ($("#PhoneCode").val().length > 5) {
-                    showWarning("", "Phone code max 5 characters long.");
-                    $("#PhoneCode").focus();
+                if ($("#DistrictId").val() == "") {
+                    showWarning("", "Please enter valid DistrictId.");
+                    $("#DistrictId").focus();
                     return false;
                 }
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Title = $("#Title").val();
-                savedata.PhoneCode = $("#PhoneCode").val();
+                savedata.DistrictId = $("#DistrictId").val();
                 savedata.Active = $("#Active").prop('checked');
 
                 blockUI('container');
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveCountry", "Admin"))",
+                    url: "@(Url.Action("SaveTaluka", "Admin"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -312,7 +324,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Country saved successfully.');
+                            showWarning("", 'Taluka saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -337,7 +349,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCountry"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetTaluka"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -354,7 +366,7 @@
 
                                 $('#Id').val(result.data.id);
                                 $("#Title").val(result.data.title).trigger('change');
-                                $("#PhoneCode").val(result.data.phoneCode).trigger('change');
+                                $("#DistrictId").val(result.data.districtId).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info

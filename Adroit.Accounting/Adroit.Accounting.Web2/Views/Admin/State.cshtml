@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.CountryViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.StateViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -11,7 +11,7 @@
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
                     <li><a href="#">Location</a></li>
-                    <li class="active"><span>Country</span></li>
+                    <li class="active"><span>State</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -35,10 +35,13 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">COUNTRY NAME</th>
-                                    <th class="border-bottom-0">PHONE CODE</th>
+                                    <th class="border-bottom-0">STATE NAME</th>
+                                    <th class="border-bottom-0">STATE GSTR</th>
+                                    <th class="border-bottom-0">STATE EWAY</th>
+                                    <th class="border-bottom-0">CODE</th>
+                                    <th class="border-bottom-0">COUNTRY</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
-                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                    <th class="border-bottom-0 text-center" style="width:100px!important;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -60,7 +63,7 @@
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
                     <li><a href="#">Location</a></li>
-                    <li><a href="#" class="btn-back">Country</a></li>
+                    <li><a href="#" class="btn-back">State</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
@@ -79,13 +82,12 @@
         <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="Title">Country</label>
+                                <label for="Title">State</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="Title">
                                     <option></option>
                                     @{
@@ -102,13 +104,64 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="PhoneCode">PhoneCode</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="PhoneCode">
+                                <label for="stateGSTR">State GSTR</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="TitleGSTR">
                                     <option></option>
                                     @{
-                                        if (Model.PhoneCodeLsit != null)
+                                        if (Model.TitleGSTRList != null)
                                         {
-                                            foreach (var o in Model.PhoneCodeLsit)
+                                            foreach (var o in Model.TitleGSTRList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="Code">Code</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="Code">
+                                    <option></option>
+                                    @{
+                                        if (Model.CodeList != null)
+                                        {
+                                            foreach (var o in Model.CodeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="stateGSTR">State GSTR</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="TitleEWay">
+                                    <option></option>
+                                    @{
+                                        if (Model.TitleEWayList != null)
+                                        {
+                                            foreach (var o in Model.TitleEWayList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="Country">Country</label>
+                                <select class="form-control select2-show-search mode-ed" id="CountryId">
+                                    <option></option>
+                                    @{
+                                        if (Model.CountryList != null)
+                                        {
+                                            foreach (var o in Model.CountryList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -148,7 +201,7 @@
         $(function (e) {
             $('.dv-list').show();
             $('.dv-detail').hide();
-            
+
             bindDatatableList();
         });
 
@@ -157,7 +210,7 @@
             $('.dv-detail').slideDown();
             fromReset();
             setScreenMode(false);
-            
+
             $("#Title").focus();
 
             $("#Active").prop('checked', true);
@@ -186,12 +239,33 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.phoneCode;
+                    return row.titleGSTR;
                 },
                 "targets": colDef.length,
 
             });
-            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.titleEWay;
+                },
+                "targets": colDef.length,
+
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.code;
+                },
+                "targets": colDef.length,
+
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.countryName;
+                },
+                "targets": colDef.length,
+
+            });
+
             colDef.push({
                 "render": function (data, type, row) {
                     return row.active ? "Yes" : "No";
@@ -213,7 +287,10 @@
             });
 
             columns.push({ "data": "title", "name": "title" });
-            columns.push({ "data": "phoneCode", "name": "phoneCode" });
+            columns.push({ "data": "titleGSTR", "name": "titleGSTR" });
+            columns.push({ "data": "titleEWay", "name": "titleEWay" });
+            columns.push({ "data": "code", "name": "code" });
+            columns.push({ "data": "countryName", "name": "countryName" });
             columns.push({ "data": "active", "name": "active" });
             columns.push({ "data": "Id", "name": "Id" });
 
@@ -243,7 +320,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/admin/CountryList"))',
+                    url: '@(Url.Content("~/admin/StateList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -260,7 +337,10 @@
         function fromReset() {
             $("#Id").val(0);
             $("#Title").val(null).trigger('change');
-            $("#PhoneCode").val(null).trigger('change');
+            $("#TitleGSTR").val(null).trigger('change');
+            $("#TitleEWay").val(null).trigger('change');
+            $("#Code").val(null).trigger('change');
+            $("#CountryId").val(null).trigger('change');
             $("#Active").prop('checked', false);
             $("#activeTabName").text("Add");
             setScreenMode(false);
@@ -270,40 +350,70 @@
             try {
 
                 if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid Country title.");
+                    showWarning("", "Please enter valid state title.");
                     $("#Title").focus();
                     return false;
                 }
 
                 if ($("#Title").val().length > 100) {
-                    showWarning("", "Country title must be upto 100 characters long.");
+                    showWarning("", "state title must be upto 100 characters long.");
                     $("#Title").focus();
                     return false;
                 }
 
-                if ($("#PhoneCode").val() == "") {
-                    showWarning("", "Please enter valid code.");
+                if ($("#TitleGSTR").val() == "") {
+                    showWarning("", "Please enter valid State GSTR .");
+                    $("#TitleGSTR").focus();
+                    return false;
+                }
+
+                if ($("#TitleGSTR").val().length > 100) {
+                    showWarning("", "state  GSTR  must be upto 100 characters long.");
+                    $("#TitleGSTR").focus();
+                    return false;
+                }
+                if ($("#TitleEWay").val() == "") {
+                    showWarning("", "Please enter valid TitleEWay.");
+                    $("#TitleEWay").focus();
+                    return false;
+                }
+
+                if ($("#TitleEWay").val().length > 100) {
+                    showWarning("", "state  EWay  must be upto 100 characters long.");
+                    $("#TitleEWay").focus();
+                    return false;
+                }
+                if ($("#Code").val() == "") {
+                    showWarning("", "Please enter valid Code.");
                     $("#Code").focus();
                     return false;
                 }
 
-                if ($("#PhoneCode").val().length > 5) {
-                    showWarning("", "Phone code max 5 characters long.");
-                    $("#PhoneCode").focus();
+                if ($("#Code").val().length > 5) {
+                    showWarning("", "code max 5 characters long.");
+                    $("#Code").focus();
+                    return false;
+                }
+                if ($("#CountryId").val() == "") {
+                    showWarning("", "Please enter valid Country.");
+                    $("#CountryId").focus();
                     return false;
                 }
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Title = $("#Title").val();
-                savedata.PhoneCode = $("#PhoneCode").val();
+                savedata.TitleGSTR = $("#TitleGSTR").val();
+                savedata.TitleEWay = $("#TitleEWay").val();
+                savedata.Code = $("#Code").val();
+                savedata.CountryId = $("#CountryId").val();
                 savedata.Active = $("#Active").prop('checked');
 
                 blockUI('container');
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveCountry", "Admin"))",
+                    url: "@(Url.Action("SaveState", "Admin"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -312,7 +422,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Country saved successfully.');
+                            showWarning("", 'State saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -337,7 +447,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCountry"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetState"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -354,7 +464,10 @@
 
                                 $('#Id').val(result.data.id);
                                 $("#Title").val(result.data.title).trigger('change');
-                                $("#PhoneCode").val(result.data.phoneCode).trigger('change');
+                                $("#TitleGSTR").val(result.data.titleGSTR).trigger('change');
+                                  $("#TitleEWay").val(result.data.titleEWay).trigger('change');
+                                $("#Code").val(result.data.code).trigger('change');
+                                $("#CountryId").val(result.data.countryId).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info

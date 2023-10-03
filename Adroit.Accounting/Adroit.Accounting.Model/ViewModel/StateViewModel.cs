@@ -6,12 +6,13 @@ namespace Adroit.Accounting.Model.ViewModel
 {
     public class StateViewModel : State
     {
-       
+
         public List<DropdownViewModel> TitleList { get; set; }
         public List<DropdownViewModel> TitleGSTRList { get; set; }
         public List<DropdownViewModel> TitleEWayList { get; set; }
         public List<DropdownViewModel> CodeList { get; set; }
         public List<DropdownViewModel> CountryList { get; set; }
+        public string CountryName { get; set; }
 
     }
 }
