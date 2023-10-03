@@ -82,6 +82,7 @@ try
     builder.Services.AddSingleton<IMenuSetting, MenuSettingRepository>();
     builder.Services.AddSingleton<IBoxSetting, BoxSettingRepository>();
 
+
     if (!builder.Environment.IsDevelopment())
     {
         builder.Services.AddHttpsRedirection(options =>

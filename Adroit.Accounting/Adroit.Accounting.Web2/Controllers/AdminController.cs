@@ -1,4 +1,5 @@
-﻿using Adroit.Accounting.Repository;
+﻿using Adroit.Accounting.Model;
+using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
@@ -36,6 +37,10 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ILogger<AdminController> _logger;
         private readonly IMenuSetting _menuSettingRepository;
         private readonly IBoxSetting _boxSettingRepository;
+        private readonly IState _stateRepository;
+        private readonly ITaluka _talukaRepository;
+        private readonly ICity _cityRepository;
+        private readonly IDistrict _districtRepository;
         public AdminController(
             IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
@@ -61,7 +66,12 @@ namespace Adroit.Accounting.Web.Controllers
             IBranchTypeAdmin branchTypeRepository,
             ILogger<AdminController> logger,
             IMenuSetting menuSettingRepository,
-            IBoxSetting boxSettingRepository
+            IBoxSetting boxSettingRepository,
+            IState stateRepository,
+            ITaluka talukaRepository,
+            ICity cityRepository,
+            IDistrict districtRepository
+
             )
 
         {
@@ -91,6 +101,10 @@ namespace Adroit.Accounting.Web.Controllers
             _logger = logger;
             _menuSettingRepository = menuSettingRepository;
             _boxSettingRepository = boxSettingRepository;
+            _stateRepository = stateRepository;
+            _talukaRepository  = talukaRepository;
+            _districtRepository = districtRepository;
+            _cityRepository = cityRepository;
         }
     }
 }

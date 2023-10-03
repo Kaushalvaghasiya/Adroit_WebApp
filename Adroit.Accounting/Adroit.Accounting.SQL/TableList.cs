@@ -44,4 +44,33 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class CountryTable
+    {
+        public const string _TableName = "Country";
+        public const string Title = "Title";
+        public const string PhoneCode = "PhoneCode";
+    }
+    public sealed class StateTable
+    {
+        public const string _TableName = "State";
+        public const string Title = "Title";
+        public const string TitleGSTR = "TitleGSTR";
+        public const string TitleEWay = "TitleEWay";
+        public const string Code = "Code";
+    }
+    public sealed class DistrictTable
+    {
+        public const string _TableName = "District";
+        public const string Title = "Title";
+    }
+    public sealed class TalukaTable
+    {
+        public const string _TableName = "Taluka";
+        public const string Title = "Title";
+    }
+    public sealed class CityTable
+    {
+        public const string _TableName = "City";
+        public const string Title = "Title";
+    }
 }
