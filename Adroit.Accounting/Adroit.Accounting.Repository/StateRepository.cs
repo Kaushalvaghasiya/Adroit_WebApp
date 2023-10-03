@@ -35,7 +35,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@TitleGSTR", value.TitleGSTR);
             parameters.Add("@TitleEWay", value.TitleEWay);
             parameters.Add("@Code", value.Code);
-            parameters.Add("@Country", value.CountryId);
+            parameters.Add("@CountryId", value.CountryId);
             parameters.Add("@Active", value.Active);
             return QueryHelper.Save("sp_StateSave", connectionString, parameters);
         }
