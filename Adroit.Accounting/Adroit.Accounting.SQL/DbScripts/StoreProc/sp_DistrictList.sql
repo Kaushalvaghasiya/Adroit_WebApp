@@ -28,7 +28,7 @@ Begin
 		Country.Title as CountryName
 		FROM District
 		LEFT JOIN State on State.Id=District.StateId
-		LEFT JOIN Country on Country.id=State.countryId
+		LEFT JOIN Country on Country.Id=State.CountryId
 		WHERE 
 		 (Coalesce(@Search,'') = '' 
 				OR District.[Title] like '%'+ @Search + '%'

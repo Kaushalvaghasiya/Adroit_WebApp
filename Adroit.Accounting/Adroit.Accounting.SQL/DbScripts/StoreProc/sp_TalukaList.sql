@@ -31,8 +31,8 @@ Begin
 		Country.Title as CountryName
 		FROM Taluka
 		LEFT JOIN District on District.Id=Taluka.DistrictId
-		LEFT JOIN State on State.id=District.stateId
-		LEFT JOIN Country on country.id=State.countryId
+		LEFT JOIN State on State.Id=District.StateId
+		LEFT JOIN Country on Country.id=State.CountryId
 		WHERE 
 		 (Coalesce(@Search,'') = '' 
 				OR Taluka.[Title] like '%'+ @Search + '%'
