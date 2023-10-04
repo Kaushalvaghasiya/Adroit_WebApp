@@ -23,8 +23,8 @@ Begin
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN State.[Title] END DESC,
 			CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN Country.[Title] END ASC,  
 			CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN Country.[Title] END DESC,
-			CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN Taluka.[Active] END ASC,  
-			CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN Taluka.[Active] END DESC
+			CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN City.[Active] END ASC,  
+			CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN City.[Active] END DESC
 		) AS RowNum,
 		Count(*) over () AS TotalCount, 
 		City.*,
@@ -35,8 +35,8 @@ Begin
 		FROM City
 		LEFT JOIN Taluka on Taluka.Id=City.TalukaId
 		LEFT JOIN District on District.Id=Taluka.DistrictId
-		LEFT JOIN State on State.id=District.stateId
-		LEFT JOIN Country on country.id=State.countryId
+		LEFT JOIN State on State.Id=District.StateId
+		LEFT JOIN Country on Country.Id=State.CountryId
 		WHERE 
 		 (Coalesce(@Search,'') = '' 
 				OR City.[Title] like '%'+ @Search + '%'
