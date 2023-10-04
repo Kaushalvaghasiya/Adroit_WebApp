@@ -29,7 +29,7 @@ Begin
 		Count(*) over () AS TotalCount, 
 		[State].*,Country.Title as CountryName
 		FROM [State]
-			LEFT JOIN Country on Country.id=[State].countryId
+			LEFT JOIN Country on Country.Id=[State].CountryId
 		WHERE 
 		 (Coalesce(@Search,'') = '' 
 				OR [State].[Title] like '%'+ @Search + '%'
