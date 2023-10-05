@@ -5,9 +5,16 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CityGet]
 AS
 BEGIN
 	SELECT 
-		city.*,
-			Taluka.Title as TalukaName
-	FROM city
-	INNER JOIN Taluka ON Taluka.Id = city.TalukaId 
-	WHERE city.Id = @Id
+		City.*,
+			Taluka.Title AS TalukaName,
+			Taluka.Id AS TalukaId,
+			District.Id AS DistrictId,
+			State.Id AS StateId,
+			Country.Id As CountryId
+	FROM City
+	INNER JOIN Taluka ON Taluka.Id = City.TalukaId 
+	INNER JOIN District ON District.Id = Taluka.DistrictId
+	INNER JOIN State ON State.Id = District.StateId
+	INNER JOIN Country ON Country.Id = State.CountryId
+	WHERE City.Id = @Id
 END
