@@ -17,7 +17,7 @@ BEGIN
 						Active = @active
 					WHERE ID = @Id
 			END
-		ELSE If EXISTS (SELECT 1 FROM District WHERE Title = @Title AND StateId = @StateId)
+		ELSE If EXISTS (SELECT 1 FROM District WHERE Title = @Title)
 			BEGIN
 				UPDATE  District SET
 						Title = @Title,
@@ -25,7 +25,7 @@ BEGIN
 						Active = @active
 					WHERE StateId = @StateId AND Title = @Title 
 
-				SELECT @Id=Id FROM District WHERE StateId = @StateId AND Title = @Title 
+				SELECT @Id=Id FROM District WHERE Title = @Title 
 			END
 		ELSE
 			BEGIN
