@@ -87,18 +87,26 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="Title">State</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="Title">
+                                <label for="Country">Country</label>
+                                <select class="form-control select2-show-search mode-ed" id="CountryId">
                                     <option></option>
+                                    <option value="0">Select Country</option>
                                     @{
-                                        if (Model.TitleList != null)
+                                        if (Model.CountryList != null)
                                         {
-                                            foreach (var o in Model.TitleList)
+                                            foreach (var o in Model.CountryList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="Title">State</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="Title">
                                 </select>
                             </div>
                         </div>
@@ -155,23 +163,6 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="Country">Country</label>
-                                <select class="form-control select2-show-search mode-ed" id="CountryId">
-                                    <option></option>
-                                    @{
-                                        if (Model.CountryList != null)
-                                        {
-                                            foreach (var o in Model.CountryList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
                                 <div><label for="Active">Active</label></div>
                                 <label class="custom-switch">
                                     <input id="Active" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
@@ -197,14 +188,22 @@
     {
 
     <script>
-
+        var stateId = null;
+        
         $(function (e) {
             $('.dv-list').show();
             $('.dv-detail').hide();
 
             bindDatatableList();
         });
-
+        $("#CountryId").on('change', function (e) {
+            let countryId = $(this).val();
+            if (countryId > 0) {
+                bindStateList(countryId);
+            } else {
+                $("#CountryId").focus();
+            }
+        });
         function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
@@ -336,14 +335,15 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#Title").val(null).trigger('change');
+            $("#CountryId").val(null).trigger('change');
+            $("#Title").html("");;
             $("#TitleGSTR").val(null).trigger('change');
             $("#TitleEWay").val(null).trigger('change');
             $("#Code").val(null).trigger('change');
-            $("#CountryId").val(null).trigger('change');
             $("#Active").prop('checked', false);
             $("#activeTabName").text("Add");
             setScreenMode(false);
+            stateId = null;
         }
 
         function saveItem() {
@@ -395,7 +395,7 @@
                     return false;
                 }
                 if ($("#CountryId").val() == "") {
-                    showWarning("", "Please enter valid Country.");
+                    showWarning("", "Please select valid Country.");
                     $("#CountryId").focus();
                     return false;
                 }
@@ -463,9 +463,11 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#Title").val(result.data.title).trigger('change');
+                                stateId = result.data.title;
+                                $("#CountryId").val(result.data.countryId).trigger('change');
+                                //$("#Title").val(result.data.title).trigger('change');
                                 $("#TitleGSTR").val(result.data.titleGSTR).trigger('change');
-                                  $("#TitleEWay").val(result.data.titleEWay).trigger('change');
+                                $("#TitleEWay").val(result.data.titleEWay).trigger('change');
                                 $("#Code").val(result.data.code).trigger('change');
                                 $("#CountryId").val(result.data.countryId).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
@@ -484,7 +486,39 @@
             catch (err) {
             }
         }
+        function bindStateList(countryId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "<option></option>";
+                        str += "<option value='0'>Select State</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['text'] + "'>" + data.data[i]["text"] + "</option>");
+                                }
+                            }
+                            $("#Title").html(str);
+                            if (stateId != null) {
+                                $("#Title").val(stateId).trigger('change');
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
 
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
     </script>
 
 }

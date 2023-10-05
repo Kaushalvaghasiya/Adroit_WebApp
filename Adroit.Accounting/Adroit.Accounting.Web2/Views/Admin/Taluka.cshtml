@@ -35,10 +35,10 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">TALUKA NAME</th>
-                                    <th class="border-bottom-0">DISTRICT NAME</th>
-                                    <th class="border-bottom-0">STATE NAME</th>
-                                    <th class="border-bottom-0">COUNTRY NAME</th>
+                                    <th class="border-bottom-0">TALUKA</th>
+                                    <th class="border-bottom-0">DISTRICT</th>
+                                    <th class="border-bottom-0">STATE</th>
+                                    <th class="border-bottom-0">COUNTRY</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
@@ -87,13 +87,14 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="Title">Taluka</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="Title">
+                                <label for="Country">Country</label>
+                                <select class="form-control select2-show-search mode-ed" id="CountryId">
                                     <option></option>
+                                    <option value="0">Select Country</option>
                                     @{
-                                        if (Model.TitleList != null)
+                                        if (Model.CountryList != null)
                                         {
-                                            foreach (var o in Model.TitleList)
+                                            foreach (var o in Model.CountryList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -104,21 +105,26 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="District">District</label>
-                                <select class="form-control select2-show-search mode-ed" id="DistrictId">
-                                    <option></option>
-                                    @{
-                                        if (Model.DistrictList != null)
-                                        {
-                                            foreach (var o in Model.DistrictList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
+                                <label for="State">State</label>
+                                <select class="form-control select2-show-search mode-ed" id="StateId">
                                 </select>
                             </div>
                         </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="District">District</label>
+                                <select class="form-control select2-show-search mode-ed" id="DistrictId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="Title">Taluka</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="Title">
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <div><label for="Active">Active</label></div>
@@ -146,7 +152,9 @@
     {
 
     <script>
-
+        var stateId = null;
+        var districtId = null;
+        var talukaId = null;
         $(function (e) {
             $('.dv-list').show();
             $('.dv-detail').hide();
@@ -164,6 +172,33 @@
 
             $("#Active").prop('checked', true);
         }
+
+        $("#CountryId").on('change', function (e) {
+            let countryId = $(this).val();
+            if (countryId > 0) {
+                bindStateList(countryId);
+            } else {
+                $("#CountryId").focus();
+            }
+        });
+
+        $("#StateId").on('change', function (e) {
+            let stateId = $(this).val();
+            if (stateId > 0) {
+                bindDistrictList(stateId);
+            } else {
+                $("#DistrictId").focus();
+            }
+        });
+
+        $("#DistrictId").on('change', function (e) {
+            let districtId = $(this).val();
+            if (districtId > 0) {
+                bindTalukaList(districtId);
+            } else {
+                $("#DistrictId").focus();
+            }
+        });
 
         function viewMode(id) {
             getDetail(id, true);
@@ -277,11 +312,17 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#Title").val(null).trigger('change');
-            $("#DistrictId").val(null).trigger('change');
+            $("#CountryId").val(null).trigger('change');
+            $("#StateId").html("");
+            $("#DistrictId").html("");
+            $("#TalukaId").html("");
+            $("#Title").html("");
             $("#Active").prop('checked', false);
             $("#activeTabName").text("Add");
             setScreenMode(false);
+            stateId = null;
+            districtId = null;
+            talukaId = null;
         }
 
         function saveItem() {
@@ -300,7 +341,7 @@
                 }
 
                 if ($("#DistrictId").val() == "") {
-                    showWarning("", "Please enter valid DistrictId.");
+                    showWarning("", "Please select  valid District.");
                     $("#DistrictId").focus();
                     return false;
                 }
@@ -365,8 +406,10 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#Title").val(result.data.title).trigger('change');
-                                $("#DistrictId").val(result.data.districtId).trigger('change');
+                                $("#CountryId").val(result.data.countryId).trigger('change');
+                                stateId = result.data.stateId;
+                                districtId = result.data.districtId;
+                                talukaId = result.data.title;
                                 $("#Active").prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -381,6 +424,104 @@
                     });
             }
             catch (err) {
+            }
+        }
+        function bindStateList(countryId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "<option></option>";
+                        str += "<option value='0'>Select State</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['value'] + "'>" + data.data[i]["text"] + "</option>");
+                                }
+                            }
+                            $("#StateId").html(str);
+                            if (stateId != null) {
+                                $("#StateId").val(stateId).trigger('change');
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
+
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindDistrictList(stateId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetDistricts"))" + "?stateId=" + stateId, "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "<option></option>";
+                        str += "<option value='0'>Select District</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['value'] + "'>" + data.data[i]["text"] + "</option>");
+                                }
+                            }
+                            $("#DistrictId").html(str);
+                            if (districtId != null) {
+                                $("#DistrictId").val(districtId).trigger('change');
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+        function bindTalukaList(districtId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetTalukas"))" + "?districtId=" + districtId, "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "<option></option>";
+                        str += "<option value='0'>Select Taluka</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['text'] + "'>" + data.data[i]["text"] + "</option>");
+                                }
+                            }
+                            $("#Title").html(str);
+                            if (talukaId != null) {
+                                $("#Title").val(talukaId).trigger('change');
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
             }
         }
 

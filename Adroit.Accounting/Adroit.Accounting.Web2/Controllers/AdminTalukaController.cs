@@ -13,8 +13,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Taluka()
         {
             var model = new TalukaViewModel();
-            model.DistrictList = _talukaRepository.SelectList(_configurationData.DefaultConnection,0);
-            model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, TalukaTable._TableName, TalukaTable.Title);
+            model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
             return View(model);
         }
 
