@@ -11,6 +11,5 @@ namespace Adroit.Accounting.Model.ViewModel
         public string CountryId { get; set; }
         public string StateName { get; set; }
         public string CountryName { get; set; }
-
     }
 }

@@ -12,7 +12,5 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> CodeList { get; set; }
         public List<DropdownViewModel> CountryList { get; set; }
         public string CountryName { get; set; }
-        
-
     }
 }
