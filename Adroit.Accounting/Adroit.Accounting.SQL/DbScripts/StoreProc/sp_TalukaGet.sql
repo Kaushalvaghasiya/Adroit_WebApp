@@ -7,7 +7,6 @@ BEGIN
 	SELECT 
 		Taluka.*,
 			District.Title as DistrictName,
-			District.Id AS DistrictId,
 			State.Id AS StateId,
 			Country.Id As CountryId
 	FROM Taluka

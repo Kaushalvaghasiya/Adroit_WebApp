@@ -7,7 +7,6 @@ BEGIN
 	SELECT 
 		District.*,
 			[State].Title as StateName,
-			State.Id AS StateId,
 			Country.Id As CountryId
 	FROM District
 	INNER JOIN [State] ON State.Id = District.StateId
