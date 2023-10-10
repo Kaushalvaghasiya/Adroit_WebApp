@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.StateViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.CityViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -11,7 +11,7 @@
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
                     <li><a href="#">Location</a></li>
-                    <li class="active"><span>State</span></li>
+                    <li class="active"><span>City</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -35,13 +35,13 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
+                                    <th class="border-bottom-0">CITY</th>
+                                    <th class="border-bottom-0">TALUKA</th>
+                                    <th class="border-bottom-0">DISTRICT</th>
                                     <th class="border-bottom-0">STATE</th>
-                                    <th class="border-bottom-0">STATE GSTR</th>
-                                    <th class="border-bottom-0">STATE EWAY</th>
-                                    <th class="border-bottom-0">CODE</th>
                                     <th class="border-bottom-0">COUNTRY</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
-                                    <th class="border-bottom-0 text-center" style="width:100px!important;">Action</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -63,7 +63,7 @@
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Adroit</a></li>
                     <li><a href="#">Location</a></li>
-                    <li><a href="#" class="btn-back">State</a></li>
+                    <li><a href="#" class="btn-back">City</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
@@ -105,62 +105,34 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="Title">State</label>
+                                <label for="State">State</label>
+                                <select class="form-control select2-show-search mode-ed" id="StateId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="District">District</label>
+                                <select class="form-control select2-show-search mode-ed" id="DistrictId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="Taluka">Taluka</label>
+                                <select class="form-control select2-show-search mode-ed" id="TalukaId">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="Title">Title</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="Title">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label for="stateGSTR">State GSTR</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="TitleGSTR">
-                                    <option></option>
-                                    @{
-                                        if (Model.TitleGSTRList != null)
-                                        {
-                                            foreach (var o in Model.TitleGSTRList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label for="Code">Code</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="Code">
-                                    <option></option>
-                                    @{
-                                        if (Model.CodeList != null)
-                                        {
-                                            foreach (var o in Model.CodeList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label for="stateGSTR">State GSTR</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="TitleEWay">
-                                    <option></option>
-                                    @{
-                                        if (Model.TitleEWayList != null)
-                                        {
-                                            foreach (var o in Model.TitleEWayList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
+
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <div><label for="Active">Active</label></div>
@@ -189,21 +161,16 @@
 
     <script>
         var stateId = null;
-        
+        var districtId = null;
+        var talukaId = null;
+        var cityId = null;
         $(function (e) {
             $('.dv-list').show();
             $('.dv-detail').hide();
 
             bindDatatableList();
         });
-        $("#CountryId").on('change', function (e) {
-            let countryId = $(this).val();
-            if (countryId > 0) {
-                bindStateList(countryId);
-            } else {
-                $("#CountryId").focus();
-            }
-        });
+
         function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
@@ -214,6 +181,38 @@
 
             $("#Active").prop('checked', true);
         }
+        $("#CountryId").on('change', function (e) {
+            let countryId = $(this).val();
+            if (countryId > 0) {
+                bindStateList(countryId);
+            } else {
+                $("#CountryId").focus();
+            }
+        });
+        $("#StateId").on('change', function (e) {
+            let stateId = $(this).val();
+            if (stateId > 0) {
+                bindDistrictList(stateId);
+            } else {
+                $("#DistrictId").focus();
+            }
+        });
+        $("#DistrictId").on('change', function (e) {
+            let districtId = $(this).val();
+            if (districtId > 0) {
+                bindTalukaList(districtId);
+            } else {
+                $("#DistrictId").focus();
+            }
+        });
+        $("#TalukaId").on('change', function (e) {
+            let talukaId = $(this).val();
+            if (talukaId > 0) {
+                bindCityList(talukaId);
+            } else {
+                $("#TalukaId").focus();
+            }
+        });
 
         function viewMode(id) {
             getDetail(id, true);
@@ -238,21 +237,22 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.titleGSTR;
+                    return row.talukaName;
                 },
                 "targets": colDef.length,
 
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.titleEWay;
+                    return row.districtName;
                 },
                 "targets": colDef.length,
 
             });
+
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.code;
+                    return row.stateName;
                 },
                 "targets": colDef.length,
 
@@ -264,7 +264,6 @@
                 "targets": colDef.length,
 
             });
-
             colDef.push({
                 "render": function (data, type, row) {
                     return row.active ? "Yes" : "No";
@@ -286,9 +285,9 @@
             });
 
             columns.push({ "data": "title", "name": "title" });
-            columns.push({ "data": "titleGSTR", "name": "titleGSTR" });
-            columns.push({ "data": "titleEWay", "name": "titleEWay" });
-            columns.push({ "data": "code", "name": "code" });
+            columns.push({ "data": "talukaName", "name": "talukaName" });
+            columns.push({ "data": "districtName", "name": "districtName" });
+            columns.push({ "data": "stateName", "name": "stateName" });
             columns.push({ "data": "countryName", "name": "countryName" });
             columns.push({ "data": "active", "name": "active" });
             columns.push({ "data": "Id", "name": "Id" });
@@ -319,7 +318,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/admin/StateList"))',
+                    url: '@(Url.Content("~/admin/CityList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -336,84 +335,51 @@
         function fromReset() {
             $("#Id").val(0);
             $("#CountryId").val(null).trigger('change');
-            $("#Title").html("");;
-            $("#TitleGSTR").val(null).trigger('change');
-            $("#TitleEWay").val(null).trigger('change');
-            $("#Code").val(null).trigger('change');
+            $("#StateId").html("");
+            $("#DistrictId").html("");
+            $("#TalukaId").html("");
+            $("#Title").html("");
             $("#Active").prop('checked', false);
             $("#activeTabName").text("Add");
-            setScreenMode(false);
             stateId = null;
+            districtId = null;
+            talukaId = null;
+            cityId = null;
+            setScreenMode(false);
         }
 
         function saveItem() {
             try {
 
                 if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid state title.");
+                    showWarning("", "Please enter valid City title.");
                     $("#Title").focus();
                     return false;
                 }
 
                 if ($("#Title").val().length > 100) {
-                    showWarning("", "state title must be upto 100 characters long.");
+                    showWarning("", "City title must be upto 100 characters long.");
                     $("#Title").focus();
                     return false;
                 }
 
-                if ($("#TitleGSTR").val() == "") {
-                    showWarning("", "Please enter valid State GSTR .");
-                    $("#TitleGSTR").focus();
-                    return false;
-                }
-
-                if ($("#TitleGSTR").val().length > 100) {
-                    showWarning("", "state  GSTR  must be upto 100 characters long.");
-                    $("#TitleGSTR").focus();
-                    return false;
-                }
-                if ($("#TitleEWay").val() == "") {
-                    showWarning("", "Please enter valid TitleEWay.");
-                    $("#TitleEWay").focus();
-                    return false;
-                }
-
-                if ($("#TitleEWay").val().length > 100) {
-                    showWarning("", "state  EWay  must be upto 100 characters long.");
-                    $("#TitleEWay").focus();
-                    return false;
-                }
-                if ($("#Code").val() == "") {
-                    showWarning("", "Please enter valid Code.");
-                    $("#Code").focus();
-                    return false;
-                }
-
-                if ($("#Code").val().length > 5) {
-                    showWarning("", "code max 5 characters long.");
-                    $("#Code").focus();
-                    return false;
-                }
-                if ($("#CountryId").val() == "") {
-                    showWarning("", "Please select valid Country.");
-                    $("#CountryId").focus();
+                if ($("#TalukaId").val() == "" || $("#TalukaId").val() == 0) {
+                    showWarning("", "Please select Taluka.");
+                    $("#TalukaId").focus();
                     return false;
                 }
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Title = $("#Title").val();
-                savedata.TitleGSTR = $("#TitleGSTR").val();
-                savedata.TitleEWay = $("#TitleEWay").val();
-                savedata.Code = $("#Code").val();
-                savedata.CountryId = $("#CountryId").val();
+                savedata.TalukaId = $("#TalukaId").val();
                 savedata.Active = $("#Active").prop('checked');
 
                 blockUI('container');
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveState", "Admin"))",
+                    url: "@(Url.Action("SaveCity", "Admin"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -422,7 +388,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'State saved successfully.');
+                            showWarning("", 'City saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -447,7 +413,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetState"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCity"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -463,13 +429,15 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                stateId = result.data.title;
                                 $("#CountryId").val(result.data.countryId).trigger('change');
+                                stateId = result.data.stateId;
+                                districtId = result.data.districtId;
+                                talukaId = result.data.talukaId;
+                                cityId = result.data.title;
+                                //$("#StateId").val(result.data.stateId).trigger('change');
+                                //$("#DistrictId").val(result.data.districtId).trigger('change');
+                                //$("#TalukaId").val(result.data.talukaId).trigger('change');
                                 //$("#Title").val(result.data.title).trigger('change');
-                                $("#TitleGSTR").val(result.data.titleGSTR).trigger('change');
-                                $("#TitleEWay").val(result.data.titleEWay).trigger('change');
-                                $("#Code").val(result.data.code).trigger('change');
-                                $("#CountryId").val(result.data.countryId).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -486,6 +454,8 @@
             catch (err) {
             }
         }
+
+
         function bindStateList(countryId) {
             try {
                 blockUI('container');
@@ -497,17 +467,115 @@
                         if (data.result == RESULT_SUCCESS) {
                             if (data.data.length > 0) {
                                 for (var i = 0; i < data.data.length; i++) {
-                                    str += ("<option value='" + data.data[i]['text'] + "'>" + data.data[i]["text"] + "</option>");
+                                    str += ("<option value='" + data.data[i]['value'] + "'>" + data.data[i]["text"] + "</option>");
                                 }
                             }
-                            $("#Title").html(str);
+                            $("#StateId").html(str);
                             if (stateId != null) {
-                                $("#Title").val(stateId).trigger('change');
+                                $("#StateId").val(stateId).trigger('change');
                             }
                         } else {
                             showError("", data.data);
                         }
 
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindDistrictList(stateId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetDistricts"))" + "?stateId=" + stateId, "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "<option></option>";
+                        str += "<option value='0'>Select District</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['value'] + "'>" + data.data[i]["text"] + "</option>");
+                                }
+                            }
+                            $("#DistrictId").html(str);
+                            if (districtId != null) {
+                                $("#DistrictId").val(districtId).trigger('change');
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindTalukaList(districtId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetTalukas"))" + "?districtId=" + districtId, "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "<option></option>";
+                        str += "<option value='0'>Select Taluka</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['value'] + "'>" + data.data[i]["text"] + "</option>");
+                                }
+                            }
+                            $("#TalukaId").html(str);
+                            if (talukaId != null) {
+                                $("#TalukaId").val(talukaId).trigger('change');
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindCityList(talukaId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?talukaId=" + talukaId, "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "<option></option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['text'] + "'>" + data.data[i]["text"] + "</option>");
+                                }
+                            }
+                            $("#Title").html(str);
+                            if (cityId != null) {
+                                $("#Title").val(cityId).trigger('change');
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
                     },
                     function (error) {
                         unblockUI('container');

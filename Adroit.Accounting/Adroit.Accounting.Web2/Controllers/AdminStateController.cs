@@ -14,7 +14,6 @@ namespace Adroit.Accounting.Web.Controllers
         {
             var model = new StateViewModel();
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
-            model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, StateTable._TableName, StateTable.Title);
             model.TitleGSTRList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, StateTable._TableName, StateTable.TitleGSTR);
             model.TitleEWayList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, StateTable._TableName, StateTable.TitleEWay);
             model.CodeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, StateTable._TableName, StateTable.Code);

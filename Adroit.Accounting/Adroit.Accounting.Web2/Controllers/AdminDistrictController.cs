@@ -14,8 +14,8 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult District()
         {
             var model = new DistrictViewModel();
-            model.StateList= _stateRepository.SelectList(_configurationData.DefaultConnection, 0);
-            model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, DistrictTable._TableName, DistrictTable.Title);
+            model.CountryList= _countryRepository.SelectList(_configurationData.DefaultConnection);
+           
             return View(model);
         }
 

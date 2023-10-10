@@ -86,13 +86,14 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="Title">District</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="Title">
+                                <label for="Country">Country</label>
+                                <select class="form-control select2-show-search mode-ed" id="CountryId">
                                     <option></option>
+                                    <option value="0">Select Country</option>
                                     @{
-                                        if (Model.TitleList != null)
+                                        if (Model.CountryList != null)
                                         {
-                                            foreach (var o in Model.TitleList)
+                                            foreach (var o in Model.CountryList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -105,16 +106,14 @@
                             <div class="form-group">
                                 <label for="State">State</label>
                                 <select class="form-control select2-show-search mode-ed" id="StateId">
-                                    <option></option>
-                                    @{
-                                        if (Model.StateList != null)
-                                        {
-                                            foreach (var o in Model.StateList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="Title">District</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="Title">
+                                   
                                 </select>
                             </div>
                         </div>
@@ -145,14 +144,30 @@
     {
 
     <script>
-
+        var stateId = null;
+        var districtId = null;
         $(function (e) {
             $('.dv-list').show();
             $('.dv-detail').hide();
 
             bindDatatableList();
         });
-
+        $("#CountryId").on('change', function (e) {
+            let countryId = $(this).val();
+            if (countryId > 0) {
+                bindStateList(countryId);
+            } else {
+                $("#CountryId").focus();
+            }
+        });
+        $("#StateId").on('change', function (e) {
+            let stateId = $(this).val();
+            if (stateId > 0) {
+                bindDistrictList(stateId);
+            } else {
+                $("#DistrictId").focus();
+            }
+        });
         function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
@@ -268,11 +283,14 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#Title").val(null).trigger('change');
-            $("#StateId").val(null).trigger('change');
+            $("#CountryId").val(null).trigger('change');
+            $("#StateId").html("");
+            $("#Title").html("");
             $("#Active").prop('checked', false);
             $("#activeTabName").text("Add");
             setScreenMode(false);
+            stateId = null;
+            districtId = null;
         }
 
         function saveItem() {
@@ -291,12 +309,12 @@
                 }
 
                 if ($("#StateId").val() == "") {
-                    showWarning("", "Please enter valid StateId.");
+                    showWarning("", "Please select valid State.");
                     $("#StateId").focus();
                     return false;
                 }
 
-               
+
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
@@ -318,7 +336,7 @@
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
                             showWarning("", 'District saved successfully.');
-                          
+
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -359,8 +377,9 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#Title").val(result.data.title).trigger('change');
-                                $("#StateId").val(result.data.stateId).trigger('change');
+                                $("#CountryId").val(result.data.countryId).trigger('change');
+                                stateId = result.data.stateId;
+                                districtId = result.data.title;
                                 $("#Active").prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -375,6 +394,72 @@
                     });
             }
             catch (err) {
+            }
+        }
+        function bindStateList(countryId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "<option></option>";
+                        str += "<option value='0'>Select State</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['value'] + "'>" + data.data[i]["text"] + "</option>");
+                                }
+                            }
+                            $("#StateId").html(str);
+                            if (stateId != null) {
+                                $("#StateId").val(stateId).trigger('change');
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
+
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindDistrictList(stateId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetDistricts"))" + "?stateId=" + stateId, "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "<option></option>";
+                        str += "<option value='0'>Select District</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i]['text'] + "'>" + data.data[i]["text"] + "</option>");
+                                }
+                            }
+                            $("#Title").html(str);
+                            if (districtId != null) {
+                                $("#Title").val(districtId).trigger('change');
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
             }
         }
 

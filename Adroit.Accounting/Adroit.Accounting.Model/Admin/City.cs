@@ -13,6 +13,5 @@ namespace Adroit.Accounting.Model
         public string Title { get; set; }
         public int TalukaId { get; set; }
         public bool Active { get; set; }
-    
     }
 }

@@ -5,7 +5,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_StateGet]
 AS
 BEGIN
 	SELECT 
-		*
+		State.*
 	FROM State
-	WHERE Id = @Id
+	INNER JOIN Country ON Country.Id = State.CountryId
+	WHERE State.Id = @Id
 END
