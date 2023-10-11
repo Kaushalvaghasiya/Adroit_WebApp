@@ -32,7 +32,7 @@ BEGIN
 						CountryId=@CountryId,
 						Code=@Code,
 						Active = @active
-					WHERE Title = @Title AND TitleGSTR = @TitleGSTR and TitleEWay = @TitleEWay AND CountryId=@CountryId AND Code=@Code AND Active = 0
+					WHERE Title = @Title AND TitleGSTR = @TitleGSTR and TitleEWay = @TitleEWay AND CountryId=@CountryId AND Code=@Code
 
 				SELECT @Id=Id FROM [State] WHERE Title = @Title AND TitleGSTR = @TitleGSTR and TitleEWay = @TitleEWay AND Code=@Code AND CountryId=@CountryId 
 			END
