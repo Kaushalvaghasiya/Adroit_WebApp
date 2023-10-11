@@ -17,13 +17,13 @@ BEGIN
 						Active = @active
 					WHERE ID = @Id
 			END
-		ELSE If EXISTS (SELECT 1 FROM City WHERE Title = @Title)
+		ELSE If EXISTS (SELECT 1 FROM City WHERE Title = @Title AND TalukaId=@TalukaId)
 			BEGIN
 				UPDATE  City SET
 						Title = @Title,
 						TalukaId = @TalukaId,
 						Active = @active
-					WHERE  Title = @Title 
+					WHERE  Title = @Title AND TalukaId=@TalukaId
 
 				SELECT @Id=Id FROM City WHERE  Title = @Title 
 			END
