@@ -12,6 +12,24 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class ProductAmtCalcOnTable
+    {
+        public const string _TableName = "ProductAmtCalcOn";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+    public sealed class ProductStockTypeTable
+    {
+        public const string _TableName = "ProductStockType";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+    public sealed class ProductQualityTypeTable
+    {
+        public const string _TableName = "ProductQualityType";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     public sealed class ProductSizeAdminTable
     {
         public const string _TableName = "ProductSizeAdmin";
