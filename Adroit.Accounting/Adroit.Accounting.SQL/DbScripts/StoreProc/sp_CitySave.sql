@@ -19,13 +19,9 @@ BEGIN
 			END
 		ELSE If EXISTS (SELECT 1 FROM City WHERE Title = @Title AND TalukaId=@TalukaId)
 			BEGIN
-				UPDATE  City SET
-						Title = @Title,
-						TalukaId = @TalukaId,
-						Active = @active
-					WHERE  Title = @Title AND TalukaId=@TalukaId
-
-				SELECT @Id=Id FROM City WHERE  Title = @Title 
+				declare @errorMessage VARCHAR(4000);
+				SET @errorMessage = 'City ''' + @Title + ''' already exist!';
+				RAISERROR ('%s', 16, 1,@errorMessage);
 			END
 		ELSE
 			BEGIN

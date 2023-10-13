@@ -23,18 +23,11 @@ BEGIN
 						Active = @active
 					WHERE ID = @Id
 			END
-		ELSE If EXISTS (SELECT 1 FROM [State] WHERE Title = @Title AND TitleGSTR = @TitleGSTR and TitleEWay = @TitleEWay AND CountryId=@CountryId AND Code=@Code)
+		ELSE If EXISTS (SELECT 1 FROM [State] WHERE Title = @Title AND CountryId=@CountryId)
 			BEGIN
-				UPDATE  [State] SET
-						Title = @Title,
-						TitleGSTR = @TitleGSTR,
-						TitleEWay = @TitleEWay,
-						CountryId=@CountryId,
-						Code=@Code,
-						Active = @active
-					WHERE Title = @Title AND TitleGSTR = @TitleGSTR and TitleEWay = @TitleEWay AND CountryId=@CountryId AND Code=@Code
-
-				SELECT @Id=Id FROM [State] WHERE Title = @Title AND TitleGSTR = @TitleGSTR and TitleEWay = @TitleEWay AND Code=@Code AND CountryId=@CountryId 
+				declare @errorMessage  VARCHAR(4000);
+				SET @errorMessage = 'State ''' + @Title + ''' already exist!';
+				RAISERROR ('%s', 16, 1,@errorMessage);
 			END
 		ELSE
 			BEGIN
