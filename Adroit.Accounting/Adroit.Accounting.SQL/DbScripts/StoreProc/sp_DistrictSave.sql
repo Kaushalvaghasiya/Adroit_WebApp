@@ -17,15 +17,11 @@ BEGIN
 						Active = @active
 					WHERE ID = @Id
 			END
-		ELSE If EXISTS (SELECT 1 FROM District WHERE Title = @Title)
+		ELSE If EXISTS (SELECT 1 FROM District WHERE Title = @Title AND StateId=@StateId)
 			BEGIN
-				UPDATE  District SET
-						Title = @Title,
-						StateId = @StateId,
-						Active = @active
-					WHERE StateId = @StateId AND Title = @Title 
-
-				SELECT @Id=Id FROM District WHERE Title = @Title 
+				declare @errorMessage VARCHAR(4000);
+				SET @errorMessage = 'District ''' + @Title + ''' already exist!';
+				RAISERROR ('%s', 16, 1,@errorMessage);
 			END
 		ELSE
 			BEGIN

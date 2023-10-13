@@ -19,13 +19,9 @@ BEGIN
 			END
 		ELSE If EXISTS (SELECT 1 FROM Country WHERE Title = @Title)
 			BEGIN
-				UPDATE  Country SET
-						Title = @Title,
-						PhoneCode = @PhoneCode,
-						Active = @active
-					WHERE PhoneCode = @PhoneCode AND Title = @Title 
-
-				SELECT @Id=Id FROM Country WHERE PhoneCode = @PhoneCode AND Title = @Title 
+				declare @errorMessage VARCHAR(4000);
+				SET @errorMessage = 'Country ''' + @Title + ''' already exist!';
+				RAISERROR ('%s', 16, 1,@errorMessage);
 			END
 		ELSE
 			BEGIN
