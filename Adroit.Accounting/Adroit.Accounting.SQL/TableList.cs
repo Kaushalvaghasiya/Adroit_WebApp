@@ -73,4 +73,10 @@
         public const string _TableName = "City";
         public const string Title = "Title";
     }
+    public sealed class GSTRateTable
+    {
+        public const string _TableName = "GSTRate";
+        public const string Rate = "Rate";
+        public const string OrderNumber = "OrderNumber";
+    }
 }

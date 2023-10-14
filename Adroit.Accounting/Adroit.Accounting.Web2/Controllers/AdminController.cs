@@ -1,6 +1,4 @@
-﻿using Adroit.Accounting.Model;
-using Adroit.Accounting.Repository;
-using Adroit.Accounting.Repository.IRepository;
+﻿using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Identity;
@@ -41,6 +39,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITaluka _talukaRepository;
         private readonly ICity _cityRepository;
         private readonly IDistrict _districtRepository;
+        private readonly IGSTRate _gstRateRepository;
         public AdminController(
             IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
@@ -70,8 +69,8 @@ namespace Adroit.Accounting.Web.Controllers
             IState stateRepository,
             ITaluka talukaRepository,
             ICity cityRepository,
-            IDistrict districtRepository
-
+            IDistrict districtRepository,
+            IGSTRate gstRateRepository
             )
 
         {
@@ -95,16 +94,17 @@ namespace Adroit.Accounting.Web.Controllers
             _productSizeRepository = productSizeRepository;
             _businessRepository = businessRepository;
             _countryRepository = countryRepository;
-            _gSTFirmTypeRepository= gSTFirmTypeRepository;
+            _gSTFirmTypeRepository = gSTFirmTypeRepository;
             _firmTypeRepository = firmTypeRepository;
             _branchTypeRepository = branchTypeRepository;
             _logger = logger;
             _menuSettingRepository = menuSettingRepository;
             _boxSettingRepository = boxSettingRepository;
             _stateRepository = stateRepository;
-            _talukaRepository  = talukaRepository;
+            _talukaRepository = talukaRepository;
             _districtRepository = districtRepository;
             _cityRepository = cityRepository;
+            _gstRateRepository = gstRateRepository;
         }
     }
 }

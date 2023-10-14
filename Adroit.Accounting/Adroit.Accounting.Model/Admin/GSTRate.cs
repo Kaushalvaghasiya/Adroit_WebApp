@@ -13,5 +13,6 @@ namespace Adroit.Accounting.Model
         public decimal Rate { get; set; }
         public byte? OrderNumber { get; set; }
         public bool IsDeleted { get; set; }
+        public bool Active { get; set; }
     }
 }
