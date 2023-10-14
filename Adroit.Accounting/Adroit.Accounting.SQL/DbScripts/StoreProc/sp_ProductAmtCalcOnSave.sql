@@ -1,7 +1,7 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_ProductAmtCalcOnSave]
 (
 	 @Id int,
-	 @Title VARCHAR(100),
+	 @Title VARCHAR(25),
 	 @SoftwareId INT,
 	 @OrderNumber int,
 	 @Active bit

@@ -1,7 +1,7 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_ProductQualityTypeSave]
 (
 	 @Id int,
-	 @Title VARCHAR(100),
+	 @Title VARCHAR(50),
 	 @OrderNumber int,
 	 @Active bit
 )
