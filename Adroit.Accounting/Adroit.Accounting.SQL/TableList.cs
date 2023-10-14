@@ -91,4 +91,12 @@
         public const string _TableName = "City";
         public const string Title = "Title";
     }
+
+    #region Adroit - Account
+    public sealed class BookTypeAdminTable
+    {
+        public const string _TableName = "BookTypeAdmin";
+        public const string Title = "Title";
+    }
+    #endregion
 }
