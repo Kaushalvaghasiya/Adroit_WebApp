@@ -19,13 +19,9 @@ BEGIN
 			END
 		ELSE If EXISTS (SELECT 1 FROM Taluka WHERE Title = @Title AND DistrictId = @DistrictId)
 			BEGIN
-				UPDATE  Taluka SET
-						Title = @Title,
-						DistrictId = @DistrictId,
-						Active = @active
-					WHERE DistrictId = @DistrictId AND Title = @Title 
-
-				SELECT @Id=Id FROM Taluka WHERE DistrictId = @DistrictId AND Title = @Title 
+			    declare @errorMessage VARCHAR(4000);
+				SET @errorMessage = 'Taluka ''' + @Title + ''' already exist!';
+				RAISERROR ('%s', 16, 1,@errorMessage);
 			END
 		ELSE
 			BEGIN
