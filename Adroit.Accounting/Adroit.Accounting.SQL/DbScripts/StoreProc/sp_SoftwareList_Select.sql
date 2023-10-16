@@ -3,7 +3,7 @@ AS
 BEGIN
 	SELECT Id As Value,Title As Text
 	FROM [Software]
-	WHERE IsDeleted = 0 AND Active = 1
+	WHERE Deleted = 0 AND Active = 1
 	AND (@BusinessId IS NULL OR ID IN (SELECT SoftwareId From BusinessSoftwareMapping Where BusinessId = @BusinessId))
 	ORDER BY Title
 END

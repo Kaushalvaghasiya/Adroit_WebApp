@@ -17,12 +17,12 @@ BEGIN
 						Active = @active
 					WHERE ID = @Id
 			END
-		ELSE If EXISTS (SELECT 1 FROM ColorAdmin WHERE Title = @Title AND IsDeleted = 1)
+		ELSE If EXISTS (SELECT 1 FROM ColorAdmin WHERE Title = @Title AND Deleted = 1)
 			BEGIN
 				UPDATE  ColorAdmin SET
 						OrderNumber = @OrderNumber,
 						Active = @Active,
-						IsDeleted = 0
+						Deleted = 0
 					WHERE Title = @Title
 
 				SELECT @Id=Id FROM ColorAdmin WHERE Title = @Title

@@ -5,9 +5,9 @@ BEGIN
 	FROM [Software]
 	INNER JOIN [SoftwarePlan] on [Software].Id = [SoftwarePlan].SoftwareId
 	WHERE [Software].Id = @softwareId 
-	AND [Software].IsDeleted = 0 
+	AND [Software].Deleted = 0 
 	AND [Software].Active = 1
-	AND [SoftwarePlan].IsDeleted = 0 
+	AND [SoftwarePlan].Deleted = 0 
 	AND [SoftwarePlan].Active = 1
 	ORDER BY [SoftwarePlan].Title
 END

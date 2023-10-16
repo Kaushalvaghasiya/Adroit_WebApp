@@ -45,7 +45,6 @@ namespace Adroit.Accounting.Model
         public decimal GstCentralCess { get; set; }
         public decimal GstStateCess { get; set; }
         public short AmountCalcId { get; set; }
-        public bool IsDeleted { get; set; }
         public bool RateUpdate { get; set; }
         public decimal Discount { get; set; }
         public string HSNDesc { get; set; }
@@ -55,6 +54,6 @@ namespace Adroit.Accounting.Model
         public System.DateTime? DeletedOn { get; set; }
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
-        public bool IsActive { get; set; }
+        public bool Active{ get; set; }
     }
 }

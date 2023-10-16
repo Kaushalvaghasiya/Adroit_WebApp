@@ -3,7 +3,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUserSave]
 	 @Id int,
 	 @CustomerId int,
 	 @UserId uniqueidentifier,
-	 @IsActive bit = 1,
+	 @Active bit = 1,
 	 @FirstName VARCHAR(50),
 	 @LastName VARCHAR(50),
 	 @OwnerBranchId INT = NULL,
@@ -19,7 +19,7 @@ BEGIN
 		IF EXISTS (SELECT 1 FROM CustomerUser WHERE Id = @Id)
 			BEGIN
 				UPDATE CustomerUser SET
-					IsActive = @IsActive, 
+					Active = @Active, 
 					ModifiedById = @ModifiedById, 
 					ModifiedOn = GETUTCDATE(),
 					OwnerBranchId = @OwnerBranchId,
@@ -33,8 +33,8 @@ BEGIN
 		ELSE
 			BEGIN
 				INSERT INTO [CustomerUser] 
-					([CustomerId], [UserId], [IsActive], [IsLocked], [IsDeleted], [AddedOn], [OwnerBranchId], [FirstName], [LastName], AllowUpdateUserMenuSettingToCustomer)
-				VALUES (@CustomerId, @UserId, @IsActive, 0, 0, GETUTCDATE(), @OwnerBranchId, @FirstName, @LastName, @AllowUpdateUserMenuSettingToCustomer)
+					([CustomerId], [UserId], [Active], [Locked], [AddedOn], [OwnerBranchId], [FirstName], [LastName], AllowUpdateUserMenuSettingToCustomer)
+				VALUES (@CustomerId, @UserId, @Active, 0, GETUTCDATE(), @OwnerBranchId, @FirstName, @LastName, @AllowUpdateUserMenuSettingToCustomer)
 
 				SET @Id = SCOPE_IDENTITY();
 			END

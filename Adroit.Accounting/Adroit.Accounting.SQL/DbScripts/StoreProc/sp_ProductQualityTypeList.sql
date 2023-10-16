@@ -23,7 +23,7 @@ Begin
 		Count(*) over () AS TotalCount, 
 		ProductQualityType.*
 		FROM ProductQualityType
-		WHERE ProductQualityType.IsDeleted = 0
+		WHERE ProductQualityType.Deleted = 0
 		AND (Coalesce(@Search,'') = '' OR ProductQualityType.[Title] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

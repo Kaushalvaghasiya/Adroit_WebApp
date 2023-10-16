@@ -8,8 +8,10 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		UPDATE CustomerAccount 
-		SET IsDeleted = 1, IsActive = 0
+		UPDATE CustomerAccount SET 
+		DeletedOn = GETUTCDATE(),
+		Deleted = 1,
+		Active = 0
 		WHERE Id= @Id;
 	COMMIT TRAN
 	END TRY

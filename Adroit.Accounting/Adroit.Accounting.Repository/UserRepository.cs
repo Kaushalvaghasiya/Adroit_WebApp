@@ -16,7 +16,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@CustomerId", value.CustomerId);
             parameters.Add("@FirstName", value.FirstName);
             parameters.Add("@LastName", value.LastName);
-            parameters.Add("@IsActive", value.IsActive);
+            parameters.Add("@Active", value.Active);
             parameters.Add("@IsLocked", value.IsLock);
             parameters.Add("@AddedById", value.AddedById);
             parameters.Add("@OwnerBranchId", value.OwnerBranchId);

@@ -7,7 +7,8 @@ AS
 BEGIN
 	SELECT Id As Value,Title As Text
 	FROM BillTypeAdmin 
-	WHERE IsDeleted = 0 AND Active = 1
+	WHERE Deleted = 0 
+	AND Active = 1
 	ORDER BY Title
 END
 GO

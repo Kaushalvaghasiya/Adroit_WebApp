@@ -25,7 +25,7 @@ Begin
 	   Count(*) over () AS TotalCount, 
 	   *
 	  FROM FirmBranchTypeAdmin
-	  WHERE IsDeleted = 0
+	  WHERE Deleted = 0
 	  AND (Coalesce(@Search,'') = '' OR [Title] like '%'+ @Search + '%'
 		)
 	 ) AS T   

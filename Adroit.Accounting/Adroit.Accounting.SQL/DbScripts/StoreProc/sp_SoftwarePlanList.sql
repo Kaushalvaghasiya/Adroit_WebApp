@@ -29,7 +29,7 @@ Begin
 		Software.Title As SoftwareName 
 		FROM SoftwarePlan
 		LEFT JOIN Software on SoftwarePlan.SoftwareId=Software.Id
-		WHERE SoftwarePlan.IsDeleted = 0
+		WHERE SoftwarePlan.Deleted = 0
 		AND (Coalesce(@Search,'') = '' 
 				OR SoftwarePlan.[Title] like '%'+ @Search + '%'
 				OR Software.[Title] like '%'+ @Search + '%'

@@ -9,6 +9,7 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
+                    <li><a href="#">Adroit</a></li>
                     <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
                     <li><a href="~/admin/customer?id=@Model.Customer.Id">@Model.Customer.Name</a></li>
                     <li class="active"><span>Firm</span></li>
@@ -61,6 +62,7 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
+                    <li><a href="#">Adroit</a></li>
                     <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
                     <li><a href="~/admin/customer?id=@Model.Customer.Id">@Model.Customer.Name</a></li>
                     <li><a href="#" class="btn-back">Firm</a></li>
@@ -235,9 +237,9 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <div><label for="IsActive">Active</label></div>
+                                <div><label for="Active">Active</label></div>
                                 <label class="custom-switch">
-                                    <input type="checkbox" name="custom-switch-checkbox" class="form-control mode-ed custom-switch-input" id="IsActive">
+                                    <input type="checkbox" name="custom-switch-checkbox" class="form-control mode-ed custom-switch-input" id="Active">
                                     <span class="custom-switch-indicator"></span>
                                 </label>
                             </div>
@@ -428,7 +430,7 @@
             $("#AdharUID").val("");
             $("#BranchLimit").val("");
             $("#CessRequired").prop('checked', false);
-            $("#IsActive").prop('checked', false);
+            $("#Active").prop('checked', false);
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -500,7 +502,7 @@
                 savedata.GstFirmTypeId = parseInt($("#GstFirmTypeId").val());
                 savedata.SoftwareId = parseInt($("#SoftwareId").val());
                 savedata.BranchLimit = parseInt($("#BranchLimit").val());
-                savedata.IsActive = $('#IsActive').is(':checked');
+                savedata.Active = $('#Active').is(':checked');
                 savedata.AdharUID = $("#AdharUID").val();
                 savedata.LRResetOnYearEnd = $('#LRResetOnYearEnd').is(':checked');
                 savedata.CessRequired = $('#CessRequired').is(':checked');
@@ -601,7 +603,7 @@
                                 $("#SoftwareId").val(result.data.softwareId).trigger("change");
                                 $("#hdnSoftwareId").val(result.data.softwareId);
                                 $("#BranchLimit").val(result.data.branchLimit);
-                                $("#IsActive").prop('checked', result.data.isActive);
+                                $("#Active").prop('checked', result.data.active);
                                 $("#AdharUID").val(result.data.adharUID);
                                 $("#CessRequired").prop('checked', result.data.cessRequired);
                                 $('#LRResetOnYearEnd').prop('checked', result.data.lrResetOnYearEnd);
