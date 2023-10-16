@@ -21,7 +21,7 @@ Begin
 		Count(*) over () AS TotalCount, 
 		BookTypeAdmin.*
 		FROM BookTypeAdmin
-		WHERE BookTypeAdmin.IsDeleted = 0
+		WHERE BookTypeAdmin.Deleted = 0
 		AND (Coalesce(@Search,'') = '' OR BookTypeAdmin.[Title] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
