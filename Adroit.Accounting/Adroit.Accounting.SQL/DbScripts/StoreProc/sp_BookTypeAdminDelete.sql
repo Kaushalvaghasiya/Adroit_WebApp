@@ -7,7 +7,7 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE BookTypeAdmin SET 
-			IsDeleted = 1
+			Deleted = 1
 		WHERE Id= @Id ;
 	COMMIT TRAN
 	END TRY
