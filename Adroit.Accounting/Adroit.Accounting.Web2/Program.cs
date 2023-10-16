@@ -84,6 +84,7 @@ try
     builder.Services.AddSingleton<IProductAmtCalcOn, ProductAmtCalcOnRepository>();
     builder.Services.AddSingleton<IProductStockType, ProductStockTypeRepository>();
     builder.Services.AddSingleton<IProductQualityType, ProductQualityTypeRepository>();
+    builder.Services.AddSingleton<IBookTypeAdmin, BookTypeAdminRepository>();
 
 
     if (!builder.Environment.IsDevelopment())
