@@ -1,6 +1,5 @@
 CREATE OR ALTER procedure [dbo].[sp_CustomerUserDelete]
 (
-	
 	@Id INT = NULL,
 	@DeletedById INT
 )
@@ -9,16 +8,16 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE CustomerUser SET 
-		IsDeleted = 1, 
-		IsActive = 0,
+		Active = 0,
 		--DeletedById = NULL,  -- need to change fore key
-		DeletedOn = GETUTCDATE()
+		DeletedOn = GETUTCDATE(),
+		Deleted = 1
 		WHERE Id= @Id ;
 		
 		UPDATE CustomerUserBranchMapping SET 
-		IsDeleted = 1, 
 		--DeletedById = NULL,  -- need to change fore key
-		DeletedOn = GETUTCDATE()
+		DeletedOn = GETUTCDATE(),
+		Deleted = 1
 		WHERE UserId= @Id ;
 	
 	COMMIT TRAN

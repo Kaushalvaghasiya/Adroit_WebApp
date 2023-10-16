@@ -6,7 +6,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_UserDeactivate]
 AS
 BEGIN
 	UPDATE CustomerUser SET 
-		IsActive = 0,
+		Active = 0,
 		ModifiedById = @ModifiedById, 
 		ModifiedOn = GETUTCDATE()
 	WHERE CustomerUser.Id = @Id

@@ -22,7 +22,7 @@ Begin
 		) AS RowNum,
 	   Count(*) over () AS TotalCount, ProductSizeAdmin.* 
 	  FROM ProductSizeAdmin
-	  WHERE IsDeleted = 0
+	  WHERE Deleted = 0
 	  AND (Coalesce(@Search,'') = '' OR ProductSizeAdmin.[Title] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

@@ -31,7 +31,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@CustomerType", $"{(short)value.CustomerType}");
             parameters.Add("@AdharUID", value.AdharUID ?? "");
             parameters.Add("@TotalUsers", value.TotalUsers);
-            parameters.Add("@IsActive", value.IsActive);
+            parameters.Add("@Active", value.Active);
             parameters.Add("@EmailOtp", value.EmailOtp ?? "");
             parameters.Add("@MobileOtp", value.MobileOtp ?? "");
             parameters.Add("@StatusId", $"{(short)value.StatusId}");
@@ -66,7 +66,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@AgreeTerms", value.AgreeTerms);
             parameters.Add("@EmailOtp", value.EmailOtp ?? ""    );
             parameters.Add("@MobileOtp", value.MobileOtp ?? "");
-            parameters.Add("@IsActive", value.IsActive);
+            parameters.Add("@Active", value.Active);
             parameters.Add("@DefaultUserId", value.DefaultUserId);
 
             return QueryHelper.Save("sp_CustomerRegistration", connectionString, parameters);

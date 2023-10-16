@@ -279,9 +279,9 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <div><label for="IsActive">Active</label></div>
+                                <div><label for="Active">Active</label></div>
                                 <label class="custom-switch">
-                                    <input type="checkbox" name="custom-switch-checkbox" id="IsActive" class="custom-switch-input mode-ed">
+                                    <input type="checkbox" name="custom-switch-checkbox" id="Active" class="custom-switch-input mode-ed">
                                     <span class="custom-switch-indicator"></span>
                                 </label>
                             </div>                            
@@ -619,7 +619,7 @@
             $("#TotalFirms").val("1");
             $("#AadhaarUID").val("");
             $("#TotalUsers").val("1");
-            $("#IsActive").prop('checked', false);
+            $("#Active").prop('checked', false);
 
             $("#hdnCountryId").val("");
             $("#hdnStateId").val("");
@@ -793,7 +793,7 @@
                 savedata.CustomerType = $("#CustomerType").val();
                 savedata.AdharUID = $("#AadhaarUID").val();
                 savedata.TotalUsers = parseInt($("#TotalUsers").val());
-                savedata.IsActive = $('#IsActive').is(':checked');
+                savedata.Active = $('#Active').is(':checked');
                 savedata.AgreeTerms = true;
                 savedata.StatusId = $("#StatusId").val();
 
@@ -897,7 +897,7 @@
                                 $("#AadhaarUID").val(result.data.adharUID);
                                 $("#TotalFirms").val(result.data.totalFirm);
                                 $("#TotalUsers").val(result.data.totalUsers);
-                                $('#Active').prop('checked', result.data.isActive);
+                                $('#Active').prop('checked', result.data.active);
                                 $("#CustomerType").val(result.data.customerTypeId).trigger("change");
                                 $("#StatusId").val(result.data.statusTypeId).trigger("change");
 

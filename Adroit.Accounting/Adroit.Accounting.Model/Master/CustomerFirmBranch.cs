@@ -40,14 +40,13 @@ namespace Adroit.Accounting.Model
         public decimal SetupPrice { get; set; }
         public decimal RenewalPrice { get; set; }
         public byte? OrderNumber { get; set; }
-        public bool IsDeleted { get; set; }
         public int AddedById { get; set; }
         public DateTime AddedOn { get; set; }
         public int? DeletedById { get; set; }
         public DateTime? DeletedOn { get; set; }
         public int? ModifiedById { get; set; }
         public DateTime? ModifiedOn { get; set; }
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
         public byte SoftwarePlanId { get; set; }
     }
 }

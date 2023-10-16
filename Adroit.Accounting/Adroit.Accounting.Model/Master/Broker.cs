@@ -20,7 +20,6 @@ namespace Adroit.Accounting.Model
         public string MobileAlternate { get; set; }
         public string Email { get; set; }
         public decimal Brokerage { get; set; }
-        public bool IsDeleted { get; set; }
         public int AddedById { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int? DeletedById { get; set; }
@@ -29,6 +28,6 @@ namespace Adroit.Accounting.Model
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
         public string AdharUID { get; set; }
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
     }
 }

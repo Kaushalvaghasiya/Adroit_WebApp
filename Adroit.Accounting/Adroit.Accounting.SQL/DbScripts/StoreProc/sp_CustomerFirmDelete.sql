@@ -8,15 +8,15 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE CustomerFirm SET 
-			IsDeleted = 1, 
-			IsActive = 0,
+			Active = 0,
 			--DeletedById = NULL,  -- need to change fore key
-			DeletedOn = GETUTCDATE()
+			DeletedOn = GETUTCDATE(),
+			Deleted = 1
 		WHERE Id= @Id
 
 		UPDATE CustomerFirmBranch SET 
-			IsDeleted = 1 ,
-			DeletedOn = GETUTCDATE()
+			DeletedOn = GETUTCDATE(),
+			Deleted = 0
 		WHERE FirmId IN (SELECT ID FROM CustomerFirm WHERE CustomerId = @Id)
 
 	COMMIT TRAN

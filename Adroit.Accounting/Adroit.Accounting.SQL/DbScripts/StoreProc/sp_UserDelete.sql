@@ -6,7 +6,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_UserDelete]
 AS
 BEGIN
 	UPDATE CustomerUser SET 
-		IsDeleted = 1, 
+		Deleted = 1,
 		DeletedById = @DeletedBy, 
 		DeletedOn = GETUTCDATE()
 	WHERE CustomerUser.Id = @Id

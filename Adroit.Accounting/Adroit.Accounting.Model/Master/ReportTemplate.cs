@@ -14,7 +14,6 @@ namespace Adroit.Accounting.Model
         public int BranchId { get; set; }
         public string TemplateSubject { get; set; }
         public string TemplateBody { get; set; }
-        public bool IsDeleted { get; set; }
         public int AddedById { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int? DeletedById { get; set; }

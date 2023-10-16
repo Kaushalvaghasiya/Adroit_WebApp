@@ -53,8 +53,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_BookAdminSave]
 	,@RCMCGSTRecAccountId int
 	,@RCMIGSTRecAccountId int
 	,@RoundOffAccountId int
-	,@IsDeleted bit = 0
-	,@IsActive bit = 1
+	,@Active bit = 1
 )
 AS
 BEGIN
@@ -113,8 +112,7 @@ BEGIN
 				,RCMCGSTRecAccountId = @RCMCGSTRecAccountId
 				,RCMIGSTRecAccountId = @RCMIGSTRecAccountId
 				,RoundOffAccountId = @RoundOffAccountId
-				,IsDeleted = @IsDeleted
-				,IsActive = @IsActive
+				,Active = @Active
 				WHERE Id = @Id
 				SELECT @Id;
 			END
@@ -125,13 +123,13 @@ BEGIN
 					IsItemDiscount,IsItemDiscountSp,IsCashPayAtBill,ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,ShowSalesOrderBoxNumber,ShowPurcahseOrderBoxNumber,
 					ShowQuotationBoxNumber,ShowPerformaInvoiceNumber,SalesBillFrom,IsCalcMultiply,BookShortName,HeaderBox1,HeaderBox2,HeaderBox3,HeaderBox4,HeaderBox5,IsTDSAccount,
 					TDSAccountId,IsTCSAccount,TCSAccountId,SGSTAccountId,CGSTAccountId,IGSTAccountId,GSTStateCessAccountId,GSTCentralCessAccountId,RCMSGSTPayAccountId,
-					RCMCGSTPayAccountId,RCMIGSTPayAccountId,RCMSGSTRecAccountId,RCMCGSTRecAccountId,RCMIGSTRecAccountId,RoundOffAccountId,IsDeleted,IsActive)
+					RCMCGSTPayAccountId,RCMIGSTPayAccountId,RCMSGSTRecAccountId,RCMCGSTRecAccountId,RCMIGSTRecAccountId,RoundOffAccountId,Active)
 				VALUES
 				(@BookAccountId,@BookTypeId,@BoxLabel1,@BoxLabel2,@BoxLabel3,@BoxLabel4,@BoxLabel5,@BoxLabel6,@BillNoPrefix,@BillNoPostFix,@LRRequired,@BillTypeID,@IsGeneralPurchase,
 				 @IsItemDiscount,@IsItemDiscountSp,@IsCashPayAtBill,@ItemDesc1,@ItemDesc2,@ItemDesc3,@ItemDesc4,@ItemDesc5,@ItemDesc6,@ShowSalesOrderBoxNumber,@ShowPurcahseOrderBoxNumber,
 				 @ShowQuotationBoxNumber,@ShowPerformaInvoiceNumber,@SalesBillFrom,@IsCalcMultiply,@BookShortName,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,
 				 @IsTDSAccount,@TDSAccountId,@IsTCSAccount,@TCSAccountId,@SGSTAccountId,@CGSTAccountId,@IGSTAccountId,@GSTStateCessAccountId,@GSTCentralCessAccountId,
-				 @RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@IsDeleted,@IsActive)
+				 @RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@Active)
 
 				SET @Id = SCOPE_IDENTITY();
 				SELECT @Id;

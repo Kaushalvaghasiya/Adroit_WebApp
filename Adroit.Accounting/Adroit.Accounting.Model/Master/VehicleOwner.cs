@@ -19,7 +19,6 @@ namespace Adroit.Accounting.Model
         public string Mobile { get; set; } = string.Empty;
         public string PAN { get; set; } = string.Empty;
         public int AccountId { get; set; }
-        public bool IsDeleted { get; set; }
         public int AddedById { get; set; }
         public DateTime AddedOn { get; set; }
         public int? DeletedById { get; set; }
@@ -27,6 +26,6 @@ namespace Adroit.Accounting.Model
         public int? ModifiedById { get; set; }
         public DateTime ModifiedOn { get; set; }
         public string AdharUID { get; set; } = string.Empty;
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
     }
 }

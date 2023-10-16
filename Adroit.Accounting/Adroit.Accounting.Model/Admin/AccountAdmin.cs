@@ -52,7 +52,6 @@ namespace Adroit.Accounting.Model
         public bool CompositParty { get; set; }
         public bool RCMParty { get; set; }
         public decimal CapitalPercentage { get; set; }
-        public bool IsDeleted { get; set; }
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
     }
 }

@@ -17,8 +17,8 @@ Begin
 		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN [FirstName] + ' ' + [LastName] END DESC,
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN AspNetUsers.Email END ASC,
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN AspNetUsers.Email END DESC,
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CustomerUser.IsActive END ASC,
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CustomerUser.IsActive END DESC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CustomerUser.Active END ASC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CustomerUser.Active END DESC,
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CustomerUser.AllowUpdateUserMenuSettingToCustomer END ASC,
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CustomerUser.AllowUpdateUserMenuSettingToCustomer END DESC,
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN dbo.[fn_GetUserBranches](CustomerUser.Id) END ASC,
@@ -30,7 +30,8 @@ Begin
 	   AspNetUsers.Email
 	  FROM CustomerUser
 	  INNER JOIN AspNetUsers ON CustomerUser.UserId = AspNetUsers.Id
-	  WHERE CustomerUser.IsDeleted = 0 and CustomerUser.CustomerId=@CustomerId
+	  WHERE CustomerUser.Deleted = 0
+	  AND CustomerUser.CustomerId = @CustomerId
 	  AND (Coalesce(@Search,'') = '' OR CustomerUser.[FirstName] like '%'+ @Search + '%' OR CustomerUser.[LastName] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

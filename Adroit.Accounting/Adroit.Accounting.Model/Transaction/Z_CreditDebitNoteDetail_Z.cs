@@ -15,7 +15,6 @@ namespace Adroit.Accounting.Model
         public decimal BasicAmount { get; set; }
         public string BillNotes { get; set; }
         public int? BillOutstandingId { get; set; }
-        public bool IsDeleted { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int AddedById { get; set; }
         public int? DeletedById { get; set; }

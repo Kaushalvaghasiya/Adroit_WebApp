@@ -15,7 +15,6 @@ namespace Adroit.Accounting.Model
         public string Business { get; set; }
         public string Code { get; set; }
         public decimal Cost { get; set; }
-        public bool IsDeleted { get; set; }
         public bool Active { get; set; }
     }
 }

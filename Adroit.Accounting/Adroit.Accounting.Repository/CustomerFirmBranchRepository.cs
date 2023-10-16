@@ -66,7 +66,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@OrderNumber", value.OrderNumber);
             parameters.Add("@AddedById", value.AddedById);
             parameters.Add("@ModifiedById", value.ModifiedById);
-            parameters.Add("@IsActive", value.IsActive);
+            parameters.Add("@Active", value.Active);
             parameters.Add("@SoftwarePlanId", value.SoftwarePlanId);
 
             return QueryHelper.Save("sp_CustomerFirmBranchSave", connectionString, parameters);

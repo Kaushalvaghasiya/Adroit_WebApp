@@ -7,9 +7,9 @@ BEGIN
 	INNER JOIN CustomerFirm as firm on c.Id = Firm.CustomerId
 	INNER JOIN CustomerFirmBranch as branch on firm.Id = branch.FirmId
 	WHERE c.id = @CustomerId
-	AND c.IsDeleted = 0
-	AND firm.IsDeleted = 0
-	AND branch.IsDeleted = 0
+	AND c.Deleted = 0
+	AND firm.Deleted = 0
+	AND branch.Deleted = 0
 	ORDER BY firm.Title, branch.Title
 END
 GO

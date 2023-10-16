@@ -49,7 +49,6 @@ namespace Adroit.Accounting.Model
         public System.DateTime? ArrivalDate { get; set; }
         public System.DateTime? DeliveryDate { get; set; }
         public bool IsDispatched { get; set; }
-        public bool IsDeleted { get; set; }
         public int AddedById { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int? DeletedById { get; set; }

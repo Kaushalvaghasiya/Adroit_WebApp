@@ -23,7 +23,7 @@ Begin
 		Count(*) over () AS TotalCount, 
 		ProductStockType.*
 		FROM ProductStockType
-		WHERE ProductStockType.IsDeleted = 0
+		WHERE ProductStockType.Deleted = 0
 		AND (Coalesce(@Search,'') = '' OR ProductStockType.[Title] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

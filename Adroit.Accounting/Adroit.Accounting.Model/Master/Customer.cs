@@ -35,10 +35,9 @@ namespace Adroit.Accounting.Model
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public CustomerType CustomerType { get; set; }
 
-        public bool IsDeleted { get; set; }
         public string AdharUID { get; set; }
         public short TotalUsers { get; set; }
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
         [JsonConverter(typeof(JsonStringEnumConverter))]
         public CustomerStatus StatusId { get; set; }
         public bool AgreeTerms { get; set; }

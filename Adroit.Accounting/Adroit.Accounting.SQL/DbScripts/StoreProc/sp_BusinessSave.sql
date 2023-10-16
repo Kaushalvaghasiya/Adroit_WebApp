@@ -21,13 +21,13 @@ BEGIN
 				DELETE BusinessSoftwareMapping WHERE BusinessId = @Id
 				INSERT INTO BusinessSoftwareMapping (BusinessId, SoftwareId) SELECT @Id, S.Id from dbo.[fnStringToIntArray](@SoftwareIds) AS S
 			END
-		ELSE If EXISTS (SELECT 1 FROM Business WHERE Title = @Title AND IsDeleted = 1)
+		ELSE If EXISTS (SELECT 1 FROM Business WHERE Title = @Title AND Deleted = 1)
 			BEGIN
 				SELECT @Id=Id FROM Business WHERE Title = @Title
 				UPDATE Business SET
 					OrderNumber = @OrderNumber,
 					Active = @Active,
-					IsDeleted = 0
+					Deleted = 0
 				WHERE Title = @Title
 
 
