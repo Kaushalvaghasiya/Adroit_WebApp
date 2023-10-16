@@ -13,5 +13,6 @@ namespace Adroit.Accounting.Model
         public string Title { get; set; } = string.Empty;
         public bool IsDeleted { get; set; }
         public int? OrderNumber { get; set; }
+        public bool Active { get; set; }
     }
 }
