@@ -1,17 +1,17 @@
+using Adroit.Accounting.Model;
+using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Data;
 using Adroit.Accounting.Web.Models;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Net;
-using NLog.Web;
-using NLog;
 using Adroit.Accounting.Web.Utility;
-using Adroit.Accounting.Model;
-using Adroit.Accounting.Utility;
-using Adroit.Accounting.Repository;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using NLog;
+using NLog.Web;
 using System.Globalization;
+using System.Net;
 
 var logger = LogManager.Setup().LoadConfigurationFromAppSettings().GetCurrentClassLogger();
 logger.Debug("init main");
@@ -81,6 +81,10 @@ try
     builder.Services.AddSingleton<IProductSizeAdmin, ProductSizeAdminRepository>();
     builder.Services.AddSingleton<IMenuSetting, MenuSettingRepository>();
     builder.Services.AddSingleton<IBoxSetting, BoxSettingRepository>();
+    builder.Services.AddSingleton<IProductAmtCalcOn, ProductAmtCalcOnRepository>();
+    builder.Services.AddSingleton<IProductStockType, ProductStockTypeRepository>();
+    builder.Services.AddSingleton<IProductQualityType, ProductQualityTypeRepository>();
+
 
     if (!builder.Environment.IsDevelopment())
     {
