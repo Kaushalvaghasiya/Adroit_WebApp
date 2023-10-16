@@ -17,12 +17,12 @@ BEGIN
 						Active = @active
 					WHERE ID = @Id
 			END
-		ELSE If EXISTS (SELECT 1 FROM ProductQualityType WHERE Title = @Title AND IsDeleted = 1)
+		ELSE If EXISTS (SELECT 1 FROM ProductQualityType WHERE Title = @Title AND Deleted = 1)
 			BEGIN
 				UPDATE  ProductQualityType SET
 						OrderNumber = @OrderNumber,
 						Active = @active,
-						IsDeleted = 0
+						Deleted = 0
 					WHERE Title = @Title 
 
 				SELECT @Id=Id FROM ProductQualityType WHERE Title = @Title 

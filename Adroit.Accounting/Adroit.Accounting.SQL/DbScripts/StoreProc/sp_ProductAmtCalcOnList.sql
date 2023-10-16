@@ -27,7 +27,7 @@ Begin
 		Software.Title As SoftwareName 
 		FROM ProductAmtCalcOn
 		LEFT JOIN Software on ProductAmtCalcOn.SoftwareId=Software.Id
-		WHERE ProductAmtCalcOn.IsDeleted = 0
+		WHERE ProductAmtCalcOn.Deleted = 0
 		AND (Coalesce(@Search,'') = '' 
 				OR ProductAmtCalcOn.[Title] like '%'+ @Search + '%'
 				OR Software.[Title] like '%'+ @Search + '%'
