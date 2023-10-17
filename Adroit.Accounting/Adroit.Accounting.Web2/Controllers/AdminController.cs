@@ -43,6 +43,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICity _cityRepository;
         private readonly IDistrict _districtRepository;
         private readonly IBookTypeAdmin _bookTypeRepository;
+        private readonly ITransportDesc _transportDescRepository;
         public AdminController(
             IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
@@ -76,7 +77,8 @@ namespace Adroit.Accounting.Web.Controllers
             ITaluka talukaRepository,
             ICity cityRepository,
             IDistrict districtRepository,
-            IBookTypeAdmin bookTypeRepository)
+            IBookTypeAdmin bookTypeRepository,
+            ITransportDesc transportDescRepository)
 
         {
             _configurationData = configurationData.Value;
@@ -113,6 +115,7 @@ namespace Adroit.Accounting.Web.Controllers
             _districtRepository = districtRepository;
             _cityRepository = cityRepository;
             _bookTypeRepository = bookTypeRepository;
+            _transportDescRepository = transportDescRepository; 
         }
     }
 }
