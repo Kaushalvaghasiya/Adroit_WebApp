@@ -107,5 +107,17 @@
         public const string Rate = "Rate";
         public const string OrderNumber = "OrderNumber";
     }
+
+    public sealed class GSTInvoiceTypeTable
+    {
+        public const string _TableName = "GSTInvoiceType";
+        public const string Title = "Title";
+        public const string TitleB2B = "TitleB2B";
+        public const string TitleEinvoice = "TitleEinvoice";
+        public const string TitleCDNUR = "TitleCDNUR";
+        public const string PayType = "PayType";
+        public const string OrderNumber = "OrderNumber";
+    }
+
     #endregion
 }

@@ -44,6 +44,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IDistrict _districtRepository;
         private readonly IBookTypeAdmin _bookTypeRepository;
         private readonly IGSTRate _gstRateRepository;
+        private readonly IGSTInvoiceType _gstInvoiceTypeRepository;
         public AdminController(
             IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
@@ -78,8 +79,8 @@ namespace Adroit.Accounting.Web.Controllers
             ICity cityRepository,
             IDistrict districtRepository,
             IBookTypeAdmin bookTypeRepository,
-            IGSTRate gstRateRepository
-            )
+            IGSTRate gstRateRepository,
+            IGSTInvoiceType gstInvoiceTypeRepository)
 
         {
             _configurationData = configurationData.Value;
@@ -117,6 +118,7 @@ namespace Adroit.Accounting.Web.Controllers
             _cityRepository = cityRepository;
             _bookTypeRepository = bookTypeRepository;
             _gstRateRepository = gstRateRepository;
+            _gstInvoiceTypeRepository = gstInvoiceTypeRepository;
         }
     }
 }

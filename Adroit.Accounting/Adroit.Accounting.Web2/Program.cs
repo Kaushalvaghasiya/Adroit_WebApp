@@ -86,6 +86,7 @@ try
     builder.Services.AddSingleton<IProductQualityType, ProductQualityTypeRepository>();
     builder.Services.AddSingleton<IBookTypeAdmin, BookTypeAdminRepository>();
     builder.Services.AddSingleton<IGSTRate, GSTRateRepository>();
+    builder.Services.AddSingleton<IGSTInvoiceType, GSTInvoiceTypeRepository>();
 
 
     if (!builder.Environment.IsDevelopment())
