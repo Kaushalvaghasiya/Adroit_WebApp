@@ -16,17 +16,7 @@ BEGIN
 						OrderNumber = @OrderNumber,
 						Active = @active
 					WHERE ID = @Id
-			END
-		ELSE If EXISTS (SELECT 1 FROM GSTRate WHERE Rate = @Rate AND IsDeleted = 1)
-			BEGIN
-				UPDATE  GSTRate SET
-						OrderNumber = @OrderNumber,
-						Active = @active,
-						IsDeleted = 0
-					WHERE Rate = @Rate 
-
-				SELECT @Id=Id FROM GSTRate WHERE Rate = @Rate 
-			END
+			END		
 		ELSE
 			BEGIN
 				INSERT INTO GSTRate

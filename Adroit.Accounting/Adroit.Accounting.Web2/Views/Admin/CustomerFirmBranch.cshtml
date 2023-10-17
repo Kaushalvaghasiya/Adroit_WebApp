@@ -10,6 +10,7 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
+                    <li><a href="#">Adroit</a></li>
                     <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
                     <li><a href="~/admin/customer?id=@Model.Firm.Customer.Id">@Model.Firm.Customer.Name</a></li>
                     <li><a href="~/admin/customer/firm?id=@Model.Firm.Customer.Id">Firms</a></li>
@@ -42,7 +43,6 @@
                                     <th class="border-bottom-0">BRANCH NAME</th>
                                     <th class="border-bottom-0">SHORT NAME</th>
                                     <th class="border-bottom-0">TYPE</th>
-                                    <th class="border-bottom-0">PINCODE</th>
                                     <th class="border-bottom-0">CITY</th>
                                     <th class="border-bottom-0">CREATED ON</th>
                                     <th class="border-bottom-0">RENEWAL DATE</th>
@@ -67,6 +67,7 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
+                    <li><a href="#">Adroit</a></li>
                     <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
                     <li><a href="~/admin/customer?id=@Model.Firm.Customer.Id">@Model.Firm.Customer.Name</a></li>
                     <li><a href="~/admin/customer/firm?id=@Model.Firm.Customer.Id">Firms</a></li>
@@ -127,7 +128,7 @@
                                 <input type="text" class="form-control mode-ed" id="PrintTitle" placeholder="Print title" maxlength="100">
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="GSTNumber">GST Number</label>
                                 <input type="text" class="form-control mode-ed" id="GSTNumber" placeholder="GST Number" maxlength="15">
@@ -139,7 +140,7 @@
                                 <input type="text" class="form-control mode-ed" id="PAN" placeholder="PAN" maxlength="10">
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label for="ShortTitle">Short Name</label>
                                 <input type="text" class="form-control mode-ed" id="ShortTitle" placeholder="Short Name" maxlength="10">
@@ -315,9 +316,9 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <div><label for="IsActive">Active</label></div>
+                                <div><label for="Active">Active</label></div>
                                 <label class="custom-switch">
-                                    <input id="IsActive" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                    <input id="Active" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
                                     <span class="custom-switch-indicator"></span>
                                 </label>
                             </div>
@@ -458,12 +459,6 @@
             colDef.push({
                 "render": function (data, type, row) {
                     return row.firmBranchTypeAdmin;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.pincode;
                 },
                 "targets": colDef.length,
             });
@@ -713,7 +708,7 @@
             $("#SetupPrice").val("");
             $("#RenewalPrice").val("");
             $("#OrderNumber").val("");
-            $("#IsActive").prop('checked', false);
+            $("#Active").prop('checked', false);
 
             $("#hdnCountry").val("");
             $("#hdnStateId").val("");
@@ -860,7 +855,7 @@
                 savedata.SetupPrice = $("#SetupPrice").val();
                 savedata.RenewalPrice = $("#RenewalPrice").val();
                 savedata.OrderNumber = orderNumber;
-                savedata.IsActive = $('#IsActive').is(':checked');
+                savedata.Active = $('#Active').is(':checked');
                 savedata.SoftwarePlanId = parseInt($("#SoftwarePlanId").val());
 
                 blockUI('container');
@@ -976,7 +971,7 @@
                                 $("#CountryId").val(result.data.countryId).trigger("change");
                                 $("#SoftwarePlanId").val(result.data.softwarePlanId).trigger("change");
 
-                                $('#IsActive').prop('checked', result.data.isActive);
+                                $('#Active').prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }

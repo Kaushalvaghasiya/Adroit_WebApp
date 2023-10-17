@@ -43,8 +43,7 @@ CREATE TABLE [dbo].[AccountAdmin](
 	[CompositParty] [bit] NOT NULL,
 	[RCMParty] [bit] NOT NULL,
 	[CapitalPercentage] [decimal](5, 2) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
-	[IsActive] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_AccountAdmin] PRIMARY KEY CLUSTERED 
 (
@@ -53,7 +52,11 @@ CREATE TABLE [dbo].[AccountAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[AccountGroupAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountGroupAdmin](
@@ -63,8 +66,7 @@ CREATE TABLE [dbo].[AccountGroupAdmin](
 	[TypeId] [tinyint] NOT NULL,
 	[AccountGroupHeaderId] [int] NULL,
 	[OrderNumber] [int] NULL,
-	[IsDeleted] [bit] NOT NULL,
-	[IsActive] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_AccountGroupMaster] PRIMARY KEY CLUSTERED 
 (
@@ -81,15 +83,18 @@ CREATE TABLE [dbo].[AccountGroupAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[AccountGroupHeaderAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupHeaderAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountGroupHeaderAdmin](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
 	[OrderNumber] [int] NULL,
-	[IsDeleted] [bit] NOT NULL,
-	[IsActive] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_AccountGroupHeaderMaster] PRIMARY KEY CLUSTERED 
 (
@@ -102,7 +107,11 @@ CREATE TABLE [dbo].[AccountGroupHeaderAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[AccountGroupType]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AccountGroupType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[AccountGroupType](
@@ -110,7 +119,7 @@ CREATE TABLE [dbo].[AccountGroupType](
 	[Code] [varchar](3) NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
 	[OrderNumber] [int] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_AccountGroupType] PRIMARY KEY CLUSTERED 
 (
@@ -119,7 +128,11 @@ CREATE TABLE [dbo].[AccountGroupType](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[BillEntryTypeAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BillEntryTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BillEntryTypeAdmin](
@@ -135,13 +148,17 @@ CREATE TABLE [dbo].[BillEntryTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[BillTypeAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BillTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BillTypeAdmin](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](20) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_BillType] PRIMARY KEY CLUSTERED 
 (
@@ -154,7 +171,11 @@ CREATE TABLE [dbo].[BillTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[BookAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BookAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BookAdmin](
@@ -209,8 +230,7 @@ CREATE TABLE [dbo].[BookAdmin](
 	[RCMCGSTRecAccountId] [int] NULL,
 	[RCMIGSTRecAccountId] [int] NULL,
 	[RoundOffAccountId] [int] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
-	[IsActive] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_BookAdmin] PRIMARY KEY CLUSTERED 
 (
@@ -219,13 +239,17 @@ CREATE TABLE [dbo].[BookAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[BookTypeAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BookTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BookTypeAdmin](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_BookType] PRIMARY KEY CLUSTERED 
 (
@@ -238,7 +262,98 @@ CREATE TABLE [dbo].[BookTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[BoxSetting]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BoxSetting]') AND type in (N'U'))
+BEGIN
+CREATE TABLE [dbo].[BoxSetting](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[SoftwareId] [tinyint] NOT NULL,
+	[CustomerId] [int] NULL,
+	[CusomerFirmId] [int] NULL,
+	[Product_ProductName] [bit] NOT NULL,
+	[Product_ProductName2] [bit] NOT NULL,
+	[Product_ProductName3] [bit] NOT NULL,
+	[Product_CodeSKU] [bit] NOT NULL,
+	[Product_Design] [bit] NOT NULL,
+	[Product_Colour] [bit] NOT NULL,
+	[Product_Size] [bit] NOT NULL,
+	[Product_Fabric] [bit] NOT NULL,
+	[Product_MRP] [bit] NOT NULL,
+	[Product_DistributorRate] [bit] NOT NULL,
+	[Product_DealerRate] [bit] NOT NULL,
+	[Product_AvgPack] [bit] NOT NULL,
+	[Product_BoxPack] [bit] NOT NULL,
+	[Product_ProductPacking] [bit] NOT NULL,
+	[Product_CentralCess] [bit] NOT NULL,
+	[Product_StateCess] [bit] NOT NULL,
+	[Product_Group] [bit] NOT NULL,
+	[Product_SubGroup] [bit] NOT NULL,
+	[Product_Discount] [bit] NOT NULL,
+	[Product_FIFORate] [bit] NOT NULL,
+	[Product_OpStockQty] [bit] NOT NULL,
+	[Product_PurchaseRate] [bit] NOT NULL,
+	[Product_CalculationOn] [bit] NOT NULL,
+	[Product_Cut] [bit] NOT NULL,
+	[Product_RolMin] [bit] NOT NULL,
+	[Product_RolMax] [bit] NOT NULL,
+	[Product_OpStockNos] [bit] NOT NULL,
+	[Product_LooseQty] [bit] NOT NULL,
+	[Product_PurchaseRateUpdate] [bit] NOT NULL,
+	[Product_QualityType] [bit] NOT NULL,
+	[Product_YarnDenierWt] [bit] NOT NULL,
+	[Product_RateMeter] [bit] NOT NULL,
+	[Product_YarnShadeNo] [bit] NOT NULL,
+	[Account_Taluka] [bit] NOT NULL,
+	[Account_District] [bit] NOT NULL,
+	[Account_Country] [bit] NOT NULL,
+	[Account_Area] [bit] NOT NULL,
+	[Account_TransporterName] [bit] NOT NULL,
+	[Account_TransporterGSTNo] [bit] NOT NULL,
+	[Account_VehicleNumber] [bit] NOT NULL,
+	[Account_Broker] [bit] NOT NULL,
+	[Account_DeliveryParty] [bit] NOT NULL,
+	[Account_HasteParty] [bit] NOT NULL,
+	[Account_ShippingParty] [bit] NOT NULL,
+	[GeneralExpenseMulti_Group] [bit] NOT NULL,
+	[GeneralExpenseMulti_Discount] [bit] NOT NULL,
+	[GeneralExpenseMulti_OtherCharges] [bit] NOT NULL,
+	[GeneralExpenseMulti_Group2] [bit] NOT NULL,
+	[GeneralExpenseMulti_Discount2] [bit] NOT NULL,
+	[GeneralExpenseMulti_OtherCharges2] [bit] NOT NULL,
+	[GeneralExpenseMulti_TDS] [bit] NOT NULL,
+	[GeneralExpenseMulti_SGST] [bit] NOT NULL,
+	[GeneralExpenseMulti_CGST] [bit] NOT NULL,
+	[GeneralExpenseMulti_IGST] [bit] NOT NULL,
+	[GeneralExpenseMulti_StateCess] [bit] NOT NULL,
+	[GeneralExpenseMulti_CentralCess] [bit] NOT NULL,
+	[GeneralExpenseMulti_TCS] [bit] NOT NULL,
+	[AddedOn] [datetime] NOT NULL,
+	[AddedById] [int] NOT NULL,
+	[ModifiedById] [int] NULL,
+	[ModifiedOn] [datetime] NULL,
+	[Active] [bit] NOT NULL,
+ CONSTRAINT [PK_BoxSetting] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [IX_BoxSetting] UNIQUE NONCLUSTERED 
+(
+	[SoftwareId] ASC,
+	[CustomerId] ASC,
+	[CusomerFirmId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+END
+GO
+/****** Object:  Table [dbo].[Broker]    Script Date: 09/08/2023 12:52:47 ******/
+
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Broker]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Broker](
@@ -253,7 +368,6 @@ CREATE TABLE [dbo].[Broker](
 	[MobileAlternate] [varchar](15) NULL,
 	[Email] [varchar](50) NULL,
 	[Brokerage] [decimal](16, 2) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
@@ -262,8 +376,8 @@ CREATE TABLE [dbo].[Broker](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[AdharUID] [varchar](12) NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Broker] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -271,14 +385,18 @@ CREATE TABLE [dbo].[Broker](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Business]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Business]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Business](
 	[Id] [smallint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](200) NOT NULL,
 	[OrderNumber] [smallint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_BusinessMaster] PRIMARY KEY CLUSTERED 
 (
@@ -287,7 +405,11 @@ CREATE TABLE [dbo].[Business](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[BusinessSoftwareMapping]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[BusinessSoftwareMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[BusinessSoftwareMapping](
@@ -306,7 +428,11 @@ CREATE TABLE [dbo].[BusinessSoftwareMapping](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[City]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[City]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[City](
@@ -321,14 +447,18 @@ CREATE TABLE [dbo].[City](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ColorAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ColorAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ColorAdmin](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
 	[OrderNumber] [int] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_ColorAdmin] PRIMARY KEY CLUSTERED 
 (
@@ -341,7 +471,11 @@ CREATE TABLE [dbo].[ColorAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Country]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Country]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Country](
@@ -360,7 +494,11 @@ CREATE TABLE [dbo].[Country](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Customer]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Customer]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Customer](
@@ -381,10 +519,9 @@ CREATE TABLE [dbo].[Customer](
 	[Requirement] [nvarchar](max) NULL,
 	[TotalFirm] [smallint] NULL,
 	[CustomerType] [char](1) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AdharUID] [varchar](12) NULL,
 	[TotalUsers] [smallint] NOT NULL,
-	[IsActive] [bit] NOT NULL,
+	[Active] [bit] NOT NULL,
 	[EmailOTP] [varchar](6) NULL,
 	[MobileOTP] [varchar](6) NULL,
 	[StatusId] [tinyint] NOT NULL,
@@ -396,6 +533,7 @@ CREATE TABLE [dbo].[Customer](
 	[AddedOn] [datetime] NOT NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Customer] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -403,7 +541,11 @@ CREATE TABLE [dbo].[Customer](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerAccount]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccount]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccount](
@@ -450,7 +592,6 @@ CREATE TABLE [dbo].[CustomerAccount](
 	[CompositParty] [bit] NOT NULL,
 	[RCMParty] [bit] NOT NULL,
 	[CapitalPercentage] [decimal](5, 2) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[DeletedById] [int] NULL,
@@ -458,8 +599,8 @@ CREATE TABLE [dbo].[CustomerAccount](
 	[OwnerBranchId] [int] NOT NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Account] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -472,18 +613,22 @@ CREATE TABLE [dbo].[CustomerAccount](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerAccountBranchMapping]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountBranchMapping](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[AccountId] [int] NOT NULL,
 	[BranchId] [int] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_AccountMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -496,7 +641,11 @@ CREATE TABLE [dbo].[CustomerAccountBranchMapping](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerAccountGroup]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountGroup]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountGroup](
@@ -507,12 +656,12 @@ CREATE TABLE [dbo].[CustomerAccountGroup](
 	[TypeId] [tinyint] NOT NULL,
 	[AccountGroupHeaderId] [int] NULL,
 	[OrderNumber] [int] NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_AccountGroup] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -530,7 +679,11 @@ CREATE TABLE [dbo].[CustomerAccountGroup](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerAccountGroupHeader]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountGroupHeader]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountGroupHeader](
@@ -538,12 +691,12 @@ CREATE TABLE [dbo].[CustomerAccountGroupHeader](
 	[CustomerId] [int] NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
 	[OrderNumber] [int] NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_AccountGroupHeader] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -556,7 +709,11 @@ CREATE TABLE [dbo].[CustomerAccountGroupHeader](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerAccountOpeningBalance]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerAccountOpeningBalance]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerAccountOpeningBalance](
@@ -571,6 +728,7 @@ CREATE TABLE [dbo].[CustomerAccountOpeningBalance](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_CustomerAccountOpeningBalance] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -578,7 +736,11 @@ CREATE TABLE [dbo].[CustomerAccountOpeningBalance](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerBook]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBook]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerBook](
@@ -635,7 +797,6 @@ CREATE TABLE [dbo].[CustomerBook](
 	[RcmCGSTRecAccountId] [int] NULL,
 	[RcmIGSTRecAccountId] [int] NULL,
 	[RoundOffAccountId] [int] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[DeletedById] [int] NULL,
@@ -643,8 +804,8 @@ CREATE TABLE [dbo].[CustomerBook](
 	[OwnerBranchId] [int] NOT NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_CustomerBook] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -659,7 +820,11 @@ CREATE TABLE [dbo].[CustomerBook](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerBookBranchMapping]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBookBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerBookBranchMapping](
@@ -670,6 +835,7 @@ CREATE TABLE [dbo].[CustomerBookBranchMapping](
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_CustomerBranchBookMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -682,18 +848,22 @@ CREATE TABLE [dbo].[CustomerBookBranchMapping](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerBrokerBranchMapping]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerBrokerBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerBrokerBranchMapping](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[BrokerId] [int] NOT NULL,
 	[BranchId] [int] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_CustomerFirmBrokerMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -706,7 +876,11 @@ CREATE TABLE [dbo].[CustomerBrokerBranchMapping](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerFirm]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirm]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirm](
@@ -724,8 +898,7 @@ CREATE TABLE [dbo].[CustomerFirm](
 	[GstFirmTypeId] [tinyint] NOT NULL,
 	[SoftwareId] [tinyint] NOT NULL,
 	[BranchLimit] [smallint] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
-	[IsActive] [bit] NOT NULL,
+	[Active] [bit] NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[AddedById] [int] NULL,
 	[AddedOn] [datetime] NOT NULL,
@@ -736,6 +909,7 @@ CREATE TABLE [dbo].[CustomerFirm](
 	[AdharUID] [varchar](12) NULL,
 	[LRResetOnYearEnd] [bit] NOT NULL,
 	[CessRequired] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Firm] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -743,7 +917,11 @@ CREATE TABLE [dbo].[CustomerFirm](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerFirmBranch]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranch]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranch](
@@ -773,15 +951,15 @@ CREATE TABLE [dbo].[CustomerFirmBranch](
 	[SetupPrice] [decimal](16, 2) NOT NULL,
 	[RenewalPrice] [decimal](16, 2) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
+	[Active] [bit] NOT NULL,
 	[SoftwarePlanId] [tinyint] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_CustomerFirmBranch] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -790,11 +968,20 @@ CREATE TABLE [dbo].[CustomerFirmBranch](
 (
 	[FirmId] ASC,
 	[Title] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [IX_CustomerFirmBranchShortTitle] UNIQUE NONCLUSTERED 
+(
+	[FirmId] ASC,
+	[ShortTitle] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerFirmBranchLRRate]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchLRRate]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranchLRRate](
@@ -827,7 +1014,11 @@ CREATE TABLE [dbo].[CustomerFirmBranchLRRate](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerFirmBranchTransportContractRateSetting]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchTransportContractRateSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranchTransportContractRateSetting](
@@ -847,7 +1038,11 @@ CREATE TABLE [dbo].[CustomerFirmBranchTransportContractRateSetting](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerFirmBranchTransportSetting]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchTransportSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmBranchTransportSetting](
@@ -876,7 +1071,11 @@ CREATE TABLE [dbo].[CustomerFirmBranchTransportSetting](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerFirmTransportSetting]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmTransportSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerFirmTransportSetting](
@@ -909,16 +1108,19 @@ CREATE TABLE [dbo].[CustomerFirmTransportSetting](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerUser]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerUser]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerUser](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerId] [int] NOT NULL,
 	[UserId] [uniqueidentifier] NOT NULL,
-	[IsActive] [bit] NOT NULL,
-	[IsLocked] [bit] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Active] [bit] NOT NULL,
+	[Locked] [bit] NOT NULL,
 	[AddedById] [int] NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
@@ -929,6 +1131,7 @@ CREATE TABLE [dbo].[CustomerUser](
 	[FirstName] [varchar](50) NULL,
 	[LastName] [varchar](50) NULL,
 	[AllowUpdateUserMenuSettingToCustomer] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_CustomerUser] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -940,18 +1143,22 @@ CREATE TABLE [dbo].[CustomerUser](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[CustomerUserBranchMapping]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[CustomerUserBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[CustomerUserBranchMapping](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[UserId] [int] NOT NULL,
 	[BranchId] [int] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_CustomerUserBranchMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -964,7 +1171,11 @@ CREATE TABLE [dbo].[CustomerUserBranchMapping](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[District]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[District]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[District](
@@ -979,7 +1190,11 @@ CREATE TABLE [dbo].[District](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Driver]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Driver]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Driver](
@@ -996,7 +1211,6 @@ CREATE TABLE [dbo].[Driver](
 	[Mobile] [varchar](15) NULL,
 	[LicenceExpiry] [datetime] NOT NULL,
 	[DriverTypeId] [tinyint] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
@@ -1004,6 +1218,7 @@ CREATE TABLE [dbo].[Driver](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Driver] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1011,14 +1226,18 @@ CREATE TABLE [dbo].[Driver](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[DriverTypeAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DriverTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[DriverTypeAdmin](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](15) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_DriverType] PRIMARY KEY CLUSTERED 
 (
@@ -1031,7 +1250,11 @@ CREATE TABLE [dbo].[DriverTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[FinanceYear]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FinanceYear]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[FinanceYear](
@@ -1040,7 +1263,7 @@ CREATE TABLE [dbo].[FinanceYear](
 	[Title] [varchar](10) NOT NULL,
 	[YearFrom] [datetime] NOT NULL,
 	[YearTo] [datetime] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_FinanceYear] PRIMARY KEY CLUSTERED 
 (
@@ -1049,14 +1272,18 @@ CREATE TABLE [dbo].[FinanceYear](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[FirmBranchTypeAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FirmBranchTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[FirmBranchTypeAdmin](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](20) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_FirmBranchType] PRIMARY KEY CLUSTERED 
 (
@@ -1065,14 +1292,18 @@ CREATE TABLE [dbo].[FirmBranchTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[FirmTypeAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[FirmTypeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[FirmTypeAdmin](
 	[Id] [smallint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](20) NOT NULL,
 	[OrderNumber] [smallint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_FirmType] PRIMARY KEY CLUSTERED 
 (
@@ -1085,14 +1316,18 @@ CREATE TABLE [dbo].[FirmTypeAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[GSTCalculation]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTCalculation]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTCalculation](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](30) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_GSTCalculation] PRIMARY KEY CLUSTERED 
 (
@@ -1105,7 +1340,11 @@ CREATE TABLE [dbo].[GSTCalculation](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[GSTCollection]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTCollection]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTCollection](
@@ -1130,14 +1369,18 @@ CREATE TABLE [dbo].[GSTCollection](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[GSTFirmType]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTFirmType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTFirmType](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](30) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_GSTFirmType] PRIMARY KEY CLUSTERED 
 (
@@ -1150,7 +1393,11 @@ CREATE TABLE [dbo].[GSTFirmType](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[GSTInvoiceType]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTInvoiceType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTInvoiceType](
@@ -1161,7 +1408,7 @@ CREATE TABLE [dbo].[GSTInvoiceType](
 	[TitleCDNUR] [nvarchar](10) NOT NULL,
 	[PayType] [nvarchar](10) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_InvoiceType] PRIMARY KEY CLUSTERED 
 (
@@ -1174,7 +1421,11 @@ CREATE TABLE [dbo].[GSTInvoiceType](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[GSTPort]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTPort]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTPort](
@@ -1182,7 +1433,7 @@ CREATE TABLE [dbo].[GSTPort](
 	[Title] [nvarchar](50) NOT NULL,
 	[Code] [varchar](10) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_GSTPort] PRIMARY KEY CLUSTERED 
 (
@@ -1199,14 +1450,18 @@ CREATE TABLE [dbo].[GSTPort](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[GSTRate]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTRate]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTRate](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Rate] [decimal](15, 3) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_GSTRate] PRIMARY KEY CLUSTERED 
 (
@@ -1215,7 +1470,11 @@ CREATE TABLE [dbo].[GSTRate](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[GSTReason]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTReason]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTReason](
@@ -1223,7 +1482,7 @@ CREATE TABLE [dbo].[GSTReason](
 	[Title] [nvarchar](100) NOT NULL,
 	[Code] [nvarchar](2) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_GSTReason] PRIMARY KEY CLUSTERED 
 (
@@ -1232,14 +1491,18 @@ CREATE TABLE [dbo].[GSTReason](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[GSTTransportMode]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTTransportMode]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTTransportMode](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](30) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_GSTTransportMode] PRIMARY KEY CLUSTERED 
 (
@@ -1252,7 +1515,11 @@ CREATE TABLE [dbo].[GSTTransportMode](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[GSTUQC]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[GSTUQC]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[GSTUQC](
@@ -1261,7 +1528,7 @@ CREATE TABLE [dbo].[GSTUQC](
 	[Code] [varchar](3) NOT NULL,
 	[CodeEWayBill] [varchar](20) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_UQC] PRIMARY KEY CLUSTERED 
 (
@@ -1282,7 +1549,11 @@ CREATE TABLE [dbo].[GSTUQC](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[LRBookingRange]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[LRBookingRange]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[LRBookingRange](
@@ -1290,7 +1561,6 @@ CREATE TABLE [dbo].[LRBookingRange](
 	[BranchId] [int] NOT NULL,
 	[StartNumber] [int] NOT NULL,
 	[EndNumber] [int] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
@@ -1298,6 +1568,7 @@ CREATE TABLE [dbo].[LRBookingRange](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_LRRange] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1309,7 +1580,11 @@ CREATE TABLE [dbo].[LRBookingRange](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[MenuSetting]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[MenuSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[MenuSetting](
@@ -1589,7 +1864,11 @@ CREATE TABLE [dbo].[MenuSetting](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[PoductOpeningStock]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[PoductOpeningStock]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[PoductOpeningStock](
@@ -1607,6 +1886,7 @@ CREATE TABLE [dbo].[PoductOpeningStock](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_PoductOpeningStock] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1614,7 +1894,11 @@ CREATE TABLE [dbo].[PoductOpeningStock](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Product]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Product]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Product](
@@ -1654,7 +1938,6 @@ CREATE TABLE [dbo].[Product](
 	[GstCentralCess] [decimal](5, 2) NOT NULL,
 	[GstStateCess] [decimal](5, 2) NOT NULL,
 	[AmountCalcId] [smallint] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[RateUpdate] [bit] NOT NULL,
 	[Discount] [decimal](4, 2) NOT NULL,
 	[HSNDesc] [nvarchar](50) NULL,
@@ -1664,8 +1947,8 @@ CREATE TABLE [dbo].[Product](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Product] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1683,7 +1966,11 @@ CREATE TABLE [dbo].[Product](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductAmtCalcOn]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductAmtCalcOn]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductAmtCalcOn](
@@ -1691,7 +1978,7 @@ CREATE TABLE [dbo].[ProductAmtCalcOn](
 	[Title] [nvarchar](25) NOT NULL,
 	[SoftwareId] [tinyint] NOT NULL,
 	[OrderNumber] [int] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_ProductAmtCalcOn] PRIMARY KEY CLUSTERED 
 (
@@ -1700,18 +1987,22 @@ CREATE TABLE [dbo].[ProductAmtCalcOn](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductBranchMapping]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductBranchMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductBranchMapping](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[ProductId] [int] NOT NULL,
 	[BranchId] [int] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_ProductBranchMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1724,14 +2015,18 @@ CREATE TABLE [dbo].[ProductBranchMapping](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductCategory]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductCategory]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductCategory](
 	[Id] [smallint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](30) NOT NULL,
 	[OrderNumber] [int] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_ProductCategory] PRIMARY KEY CLUSTERED 
 (
@@ -1744,14 +2039,17 @@ CREATE TABLE [dbo].[ProductCategory](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductColor]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductColor]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductColor](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerId] [int] NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
@@ -1759,8 +2057,8 @@ CREATE TABLE [dbo].[ProductColor](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_ProductColor] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1773,14 +2071,17 @@ CREATE TABLE [dbo].[ProductColor](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductDesignNumber]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductDesignNumber]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductDesignNumber](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerId] [int] NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
@@ -1788,8 +2089,8 @@ CREATE TABLE [dbo].[ProductDesignNumber](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_ProductDesignNumber] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1802,14 +2103,17 @@ CREATE TABLE [dbo].[ProductDesignNumber](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductFabric]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductFabric]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductFabric](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerId] [int] NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
@@ -1817,8 +2121,8 @@ CREATE TABLE [dbo].[ProductFabric](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_ProductFabric] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1831,7 +2135,11 @@ CREATE TABLE [dbo].[ProductFabric](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductGroup]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductGroup]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductGroup](
@@ -1839,15 +2147,14 @@ CREATE TABLE [dbo].[ProductGroup](
 	[CustomerId] [int] NOT NULL,
 	[Title] [nvarchar](40) NOT NULL,
 	[OrderNumber] [int] NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_ProductGroup] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1860,14 +2167,17 @@ CREATE TABLE [dbo].[ProductGroup](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductPacking]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductPacking]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductPacking](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerId] [int] NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
@@ -1875,8 +2185,8 @@ CREATE TABLE [dbo].[ProductPacking](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_ProductPacking] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1889,13 +2199,17 @@ CREATE TABLE [dbo].[ProductPacking](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductQualityType]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductQualityType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductQualityType](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_ProductQltyType] PRIMARY KEY CLUSTERED 
@@ -1909,14 +2223,17 @@ CREATE TABLE [dbo].[ProductQualityType](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductShadeNumber]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductShadeNumber]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductShadeNumber](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerId] [int] NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
@@ -1924,8 +2241,8 @@ CREATE TABLE [dbo].[ProductShadeNumber](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_ProductShadeNumber] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1938,14 +2255,17 @@ CREATE TABLE [dbo].[ProductShadeNumber](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductSize]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductSize]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductSize](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerId] [int] NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
@@ -1953,8 +2273,8 @@ CREATE TABLE [dbo].[ProductSize](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_ProductSize] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -1967,13 +2287,17 @@ CREATE TABLE [dbo].[ProductSize](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductSizeAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductSizeAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductSizeAdmin](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_ProductSizeAdmin] PRIMARY KEY CLUSTERED 
@@ -1987,15 +2311,19 @@ CREATE TABLE [dbo].[ProductSizeAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductStockType]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductStockType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductStockType](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_ProductStockType] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2007,14 +2335,17 @@ CREATE TABLE [dbo].[ProductStockType](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ProductSubGroup]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ProductSubGroup]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ProductSubGroup](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[CustomerId] [int] NOT NULL,
 	[Title] [nvarchar](50) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[OrderNumber] [int] NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
@@ -2022,8 +2353,8 @@ CREATE TABLE [dbo].[ProductSubGroup](
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_ProductSubGroup] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2036,7 +2367,11 @@ CREATE TABLE [dbo].[ProductSubGroup](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[ReportTemplate]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[ReportTemplate]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[ReportTemplate](
@@ -2044,7 +2379,6 @@ CREATE TABLE [dbo].[ReportTemplate](
 	[BranchId] [int] NOT NULL,
 	[TemplateSubject] [nvarchar](100) NOT NULL,
 	[TemplateBody] [nvarchar](max) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
@@ -2052,6 +2386,7 @@ CREATE TABLE [dbo].[ReportTemplate](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_ReportTemplate] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2064,13 +2399,17 @@ CREATE TABLE [dbo].[ReportTemplate](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[SalesBillFromAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SalesBillFromAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[SalesBillFromAdmin](
 	[Id] [char](1) NOT NULL,
 	[Title] [nvarchar](20) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_SalesBillFromAdmin] PRIMARY KEY CLUSTERED 
 (
@@ -2083,13 +2422,17 @@ CREATE TABLE [dbo].[SalesBillFromAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Software]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Software]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Software](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [varchar](20) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[OrderNumber] [tinyint] NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_Software] PRIMARY KEY CLUSTERED 
@@ -2103,7 +2446,11 @@ CREATE TABLE [dbo].[Software](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[SoftwarePlan]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SoftwarePlan]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[SoftwarePlan](
@@ -2112,7 +2459,7 @@ CREATE TABLE [dbo].[SoftwarePlan](
 	[Title] [varchar](100) NOT NULL,
 	[Business] [varchar](20) NOT NULL,
 	[Code] [varchar](5) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Cost] [decimal](16, 2) NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_SoftwarePlan] PRIMARY KEY CLUSTERED 
@@ -2131,7 +2478,11 @@ CREATE TABLE [dbo].[SoftwarePlan](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[State]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[State]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[State](
@@ -2149,7 +2500,11 @@ CREATE TABLE [dbo].[State](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[SystemSetting]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[SystemSetting]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[SystemSetting](
@@ -2166,7 +2521,11 @@ CREATE TABLE [dbo].[SystemSetting](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Taluka]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Taluka]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Taluka](
@@ -2181,7 +2540,11 @@ CREATE TABLE [dbo].[Taluka](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[TransportDesc]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportDesc]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportDesc](
@@ -2189,15 +2552,14 @@ CREATE TABLE [dbo].[TransportDesc](
 	[CustomerId] [int] NOT NULL,
 	[Title] [nvarchar](100) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_TransportDesc] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2210,14 +2572,18 @@ CREATE TABLE [dbo].[TransportDesc](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[TransportDescAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportDescAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportDescAdmin](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](100) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_TransportDescAdmin] PRIMARY KEY CLUSTERED 
 (
@@ -2230,7 +2596,11 @@ CREATE TABLE [dbo].[TransportDescAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[TransportLRBranchCityMapping]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRBranchCityMapping]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRBranchCityMapping](
@@ -2243,6 +2613,7 @@ CREATE TABLE [dbo].[TransportLRBranchCityMapping](
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_TransportBranchCityMapping] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2255,14 +2626,18 @@ CREATE TABLE [dbo].[TransportLRBranchCityMapping](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[TransportLRCharges]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRCharges]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRCharges](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](30) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_TransportLRCharges] PRIMARY KEY CLUSTERED 
 (
@@ -2275,14 +2650,18 @@ CREATE TABLE [dbo].[TransportLRCharges](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[TransportLRDelivery]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRDelivery]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRDelivery](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](20) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_TransportLRDelivery] PRIMARY KEY CLUSTERED 
 (
@@ -2295,14 +2674,18 @@ CREATE TABLE [dbo].[TransportLRDelivery](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[TransportLRDeliveryType]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRDeliveryType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRDeliveryType](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](20) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_TransportLRDeliveryType] PRIMARY KEY CLUSTERED 
 (
@@ -2315,14 +2698,18 @@ CREATE TABLE [dbo].[TransportLRDeliveryType](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[TransportLRPayType]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRPayType]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRPayType](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](10) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_TransportLRPayType] PRIMARY KEY CLUSTERED 
 (
@@ -2335,14 +2722,18 @@ CREATE TABLE [dbo].[TransportLRPayType](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[TransportLRRateOn]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRRateOn]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportLRRateOn](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](10) NOT NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_TransportLRRateOn] PRIMARY KEY CLUSTERED 
 (
@@ -2351,7 +2742,11 @@ CREATE TABLE [dbo].[TransportLRRateOn](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[TransportPacking]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportPacking]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportPacking](
@@ -2359,15 +2754,14 @@ CREATE TABLE [dbo].[TransportPacking](
 	[CustomerId] [int] NOT NULL,
 	[Title] [nvarchar](30) NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_TransportPacking] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2380,14 +2774,18 @@ CREATE TABLE [dbo].[TransportPacking](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[TransportPackingAdmin]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[TransportPackingAdmin]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[TransportPackingAdmin](
 	[Id] [tinyint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](30) NULL,
 	[OrderNumber] [tinyint] NULL,
-	[IsDeleted] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
  CONSTRAINT [PK_TransportPackingAdmin] PRIMARY KEY CLUSTERED 
 (
@@ -2400,22 +2798,25 @@ CREATE TABLE [dbo].[TransportPackingAdmin](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[VehicleModel]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[VehicleModel]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[VehicleModel](
 	[Id] [smallint] IDENTITY(1,1) NOT NULL,
 	[Title] [nvarchar](100) NOT NULL,
 	[OrderNumber] [smallint] NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_VehcileModel] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2427,7 +2828,11 @@ CREATE TABLE [dbo].[VehicleModel](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[VehicleOwner]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[VehicleOwner]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[VehicleOwner](
@@ -2441,7 +2846,6 @@ CREATE TABLE [dbo].[VehicleOwner](
 	[Mobile] [varchar](15) NOT NULL,
 	[PAN] [varchar](12) NULL,
 	[AccountId] [int] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
@@ -2449,8 +2853,8 @@ CREATE TABLE [dbo].[VehicleOwner](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[AdharUID] [varchar](12) NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_VehicleOwner] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2468,7 +2872,11 @@ CREATE TABLE [dbo].[VehicleOwner](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Vehilcle]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Vehilcle]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Vehilcle](
@@ -2490,15 +2898,14 @@ CREATE TABLE [dbo].[Vehilcle](
 	[InsuranceIssueOn] [datetime] NULL,
 	[InsuranceExpiry] [datetime] NULL,
 	[OwnerId] [int] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
-	[IsActive] [bit] NOT NULL,
 	[Active] [bit] NOT NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Vehilcle] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2521,7 +2928,11 @@ CREATE TABLE [dbo].[Vehilcle](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Z-AccountOutStanding-Z]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-AccountOutStanding-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-AccountOutStanding-Z](
@@ -2531,13 +2942,13 @@ CREATE TABLE [dbo].[Z-AccountOutStanding-Z](
 	[Type] [char](1) NOT NULL,
 	[PaidAmount] [decimal](9, 2) NULL,
 	[BillEnd] [bit] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Z-AccountOutStanding-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2545,7 +2956,11 @@ CREATE TABLE [dbo].[Z-AccountOutStanding-Z](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Z-CreditDebitNoteDetail-Z]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-CreditDebitNoteDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-CreditDebitNoteDetail-Z](
@@ -2558,13 +2973,13 @@ CREATE TABLE [dbo].[Z-CreditDebitNoteDetail-Z](
 	[BasicAmount] [decimal](10, 2) NOT NULL,
 	[BillNotes] [nvarchar](100) NULL,
 	[BillOutstandingId] [int] NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Z-CreditDebitNoteDetail-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2572,7 +2987,11 @@ CREATE TABLE [dbo].[Z-CreditDebitNoteDetail-Z](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Z-CreditDebitNoteMaster-Z]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-CreditDebitNoteMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-CreditDebitNoteMaster-Z](
@@ -2612,13 +3031,13 @@ CREATE TABLE [dbo].[Z-CreditDebitNoteMaster-Z](
 	[IRNDate] [datetime] NULL,
 	[PurchaseBillMasterId] [int] NULL,
 	[SalesBillMasterId] [int] NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Z-CreditDebitNoteMaster-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2626,7 +3045,11 @@ CREATE TABLE [dbo].[Z-CreditDebitNoteMaster-Z](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Z-JournalDetail-Z]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-JournalDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-JournalDetail-Z](
@@ -2652,7 +3075,11 @@ CREATE TABLE [dbo].[Z-JournalDetail-Z](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Z-JournalMaster-Z]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-JournalMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-JournalMaster-Z](
@@ -2663,13 +3090,13 @@ CREATE TABLE [dbo].[Z-JournalMaster-Z](
 	[YearId] [int] NOT NULL,
 	[BranchId] [int] NOT NULL,
 	[Date] [datetime] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Z-JournalMst-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2677,7 +3104,11 @@ CREATE TABLE [dbo].[Z-JournalMaster-Z](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Z-LRBooking-Z]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-LRBooking-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-LRBooking-Z](
@@ -2720,13 +3151,13 @@ CREATE TABLE [dbo].[Z-LRBooking-Z](
 	[ArrivalDate] [datetime] NULL,
 	[DeliveryDate] [datetime] NULL,
 	[IsDispatched] [bit] NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Z-ChallanLR-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2739,7 +3170,11 @@ CREATE TABLE [dbo].[Z-LRBooking-Z](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Z-PurchaseBillDetail-Z]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-PurchaseBillDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-PurchaseBillDetail-Z](
@@ -2784,13 +3219,13 @@ CREATE TABLE [dbo].[Z-PurchaseBillDetail-Z](
 	[SalesQuantity] [decimal](9, 3) NULL,
 	[SalesRate] [decimal](9, 3) NULL,
 	[SalesDiscount] [decimal](9, 3) NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Z-BillDetail-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2798,7 +3233,11 @@ CREATE TABLE [dbo].[Z-PurchaseBillDetail-Z](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Z-PurchaseBillMaster-Z]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-PurchaseBillMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-PurchaseBillMaster-Z](
@@ -2860,13 +3299,13 @@ CREATE TABLE [dbo].[Z-PurchaseBillMaster-Z](
 	[ReturnBillDate] [datetime] NULL,
 	[ReturnReasonId] [tinyint] NULL,
 	[PurchaseOrderRefNo] [varchar](30) NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Z-BillMaster-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2874,7 +3313,11 @@ CREATE TABLE [dbo].[Z-PurchaseBillMaster-Z](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Z-SalesBillDetailExport-Z]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-SalesBillDetailExport-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-SalesBillDetailExport-Z](
@@ -2893,7 +3336,11 @@ CREATE TABLE [dbo].[Z-SalesBillDetailExport-Z](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Z-SalesBillDetail-Z]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-SalesBillDetail-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-SalesBillDetail-Z](
@@ -2939,13 +3386,13 @@ CREATE TABLE [dbo].[Z-SalesBillDetail-Z](
 	[SpecialDiscount1] [decimal](10, 2) NOT NULL,
 	[SpecialDiscount2] [decimal](10, 2) NOT NULL,
 	[SpecialDiscount3] [decimal](10, 2) NOT NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Z-SalesBillDetail-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -2953,7 +3400,11 @@ CREATE TABLE [dbo].[Z-SalesBillDetail-Z](
 ) ON [PRIMARY]
 END
 GO
+/****** Object:  Table [dbo].[Z-SalesBillMaster-Z]    Script Date: 09/08/2023 12:52:47 ******/
 
+GO
+
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[Z-SalesBillMaster-Z]') AND type in (N'U'))
 BEGIN
 CREATE TABLE [dbo].[Z-SalesBillMaster-Z](
@@ -3021,13 +3472,13 @@ CREATE TABLE [dbo].[Z-SalesBillMaster-Z](
 	[Charge5] [decimal](6, 2) NOT NULL,
 	[Charge6] [decimal](6, 2) NOT NULL,
 	[CreditNoteId] [int] NULL,
-	[IsDeleted] [bit] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[DeletedById] [int] NULL,
 	[DeletedOn] [datetime] NULL,
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
+	[Deleted] [bit] NOT NULL,
  CONSTRAINT [PK_Z-SalesBillmaster-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
@@ -3037,7 +3488,7 @@ END
 GO
 SET ANSI_PADDING ON
 GO
-
+/****** Object:  Index [IX_Broker]    Script Date: 09/08/2023 12:52:47 ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Broker]') AND name = N'IX_Broker')
 CREATE NONCLUSTERED INDEX [IX_Broker] ON [dbo].[Broker]
 (
@@ -3045,7 +3496,7 @@ CREATE NONCLUSTERED INDEX [IX_Broker] ON [dbo].[Broker]
 	[Name] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
-
+/****** Object:  Index [IX_CustomerFirmBranchTransportContractRateSetting]    Script Date: 09/08/2023 12:52:47 ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[CustomerFirmBranchTransportContractRateSetting]') AND name = N'IX_CustomerFirmBranchTransportContractRateSetting')
 CREATE NONCLUSTERED INDEX [IX_CustomerFirmBranchTransportContractRateSetting] ON [dbo].[CustomerFirmBranchTransportContractRateSetting]
 (
@@ -3055,7 +3506,7 @@ CREATE NONCLUSTERED INDEX [IX_CustomerFirmBranchTransportContractRateSetting] ON
 GO
 SET ANSI_PADDING ON
 GO
-
+/****** Object:  Index [IX_Driver]    Script Date: 09/08/2023 12:52:47 ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[Driver]') AND name = N'IX_Driver')
 CREATE NONCLUSTERED INDEX [IX_Driver] ON [dbo].[Driver]
 (
@@ -3065,7 +3516,7 @@ CREATE NONCLUSTERED INDEX [IX_Driver] ON [dbo].[Driver]
 GO
 SET ANSI_PADDING ON
 GO
-
+/****** Object:  Index [IX_ProductAmtCalcOn]    Script Date: 09/08/2023 12:52:47 ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[ProductAmtCalcOn]') AND name = N'IX_ProductAmtCalcOn')
 CREATE NONCLUSTERED INDEX [IX_ProductAmtCalcOn] ON [dbo].[ProductAmtCalcOn]
 (
@@ -3075,7 +3526,7 @@ CREATE NONCLUSTERED INDEX [IX_ProductAmtCalcOn] ON [dbo].[ProductAmtCalcOn]
 GO
 SET ANSI_PADDING ON
 GO
-
+/****** Object:  Index [IX_TransportLRRateOn]    Script Date: 09/08/2023 12:52:47 ******/
 IF NOT EXISTS (SELECT * FROM sys.indexes WHERE object_id = OBJECT_ID(N'[dbo].[TransportLRRateOn]') AND name = N'IX_TransportLRRateOn')
 CREATE NONCLUSTERED INDEX [IX_TransportLRRateOn] ON [dbo].[TransportLRRateOn]
 (
@@ -3152,29 +3603,19 @@ BEGIN
 ALTER TABLE [dbo].[AccountAdmin] ADD  CONSTRAINT [DF_AccountAdmin_CapitalPercentage]  DEFAULT ((0)) FOR [CapitalPercentage]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountAdmin_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountAdmin_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[AccountAdmin] ADD  CONSTRAINT [DF_AccountAdmin_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[AccountAdmin] ADD  CONSTRAINT [DF_AccountAdmin_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountAdmin_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[AccountAdmin] ADD  CONSTRAINT [DF_AccountAdmin_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__AccountAd__Activ__55BFB948]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__AccountAd__Activ__56B3DD81]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[AccountAdmin] ADD  DEFAULT ((0)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountGroupMaster_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountGroupMaster_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[AccountGroupAdmin] ADD  CONSTRAINT [DF_AccountGroupMaster_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountGroupAdmin_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[AccountGroupAdmin] ADD  CONSTRAINT [DF_AccountGroupAdmin_IsActive]  DEFAULT ((1)) FOR [IsActive]
+ALTER TABLE [dbo].[AccountGroupAdmin] ADD  CONSTRAINT [DF_AccountGroupMaster_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__AccountGr__Activ__589C25F3]') AND type = 'D')
@@ -3182,14 +3623,9 @@ BEGIN
 ALTER TABLE [dbo].[AccountGroupAdmin] ADD  DEFAULT ((0)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountGroupHeaderMaster_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountGroupHeaderMaster_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[AccountGroupHeaderAdmin] ADD  CONSTRAINT [DF_AccountGroupHeaderMaster_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountGroupHeaderAdmin_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[AccountGroupHeaderAdmin] ADD  CONSTRAINT [DF_AccountGroupHeaderAdmin_IsActive]  DEFAULT ((1)) FOR [IsActive]
+ALTER TABLE [dbo].[AccountGroupHeaderAdmin] ADD  CONSTRAINT [DF_AccountGroupHeaderMaster_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__AccountGr__Activ__5B78929E]') AND type = 'D')
@@ -3197,9 +3633,9 @@ BEGIN
 ALTER TABLE [dbo].[AccountGroupHeaderAdmin] ADD  CONSTRAINT [DF__AccountGr__Activ__5B78929E]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountGroupType_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountGroupType_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[AccountGroupType] ADD  CONSTRAINT [DF_AccountGroupType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[AccountGroupType] ADD  CONSTRAINT [DF_AccountGroupType_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__AccountGr__Activ__5D60DB10]') AND type = 'D')
@@ -3212,9 +3648,9 @@ BEGIN
 ALTER TABLE [dbo].[BillEntryTypeAdmin] ADD  CONSTRAINT [DF__BillEntry__Activ__5E54FF49]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_BillType_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_BillType_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[BillTypeAdmin] ADD  CONSTRAINT [DF_BillType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[BillTypeAdmin] ADD  CONSTRAINT [DF_BillType_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__BillTypeA__Activ__603D47BB]') AND type = 'D')
@@ -3287,24 +3723,19 @@ BEGIN
 ALTER TABLE [dbo].[BookAdmin] ADD  CONSTRAINT [DF_BookAdmin_IsTCSAccount]  DEFAULT ((0)) FOR [IsTCSAccount]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_BookAdmin_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_BookAdmin_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[BookAdmin] ADD  CONSTRAINT [DF_BookAdmin_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[BookAdmin] ADD  CONSTRAINT [DF_BookAdmin_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_BookAdmin_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[BookAdmin] ADD  CONSTRAINT [DF_BookAdmin_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__BookAdmin__Activ__6F7F8B4B]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__BookAdmin__Activ__6D9742D9]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[BookAdmin] ADD  DEFAULT ((0)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_BookType_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_BookType_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[BookTypeAdmin] ADD  CONSTRAINT [DF_BookType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[BookTypeAdmin] ADD  CONSTRAINT [DF_BookType_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__BookTypeA__Activ__7167D3BD]') AND type = 'D')
@@ -3312,14 +3743,19 @@ BEGIN
 ALTER TABLE [dbo].[BookTypeAdmin] ADD  CONSTRAINT [DF__BookTypeA__Activ__7167D3BD]  DEFAULT ((1)) FOR [Active]
 END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_BoxSetting_AddedOn]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[BoxSetting] ADD  CONSTRAINT [DF_BoxSetting_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_BoxSetting_Active]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[BoxSetting] ADD  CONSTRAINT [DF_BoxSetting_Active]  DEFAULT ((1)) FOR [Active]
+END
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Broker_Brokerage]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Broker] ADD  CONSTRAINT [DF_Broker_Brokerage]  DEFAULT ((0)) FOR [Brokerage]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Broker_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Broker] ADD  CONSTRAINT [DF_Broker_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Broker_AddedOn]') AND type = 'D')
@@ -3332,14 +3768,14 @@ BEGIN
 ALTER TABLE [dbo].[Broker] ADD  CONSTRAINT [DF_Broker_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Broker_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Broker] ADD  CONSTRAINT [DF_Broker_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Broker__Active__7720AD13]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Broker__Active__753864A1]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Broker] ADD  DEFAULT ((0)) FOR [Active]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Broker_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Broker] ADD  CONSTRAINT [DF_Broker_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Business_OrderNumber]') AND type = 'D')
@@ -3347,9 +3783,9 @@ BEGIN
 ALTER TABLE [dbo].[Business] ADD  CONSTRAINT [DF_Business_OrderNumber]  DEFAULT ((0)) FOR [OrderNumber]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Business_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Business_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[Business] ADD  CONSTRAINT [DF_Business_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[Business] ADD  CONSTRAINT [DF_Business_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Business__Active__79FD19BE]') AND type = 'D')
@@ -3362,9 +3798,9 @@ BEGIN
 ALTER TABLE [dbo].[City] ADD  CONSTRAINT [DF__City__Active__7AF13DF7]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ColorAdmin_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ColorAdmin_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[ColorAdmin] ADD  CONSTRAINT [DF_ColorAdmin_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[ColorAdmin] ADD  CONSTRAINT [DF_ColorAdmin_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ColorAdmi__Activ__7CD98669]') AND type = 'D')
@@ -3387,19 +3823,14 @@ BEGIN
 ALTER TABLE [dbo].[Customer] ADD  CONSTRAINT [DF_Customer_CustomerType]  DEFAULT ((1)) FOR [CustomerType]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Customer_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Customer] ADD  CONSTRAINT [DF_Customer_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Customer_TotalUsers]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Customer] ADD  CONSTRAINT [DF_Customer_TotalUsers]  DEFAULT ((1)) FOR [TotalUsers]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Customer_IsActive]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Customer_Active]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[Customer] ADD  CONSTRAINT [DF_Customer_IsActive]  DEFAULT ((1)) FOR [IsActive]
+ALTER TABLE [dbo].[Customer] ADD  CONSTRAINT [DF_Customer_Active]  DEFAULT ((1)) FOR [Active]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Customer__Busine__149C0161]') AND type = 'D')
@@ -3415,6 +3846,11 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Customer_AddedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Customer] ADD  CONSTRAINT [DF_Customer_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Customer_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Customer] ADD  CONSTRAINT [DF_Customer_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccount_CountryId]') AND type = 'D')
@@ -3487,11 +3923,6 @@ BEGIN
 ALTER TABLE [dbo].[CustomerAccount] ADD  CONSTRAINT [DF_CustomerAccount_CapitalPercentage]  DEFAULT ((0)) FOR [CapitalPercentage]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Account_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[CustomerAccount] ADD  CONSTRAINT [DF_Account_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Account_AddedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[CustomerAccount] ADD  CONSTRAINT [DF_Account_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
@@ -3502,19 +3933,14 @@ BEGIN
 ALTER TABLE [dbo].[CustomerAccount] ADD  CONSTRAINT [DF_CustomerAccount_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccount_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[CustomerAccount] ADD  CONSTRAINT [DF_CustomerAccount_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__CustomerA__Activ__178D7CA5]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__CustomerA__Activ__12C8C788]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[CustomerAccount] ADD  DEFAULT ((0)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirmAccountMapping_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccount_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[CustomerAccountBranchMapping] ADD  CONSTRAINT [DF_CustomerFirmAccountMapping_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[CustomerAccount] ADD  CONSTRAINT [DF_CustomerAccount_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirmAccountMapping_AddedOn]') AND type = 'D')
@@ -3527,9 +3953,9 @@ BEGIN
 ALTER TABLE [dbo].[CustomerAccountBranchMapping] ADD  CONSTRAINT [DF_CustomerFirmAccountMapping_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountGroup_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccountBranchMapping_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[CustomerAccountGroup] ADD  CONSTRAINT [DF_AccountGroup_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[CustomerAccountBranchMapping] ADD  CONSTRAINT [DF_CustomerAccountBranchMapping_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccountGroup_AddedOn]') AND type = 'D')
@@ -3547,9 +3973,9 @@ BEGIN
 ALTER TABLE [dbo].[CustomerAccountGroup] ADD  CONSTRAINT [DF__CustomerA__Activ__1E3A7A34]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_AccountGroupHeader_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccountGroup_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[CustomerAccountGroupHeader] ADD  CONSTRAINT [DF_AccountGroupHeader_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[CustomerAccountGroup] ADD  CONSTRAINT [DF_CustomerAccountGroup_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccountGroupHeader_AddedOn]') AND type = 'D')
@@ -3567,6 +3993,11 @@ BEGIN
 ALTER TABLE [dbo].[CustomerAccountGroupHeader] ADD  CONSTRAINT [DF__CustomerA__Activ__220B0B18]  DEFAULT ((1)) FOR [Active]
 END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccountGroupHeader_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[CustomerAccountGroupHeader] ADD  CONSTRAINT [DF_CustomerAccountGroupHeader_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccountOpeningBalance_Amount]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[CustomerAccountOpeningBalance] ADD  CONSTRAINT [DF_CustomerAccountOpeningBalance_Amount]  DEFAULT ((0)) FOR [Amount]
@@ -3580,6 +4011,11 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccountOpeningBalance_DeletedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[CustomerAccountOpeningBalance] ADD  CONSTRAINT [DF_CustomerAccountOpeningBalance_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerAccountOpeningBalance_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[CustomerAccountOpeningBalance] ADD  CONSTRAINT [DF_CustomerAccountOpeningBalance_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerBook_LRRequired]') AND type = 'D')
@@ -3647,11 +4083,6 @@ BEGIN
 ALTER TABLE [dbo].[CustomerBook] ADD  CONSTRAINT [DF_CustomerBook_IsTCSAccount]  DEFAULT ((0)) FOR [IsTCSAccount]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerBook_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[CustomerBook] ADD  CONSTRAINT [DF_CustomerBook_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerBook_AddedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[CustomerBook] ADD  CONSTRAINT [DF_CustomerBook_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
@@ -3662,14 +4093,14 @@ BEGIN
 ALTER TABLE [dbo].[CustomerBook] ADD  CONSTRAINT [DF_CustomerBook_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerBook_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[CustomerBook] ADD  CONSTRAINT [DF_CustomerBook_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__CustomerB__Activ__361203C5]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[CustomerBook] ADD  CONSTRAINT [DF__CustomerB__Activ__361203C5]  DEFAULT ((1)) FOR [Active]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerBook_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[CustomerBook] ADD  CONSTRAINT [DF_CustomerBook_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerBranchBookMapping_AddedOn]') AND type = 'D')
@@ -3682,9 +4113,9 @@ BEGIN
 ALTER TABLE [dbo].[CustomerBookBranchMapping] ADD  CONSTRAINT [DF_CustomerBranchBookMapping_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirmBrokerMapping_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerBookBranchMapping_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[CustomerBrokerBranchMapping] ADD  CONSTRAINT [DF_CustomerFirmBrokerMapping_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[CustomerBookBranchMapping] ADD  CONSTRAINT [DF_CustomerBookBranchMapping_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirmBrokerMapping_AddedOn]') AND type = 'D')
@@ -3697,6 +4128,11 @@ BEGIN
 ALTER TABLE [dbo].[CustomerBrokerBranchMapping] ADD  CONSTRAINT [DF_CustomerFirmBrokerMapping_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerBrokerBranchMapping_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[CustomerBrokerBranchMapping] ADD  CONSTRAINT [DF_CustomerBrokerBranchMapping_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirm_IsLutBond]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[CustomerFirm] ADD  CONSTRAINT [DF_CustomerFirm_IsLutBond]  DEFAULT ((0)) FOR [IsLutBond]
@@ -3707,14 +4143,9 @@ BEGIN
 ALTER TABLE [dbo].[CustomerFirm] ADD  CONSTRAINT [DF_CustomerFirm_IsGTANumber]  DEFAULT ((1)) FOR [IsGTA]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirm_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[CustomerFirm] ADD  CONSTRAINT [DF_CustomerFirm_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirm_IsActivated]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[CustomerFirm] ADD  CONSTRAINT [DF_CustomerFirm_IsActivated]  DEFAULT ((1)) FOR [IsActive]
+ALTER TABLE [dbo].[CustomerFirm] ADD  CONSTRAINT [DF_CustomerFirm_IsActivated]  DEFAULT ((1)) FOR [Active]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirm_AddedOn]') AND type = 'D')
@@ -3737,9 +4168,9 @@ BEGIN
 ALTER TABLE [dbo].[CustomerFirm] ADD  CONSTRAINT [DF_CustomerFirm_CessRequired]  DEFAULT ((0)) FOR [CessRequired]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirmBranch_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirm_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[CustomerFirmBranch] ADD  CONSTRAINT [DF_CustomerFirmBranch_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[CustomerFirm] ADD  CONSTRAINT [DF_CustomerFirm_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirmBranch_AddedOn]') AND type = 'D')
@@ -3752,14 +4183,19 @@ BEGIN
 ALTER TABLE [dbo].[CustomerFirmBranch] ADD  CONSTRAINT [DF_CustomerFirmBranch_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirmBranch_IsActive]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirmBranch_Active]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[CustomerFirmBranch] ADD  CONSTRAINT [DF_CustomerFirmBranch_IsActive]  DEFAULT ((1)) FOR [IsActive]
+ALTER TABLE [dbo].[CustomerFirmBranch] ADD  CONSTRAINT [DF_CustomerFirmBranch_Active]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__CustomerF__Softw__473C8FC7]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__CustomerF__Softw__3AD6B8E2]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[CustomerFirmBranch] ADD  DEFAULT ((1)) FOR [SoftwarePlanId]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirmBranch_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[CustomerFirmBranch] ADD  CONSTRAINT [DF_CustomerFirmBranch_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerFirmBranchLRRate_IsCrossingChargeApply]') AND type = 'D')
@@ -3822,19 +4258,14 @@ BEGIN
 ALTER TABLE [dbo].[CustomerFirmTransportSetting] ADD  CONSTRAINT [DF_CustomerFirmTransportSetting_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerUser_IsActive]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerUser_Active]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[CustomerUser] ADD  CONSTRAINT [DF_CustomerUser_IsActive]  DEFAULT ((1)) FOR [IsActive]
+ALTER TABLE [dbo].[CustomerUser] ADD  CONSTRAINT [DF_CustomerUser_Active]  DEFAULT ((1)) FOR [Active]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerUser_IsLocked]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[CustomerUser] ADD  CONSTRAINT [DF_CustomerUser_IsLocked]  DEFAULT ((0)) FOR [IsLocked]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerUser_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[CustomerUser] ADD  CONSTRAINT [DF_CustomerUser_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[CustomerUser] ADD  CONSTRAINT [DF_CustomerUser_IsLocked]  DEFAULT ((0)) FOR [Locked]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerUser_AddedOn_1]') AND type = 'D')
@@ -3847,14 +4278,14 @@ BEGIN
 ALTER TABLE [dbo].[CustomerUser] ADD  CONSTRAINT [DF_CustomerUser_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__CustomerU__Allow__44EA3301]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__CustomerU__Allow__4B0D20AB]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[CustomerUser] ADD  DEFAULT ((0)) FOR [AllowUpdateUserMenuSettingToCustomer]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerUserBranchMapping_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerUser_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[CustomerUserBranchMapping] ADD  CONSTRAINT [DF_CustomerUserBranchMapping_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[CustomerUser] ADD  CONSTRAINT [DF_CustomerUser_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerUserBranchMapping_AddedOn]') AND type = 'D')
@@ -3867,14 +4298,14 @@ BEGIN
 ALTER TABLE [dbo].[CustomerUserBranchMapping] ADD  CONSTRAINT [DF_CustomerUserBranchMapping_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_CustomerUserBranchMapping_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[CustomerUserBranchMapping] ADD  CONSTRAINT [DF_CustomerUserBranchMapping_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__District__Active__48BAC3E5]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[District] ADD  CONSTRAINT [DF__District__Active__48BAC3E5]  DEFAULT ((1)) FOR [Active]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Driver_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Driver] ADD  CONSTRAINT [DF_Driver_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Driver_AddedOn]') AND type = 'D')
@@ -3892,9 +4323,14 @@ BEGIN
 ALTER TABLE [dbo].[Driver] ADD  CONSTRAINT [DF__Driver__Active__4C8B54C9]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_DriverType_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Driver_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[DriverTypeAdmin] ADD  CONSTRAINT [DF_DriverType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[Driver] ADD  CONSTRAINT [DF_Driver_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_DriverType_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[DriverTypeAdmin] ADD  CONSTRAINT [DF_DriverType_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__DriverTyp__Activ__4E739D3B]') AND type = 'D')
@@ -3902,9 +4338,9 @@ BEGIN
 ALTER TABLE [dbo].[DriverTypeAdmin] ADD  CONSTRAINT [DF__DriverTyp__Activ__4E739D3B]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_FinanceYear_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_FinanceYear_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[FinanceYear] ADD  CONSTRAINT [DF_FinanceYear_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[FinanceYear] ADD  CONSTRAINT [DF_FinanceYear_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__FinanceYe__Activ__505BE5AD]') AND type = 'D')
@@ -3912,9 +4348,9 @@ BEGIN
 ALTER TABLE [dbo].[FinanceYear] ADD  CONSTRAINT [DF__FinanceYe__Activ__505BE5AD]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_FirmBranchType_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_FirmBranchType_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[FirmBranchTypeAdmin] ADD  CONSTRAINT [DF_FirmBranchType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[FirmBranchTypeAdmin] ADD  CONSTRAINT [DF_FirmBranchType_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__FirmBranc__Activ__52442E1F]') AND type = 'D')
@@ -3922,9 +4358,9 @@ BEGIN
 ALTER TABLE [dbo].[FirmBranchTypeAdmin] ADD  CONSTRAINT [DF__FirmBranc__Activ__52442E1F]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_FirmType_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_FirmType_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[FirmTypeAdmin] ADD  CONSTRAINT [DF_FirmType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[FirmTypeAdmin] ADD  CONSTRAINT [DF_FirmType_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__FirmTypeA__Activ__542C7691]') AND type = 'D')
@@ -3932,9 +4368,9 @@ BEGIN
 ALTER TABLE [dbo].[FirmTypeAdmin] ADD  CONSTRAINT [DF__FirmTypeA__Activ__542C7691]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTCalculation_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTCalculation_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[GSTCalculation] ADD  CONSTRAINT [DF_GSTCalculation_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[GSTCalculation] ADD  CONSTRAINT [DF_GSTCalculation_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__GSTCalcul__Activ__5614BF03]') AND type = 'D')
@@ -3952,9 +4388,9 @@ BEGIN
 ALTER TABLE [dbo].[GSTCollection] ADD  CONSTRAINT [DF__GSTCollec__Activ__57FD0775]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTFirmType_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTFirmType_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[GSTFirmType] ADD  CONSTRAINT [DF_GSTFirmType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[GSTFirmType] ADD  CONSTRAINT [DF_GSTFirmType_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__GSTFirmTy__Activ__59E54FE7]') AND type = 'D')
@@ -3962,9 +4398,9 @@ BEGIN
 ALTER TABLE [dbo].[GSTFirmType] ADD  CONSTRAINT [DF__GSTFirmTy__Activ__59E54FE7]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTInvoiceType_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTInvoiceType_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[GSTInvoiceType] ADD  CONSTRAINT [DF_GSTInvoiceType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[GSTInvoiceType] ADD  CONSTRAINT [DF_GSTInvoiceType_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__GSTInvoic__Activ__5BCD9859]') AND type = 'D')
@@ -3972,9 +4408,9 @@ BEGIN
 ALTER TABLE [dbo].[GSTInvoiceType] ADD  CONSTRAINT [DF__GSTInvoic__Activ__5BCD9859]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTPort_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTPort_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[GSTPort] ADD  CONSTRAINT [DF_GSTPort_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[GSTPort] ADD  CONSTRAINT [DF_GSTPort_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__GSTPort__Active__5DB5E0CB]') AND type = 'D')
@@ -3982,9 +4418,9 @@ BEGIN
 ALTER TABLE [dbo].[GSTPort] ADD  CONSTRAINT [DF__GSTPort__Active__5DB5E0CB]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTRate_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTRate_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[GSTRate] ADD  CONSTRAINT [DF_GSTRate_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[GSTRate] ADD  CONSTRAINT [DF_GSTRate_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__GSTRate__Active__5F9E293D]') AND type = 'D')
@@ -3992,9 +4428,9 @@ BEGIN
 ALTER TABLE [dbo].[GSTRate] ADD  CONSTRAINT [DF__GSTRate__Active__5F9E293D]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTReason_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTReason_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[GSTReason] ADD  CONSTRAINT [DF_GSTReason_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[GSTReason] ADD  CONSTRAINT [DF_GSTReason_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__GSTReason__Activ__618671AF]') AND type = 'D')
@@ -4002,9 +4438,9 @@ BEGIN
 ALTER TABLE [dbo].[GSTReason] ADD  CONSTRAINT [DF__GSTReason__Activ__618671AF]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTTransportMode_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTTransportMode_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[GSTTransportMode] ADD  CONSTRAINT [DF_GSTTransportMode_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[GSTTransportMode] ADD  CONSTRAINT [DF_GSTTransportMode_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__GSTTransp__Activ__636EBA21]') AND type = 'D')
@@ -4012,19 +4448,14 @@ BEGIN
 ALTER TABLE [dbo].[GSTTransportMode] ADD  CONSTRAINT [DF__GSTTransp__Activ__636EBA21]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTUQC_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_GSTUQC_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[GSTUQC] ADD  CONSTRAINT [DF_GSTUQC_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[GSTUQC] ADD  CONSTRAINT [DF_GSTUQC_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__GSTUQC__Active__65570293]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[GSTUQC] ADD  CONSTRAINT [DF__GSTUQC__Active__65570293]  DEFAULT ((1)) FOR [Active]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_LRRange_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[LRBookingRange] ADD  CONSTRAINT [DF_LRRange_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_LRRange_AddedOn]') AND type = 'D')
@@ -4040,6 +4471,11 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__LRBooking__Activ__69279377]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[LRBookingRange] ADD  CONSTRAINT [DF__LRBooking__Activ__69279377]  DEFAULT ((1)) FOR [Active]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_LRBookingRange_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[LRBookingRange] ADD  CONSTRAINT [DF_LRBookingRange_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_MenuSetting_Master__Adroit__Software__Software_Master]') AND type = 'D')
@@ -5312,6 +5748,11 @@ BEGIN
 ALTER TABLE [dbo].[PoductOpeningStock] ADD  CONSTRAINT [DF_PoductOpeningStock_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_PoductOpeningStock_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[PoductOpeningStock] ADD  CONSTRAINT [DF_PoductOpeningStock_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Product_GstCess]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_GstCess]  DEFAULT ((0)) FOR [GstCentralCess]
@@ -5320,11 +5761,6 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Product_GstStateCess]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_GstStateCess]  DEFAULT ((0)) FOR [GstStateCess]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Product_Active]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_Active]  DEFAULT ((0)) FOR [IsDeleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Product_RateUpdate]') AND type = 'D')
@@ -5347,29 +5783,24 @@ BEGIN
 ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Product_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Product__Active__6304A5CD]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF__Product__Active__6304A5CD]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductAmtCalcOn_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Product_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[ProductAmtCalcOn] ADD  CONSTRAINT [DF_ProductAmtCalcOn_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[Product] ADD  CONSTRAINT [DF_Product_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductAmtCalcOn_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[ProductAmtCalcOn] ADD  CONSTRAINT [DF_ProductAmtCalcOn_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductAm__Activ__64ECEE3F]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductAmtCalcOn] ADD  CONSTRAINT [DF__ProductAm__Activ__64ECEE3F]  DEFAULT ((1)) FOR [Active]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductBranchMapping_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductBranchMapping] ADD  CONSTRAINT [DF_ProductBranchMapping_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductBranchMapping_AddedOn]') AND type = 'D')
@@ -5382,19 +5813,19 @@ BEGIN
 ALTER TABLE [dbo].[ProductBranchMapping] ADD  CONSTRAINT [DF_ProductBranchMapping_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductCategory_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductBranchMapping_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[ProductCategory] ADD  CONSTRAINT [DF_ProductCategory_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[ProductBranchMapping] ADD  CONSTRAINT [DF_ProductBranchMapping_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductCategory_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[ProductCategory] ADD  CONSTRAINT [DF_ProductCategory_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductCa__Activ__69B1A35C]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductCategory] ADD  CONSTRAINT [DF__ProductCa__Activ__69B1A35C]  DEFAULT ((1)) FOR [Active]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductColor_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductColor] ADD  CONSTRAINT [DF_ProductColor_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductColor_AddedOn]') AND type = 'D')
@@ -5407,14 +5838,14 @@ BEGIN
 ALTER TABLE [dbo].[ProductColor] ADD  CONSTRAINT [DF_ProductColor_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductColor_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductColor] ADD  CONSTRAINT [DF_ProductColor_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductCo__Activ__6E765879]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductColor] ADD  CONSTRAINT [DF__ProductCo__Activ__6E765879]  DEFAULT ((1)) FOR [Active]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductColor_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[ProductColor] ADD  CONSTRAINT [DF_ProductColor_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductDesignNumber_AddedOn]') AND type = 'D')
@@ -5427,19 +5858,14 @@ BEGIN
 ALTER TABLE [dbo].[ProductDesignNumber] ADD  CONSTRAINT [DF_ProductDesignNumber_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductDesignNumber_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductDesignNumber] ADD  CONSTRAINT [DF_ProductDesignNumber_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductDe__Activ__7246E95D]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductDesignNumber] ADD  CONSTRAINT [DF__ProductDe__Activ__7246E95D]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductFabric_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductDesignNumber_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[ProductFabric] ADD  CONSTRAINT [DF_ProductFabric_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[ProductDesignNumber] ADD  CONSTRAINT [DF_ProductDesignNumber_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductFabric_AddedOn]') AND type = 'D')
@@ -5452,19 +5878,14 @@ BEGIN
 ALTER TABLE [dbo].[ProductFabric] ADD  CONSTRAINT [DF_ProductFabric_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductFabric_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductFabric] ADD  CONSTRAINT [DF_ProductFabric_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductFa__Activ__770B9E7A]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductFabric] ADD  CONSTRAINT [DF__ProductFa__Activ__770B9E7A]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductGroup_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductFabric_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[ProductGroup] ADD  CONSTRAINT [DF_ProductGroup_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[ProductFabric] ADD  CONSTRAINT [DF_ProductFabric_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductGroup_AddedOn]') AND type = 'D')
@@ -5477,19 +5898,14 @@ BEGIN
 ALTER TABLE [dbo].[ProductGroup] ADD  CONSTRAINT [DF_ProductGroup_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductGroup_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductGroup] ADD  CONSTRAINT [DF_ProductGroup_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductGr__Activ__7BD05397]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductGroup] ADD  CONSTRAINT [DF__ProductGr__Activ__7BD05397]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductPacking_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductGroup_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[ProductPacking] ADD  CONSTRAINT [DF_ProductPacking_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[ProductGroup] ADD  CONSTRAINT [DF_ProductGroup_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductPacking_AddedOn]') AND type = 'D')
@@ -5502,29 +5918,24 @@ BEGIN
 ALTER TABLE [dbo].[ProductPacking] ADD  CONSTRAINT [DF_ProductPacking_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductPacking_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductPacking] ADD  CONSTRAINT [DF_ProductPacking_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductPa__Activ__009508B4]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductPacking] ADD  CONSTRAINT [DF__ProductPa__Activ__009508B4]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductQltyType_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductPacking_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[ProductQualityType] ADD  CONSTRAINT [DF_ProductQltyType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[ProductPacking] ADD  CONSTRAINT [DF_ProductPacking_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductQltyType_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[ProductQualityType] ADD  CONSTRAINT [DF_ProductQltyType_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductQu__Activ__027D5126]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductQualityType] ADD  CONSTRAINT [DF__ProductQu__Activ__027D5126]  DEFAULT ((1)) FOR [Active]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductShadeNumber_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductShadeNumber] ADD  CONSTRAINT [DF_ProductShadeNumber_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductShadeNumber_AddedOn]') AND type = 'D')
@@ -5537,19 +5948,14 @@ BEGIN
 ALTER TABLE [dbo].[ProductShadeNumber] ADD  CONSTRAINT [DF_ProductShadeNumber_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductShadeNumber_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductShadeNumber] ADD  CONSTRAINT [DF_ProductShadeNumber_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductSh__Activ__07420643]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductShadeNumber] ADD  CONSTRAINT [DF__ProductSh__Activ__07420643]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductSize_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductShadeNumber_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[ProductSize] ADD  CONSTRAINT [DF_ProductSize_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[ProductShadeNumber] ADD  CONSTRAINT [DF_ProductShadeNumber_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductSize_AddedOn]') AND type = 'D')
@@ -5562,19 +5968,19 @@ BEGIN
 ALTER TABLE [dbo].[ProductSize] ADD  CONSTRAINT [DF_ProductSize_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductSize_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductSize] ADD  CONSTRAINT [DF_ProductSize_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductSi__Activ__0C06BB60]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductSize] ADD  CONSTRAINT [DF__ProductSi__Activ__0C06BB60]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductSizeAdmin_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductSize_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[ProductSizeAdmin] ADD  CONSTRAINT [DF_ProductSizeAdmin_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[ProductSize] ADD  CONSTRAINT [DF_ProductSize_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductSizeAdmin_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[ProductSizeAdmin] ADD  CONSTRAINT [DF_ProductSizeAdmin_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductSi__Activ__0DEF03D2]') AND type = 'D')
@@ -5582,19 +5988,9 @@ BEGIN
 ALTER TABLE [dbo].[ProductSizeAdmin] ADD  CONSTRAINT [DF__ProductSi__Activ__0DEF03D2]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductStockType_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductStockType] ADD  CONSTRAINT [DF_ProductStockType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductSt__Activ__0FD74C44]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductStockType] ADD  CONSTRAINT [DF__ProductSt__Activ__0FD74C44]  DEFAULT ((1)) FOR [Active]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductSubGroup_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductSubGroup] ADD  CONSTRAINT [DF_ProductSubGroup_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductSubGroup_AddedOn]') AND type = 'D')
@@ -5607,19 +6003,14 @@ BEGIN
 ALTER TABLE [dbo].[ProductSubGroup] ADD  CONSTRAINT [DF_ProductSubGroup_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductSubGroup_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[ProductSubGroup] ADD  CONSTRAINT [DF_ProductSubGroup_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__ProductSu__Activ__149C0161]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[ProductSubGroup] ADD  CONSTRAINT [DF__ProductSu__Activ__149C0161]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ReportTemplate_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ProductSubGroup_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[ReportTemplate] ADD  CONSTRAINT [DF_ReportTemplate_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[ProductSubGroup] ADD  CONSTRAINT [DF_ProductSubGroup_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ReportTemplate_AddedOn]') AND type = 'D')
@@ -5637,9 +6028,14 @@ BEGIN
 ALTER TABLE [dbo].[ReportTemplate] ADD  CONSTRAINT [DF__ReportTem__Activ__186C9245]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_SalesBillFromAdmin_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_ReportTemplate_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[SalesBillFromAdmin] ADD  CONSTRAINT [DF_SalesBillFromAdmin_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[ReportTemplate] ADD  CONSTRAINT [DF_ReportTemplate_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_SalesBillFromAdmin_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[SalesBillFromAdmin] ADD  CONSTRAINT [DF_SalesBillFromAdmin_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__SalesBill__Activ__1A54DAB7]') AND type = 'D')
@@ -5647,9 +6043,9 @@ BEGIN
 ALTER TABLE [dbo].[SalesBillFromAdmin] ADD  CONSTRAINT [DF__SalesBill__Activ__1A54DAB7]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Software_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Software_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[Software] ADD  CONSTRAINT [DF_Software_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[Software] ADD  CONSTRAINT [DF_Software_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Software__Active__1C3D2329]') AND type = 'D')
@@ -5657,9 +6053,9 @@ BEGIN
 ALTER TABLE [dbo].[Software] ADD  CONSTRAINT [DF__Software__Active__1C3D2329]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_SoftwarePlan_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_SoftwarePlan_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[SoftwarePlan] ADD  CONSTRAINT [DF_SoftwarePlan_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[SoftwarePlan] ADD  CONSTRAINT [DF_SoftwarePlan_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_SoftwarePlan_Cost]') AND type = 'D')
@@ -5677,7 +6073,7 @@ BEGIN
 ALTER TABLE [dbo].[State] ADD  CONSTRAINT [DF__State__Active__200DB40D]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__SystemSet__NewRe__2101D846]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__SystemSet__NewRe__1229A90A]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[SystemSetting] ADD  DEFAULT ((1)) FOR [NewRegistrationSoftwarePlanId]
 END
@@ -5685,11 +6081,6 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Taluka__Active__21F5FC7F]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Taluka] ADD  CONSTRAINT [DF__Taluka__Active__21F5FC7F]  DEFAULT ((1)) FOR [Active]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportDesc_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[TransportDesc] ADD  CONSTRAINT [DF_TransportDesc_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportDesc_AddedOn]') AND type = 'D')
@@ -5702,19 +6093,19 @@ BEGIN
 ALTER TABLE [dbo].[TransportDesc] ADD  CONSTRAINT [DF_TransportDesc_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportDesc_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[TransportDesc] ADD  CONSTRAINT [DF_TransportDesc_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Transport__Activ__26BAB19C]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[TransportDesc] ADD  CONSTRAINT [DF__Transport__Activ__26BAB19C]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportDescAdmin_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportDesc_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[TransportDescAdmin] ADD  CONSTRAINT [DF_TransportDescAdmin_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[TransportDesc] ADD  CONSTRAINT [DF_TransportDesc_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportDescAdmin_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[TransportDescAdmin] ADD  CONSTRAINT [DF_TransportDescAdmin_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Transport__Activ__28A2FA0E]') AND type = 'D')
@@ -5722,9 +6113,9 @@ BEGIN
 ALTER TABLE [dbo].[TransportDescAdmin] ADD  CONSTRAINT [DF__Transport__Activ__28A2FA0E]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Table_1_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Table_1_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[TransportLRBranchCityMapping] ADD  CONSTRAINT [DF_Table_1_IsDeleted]  DEFAULT ((0)) FOR [OrderNumber]
+ALTER TABLE [dbo].[TransportLRBranchCityMapping] ADD  CONSTRAINT [DF_Table_1_Deleted]  DEFAULT ((0)) FOR [OrderNumber]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRBranchCityMapping_AddedOn]') AND type = 'D')
@@ -5742,9 +6133,14 @@ BEGIN
 ALTER TABLE [dbo].[TransportLRBranchCityMapping] ADD  CONSTRAINT [DF__Transport__Activ__2C738AF2]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRCharges_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRBranchCityMapping_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[TransportLRCharges] ADD  CONSTRAINT [DF_TransportLRCharges_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[TransportLRBranchCityMapping] ADD  CONSTRAINT [DF_TransportLRBranchCityMapping_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRCharges_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[TransportLRCharges] ADD  CONSTRAINT [DF_TransportLRCharges_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Transport__Activ__2E5BD364]') AND type = 'D')
@@ -5752,9 +6148,9 @@ BEGIN
 ALTER TABLE [dbo].[TransportLRCharges] ADD  CONSTRAINT [DF__Transport__Activ__2E5BD364]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRDelivery_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRDelivery_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[TransportLRDelivery] ADD  CONSTRAINT [DF_TransportLRDelivery_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[TransportLRDelivery] ADD  CONSTRAINT [DF_TransportLRDelivery_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Transport__Activ__30441BD6]') AND type = 'D')
@@ -5762,9 +6158,9 @@ BEGIN
 ALTER TABLE [dbo].[TransportLRDelivery] ADD  CONSTRAINT [DF__Transport__Activ__30441BD6]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRDeliveryType_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRDeliveryType_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[TransportLRDeliveryType] ADD  CONSTRAINT [DF_TransportLRDeliveryType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[TransportLRDeliveryType] ADD  CONSTRAINT [DF_TransportLRDeliveryType_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Transport__Activ__322C6448]') AND type = 'D')
@@ -5772,9 +6168,9 @@ BEGIN
 ALTER TABLE [dbo].[TransportLRDeliveryType] ADD  CONSTRAINT [DF__Transport__Activ__322C6448]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRPayType_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRPayType_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[TransportLRPayType] ADD  CONSTRAINT [DF_TransportLRPayType_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[TransportLRPayType] ADD  CONSTRAINT [DF_TransportLRPayType_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Transport__Activ__3414ACBA]') AND type = 'D')
@@ -5782,19 +6178,14 @@ BEGIN
 ALTER TABLE [dbo].[TransportLRPayType] ADD  CONSTRAINT [DF__Transport__Activ__3414ACBA]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRRateOn_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportLRRateOn_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[TransportLRRateOn] ADD  CONSTRAINT [DF_TransportLRRateOn_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[TransportLRRateOn] ADD  CONSTRAINT [DF_TransportLRRateOn_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Transport__Activ__35FCF52C]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[TransportLRRateOn] ADD  CONSTRAINT [DF__Transport__Activ__35FCF52C]  DEFAULT ((1)) FOR [Active]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportPacking_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[TransportPacking] ADD  CONSTRAINT [DF_TransportPacking_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportPacking_AddedOn]') AND type = 'D')
@@ -5807,29 +6198,24 @@ BEGIN
 ALTER TABLE [dbo].[TransportPacking] ADD  CONSTRAINT [DF_TransportPacking_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportPacking_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[TransportPacking] ADD  CONSTRAINT [DF_TransportPacking_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Transport__Activ__3AC1AA49]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[TransportPacking] ADD  CONSTRAINT [DF__Transport__Activ__3AC1AA49]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportPackingAdmin_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportPacking_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[TransportPackingAdmin] ADD  CONSTRAINT [DF_TransportPackingAdmin_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[TransportPacking] ADD  CONSTRAINT [DF_TransportPacking_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_TransportPackingAdmin_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[TransportPackingAdmin] ADD  CONSTRAINT [DF_TransportPackingAdmin_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Transport__Activ__3CA9F2BB]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[TransportPackingAdmin] ADD  CONSTRAINT [DF__Transport__Activ__3CA9F2BB]  DEFAULT ((1)) FOR [Active]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_VehcileModel_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[VehicleModel] ADD  CONSTRAINT [DF_VehcileModel_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_VehcileModel_AddedOn]') AND type = 'D')
@@ -5842,19 +6228,14 @@ BEGIN
 ALTER TABLE [dbo].[VehicleModel] ADD  CONSTRAINT [DF_VehcileModel_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_VehicleModel_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[VehicleModel] ADD  CONSTRAINT [DF_VehicleModel_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__VehicleMo__Activ__416EA7D8]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[VehicleModel] ADD  CONSTRAINT [DF__VehicleMo__Activ__416EA7D8]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_VehicleOwner_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_VehicleModel_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[VehicleOwner] ADD  CONSTRAINT [DF_VehicleOwner_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[VehicleModel] ADD  CONSTRAINT [DF_VehicleModel_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_VehicleOwner_AddedOn]') AND type = 'D')
@@ -5867,19 +6248,14 @@ BEGIN
 ALTER TABLE [dbo].[VehicleOwner] ADD  CONSTRAINT [DF_VehicleOwner_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_VehicleOwner_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[VehicleOwner] ADD  CONSTRAINT [DF_VehicleOwner_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__VehicleOw__Activ__46335CF5]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__VehicleOw__Activ__2FBA0BF1]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[VehicleOwner] ADD  DEFAULT ((0)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Vehilcle_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_VehicleOwner_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[Vehilcle] ADD  CONSTRAINT [DF_Vehilcle_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[VehicleOwner] ADD  CONSTRAINT [DF_VehicleOwner_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Vehilcle_AddedOn]') AND type = 'D')
@@ -5892,19 +6268,14 @@ BEGIN
 ALTER TABLE [dbo].[Vehilcle] ADD  CONSTRAINT [DF_Vehilcle_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Vehilcle_IsActive]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Vehilcle] ADD  CONSTRAINT [DF_Vehilcle_IsActive]  DEFAULT ((1)) FOR [IsActive]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF__Vehilcle__Active__4AF81212]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Vehilcle] ADD  CONSTRAINT [DF__Vehilcle__Active__4AF81212]  DEFAULT ((1)) FOR [Active]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-AccountOutStanding-Z_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Vehilcle_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[Z-AccountOutStanding-Z] ADD  CONSTRAINT [DF_Z-AccountOutStanding-Z_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[Vehilcle] ADD  CONSTRAINT [DF_Vehilcle_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-AccountOutStanding-Z_AddedOn]') AND type = 'D')
@@ -5917,6 +6288,11 @@ BEGIN
 ALTER TABLE [dbo].[Z-AccountOutStanding-Z] ADD  CONSTRAINT [DF_Z-AccountOutStanding-Z_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-AccountOutStanding-Z_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Z-AccountOutStanding-Z] ADD  CONSTRAINT [DF_Z-AccountOutStanding-Z_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-CreditDebitNoteDetail-Z_Rate]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-CreditDebitNoteDetail-Z] ADD  CONSTRAINT [DF_Z-CreditDebitNoteDetail-Z_Rate]  DEFAULT ((0)) FOR [Rate]
@@ -5927,11 +6303,6 @@ BEGIN
 ALTER TABLE [dbo].[Z-CreditDebitNoteDetail-Z] ADD  CONSTRAINT [DF_Z-CreditDebitNoteDetail-Z_BasicAmount]  DEFAULT ((0)) FOR [BasicAmount]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-CreditDebitNoteDetail-Z_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Z-CreditDebitNoteDetail-Z] ADD  CONSTRAINT [DF_Z-CreditDebitNoteDetail-Z_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-CreditDebitNoteDetail-Z_AddedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-CreditDebitNoteDetail-Z] ADD  CONSTRAINT [DF_Z-CreditDebitNoteDetail-Z_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
@@ -5940,6 +6311,11 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-CreditDebitNoteDetail-Z_DeletedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-CreditDebitNoteDetail-Z] ADD  CONSTRAINT [DF_Z-CreditDebitNoteDetail-Z_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-CreditDebitNoteDetail-Z_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Z-CreditDebitNoteDetail-Z] ADD  CONSTRAINT [DF_Z-CreditDebitNoteDetail-Z_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-CreditDebitNoteMaster-Z_SkipInGSTR]') AND type = 'D')
@@ -6027,11 +6403,6 @@ BEGIN
 ALTER TABLE [dbo].[Z-CreditDebitNoteMaster-Z] ADD  CONSTRAINT [DF_Z-CreditDebitNoteMaster-Z_IGSTAmount3]  DEFAULT ((0)) FOR [BillAmount]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-CreditDebitNoteMaster-Z_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Z-CreditDebitNoteMaster-Z] ADD  CONSTRAINT [DF_Z-CreditDebitNoteMaster-Z_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-CreditDebitNoteMaster-Z_AddedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-CreditDebitNoteMaster-Z] ADD  CONSTRAINT [DF_Z-CreditDebitNoteMaster-Z_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
@@ -6040,6 +6411,11 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-CreditDebitNoteMaster-Z_DeletedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-CreditDebitNoteMaster-Z] ADD  CONSTRAINT [DF_Z-CreditDebitNoteMaster-Z_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-CreditDebitNoteMaster-Z_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Z-CreditDebitNoteMaster-Z] ADD  CONSTRAINT [DF_Z-CreditDebitNoteMaster-Z_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-JournalDetail-Z_Amount]') AND type = 'D')
@@ -6067,11 +6443,6 @@ BEGIN
 ALTER TABLE [dbo].[Z-JournalMaster-Z] ADD  CONSTRAINT [DF_Z-JournalMst-Z_Date]  DEFAULT (getutcdate()) FOR [Date]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-JournalMst-Z_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Z-JournalMaster-Z] ADD  CONSTRAINT [DF_Z-JournalMst-Z_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-JournalMst-Z_AddedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-JournalMaster-Z] ADD  CONSTRAINT [DF_Z-JournalMst-Z_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
@@ -6080,6 +6451,11 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-JournalMst-Z_DeletedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-JournalMaster-Z] ADD  CONSTRAINT [DF_Z-JournalMst-Z_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-JournalMaster-Z_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Z-JournalMaster-Z] ADD  CONSTRAINT [DF_Z-JournalMaster-Z_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-LRBooking-Z_LRDate]') AND type = 'D')
@@ -6097,11 +6473,6 @@ BEGIN
 ALTER TABLE [dbo].[Z-LRBooking-Z] ADD  CONSTRAINT [DF_Z-LRBooking-Z_IsDispatched]  DEFAULT ((0)) FOR [IsDispatched]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-LRBooking-Z_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Z-LRBooking-Z] ADD  CONSTRAINT [DF_Z-LRBooking-Z_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-LRBooking-Z_AddedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-LRBooking-Z] ADD  CONSTRAINT [DF_Z-LRBooking-Z_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
@@ -6112,9 +6483,9 @@ BEGIN
 ALTER TABLE [dbo].[Z-LRBooking-Z] ADD  CONSTRAINT [DF_Z-LRBooking-Z_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-BillDetail-Z_IsDeleted]') AND type = 'D')
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-LRBooking-Z_Deleted]') AND type = 'D')
 BEGIN
-ALTER TABLE [dbo].[Z-PurchaseBillDetail-Z] ADD  CONSTRAINT [DF_Z-BillDetail-Z_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
+ALTER TABLE [dbo].[Z-LRBooking-Z] ADD  CONSTRAINT [DF_Z-LRBooking-Z_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-BillDetail-Z_AddedOn]') AND type = 'D')
@@ -6127,6 +6498,11 @@ BEGIN
 ALTER TABLE [dbo].[Z-PurchaseBillDetail-Z] ADD  CONSTRAINT [DF_Z-BillDetail-Z_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
 END
 GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-PurchaseBillDetail-Z_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Z-PurchaseBillDetail-Z] ADD  CONSTRAINT [DF_Z-PurchaseBillDetail-Z_Deleted]  DEFAULT ((0)) FOR [Deleted]
+END
+GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-BillMaster-Z_BillDate]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-PurchaseBillMaster-Z] ADD  CONSTRAINT [DF_Z-BillMaster-Z_BillDate]  DEFAULT (getutcdate()) FOR [BillDate]
@@ -6137,11 +6513,6 @@ BEGIN
 ALTER TABLE [dbo].[Z-PurchaseBillMaster-Z] ADD  CONSTRAINT [DF_Z-BillMaster-Z_SkipInGSTR]  DEFAULT ((0)) FOR [SkipInGSTR]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-BillMaster-Z_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Z-PurchaseBillMaster-Z] ADD  CONSTRAINT [DF_Z-BillMaster-Z_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-BillMaster-Z_AddedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-PurchaseBillMaster-Z] ADD  CONSTRAINT [DF_Z-BillMaster-Z_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
@@ -6150,6 +6521,11 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-BillMaster-Z_DeletedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-PurchaseBillMaster-Z] ADD  CONSTRAINT [DF_Z-BillMaster-Z_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-PurchaseBillMaster-Z_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Z-PurchaseBillMaster-Z] ADD  CONSTRAINT [DF_Z-PurchaseBillMaster-Z_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-SalesBillDetail-Z_Quantity]') AND type = 'D')
@@ -6292,11 +6668,6 @@ BEGIN
 ALTER TABLE [dbo].[Z-SalesBillDetail-Z] ADD  CONSTRAINT [DF_Z-SalesBillDetail-Z_SpecialDiscount12]  DEFAULT ((0)) FOR [SpecialDiscount3]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-SalesBillDetail-Z_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Z-SalesBillDetail-Z] ADD  CONSTRAINT [DF_Z-SalesBillDetail-Z_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-SalesBillDetail-Z_AddedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-SalesBillDetail-Z] ADD  CONSTRAINT [DF_Z-SalesBillDetail-Z_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
@@ -6305,6 +6676,11 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-SalesBillDetail-Z_DeletedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-SalesBillDetail-Z] ADD  CONSTRAINT [DF_Z-SalesBillDetail-Z_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-SalesBillDetail-Z_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Z-SalesBillDetail-Z] ADD  CONSTRAINT [DF_Z-SalesBillDetail-Z_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-SalesBillmaster-Z_BillDate]') AND type = 'D')
@@ -6427,11 +6803,6 @@ BEGIN
 ALTER TABLE [dbo].[Z-SalesBillMaster-Z] ADD  CONSTRAINT [DF_Z-SalesBillmaster-Z_Charge6]  DEFAULT ((0)) FOR [Charge6]
 END
 GO
-IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-SalesBillMaster-Z_IsDeleted]') AND type = 'D')
-BEGIN
-ALTER TABLE [dbo].[Z-SalesBillMaster-Z] ADD  CONSTRAINT [DF_Z-SalesBillMaster-Z_IsDeleted]  DEFAULT ((0)) FOR [IsDeleted]
-END
-GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-SalesBillMaster-Z_AddedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-SalesBillMaster-Z] ADD  CONSTRAINT [DF_Z-SalesBillMaster-Z_AddedOn]  DEFAULT (getutcdate()) FOR [AddedOn]
@@ -6440,6 +6811,11 @@ GO
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-SalesBillMaster-Z_DeletedOn]') AND type = 'D')
 BEGIN
 ALTER TABLE [dbo].[Z-SalesBillMaster-Z] ADD  CONSTRAINT [DF_Z-SalesBillMaster-Z_DeletedOn]  DEFAULT (getutcdate()) FOR [DeletedOn]
+END
+GO
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[DF_Z-SalesBillMaster-Z_Deleted]') AND type = 'D')
+BEGIN
+ALTER TABLE [dbo].[Z-SalesBillMaster-Z] ADD  CONSTRAINT [DF_Z-SalesBillMaster-Z_Deleted]  DEFAULT ((0)) FOR [Deleted]
 END
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_AccountAdmin_AccountGroupAdmin]') AND parent_object_id = OBJECT_ID(N'[dbo].[AccountAdmin]'))
@@ -6602,6 +6978,41 @@ REFERENCES [dbo].[BookTypeAdmin] ([Id])
 GO
 IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BookAdmin_BookTypeAdmin]') AND parent_object_id = OBJECT_ID(N'[dbo].[BookAdmin]'))
 ALTER TABLE [dbo].[BookAdmin] CHECK CONSTRAINT [FK_BookAdmin_BookTypeAdmin]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BoxSetting_Customer]') AND parent_object_id = OBJECT_ID(N'[dbo].[BoxSetting]'))
+ALTER TABLE [dbo].[BoxSetting]  WITH CHECK ADD  CONSTRAINT [FK_BoxSetting_Customer] FOREIGN KEY([CustomerId])
+REFERENCES [dbo].[Customer] ([Id])
+GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BoxSetting_Customer]') AND parent_object_id = OBJECT_ID(N'[dbo].[BoxSetting]'))
+ALTER TABLE [dbo].[BoxSetting] CHECK CONSTRAINT [FK_BoxSetting_Customer]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BoxSetting_CustomerFirm]') AND parent_object_id = OBJECT_ID(N'[dbo].[BoxSetting]'))
+ALTER TABLE [dbo].[BoxSetting]  WITH CHECK ADD  CONSTRAINT [FK_BoxSetting_CustomerFirm] FOREIGN KEY([CusomerFirmId])
+REFERENCES [dbo].[CustomerFirm] ([Id])
+GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BoxSetting_CustomerFirm]') AND parent_object_id = OBJECT_ID(N'[dbo].[BoxSetting]'))
+ALTER TABLE [dbo].[BoxSetting] CHECK CONSTRAINT [FK_BoxSetting_CustomerFirm]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BoxSetting_CustomerUser]') AND parent_object_id = OBJECT_ID(N'[dbo].[BoxSetting]'))
+ALTER TABLE [dbo].[BoxSetting]  WITH CHECK ADD  CONSTRAINT [FK_BoxSetting_CustomerUser] FOREIGN KEY([AddedById])
+REFERENCES [dbo].[CustomerUser] ([Id])
+GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BoxSetting_CustomerUser]') AND parent_object_id = OBJECT_ID(N'[dbo].[BoxSetting]'))
+ALTER TABLE [dbo].[BoxSetting] CHECK CONSTRAINT [FK_BoxSetting_CustomerUser]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BoxSetting_CustomerUser1]') AND parent_object_id = OBJECT_ID(N'[dbo].[BoxSetting]'))
+ALTER TABLE [dbo].[BoxSetting]  WITH CHECK ADD  CONSTRAINT [FK_BoxSetting_CustomerUser1] FOREIGN KEY([ModifiedById])
+REFERENCES [dbo].[CustomerUser] ([Id])
+GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BoxSetting_CustomerUser1]') AND parent_object_id = OBJECT_ID(N'[dbo].[BoxSetting]'))
+ALTER TABLE [dbo].[BoxSetting] CHECK CONSTRAINT [FK_BoxSetting_CustomerUser1]
+GO
+IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BoxSetting_Software]') AND parent_object_id = OBJECT_ID(N'[dbo].[BoxSetting]'))
+ALTER TABLE [dbo].[BoxSetting]  WITH CHECK ADD  CONSTRAINT [FK_BoxSetting_Software] FOREIGN KEY([SoftwareId])
+REFERENCES [dbo].[Software] ([Id])
+GO
+IF  EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_BoxSetting_Software]') AND parent_object_id = OBJECT_ID(N'[dbo].[BoxSetting]'))
+ALTER TABLE [dbo].[BoxSetting] CHECK CONSTRAINT [FK_BoxSetting_Software]
 GO
 IF NOT EXISTS (SELECT * FROM sys.foreign_keys WHERE object_id = OBJECT_ID(N'[dbo].[FK_Broker_Broker]') AND parent_object_id = OBJECT_ID(N'[dbo].[Broker]'))
 ALTER TABLE [dbo].[Broker]  WITH CHECK ADD  CONSTRAINT [FK_Broker_Broker] FOREIGN KEY([Id])

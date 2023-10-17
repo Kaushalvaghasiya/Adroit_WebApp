@@ -23,8 +23,7 @@ Begin
 		Count(*) over () AS TotalCount, 
 		GSTRate.*
 		FROM GSTRate
-		WHERE GSTRate.IsDeleted = 0
-		AND (Coalesce(@Search,'') = '' OR GSTRate.[Rate] like '%'+ @Search + '%')
+		WHERE (Coalesce(@Search,'') = '' OR GSTRate.[Rate] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
 End

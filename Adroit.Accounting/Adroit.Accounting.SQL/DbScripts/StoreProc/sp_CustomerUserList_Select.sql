@@ -10,8 +10,8 @@ BEGIN
 	FROM [Customer]
 	INNER JOIN CustomerUser on [Customer].Id = CustomerUser.CustomerId
 	WHERE [Customer].Id = @CustomerId
-	AND [Customer].IsDeleted = 0
-	AND CustomerUser.IsDeleted = 0
+	AND [Customer].Deleted = 0
+	AND CustomerUser.Deleted = 0
 	ORDER BY CustomerUser.FirstName, CustomerUser.LastName
 END
 GO

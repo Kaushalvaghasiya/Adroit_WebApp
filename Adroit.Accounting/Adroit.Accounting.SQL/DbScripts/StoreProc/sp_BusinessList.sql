@@ -28,7 +28,7 @@ Begin
 	   Business.* ,
 	   dbo.fn_GetBusinessSoftwareName (Business.Id) As SoftwareName
 	  FROM Business
-	  WHERE IsDeleted = 0
+	  WHERE Deleted = 0
 	  AND (Coalesce(@Search,'') = '' 
 			OR Business.[Title] like '%'+ @Search + '%'
 			OR dbo.fn_GetBusinessSoftwareName (Business.Id) like '%'+ @Search + '%'

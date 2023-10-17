@@ -81,6 +81,10 @@ try
     builder.Services.AddSingleton<IProductSizeAdmin, ProductSizeAdminRepository>();
     builder.Services.AddSingleton<IMenuSetting, MenuSettingRepository>();
     builder.Services.AddSingleton<IBoxSetting, BoxSettingRepository>();
+    builder.Services.AddSingleton<IProductAmtCalcOn, ProductAmtCalcOnRepository>();
+    builder.Services.AddSingleton<IProductStockType, ProductStockTypeRepository>();
+    builder.Services.AddSingleton<IProductQualityType, ProductQualityTypeRepository>();
+    builder.Services.AddSingleton<IBookTypeAdmin, BookTypeAdminRepository>();
     builder.Services.AddSingleton<IGSTRate, GSTRateRepository>();
 
 

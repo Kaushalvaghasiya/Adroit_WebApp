@@ -15,7 +15,6 @@ namespace Adroit.Accounting.Model
         public string Type { get; set; }
         public decimal? PaidAmount { get; set; }
         public bool BillEnd { get; set; }
-        public bool IsDeleted { get; set; }
         public int AddedById { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int? DeletedById { get; set; }

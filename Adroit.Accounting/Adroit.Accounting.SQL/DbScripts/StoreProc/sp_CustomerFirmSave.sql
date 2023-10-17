@@ -14,8 +14,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmSave]
 	 @GstFirmTypeId int,
 	 @SoftwareId int,
 	 @BranchLimit int,
-	 @IsDeleted bit,
-	 @IsActive bit,
+	 @Active bit,
 	 @ModifiedById int,
 	 @OrderNumber int,
 	 @AddedById int,
@@ -43,8 +42,7 @@ BEGIN
 						GstFirmTypeId=@GstFirmTypeId,
 						SoftwareId=@SoftwareId,
 						BranchLimit=@BranchLimit,
-						IsDeleted=@IsDeleted,
-						IsActive=@IsActive,
+						Active=@Active,
 						OrderNumber=@OrderNumber,
 						ModifiedById=NULL, --need change ref key
 						ModifiedOn=GETUTCDATE(),
@@ -58,7 +56,7 @@ BEGIN
 				declare @firmlimit int = 0
 				declare @firmcreated int = 0
 				SELECT @firmlimit = TotalFirm FROM Customer Where Id = @CustomerId
-				SELECT @firmcreated = count(*) FROM CustomerFirm Where CustomerId = @CustomerId ANd IsDeleted = 0
+				SELECT @firmcreated = count(*) FROM CustomerFirm Where CustomerId = @CustomerId ANd Deleted = 0
 				IF (@firmcreated >= @firmlimit)
 				BEGIN
 					RAISERROR ('%s', 16, 1, 'Firm limit exceeded');
@@ -67,14 +65,14 @@ BEGIN
 				INSERT INTO CustomerFirm
 					([CustomerId],[BusinessId],Title,OwnerName,[TAN],IECCode,
 					IsLutBond,LutBondNumber,IsGTA,FirmTypeId,GstFirmTypeId,
-					SoftwareId,BranchLimit,IsDeleted,IsActive,OrderNumber,
+					SoftwareId,BranchLimit,Active,OrderNumber,
 					AddedOn,AdharUID,LRResetOnYearEnd,CessRequired
 					)
 				VALUES
 					(
 					@CustomerId,@BusinessId,@Title,@OwnerName,@TAN,@IECCode,
 					@IsLutBond,@LutBondNumber,@IsGTA,@FirmTypeId,@GstFirmTypeId,
-					@SoftwareId,@BranchLimit,@IsDeleted,@IsActive,@OrderNumber,
+					@SoftwareId,@BranchLimit,@Active,@OrderNumber,
 					GETUTCDATE(),@AdharUID,@LRResetOnYearEnd,@CessRequired
 					)
 

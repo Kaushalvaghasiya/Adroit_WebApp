@@ -66,7 +66,7 @@
                 <div class="ml-auto">
                     <div class="input-group">
                         <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
-                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        @* <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a> *@
                         <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
@@ -131,7 +131,7 @@
                 </div>
                 <div class="card-footer text-right">
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    @* <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a> *@
                     <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="new"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
@@ -159,7 +159,7 @@
             $('.dv-detail').slideDown();
             fromReset();
             setScreenMode(false);
-            $(".btn-delete").hide();
+            // $(".btn-delete").hide();
             $("#Rate").focus();
 
             //Set auto max value
@@ -185,7 +185,7 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.rate;
+                    return row.rate.toFixed(3);
                 },
                 "targets": colDef.length,
 
@@ -209,7 +209,7 @@
                     let btnAct = "<div class='btn-list'> ";
                     btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
-                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    // btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
                     btnAct += "</div>";
                     return btnAct;
                 },
@@ -271,14 +271,13 @@
             $("#Active").prop('checked', false);
             $("#activeTabName").text("Add");
             setScreenMode(false);
-            $(".btn-delete").hide();
+            // $(".btn-delete").hide();
         }
 
         function saveItem() {
             try {
                 // Regular expression to match a valid decimal number
-                const decimalPattern = /^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/;
-
+                const decimalPattern = /^[-+]?(\d{1,12}(\.\d{0,3})?|\.\d{1,3})$/;
                 if ($("#Rate").val() == "") {
                     showWarning("", "Please enter valid Rate.");
                     $("#Rate").focus();
@@ -286,7 +285,7 @@
                 }
 
                 if (!decimalPattern.test($("#Rate").val())) {
-                    showWarning("", "Rate must be upto 15 characters before decimal point and 3 characters after decimal point long.");
+                    showWarning("", "Rate must be upto 12 characters before decimal point and 3 characters after decimal point long.");
                     $("#Rate").focus();
                     return false;
                 }
@@ -344,34 +343,6 @@
 
         }
 
-        function deleteItem(id) {
-            try {
-                blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteGSTRate"))" + "/" + id, "",
-                    function (result) {
-                        unblockUI('container');
-                        try {
-                            if (result.result == RESULT_SUCCESS) {
-                                $('#Rate option[value="' + $('#Rate').val() + '"]').detach();
-                                refreshDatatableList();
-                                fromReset();
-                                $('.btn-back').click();
-                            } else {
-                                showError('Error', result.data); //warning,  success, error, info
-                            }
-                        } catch (e) {
-                            showError('Error', e); //warning,  success, error, info
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-            }
-        }
-
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
@@ -389,9 +360,8 @@
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
-
                                 $('#Id').val(result.data.id);
-                                $("#Rate").val(result.data.rate).trigger('change');
+                                $("#Rate").val(result.data.rate.toFixed(3)).trigger('change');
                                 $("#OrderNumber").val(result.data.orderNumber).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
                             } else {

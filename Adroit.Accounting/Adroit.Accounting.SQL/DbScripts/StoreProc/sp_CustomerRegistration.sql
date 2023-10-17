@@ -23,7 +23,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerRegistration]
 	 @AgreeTerms bit,
 	 @EmailOtp varchar(6),
 	 @MobileOtp varchar(6),
-	 @IsActive bit,
+	 @Active bit,
 	 @DefaultUserId uniqueidentifier
 )
 AS
@@ -33,11 +33,11 @@ BEGIN
 		DECLARE @Id  INT = 0
 		INSERT INTO Customer
 			([Name], BusinessName, Address1, Address2, Address3, CityId, StateId, PinCode, ContactPersonName, Mobile, MobileAlternate, Phone,
-				Email, BusinessId, Requirement, TotalFirm, CustomerType, AdharUID, TotalUsers, IsActive, EmailOtp, MobileOtp, 
+				Email, BusinessId, Requirement, TotalFirm, CustomerType, AdharUID, TotalUsers, Active, EmailOtp, MobileOtp, 
 				StatusId, AgreeTerms)
 		VALUES
 			(@Name, @BusinessName, @Address1, @Address2, @Address3, @CityId, @StateId, @PinCode, @ContactPersonName, @Mobile, @MobileAlternate, @Phone,
-				@Email, @BusinessId, @Requirement, @TotalFirm, @CustomerType, @AdharUID, @TotalUsers, @IsActive, @EmailOtp, @MobileOtp, 
+				@Email, @BusinessId, @Requirement, @TotalFirm, @CustomerType, @AdharUID, @TotalUsers, @Active, @EmailOtp, @MobileOtp, 
 				@StatusId, @AgreeTerms)
 
 		SET @Id = SCOPE_IDENTITY()
@@ -62,7 +62,7 @@ BEGIN
 		INSERT INTO [CustomerFirm] 
 				([CustomerId], [BusinessId], [Title], [OwnerName], [TAN], [IECCode], 
 					[IsLutBond], [LutBondNumber], [IsGTA], [FirmTypeId], [GstFirmTypeId], [SoftwareId], 
-					[BranchLimit], [IsActive], [OrderNumber], [AddedOn], [AdharUID], [LRResetOnYearEnd], [CessRequired])
+					[BranchLimit], [Active], [OrderNumber], [AddedOn], [AdharUID], [LRResetOnYearEnd], [CessRequired])
 			VALUES 
 				(@Id, @BusinessId, @BusinessName, @Name, '','',
 					0, '', 0, @NewRegistrationFirmTypeId, @NewRegistrationGstFirmTypeId, @NewRegistrationSoftwareId,
@@ -79,7 +79,7 @@ BEGIN
 				[Address1], [Address2], [Address3], [CityId], [StateId], [CountryId], [Pincode], 
 				[Phone], [ContactPersonName], [Mobile], [MobileAlternate], [Email], [GSTNumber], [PAN], 
 				[EWBAddress1], [EWBAddress2], [RenewalDate], [SetupPrice], [RenewalPrice], 
-				[OrderNumber], [AddedOn], [IsActive], SoftwarePlanId)
+				[OrderNumber], [AddedOn], [Active], SoftwarePlanId)
 		VALUES (@FirmId, @BusinessName, '', '', @NewRegistrationFirmBranchTypeId,
 				@Address1, @Address2, @Address3, @CityId, @StateId, @CountryId, '',
 				@Phone, @Name, @Mobile, '', @Email, '', '', 
@@ -89,8 +89,8 @@ BEGIN
 
 		--ADD DEFAULT CUSTOMER USER
 		INSERT INTO [CustomerUser] 
-			([CustomerId], [UserId], [IsActive], [IsLocked], [IsDeleted], [AddedOn], [OwnerBranchId], [FirstName])
-		VALUES (@Id, @DefaultUserId, 1, 0, 0, GETUTCDATE(), @BrnachId, @Name)
+			([CustomerId], [UserId], [Active], [Locked], [AddedOn], [OwnerBranchId], [FirstName])
+		VALUES (@Id, @DefaultUserId, 1, 0, GETUTCDATE(), @BrnachId, @Name)
 			
 		COMMIT TRAN
 		SELECT @Id

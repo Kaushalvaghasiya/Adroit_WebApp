@@ -27,6 +27,9 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICommon _commonRepository;
         private readonly IColor _colorRepository;
         private readonly IProductSizeAdmin _productSizeRepository;
+        private readonly IProductAmtCalcOn _productAmtCalcOnRepository;
+        private readonly IProductStockType _productStockTypeRepository;
+        private readonly IProductQualityType _productQualityTypeRepository;
         private readonly IBusiness _businessRepository;
         private readonly ICountry _countryRepository;
         private readonly IGSTFirmType _gSTFirmTypeRepository;
@@ -39,6 +42,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITaluka _talukaRepository;
         private readonly ICity _cityRepository;
         private readonly IDistrict _districtRepository;
+        private readonly IBookTypeAdmin _bookTypeRepository;
         private readonly IGSTRate _gstRateRepository;
         public AdminController(
             IOptions<ConfigurationData> configurationData,
@@ -58,6 +62,9 @@ namespace Adroit.Accounting.Web.Controllers
             ICommon commonRepository,
             IColor colorReposotory,
             IProductSizeAdmin productSizeRepository,
+            IProductAmtCalcOn productAmtCalcOnRepository,
+            IProductStockType productStockTypeRepository,
+            IProductQualityType productQualityTypeRepository,
             IBusiness businessRepository,
             ICountry countryRepository,
             IGSTFirmType gSTFirmTypeRepository,
@@ -70,6 +77,7 @@ namespace Adroit.Accounting.Web.Controllers
             ITaluka talukaRepository,
             ICity cityRepository,
             IDistrict districtRepository,
+            IBookTypeAdmin bookTypeRepository,
             IGSTRate gstRateRepository
             )
 
@@ -92,6 +100,9 @@ namespace Adroit.Accounting.Web.Controllers
             _commonRepository = commonRepository;
             _colorRepository = colorReposotory;
             _productSizeRepository = productSizeRepository;
+            _productAmtCalcOnRepository = productAmtCalcOnRepository;
+            _productStockTypeRepository = productStockTypeRepository;
+            _productQualityTypeRepository = productQualityTypeRepository;
             _businessRepository = businessRepository;
             _countryRepository = countryRepository;
             _gSTFirmTypeRepository = gSTFirmTypeRepository;
@@ -104,6 +115,7 @@ namespace Adroit.Accounting.Web.Controllers
             _talukaRepository = talukaRepository;
             _districtRepository = districtRepository;
             _cityRepository = cityRepository;
+            _bookTypeRepository = bookTypeRepository;
             _gstRateRepository = gstRateRepository;
         }
     }

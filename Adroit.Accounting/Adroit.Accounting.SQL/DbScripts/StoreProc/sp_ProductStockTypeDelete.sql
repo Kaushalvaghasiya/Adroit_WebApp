@@ -1,13 +1,13 @@
-CREATE OR ALTER procedure [dbo].[sp_GSTRateDelete]
+CREATE OR ALTER procedure [dbo].[sp_ProductStockTypeDelete]
 (
-	@Id tinyint
+	@Id INT
 )
 AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		UPDATE GSTRate SET 
-			IsDeleted = 1
+		UPDATE ProductStockType SET 
+			Deleted = 1
 		WHERE Id= @Id ;
 	COMMIT TRAN
 	END TRY

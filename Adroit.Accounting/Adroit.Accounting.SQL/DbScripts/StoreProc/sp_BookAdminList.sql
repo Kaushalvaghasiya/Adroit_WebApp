@@ -31,7 +31,7 @@ Begin
 	  FROM BookAdmin
 	  LEFT JOIN AccountAdmin on BookAdmin.BookAccountId = [AccountAdmin].Id
 	  LEFT JOIN BookTypeAdmin on BookAdmin.BookTypeId = BookTypeAdmin.Id
-	  WHERE BookAdmin.IsDeleted = 0
+	  WHERE BookAdmin.Deleted = 0
 	  AND (Coalesce(@Search,'') = '' OR AccountAdmin.[Name] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

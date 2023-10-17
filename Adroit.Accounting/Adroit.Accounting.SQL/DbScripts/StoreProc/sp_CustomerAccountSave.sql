@@ -45,8 +45,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountSave]
 	,@RCMParty bit = 0
 	,@CapitalPercentage decimal(5,2) = 0
 	,@OwnerBranchId int
-	,@IsDeleted bit = 0
-	,@IsActive bit = 1	
+	,@Active bit = 1	
 )
 AS
 BEGIN
@@ -97,8 +96,7 @@ BEGIN
 				,RCMParty = @RCMParty
 				,CapitalPercentage = @CapitalPercentage
 				,OwnerBranchId = @OwnerBranchId
-				,IsDeleted = @IsDeleted
-				,IsActive = @IsActive
+				,Active = @Active
 				WHERE Id = @Id
 				SELECT @Id;
 			END
@@ -109,13 +107,13 @@ BEGIN
 					KM,ContactPersonName,Mobile,MobileAlternate,Email,GSTNumber,PAN,AreaName,
 					RateWithGST,GSTInvoiceTypeId,EximCode,IsIGST,GSTNumberTransport,TransportName,VehicleNumber,
 					DeliveryAccountBranchMappingId,ShippingAccountBranchMappingId,BrokerMappingId,CreditDays,Discount,TDS,TCS,CreditLimit,
-					InterestRate,Commission,IsEcommerce,AdharUID,[TAN],CompositParty,RCMParty,CapitalPercentage,OwnerBranchId,IsDeleted,IsActive)
+					InterestRate,Commission,IsEcommerce,AdharUID,[TAN],CompositParty,RCMParty,CapitalPercentage,OwnerBranchId,Active)
 				VALUES
 				(@Name,@PrintName,@AccountGroupId,@Address1,@Address2,@Address3,@CityId,@StateId,@CountryId,@Pincode,
 					@KM,@ContactPersonName,@Mobile,@MobileAlternate,@Email,@GSTNumber,@PAN,@AreaName,
 					@RateWithGST,@GSTInvoiceTypeId,@EximCode,@IsIGST,@GSTNumberTransport,@TransportName,@VehicleNumber,
 					@DeliveryAccountBranchMappingId,@ShippingAccountBranchMappingId,@BrokerMappingId,@CreditDays,@Discount,@TDS,@TCS,@CreditLimit,
-					@InterestRate,@Commission,@IsEcommerce,@AdharUID,@TAN,@CompositParty,@RCMParty,@CapitalPercentage,@OwnerBranchId,@IsDeleted,@IsActive)
+					@InterestRate,@Commission,@IsEcommerce,@AdharUID,@TAN,@CompositParty,@RCMParty,@CapitalPercentage,@OwnerBranchId,@Active)
 
 				SET @Id = SCOPE_IDENTITY();
 				SELECT @Id;

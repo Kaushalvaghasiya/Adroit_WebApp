@@ -52,8 +52,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@GstFirmTypeId ", value.GstFirmTypeId);
             parameters.Add("@SoftwareId ", value.SoftwareId);
             parameters.Add("@BranchLimit ", value.BranchLimit);
-            parameters.Add("@IsDeleted ", value.IsDeleted);
-            parameters.Add("@IsActive ", value.IsActive);
+            parameters.Add("@Active", value.Active);
             parameters.Add("@ModifiedById", value.ModifiedById);
             parameters.Add("@OrderNumber ", value.OrderNumber);
             parameters.Add("@AddedById ", value.AddedById);

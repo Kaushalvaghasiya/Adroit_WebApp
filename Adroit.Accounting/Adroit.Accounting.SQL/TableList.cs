@@ -12,6 +12,24 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class ProductAmtCalcOnTable
+    {
+        public const string _TableName = "ProductAmtCalcOn";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+    public sealed class ProductStockTypeTable
+    {
+        public const string _TableName = "ProductStockType";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+    public sealed class ProductQualityTypeTable
+    {
+        public const string _TableName = "ProductQualityType";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     public sealed class ProductSizeAdminTable
     {
         public const string _TableName = "ProductSizeAdmin";
@@ -73,10 +91,21 @@
         public const string _TableName = "City";
         public const string Title = "Title";
     }
+
+    #region Adroit - Account
+    public sealed class BookTypeAdminTable
+    {
+        public const string _TableName = "BookTypeAdmin";
+        public const string Title = "Title";
+    }
+    #endregion
+
+    #region Adroit - GST
     public sealed class GSTRateTable
     {
         public const string _TableName = "GSTRate";
         public const string Rate = "Rate";
         public const string OrderNumber = "OrderNumber";
     }
+    #endregion
 }

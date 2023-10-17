@@ -40,7 +40,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Id", value.Id);
             parameters.Add("@CustomerId", value.CustomerId);
             parameters.Add("@UserId", value.UserId);
-            parameters.Add("@IsActive", value.IsActive);
+            parameters.Add("@Active", value.Active);
             parameters.Add("@FirstName", value.FirstName);
             parameters.Add("@LastName", value.LastName);
             parameters.Add("@OwnerBranchId", value.OwnerBranchId);

@@ -23,8 +23,7 @@ namespace Adroit.Accounting.Model
         public byte GstFirmTypeId { get; set; }
         public byte SoftwareId { get; set; }
         public short BranchLimit { get; set; }
-        public bool IsDeleted { get; set; }
-        public bool IsActive { get; set; }
+        public bool Active { get; set; }
         public byte? OrderNumber { get; set; }
         public int AddedById { get; set; }
         public System.DateTime AddedOn { get; set; }

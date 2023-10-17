@@ -50,7 +50,6 @@ namespace Adroit.Accounting.Model
         public decimal? SalesQuantity { get; set; }
         public decimal? SalesRate { get; set; }
         public decimal? SalesDiscount { get; set; }
-        public bool IsDeleted { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int AddedById { get; set; }
         public int? DeletedById { get; set; }

@@ -17,7 +17,6 @@ namespace Adroit.Accounting.Model
         public int YearId { get; set; }
         public int BranchId { get; set; }
         public System.DateTime Date { get; set; }
-        public bool IsDeleted { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int AddedById { get; set; }
         public int? DeletedById { get; set; }

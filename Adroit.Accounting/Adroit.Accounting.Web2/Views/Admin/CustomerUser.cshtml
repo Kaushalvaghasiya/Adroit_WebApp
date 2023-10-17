@@ -9,6 +9,7 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
+                    <li><a href="#">Adroit</a></li>
                     <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
                     <li><a href="~/admin/customer?id=@Model.Customer.Id">@Model.Customer.Name</a></li>
                     <li class="active"><span>Users</span></li>
@@ -60,6 +61,7 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
+                    <li><a href="#">Adroit</a></li>
                     <li><a href=@Url.Action("customer", "admin")>Customer</a></li>
                     <li><a href="~/admin/customer?id=@Model.Customer.Id">@Model.Customer.Name</a></li>
                     <li><a href="#" class="btn-back">Users</a></li>
@@ -201,7 +203,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.isActive ? "Yes" : "No";
+                    return row.Active ? "Yes" : "No";
                 },
                 "targets": colDef.length,
                 "className": "text-center"
@@ -238,7 +240,7 @@
 
             columns.push({ "data": "fullName", "name": "fullName" });
             columns.push({ "data": "email", "name": "email" });
-            columns.push({ "data": "isActive", "name": "isActive" });
+            columns.push({ "data": "Active", "name": "Active" });
             columns.push({ "data": "allowUpdateUserMenuSettingToCustomer", "name": "allowUpdateUserMenuSettingToCustomer" });
             columns.push({ "data": "customerUserBranches", "name": "customerUserBranches" });
             columns.push({ "data": "Id", "name": "Id" });
@@ -293,7 +295,7 @@
             $("#Email").removeClass("anchordisabled");
             $("#CustomerUserBranchIds").val('').trigger("change");
             $("#AllowUpdateUserMenuSettingToCustomer").prop('checked', false);
-            $("#IsActive").prop('checked', false);
+            $("#Active").prop('checked', false);
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -334,7 +336,7 @@
                 savedata.FirstName = $("#FirstName").val();
                 savedata.LastName = $("#LastName").val();
                 savedata.Email = $("#Email").val();
-                savedata.IsActive = $('#Active').is(':checked');
+                savedata.Active = $('#Active').is(':checked');
                 savedata.AllowUpdateUserMenuSettingToCustomer = $('#AllowUpdateUserMenuSettingToCustomer').is(':checked');
                 savedata.CustomerUserBranchIds = $("#CustomerUserBranchIds").val().join(",");
 
@@ -416,7 +418,7 @@
                                 $("#FirstName").val(result.data.firstName);
                                 $("#LastName").val(result.data.lastName);
                                 $("#Email").val(result.data.email);
-                                $("#Active").prop('checked', result.data.isActive);
+                                $("#Active").prop('checked', result.data.active);
                                 $("#AllowUpdateUserMenuSettingToCustomer").prop('checked', result.data.allowUpdateUserMenuSettingToCustomer);
                                 $("#Email").addClass("anchordisabled");
                                 $("#CustomerUserBranchIds").multipleSelect('setSelects', result.data.customerUserBranchIds.split(','));
