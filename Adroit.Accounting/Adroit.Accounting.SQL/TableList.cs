@@ -99,4 +99,13 @@
         public const string Title = "Title";
     }
     #endregion
+
+    #region Adroit - GST
+    public sealed class GSTRateTable
+    {
+        public const string _TableName = "GSTRate";
+        public const string Rate = "Rate";
+        public const string OrderNumber = "OrderNumber";
+    }
+    #endregion
 }
