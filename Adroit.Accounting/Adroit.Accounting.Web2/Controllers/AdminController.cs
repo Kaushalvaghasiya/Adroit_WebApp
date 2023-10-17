@@ -1,4 +1,5 @@
-﻿using Adroit.Accounting.Repository.IRepository;
+﻿using Adroit.Accounting.Repository;
+using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Identity;
@@ -32,6 +33,8 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IProductQualityType _productQualityTypeRepository;
         private readonly IBusiness _businessRepository;
         private readonly ICountry _countryRepository;
+        private readonly IVehicle _vehicleRepository;
+        private readonly IVehicleModel _vehicleModelRepository;
         private readonly IGSTFirmType _gSTFirmTypeRepository;
         private readonly IFirmType _firmTypeRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
@@ -66,6 +69,8 @@ namespace Adroit.Accounting.Web.Controllers
             IProductQualityType productQualityTypeRepository,
             IBusiness businessRepository,
             ICountry countryRepository,
+            IVehicle vehicleRepository,
+            IVehicleModel vehicleModelRepository,
             IGSTFirmType gSTFirmTypeRepository,
             IFirmType firmTypeRepository,
             IBranchTypeAdmin branchTypeRepository,
@@ -102,6 +107,8 @@ namespace Adroit.Accounting.Web.Controllers
             _productQualityTypeRepository = productQualityTypeRepository;
             _businessRepository = businessRepository;
             _countryRepository = countryRepository;
+            _vehicleRepository = vehicleRepository;
+            _vehicleModelRepository = vehicleModelRepository;
             _gSTFirmTypeRepository = gSTFirmTypeRepository;
             _firmTypeRepository = firmTypeRepository;
             _branchTypeRepository = branchTypeRepository;

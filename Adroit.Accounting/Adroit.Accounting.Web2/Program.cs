@@ -52,6 +52,8 @@ try
     builder.Services.AddSingleton<IEmailService, EmailService>();
     builder.Services.AddSingleton<IUser, UserRepository>();
     builder.Services.AddSingleton<ICountry, CountryRepository>();
+    builder.Services.AddSingleton<IVehicle, VehicleRepository>();
+    builder.Services.AddSingleton<IVehicleModel, VehicleModelRepository>();
     builder.Services.AddSingleton<IState, StateRepository>();
     builder.Services.AddSingleton<ICity, CityRepository>();
     builder.Services.AddSingleton<IDistrict, DistrictRepository>();
