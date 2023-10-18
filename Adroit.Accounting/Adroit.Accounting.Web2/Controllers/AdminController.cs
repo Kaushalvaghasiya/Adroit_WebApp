@@ -35,6 +35,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICountry _countryRepository;
         private readonly IVehicle _vehicleRepository;
         private readonly IVehicleModel _vehicleModelRepository;
+        private readonly IVehicleOwner _vehicleOwnerRepository;
         private readonly IGSTFirmType _gSTFirmTypeRepository;
         private readonly IFirmType _firmTypeRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
@@ -71,6 +72,7 @@ namespace Adroit.Accounting.Web.Controllers
             ICountry countryRepository,
             IVehicle vehicleRepository,
             IVehicleModel vehicleModelRepository,
+            IVehicleOwner vehicleOwnerRepository,
             IGSTFirmType gSTFirmTypeRepository,
             IFirmType firmTypeRepository,
             IBranchTypeAdmin branchTypeRepository,
@@ -109,6 +111,7 @@ namespace Adroit.Accounting.Web.Controllers
             _countryRepository = countryRepository;
             _vehicleRepository = vehicleRepository;
             _vehicleModelRepository = vehicleModelRepository;
+            _vehicleOwnerRepository = vehicleOwnerRepository;
             _gSTFirmTypeRepository = gSTFirmTypeRepository;
             _firmTypeRepository = firmTypeRepository;
             _branchTypeRepository = branchTypeRepository;

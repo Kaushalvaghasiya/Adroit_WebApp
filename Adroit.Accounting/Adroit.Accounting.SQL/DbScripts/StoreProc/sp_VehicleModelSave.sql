@@ -5,9 +5,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_VehicleModelSave]
 	 @Active bit,
 	 @OrderNumber smallint,
 	 @AddedById int,
-	 @AddedByOn datetime,
-	 @ModifiedById int,
-	 @ModifiedOn datetime
+	 @ModifiedById int
 )
 AS
 BEGIN
@@ -18,7 +16,9 @@ BEGIN
 				UPDATE  VehicleModel SET
 						Title = @Title,
 						OrderNumber = @OrderNumber,
-						Active = @active
+						Active = @active,
+						ModifiedById = ModifiedById,
+						ModifiedOn = GETUTCDATE()
 					WHERE ID = @Id
 			END
 		ELSE If EXISTS (SELECT 1 FROM VehicleModel WHERE Title = @Title AND Deleted = 1)
@@ -34,9 +34,9 @@ BEGIN
 		ELSE 
 			BEGIN
 				INSERT INTO VehicleModel
-					([Title], OrderNumber, Active)
+					([Title], OrderNumber, Active, AddedById, AddedOn)
 				VALUES
-					(@Title, @OrderNumber, @Active)
+					(@Title, @OrderNumber, @Active, @AddedById, GETUTCDATE())
 
 				SET @Id = SCOPE_IDENTITY()
 				

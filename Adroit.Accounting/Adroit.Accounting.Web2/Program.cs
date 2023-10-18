@@ -54,6 +54,7 @@ try
     builder.Services.AddSingleton<ICountry, CountryRepository>();
     builder.Services.AddSingleton<IVehicle, VehicleRepository>();
     builder.Services.AddSingleton<IVehicleModel, VehicleModelRepository>();
+    builder.Services.AddSingleton<IVehicleOwner, VehicleOwnerRepository>();
     builder.Services.AddSingleton<IState, StateRepository>();
     builder.Services.AddSingleton<ICity, CityRepository>();
     builder.Services.AddSingleton<IDistrict, DistrictRepository>();

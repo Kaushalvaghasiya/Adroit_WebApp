@@ -6,16 +6,17 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class VehicleModelRepository : IVehicleModel
+    public class VehicleOwnerRepository : IVehicleOwner
     {
-        public VehicleModelViewModel Get(int id, string connectionString)
+        public VehicleOwnerViewModel Get(int id, int customerId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.Get<VehicleModelViewModel>("sp_VehicleModelGet", connectionString, parameters);
+            parameters.Add("@CustomerId", customerId);
+            return QueryHelper.Get<VehicleOwnerViewModel>("sp_VehicleOwnerGet", connectionString, parameters);
         }
 
-        public List<VehicleModelGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<VehicleOwnerGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();
             param.Add("@LoginId", loginId);
@@ -25,30 +26,31 @@ namespace Adroit.Accounting.Repository
             param.Add("@PageSize", pageSize);
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<VehicleModelGridViewModel>("sp_VehicleModelList", connectionString, param);
+            return QueryHelper.GetList<VehicleOwnerGridViewModel>("sp_VehicleOwnerList", connectionString, param);
         }
 
-        public int Save(VehicleModel value, string connectionString)
+        public int Save(VehicleOwner value, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            parameters.Add("@Title", value.Title);
-            parameters.Add("@OrderNumber", value.OrderNumber);
+            //parameters.Add("@Title", value.Title);
+            //parameters.Add("@OrderNumber", value.OrderNumber);
             parameters.Add("@AddedById", value.AddedById);
             parameters.Add("@ModifiedById", value.ModifiedById);
             parameters.Add("@Active", value.Active);
-            return QueryHelper.Save("sp_VehicleModelSave", connectionString, parameters);
+            return QueryHelper.Save("sp_VehicleOwnerSave", connectionString, parameters);
         }
-        public void Delete(int id, string connectionString)
+        public void Delete(int id, int customerId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            QueryHelper.Save("sp_VehicleModelDelete", connectionString, parameters);
+            parameters.Add("@CustomerId", customerId);
+            QueryHelper.Save("sp_VehicleOwnerDelete", connectionString, parameters);
         }
         public List<DropdownViewModel> SelectList(string connectionString)
         {
             var parameters = new DynamicParameters();
-            return QueryHelper.GetList<DropdownViewModel>("sp_VehicleModelList_Select", connectionString, parameters);
+            return QueryHelper.GetList<DropdownViewModel>("sp_VehicleOwnerList_Select", connectionString, parameters);
         }
     }
 }

@@ -95,6 +95,7 @@
     {
         public const string _TableName = "VehicleModel";
         public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
     }
 
     #region Adroit - Account
