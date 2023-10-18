@@ -43,6 +43,5 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<GSTRateGridViewModel>("sp_GSTRateList", connectionString, param);
         }
-
     }
 }
