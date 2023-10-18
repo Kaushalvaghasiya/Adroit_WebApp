@@ -120,4 +120,13 @@
     }
 
     #endregion
+
+    #region Adroit - Transport
+    public sealed class TransportPackingAdminTable
+    {
+        public const string _TableName = "TransportPackingAdmin";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+    #endregion
 }

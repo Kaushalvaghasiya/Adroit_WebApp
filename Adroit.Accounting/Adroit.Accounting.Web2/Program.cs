@@ -87,6 +87,7 @@ try
     builder.Services.AddSingleton<IBookTypeAdmin, BookTypeAdminRepository>();
     builder.Services.AddSingleton<IGSTRate, GSTRateRepository>();
     builder.Services.AddSingleton<IGSTInvoiceType, GSTInvoiceTypeRepository>();
+    builder.Services.AddSingleton<ITransportPackingAdmin, TransportPackingAdminRepository>();
 
 
     if (!builder.Environment.IsDevelopment())
