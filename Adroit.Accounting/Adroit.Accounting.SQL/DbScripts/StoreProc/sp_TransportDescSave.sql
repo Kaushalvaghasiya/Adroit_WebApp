@@ -12,16 +12,15 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM TransportDesc WHERE Id = @Id)
+		IF EXISTS (SELECT 1 FROM TransportDesc WHERE Id = @Id And CustomerId = @CustomerId)
 			BEGIN
 				UPDATE  TransportDesc SET
-						CustomerId = @CustomerId,
 						Title = @Title,
 						OrderNumber = @OrderNumber,
 						ModifiedById = @ModifiedById, 
 						ModifiedOn = GETUTCDATE(),
 						Active = @active
-					WHERE ID = @Id
+					WHERE ID = @Id And CustomerId = @CustomerId
 			END
 		ELSE
 			BEGIN

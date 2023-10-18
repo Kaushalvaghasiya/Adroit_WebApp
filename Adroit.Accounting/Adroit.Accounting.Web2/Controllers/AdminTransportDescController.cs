@@ -14,7 +14,6 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult TransportDesc()
         {
             var model = new TransportDescViewModel();
-            model.CustomerList = _customerRepository.SelectList(_configurationData.DefaultConnection);
             model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, TransportDescTable._TableName, TransportDescTable.Title);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, TransportDescTable._TableName, TransportDescTable.OrderNumber);
 
@@ -51,12 +50,13 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                model.AddedById = LoginHandler.GetUserId(User);
-                model.ModifiedById = LoginHandler.GetUserId(User);
-
                 //we need add user Id
-                var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                
+                var UserId = LoginHandler.GetUserId(User);
+
+                model.CustomerId = UserId;
+                model.AddedById = UserId;
+                model.ModifiedById = UserId;
+
                 int id = _transportDescRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
@@ -77,7 +77,9 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                _transportDescRepository.Delete(id, _configurationData.DefaultConnection);
+                int customerId = LoginHandler.GetUserId(User);
+
+                _transportDescRepository.Delete(id, customerId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -93,7 +95,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _transportDescRepository.Get(id, _configurationData.DefaultConnection);
+                int customerId = LoginHandler.GetUserId(User);
+                result.data = _transportDescRepository.Get(id, customerId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

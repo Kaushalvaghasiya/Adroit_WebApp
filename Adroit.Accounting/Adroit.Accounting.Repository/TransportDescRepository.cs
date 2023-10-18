@@ -20,16 +20,18 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Active", value.Active);
             return QueryHelper.Save("sp_TransportDescSave", connectionString, parameters);
         }
-        public TransportDescViewModel Get(int id, string connectionString)
+        public TransportDescViewModel Get(int id, int customerId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
+            parameters.Add("@CustomerId", customerId);
             return QueryHelper.Get<TransportDescViewModel>("sp_TransportDescGet", connectionString, parameters);
         }
-        public void Delete(int id, string connectionString)
+        public void Delete(int id, int customerId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
+            parameters.Add("@CustomerId", customerId);
             QueryHelper.Save("sp_TransportDescDelete", connectionString, parameters);
         }
         public List<TransportDescGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")

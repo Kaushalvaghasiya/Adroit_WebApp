@@ -1,10 +1,11 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_TransportDescGet]
 (
-	@Id INT
+	@Id INT,
+	@CustomerId INT
 )
 AS
 BEGIN
 	SELECT * FROM TransportDesc
-	WHERE Id = @Id
+	WHERE Id = @Id And CustomerId = @CustomerId
 END
 GO

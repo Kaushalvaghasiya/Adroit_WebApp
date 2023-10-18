@@ -35,7 +35,6 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">TITLE</th>
-                                    <th class="border-bottom-0">CUSTOMER</th>
                                     <th class="border-bottom-0">ORDER NUMBER</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
@@ -83,24 +82,6 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label for="CustomerId">Customer Id</label>
-                                @* <select class="form-control select2-show-search mode-ed" id="CustomerId"></select> *@
-                                <select class="form-control select2-show-search mode-ed" id="CustomerId">
-                                    <option></option>
-                                    @{
-                                        if (Model.CustomerList != null)
-                                        {
-                                            foreach (var o in Model.CustomerList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label for="Title">Title</label>
@@ -157,7 +138,6 @@
     </div>
     <!-- row end -->
     <input type="hidden" id="Id" value="0" />
-    <input type="hidden" id="hdCustomerId" value="0" />
 </div>
 
 @section Scripts
@@ -206,12 +186,6 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.customer;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
                     return row.orderNumber;
                 },
                 "targets": colDef.length,
@@ -239,7 +213,6 @@
             });
 
             columns.push({ "data": "Title", "name": "title" });
-            columns.push({ "data": "Customer", "name": "Customer" });
             columns.push({ "data": "OrderNumber", "name": "ordernumber" });
             columns.push({ "data": "Active", "name": "active" });
             //columns.push({ "data": "Id", "name": "Id" });
@@ -286,7 +259,6 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#CustomerId").val(null).trigger('change');
             $("#Title").val(null).trigger('change');
             $("#OrderNumber").val(null).trigger('change');
             $("#Active").prop('checked', false);
@@ -297,12 +269,6 @@
 
         function saveItem() {
             try {
-                if ($("#CustomerId").val() == "") {
-                    showWarning("", "Please select customer name.");
-                    $("#CustomerId").focus();
-                    return false;
-                }
-
                 if ($("#Title").val() == "") {
                     showWarning("", "Please enter valid description title.");
                     $("#Title").focus();
@@ -319,9 +285,8 @@
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
-                savedata.CustomerId = parseInt($("#CustomerId").val() || 0);
                 savedata.Title = $("#Title").val();
-                savedata.OrderNumber = $("#OrderNumber").val();
+                savedata.OrderNumber = parseInt($("#OrderNumber").val());
                 savedata.Active = $("#Active").prop('checked');
 
                 blockUI('container');
@@ -406,8 +371,6 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#hdCustomerId").val(result.data.customerId);
-                                $("#CustomerId").val(result.data.customerId).trigger('change');
                                 $("#Title").val(result.data.title).trigger('change');
                                 $("#OrderNumber").val(result.data.orderNumber).trigger('change');
                                 $("#Active").prop('checked', result.data.active);

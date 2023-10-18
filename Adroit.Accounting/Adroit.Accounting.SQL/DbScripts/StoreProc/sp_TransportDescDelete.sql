@@ -1,14 +1,17 @@
 CREATE OR ALTER procedure [dbo].[sp_TransportDescDelete]
 (
-	@Id INT
+	@Id INT,
+	@CustomerId INT
 )
 AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE TransportDesc SET 
-			Deleted = 1
-		WHERE Id= @Id ;
+			Deleted = 1,
+			DeletedById = @CustomerId,
+			DeletedOn = GETUTCDATE()
+		WHERE Id= @Id And CustomerId=@CustomerId;
 	COMMIT TRAN
 	END TRY
 	BEGIN CATCH
