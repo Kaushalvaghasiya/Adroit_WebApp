@@ -14,5 +14,6 @@ namespace Adroit.Accounting.Model
         public string Title { get; set; }
         public string Code { get; set; }
         public byte? OrderNumber { get; set; }
+        public bool Active { get; set; }
     }
 }
