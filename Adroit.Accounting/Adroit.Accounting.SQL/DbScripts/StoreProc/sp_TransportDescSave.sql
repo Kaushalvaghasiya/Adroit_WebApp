@@ -24,6 +24,15 @@ BEGIN
 						Active = @active
 					WHERE ID = @Id And CustomerId = @CustomerId
 			END
+		ELSE If EXISTS (SELECT 1 FROM TransportDesc WHERE [Title] = @Title AND Deleted = 1 And CustomerId = @CustomerId)
+			BEGIN
+				UPDATE  TransportDesc SET
+						Active = @Active,
+						Deleted = 0
+					WHERE Title = @Title
+
+				SELECT @Id=Id FROM TransportDesc WHERE [Title] = @Title
+			END
 		ELSE
 			BEGIN
 				INSERT INTO TransportDesc
