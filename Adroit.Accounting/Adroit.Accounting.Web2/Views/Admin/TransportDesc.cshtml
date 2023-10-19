@@ -35,7 +35,7 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">DESCRIPTION</th>
-                                    <th class="border-bottom-0">ORDER NUMBER</th>
+                                    <th class="border-bottom-0" style="width:130px">ORDER NUMBER</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
@@ -82,7 +82,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-6 col-md-12">
+                        <div class="col-lg-8 col-md-12">
                             <div class="form-group">
                                 <label for="Title">Description</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="Title">
@@ -99,7 +99,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-6 col-md-12">
+                        <div class="col-lg-4 col-md-12">
                             <div class="form-group">
                                 <label for="OrderNumber">Order Number</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="OrderNumber">
@@ -161,7 +161,7 @@
             $("#Title").focus();
             
             //Set auto max value
-            var maxvalue = parseInt($('#OrderNumber option:last-child').val()) + 1;
+            var maxvalue = parseInt($('#OrderNumber option:last-child').val() || 0) + 1;
             $("#OrderNumber").append(new Option(maxvalue, maxvalue, true, true)).trigger('change');
             $("#Active").prop('checked', true);
         }
