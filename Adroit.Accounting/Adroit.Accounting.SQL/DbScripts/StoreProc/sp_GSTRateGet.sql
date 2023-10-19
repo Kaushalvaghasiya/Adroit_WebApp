@@ -1,0 +1,11 @@
+CREATE OR ALTER PROCEDURE [dbo].[sp_GSTRateGet]
+(
+	@Id TINYINT
+)
+AS
+BEGIN
+	SELECT *
+	FROM GSTRate	
+	WHERE Id = @Id
+END
+GO
