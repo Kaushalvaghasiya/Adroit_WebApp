@@ -8,11 +8,11 @@ namespace Adroit.Accounting.Repository
 {
     public class TransportDescRepository : ITransportDesc
     {
-        public int Save(TransportDesc value, string connectionString)
+        public int Save(TransportDesc value, int userId,string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            parameters.Add("@UserId", value.UserId);
+            parameters.Add("@UserId", userId);
             parameters.Add("@Title", value.Title);
             parameters.Add("@OrderNumber", value.OrderNumber);
             parameters.Add("@AddedById", value.AddedById);

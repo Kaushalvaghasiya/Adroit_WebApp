@@ -53,11 +53,10 @@ namespace Adroit.Accounting.Web.Controllers
                 //we need add user Id
                 int userId = LoginHandler.GetUserId(User);
 
-                model.UserId = userId;
                 model.AddedById = userId;
                 model.ModifiedById = userId;
 
-                int id = _transportDescRepository.Save(model, _configurationData.DefaultConnection);
+                int id = _transportDescRepository.Save(model, userId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
