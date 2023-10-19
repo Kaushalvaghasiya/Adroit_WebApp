@@ -1,0 +1,11 @@
+CREATE OR ALTER PROCEDURE [dbo].[sp_GSTPortGet]
+(
+	@Id TINYINT
+)
+AS
+BEGIN
+	SELECT *
+	FROM GSTPort
+	WHERE Id = @Id
+END
+GO
