@@ -36,12 +36,10 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">CUSTOMER</th>
-                                    <th class="border-bottom-0">TYPE</th>
+                                    <th class="border-bottom-0">OWNER NAME</th>
+                                    <th class="border-bottom-0">ACCOUNT NAME</th>
                                     <th class="border-bottom-0">CITY</th>
-                                    <th class="border-bottom-0">STATUS</th>
-                                    <th class="border-bottom-0">MOBILE</th>
-                                    <th class="border-bottom-0"> #FIRMs</th>
+                                    <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:210px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -72,17 +70,6 @@
                         <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
                         <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
-
-                        @* <input type="text" class="form-control" placeholder="Search Customer...">
-                        <span class="input-group-append mr-2">
-                        <button class="btn btn-primary" type="button" onclick="showUnderDevMsg()">Go!</button>
-                        </span>
-                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
-                        <a href="#" class="btn-underdevelopment btn btn-blue text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
-                        <a href="#" class="btn-underdevelopment btn btn-success text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send"><span><i class="fa fa-share-alt"></i></span></a>
-                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="delete"><span><i class="fa fa-trash-o"></i></span></a>
-                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
-                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-arrow-left"></i></span>                        </a> *@
                     </div>
                 </div>
             </div>
@@ -98,10 +85,17 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="Account">Account</label>
-                                <select class="form-control select2-show-search mode-ed" id="Account">
+                                <input type="hidden" id="Id" value="0" />
+                                <label for="Name">Owner Name</label>
+                                <input type="text" class="form-control mode-ed" id="Name" placeholder="" maxlength="70">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="AccountId">Account Name</label>
+                                <select class="form-control select2-show-search mode-ed" id="AccountId">
                                     @{
                                         if (Model.AccountList != null)
                                         {
@@ -114,14 +108,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <input type="hidden" id="Id" value="0" />
-                                <label for="Name">Name</label>
-                                <input type="text" class="form-control mode-ed" id="Name" placeholder="" maxlength="70">
-                            </div>
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                             <div class="form-group">
                                 <label for="Address">Address</label>
                                 <input type="text" class="form-control mode-ed" id="Address" placeholder="" maxlength="150">
@@ -186,14 +173,14 @@
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="PAN">PAN</label>
-                                <input type="text" class="form-control numberonly mode-ed" id="Mobile" placeholder="" maxlength="12">
+                                <input type="text" class="form-control" id="PAN" placeholder="" maxlength="12">
                             </div>
                         </div>
-                       
+
                         <div class="col-md-5">
                             <div class="form-group">
                                 <label for="AadhaarUID">Aadhaar UID</label>
-                                <input type="text" class="form-control mode-ed" id="AadhaarUID" placeholder="" maxlength="12">
+                                <input type="text" class="form-control" id="AadhaarUID" placeholder="" maxlength="12">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -208,12 +195,6 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    @* <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
-                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="New"><i class="fa fa-plus"></i>&nbsp;New</a>
-                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" id="btnCancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a> *@
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
                     <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="new"><i class="fa fa-plus"></i>&nbsp;New</a>
@@ -225,6 +206,8 @@
     <!-- row end -->
     <input type="hidden" id="hdnCountryId" value="0" />
     <input type="hidden" id="hdnStateId" value="0" />
+    <input type="hidden" id="hdnDistrictId" value="0" />
+    <input type="hidden" id="hdnTalukaId" value="0" />
     <input type="hidden" id="hdnCityId" value="0" />
 
 </div>
@@ -267,7 +250,7 @@
             fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
-            $("#CustomerName").focus();
+            $("#Name").focus();
 
             $("#Active").prop('checked', true);
         }
@@ -295,7 +278,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.customerType;
+                    return row.accountName;
                 },
                 "targets": colDef.length,
             });
@@ -304,25 +287,14 @@
                     return row.city;
                 },
                 "targets": colDef.length,
+                "className": "text-center"
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.statusId;
+                    return row.active ? "Yes" : "No";
                 },
                 "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.mobile;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.numberOfFirmsCreated + "/" + (row.totalFirm ?? 0);
-                },
-                "targets": colDef.length,
-                "className": "text-center",
+                "className": "text-center"
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -339,11 +311,9 @@
             });
 
             columns.push({ "data": "Name", "name": "Name" });
-            columns.push({ "data": "CustomerType", "name": "CustomerType" });
+            columns.push({ "data": "AccountName", "name": "AccountName" });
             columns.push({ "data": "City", "name": "City" });
-            columns.push({ "data": "Status", "name": "Status" });
-            columns.push({ "data": "Mobile", "name": "Mobile" });
-            columns.push({ "data": "TotalFirm", "name": "TotalFirm" });
+            columns.push({ "data": "Active", "name": "Active" });
             columns.push({ "data": "Id", "name": "Id" });
 
             var table = $('#tblMain').DataTable({
@@ -372,7 +342,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/Admin/CustomerList"))',
+                    url: '@(Url.Content("~/customer/VehicleOwnerList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -512,30 +482,18 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#CustomerName").val("");
-            $("#BusinessName").val("");
-            $("#BusinessId").val('').trigger("change");
-            $("#Address1").val("");
-            $("#Address2").val("");
-            $("#Address3").val("");
+            $("#Name").val("");
+            $("#AccountId").val('').trigger("change");
+            $("#Address").val("");
             $("#Country").val('').trigger("change");
             $("#StateId").val('').trigger("change");
             $("#District").val('').trigger("change");
             $("#Taluka").val('').trigger("change");
             $("#CityId").val('').trigger("change");
-            $("#Business").val('').trigger("change");
-            $("#CustomerType").val('').trigger("change");
-            $("#StatusId").val('').trigger("change");
             $("#PinCode").val("");
-            $("#ContactPersonName").val("");
             $("#Mobile").val("");
-            $("#MobileAlternate").val("");
-            $("#Phone").val("");
-            $("#Email").val("");
-            $("#Requirements").val("");
-            $("#TotalFirms").val("1");
+            $("#PAN").val("");
             $("#AadhaarUID").val("");
-            $("#TotalUsers").val("1");
             $("#Active").prop('checked', false);
 
             $("#hdnCountryId").val("");
@@ -550,34 +508,24 @@
 
         function saveItem() {
             try {
-                if ($("#CustomerName").val().trim() == "") {
+                if ($("#Name").val().trim() == "") {
                     showWarning("", "Please enter name.");
-                    $("#CustomerName").focus();
+                    $("#Name").focus();
                     return false;
                 }
-                if ($("#CustomerName").val().trim().length <= 2) {
+                if ($("#Name").val().trim().length <= 2) {
                     showWarning("", "Enter valid customer name.");
-                    $("#CustomerName").focus();
+                    $("#Name").focus();
                     return false;
                 }
-                if ($("#BusinessName").val().trim() == "") {
-                    showWarning("", "Please enter Business Name.");
-                    $("#BusinessName").focus();
+                if ($("#AccountId").val() == null || $("#AccountId").val() == "") {
+                    showWarning("", "Please select account name.");
+                    $("#AccountId").focus();
                     return false;
                 }
-                if ($("#BusinessName").val().trim().length <= 2) {
-                    showWarning("", "Please enter valid business name.");
-                    $("#BusinessName").focus();
-                    return false;
-                }
-                if ($("#BusinessId").val() == null || $("#BusinessId").val() == "") {
-                    showWarning("", "Please select business.");
-                    $("#BusinessId").focus();
-                    return false;
-                }
-                if ($("#Address1").val().trim() == "") {
+                if ($("#Address").val().trim() == "") {
                     showWarning("", "Please enter address.");
-                    $("#Address1").focus();
+                    $("#Address").focus();
                     return false;
                 }
                 if ($("#Country").val() == null || $("#Country").val() == "") {
@@ -605,16 +553,6 @@
                     $("#CityId").focus();
                     return false;
                 }
-                if ($("#ContactPersonName").val().trim() == "") {
-                    showWarning("", "Please enter contact person name.");
-                    $("#ContactPersonName").focus();
-                    return false;
-                }
-                if ($("#ContactPersonName").val().trim().length <= 2) {
-                    showWarning("", "Please enter valid contact person name.");
-                    $("#ContactPersonName").focus();
-                    return false;
-                }
                 if ($("#Mobile").val().trim() == "") {
                     showWarning("", "Please enter contact mobile.");
                     $("#Mobile").focus();
@@ -625,18 +563,24 @@
                     $("#Mobile").focus();
                     return false;
                 }
-                if ($("#MobileAlternate").val().trim().length >= 1) {
-                    if ($("#MobileAlternate").val().trim().length != 10) {
-                        showWarning("", "Please enter valid alternate mobile number.");
-                        $("#MobileAlternate").focus();
+                if ($("#Mobile").val().trim() != "") {
+                    if ($("#Mobile").val().trim().length != 10) {
+                        showWarning("", "Please enter valid mobile number.");
+                        $("#Mobile").focus();
+                        return false;
+                    }
+                    if (!isNumber($("#Mobile").val().trim())) {
+                        showWarning("", "Please enter valid mobile number.");
+                        $("#Mobile").focus();
                         return false;
                     }
                 }
-                if ($("#Email").val().trim() == "") {
-                    showWarning("", "Please enter email.");
-                    $("#Email").focus();
+                if ($("#PAN").val().trim() != "" && $("#PAN").val().trim().length != 10) {
+                    showWarning("", "Please enter valid PAN.");
+                    $("#PAN").focus();
                     return false;
                 }
+                 
                 if ($("#AadhaarUID").val().trim().length > 0 && $("#AadhaarUID").val().trim().length != 12) {
                     showWarning("", "Please enter valid Aadhaar UID.");
                     $("#AadhaarUID").focus();
@@ -647,78 +591,26 @@
                     $("#AadhaarUID").focus();
                     return false;
                 }
-                if ($("#CustomerType").val() == "" || $("#CustomerType").val() == null) {
-                    showWarning("", "Please select customer type.");
-                    $("#CustomerType").focus();
-                    return false;
-                }
-                if (!isNumber($("#Mobile").val().trim())) {
-                    showWarning("", "Please enter valid mobile number.");
-                    $("#Mobile").focus();
-                    return false;
-                }
-                if (!isNumber($("#MobileAlternate").val().trim())) {
-                    showWarning("", "Please enter valid alternate mobile number.");
-                    $("#MobileAlternate").focus();
-                    return false;
-                }
-                if (!isEmail($("#Email").val().trim())) {
-                    showWarning("", "Please enter valid email");
-                    $("#Email").focus();
-                    return false;
-                }
-                if ($("#StatusId").val() == null || $("#StatusId").val() == "") {
-                    showWarning("", "Please select status.");
-                    $("#StatusId").focus();
-                    return false;
-                }
-
-                if (!isNumber($("#TotalFirms").val())) {
-                    showWarning("", "Please enter valid number of firms.");
-                    $("#TotalFirms").focus();
-                    return false;
-                }
-                if (parseInt($("#TotalFirms").val()) <= 0) {
-                    $("#TotalFirms").val("1");
-                }
-                if (!isNumber($("#TotalUsers").val())) {
-                    showWarning("", "Please enter valid number of users.");
-                    $("#TotalUsers").focus();
-                    return false;
-                }
-                if (parseInt($("#TotalUsers").val()) <= 0) {
-                    $("#TotalUsers").val("1");
-                }
+                
+                
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
-                savedata.Name = $("#CustomerName").val();
-                savedata.BusinessId = $("#BusinessId").val();
-                savedata.BusinessName = $("#BusinessName").val();
-                savedata.Address1 = $("#Address1").val();
-                savedata.Address2 = $("#Address2").val();
-                savedata.Address3 = $("#Address3").val();
+                savedata.Name = $("#Name").val();
+                savedata.AccountId = $("#AccountId").val();
+                savedata.Address = $("#Address").val();
                 savedata.CityId = parseInt($("#CityId").val());
                 savedata.StateId = parseInt($("#StateId").val());
                 savedata.Pincode = $("#PinCode").val();
-                savedata.ContactPersonName = $("#ContactPersonName").val();
                 savedata.Mobile = $("#Mobile").val();
-                savedata.MobileAlternate = $("#MobileAlternate").val();
-                savedata.Phone = $("#Phone").val();
-                savedata.Email = $("#Email").val();
-                savedata.Requirement = $("#Requirements").val();
-                savedata.TotalFirm = parseInt($("#TotalFirms").val());
-                savedata.CustomerType = $("#CustomerType").val();
+                savedata.PAN = $("#PAN").val();
                 savedata.AdharUID = $("#AadhaarUID").val();
-                savedata.TotalUsers = parseInt($("#TotalUsers").val());
                 savedata.Active = $('#Active').is(':checked');
-                savedata.AgreeTerms = true;
-                savedata.StatusId = $("#StatusId").val();
-
+                
                 blockUI('container');
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveCustomer", "Admin"))",
+                    url: "@(Url.Action("SaveVehicleOwner", "customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -726,7 +618,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Customer saved successfully.');
+                            showWarning("", 'Owner saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -745,7 +637,6 @@
                 unblockUI('container');
                 showError("", e.message);
             }
-
         }
 
         function deleteItem(id) {
@@ -754,7 +645,7 @@
             }
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteCustomer"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/customer/DeleteVehicleOwner"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -782,13 +673,15 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomer"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/customer/GetVehicleOwner"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
                         try {
                             if (result.result == RESULT_SUCCESS) {
                                 addClick();
+                                debugger;
+
                                 if (isViewMode) {
                                     setScreenMode(true);
                                     $("#activeTabName").text("VIEW ID# " + result.data.id);
@@ -798,25 +691,14 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#CustomerName").val(result.data.name);
-                                $("#BusinessName").val(result.data.businessName);
-                                $("#BusinessId").val(result.data.businessId).trigger("change");
-                                $("#Address1").val(result.data.address1);
-                                $("#Address2").val(result.data.address2);
-                                $("#Address3").val(result.data.address3);
+                                $("#Name").val(result.data.name);
+                                $("#AccountId").val(result.data.accountId).trigger("change");
+                                $("#Address").val(result.data.address);
                                 $("#PinCode").val(result.data.pincode);
-                                $("#ContactPersonName").val(result.data.contactPersonName);
                                 $("#Mobile").val(result.data.mobile);
-                                $("#MobileAlternate").val(result.data.mobileAlternate);
-                                $("#Phone").val(result.data.phone);
-                                $("#Email").val(result.data.email);
-                                $("#Requirements").val(result.data.requirement);
+                                $("#PAN").val(result.data.pan);
                                 $("#AadhaarUID").val(result.data.adharUID);
-                                $("#TotalFirms").val(result.data.totalFirm);
-                                $("#TotalUsers").val(result.data.totalUsers);
                                 $('#Active').prop('checked', result.data.active);
-                                $("#CustomerType").val(result.data.customerTypeId).trigger("change");
-                                $("#StatusId").val(result.data.statusTypeId).trigger("change");
 
                                 $("#hdnCountryId").val(result.data.countryId);
                                 $("#hdnStateId").val(result.data.stateId);

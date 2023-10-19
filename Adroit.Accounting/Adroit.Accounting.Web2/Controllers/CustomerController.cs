@@ -11,17 +11,30 @@ using Microsoft.Extensions.Options;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public class CustomerController : Controller
+    public partial class CustomerController : Controller
     {
+        protected readonly IVehicle _vehicleRepo; 
+        protected readonly IVehicleModel _vehicleModelRepository; 
+        protected readonly ICountry _countryRepository;
+        protected readonly IVehicleOwner _vehicleOwnerRepo;
         protected readonly ICustomerAccount _customerAccountRepo;
         protected readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
         protected readonly ICustomerAccountGroup _customerAccountGroupRepo;
         protected readonly ConfigurationData _configurationData;
-        public CustomerController(ICustomerAccount customerAccountRepo,
+        public CustomerController(
+            IVehicle vehicleRepo,
+            IVehicleModel vehicleModelRepository,
+            ICountry countryRepository,
+            IVehicleOwner vehicleOwnerRepo,
+            ICustomerAccount customerAccountRepo,
             IOptions<ConfigurationData> configurationData,
             ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
             ICustomerAccountGroup customerAccountGroupRepo)
         {
+            _vehicleRepo = vehicleRepo; 
+            _vehicleModelRepository = vehicleModelRepository;
+            _countryRepository = countryRepository;
+            _vehicleOwnerRepo = vehicleOwnerRepo;
             _customerAccountRepo = customerAccountRepo;
             _configurationData = configurationData.Value;
             _customerBrokerBranchMappingRepo = customerBrokerBranchMappingRepo;

@@ -7,15 +7,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class AdminController : Controller
+    public partial class CustomerController : Controller
     {
         public IActionResult VehicleOwner()
         {
             VehicleOwnerViewModel model = new();
-            model.BusinessList = _businessRepository.SelectList(_configurationData.DefaultConnection);
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
-            //model.VehicleOwnerTypeList = GenericHelper.GetVehicleOwnerTypeList();
-            //model.StatusList = GenericHelper.GetVehicleOwnerStatusList();
+            model.AccountList = _customerAccountRepo.GetCustomerAccountList(_configurationData.DefaultConnection);
 
             return View(model);
         }
@@ -32,7 +30,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _vehicleOwnerRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _vehicleOwnerRepo.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -47,12 +45,15 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> SaveVehicleOwner([FromBody] VehicleOwnerViewModel model)
+        public async Task<JsonResult> SaveVehicleOwner([FromBody] VehicleOwner model)
         {
             ApiResult result = new ApiResult();
             try
             {
-                int id = _vehicleOwnerRepository.Save(model, _configurationData.DefaultConnection);
+                int userId = LoginHandler.GetUserId(User);
+                model.AddedById = userId;
+                model.ModifiedById = userId;    
+                int id = _vehicleOwnerRepo.Save(model, userId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -73,8 +74,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int customerId = LoginHandler.GetUserId(User);
-                _vehicleOwnerRepository.Delete(id, customerId, _configurationData.DefaultConnection);
+                int userId = LoginHandler.GetUserId(User);
+                _vehicleOwnerRepo.Delete(id, userId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -91,8 +92,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int customerId = LoginHandler.GetUserId(User);
-                result.data = _vehicleOwnerRepository.Get(id, customerId, _configurationData.DefaultConnection);
+                int userId = LoginHandler.GetUserId(User);
+                result.data = _vehicleOwnerRepo.Get(id, userId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

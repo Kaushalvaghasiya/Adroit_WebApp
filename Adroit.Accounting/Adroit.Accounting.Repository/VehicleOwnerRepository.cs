@@ -8,11 +8,11 @@ namespace Adroit.Accounting.Repository
 {
     public class VehicleOwnerRepository : IVehicleOwner
     {
-        public VehicleOwnerViewModel Get(int id, int customerId, string connectionString)
+        public VehicleOwnerViewModel Get(int id, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@CustomerId", customerId);
+            parameters.Add("@UserId", userId);
             return QueryHelper.Get<VehicleOwnerViewModel>("sp_VehicleOwnerGet", connectionString, parameters);
         }
 
@@ -29,27 +29,37 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.GetList<VehicleOwnerGridViewModel>("sp_VehicleOwnerList", connectionString, param);
         }
 
-        public int Save(VehicleOwner value, string connectionString)
+        public int Save(VehicleOwner value, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            //parameters.Add("@Title", value.Title);
-            //parameters.Add("@OrderNumber", value.OrderNumber);
+            parameters.Add("@UserId", userId);
+            parameters.Add("@Name", value.Name);
+            parameters.Add("@Address", value.Address);
+            parameters.Add("@CityId", value.CityId);
+            parameters.Add("@StateId", value.StateId);
+            parameters.Add("@Pincode", value.Pincode);
+            parameters.Add("@Mobile", value.Mobile);
+            parameters.Add("@PAN", value.PAN);
+            parameters.Add("@AccountId", value.AccountId);
+            parameters.Add("@AdharUID", value.AdharUID);
+            parameters.Add("@Active", value.Active);
             parameters.Add("@AddedById", value.AddedById);
             parameters.Add("@ModifiedById", value.ModifiedById);
             parameters.Add("@Active", value.Active);
             return QueryHelper.Save("sp_VehicleOwnerSave", connectionString, parameters);
         }
-        public void Delete(int id, int customerId, string connectionString)
+        public void Delete(int id, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@CustomerId", customerId);
+            parameters.Add("@UserId", userId);
             QueryHelper.Save("sp_VehicleOwnerDelete", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectList(string connectionString)
+        public List<DropdownViewModel> SelectList(int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@UserId", userId);
             return QueryHelper.GetList<DropdownViewModel>("sp_VehicleOwnerList_Select", connectionString, parameters);
         }
     }

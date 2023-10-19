@@ -8,7 +8,7 @@ namespace Adroit.Accounting.Repository
 {
     public class VehicleRepository : IVehicle
     {
-        public VehicleViewModel Get(int id, string connectionString)
+        public VehicleViewModel Get(int id, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
@@ -28,7 +28,7 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.GetList<VehicleGridViewModel>("sp_VehicleList", connectionString, param);
         }
 
-        public int Save(Vehilcle value, string connectionString)
+        public int Save(Vehilcle value, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
@@ -37,8 +37,14 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Active", value.Active);
             return QueryHelper.Save("sp_VehicleSave", connectionString, parameters);
         }
-
-        public List<DropdownViewModel> SelectList(string connectionString)
+        public void Delete(int id, int userId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            parameters.Add("@UserId", userId);
+            QueryHelper.Save("sp_VehicleOwnerDelete", connectionString, parameters);
+        }
+        public List<DropdownViewModel> SelectList(int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_VehicleList_Select", connectionString, parameters);

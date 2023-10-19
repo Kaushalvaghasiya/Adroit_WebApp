@@ -19,6 +19,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomerFirm _customerFirmRepository;
         protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
         protected readonly ICustomerUser _customerUserRepository;
+        private readonly ICustomerAccount _customerAccountRepository;
         private readonly IEmailService _emailService;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
@@ -57,6 +58,7 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerFirm customerFirmRepository,
             ICustomerFirmBranch customerFirmBranchRepository,
             ICustomerUser customerUserRepository,
+            ICustomerAccount customerAccountRepository,
             IEmailService emailService,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
@@ -95,6 +97,7 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmRepository = customerFirmRepository;
             _customerFirmBranchRepository = customerFirmBranchRepository;
             _customerUserRepository = customerUserRepository;
+            _customerAccountRepository = customerAccountRepository;
             _userManager = userManager;
             _emailService = emailService;
             _userStore = userStore;
