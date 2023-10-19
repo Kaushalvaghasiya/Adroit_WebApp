@@ -246,7 +246,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/admin/transportdesclist"))',
+                    url: '@(Url.Content("~/customer/transportdesclist"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -296,7 +296,7 @@
                 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveTransportDesc", "Admin"))",
+                    url: "@(Url.Action("SaveTransportDesc", "customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -330,7 +330,7 @@
         function deleteItem(id) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteTransportDesc"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/customer/DeleteTransportDesc"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -357,7 +357,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetTransportDesc"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/customer/GetTransportDesc"))" + "/" + id, "",
                     function (result) {
                         debugger;
                         unblockUI('container');

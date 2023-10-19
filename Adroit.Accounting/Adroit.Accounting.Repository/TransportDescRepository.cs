@@ -12,7 +12,7 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            parameters.Add("@CustomerId", value.CustomerId);
+            parameters.Add("@UserId", value.UserId);
             parameters.Add("@Title", value.Title);
             parameters.Add("@OrderNumber", value.OrderNumber);
             parameters.Add("@AddedById", value.AddedById);
@@ -20,18 +20,18 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Active", value.Active);
             return QueryHelper.Save("sp_TransportDescSave", connectionString, parameters);
         }
-        public TransportDescViewModel Get(int id, int customerId, string connectionString)
+        public TransportDescViewModel Get(int id, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@CustomerId", customerId);
+            parameters.Add("@UserId", userId);
             return QueryHelper.Get<TransportDescViewModel>("sp_TransportDescGet", connectionString, parameters);
         }
-        public void Delete(int id, int customerId, string connectionString)
+        public void Delete(int id, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@CustomerId", customerId);
+            parameters.Add("@UserId", userId);
             QueryHelper.Save("sp_TransportDescDelete", connectionString, parameters);
         }
         public List<TransportDescGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")

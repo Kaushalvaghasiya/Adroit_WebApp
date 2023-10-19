@@ -11,21 +11,28 @@ using Microsoft.Extensions.Options;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public class CustomerController : Controller
+    public partial class CustomerController : Controller
     {
         protected readonly ICustomerAccount _customerAccountRepo;
         protected readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
         protected readonly ICustomerAccountGroup _customerAccountGroupRepo;
         protected readonly ConfigurationData _configurationData;
+        private readonly ICommon _commonRepository;
+        private readonly ITransportDesc _transportDescRepository;
         public CustomerController(ICustomerAccount customerAccountRepo,
             IOptions<ConfigurationData> configurationData,
             ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
-            ICustomerAccountGroup customerAccountGroupRepo)
+            ICustomerAccountGroup customerAccountGroupRepo,
+            ICustomerUser customerUserRepository,
+            ICommon commonRepository,
+            ITransportDesc transportDescRepository)
         {
             _customerAccountRepo = customerAccountRepo;
             _configurationData = configurationData.Value;
             _customerBrokerBranchMappingRepo = customerBrokerBranchMappingRepo;
             _customerAccountGroupRepo = customerAccountGroupRepo;
+            _commonRepository = commonRepository;
+            _transportDescRepository = transportDescRepository;
         }
 
         public IActionResult Account()

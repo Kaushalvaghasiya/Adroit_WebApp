@@ -1,7 +1,7 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_TransportDescSave]
 (
 	 @Id int,
-	 @CustomerId int,
+	 @UserId int,
 	 @Title VARCHAR(100),
 	 @OrderNumber tinyint,
 	 @AddedById int,
@@ -12,6 +12,8 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+		Declare @CustomerId int = dbo.[fn_GetCustomerId](@UserId);
+
 		IF EXISTS (SELECT 1 FROM TransportDesc WHERE Id = @Id And CustomerId = @CustomerId)
 			BEGIN
 				UPDATE  TransportDesc SET

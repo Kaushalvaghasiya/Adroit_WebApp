@@ -1,12 +1,14 @@
 CREATE OR ALTER procedure [dbo].[sp_TransportDescDelete]
 (
 	@Id INT,
-	@CustomerId INT
+	@UserId INT
 )
 AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+		Declare @CustomerId int = dbo.[fn_GetCustomerId](@UserId);
+
 		UPDATE TransportDesc SET 
 			Deleted = 1,
 			DeletedById = @CustomerId,

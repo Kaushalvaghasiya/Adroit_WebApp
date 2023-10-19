@@ -9,7 +9,7 @@ using Adroit.Accounting.Repository;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class AdminController : Controller
+    public partial class CustomerController : Controller
     {
         public IActionResult TransportDesc()
         {
@@ -51,11 +51,11 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 //we need add user Id
-                var UserId = LoginHandler.GetUserId(User);
+                int userId = LoginHandler.GetUserId(User);
 
-                model.CustomerId = UserId;
-                model.AddedById = UserId;
-                model.ModifiedById = UserId;
+                model.UserId = userId;
+                model.AddedById = userId;
+                model.ModifiedById = userId;
 
                 int id = _transportDescRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
@@ -77,9 +77,9 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int customerId = LoginHandler.GetUserId(User);
+                int userId = LoginHandler.GetUserId(User);
 
-                _transportDescRepository.Delete(id, customerId, _configurationData.DefaultConnection);
+                _transportDescRepository.Delete(id, userId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -95,8 +95,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int customerId = LoginHandler.GetUserId(User);
-                result.data = _transportDescRepository.Get(id, customerId, _configurationData.DefaultConnection);
+                int userId = LoginHandler.GetUserId(User);
+                result.data = _transportDescRepository.Get(id, userId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

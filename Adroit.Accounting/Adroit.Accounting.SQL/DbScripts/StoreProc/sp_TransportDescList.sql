@@ -9,6 +9,7 @@ CREATE OR ALTER Procedure [dbo].[sp_TransportDescList]
 As
 Set Nocount on;
 Begin
+	Declare @CustomerId int = dbo.[fn_GetCustomerId](@LoginId);
 	SELECT * FROM
 	(   
 		SELECT ROW_NUMBER() over 
@@ -23,7 +24,7 @@ Begin
 		Count(*) over () AS TotalCount, 
 		TransportDesc.Id,TransportDesc.Title, TransportDesc.OrderNumber,TransportDesc.Active
 		FROM TransportDesc
-		WHERE CustomerId = @LoginId
+		WHERE CustomerId = @CustomerId
 		And TransportDesc.Deleted = 0
 		AND (Coalesce(@Search,'') = '' 
 				OR TransportDesc.[Title] like '%'+ @Search + '%'
