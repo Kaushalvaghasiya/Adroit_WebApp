@@ -33,8 +33,10 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">COUNTRY</th>
-                                    <th class="border-bottom-0">PHONE CODE</th>
+                                    <th class="border-bottom-0">VRN</th>
+                                    <th class="border-bottom-0">Model</th>
+                                    <th class="border-bottom-0">Owner Name</th>
+                                    <th class="border-bottom-0">Chasis Number</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
@@ -62,6 +64,7 @@
                 <div class="ml-auto">
                     <div class="input-group">
                         <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
                         <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
@@ -82,13 +85,43 @@
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
                                 <label for="VRN">Vehicle Registration Number</label>
-                                <input type="text" class="form-control mode-ed" id="VRN" placeholder="" maxlength="12">
+                                @* <input type="text" class="form-control mode-ed" id="VRN" placeholder="" maxlength="12"> *@
+                                <select class="form-control select2-show-search-add mode-ed" id="VRN">
+                                    <option></option>
+                                    @{
+                                        if (Model.VRNList != null)
+                                        {
+                                            foreach (var o in Model.VRNList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
                             </div>
                         </div>
+                        <div class="col-lg-8 col-md-12">
+                            <div class="form-group">
+                                <label for="OwnerId">Vehicle Owner Name</label>
+                                <select class="form-control select2-show-search mode-ed" id="OwnerId">
+                                    <option></option>
+                                    @{
+                                        if (Model.VehicleOwnerList != null)
+                                        {
+                                            foreach (var o in Model.VehicleOwnerList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
-                                <label for="PhoneCode">Vehicle Model</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="VehicleModel">
+                                <label for="ModelId">Vehicle Make & Model</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="ModelId">
                                     <option></option>
                                     @{
                                         if (Model.VehicleModelList != null)
@@ -104,8 +137,24 @@
                         </div>
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
-                                <label for="PhoneCode">Vehicle Registration State</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="VehicleRegistrationState">
+                                <label for="PhoneCode">Country</label>
+                                <select class="form-control select2-show-search mode-ed" id="Country">
+                                    @{
+                                        if (Model.CountryList != null)
+                                        {
+                                            foreach (var o in Model.CountryList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="StateId">Vehicle Registration State</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="StateId">
                                     <option></option>
                                     @{
                                         if (Model.VehicleRegistrationStateList != null)
@@ -119,16 +168,41 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
                                 <label for="ChasisNumber">Chasis Number</label>
                                 <input type="text" class="form-control mode-ed" id="ChasisNumber" placeholder="" maxlength="30">
+                                @* <select class="form-control select2-show-search-add mode-ed" id="ChasisNumber">
+                                <option></option>
+                                @{
+                                if (Model.ChasisNumberList != null)
+                                {
+                                foreach (var o in Model.ChasisNumberList)
+                                {
+                                <option value="@o.Value">@o.Text</option>
+                                }
+                                }
+                                }
+                                </select> *@
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
                                 <label for="EngineNumber">Engine Number</label>
                                 <input type="text" class="form-control mode-ed" id="EngineNumber" placeholder="" maxlength="30">
+                                @* <select class="form-control select2-show-search-add mode-ed" id="EngineNumber">
+                                <option></option>
+                                @{
+                                if (Model.EngineNumberList != null)
+                                {
+                                foreach (var o in Model.EngineNumberList)
+                                {
+                                <option value="@o.Value">@o.Text</option>
+                                }
+                                }
+                                }
+                                </select> *@
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12">
@@ -144,10 +218,23 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
                                 <label for="StatePermitNumber">State Permit Number</label>
                                 <input type="text" class="form-control mode-ed" id="StatePermitNumber" placeholder="" maxlength="50">
+                                @* <select class="form-control select2-show-search-add mode-ed" id="StatePermitNumber">
+                                <option></option>
+                                @{
+                                if (Model.StatePermitNumberList != null)
+                                {
+                                foreach (var o in Model.StatePermitNumberList)
+                                {
+                                <option value="@o.Value">@o.Text</option>
+                                }
+                                }
+                                }
+                                </select> *@
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12">
@@ -176,10 +263,23 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
                                 <label for="NationalPermitNumber">National Permit Number</label>
                                 <input type="text" class="form-control mode-ed" id="NationalPermitNumber" placeholder="" maxlength="50">
+                                @* <select class="form-control select2-show-search-add mode-ed" id="NationalPermitNumber">
+                                <option></option>
+                                @{
+                                if (Model.NationalPermitNumberList != null)
+                                {
+                                foreach (var o in Model.NationalPermitNumberList)
+                                {
+                                <option value="@o.Value">@o.Text</option>
+                                }
+                                }
+                                }
+                                </select> *@
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12">
@@ -208,10 +308,23 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
                                 <label for="InsuranceNumber">Insurance Number</label>
                                 <input type="text" class="form-control mode-ed" id="InsuranceNumber" placeholder="" maxlength="50">
+                                @*  <select class="form-control select2-show-search-add mode-ed" id="InsuranceNumber">
+                                <option></option>
+                                @{
+                                if (Model.InsuranceNumberList != null)
+                                {
+                                foreach (var o in Model.InsuranceNumberList)
+                                {
+                                <option value="@o.Value">@o.Text</option>
+                                }
+                                }
+                                }
+                                </select> *@
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12">
@@ -240,26 +353,6 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-md-12">
-                            <div class="form-group">
-                                <label for="OwnerId">Vehicle Owner Name</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="OwnerId">
-                                    <option></option>
-                                    @{
-                                        if (Model.VehicleOwnerList != null)
-                                        {
-                                            foreach (var o in Model.VehicleOwnerList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-
-
-
 
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
@@ -274,6 +367,7 @@
                 </div>
                 <div class="card-footer text-right">
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
                     <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="new"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
@@ -282,6 +376,8 @@
     </div>
     <!-- row end -->
     <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="hdnCountryId" value="0" />
+    <input type="hidden" id="hdnStateId" value="0" />
 </div>
 
 @section Scripts
@@ -294,6 +390,10 @@
             $('.dv-detail').hide();
 
             bindDatatableList();
+
+            $("#Country").on('change', function (e) {
+                bindStateList($(this).val());
+            });
         });
 
         function addClick() {
@@ -301,8 +401,9 @@
             $('.dv-detail').slideDown();
             fromReset();
             setScreenMode(false);
+            $(".btn-delete").hide();
 
-            $("#Title").focus();
+            $("#VRN").focus();
 
             $("#Active").prop('checked', true);
         }
@@ -324,18 +425,30 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.title;
+                    return row.vrn;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.phoneCode;
+                    debugger;
+                    return row.modelName;
                 },
                 "targets": colDef.length,
 
             });
-
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.ownerName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.chasisNumber;
+                },
+                "targets": colDef.length,
+            });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.active ? "Yes" : "No";
@@ -348,6 +461,7 @@
                     let btnAct = "<div class='btn-list'> ";
                     btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
                     btnAct += "</div>";
                     return btnAct;
                 },
@@ -356,8 +470,10 @@
                 "orderable": false
             });
 
-            columns.push({ "data": "title", "name": "title" });
-            columns.push({ "data": "phoneCode", "name": "phoneCode" });
+            columns.push({ "data": "vrn", "name": "vrn" });
+            columns.push({ "data": "modelName", "name": "modelName" });
+            columns.push({ "data": "ownerName", "name": "ownerName" });
+            columns.push({ "data": "chasisNumber", "name": "chasisNumber" });
             columns.push({ "data": "active", "name": "active" });
             columns.push({ "data": "Id", "name": "Id" });
 
@@ -397,50 +513,172 @@
                 "drawCallback": function (settings) {
                     gridDrawCallback(this);
                 }
-
             });
         }
+        function bindStateList(countryId) {
+            try {
+                $("#StateId").empty();
 
+                if (countryId == '' || countryId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#StateId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#StateId').val($("#hdnStateId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
         function fromReset() {
             $("#Id").val(0);
-            $("#Title").val(null).trigger('change');
-            $("#PhoneCode").val(null).trigger('change');
+            $("#VRN").val(null).trigger('change');
+            $("#OwnerId").val('').trigger('change');
+            $("#ModelId").val('').trigger('change');
+            $("#Country").val('').trigger("change");
+            $("#StateId").val('').trigger('change');
+            $("#ChasisNumber").val('');
+            $("#EngineNumber").val('');
+            $("#RegistrationDate").val('');
+            $("#StatePermitNumber").val('');
+            $("#StatePermitIssueOn").val('');
+            $("#StatePermitExpiry").val('');
+            $("#NationalPermitNumber").val('');
+            $("#NationalPermitIssueOn").val('');
+            $("#NationalPermitExpiry").val('');
+            $("#InsuranceNumber").val('');
+            $("#InsuranceIssueOn").val('');
+            $("#InsuranceExpiry").val('');
+
             $("#Active").prop('checked', false);
             $("#activeTabName").text("Add");
             setScreenMode(false);
+            $(".btn-delete").hide();
         }
 
         function saveItem() {
             try {
 
-                if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid Vehicle title.");
+                if ($("#VRN").val() == "") {
+                    showWarning("", "Please enter valid vehicle registration number.");
                     $("#Title").focus();
                     return false;
                 }
 
-                if ($("#Title").val().length > 100) {
-                    showWarning("", "Vehicle title must be upto 100 characters long.");
-                    $("#Title").focus();
+                if ($("#OwnerId").val() == null || $("#OwnerId").val() == "") {
+                    showWarning("", "Please select vehicle owner name.");
+                    $("#OwnerId").focus();
                     return false;
                 }
 
-                if ($("#PhoneCode").val() == "") {
-                    showWarning("", "Please enter valid code.");
-                    $("#Code").focus();
+                if ($("#ModelId").val() == null || $("#ModelId").val() == "") {
+                    showWarning("", "Please select vehicle make & model.");
+                    $("#OwnerId").focus();
+                    return false;
+                }
+                if ($("#Country").val() == null || $("#Country").val() == "") {
+                    showWarning("", "Please select country.");
+                    $("#Country").focus();
+                    return false;
+                }
+                if ($("#StateId").val() == null || $("#StateId").val() == "") {
+                    showWarning("", "Please select state.");
+                    $("#StateId").focus();
                     return false;
                 }
 
-                if ($("#PhoneCode").val().length > 5) {
-                    showWarning("", "Phone code max 5 characters long.");
-                    $("#PhoneCode").focus();
+                if ($("#ChasisNumber").val() == "") {
+                    showWarning("", "Please enter chasis number.");
+                    $("#ChasisNumber").focus();
                     return false;
                 }
-
+                if ($("#EngineNumber").val() == "") {
+                    showWarning("", "Please enter engine number.");
+                    $("#EngineNumber").focus();
+                    return false;
+                }
+                if ($("#RegistrationDate").val() == "") {
+                    showWarning("", "Please enter registration date.");
+                    $("#RegistrationDate").focus();
+                    return false;
+                }
+                if ($("#StatePermitIssueOn").val() == "") {
+                    showWarning("", "Please enter state permit issue on.");
+                    $("#StatePermitIssueOn").focus();
+                    return false;
+                }
+                if ($("#StatePermitExpiry").val() == "") {
+                    showWarning("", "Please enter state permit expiry.");
+                    $("#StatePermitExpiry").focus();
+                    return false;
+                }
+                if ($("#NationalPermitNumber").val() == "") {
+                    showWarning("", "Please enter national permit number.");
+                    $("#NationalPermitNumber").focus();
+                    return false;
+                }
+                if ($("#NationalPermitIssueOn").val() == "") {
+                    showWarning("", "Please enter national permit issue on.");
+                    $("#NationalPermitIssueOn").focus();
+                    return false;
+                }
+                if ($("#NationalPermitExpiry").val() == "") {
+                    showWarning("", "Please enter national permit expiry.");
+                    $("#NationalPermitExpiry").focus();
+                    return false;
+                }
+                if ($("#InsuranceNumber").val() == "") {
+                    showWarning("", "Please enter insurance number.");
+                    $("#InsuranceNumber").focus();
+                    return false;
+                }
+                if ($("#InsuranceIssueOn").val() == "") {
+                    showWarning("", "Please enter insurance issue on.");
+                    $("#InsuranceIssueOn").focus();
+                    return false;
+                }
+                if ($("#InsuranceExpiry").val() == "") {
+                    showWarning("", "Please enter insurance expiry.");
+                    $("#InsuranceExpiry").focus();
+                    return false;
+                }
+                
                 var savedata = new Object();
+
                 savedata.Id = parseInt($("#Id").val());
-                savedata.Title = $("#Title").val();
-                savedata.PhoneCode = $("#PhoneCode").val();
+                savedata.VRN = $("#VRN").val();
+                savedata.OwnerId = $("#OwnerId").val();
+                savedata.ModelId = $("#ModelId").val();
+                savedata.StateId = $("#StateId").val();
+                savedata.ChasisNumber = $("#ChasisNumber").val();
+                savedata.EngineNumber = $("#EngineNumber").val();
+                savedata.RegistrationDate = getDate($("#RegistrationDate").val());
+                savedata.StatePermitNumber = $("#StatePermitNumber").val();
+                savedata.StatePermitIssueOn = $("#StatePermitIssueOn").val().length > 0 ? getDate($("#StatePermitIssueOn").val()) : "";
+                savedata.StatePermitExpiry = $("#StatePermitExpiry").val().length > 0 ? getDate($("#StatePermitExpiry").val()) : "";
+                savedata.NationalPermitNumber = $("#NationalPermitNumber").val();
+                savedata.NationalPermitIssueOn = $("#NationalPermitIssueOn").val().length > 0 ? getDate($("#NationalPermitIssueOn").val()) : "";
+                savedata.NationalPermitExpiry = $("#NationalPermitExpiry").val().length > 0 ? getDate($("#NationalPermitExpiry").val()) : "";
+                savedata.InsuranceNumber = $("#InsuranceNumber").val();
+                savedata.InsuranceIssueOn = $("#InsuranceIssueOn").val().length > 0 ? getDate($("#InsuranceIssueOn").val()) : "";
+                savedata.InsuranceExpiry = $("#InsuranceExpiry").val().length > 0 ? getDate($("#InsuranceExpiry").val()) : "";
+
                 savedata.Active = $("#Active").prop('checked');
 
                 blockUI('container');
@@ -475,7 +713,6 @@
                 unblockUI('container');
                 showError("", e.message);
             }
-
         }
 
         function getDetail(id, isViewMode) {
@@ -497,8 +734,29 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#Title").val(result.data.title).trigger('change');
-                                $("#PhoneCode").val(result.data.phoneCode).trigger('change');
+
+                                $("#VRN").val(result.data.vrn).trigger('change');
+                                $("#OwnerId").val(result.data.ownerId).trigger('change');
+                                $("#ModelId").val(result.data.modelId).trigger('change');
+
+                                $("#ChasisNumber").val(result.data.chasisNumber);
+                                $("#EngineNumber").val(result.data.engineNumber);
+                                $("#RegistrationDate").val(result.data.registrationDateString);
+                                $("#StatePermitNumber").val(result.data.statePermitNumber);
+                                $("#StatePermitIssueOn").val(result.data.statePermitIssueOnString);
+                                $("#StatePermitExpiry").val(result.data.statePermitExpiryString);
+                                $("#NationalPermitNumber").val(result.data.nationalPermitNumber);
+                                $("#NationalPermitIssueOn").val(result.data.nationalPermitIssueOnString);
+                                $("#NationalPermitExpiry").val(result.data.nationalPermitExpiryString);
+                                $("#InsuranceNumber").val(result.data.insuranceNumber);
+                                $("#InsuranceIssueOn").val(result.data.insuranceIssueOnString);
+                                $("#InsuranceExpiry").val(result.data.insuranceExpiryString);
+
+
+                                $("#hdnCountryId").val(result.data.countryId);
+                                $("#hdnStateId").val(result.data.stateId);
+                                $("#Country").val(result.data.countryId).trigger("change");
+
                                 $("#Active").prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -515,7 +773,36 @@
             catch (err) {
             }
         }
-
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/customer/deletevehicle"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
     </script>
 
 }

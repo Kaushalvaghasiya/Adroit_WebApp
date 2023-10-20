@@ -104,6 +104,11 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class VehicleTable
+    {
+        public const string _TableName = "Vehilcle";
+        public const string VRN = "VRN";
+    }
 
     #region Adroit - Account
     public sealed class BookTypeAdminTable

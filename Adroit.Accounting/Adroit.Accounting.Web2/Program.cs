@@ -93,6 +93,7 @@ try
     builder.Services.AddSingleton<IGSTPort, GSTPortRepository>();
     builder.Services.AddSingleton<ITransportPackingAdmin, TransportPackingAdminRepository>();
     builder.Services.AddSingleton<ISalesBillFromAdmin, SalesBillFromAdminRepository>();
+    builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
 
 
     if (!builder.Environment.IsDevelopment())

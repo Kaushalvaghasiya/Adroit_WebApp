@@ -12,6 +12,7 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
+            parameters.Add("@UserId", userId);
             return QueryHelper.Get<VehicleViewModel>("sp_VehicleGet", connectionString, parameters);
         }
 
@@ -32,9 +33,26 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            //parameters.Add("@Title", value.Title);
-            //parameters.Add("@PhoneCode", value.PhoneCode);
+            parameters.Add("@UserId", userId);
+            parameters.Add("@VRN", value.VRN);
+            parameters.Add("@OwnerId", value.OwnerId);
+            parameters.Add("@ModelId", value.ModelId);
+            parameters.Add("@StateId", value.StateId);
+            parameters.Add("@ChasisNumber", value.ChasisNumber);
+            parameters.Add("@EngineNumber", value.EngineNumber);
+            parameters.Add("@RegistrationDate", value.RegistrationDate);
+            parameters.Add("@StatePermitNumber", value.StatePermitNumber);
+            parameters.Add("@StatePermitIssueOn", value.StatePermitIssueOn);
+            parameters.Add("@StatePermitExpiry", value.StatePermitExpiry);
+            parameters.Add("@NationalPermitNumber", value.NationalPermitNumber);
+            parameters.Add("@NationalPermitIssueOn", value.NationalPermitIssueOn);
+            parameters.Add("@NationalPermitExpiry", value.NationalPermitExpiry);
+            parameters.Add("@InsuranceNumber", value.InsuranceNumber);
+            parameters.Add("@InsuranceIssueOn", value.InsuranceIssueOn);
+            parameters.Add("@InsuranceExpiry", value.InsuranceExpiry);
             parameters.Add("@Active", value.Active);
+            parameters.Add("@AddedById", value.AddedById);
+            parameters.Add("@ModifiedById", value.ModifiedById);
             return QueryHelper.Save("sp_VehicleSave", connectionString, parameters);
         }
         public void Delete(int id, int userId, string connectionString)
@@ -42,11 +60,12 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             parameters.Add("@UserId", userId);
-            QueryHelper.Save("sp_VehicleOwnerDelete", connectionString, parameters);
+            QueryHelper.Save("sp_VehicleDelete", connectionString, parameters);
         }
         public List<DropdownViewModel> SelectList(int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@UserId", userId);
             return QueryHelper.GetList<DropdownViewModel>("sp_VehicleList_Select", connectionString, parameters);
         }
     }

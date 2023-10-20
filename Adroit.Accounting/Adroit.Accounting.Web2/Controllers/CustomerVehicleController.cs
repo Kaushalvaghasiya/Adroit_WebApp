@@ -15,8 +15,12 @@ namespace Adroit.Accounting.Web.Controllers
             int userId = LoginHandler.GetUserId(User);
 
             var model = new VehicleViewModel();
+            model.VRNList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, VehicleTable._TableName, VehicleTable.VRN);
+            model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
+
             model.VehicleModelList = _vehicleModelRepository.SelectList(_configurationData.DefaultConnection);
             model.VehicleOwnerList = _vehicleOwnerRepo.SelectList(userId, _configurationData.DefaultConnection);
+
             return View(model);
         }
 
@@ -53,7 +57,6 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 //we need add user Id
-                //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
                 int userId = LoginHandler.GetUserId(User);
                 model.AddedById = userId;
                 model.ModifiedById = userId;
