@@ -146,5 +146,11 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class TransportDescAdminTable
+    {
+        public const string _TableName = "TransportDescAdmin";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     #endregion
 }
