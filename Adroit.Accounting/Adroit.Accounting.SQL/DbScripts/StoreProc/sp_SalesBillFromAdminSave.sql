@@ -43,7 +43,7 @@ BEGIN
 
 		IF (@message LIKE '%Violation of UNIQUE KEY%')
 		BEGIN
-			SET @message = 'Stock type ''' + @Title + ''' already exist!';
+			SET @message = 'Sales Bill From ''' + @Title + ''' already exist!';
 		END
 
 		RAISERROR ('%s', 16, 1, @message);
