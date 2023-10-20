@@ -91,7 +91,13 @@
         public const string _TableName = "City";
         public const string Title = "Title";
     }
-
+    public sealed class TransportDescTable
+    {
+        public const string _TableName = "TransportDesc";
+        public const string Customer = "Customer";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     #region Adroit - Account
     public sealed class BookTypeAdminTable
     {

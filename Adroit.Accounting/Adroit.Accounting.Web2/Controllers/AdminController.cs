@@ -84,7 +84,8 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTRate gstRateRepository,
             IGSTInvoiceType gstInvoiceTypeRepository,
             IGSTPort gstPortRepository,
-            ITransportPackingAdmin transportPackingAdminRepository)
+            ITransportPackingAdmin transportPackingAdminRepository
+            )
 
         {
             _configurationData = configurationData.Value;
