@@ -23,6 +23,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ConfigurationData _configurationData;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
+        public CustomerController(ICustomerAccount customerAccountRepo,
         public CustomerController(
             IVehicle vehicleRepo,
             IVehicleModel vehicleModelRepository,
