@@ -47,6 +47,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IGSTInvoiceType _gstInvoiceTypeRepository;
         private readonly IGSTPort _gstPortRepository;
         private readonly ITransportPackingAdmin _transportPackingAdminRepository;
+        private readonly ISalesBillFromAdmin _salesBillFromAdminRepository;
         public AdminController(
             IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
@@ -84,8 +85,8 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTRate gstRateRepository,
             IGSTInvoiceType gstInvoiceTypeRepository,
             IGSTPort gstPortRepository,
-            ITransportPackingAdmin transportPackingAdminRepository
-            )
+            ITransportPackingAdmin transportPackingAdminRepository,
+            ISalesBillFromAdmin salesBillFromAdminRepository)
 
         {
             _configurationData = configurationData.Value;
@@ -126,6 +127,7 @@ namespace Adroit.Accounting.Web.Controllers
             _gstInvoiceTypeRepository = gstInvoiceTypeRepository;
             _gstPortRepository = gstPortRepository;
             _transportPackingAdminRepository = transportPackingAdminRepository;
+            _salesBillFromAdminRepository = salesBillFromAdminRepository;
         }
     }
 }

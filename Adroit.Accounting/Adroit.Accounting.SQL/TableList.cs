@@ -104,6 +104,11 @@
         public const string _TableName = "BookTypeAdmin";
         public const string Title = "Title";
     }
+    public sealed class SalesBillFromAdminTable
+    {
+        public const string _TableName = "SalesBillFromAdmin";
+        public const string Title = "Title";
+    }
     #endregion
 
     #region Adroit - GST

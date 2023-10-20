@@ -89,7 +89,7 @@ try
     builder.Services.AddSingleton<IGSTInvoiceType, GSTInvoiceTypeRepository>();
     builder.Services.AddSingleton<IGSTPort, GSTPortRepository>();
     builder.Services.AddSingleton<ITransportPackingAdmin, TransportPackingAdminRepository>();
-    builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
+    builder.Services.AddSingleton<ISalesBillFromAdmin, SalesBillFromAdminRepository>();
 
 
     if (!builder.Environment.IsDevelopment())
