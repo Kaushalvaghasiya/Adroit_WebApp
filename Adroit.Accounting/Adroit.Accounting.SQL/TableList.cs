@@ -98,6 +98,13 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class TransportPackingTable
+    {
+        public const string _TableName = "TransportPacking";
+        public const string Customer = "Customer";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     #region Adroit - Account
     public sealed class BookTypeAdminTable
     {

@@ -1,0 +1,845 @@
+﻿@using Adroit.Accounting.Model.Enums
+@model Adroit.Accounting.Model.ViewModel.DriverViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Master</a></li>
+                    <li><a href="#">Adroit</a></li>
+                    <li><a href="#">Driver</a></li>
+                    <li class="active"><span>List</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">Driver</th>
+                                    <th class="border-bottom-0">TYPE</th>
+                                    <th class="border-bottom-0">CITY</th>
+                                    <th class="border-bottom-0">STATUS</th>
+                                    <th class="border-bottom-0">MOBILE</th>
+                                    <th class="border-bottom-0"> #FIRMs</th>
+                                    <th class="border-bottom-0 text-center" style="width:210px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Master</a></li>
+                    <li><a href="#">Adroit</a></li>
+                    <li><a href="#" class="btn-back">Driver</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search Driver...">
+                        <span class="input-group-append mr-2">
+                            <button class="btn btn-primary" type="button" onclick="showUnderDevMsg()">Go!</button>
+                        </span>
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-blue text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-success text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send"><span><i class="fa fa-share-alt"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-arrow-left"></i></span>                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Title">Driver Name</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="Title">
+                                    <option></option>
+                                    @{
+                                        if (Model.DriverNameList != null)
+                                        {
+                                            foreach (var o in Model.DriverNameList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="Address1">Address</label>
+                                <input type="text" class="form-control mode-ed" id="Address" placeholder="" maxlength="400">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Country">Country</label>
+                                <select class="form-control select2-show-search mode-ed" id="Country">
+                                    @{
+                                        if (Model.CountryList != null)
+                                        {
+                                            foreach (var o in Model.CountryList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="StateId">State</label>
+                                <select class="form-control select2-show-search mode-ed" id="StateId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="CityId">City</label>
+                                <select class="form-control select2-show-search mode-ed" id="CityId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="District">Licence Issue Place</label>
+                                <select class="form-control select2-show-search mode-ed" id="LicenceIssuePlaceId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Pincode">Pincode</label>
+                                <input type="text" class="form-control mode-ed numberonly " id="PinCode" placeholder="" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Phone#">LicenceNumber</label>
+                                <input type="text" class="form-control mode-ed" id="LicenceNumber" placeholder="" maxlength="20">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="AadhaarUID">Aadhaar UID</label>
+                                <input type="text" class="form-control mode-ed" id="AadhaarUID" placeholder="" maxlength="12">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Mobile">Mobile</label>
+                                <input type="text" class="form-control numberonly mode-ed" id="Mobile" placeholder="" maxlength="15">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ContactPersonName">LicenceExpiry</label>
+                                <input type="text" class="form-control mode-ed" id="ContactPersonName" placeholder="" maxlength="100">
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Type">Type</label>
+                                <select class="form-control select2-show-search mode-ed" id="DriverType">
+                                    @{
+                                        if (Model.DriverTypeList != null)
+                                        {
+                                            foreach (var o in Model.DriverTypeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="New"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" id="btnCancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <input type="hidden" id="hdnCountryId" value="0" />
+    <input type="hidden" id="hdnStateId" value="0" />
+    <input type="hidden" id="hdnDistrictId" value="0" />
+    <input type="hidden" id="hdnTalukaId" value="0" />
+    <input type="hidden" id="hdnCityId" value="0" />
+
+</div>
+
+@section Scripts
+    {
+
+    <script>
+
+        $(function (e) {
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+            bindDatatableList();
+
+            $("#Country").on('change', function (e) {
+                bindStateList($(this).val());
+            });
+
+            $("#StateId").on('change', function (e) {
+                bindDistrictList($(this).val());
+            });
+
+            $("#District").on('change', function (e) {
+                bindTalukaList($(this).val());
+            });
+
+            $("#Taluka").on('change', function (e) {
+                bindCityList($(this).val());
+            });
+
+            if (@Model.Id > 0) {
+                getDetail(@Model.Id, false);
+            }
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#DriverName").focus();
+
+            $("#Active").prop('checked', true);
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.name;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.DriverType;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.city;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.statusId;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.mobile;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.numberOfFirmsCreated  + "/" + (row.totalFirm ?? 0);
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    if (row.customerType != "@CustomerType.BackOffice") {
+                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    }
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                //"className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "Name", "name": "Name" });
+            columns.push({ "data": "DriverType", "name": "DriverType" });
+            columns.push({ "data": "City", "name": "City" });
+            columns.push({ "data": "Status", "name": "Status" });
+            columns.push({ "data": "Mobile", "name": "Mobile" });
+            columns.push({ "data": "TotalFirm", "name": "TotalFirm" });
+            columns.push({ "data": "Id", "name": "Id" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/DriverList"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+            });
+        }
+
+        function bindStateList(countryId) {
+            try {
+                $("#StateId").empty();
+
+                if (countryId == '' || countryId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#StateId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#StateId').val($("#hdnStateId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindDistrictList(stateId) {
+            try {
+                $("#District").empty();
+                if (stateId == '' || stateId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetDistricts"))" + "?stateId=" + stateId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#District').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#District').val($("#hdnDistrictId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindTalukaList(districtId) {
+            try {
+                $("#Taluka").empty();
+                if (districtId == '' || districtId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetTalukas"))" + "?districtId=" + districtId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#Taluka').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#Taluka').val($("#hdnTalukaId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindCityList(talukaId) {
+            try {
+                $("#CityId").empty();
+                if (talukaId == '' || talukaId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?talukaId=" + talukaId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#CityId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#CityId').val($("#hdnCityId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function fromReset() {
+            $("#Id").val(0);
+            $("#DriverName").val("");
+            $("#BusinessName").val("");
+            $("#BusinessId").val('').trigger("change");
+            $("#Address1").val("");
+            $("#Address2").val("");
+            $("#Address3").val("");
+            $("#Country").val('').trigger("change");
+            $("#StateId").val('').trigger("change");
+            $("#District").val('').trigger("change");
+            $("#Taluka").val('').trigger("change");
+            $("#CityId").val('').trigger("change");
+            $("#Business").val('').trigger("change");
+            $("#DriverType").val('').trigger("change");
+            $("#StatusId").val('').trigger("change");
+            $("#PinCode").val("");
+            $("#ContactPersonName").val("");
+            $("#Mobile").val("");
+            $("#MobileAlternate").val("");
+            $("#Phone").val("");
+            $("#Email").val("");
+            $("#Requirements").val("");
+            $("#TotalFirms").val("1");
+            $("#AadhaarUID").val("");
+            $("#TotalUsers").val("1");
+            $("#IsActive").prop('checked', false);
+
+            $("#hdnCountryId").val("");
+            $("#hdnStateId").val("");
+            $("#hdnDistrictId").val("");
+            $("#hdnTalukaId").val("");
+            $("#hdnCityId").val("");
+
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+        }
+
+        function saveItem() {
+            try {
+                if ($("#DriverName").val().trim() == "") {
+                    showWarning("", "Please enter name.");
+                    $("#DriverName").focus();
+                    return false;
+                }
+                if ($("#DriverName").val().trim().length <= 2) {
+                    showWarning("", "Enter valid Driver name.");
+                    $("#DriverName").focus();
+                    return false;
+                }
+                if ($("#BusinessName").val().trim() == "") {
+                    showWarning("", "Please enter Business Name.");
+                    $("#BusinessName").focus();
+                    return false;
+                }
+                if ($("#BusinessName").val().trim().length <= 2) {
+                    showWarning("", "Please enter valid business name.");
+                    $("#BusinessName").focus();
+                    return false;
+                }
+                if ($("#BusinessId").val() == null || $("#BusinessId").val() == "") {
+                    showWarning("", "Please select business.");
+                    $("#BusinessId").focus();
+                    return false;
+                }
+                if ($("#Address1").val().trim() == "") {
+                    showWarning("", "Please enter address.");
+                    $("#Address1").focus();
+                    return false;
+                }
+                if ($("#Country").val() == null || $("#Country").val() == "") {
+                    showWarning("", "Please select country.");
+                    $("#Country").focus();
+                    return false;
+                }
+                if ($("#StateId").val() == null || $("#StateId").val() == "") {
+                    showWarning("", "Please select state.");
+                    $("#StateId").focus();
+                    return false;
+                }
+                if ($("#District").val() == null || $("#District").val() == "") {
+                    showWarning("", "Please select district.");
+                    $("#District").focus();
+                    return false;
+                }
+                if ($("#Taluka").val() == null || $("#Taluka").val() == "") {
+                    showWarning("", "Please select taluka.");
+                    $("#Taluka").focus();
+                    return false;
+                }
+                if ($("#CityId").val() == null || $("#CityId").val() == "") {
+                    showWarning("", "Please select city.");
+                    $("#CityId").focus();
+                    return false;
+                }
+                if ($("#ContactPersonName").val().trim() == "") {
+                    showWarning("", "Please enter contact person name.");
+                    $("#ContactPersonName").focus();
+                    return false;
+                }
+                if ($("#ContactPersonName").val().trim().length <= 2) {
+                    showWarning("", "Please enter valid contact person name.");
+                    $("#ContactPersonName").focus();
+                    return false;
+                }
+                if ($("#Mobile").val().trim() == "") {
+                    showWarning("", "Please enter contact mobile.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if ($("#Mobile").val().trim().length != 10) {
+                    showWarning("", "Please enter valid mobile number.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if ($("#MobileAlternate").val().trim().length >= 1) {
+                    if ($("#MobileAlternate").val().trim().length != 10) {
+                        showWarning("", "Please enter valid alternate mobile number.");
+                        $("#MobileAlternate").focus();
+                        return false;
+                    }
+                }
+                if ($("#Email").val().trim() == "") {
+                    showWarning("", "Please enter email.");
+                    $("#Email").focus();
+                    return false;
+                }
+                if ($("#AadhaarUID").val().trim().length > 0 && $("#AadhaarUID").val().trim().length != 12) {
+                    showWarning("", "Please enter valid Aadhaar UID.");
+                    $("#AadhaarUID").focus();
+                    return false;
+                }
+                if ($("#AadhaarUID").val().trim().length > 0 && !isNumber($("#AadhaarUID").val().trim())) {
+                    showWarning("", "Please enter valid Aadhaar UID.");
+                    $("#AadhaarUID").focus();
+                    return false;
+                }
+                if ($("#DriverType").val() == "" || $("#DriverType").val() == null) {
+                    showWarning("", "Please select Driver type.");
+                    $("#DriverType").focus();
+                    return false;
+                }
+                if (!isNumber($("#Mobile").val().trim())) {
+                    showWarning("", "Please enter valid mobile number.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if (!isNumber($("#MobileAlternate").val().trim())) {
+                    showWarning("", "Please enter valid alternate mobile number.");
+                    $("#MobileAlternate").focus();
+                    return false;
+                }
+                if (!isEmail($("#Email").val().trim())) {
+                    showWarning("", "Please enter valid email");
+                    $("#Email").focus();
+                    return false;
+                }
+                if ($("#StatusId").val() == null || $("#StatusId").val() == "") {
+                    showWarning("", "Please select status.");
+                    $("#StatusId").focus();
+                    return false;
+                }
+
+                if (!isNumber($("#TotalFirms").val())) {
+                    showWarning("", "Please enter valid number of firms.");
+                    $("#TotalFirms").focus();
+                    return false;
+                }
+                if (parseInt($("#TotalFirms").val()) <= 0) {
+                    $("#TotalFirms").val("1");
+                }
+                if (!isNumber($("#TotalUsers").val())) {
+                    showWarning("", "Please enter valid number of users.");
+                    $("#TotalUsers").focus();
+                    return false;
+                }
+                if (parseInt($("#TotalUsers").val()) <= 0) {
+                    $("#TotalUsers").val("1");
+                }
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.Name = $("#DriverName").val();
+                savedata.BusinessId = $("#BusinessId").val();
+                savedata.BusinessName = $("#BusinessName").val();
+                savedata.Address1 = $("#Address1").val();
+                savedata.Address2 = $("#Address2").val();
+                savedata.Address3 = $("#Address3").val();
+                savedata.CityId = parseInt($("#CityId").val());
+                savedata.StateId = parseInt($("#StateId").val());
+                savedata.Pincode = $("#PinCode").val();
+                savedata.ContactPersonName = $("#ContactPersonName").val();
+                savedata.Mobile = $("#Mobile").val();
+                savedata.MobileAlternate = $("#MobileAlternate").val();
+                savedata.Phone = $("#Phone").val();
+                savedata.Email = $("#Email").val();
+                savedata.Requirement = $("#Requirements").val();
+                savedata.TotalFirm = parseInt($("#TotalFirms").val());
+                savedata.DriverType = $("#DriverType").val();
+                savedata.AdharUID = $("#AadhaarUID").val();
+                savedata.TotalUsers = parseInt($("#TotalUsers").val());
+                savedata.IsActive = $('#IsActive').is(':checked');
+                savedata.AgreeTerms = true;
+                savedata.StatusId = $("#StatusId").val();
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveDriver", "Admin"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Driver saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteDriver"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetDriver"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+
+                                $('#Id').val(result.data.id);
+                                $("#DriverName").val(result.data.name);
+                                $("#BusinessName").val(result.data.businessName);
+                                $("#BusinessId").val(result.data.businessId).trigger("change");
+                                $("#Address1").val(result.data.address1);
+                                $("#Address2").val(result.data.address2);
+                                $("#Address3").val(result.data.address3);
+                                $("#PinCode").val(result.data.pincode);
+                                $("#ContactPersonName").val(result.data.contactPersonName);
+                                $("#Mobile").val(result.data.mobile);
+                                $("#MobileAlternate").val(result.data.mobileAlternate);
+                                $("#Phone").val(result.data.phone);
+                                $("#Email").val(result.data.email);
+                                $("#Requirements").val(result.data.requirement);
+                                $("#AadhaarUID").val(result.data.adharUID);
+                                $("#TotalFirms").val(result.data.totalFirm);
+                                $("#TotalUsers").val(result.data.totalUsers);
+                                $('#Active').prop('checked', result.data.isActive);
+                                $("#DriverType").val(result.data.DriverTypeId).trigger("change");
+                                $("#StatusId").val(result.data.statusTypeId).trigger("change");
+
+                                $("#hdnCountryId").val(result.data.countryId);
+                                $("#hdnStateId").val(result.data.stateId);
+                                $("#hdnDistrictId").val(result.data.districtId);
+                                $("#hdnTalukaId").val(result.data.talukaId);
+                                $("#hdnCityId").val(result.data.cityId);
+                                $("#Country").val(result.data.countryId).trigger("change");
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+    </script>
+}
