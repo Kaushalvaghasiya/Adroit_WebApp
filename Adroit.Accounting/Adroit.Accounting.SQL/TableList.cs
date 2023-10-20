@@ -125,5 +125,21 @@
         public const string OrderNumber = "OrderNumber";
     }
 
+    public sealed class GSTPortTable
+    {
+        public const string _TableName = "GSTPort";
+        public const string Title = "Title";
+        public const string Code = "Code";
+        public const string OrderNumber = "OrderNumber";
+    }
+    #endregion
+
+    #region Adroit - Transport
+    public sealed class TransportPackingAdminTable
+    {
+        public const string _TableName = "TransportPackingAdmin";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     #endregion
 }
