@@ -21,6 +21,9 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
         protected readonly ICustomerAccountGroup _customerAccountGroupRepo;
         protected readonly ConfigurationData _configurationData;
+        private readonly ICommon _commonRepository;
+        private readonly ITransportDesc _transportDescRepository;
+        public CustomerController(ICustomerAccount customerAccountRepo,
         public CustomerController(
             IVehicle vehicleRepo,
             IVehicleModel vehicleModelRepository,
@@ -29,7 +32,10 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerAccount customerAccountRepo,
             IOptions<ConfigurationData> configurationData,
             ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
-            ICustomerAccountGroup customerAccountGroupRepo)
+            ICustomerAccountGroup customerAccountGroupRepo,
+            ICustomerUser customerUserRepository,
+            ICommon commonRepository,
+            ITransportDesc transportDescRepository)
         {
             _vehicleRepo = vehicleRepo; 
             _vehicleModelRepository = vehicleModelRepository;
@@ -39,6 +45,8 @@ namespace Adroit.Accounting.Web.Controllers
             _configurationData = configurationData.Value;
             _customerBrokerBranchMappingRepo = customerBrokerBranchMappingRepo;
             _customerAccountGroupRepo = customerAccountGroupRepo;
+            _commonRepository = commonRepository;
+            _transportDescRepository = transportDescRepository;
         }
 
         public IActionResult Account()

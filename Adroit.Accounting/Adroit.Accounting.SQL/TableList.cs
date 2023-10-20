@@ -91,6 +91,13 @@
         public const string _TableName = "City";
         public const string Title = "Title";
     }
+    public sealed class TransportDescTable
+    {
+        public const string _TableName = "TransportDesc";
+        public const string Customer = "Customer";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     public sealed class VehicleModelTable
     {
         public const string _TableName = "VehicleModel";
@@ -103,6 +110,48 @@
     {
         public const string _TableName = "BookTypeAdmin";
         public const string Title = "Title";
+    }
+    public sealed class SalesBillFromAdminTable
+    {
+        public const string _TableName = "SalesBillFromAdmin";
+        public const string Title = "Title";
+    }
+    #endregion
+
+    #region Adroit - GST
+    public sealed class GSTRateTable
+    {
+        public const string _TableName = "GSTRate";
+        public const string Rate = "Rate";
+        public const string OrderNumber = "OrderNumber";
+    }
+
+    public sealed class GSTInvoiceTypeTable
+    {
+        public const string _TableName = "GSTInvoiceType";
+        public const string Title = "Title";
+        public const string TitleB2B = "TitleB2B";
+        public const string TitleEinvoice = "TitleEinvoice";
+        public const string TitleCDNUR = "TitleCDNUR";
+        public const string PayType = "PayType";
+        public const string OrderNumber = "OrderNumber";
+    }
+
+    public sealed class GSTPortTable
+    {
+        public const string _TableName = "GSTPort";
+        public const string Title = "Title";
+        public const string Code = "Code";
+        public const string OrderNumber = "OrderNumber";
+    }
+    #endregion
+
+    #region Adroit - Transport
+    public sealed class TransportPackingAdminTable
+    {
+        public const string _TableName = "TransportPackingAdmin";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
     }
     #endregion
 }

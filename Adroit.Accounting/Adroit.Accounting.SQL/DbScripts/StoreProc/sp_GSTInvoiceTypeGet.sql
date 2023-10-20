@@ -1,0 +1,11 @@
+CREATE OR ALTER PROCEDURE [dbo].[sp_GSTInvoiceTypeGet]
+(
+	@Id TINYINT
+)
+AS
+BEGIN
+	SELECT *
+	FROM GSTInvoiceType	
+	WHERE Id = @Id
+END
+GO
