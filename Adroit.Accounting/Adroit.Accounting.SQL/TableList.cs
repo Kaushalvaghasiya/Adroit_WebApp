@@ -152,5 +152,11 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+        public sealed class TransportLRChargesTable
+    {
+        public const string _TableName = "TransportLRCharges";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     #endregion
 }
