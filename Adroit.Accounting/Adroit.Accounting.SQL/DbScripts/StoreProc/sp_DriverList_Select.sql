@@ -12,8 +12,8 @@ BEGIN
 	FROM [Customer]
 	INNER JOIN Driver on [Customer].Id = Driver.CustomerId
 	WHERE [Customer].Id = @CustomerId
-	AND [Customer].IsDeleted = 0
-	AND Driver.IsDeleted = 0
+	AND [Customer].Deleted = 0
+	AND Driver.Deleted = 0
 	ORDER BY Driver.Name
 END
 

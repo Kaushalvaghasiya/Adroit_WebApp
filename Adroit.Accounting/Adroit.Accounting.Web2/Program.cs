@@ -92,6 +92,9 @@ try
     builder.Services.AddSingleton<ISalesBillFromAdmin, SalesBillFromAdminRepository>();
     builder.Services.AddSingleton<ITransportPacking, TransportPackingRepository>();
     builder.Services.AddSingleton<IDriver, DriverRepository>();
+    builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
+    builder.Services.AddSingleton<IDriverTypeAdmin, DriverTypeAdminRepository>();
+
 
     if (!builder.Environment.IsDevelopment())
     {

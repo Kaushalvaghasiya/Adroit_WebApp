@@ -105,6 +105,13 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class DriverTable
+    {
+        public const string _TableName = "Driver";
+        public const string Customer = "Customer";
+        public const string Name = "Name";
+    }
+
     #region Adroit - Account
     public sealed class BookTypeAdminTable
     {

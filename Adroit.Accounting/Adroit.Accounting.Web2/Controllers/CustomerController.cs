@@ -21,6 +21,10 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportDesc _transportDescRepository;
         private readonly ITransportPacking _transportpackingRepository;
         private readonly IDriver _driverRepository;
+        private readonly ICountry _countryRepository;
+        private readonly IDriverTypeAdmin _driverTypeAdmin;
+         
+
         public CustomerController(ICustomerAccount customerAccountRepo,
             IOptions<ConfigurationData> configurationData,
             ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
@@ -29,7 +33,9 @@ namespace Adroit.Accounting.Web.Controllers
             ICommon commonRepository,
             ITransportDesc transportDescRepository,
             ITransportPacking transportpackingRepository,
-            IDriver driverRepository)
+            IDriver driverRepository,
+            ICountry countryRepository,
+            IDriverTypeAdmin driverTypeAdmin)
         {
             _customerAccountRepo = customerAccountRepo;
             _configurationData = configurationData.Value;
@@ -39,6 +45,8 @@ namespace Adroit.Accounting.Web.Controllers
             _transportDescRepository = transportDescRepository;
             _transportpackingRepository = transportpackingRepository;
             _driverRepository = driverRepository;
+            _countryRepository = countryRepository;
+            _driverTypeAdmin = driverTypeAdmin;
         }
 
         public IActionResult Account()

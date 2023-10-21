@@ -10,7 +10,7 @@ BEGIN
 		Declare @CustomerId int = dbo.[fn_GetCustomerId](@UserId);
 		
 		UPDATE Driver SET 
-		IsDeleted = 1, 
+		Deleted = 1, 
 		DeletedOn = GETUTCDATE()
 		WHERE Id= @Id ;
 			

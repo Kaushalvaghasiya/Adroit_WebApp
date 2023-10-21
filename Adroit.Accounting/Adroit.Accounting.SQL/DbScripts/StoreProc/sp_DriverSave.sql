@@ -46,7 +46,7 @@ BEGIN
 		ELSE
 			BEGIN
 				INSERT INTO [Driver] 
-					(CustomerId,Name,Address,CityId,StateId,Pincode,LicenceIssuePlaceId,LicenceNumber,AdharUID,Mobile,LicenceExpiry,DriverTypeId,IsDeleted)
+					(CustomerId,Name,Address,CityId,StateId,Pincode,LicenceIssuePlaceId,LicenceNumber,AdharUID,Mobile,LicenceExpiry,DriverTypeId,Deleted)
 				VALUES (@CustomerId,@Name,@Address,@CityId,@StateId,@Pincode,@LicenceIssuePlaceId,@LicenceNumber,@AdharUID,@Mobile,@LicenceExpiry,@DriverTypeId,0)
 
 				SET @Id = SCOPE_IDENTITY();

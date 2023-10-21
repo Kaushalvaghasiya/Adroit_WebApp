@@ -10,7 +10,7 @@ BEGIN
 		Declare @CustomerId int = dbo.[fn_GetCustomerId](@UserId);
 
 		UPDATE TransportPacking SET 
-			IsDeleted = 1,
+			Deleted = 1,
 			DeletedById = @CustomerId, 
 			DeletedOn = GETUTCDATE()
 		WHERE Id= @Id And CustomerId = @CustomerId;

@@ -24,7 +24,7 @@ Begin
 	   Count(*) over () AS TotalCount, 
 	   Driver.*
 	  FROM Driver
-	  WHERE Driver.IsDeleted = 0 and Driver.CustomerId=@CustomerId
+	  WHERE Driver.Deleted = 0 and Driver.CustomerId=@CustomerId
 	  AND (Coalesce(@Search,'') = '' OR Driver.[Name] like '%'+ @Search + '%' )
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

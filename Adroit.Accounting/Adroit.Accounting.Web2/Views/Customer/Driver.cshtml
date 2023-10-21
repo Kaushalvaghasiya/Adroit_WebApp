@@ -115,7 +115,7 @@
 
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="Address1">Address</label>
+                                <label for="Address">Address</label>
                                 <input type="text" class="form-control mode-ed" id="Address" placeholder="" maxlength="400">
                             </div>
                         </div>
@@ -142,6 +142,20 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="District">District</label>
+                                <select class="form-control select2-show-search mode-ed" id="District">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Taluka">Taluka</label>
+                                <select class="form-control select2-show-search mode-ed" id="Taluka">
+                                </select>
+                            </div>
+                        </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CityId">City</label>
@@ -164,7 +178,7 @@
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="Phone#">LicenceNumber</label>
+                                <label for="LicenceNumber">LicenceNumber</label>
                                 <input type="text" class="form-control mode-ed" id="LicenceNumber" placeholder="" maxlength="20">
                             </div>
                         </div>
@@ -515,25 +529,17 @@
         function fromReset() {
             $("#Id").val(0);
             $("#DriverName").val("");
-            $("#BusinessName").val("");
-            $("#BusinessId").val('').trigger("change");
-            $("#Address1").val("");
-            $("#Address2").val("");
-            $("#Address3").val("");
+            $("#Address").val("");
             $("#Country").val('').trigger("change");
             $("#StateId").val('').trigger("change");
             $("#District").val('').trigger("change");
             $("#Taluka").val('').trigger("change");
             $("#CityId").val('').trigger("change");
-            $("#Business").val('').trigger("change");
             $("#DriverType").val('').trigger("change");
             $("#StatusId").val('').trigger("change");
             $("#PinCode").val("");
             $("#ContactPersonName").val("");
             $("#Mobile").val("");
-            $("#MobileAlternate").val("");
-            $("#Phone").val("");
-            $("#Email").val("");
             $("#Requirements").val("");
             $("#TotalFirms").val("1");
             $("#AadhaarUID").val("");
@@ -562,24 +568,9 @@
                     $("#DriverName").focus();
                     return false;
                 }
-                if ($("#BusinessName").val().trim() == "") {
-                    showWarning("", "Please enter Business Name.");
-                    $("#BusinessName").focus();
-                    return false;
-                }
-                if ($("#BusinessName").val().trim().length <= 2) {
-                    showWarning("", "Please enter valid business name.");
-                    $("#BusinessName").focus();
-                    return false;
-                }
-                if ($("#BusinessId").val() == null || $("#BusinessId").val() == "") {
-                    showWarning("", "Please select business.");
-                    $("#BusinessId").focus();
-                    return false;
-                }
-                if ($("#Address1").val().trim() == "") {
+                if ($("#Address").val().trim() == "") {
                     showWarning("", "Please enter address.");
-                    $("#Address1").focus();
+                    $("#Address").focus();
                     return false;
                 }
                 if ($("#Country").val() == null || $("#Country").val() == "") {
@@ -627,13 +618,6 @@
                     $("#Mobile").focus();
                     return false;
                 }
-                if ($("#MobileAlternate").val().trim().length >= 1) {
-                    if ($("#MobileAlternate").val().trim().length != 10) {
-                        showWarning("", "Please enter valid alternate mobile number.");
-                        $("#MobileAlternate").focus();
-                        return false;
-                    }
-                }
                 if ($("#Email").val().trim() == "") {
                     showWarning("", "Please enter email.");
                     $("#Email").focus();
@@ -657,11 +641,6 @@
                 if (!isNumber($("#Mobile").val().trim())) {
                     showWarning("", "Please enter valid mobile number.");
                     $("#Mobile").focus();
-                    return false;
-                }
-                if (!isNumber($("#MobileAlternate").val().trim())) {
-                    showWarning("", "Please enter valid alternate mobile number.");
-                    $("#MobileAlternate").focus();
                     return false;
                 }
                 if (!isEmail($("#Email").val().trim())) {
@@ -694,19 +673,12 @@
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Name = $("#DriverName").val();
-                savedata.BusinessId = $("#BusinessId").val();
-                savedata.BusinessName = $("#BusinessName").val();
-                savedata.Address1 = $("#Address1").val();
-                savedata.Address2 = $("#Address2").val();
-                savedata.Address3 = $("#Address3").val();
+                savedata.Address = $("#Address").val();
                 savedata.CityId = parseInt($("#CityId").val());
                 savedata.StateId = parseInt($("#StateId").val());
                 savedata.Pincode = $("#PinCode").val();
                 savedata.ContactPersonName = $("#ContactPersonName").val();
                 savedata.Mobile = $("#Mobile").val();
-                savedata.MobileAlternate = $("#MobileAlternate").val();
-                savedata.Phone = $("#Phone").val();
-                savedata.Email = $("#Email").val();
                 savedata.Requirement = $("#Requirements").val();
                 savedata.TotalFirm = parseInt($("#TotalFirms").val());
                 savedata.DriverType = $("#DriverType").val();
@@ -801,17 +773,10 @@
 
                                 $('#Id').val(result.data.id);
                                 $("#DriverName").val(result.data.name);
-                                $("#BusinessName").val(result.data.businessName);
-                                $("#BusinessId").val(result.data.businessId).trigger("change");
-                                $("#Address1").val(result.data.address1);
-                                $("#Address2").val(result.data.address2);
-                                $("#Address3").val(result.data.address3);
+                                $("#Address").val(result.data.address);
                                 $("#PinCode").val(result.data.pincode);
                                 $("#ContactPersonName").val(result.data.contactPersonName);
                                 $("#Mobile").val(result.data.mobile);
-                                $("#MobileAlternate").val(result.data.mobileAlternate);
-                                $("#Phone").val(result.data.phone);
-                                $("#Email").val(result.data.email);
                                 $("#Requirements").val(result.data.requirement);
                                 $("#AadhaarUID").val(result.data.adharUID);
                                 $("#TotalFirms").val(result.data.totalFirm);

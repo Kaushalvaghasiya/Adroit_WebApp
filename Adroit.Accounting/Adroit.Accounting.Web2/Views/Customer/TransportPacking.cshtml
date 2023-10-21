@@ -164,9 +164,10 @@
             $("#Title").focus();
 
             //Set auto max value
-            var maxvalue = parseInt($('#OrderNumber option:last-child').val()) + 1;
+            var maxvalue = parseInt($('#OrderNumber option:last-child').val() || 0) + 1;
             $("#OrderNumber").append(new Option(maxvalue, maxvalue, true, true)).trigger('change');
             $("#Active").prop('checked', true);
+            
         }
 
         function viewMode(id) {
@@ -313,7 +314,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveTransportPacking", "Admin"))",
+                    url: "@(Url.Action("SaveTransportPacking", "Customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",

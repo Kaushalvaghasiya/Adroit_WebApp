@@ -13,10 +13,9 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Driver(int id = 0)
         {
             DriverViewModel model = new DriverViewModel() { Id = id };
-            //model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
-            //model.CustomerList = _customerRepository.SelectList(_configurationData.DefaultConnection);
-            model.DriverNameList = _driverRepository.SelectList(_configurationData.DefaultConnection);
-            model.DriverTypeList = _driverRepository.SelectList(_configurationData.DefaultConnection);
+            model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
+            model.DriverNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, DriverTable._TableName, DriverTable.Name);
+            model.DriverTypeList = _driverTypeAdmin.SelectList(_configurationData.DefaultConnection);
 
             return View(model);
         }
