@@ -1,0 +1,54 @@
+CREATE OR ALTER PROCEDURE [dbo].[sp_TransportDescAdminSave]
+(
+	 @Id TINYINT,
+	 @Title NVARCHAR(100),
+	 @OrderNumber TINYINT,
+	 @Active BIT
+)
+AS
+BEGIN
+	BEGIN TRAN
+	BEGIN TRY
+		IF EXISTS (SELECT 1 FROM TransportDescAdmin WHERE Id = @Id)
+			BEGIN
+				UPDATE  TransportDescAdmin SET
+						Title = @Title,
+						OrderNumber = @OrderNumber,
+						Active = @active
+					WHERE ID = @Id
+			END
+		ELSE If EXISTS (SELECT 1 FROM TransportDescAdmin WHERE Title = @Title AND Deleted = 1)
+			BEGIN
+				UPDATE  TransportDescAdmin SET
+						OrderNumber = @OrderNumber,
+						Active = @active,
+						Deleted = 0
+					WHERE Title = @Title 
+
+				SELECT @Id=Id FROM TransportDescAdmin WHERE Title = @Title 
+			END
+		ELSE
+			BEGIN
+				INSERT INTO TransportDescAdmin
+					(Title, OrderNumber, Active)
+				VALUES
+					(@Title, @OrderNumber, @Active)
+
+				SET @Id = SCOPE_IDENTITY()
+			END
+		COMMIT TRAN
+		SELECT @Id
+	END TRY
+	BEGIN CATCH
+		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
+		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
+		ROLLBACK TRAN
+		IF (@message LIKE '%Violation of UNIQUE KEY%')
+		BEGIN
+			SET @message = 'Description ''' + @Title + ''' already exist!';
+		END
+		
+		RAISERROR ('%s', 16, 1, @message);
+	END CATCH
+END
+GO
