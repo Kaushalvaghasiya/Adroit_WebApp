@@ -11,6 +11,7 @@ namespace Adroit.Accounting.Web.Controllers
     {
         protected readonly IBookAdmin _bookAdminRepository;
         protected readonly IAccountAdmin _accountAdminRepository;
+        private readonly IAccountGroupAdmin _accountGroupAdminRepository;
         protected readonly ICustomer _customerRepository;
         protected readonly IBillTypeAdmin _billTypeAdminRepository;
         protected readonly IBillEntryTypeAdmin _billEntryTypeAdminRepository;
@@ -51,10 +52,13 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportDescAdmin _transportDescAdminRepository;
         private readonly ITransportLRCharges _transportLRChargesRepository;
         
+
+        
         public AdminController(
             IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
             IAccountAdmin accountAdminRepository,
+            IAccountGroupAdmin accountGroupAdminRepository,
             IBillTypeAdmin billTypeAdminRepository,
             IBillEntryTypeAdmin billEntryTypeAdminRepository,
             ICustomer customerRepository,
@@ -97,6 +101,7 @@ namespace Adroit.Accounting.Web.Controllers
             _configurationData = configurationData.Value;
             _bookAdminRepository = bookAdminRepository;
             _accountAdminRepository = accountAdminRepository;
+            _accountGroupAdminRepository = accountGroupAdminRepository;
             _customerRepository = customerRepository;
             _billTypeAdminRepository = billTypeAdminRepository;
             _billEntryTypeAdminRepository = billEntryTypeAdminRepository;
