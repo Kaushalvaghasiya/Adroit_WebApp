@@ -101,15 +101,27 @@
     public sealed class TransportPackingTable
     {
         public const string _TableName = "TransportPacking";
-        public const string Customer = "Customer";
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+
     public sealed class DriverTable
     {
         public const string _TableName = "Driver";
         public const string Customer = "Customer";
         public const string Name = "Name";
+    }
+
+    public sealed class VehicleModelTable
+    {
+        public const string _TableName = "VehicleModel";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+    public sealed class VehicleTable
+    {
+        public const string _TableName = "Vehilcle";
+        public const string VRN = "VRN";
     }
 
     #region Adroit - Account
@@ -151,12 +163,29 @@
         public const string Code = "Code";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class GSTCollectionTable
+    {
+        public const string _TableName = "GSTCollection";
+        public const string GSTNumber = "GSTNumber";
+    }
     #endregion
 
     #region Adroit - Transport
     public sealed class TransportPackingAdminTable
     {
         public const string _TableName = "TransportPackingAdmin";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+    public sealed class TransportDescAdminTable
+    {
+        public const string _TableName = "TransportDescAdmin";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+        public sealed class TransportLRChargesTable
+    {
+        public const string _TableName = "TransportLRCharges";
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }

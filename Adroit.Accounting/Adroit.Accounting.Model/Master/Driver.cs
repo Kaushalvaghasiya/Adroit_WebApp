@@ -2,8 +2,6 @@
 //    Copyright (c) Adroit IBS Pvt Ltd. All rights reserved.
 //-----------------------------------------------------------------------
 
-using System.Reflection.Metadata;
-
 namespace Adroit.Accounting.Model
 {
     public partial class Driver

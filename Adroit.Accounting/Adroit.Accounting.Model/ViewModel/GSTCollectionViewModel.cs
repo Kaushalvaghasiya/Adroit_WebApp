@@ -13,5 +13,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public short? CountryId { get; set; }
 
         public string PAN { get { return this.GSTNumber.Substring(2, this.GSTNumber.Length - 5); } }
+        public List<DropdownViewModel> GSTNumberList { get; set; }
+        public List<DropdownViewModel> CityList { get; set; }
+
     }
 }

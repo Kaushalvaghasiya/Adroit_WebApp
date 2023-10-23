@@ -1,4 +1,5 @@
-﻿using Adroit.Accounting.Repository.IRepository;
+﻿using Adroit.Accounting.Repository;
+using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Identity;
@@ -18,6 +19,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomerFirm _customerFirmRepository;
         protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
         protected readonly ICustomerUser _customerUserRepository;
+        private readonly ICustomerAccount _customerAccountRepository;
         private readonly IEmailService _emailService;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
@@ -32,6 +34,9 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IProductQualityType _productQualityTypeRepository;
         private readonly IBusiness _businessRepository;
         private readonly ICountry _countryRepository;
+        private readonly IVehicle _vehicleRepository;
+        private readonly IVehicleModel _vehicleModelRepository;
+        private readonly IVehicleOwner _vehicleOwnerRepository;
         private readonly IGSTFirmType _gSTFirmTypeRepository;
         private readonly IFirmType _firmTypeRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
@@ -48,6 +53,10 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IGSTPort _gstPortRepository;
         private readonly ITransportPackingAdmin _transportPackingAdminRepository;
         private readonly ISalesBillFromAdmin _salesBillFromAdminRepository;
+        private readonly ITransportDescAdmin _transportDescAdminRepository;
+        private readonly ITransportLRCharges _transportLRChargesRepository;
+        private readonly IGSTCollection _gstCollectionRepository;
+        
         public AdminController(
             IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
@@ -58,6 +67,7 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerFirm customerFirmRepository,
             ICustomerFirmBranch customerFirmBranchRepository,
             ICustomerUser customerUserRepository,
+            ICustomerAccount customerAccountRepository,
             IEmailService emailService,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
@@ -71,6 +81,9 @@ namespace Adroit.Accounting.Web.Controllers
             IProductQualityType productQualityTypeRepository,
             IBusiness businessRepository,
             ICountry countryRepository,
+            IVehicle vehicleRepository,
+            IVehicleModel vehicleModelRepository,
+            IVehicleOwner vehicleOwnerRepository,
             IGSTFirmType gSTFirmTypeRepository,
             IFirmType firmTypeRepository,
             IBranchTypeAdmin branchTypeRepository,
@@ -86,7 +99,10 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTInvoiceType gstInvoiceTypeRepository,
             IGSTPort gstPortRepository,
             ITransportPackingAdmin transportPackingAdminRepository,
-            ISalesBillFromAdmin salesBillFromAdminRepository)
+            ISalesBillFromAdmin salesBillFromAdminRepository,
+            ITransportDescAdmin transportDescAdminRepository,
+            ITransportLRCharges transportLRChargesRepository,
+            IGSTCollection gstCollectionRepository)
 
         {
             _configurationData = configurationData.Value;
@@ -98,6 +114,7 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmRepository = customerFirmRepository;
             _customerFirmBranchRepository = customerFirmBranchRepository;
             _customerUserRepository = customerUserRepository;
+            _customerAccountRepository = customerAccountRepository;
             _userManager = userManager;
             _emailService = emailService;
             _userStore = userStore;
@@ -112,6 +129,9 @@ namespace Adroit.Accounting.Web.Controllers
             _productQualityTypeRepository = productQualityTypeRepository;
             _businessRepository = businessRepository;
             _countryRepository = countryRepository;
+            _vehicleRepository = vehicleRepository;
+            _vehicleModelRepository = vehicleModelRepository;
+            _vehicleOwnerRepository = vehicleOwnerRepository;
             _gSTFirmTypeRepository = gSTFirmTypeRepository;
             _firmTypeRepository = firmTypeRepository;
             _branchTypeRepository = branchTypeRepository;
@@ -128,6 +148,9 @@ namespace Adroit.Accounting.Web.Controllers
             _gstPortRepository = gstPortRepository;
             _transportPackingAdminRepository = transportPackingAdminRepository;
             _salesBillFromAdminRepository = salesBillFromAdminRepository;
+            _transportDescAdminRepository = transportDescAdminRepository;
+            _transportLRChargesRepository = transportLRChargesRepository;
+            _gstCollectionRepository = gstCollectionRepository;
         }
     }
 }

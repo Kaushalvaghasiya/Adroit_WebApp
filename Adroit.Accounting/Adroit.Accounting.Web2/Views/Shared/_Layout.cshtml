@@ -563,7 +563,7 @@
                                                     <li aria-haspopup="true"><a href="@Url.Action("GSTRate", "admin")">Rate</a></li>
                                                     <li aria-haspopup="true"><a href="@Url.Action("GSTInvoiceType", "admin")">Invoice Types</a></li>
                                                     <li aria-haspopup="true"><a href="@Url.Action("GSTPort", "admin")">Ports</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Collections</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("GSTCollection", "admin")">Collections</a></li>
                                                 </ul>
                                             </li>
                                             <li aria-haspopup="true" class="sub-menu-sub">
@@ -580,8 +580,8 @@
                                                 <a href="#">Transport</a>
                                                 <ul class="sub-menu">
                                                     <li aria-haspopup="true"><a href="@Url.Action("TransportPacking", "admin")">Packing</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Description</a></li>
-                                                    <li aria-haspopup="true"><a href="#">LR Charges</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("TransportDesc", "admin")">Description</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("TransportLRCharges", "admin")">LR Charges</a></li>
                                                 </ul>
                                             </li>
                                         </ul>
@@ -631,7 +631,14 @@
                                             <li aria-haspopup="true"><a href="#">Branch-City Mapping</a></li>
                                         </ul>
                                     </li>
-                                    <li aria-haspopup="true"><a href="#">Vehicles</a></li>
+                                    <li aria-haspopup="true" class="sub-menu-sub">
+                                        <a href="#">Vehicles</a>
+                                        <ul class="sub-menu">
+                                            <li aria-haspopup="true"><a href="@Url.Action("vehiclemodel", "admin")">Model</a></li>
+                                            <li aria-haspopup="true"><a href="@Url.Action("vehicleowner", "customer")">Owner</a></li>
+                                            <li aria-haspopup="true"><a href="@Url.Action("vehicle", "customer")">Vehicle</a></li>
+                                        </ul>
+                                    </li>
                                     <li aria-haspopup="true"><a href="#">Drivers</a></li>
                                     <li aria-haspopup="true" class="sub-menu-sub">
                                         <a href="#">LR</a>
@@ -1820,7 +1827,7 @@
     <script src="@Url.Content("~/assets/js/DevScript.js")"></script>
 
     <script>
-        var RESULT_SUCCESS = "@Adroit.Accounting.Utility.Constant.API_RESULT_SUCCESS";
+        var RESULT_SUCCESS = "@Adroit.Accounting.Model.Constant.API_RESULT_SUCCESS";
 
         $(function (e) {
             $(".btn-save").on("click", function () {
