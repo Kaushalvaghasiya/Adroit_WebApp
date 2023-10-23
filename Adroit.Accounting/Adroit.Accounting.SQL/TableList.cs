@@ -137,6 +137,11 @@
         public const string Code = "Code";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class GSTCollectionTable
+    {
+        public const string _TableName = "GSTCollection";
+        public const string GSTNumber = "GSTNumber";
+    }
     #endregion
 
     #region Adroit - Transport
