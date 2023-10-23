@@ -52,6 +52,9 @@ try
     builder.Services.AddSingleton<IEmailService, EmailService>();
     builder.Services.AddSingleton<IUser, UserRepository>();
     builder.Services.AddSingleton<ICountry, CountryRepository>();
+    builder.Services.AddSingleton<IVehicle, VehicleRepository>();
+    builder.Services.AddSingleton<IVehicleModel, VehicleModelRepository>();
+    builder.Services.AddSingleton<IVehicleOwner, VehicleOwnerRepository>();
     builder.Services.AddSingleton<IState, StateRepository>();
     builder.Services.AddSingleton<ICity, CityRepository>();
     builder.Services.AddSingleton<IDistrict, DistrictRepository>();
@@ -91,6 +94,8 @@ try
     builder.Services.AddSingleton<IGSTPort, GSTPortRepository>();
     builder.Services.AddSingleton<ITransportPackingAdmin, TransportPackingAdminRepository>();
     builder.Services.AddSingleton<ISalesBillFromAdmin, SalesBillFromAdminRepository>();
+    builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
+
 	builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
 	builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
 

@@ -11,7 +11,16 @@ namespace Adroit.Accounting.Repository
         public int Save(GSTCollection value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@GSTNumber", value.GSTNumber);
+            parameters.Add("@Name", value.Name);
+            parameters.Add("@Address1", value.Address1);
+            parameters.Add("@Address2", value.Address2);
+            parameters.Add("@Address3", value.Address3);
+            parameters.Add("@City", value.City);
+            parameters.Add("@Pincode", value.Pincode);
+            parameters.Add("@Active", value.Active);
+
             return QueryHelper.Save("sp_GSTCollectionSave", connectionString, parameters);
         }
         public GSTCollectionViewModel Get(int id, string connectionString)
@@ -27,16 +36,15 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@GSTNumber", gstNumber);
             return QueryHelper.Get<GSTCollectionViewModel>("sp_GSTCollectionGetByGSTNumber", connectionString, parameters);
         }
-        public void Delete(int id, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@Id", id);
-            QueryHelper.Save("sp_GSTCollectionDelete", connectionString, parameters);
-        }
         public List<DropdownViewModel> SelectList(string connectionString)
         {
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_GSTCollectionList_Select", connectionString, parameters);
+        }
+        public List<DropdownViewModel> SelectCityList(string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            return QueryHelper.GetList<DropdownViewModel>("sp_GSTCollectionCityList_Select", connectionString, parameters);
         }
         public List<GSTCollectionGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
