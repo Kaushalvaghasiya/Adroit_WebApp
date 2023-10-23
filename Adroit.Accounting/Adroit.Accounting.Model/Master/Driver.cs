@@ -2,6 +2,8 @@
 //    Copyright (c) Adroit IBS Pvt Ltd. All rights reserved.
 //-----------------------------------------------------------------------
 
+using System.Reflection.Metadata;
+
 namespace Adroit.Accounting.Model
 {
     public partial class Driver
@@ -23,6 +25,7 @@ namespace Adroit.Accounting.Model
         public System.DateTime LicenceExpiry { get; set; }
         public int DriverTypeId { get; set; }
         public bool IsDeleted { get; set; }
+        public bool Active { get; set; } = true;
         public int AddedById { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int? DeletedById { get; set; }

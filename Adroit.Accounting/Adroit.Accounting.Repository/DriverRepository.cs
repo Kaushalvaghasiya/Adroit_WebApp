@@ -25,7 +25,9 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LicenceExpiry", value.LicenceExpiry);
             parameters.Add("@DriverTypeId", $"{(short)value.DriverTypeId}");
             parameters.Add("@AdharUID", value.AdharUID ?? "");
-            //parameters.Add("@DefaultUserId", value.DefaultUserId);
+            parameters.Add("@Active", value.Active);
+            parameters.Add("@AddedById", value.AddedById);
+            parameters.Add("@ModifiedById", value.ModifiedById);
 
             return QueryHelper.Save("sp_DriverSave", connectionString, parameters);
         }
@@ -67,11 +69,10 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_DriverList_Select", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectListBySoftware(byte softwareId, string connectionString)
+        public List<DropdownViewModel> SelectLicenceIssuePlace(string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Id", softwareId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_DriverListBySoftware_Select", connectionString, parameters);
+            return QueryHelper.GetList<DropdownViewModel>("sp_LicenceIssuePlaceList_Select", connectionString, parameters);
         }
         public List<DropdownViewModel> SelectListBySoftwarePlan(byte softwarePlanId, string connectionString)
         {

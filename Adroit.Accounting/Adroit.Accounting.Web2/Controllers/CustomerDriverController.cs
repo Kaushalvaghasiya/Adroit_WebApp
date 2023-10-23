@@ -16,7 +16,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
             model.DriverNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, DriverTable._TableName, DriverTable.Name);
             model.DriverTypeList = _driverTypeAdmin.SelectList(_configurationData.DefaultConnection);
-
+            model.LicenceIssuePlaceList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);
             return View(model);
         }
 
@@ -53,6 +53,8 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int userId = LoginHandler.GetUserId(User);
+                model.ModifiedById = LoginHandler.GetUserId(User);
+                model.AddedById = LoginHandler.GetUserId(User);
                 int id = _driverRepository.Save(model, userId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {

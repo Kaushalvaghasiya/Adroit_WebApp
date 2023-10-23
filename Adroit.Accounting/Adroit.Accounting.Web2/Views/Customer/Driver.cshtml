@@ -40,9 +40,13 @@
                                     <th class="border-bottom-0">Driver</th>
                                     <th class="border-bottom-0">TYPE</th>
                                     <th class="border-bottom-0">CITY</th>
-                                    <th class="border-bottom-0">STATUS</th>
-                                    <th class="border-bottom-0">MOBILE</th>
-                                    <th class="border-bottom-0"> #FIRMs</th>
+                                    <th class="border-bottom-0">PINCODE</th>
+                                    <th class="border-bottom-0">LICENCENUMBER</th>
+                                    <th class="border-bottom-0">LICENCE ISSUE</th>
+                                    <th class="border-bottom-0">Licence Expiry</th>
+                                    <th class="border-bottom-0">Mobile</th>
+                                    <th class="border-bottom-0">AadhaarUID</th>
+                                    <th class="border-bottom-0">ID</th>
                                     <th class="border-bottom-0 text-center" style="width:210px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -95,15 +99,32 @@
                 <div class="card-body">
                     <div class="row">
                         
-                        <div class="col-md-12">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label for="Title">Driver Name</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="Title">
+                                <select class="form-control select2-show-search-add mode-ed" id="DriverName">
                                     <option></option>
                                     @{
                                         if (Model.DriverNameList != null)
                                         {
                                             foreach (var o in Model.DriverNameList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Type">Driver Type</label>
+                                <select class="form-control select2-show-search mode-ed" id="DriverType">
+                                    @{
+                                        if (Model.DriverTypeList != null)
+                                        {
+                                            foreach (var o in Model.DriverTypeList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -120,7 +141,7 @@
                             </div>
                         </div>
 
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Country">Country</label>
                                 <select class="form-control select2-show-search mode-ed" id="Country">
@@ -136,28 +157,28 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="StateId">State</label>
                                 <select class="form-control select2-show-search mode-ed" id="StateId">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="District">District</label>
                                 <select class="form-control select2-show-search mode-ed" id="District">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Taluka">Taluka</label>
                                 <select class="form-control select2-show-search mode-ed" id="Taluka">
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="CityId">City</label>
                                 <select class="form-control select2-show-search mode-ed" id="CityId">
@@ -165,35 +186,28 @@
                             </div>
                         </div>
                         
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Pincode">Pincode</label>
                                 <input type="text" class="form-control mode-ed numberonly " id="PinCode" placeholder="" maxlength="10">
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="AadhaarUID">Aadhaar UID</label>
-                                <input type="text" class="form-control mode-ed" id="AadhaarUID" placeholder="" maxlength="12">
+                                <label for="LicenceNumber">LicenceNumber</label>
+                                <input type="text" class="form-control mode-ed" id="LicenceNumber" placeholder="" maxlength="20">
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Mobile">Mobile</label>
-                                <input type="text" class="form-control numberonly mode-ed" id="Mobile" placeholder="" maxlength="15">
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="Type">Type</label>
-                                <select class="form-control select2-show-search mode-ed" id="DriverType">
+                                <label for="LicenceIssuePlaceId">Licence Issue Place</label>
+                                <select class="form-control select2-show-search mode-ed" id="LicenceIssuePlaceId">
                                     @{
-                                        if (Model.DriverTypeList != null)
+                                        if (Model.LicenceIssuePlaceList != null)
                                         {
-                                            foreach (var o in Model.DriverTypeList)
+                                            foreach (var o in Model.LicenceIssuePlaceList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -202,30 +216,30 @@
                                 </select>
                             </div>
                         </div>
-                        
-                        <div class="col-md-3">
+
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="LicenceNumber">LicenceNumber</label>
-                                <input type="text" class="form-control mode-ed" id="LicenceNumber" placeholder="" maxlength="20">
+                                <label for="LicenceExpiry">LicenceExpiry</label>
+                                <input type="text" class="form-control mode-ed" id="LicenceExpiry" placeholder="" maxlength="100">
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="District">Licence Issue Place</label>
-                                <select class="form-control select2-show-search mode-ed" id="LicenceIssuePlaceId">
-                                </select>
+                                <label for="Mobile">Mobile</label>
+                                <input type="text" class="form-control numberonly mode-ed" id="Mobile" placeholder="" maxlength="15">
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="ContactPersonName">LicenceExpiry</label>
-                                <input type="text" class="form-control mode-ed" id="ContactPersonName" placeholder="" maxlength="100">
+                                <label for="AadhaarUID">Aadhaar UID</label>
+                                <input type="text" class="form-control mode-ed" id="AadhaarUID" placeholder="" maxlength="12">
                             </div>
                         </div>
+
                         
-                        <div class="col-lg-6 col-md-12">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <div><label for="Active">Active</label></div>
                                 <label class="custom-switch">
@@ -249,6 +263,7 @@
         </div>
     </div>
     <!-- row end -->
+    <input type="hidden" id="Id" value="0" />
     <input type="hidden" id="hdnCountryId" value="0" />
     <input type="hidden" id="hdnStateId" value="0" />
     <input type="hidden" id="hdnDistrictId" value="0" />
@@ -370,10 +385,14 @@
 
             columns.push({ "data": "Name", "name": "Name" });
             columns.push({ "data": "DriverType", "name": "DriverType" });
+            columns.push({ "data": "Address", "name": "Address" });
             columns.push({ "data": "City", "name": "City" });
-            columns.push({ "data": "Status", "name": "Status" });
+            columns.push({ "data": "Pincode", "name": "Pincode" });
+            columns.push({ "data": "LicenceNumber", "name": "LicenceNumber" });
+            columns.push({ "data": "LicenceIssuePlaceId", "name": "LicenceIssuePlaceId" });
+            columns.push({ "data": "LicenceExpiry", "name": "LicenceExpiry" });
             columns.push({ "data": "Mobile", "name": "Mobile" });
-            columns.push({ "data": "TotalFirm", "name": "TotalFirm" });
+            columns.push({ "data": "AadhaarUID", "name": "AadhaarUID" });
             columns.push({ "data": "Id", "name": "Id" });
 
             var table = $('#tblMain').DataTable({
@@ -542,23 +561,20 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#DriverName").val("");
+            $("#DriverName").val('').trigger("change");
+            $("#DriverType").val('').trigger("change");
             $("#Address").val("");
             $("#Country").val('').trigger("change");
             $("#StateId").val('').trigger("change");
             $("#District").val('').trigger("change");
             $("#Taluka").val('').trigger("change");
             $("#CityId").val('').trigger("change");
-            $("#DriverType").val('').trigger("change");
-            $("#StatusId").val('').trigger("change");
             $("#PinCode").val("");
-            $("#ContactPersonName").val("");
+            $("#LicenceNumber").val("");
+            $("#LicenceIssuePlaceId").val('').trigger("change");
             $("#Mobile").val("");
-            $("#Requirements").val("");
-            $("#TotalFirms").val("1");
             $("#AadhaarUID").val("");
-            $("#TotalUsers").val("1");
-            $("#IsActive").prop('checked', false);
+            $("#Active").prop('checked', false);
 
             $("#hdnCountryId").val("");
             $("#hdnStateId").val("");
@@ -612,16 +628,7 @@
                     $("#CityId").focus();
                     return false;
                 }
-                if ($("#ContactPersonName").val().trim() == "") {
-                    showWarning("", "Please enter contact person name.");
-                    $("#ContactPersonName").focus();
-                    return false;
-                }
-                if ($("#ContactPersonName").val().trim().length <= 2) {
-                    showWarning("", "Please enter valid contact person name.");
-                    $("#ContactPersonName").focus();
-                    return false;
-                }
+                
                 if ($("#Mobile").val().trim() == "") {
                     showWarning("", "Please enter contact mobile.");
                     $("#Mobile").focus();
@@ -630,11 +637,6 @@
                 if ($("#Mobile").val().trim().length != 10) {
                     showWarning("", "Please enter valid mobile number.");
                     $("#Mobile").focus();
-                    return false;
-                }
-                if ($("#Email").val().trim() == "") {
-                    showWarning("", "Please enter email.");
-                    $("#Email").focus();
                     return false;
                 }
                 if ($("#AadhaarUID").val().trim().length > 0 && $("#AadhaarUID").val().trim().length != 12) {
@@ -656,57 +658,28 @@
                     showWarning("", "Please enter valid mobile number.");
                     $("#Mobile").focus();
                     return false;
-                }
-                if (!isEmail($("#Email").val().trim())) {
-                    showWarning("", "Please enter valid email");
-                    $("#Email").focus();
-                    return false;
-                }
-                if ($("#StatusId").val() == null || $("#StatusId").val() == "") {
-                    showWarning("", "Please select status.");
-                    $("#StatusId").focus();
-                    return false;
-                }
+                }                
 
-                if (!isNumber($("#TotalFirms").val())) {
-                    showWarning("", "Please enter valid number of firms.");
-                    $("#TotalFirms").focus();
-                    return false;
-                }
-                if (parseInt($("#TotalFirms").val()) <= 0) {
-                    $("#TotalFirms").val("1");
-                }
-                if (!isNumber($("#TotalUsers").val())) {
-                    showWarning("", "Please enter valid number of users.");
-                    $("#TotalUsers").focus();
-                    return false;
-                }
-                if (parseInt($("#TotalUsers").val()) <= 0) {
-                    $("#TotalUsers").val("1");
-                }
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Name = $("#DriverName").val();
+                savedata.DriverTypeId = $("#DriverType").val();
                 savedata.Address = $("#Address").val();
                 savedata.CityId = parseInt($("#CityId").val());
                 savedata.StateId = parseInt($("#StateId").val());
                 savedata.Pincode = $("#PinCode").val();
-                savedata.ContactPersonName = $("#ContactPersonName").val();
+                savedata.LicenceNumber = $("#LicenceNumber").val();
+                savedata.LicenceIssuePlaceId = parseInt($("#LicenceIssuePlaceId").val());
+                savedata.LicenceExpiry = $("#LicenceExpiry").val();
                 savedata.Mobile = $("#Mobile").val();
-                savedata.Requirement = $("#Requirements").val();
-                savedata.TotalFirm = parseInt($("#TotalFirms").val());
-                savedata.DriverType = $("#DriverType").val();
                 savedata.AdharUID = $("#AadhaarUID").val();
-                savedata.TotalUsers = parseInt($("#TotalUsers").val());
-                savedata.IsActive = $('#IsActive').is(':checked');
-                savedata.AgreeTerms = true;
-                savedata.StatusId = $("#StatusId").val();
-
+                savedata.Active = $('#Active').is(':checked');
+                
                 blockUI('container');
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveDriver", "Admin"))",
+                    url: "@(Url.Action("SaveDriver", "Customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -786,19 +759,17 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#DriverName").val(result.data.name);
+                                $("#DriverName").val(result.data.name).trigger("change");
+                                $("#DriverType").val(result.data.DriverTypeId).trigger("change");
                                 $("#Address").val(result.data.address);
                                 $("#PinCode").val(result.data.pincode);
-                                $("#ContactPersonName").val(result.data.contactPersonName);
+                                $("#LicenceNumber").val(result.data.licenceNumber);
+                                $("#LicenceIssuePlaceId").val(result.data.licenceIssuePlaceId);
+                                $("#LicenceExpiry").val(result.data.licenceExpiry);
                                 $("#Mobile").val(result.data.mobile);
-                                $("#Requirements").val(result.data.requirement);
                                 $("#AadhaarUID").val(result.data.adharUID);
-                                $("#TotalFirms").val(result.data.totalFirm);
-                                $("#TotalUsers").val(result.data.totalUsers);
-                                $('#Active').prop('checked', result.data.isActive);
-                                $("#DriverType").val(result.data.DriverTypeId).trigger("change");
-                                $("#StatusId").val(result.data.statusTypeId).trigger("change");
-
+                                $('#Active').prop('checked', result.data.active);
+                                
                                 $("#hdnCountryId").val(result.data.countryId);
                                 $("#hdnStateId").val(result.data.stateId);
                                 $("#hdnDistrictId").val(result.data.districtId);
