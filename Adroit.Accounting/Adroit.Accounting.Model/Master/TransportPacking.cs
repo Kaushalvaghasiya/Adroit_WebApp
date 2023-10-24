@@ -10,7 +10,7 @@ namespace Adroit.Accounting.Model
         public int CustomerId { get; set; }
         public string Title { get; set; } = string.Empty;
         public byte? OrderNumber { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool Deleted { get; set; }
         public int AddedById { get; set; }
         public DateTime AddedOn { get; set; }
         public int? DeletedById { get; set; }
