@@ -21,7 +21,7 @@ namespace Adroit.Accounting.Model
         public string AdharUID { get; set; }
         public string Mobile { get; set; }
         public System.DateTime LicenceExpiry { get; set; }
-        public int DriverTypeId { get; set; }
+        public byte DriverTypeId { get; set; }
         public bool IsDeleted { get; set; }
         public bool Active { get; set; } = true;
         public int AddedById { get; set; }

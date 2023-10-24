@@ -74,11 +74,5 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_LicenceIssuePlaceList_Select", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectListBySoftwarePlan(byte softwarePlanId, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@Id", softwarePlanId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_DriverListBySoftwarePlan_Select", connectionString, parameters);
-        }
     }
 }
