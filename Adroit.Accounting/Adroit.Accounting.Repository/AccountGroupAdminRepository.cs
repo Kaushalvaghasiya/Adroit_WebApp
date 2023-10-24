@@ -13,10 +13,10 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
             parameters.Add("@Title", value.Title);
-            //parameters.Add("@SoftwareId", value.SoftwareId);
-            //parameters.Add("@bussiness", value.Business);
-            //parameters.Add("@Code", value.Code);
-            //parameters.Add("@Cost", value.Cost);
+            parameters.Add("@Code", value.Code);
+            parameters.Add("@TypeId", value.TypeId);
+            parameters.Add("@AccountGroupHeaderId", value.AccountGroupHeaderId);
+            parameters.Add("@OrderNumber", value.OrderNumber);
             parameters.Add("@Active", value.Active);
             return QueryHelper.Save("sp_AccountGroupAdminSave", connectionString, parameters);
         }
