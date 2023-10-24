@@ -8,6 +8,10 @@ namespace Adroit.Accounting.Model.ViewModel
 {
     public class DriverViewModel : Driver
     {
+        public string DriverType { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string LicenceIssuePlace { get; set; }
         public List<DropdownViewModel> DriverNameList { get; set; }
         public List<DropdownViewModel> CustomerList { get; set; }
         public List<DropdownViewModel> CountryList { get; set; }

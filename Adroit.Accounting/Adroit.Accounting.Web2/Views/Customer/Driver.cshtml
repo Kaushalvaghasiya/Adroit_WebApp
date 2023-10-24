@@ -46,7 +46,7 @@
                                     <th class="border-bottom-0">Licence Expiry</th>
                                     <th class="border-bottom-0">Mobile</th>
                                     <th class="border-bottom-0">AadhaarUID</th>
-                                    <th class="border-bottom-0">ID</th>
+                                    @* <th class="border-bottom-0">ID</th> *@
                                     <th class="border-bottom-0 text-center" style="width:210px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -109,7 +109,7 @@
                                         {
                                             foreach (var o in Model.DriverNameList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                    <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -126,7 +126,7 @@
                                         {
                                             foreach (var o in Model.DriverTypeList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                    <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -150,7 +150,7 @@
                                         {
                                             foreach (var o in Model.CountryList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                    <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -209,7 +209,7 @@
                                         {
                                             foreach (var o in Model.LicenceIssuePlaceList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                    <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -332,13 +332,14 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
+                    debugger;
                     return row.name;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.DriverType;
+                    return row.driverType;
                 },
                 "targets": colDef.length,
             });
@@ -350,7 +351,25 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.statusId;
+                    return row.pincode;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.licenceNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.licenceIssuePlace;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.licenceExpiry;
                 },
                 "targets": colDef.length,
             });
@@ -360,13 +379,20 @@
                 },
                 "targets": colDef.length,
             });
-            colDef.push({
+             colDef.push({
                 "render": function (data, type, row) {
-                    return row.numberOfFirmsCreated  + "/" + (row.totalFirm ?? 0);
+                    return row.adhaarUID;
                 },
                 "targets": colDef.length,
-                "className": "text-center",
             });
+
+            // colDef.push({
+            //     "render": function (data, type, row) {
+            //         return row.numberOfFirmsCreated  + "/" + (row.totalFirm ?? 0);
+            //     },
+            //     "targets": colDef.length,
+            //     "className": "text-center",
+            // });
             colDef.push({
                 "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
@@ -389,11 +415,11 @@
             columns.push({ "data": "City", "name": "City" });
             columns.push({ "data": "Pincode", "name": "Pincode" });
             columns.push({ "data": "LicenceNumber", "name": "LicenceNumber" });
-            columns.push({ "data": "LicenceIssuePlaceId", "name": "LicenceIssuePlaceId" });
+            columns.push({ "data": "LicenceIssuePlace", "name": "LicenceIssuePlace" });
             columns.push({ "data": "LicenceExpiry", "name": "LicenceExpiry" });
             columns.push({ "data": "Mobile", "name": "Mobile" });
-            columns.push({ "data": "AadhaarUID", "name": "AadhaarUID" });
-            columns.push({ "data": "Id", "name": "Id" });
+            columns.push({ "data": "AdhaarUID", "name": "AdhaarUID" });
+            // columns.push({ "data": "Id", "name": "Id" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -423,7 +449,9 @@
                 ajax: {
                     url: '@(Url.Content("~/Customer/DriverList"))',
                     type: 'GET',
-                    data: function (d) { }
+                    data: function (d) { 
+                        debugger;
+                    }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);

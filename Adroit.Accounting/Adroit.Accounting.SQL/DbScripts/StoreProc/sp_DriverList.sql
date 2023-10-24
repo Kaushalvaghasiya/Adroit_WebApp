@@ -22,8 +22,25 @@ Begin
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN dbo.[fn_GetUserBranches](Driver.Id) END DESC
 		) AS RowNum,
 	   Count(*) over () AS TotalCount, 
-	   Driver.*
+	   Driver.*,
+	   DriverTypeAdmin.Title As DriverType,
+	   City.Title As City,
+	   State.Title As State,
+	   LicenceIssuePlace
 	  FROM Driver
+	  LEFT JOIN DriverTypeAdmin on DriverTypeAdmin.Id = Driver.DriverTypeId
+	  LEFT JOIN City on City.Id = Driver.CityId
+	  LEFT JOIN State on State.Id = Driver.StateId
+	  Outer Apply(
+				Select 
+				City.Title + ', ' + Taluka.Title + ', ' + District.Title + ', ' + State.Title + ', ' + Country.Title  As LicenceIssuePlace
+				From City City1
+				Left Join Taluka On City.TalukaId =  Taluka.Id
+				Left Join District On Taluka.DistrictId = District.Id 
+				Left Join State On District.StateId = State.Id 
+				Left Join Country On State.CountryId = Country.Id 
+				Where City1.Id = Driver.LicenceIssuePlaceId
+	)LicenceIssuePlace
 	  WHERE Driver.Deleted = 0 and Driver.CustomerId=@CustomerId
 	  AND (Coalesce(@Search,'') = '' OR Driver.[Name] like '%'+ @Search + '%' )
 	 ) AS T   
