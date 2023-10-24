@@ -12,7 +12,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_DriverSave]
 	 @AdharUID		varchar(12),
 	 @Mobile		varchar(15),
 	 @LicenceExpiry	DateTime,
-	 @DriverTypeId	int,
+	 @DriverTypeId	tinyint,
 	 @Active bit = 1,
 	 @AddedById int = NULL,
 	 @ModifiedById INT = NULL
