@@ -35,8 +35,9 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">PRIMARY ACCOUNT NAME</th>
                                     <th class="border-bottom-0">SECONDARY ACCOUNT NAME</th>
+                                    <th class="border-bottom-0">PRIMARY ACCOUNT NAME</th>
+                                    <th class="border-bottom-0">MAIN ACCOUNT GROUP</th>
                                     <th class="border-bottom-0">CODE</th>
                                     <th class="border-bottom-0" style="width:130px">ORDER NUMBER</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
@@ -86,23 +87,6 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-4 col-md-12">
-                            <div class="form-group">
-                                <label for="AccountGroupHeaderId">Primary Account Group</label>
-                                <select class="form-control select2-show-search mode-ed" id="AccountGroupHeaderId">
-                                    <option></option>
-                                    @{
-                                        if (Model.AccountGroupHeaderAdminList != null)
-                                        {
-                                            foreach (var o in Model.AccountGroupHeaderAdminList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
                         <div class="col-lg-8 col-md-12">
                             <div class="form-group">
                                 <label for="Title">Secondary Account Group Name</label>
@@ -129,6 +113,40 @@
                                         if (Model.CodeList != null)
                                         {
                                             foreach (var o in Model.CodeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-8 col-md-12">
+                            <div class="form-group">
+                                <label for="AccountGroupHeaderId">Primary Account Group</label>
+                                <select class="form-control select2-show-search mode-ed" id="AccountGroupHeaderId">
+                                    <option></option>
+                                    @{
+                                        if (Model.AccountGroupHeaderAdminList != null)
+                                        {
+                                            foreach (var o in Model.AccountGroupHeaderAdminList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="TypeId">Main Account Group</label>
+                                <select class="form-control select2-show-search mode-ed" id="TypeId">
+                                    <option></option>
+                                    @{
+                                        if (Model.AccountGroupTypeList != null)
+                                        {
+                                            foreach (var o in Model.AccountGroupTypeList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -196,7 +214,7 @@
             fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
-            $("#AccountGroupHeaderId").focus();
+            $("#Title").focus();
 
             //Set auto max value
             var maxvalue = parseInt($('#OrderNumber option:last-child').val() || 0) + 1;
@@ -221,16 +239,21 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
+                    return row.title;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
                     return row.accountGroupHeaderAdminName;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.title;
+                    return row.mainAccountGroupName;
                 },
                 "targets": colDef.length,
-
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -317,6 +340,7 @@
         function fromReset() {
             $("#Id").val(0);
             $("#AccountGroupHeaderId").val(null).trigger('change');
+            $("#TypeId").val(null).trigger('change');
             $("#Title").val(null).trigger('change');
             $("#Code").val(null).trigger('change');
             $("#OrderNumber").val(null).trigger('change');
@@ -329,12 +353,17 @@
 
         function saveItem() {
             try {
+                debugger;
                 if ($("#AccountGroupHeaderId").val() == "") {
                     showWarning("", "Please select primary account group.");
                     $("#AccountGroupHeaderId").focus();
                     return false;
                 }
-
+                if ($("#TypeId").val() == "") {
+                    showWarning("", "Please select account group type.");
+                    $("#TypeId").focus();
+                    return false;
+                }
                 if ($("#Title").val() == "") {
                     showWarning("", "Please enter valid secondary account group title.");
                     $("#Title").focus();
@@ -356,10 +385,11 @@
                 //     $("#Code").focus();
                 //     return false;
                 // }
-
+                
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.AccountGroupHeaderId = $("#AccountGroupHeaderId").val();
+                savedata.TypeId = $("#TypeId").val();
                 savedata.Title = $("#Title").val();
                 savedata.Code = $("#Code").val();
                 savedata.OrderNumber = parseFloat($("#OrderNumber").val());
@@ -456,9 +486,11 @@
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
-
+                                
                                 $('#Id').val(result.data.id);
                                 $("#AccountGroupHeaderId").val(result.data.accountGroupHeaderId).trigger('change');
+                                //$("#TypeId").val(result.data.mainAccountGroupName).trigger('change');
+                                $("#TypeId").val(result.data.typeId).trigger('change');
                                 $("#Title").val(result.data.title).trigger('change');
                                 $("#Code").val(result.data.code).trigger('change');
                                 $("#OrderNumber").val(result.data.orderNumber).trigger('change');

@@ -50,5 +50,10 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@softwareId", softwareId);
             return QueryHelper.GetList<DropdownViewModel>("sp_AccountGroupAdminList_Select", connectionString, parameters);
         }
+        public List<DropdownViewModel> SelectAccountGroupTypeList(string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            return QueryHelper.GetList<DropdownViewModel>("sp_AccountGroupTypeList_Select", connectionString, parameters);
+        }
     }
 }

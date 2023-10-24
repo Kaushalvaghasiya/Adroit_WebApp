@@ -10,5 +10,6 @@ namespace Adroit.Accounting.Repository.IRepository
         int Save(AccountGroupAdmin value, string connectionString);
         AccountGroupAdminViewModel Get(int id, string connectionString);
         List<DropdownViewModel> SelectList(byte softwareId, string connectionString);
+        List<DropdownViewModel> SelectAccountGroupTypeList(string connectionString);
     }
 }

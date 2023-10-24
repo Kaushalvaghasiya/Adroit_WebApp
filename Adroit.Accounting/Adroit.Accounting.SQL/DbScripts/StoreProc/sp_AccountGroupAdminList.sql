@@ -17,8 +17,8 @@ Begin
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN AccountGroupAdmin.[Title] END DESC,
 			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN AccountGroupHeaderAdmin.[Title] END ASC,  
 			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN AccountGroupHeaderAdmin.[Title] END DESC,
-			--CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN AccountGroupAdmin.[Business] END ASC,  
-			--CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN AccountGroupAdmin.[Business] END DESC,
+			CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN AccountGroupType.[Title] END ASC,  
+			CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN AccountGroupType.[Title] END DESC,
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN AccountGroupAdmin.[Code] END ASC,  
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN AccountGroupAdmin.[Code] END DESC,
 			CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN AccountGroupAdmin.[Active] END ASC,  
@@ -26,14 +26,16 @@ Begin
 		) AS RowNum,
 		Count(*) over () AS TotalCount, 
 		AccountGroupAdmin.*,
-		AccountGroupHeaderAdmin.Title As AccountGroupHeaderAdminName 
+		AccountGroupHeaderAdmin.Title As AccountGroupHeaderAdminName,
+		AccountGroupType.Title As MainAccountGroupName
 		FROM AccountGroupAdmin
+		LEFT JOIN AccountGroupType on AccountGroupType.Id=AccountGroupAdmin.TypeId
 		LEFT JOIN AccountGroupHeaderAdmin on AccountGroupAdmin.AccountGroupHeaderId=AccountGroupHeaderAdmin.Id
 		WHERE AccountGroupAdmin.Deleted = 0
 		AND (Coalesce(@Search,'') = '' 
 				OR AccountGroupAdmin.[Title] like '%'+ @Search + '%'
 				OR AccountGroupHeaderAdmin.[Title] like '%'+ @Search + '%'
-				--OR AccountGroupAdmin.[Business] like '%'+ @Search + '%'  
+				OR AccountGroupType.[Title] like '%'+ @Search + '%'  
 				OR AccountGroupAdmin.[Code] like '%'+ @Search + '%'  
 			)
 	 ) AS T   

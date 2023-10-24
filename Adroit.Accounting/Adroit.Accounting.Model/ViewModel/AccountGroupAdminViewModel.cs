@@ -7,6 +7,8 @@ namespace Adroit.Accounting.Model.ViewModel
     public class AccountGroupAdminViewModel : AccountGroupAdmin
     {
         public string AccountGroupHeaderAdminName { get; set; }
+        public string MainAccountGroupName { get; set; }
+        public List<DropdownViewModel> AccountGroupTypeList { get; set; }
         public List<DropdownViewModel> AccountGroupHeaderAdminList { get; set; }
         public List<DropdownViewModel> TitleList { get; set; }
         public List<DropdownViewModel> CodeList { get; set; }

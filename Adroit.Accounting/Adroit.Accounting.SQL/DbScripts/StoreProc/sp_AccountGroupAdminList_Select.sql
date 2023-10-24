@@ -1,14 +1,11 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_AccountGroupAdminList_Select] (@softwareId tinyint)
+CREATE OR ALTER PROCEDURE [dbo].[sp_AccountGroupAdminList_Select]
 AS
 BEGIN
-	SELECT [SoftwarePlan].Id As Value, [Software].Title + ' - ' + [SoftwarePlan].Title + ' (' + [SoftwarePlan].Code + ')' As Text
-	FROM [Software]
-	INNER JOIN [SoftwarePlan] on [Software].Id = [SoftwarePlan].SoftwareId
-	WHERE [Software].Id = @softwareId 
-	AND [Software].Deleted = 0 
-	AND [Software].Active = 1
-	AND [SoftwarePlan].Deleted = 0 
-	AND [SoftwarePlan].Active = 1
-	ORDER BY [SoftwarePlan].Title
+	SELECT [AccountGroupAdmin].Id As Value, [AccountGroupAdmin].Title + ' (' + [AccountGroupAdmin].Code + ')' As Text
+	FROM [AccountGroupAdmin]
+	WHERE 1=1
+	AND [AccountGroupAdmin].Deleted = 0 
+	AND [AccountGroupAdmin].Active = 1
+	ORDER BY [AccountGroupAdmin].Title
 END
 GO

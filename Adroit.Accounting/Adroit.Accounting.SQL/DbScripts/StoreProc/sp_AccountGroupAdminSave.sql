@@ -50,12 +50,12 @@ BEGIN
 		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
 		ROLLBACK TRAN
 
-		IF (@message LIKE '%UC_Code%')
+		IF (@message LIKE '%IX_AccountGroupMaster_1%')
 			BEGIN
 				SET @message = 'Secondary account group code ''' + @Code + ''' already exist!';
 			END
 		ELSE
-			IF (@message LIKE '%UC_SoftwareId_Title%')
+			IF (@message LIKE '%IX_AccountGroupMaster%')
 			BEGIN
 				SET @message = 'Secondary account group title ''' + @Title + ''' already exist!';
 			END
