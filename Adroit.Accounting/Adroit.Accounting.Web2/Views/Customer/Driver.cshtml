@@ -1,5 +1,5 @@
 ﻿@using Adroit.Accounting.Model;
-@using Adroit.Accounting.Model.Enums
+@using Adroit.Accounting.Model.Enums;
 @model Adroit.Accounting.Model.ViewModel.DriverViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -12,7 +12,6 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Adroit</a></li>
                     <li><a href="#">Driver</a></li>
                     <li class="active"><span>List</span></li>
                 </ol>
@@ -41,14 +40,15 @@
                                     <th class="border-bottom-0">Driver</th>
                                     <th class="border-bottom-0">TYPE</th>
                                     <th class="border-bottom-0">CITY</th>
-                                    <th class="border-bottom-0">PINCODE</th>
+                                    @* <th class="border-bottom-0">PINCODE</th>
                                     <th class="border-bottom-0">LICENCENUMBER</th>
                                     <th class="border-bottom-0">LICENCE ISSUE</th>
                                     <th class="border-bottom-0">Licence Expiry</th>
                                     <th class="border-bottom-0">Mobile</th>
-                                    <th class="border-bottom-0">AadhaarUID</th>
-                                    <th class="border-bottom-0">ID</th>
-                                    <th class="border-bottom-0 text-center" style="width:210px!important;">Action</th>
+                                    <th class="border-bottom-0">AadhaarUID</th> *@
+                                    @* <th class="border-bottom-0">ID</th> *@
+                                    <th class="border-bottom-0" style="width:100px">ACTIVE</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -68,7 +68,6 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Adroit</a></li>
                     <li><a href="#" class="btn-back">Driver</a></li>
                     <li class="active"><span id="activeTabName">Add</span></li>
                 </ol>
@@ -99,7 +98,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        
+
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label for="Title">Driver Name</label>
@@ -186,7 +185,7 @@
                                 </select>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Pincode">Pincode</label>
@@ -221,7 +220,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="LicenceExpiry">LicenceExpiry</label>
-                                <input type="text" class="form-control mode-ed" id="LicenceExpiry" placeholder="@Constant.DateFormat.ToUpper()" maxlength="100">
+                                <input type="text" class="form-control mode-ed fc-datepicker" id="LicenceExpiry" placeholder="@Constant.DateFormat.ToUpper()" maxlength="100">
                             </div>
                         </div>
 
@@ -239,7 +238,7 @@
                             </div>
                         </div>
 
-                        
+
                         <div class="col-md-4">
                             <div class="form-group">
                                 <div><label for="Active">Active</label></div>
@@ -339,7 +338,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.DriverType;
+                    return row.driverType;
                 },
                 "targets": colDef.length,
             });
@@ -349,24 +348,49 @@
                 },
                 "targets": colDef.length,
             });
+            // colDef.push({
+            //     "render": function (data, type, row) {
+            //         return row.pincode;
+            //     },
+            //     "targets": colDef.length,
+            // });
+            // colDef.push({
+            //     "render": function (data, type, row) {
+            //         return row.licenceNumber;
+            //     },
+            //     "targets": colDef.length,
+            // });
+            // colDef.push({
+            //     "render": function (data, type, row) {
+            //         return row.licenceIssuePlace;
+            //     },
+            //     "targets": colDef.length,
+            // });
+            // colDef.push({
+            //     "render": function (data, type, row) {
+            //         return row.licenceExpiry;
+            //     },
+            //     "targets": colDef.length,
+            // });
+            // colDef.push({
+            //     "render": function (data, type, row) {
+            //         return row.mobile;
+            //     },
+            //     "targets": colDef.length,
+            // });
+            // colDef.push({
+            //     "render": function (data, type, row) {
+            //         return row.adhaarUID;
+            //     },
+            //     "targets": colDef.length,
+            // });
+
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.statusId;
+                    return row.active ? "Yes" : "No";
                 },
                 "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.mobile;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.numberOfFirmsCreated  + "/" + (row.totalFirm ?? 0);
-                },
-                "targets": colDef.length,
-                "className": "text-center",
+                "className": "text-center"
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -386,15 +410,15 @@
 
             columns.push({ "data": "Name", "name": "Name" });
             columns.push({ "data": "DriverType", "name": "DriverType" });
-            columns.push({ "data": "Address", "name": "Address" });
+            //columns.push({ "data": "Address", "name": "Address" });
             columns.push({ "data": "City", "name": "City" });
-            columns.push({ "data": "Pincode", "name": "Pincode" });
-            columns.push({ "data": "LicenceNumber", "name": "LicenceNumber" });
-            columns.push({ "data": "LicenceIssuePlaceId", "name": "LicenceIssuePlaceId" });
-            columns.push({ "data": "LicenceExpiry", "name": "LicenceExpiry" });
-            columns.push({ "data": "Mobile", "name": "Mobile" });
-            columns.push({ "data": "AadhaarUID", "name": "AadhaarUID" });
-            columns.push({ "data": "Id", "name": "Id" });
+            // columns.push({ "data": "Pincode", "name": "Pincode" });
+            // columns.push({ "data": "LicenceNumber", "name": "LicenceNumber" });
+            // columns.push({ "data": "LicenceIssuePlace", "name": "LicenceIssuePlace" });
+            // columns.push({ "data": "LicenceExpiry", "name": "LicenceExpiry" });
+            // columns.push({ "data": "Mobile", "name": "Mobile" });
+            // columns.push({ "data": "AdhaarUID", "name": "AdhaarUID" });
+            // columns.push({ "data": "Id", "name": "Id" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -424,7 +448,9 @@
                 ajax: {
                     url: '@(Url.Content("~/Customer/DriverList"))',
                     type: 'GET',
-                    data: function (d) { }
+                    data: function (d) {
+
+                    }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
@@ -629,7 +655,7 @@
                     $("#CityId").focus();
                     return false;
                 }
-                
+
                 if ($("#Mobile").val().trim() == "") {
                     showWarning("", "Please enter contact mobile.");
                     $("#Mobile").focus();
@@ -659,7 +685,7 @@
                     showWarning("", "Please enter valid mobile number.");
                     $("#Mobile").focus();
                     return false;
-                }                
+                }
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
@@ -675,7 +701,7 @@
                 savedata.Mobile = $("#Mobile").val();
                 savedata.AdharUID = $("#AadhaarUID").val();
                 savedata.Active = $('#Active').is(':checked');
-                
+
                 blockUI('container');
 
                 $.ajax({
@@ -758,19 +784,18 @@
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
-
                                 $('#Id').val(result.data.id);
                                 $("#DriverName").val(result.data.name).trigger("change");
-                                $("#DriverType").val(result.data.DriverTypeId).trigger("change");
+                                $("#DriverType").val(result.data.driverTypeId).trigger("change");
                                 $("#Address").val(result.data.address);
                                 $("#PinCode").val(result.data.pincode);
                                 $("#LicenceNumber").val(result.data.licenceNumber);
-                                $("#LicenceIssuePlaceId").val(result.data.licenceIssuePlaceId);
-                                $("#LicenceExpiry").val(result.data.LicenceExpiryString);
+                                $("#LicenceIssuePlaceId").val(result.data.licenceIssuePlaceId).trigger("change");
+                                $("#LicenceExpiry").val(result.data.licenceExpiryString);
                                 $("#Mobile").val(result.data.mobile);
                                 $("#AadhaarUID").val(result.data.adharUID);
                                 $('#Active').prop('checked', result.data.active);
-                                
+
                                 $("#hdnCountryId").val(result.data.countryId);
                                 $("#hdnStateId").val(result.data.stateId);
                                 $("#hdnDistrictId").val(result.data.districtId);

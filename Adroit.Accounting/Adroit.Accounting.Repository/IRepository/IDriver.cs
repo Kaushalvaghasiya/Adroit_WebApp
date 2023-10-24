@@ -12,6 +12,5 @@ namespace Adroit.Accounting.Repository.IRepository
         void Delete(int id, int userId, string connectionString);
         List<DropdownViewModel> SelectList(string connectionString);
         List<DropdownViewModel> SelectLicenceIssuePlace(string connectionString);
-        List<DropdownViewModel> SelectListBySoftwarePlan(byte softwarePlanId, string connectionString);
     }
 }
