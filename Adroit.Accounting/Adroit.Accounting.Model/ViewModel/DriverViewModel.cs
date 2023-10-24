@@ -8,6 +8,9 @@ namespace Adroit.Accounting.Model.ViewModel
 {
     public class DriverViewModel : Driver
     {
+        public short? CountryId { get; set; }
+        public int? DistrictId { get; set; }
+        public int? TalukaId { get; set; }
         public string DriverType { get; set; }
         public string City { get; set; }
         public string State { get; set; }
@@ -22,6 +25,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> LicenceIssuePlaceList { get; set; }
         public List<DropdownViewModel> AadharUIDList { get; set; }
         public List<DropdownViewModel> DriverTypeList { get; set; }
-        //public string LicenceExpiryString { get { return this.LicenceExpiry.ToString(Constant.DateFormat); } }
+        public string LicenceExpiryString { get { return this.LicenceExpiry.ToString(Constant.DateFormat); } }
     }
 }
