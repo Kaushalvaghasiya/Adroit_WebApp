@@ -1,7 +1,7 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_AccountGroupHeaderAdminSave]
 (
 	 @Id tinyint,
-	 @Title VARCHAR(20),
+	 @Title NVARCHAR(50),
 	 @Active bit,
 	 @OrderNumber tinyint
 )
@@ -47,7 +47,7 @@ BEGIN
 		ROLLBACK TRAN
 		IF (@message LIKE '%Violation of UNIQUE KEY%')
 		BEGIN
-			SET @message = 'Main Account Group ''' + @Title + ''' already exist!';
+			SET @message = 'Account group header ''' + @Title + ''' already exist!';
 		END
 		
 		RAISERROR ('%s', 16, 1, @message);

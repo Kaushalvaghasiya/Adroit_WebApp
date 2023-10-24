@@ -6,10 +6,6 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		--UPDATE SoftwarePlan SET 
-		--	Deleted = 1
-		--WHERE SoftwareId= @Id ;
-
 		UPDATE AccountGroupHeaderAdmin SET 
 			Deleted = 1
 		WHERE Id= @Id ;
