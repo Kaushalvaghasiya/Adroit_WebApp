@@ -15,7 +15,7 @@ namespace Adroit.Accounting.Web.Controllers
         {
             var model = new AccountGroupAdminViewModel();
             //model.AccountGroupTypeList
-            //model.AccountGroupHeaderList = _accountGroupHe.SelectList(_configurationData.DefaultConnection);
+            //model.AccountGroupHeaderList = _accountGroupHeader.SelectList(_configurationData.DefaultConnection);
             model.CodeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, AccountGroupAdminTable._TableName, AccountGroupAdminTable.Code);
             model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, AccountGroupAdminTable._TableName, AccountGroupAdminTable.Title);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, AccountGroupAdminTable._TableName, AccountGroupAdminTable.OrderNumber);
