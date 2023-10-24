@@ -11,6 +11,7 @@ namespace Adroit.Accounting.Web.Controllers
     public partial class AdminController : Controller
     {
         protected readonly IBookAdmin _bookAdminRepository;
+        protected readonly IAccountGroupHeaderAdmin _accountGroupHeaderAdminRepository;
         protected readonly IAccountAdmin _accountAdminRepository;
         private readonly IAccountGroupAdmin _accountGroupAdminRepository;
         protected readonly ICustomer _customerRepository;
@@ -63,6 +64,7 @@ namespace Adroit.Accounting.Web.Controllers
         public AdminController(
             IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
+            IAccountGroupHeaderAdmin accountGroupHeaderAdminRepository,
             IAccountAdmin accountAdminRepository,
             IAccountGroupAdmin accountGroupAdminRepository,
             IBillTypeAdmin billTypeAdminRepository,
@@ -111,6 +113,7 @@ namespace Adroit.Accounting.Web.Controllers
         {
             _configurationData = configurationData.Value;
             _bookAdminRepository = bookAdminRepository;
+            _accountGroupHeaderAdminRepository = accountGroupHeaderAdminRepository;
             _accountAdminRepository = accountAdminRepository;
             _accountGroupAdminRepository = accountGroupAdminRepository;
             _customerRepository = customerRepository;
