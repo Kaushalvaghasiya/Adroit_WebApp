@@ -23,6 +23,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ConfigurationData _configurationData;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
+        private readonly IProductPacking _productPackingRepository;
         public CustomerController(
             IVehicle vehicleRepo,
             IVehicleModel vehicleModelRepository,
@@ -34,7 +35,9 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerAccountGroup customerAccountGroupRepo,
             ICustomerUser customerUserRepository,
             ICommon commonRepository,
-            ITransportDesc transportDescRepository)
+            ITransportDesc transportDescRepository,
+            IProductPacking productPackingRepository
+            )
         {
             _vehicleRepo = vehicleRepo; 
             _vehicleModelRepository = vehicleModelRepository;
@@ -46,6 +49,7 @@ namespace Adroit.Accounting.Web.Controllers
             _customerAccountGroupRepo = customerAccountGroupRepo;
             _commonRepository = commonRepository;
             _transportDescRepository = transportDescRepository;
+            _productPackingRepository = productPackingRepository;
         }
 
         public IActionResult Account()
