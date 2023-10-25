@@ -54,7 +54,7 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 //we need add user Id
                 int UserId = LoginHandler.GetUserId(User);
-
+                model.AddedById = UserId;
                 int id = _customerAccountGroupHeader.Save(model, UserId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {

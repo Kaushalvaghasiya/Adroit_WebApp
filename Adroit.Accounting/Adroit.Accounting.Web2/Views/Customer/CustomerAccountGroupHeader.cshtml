@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.AccountGroupHeaderAdminViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.CustomerAccountGroupHeaderViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -250,7 +250,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/admin/accountgroupheaderadminlist"))',
+                    url: '@(Url.Content("~/customer/customeraccountgroupheaderlist"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -310,7 +310,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveAccountGroupHeaderAdmin", "Admin"))",
+                    url: "@(Url.Action("SaveCustomerAccountGroupHeader", "Customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -344,7 +344,7 @@
         function deleteItem(id) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteAccountGroupHeaderAdmin"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/customer/DeleteCustomerAccountGroupHeader"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -372,7 +372,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetAccountGroupHeaderAdmin"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetCustomerAccountGroupHeader"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";

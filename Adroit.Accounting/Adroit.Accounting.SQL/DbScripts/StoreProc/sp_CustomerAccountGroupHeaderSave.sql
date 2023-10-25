@@ -1,10 +1,11 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountGroupHeaderSave]
 (
-	 @Id tinyint,
+	 @Id TINYINT,
 	 @UserId	INT,
 	 @Title NVARCHAR(50),
-	 @Active bit,
-	 @OrderNumber tinyint
+	 @Active BIT,
+	 @OrderNumber TINYINT,
+	 @AddedById INT
 )
 AS
 BEGIN
@@ -33,9 +34,9 @@ BEGIN
 		ELSE 
 			BEGIN
 				INSERT INTO CustomerAccountGroupHeader
-					([Title],[CustomerId], OrderNumber, Active)
+					([Title],[CustomerId], OrderNumber, Active, AddedById)
 				VALUES
-					(@Title, @CustomerId, @OrderNumber, @Active)
+					(@Title, @CustomerId, @OrderNumber, @Active, @AddedById)
 
 				SET @Id = SCOPE_IDENTITY()
 				

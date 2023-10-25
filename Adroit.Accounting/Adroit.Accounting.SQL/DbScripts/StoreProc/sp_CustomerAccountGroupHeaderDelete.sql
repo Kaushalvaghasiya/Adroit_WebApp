@@ -1,4 +1,4 @@
-CREATE OR ALTER procedure [dbo].[CustomerAccountGroupHeaderDelete]
+CREATE OR ALTER procedure [dbo].[sp_CustomerAccountGroupHeaderDelete]
 (
 	@Id INT,
 	@UserId INT

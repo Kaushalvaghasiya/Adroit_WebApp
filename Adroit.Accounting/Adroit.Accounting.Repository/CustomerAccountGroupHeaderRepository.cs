@@ -16,6 +16,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Title", value.Title);
             parameters.Add("@OrderNumber", value.OrderNumber);
             parameters.Add("@Active", value.Active);
+            parameters.Add("@AddedById", value.AddedById);
             return QueryHelper.Save("sp_CustomerAccountGroupHeaderSave", connectionString, parameters);
         }
         public CustomerAccountGroupHeaderViewModel Get(int id, int userId, string connectionString)
