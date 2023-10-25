@@ -1,5 +1,11 @@
 ﻿namespace Adroit.Accounting.SQL.Tables
 {
+    public sealed class CustomerAccountGroupHeaderTable
+    {
+        public const string _TableName = "CustomerAccountGroupHeader";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     public sealed class AccountGroupHeaderAdminTable
     {
         public const string _TableName = "AccountGroupHeaderAdmin";

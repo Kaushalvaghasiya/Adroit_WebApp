@@ -78,6 +78,7 @@ try
     builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
     builder.Services.AddSingleton<IBranchTypeAdmin, BranchTypeAdminRepository>();
     builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
+    builder.Services.AddSingleton<ICustomerAccountGroupHeader, CustomerAccountGroupHeaderRepository>();
     builder.Services.AddSingleton<ISoftwarePlan, SoftwarePlanRepository>();
     builder.Services.AddSingleton<ICommon, CommonRepository>();
     builder.Services.AddSingleton<IBranchTypeAdmin, BranchTypeAdminRepository>();
