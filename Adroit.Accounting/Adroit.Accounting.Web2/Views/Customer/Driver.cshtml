@@ -40,13 +40,6 @@
                                     <th class="border-bottom-0">Driver</th>
                                     <th class="border-bottom-0">TYPE</th>
                                     <th class="border-bottom-0">CITY</th>
-                                    @* <th class="border-bottom-0">PINCODE</th>
-                                    <th class="border-bottom-0">LICENCENUMBER</th>
-                                    <th class="border-bottom-0">LICENCE ISSUE</th>
-                                    <th class="border-bottom-0">Licence Expiry</th>
-                                    <th class="border-bottom-0">Mobile</th>
-                                    <th class="border-bottom-0">AadhaarUID</th> *@
-                                    @* <th class="border-bottom-0">ID</th> *@
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
@@ -94,7 +87,6 @@
         <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
-                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -348,43 +340,6 @@
                 },
                 "targets": colDef.length,
             });
-            // colDef.push({
-            //     "render": function (data, type, row) {
-            //         return row.pincode;
-            //     },
-            //     "targets": colDef.length,
-            // });
-            // colDef.push({
-            //     "render": function (data, type, row) {
-            //         return row.licenceNumber;
-            //     },
-            //     "targets": colDef.length,
-            // });
-            // colDef.push({
-            //     "render": function (data, type, row) {
-            //         return row.licenceIssuePlace;
-            //     },
-            //     "targets": colDef.length,
-            // });
-            // colDef.push({
-            //     "render": function (data, type, row) {
-            //         return row.licenceExpiry;
-            //     },
-            //     "targets": colDef.length,
-            // });
-            // colDef.push({
-            //     "render": function (data, type, row) {
-            //         return row.mobile;
-            //     },
-            //     "targets": colDef.length,
-            // });
-            // colDef.push({
-            //     "render": function (data, type, row) {
-            //         return row.adhaarUID;
-            //     },
-            //     "targets": colDef.length,
-            // });
-
             colDef.push({
                 "render": function (data, type, row) {
                     return row.active ? "Yes" : "No";
@@ -404,22 +359,13 @@
                     return btnAct;
                 },
                 "targets": colDef.length,
-                //"className": "text-center",
                 "orderable": false
             });
 
             columns.push({ "data": "Name", "name": "Name" });
             columns.push({ "data": "DriverType", "name": "DriverType" });
-            //columns.push({ "data": "Address", "name": "Address" });
             columns.push({ "data": "City", "name": "City" });
-            // columns.push({ "data": "Pincode", "name": "Pincode" });
-            // columns.push({ "data": "LicenceNumber", "name": "LicenceNumber" });
-            // columns.push({ "data": "LicenceIssuePlace", "name": "LicenceIssuePlace" });
-            // columns.push({ "data": "LicenceExpiry", "name": "LicenceExpiry" });
-            // columns.push({ "data": "Mobile", "name": "Mobile" });
-            // columns.push({ "data": "AdhaarUID", "name": "AdhaarUID" });
-            // columns.push({ "data": "Id", "name": "Id" });
-
+            
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
                 lengthChange: false,
@@ -430,8 +376,6 @@
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
-                //scrollCollapse: true,
-                //stateSave: false,
                 columnDefs: colDef,
                 columns: columns,
                 language: {
