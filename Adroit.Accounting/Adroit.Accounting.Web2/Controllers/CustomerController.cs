@@ -13,8 +13,8 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerController : Controller
     {
-        protected readonly IVehicle _vehicleRepo; 
-        protected readonly IVehicleModel _vehicleModelRepository; 
+        protected readonly IVehicle _vehicleRepo;
+        protected readonly IVehicleModel _vehicleModelRepository;
         protected readonly ICountry _countryRepository;
         protected readonly IVehicleOwner _vehicleOwnerRepo;
         protected readonly ICustomerAccount _customerAccountRepo;
@@ -23,6 +23,9 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ConfigurationData _configurationData;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
+        private readonly ITransportPacking _transportpackingRepository;
+        private readonly IDriver _driverRepository;
+        private readonly IDriverTypeAdmin _driverTypeAdmin;
         public CustomerController(
             IVehicle vehicleRepo,
             IVehicleModel vehicleModelRepository,
@@ -34,9 +37,12 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerAccountGroup customerAccountGroupRepo,
             ICustomerUser customerUserRepository,
             ICommon commonRepository,
-            ITransportDesc transportDescRepository)
+            ITransportDesc transportDescRepository,
+            ITransportPacking transportpackingRepository,
+            IDriver driverRepository,
+            IDriverTypeAdmin driverTypeAdmin)
         {
-            _vehicleRepo = vehicleRepo; 
+            _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
             _countryRepository = countryRepository;
             _vehicleOwnerRepo = vehicleOwnerRepo;
@@ -46,6 +52,9 @@ namespace Adroit.Accounting.Web.Controllers
             _customerAccountGroupRepo = customerAccountGroupRepo;
             _commonRepository = commonRepository;
             _transportDescRepository = transportDescRepository;
+            _transportpackingRepository = transportpackingRepository;
+            _driverRepository = driverRepository;
+            _driverTypeAdmin = driverTypeAdmin;
         }
 
         public IActionResult Account()

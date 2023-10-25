@@ -94,7 +94,10 @@ try
     builder.Services.AddSingleton<IGSTPort, GSTPortRepository>();
     builder.Services.AddSingleton<ITransportPackingAdmin, TransportPackingAdminRepository>();
     builder.Services.AddSingleton<ISalesBillFromAdmin, SalesBillFromAdminRepository>();
+    builder.Services.AddSingleton<ITransportPacking, TransportPackingRepository>();
+    builder.Services.AddSingleton<IDriver, DriverRepository>();
     builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
+    builder.Services.AddSingleton<IDriverTypeAdmin, DriverTypeAdminRepository>();
 
 	builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
 	builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
