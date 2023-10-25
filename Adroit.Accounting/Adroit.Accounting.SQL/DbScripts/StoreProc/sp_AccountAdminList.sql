@@ -28,7 +28,7 @@ Begin
 		AccountAdmin.*,
 		[AccountGroupAdmin].Title as AccountGroupName, [City].Title as CityName
 		FROM AccountAdmin
-			 LEFT JOIN [AccountGroupAdmin] on AccountAdmin.AccountGroupId = [AccountGroupAdmin].Id
+			 INNER JOIN [AccountGroupAdmin] on AccountAdmin.AccountGroupId = [AccountGroupAdmin].Id
 			 LEFT JOIN [City] on AccountAdmin.CityId = [City].Id
 		WHERE AccountAdmin.Deleted = 0
 		AND (Coalesce(@Search,'') = '' OR AccountAdmin.[Name] like '%'+ @Search + '%')
