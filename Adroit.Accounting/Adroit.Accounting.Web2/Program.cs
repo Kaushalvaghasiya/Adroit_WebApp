@@ -99,8 +99,9 @@ try
     builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
     builder.Services.AddSingleton<IDriverTypeAdmin, DriverTypeAdminRepository>();
 
-	builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
-	builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
+    builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
+    builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
+    builder.Services.AddSingleton<IAccountGroupAdmin, AccountGroupAdminRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

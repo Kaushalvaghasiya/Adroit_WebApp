@@ -131,6 +131,12 @@
     }
 
     #region Adroit - Account
+    public sealed class AccountAdminTable
+    {
+        public const string _TableName = "AccountAdmin";
+        public const string AreaName = "AreaName";
+        public const string TransportName = "TransportName";
+    }
     public sealed class BookTypeAdminTable
     {
         public const string _TableName = "BookTypeAdmin";
