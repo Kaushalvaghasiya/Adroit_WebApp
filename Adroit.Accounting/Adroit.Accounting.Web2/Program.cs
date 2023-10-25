@@ -95,8 +95,10 @@ try
     builder.Services.AddSingleton<ITransportPackingAdmin, TransportPackingAdminRepository>();
     builder.Services.AddSingleton<ISalesBillFromAdmin, SalesBillFromAdminRepository>();
     builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
+    builder.Services.AddSingleton<IProductGroup, ProductGroupRepository>();
 
-	builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
+
+    builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
 	builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
 
     if (!builder.Environment.IsDevelopment())
