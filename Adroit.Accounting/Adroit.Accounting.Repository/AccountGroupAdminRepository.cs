@@ -44,11 +44,9 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<AccountGroupAdminGridViewModel>("sp_AccountGroupAdminList", connectionString, param);
         }
-        public List<DropdownViewModel> SelectList(byte softwareId, string connectionString)
         public List<DropdownViewModel> GetAccountGroupAdmin_SelectList(string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@softwareId", softwareId);
             return QueryHelper.GetList<DropdownViewModel>("sp_AccountGroupAdminList_Select", connectionString, parameters);
         }
         public List<DropdownViewModel> SelectAccountGroupTypeList(string connectionString)
