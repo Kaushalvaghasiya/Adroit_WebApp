@@ -280,13 +280,13 @@
         function saveItem() {
             try {
                 if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid TransportPacking name.");
+                    showWarning("", "Please enter valid Transport Packing name.");
                     $("#Title").focus();
                     return false;
                 }
 
-                if ($("#Title").val().length > 60) {
-                    showWarning("", "Transport Packing name must be upto 60 characters long.");
+                if ($("#Title").val().length > 30) {
+                    showWarning("", "Transport Packing name must be upto 30 characters long.");
                     $("#Title").focus();
                     return false;
                 }
@@ -323,7 +323,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'TransportPacking saved successfully.');
+                            showWarning("", 'Transport Packing saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
