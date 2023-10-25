@@ -12,6 +12,13 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class CustomerAccountGroupTable
+    {
+        public const string _TableName = "CustomerAccountGroup";
+        public const string Code = "Code";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     public sealed class SoftwareTable
     {
         public const string _TableName = "Software";
