@@ -110,6 +110,12 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class ProductDesignNumberTable
+    {
+        public const string _TableName = "ProductDesignNumber";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     public sealed class VehicleTable
     {
         public const string _TableName = "Vehilcle";
