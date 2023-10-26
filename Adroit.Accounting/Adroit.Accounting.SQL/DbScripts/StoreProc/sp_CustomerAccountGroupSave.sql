@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_AccountGroupAdminSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountGroupSave]
 (
 	 @Id		INT,
 	 @UserId	INT,

@@ -13,6 +13,6 @@ BEGIN
 	FROM CustomerAccountGroup
 	INNER JOIN AccountGroupType on AccountGroupType.Id=CustomerAccountGroup.TypeId
 	INNER JOIN CustomerAccountGroupHeader ON CustomerAccountGroupHeader.Id = CustomerAccountGroup.AccountGroupHeaderId 
-	WHERE CustomerAccountGroup.Id = @Id And CustomerId=@CustomerId
+	WHERE CustomerAccountGroup.Id = @Id And CustomerAccountGroup.CustomerId=@CustomerId
 END
 GO

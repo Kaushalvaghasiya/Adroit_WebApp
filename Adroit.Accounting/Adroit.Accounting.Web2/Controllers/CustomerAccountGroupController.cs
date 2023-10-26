@@ -13,13 +13,10 @@ namespace Adroit.Accounting.Web.Controllers
     {
         public IActionResult CustomerAccountGroup()
         {
-            int loginId = LoginHandler.GetUserId(User);
-            int firmId = LoginHandler.GetFirmId(User);
+            int userId = LoginHandler.GetUserId(User);
             var model = new CustomerAccountGroupViewModel();
-            //model.AccountGroupTypeList
-            //model.AccountGroupTypeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, AccountGroupTypeTable._TableName, AccountGroupTypeTable.Title);
             model.AccountGroupTypeList = _accountGroupType.GetAccountGroupTypeList(_configurationData.DefaultConnection);
-            model.CustomerAccountGroupList = _customerAccountGroupRepo.GetCustomerAccountGroupList(_configurationData.DefaultConnection, loginId, firmId);
+            model.CustomerAccountGroupList = _customerAccountGroupHeader.SelectList(userId, _configurationData.DefaultConnection);
             model.CodeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountGroupTable._TableName, CustomerAccountGroupTable.Code);
             model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountGroupTable._TableName, CustomerAccountGroupTable.Title);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountGroupTable._TableName, CustomerAccountGroupTable.OrderNumber);
@@ -61,6 +58,7 @@ namespace Adroit.Accounting.Web.Controllers
                 //we need add user Id
                 //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
                 int userId = LoginHandler.GetUserId(User);
+                model.AddedById = userId;
                 int id = _customerAccountGroupRepo.Save(model, userId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
