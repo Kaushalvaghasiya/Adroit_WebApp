@@ -69,6 +69,7 @@ try
     builder.Services.AddSingleton<IAccountGroupHeaderAdmin, AccountGroupHeaderAdminRepository>();
     builder.Services.AddSingleton<IAccountGroupType, AccountGroupTypeRepository>();
     builder.Services.AddSingleton<IAccountAdmin, AccountAdminRepository>();
+    builder.Services.AddSingleton<IAccountGroupAdmin, AccountGroupAdminRepository>();
     builder.Services.AddSingleton<IBillTypeAdmin, BillTypeAdminRepository>();
     builder.Services.AddSingleton<IBillEntryTypeAdmin, BillEntryTypeAdminRepository>();
     builder.Services.AddSingleton<ICustomerFirm, CustomerFirmRepository>();

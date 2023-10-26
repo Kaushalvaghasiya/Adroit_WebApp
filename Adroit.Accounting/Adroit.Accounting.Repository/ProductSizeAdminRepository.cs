@@ -15,19 +15,19 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Title", productSizeAdmin.Title);
             parameters.Add("@OrderNumber", productSizeAdmin.OrderNumber);
             parameters.Add("@Active", productSizeAdmin.Active);
-            return QueryHelper.Save("sp_ProductSizeSave", connectionString, parameters);
+            return QueryHelper.Save("sp_ProductSizeAdminSave", connectionString, parameters);
         }
         public void Delete(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            QueryHelper.Save("sp_ProductSizeDelete", connectionString, parameters);
+            QueryHelper.Save("sp_ProductSizeAdminDelete", connectionString, parameters);
         }
         public ProductSizeAdminViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.Get<ProductSizeAdminViewModel>("sp_ProductSizeGet", connectionString, parameters);
+            return QueryHelper.Get<ProductSizeAdminViewModel>("sp_ProductSizeAdminGet", connectionString, parameters);
         }
         public List<ProductSizeAdminGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
@@ -39,7 +39,7 @@ namespace Adroit.Accounting.Repository
             param.Add("@PageSize", pageSize);
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<ProductSizeAdminGridViewModel>("sp_ProductSizeList", connectionString, param);
+            return QueryHelper.GetList<ProductSizeAdminGridViewModel>("sp_ProductSizeAdminList", connectionString, param);
         }
     }
 }
