@@ -13,6 +13,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly IBookAdmin _bookAdminRepository;
         protected readonly IAccountGroupHeaderAdmin _accountGroupHeaderAdminRepository;
         protected readonly IAccountAdmin _accountAdminRepository;
+        private readonly IAccountGroupAdmin _accountGroupAdminRepository;
         protected readonly ICustomer _customerRepository;
         protected readonly IBillTypeAdmin _billTypeAdminRepository;
         protected readonly IBillEntryTypeAdmin _billEntryTypeAdminRepository;
@@ -57,13 +58,13 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportDescAdmin _transportDescAdminRepository;
         private readonly ITransportLRCharges _transportLRChargesRepository;
         private readonly IGSTCollection _gstCollectionRepository;
-        private readonly IAccountGroupAdmin _accountGroupAdminRepository;
 
         public AdminController(
             IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
             IAccountGroupHeaderAdmin accountGroupHeaderAdminRepository,
             IAccountAdmin accountAdminRepository,
+            IAccountGroupAdmin accountGroupAdminRepository,
             IBillTypeAdmin billTypeAdminRepository,
             IBillEntryTypeAdmin billEntryTypeAdminRepository,
             ICustomer customerRepository,
@@ -105,14 +106,15 @@ namespace Adroit.Accounting.Web.Controllers
             ISalesBillFromAdmin salesBillFromAdminRepository,
             ITransportDescAdmin transportDescAdminRepository,
             ITransportLRCharges transportLRChargesRepository,
-            IGSTCollection gstCollectionRepository,
-            IAccountGroupAdmin accountGroupAdminRepository)
+            IGSTCollection gstCollectionRepository
+            )
 
         {
             _configurationData = configurationData.Value;
             _bookAdminRepository = bookAdminRepository;
             _accountGroupHeaderAdminRepository = accountGroupHeaderAdminRepository;
             _accountAdminRepository = accountAdminRepository;
+            _accountGroupAdminRepository = accountGroupAdminRepository;
             _customerRepository = customerRepository;
             _billTypeAdminRepository = billTypeAdminRepository;
             _billEntryTypeAdminRepository = billEntryTypeAdminRepository;
@@ -156,7 +158,6 @@ namespace Adroit.Accounting.Web.Controllers
             _transportDescAdminRepository = transportDescAdminRepository;
             _transportLRChargesRepository = transportLRChargesRepository;
             _gstCollectionRepository = gstCollectionRepository;
-            _accountGroupAdminRepository = accountGroupAdminRepository;
         }
     }
 }

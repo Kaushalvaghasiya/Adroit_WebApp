@@ -17,6 +17,13 @@
         public const string _TableName = "Software";
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
+    } 
+    public sealed class AccountGroupAdminTable
+    {
+        public const string _TableName = "AccountGroupAdmin";
+        public const string Code = "Code";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
     }
     public sealed class ColorAdminTable
     {
