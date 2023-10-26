@@ -41,8 +41,7 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportDesc transportDescRepository,
             ITransportPacking transportpackingRepository,
             IDriver driverRepository,
-            IDriverTypeAdmin driverTypeAdmin)
-            ITransportDesc transportDescRepository,
+            IDriverTypeAdmin driverTypeAdmin,
             ICustomerAccountGroupHeader customerAccountGroupHeader)
         {
             _vehicleRepo = vehicleRepo;

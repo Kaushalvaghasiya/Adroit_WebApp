@@ -1,4 +1,4 @@
-CREATE OR ALTER procedure [dbo].[sp_ProductSizeDelete]
+CREATE OR ALTER procedure [dbo].[sp_ProductSizeAdminDelete]
 (
 	@Id INT
 )
