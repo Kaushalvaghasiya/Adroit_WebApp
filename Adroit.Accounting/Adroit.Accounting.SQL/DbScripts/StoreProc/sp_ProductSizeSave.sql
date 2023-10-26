@@ -9,27 +9,27 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM ProductSizeAdmin WHERE Id = @Id)
+		IF EXISTS (SELECT 1 FROM ProductSize WHERE Id = @Id)
 			BEGIN
-				UPDATE  ProductSizeAdmin SET
+				UPDATE  ProductSize SET
 						Title = @Title,
 						OrderNumber = @OrderNumber,
 						Active = @active
 					WHERE ID = @Id
 			END
-		ELSE If EXISTS (SELECT 1 FROM ProductSizeAdmin WHERE Title = @Title AND Deleted = 1)
+		ELSE If EXISTS (SELECT 1 FROM ProductSize WHERE Title = @Title AND Deleted = 1)
 			BEGIN
-				UPDATE  ProductSizeAdmin SET
+				UPDATE  ProductSize SET
 						OrderNumber = @OrderNumber,
 						Active = @Active,
 						Deleted = 0
 					WHERE Title = @Title
 
-				SELECT @Id=Id FROM ProductSizeAdmin WHERE Title = @Title
+				SELECT @Id=Id FROM ProductSize WHERE Title = @Title
 			END
 		ELSE 
 			BEGIN
-				INSERT INTO ProductSizeAdmin
+				INSERT INTO ProductSize
 					([Title], OrderNumber, Active)
 				VALUES
 					(@Title, @OrderNumber, @Active)

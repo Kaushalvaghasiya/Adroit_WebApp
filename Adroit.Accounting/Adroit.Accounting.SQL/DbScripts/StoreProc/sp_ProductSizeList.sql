@@ -13,17 +13,17 @@ Begin
 	 (   
 	  SELECT  
 	   ROW_NUMBER() over (ORDER BY
-		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN ProductSizeAdmin.[Title] END ASC,  
-		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN ProductSizeAdmin.[Title] END DESC,
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN ProductSizeAdmin.[OrderNumber] END ASC,  
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN ProductSizeAdmin.[OrderNumber] END DESC,
-		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN ProductSizeAdmin.[Active] END ASC,  
-		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN ProductSizeAdmin.[Active] END DESC
+		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN ProductSize.[Title] END ASC,  
+		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN ProductSize.[Title] END DESC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN ProductSize.[OrderNumber] END ASC,  
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN ProductSize.[OrderNumber] END DESC,
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN ProductSize.[Active] END ASC,  
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN ProductSize.[Active] END DESC
 		) AS RowNum,
-	   Count(*) over () AS TotalCount, ProductSizeAdmin.* 
-	  FROM ProductSizeAdmin
+	   Count(*) over () AS TotalCount, ProductSize.* 
+	  FROM ProductSize
 	  WHERE Deleted = 0
-	  AND (Coalesce(@Search,'') = '' OR ProductSizeAdmin.[Title] like '%'+ @Search + '%')
+	  AND (Coalesce(@Search,'') = '' OR ProductSize.[Title] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
 End

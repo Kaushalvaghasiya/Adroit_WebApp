@@ -6,7 +6,7 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		UPDATE ProductSizeAdmin SET 
+		UPDATE ProductSize SET 
 			Deleted = 1
 		WHERE Id= @Id ;
 	COMMIT TRAN

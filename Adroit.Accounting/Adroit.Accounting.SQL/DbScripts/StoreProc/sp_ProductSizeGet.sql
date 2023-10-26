@@ -5,6 +5,6 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSizeGet]
 AS
 BEGIN
 	SELECT *
-	FROM ProductSizeAdmin WHERE Id = @Id
+	FROM ProductSize WHERE Id = @Id
 END
 GO
