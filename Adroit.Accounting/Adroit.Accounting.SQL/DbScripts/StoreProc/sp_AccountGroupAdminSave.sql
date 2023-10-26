@@ -52,12 +52,12 @@ BEGIN
 
 		IF (@message LIKE '%IX_AccountGroupMaster_1%')
 			BEGIN
-				SET @message = 'Secondary account group title ''' + @Code + ''' already exist!';
+				SET @message = 'Secondary account group title ''' + @Title + ''' already exist!';
 			END
 		ELSE
 			IF (@message LIKE '%IX_AccountGroupMaster%')
 			BEGIN
-				SET @message = 'Secondary account group code ''' + @Title + ''' already exist!';
+				SET @message = 'Secondary account group code ''' + @Code + ''' already exist!';
 			END
 
 		RAISERROR ('%s', 16, 1, @message);
