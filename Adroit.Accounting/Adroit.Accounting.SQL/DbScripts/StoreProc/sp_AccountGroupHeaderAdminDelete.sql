@@ -1,4 +1,4 @@
-CREATE OR ALTER procedure [dbo].[sp_ProductSizeDelete]
+CREATE OR ALTER procedure [dbo].[sp_AccountGroupHeaderAdminDelete]
 (
 	@Id INT
 )
@@ -6,7 +6,7 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		UPDATE ProductSizeAdmin SET 
+		UPDATE AccountGroupHeaderAdmin SET 
 			Deleted = 1
 		WHERE Id= @Id ;
 	COMMIT TRAN

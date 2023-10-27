@@ -1,35 +1,35 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSizeSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_AccountGroupHeaderAdminSave]
 (
-	 @Id int,
+	 @Id tinyint,
 	 @Title NVARCHAR(50),
 	 @Active bit,
-	 @OrderNumber int
+	 @OrderNumber tinyint
 )
 AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM ProductSizeAdmin WHERE Id = @Id)
+		IF EXISTS (SELECT 1 FROM AccountGroupHeaderAdmin WHERE Id = @Id)
 			BEGIN
-				UPDATE  ProductSizeAdmin SET
+				UPDATE  AccountGroupHeaderAdmin SET
 						Title = @Title,
 						OrderNumber = @OrderNumber,
 						Active = @active
 					WHERE ID = @Id
 			END
-		ELSE If EXISTS (SELECT 1 FROM ProductSizeAdmin WHERE Title = @Title AND Deleted = 1)
+		ELSE If EXISTS (SELECT 1 FROM AccountGroupHeaderAdmin WHERE Title = @Title AND Deleted = 1)
 			BEGIN
-				UPDATE  ProductSizeAdmin SET
+				UPDATE  AccountGroupHeaderAdmin SET
 						OrderNumber = @OrderNumber,
 						Active = @Active,
 						Deleted = 0
 					WHERE Title = @Title
 
-				SELECT @Id=Id FROM ProductSizeAdmin WHERE Title = @Title
+				SELECT @Id=Id FROM AccountGroupHeaderAdmin WHERE Title = @Title
 			END
 		ELSE 
 			BEGIN
-				INSERT INTO ProductSizeAdmin
+				INSERT INTO AccountGroupHeaderAdmin
 					([Title], OrderNumber, Active)
 				VALUES
 					(@Title, @OrderNumber, @Active)
@@ -47,7 +47,7 @@ BEGIN
 		ROLLBACK TRAN
 		IF (@message LIKE '%Violation of UNIQUE KEY%')
 		BEGIN
-			SET @message = 'Size ''' + @Title + ''' already exist!';
+			SET @message = 'Account group header ''' + @Title + ''' already exist!';
 		END
 		
 		RAISERROR ('%s', 16, 1, @message);

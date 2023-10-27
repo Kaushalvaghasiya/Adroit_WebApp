@@ -1,8 +1,34 @@
 ﻿namespace Adroit.Accounting.SQL.Tables
 {
+    public sealed class CustomerAccountGroupHeaderTable
+    {
+        public const string _TableName = "CustomerAccountGroupHeader";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+    public sealed class AccountGroupHeaderAdminTable
+    {
+        public const string _TableName = "AccountGroupHeaderAdmin";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+    public sealed class CustomerAccountGroupTable
+    {
+        public const string _TableName = "CustomerAccountGroup";
+        public const string Code = "Code";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     public sealed class SoftwareTable
     {
         public const string _TableName = "Software";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    } 
+    public sealed class AccountGroupAdminTable
+    {
+        public const string _TableName = "AccountGroupAdmin";
+        public const string Code = "Code";
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
@@ -98,6 +124,20 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class TransportPackingTable
+    {
+        public const string _TableName = "TransportPacking";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+
+    public sealed class DriverTable
+    {
+        public const string _TableName = "Driver";
+        public const string Customer = "Customer";
+        public const string Name = "Name";
+    }
+
     public sealed class VehicleModelTable
     {
         public const string _TableName = "VehicleModel";
@@ -117,6 +157,12 @@
     }
 
     #region Adroit - Account
+    public sealed class AccountAdminTable
+    {
+        public const string _TableName = "AccountAdmin";
+        public const string AreaName = "AreaName";
+        public const string TransportName = "TransportName";
+    }
     public sealed class BookTypeAdminTable
     {
         public const string _TableName = "BookTypeAdmin";

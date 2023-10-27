@@ -66,7 +66,10 @@ try
     builder.Services.AddSingleton<ICustomerBrokerBranchMapping, CustomerBrokerBranchMappingRepository>();
     builder.Services.AddSingleton<IBusiness, BusinessRepository>();
     builder.Services.AddSingleton<IBookAdmin, BookAdminRepository>();
+    builder.Services.AddSingleton<IAccountGroupHeaderAdmin, AccountGroupHeaderAdminRepository>();
+    builder.Services.AddSingleton<IAccountGroupType, AccountGroupTypeRepository>();
     builder.Services.AddSingleton<IAccountAdmin, AccountAdminRepository>();
+    builder.Services.AddSingleton<IAccountGroupAdmin, AccountGroupAdminRepository>();
     builder.Services.AddSingleton<IBillTypeAdmin, BillTypeAdminRepository>();
     builder.Services.AddSingleton<IBillEntryTypeAdmin, BillEntryTypeAdminRepository>();
     builder.Services.AddSingleton<ICustomerFirm, CustomerFirmRepository>();
@@ -76,6 +79,7 @@ try
     builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
     builder.Services.AddSingleton<IBranchTypeAdmin, BranchTypeAdminRepository>();
     builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
+    builder.Services.AddSingleton<ICustomerAccountGroupHeader, CustomerAccountGroupHeaderRepository>();
     builder.Services.AddSingleton<ISoftwarePlan, SoftwarePlanRepository>();
     builder.Services.AddSingleton<ICommon, CommonRepository>();
     builder.Services.AddSingleton<IBranchTypeAdmin, BranchTypeAdminRepository>();
@@ -93,12 +97,16 @@ try
     builder.Services.AddSingleton<IGSTPort, GSTPortRepository>();
     builder.Services.AddSingleton<ITransportPackingAdmin, TransportPackingAdminRepository>();
     builder.Services.AddSingleton<ISalesBillFromAdmin, SalesBillFromAdminRepository>();
+    builder.Services.AddSingleton<ITransportPacking, TransportPackingRepository>();
+    builder.Services.AddSingleton<IDriver, DriverRepository>();
     builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
+    builder.Services.AddSingleton<IDriverTypeAdmin, DriverTypeAdminRepository>();
     builder.Services.AddSingleton<IProductPacking, ProductPackingRepository>();
 
 
     builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
-	builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
+    builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
+    builder.Services.AddSingleton<IAccountGroupAdmin, AccountGroupAdminRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

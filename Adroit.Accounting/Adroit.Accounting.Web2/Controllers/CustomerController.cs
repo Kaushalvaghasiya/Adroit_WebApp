@@ -13,8 +13,8 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerController : Controller
     {
-        protected readonly IVehicle _vehicleRepo; 
-        protected readonly IVehicleModel _vehicleModelRepository; 
+        protected readonly IVehicle _vehicleRepo;
+        protected readonly IVehicleModel _vehicleModelRepository;
         protected readonly ICountry _countryRepository;
         protected readonly IVehicleOwner _vehicleOwnerRepo;
         protected readonly ICustomerAccount _customerAccountRepo;
@@ -23,6 +23,11 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ConfigurationData _configurationData;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
+        private readonly ITransportPacking _transportpackingRepository;
+        private readonly IDriver _driverRepository;
+        private readonly IDriverTypeAdmin _driverTypeAdmin;
+        private readonly ICustomerAccountGroupHeader _customerAccountGroupHeader;
+        private readonly IAccountGroupType _accountGroupType;
         private readonly IProductPacking _productPackingRepository;
         public CustomerController(
             IVehicle vehicleRepo,
@@ -36,10 +41,16 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerUser customerUserRepository,
             ICommon commonRepository,
             ITransportDesc transportDescRepository,
+            ITransportPacking transportpackingRepository,
+            IDriver driverRepository,
+            IDriverTypeAdmin driverTypeAdmin,
+            ICustomerAccountGroupHeader customerAccountGroupHeader,
+            IAccountGroupType accountGroupType)
+            ITransportDesc transportDescRepository,
             IProductPacking productPackingRepository
             )
         {
-            _vehicleRepo = vehicleRepo; 
+            _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
             _countryRepository = countryRepository;
             _vehicleOwnerRepo = vehicleOwnerRepo;
@@ -49,6 +60,11 @@ namespace Adroit.Accounting.Web.Controllers
             _customerAccountGroupRepo = customerAccountGroupRepo;
             _commonRepository = commonRepository;
             _transportDescRepository = transportDescRepository;
+            _transportpackingRepository = transportpackingRepository;
+            _driverRepository = driverRepository;
+            _driverTypeAdmin = driverTypeAdmin;
+            _customerAccountGroupHeader = customerAccountGroupHeader;
+            _accountGroupType = accountGroupType;
             _productPackingRepository = productPackingRepository;
         }
 
