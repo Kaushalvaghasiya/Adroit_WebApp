@@ -45,8 +45,7 @@ namespace Adroit.Accounting.Web.Controllers
             IDriver driverRepository,
             IDriverTypeAdmin driverTypeAdmin,
             ICustomerAccountGroupHeader customerAccountGroupHeader,
-            IAccountGroupType accountGroupType)
-            ITransportDesc transportDescRepository,
+            IAccountGroupType accountGroupType,
             IProductPacking productPackingRepository
             )
         {
