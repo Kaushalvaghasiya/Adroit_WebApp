@@ -27,6 +27,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IDriver _driverRepository;
         private readonly IDriverTypeAdmin _driverTypeAdmin;
         private readonly ICustomerAccountGroupHeader _customerAccountGroupHeader;
+        private readonly IAccountGroupType _accountGroupType;
         public CustomerController(
             IVehicle vehicleRepo,
             IVehicleModel vehicleModelRepository,
@@ -42,7 +43,8 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportPacking transportpackingRepository,
             IDriver driverRepository,
             IDriverTypeAdmin driverTypeAdmin,
-            ICustomerAccountGroupHeader customerAccountGroupHeader)
+            ICustomerAccountGroupHeader customerAccountGroupHeader,
+            IAccountGroupType accountGroupType)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -58,6 +60,7 @@ namespace Adroit.Accounting.Web.Controllers
             _driverRepository = driverRepository;
             _driverTypeAdmin = driverTypeAdmin;
             _customerAccountGroupHeader = customerAccountGroupHeader;
+            _accountGroupType = accountGroupType;
         }
 
         public IActionResult Account()
