@@ -15,12 +15,12 @@ BEGIN
 			--DeletedById = NULL,  -- need to change fore key
 			DeletedOn = GETUTCDATE(),
 			Deleted = 1
-		WHERE Id= @Id
+		WHERE CustomerId = @CustomerId AND Id= @Id
 
 		UPDATE CustomerFirmBranch SET 
 			DeletedOn = GETUTCDATE(),
 			Deleted = 1
-		WHERE FirmId IN (SELECT ID FROM CustomerFirm WHERE Id= @Id AND CustomerId = @Id)
+		WHERE FirmId IN (SELECT ID FROM CustomerFirm WHERE CustomerId = @CustomerId AND Id= @Id )
 
 	COMMIT TRAN
 	END TRY

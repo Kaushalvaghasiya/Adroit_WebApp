@@ -36,8 +36,7 @@ Begin
 	  LEFT JOIN [FirmTypeAdmin] on CustomerFirm.FirmTypeId = [FirmTypeAdmin].Id
 	  LEFT JOIN	[Customer] ON CustomerFirm.CustomerId = [Customer].Id	
 	  LEFT JOIN	Software ON CustomerFirm.SoftwareId = Software.Id	
-	  WHERE CustomerFirm.Deleted = 0
-	  AND [CustomerFirm].customerId=@CustomerId
+	  WHERE CustomerFirm.CustomerId = @CustomerId AND CustomerFirm.Deleted = 0
 	  AND (Coalesce(@Search,'') = '' 
 			OR CustomerFirm.Title like '%'+ @Search + '%'
 			OR CustomerFirm.[OwnerName] like '%'+ @Search + '%'

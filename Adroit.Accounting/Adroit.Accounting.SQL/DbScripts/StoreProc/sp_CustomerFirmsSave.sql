@@ -28,7 +28,7 @@ BEGIN
 
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM CustomerFirm WHERE Id = @Id)
+		IF EXISTS (SELECT 1 FROM CustomerFirm WHERE [CustomerId] = @CustomerId AND Id = @Id)
 			BEGIN
 				UPDATE CustomerFirm SET
 						[CustomerId]=@CustomerId,
@@ -58,7 +58,7 @@ BEGIN
 				declare @firmlimit int = 0
 				declare @firmcreated int = 0
 				SELECT @firmlimit = TotalFirm FROM Customer Where Id = @CustomerId
-				SELECT @firmcreated = count(*) FROM CustomerFirm Where CustomerId = @CustomerId ANd Deleted = 0
+				SELECT @firmcreated = count(*) FROM CustomerFirm Where CustomerId = @CustomerId AND Deleted = 0
 				IF (@firmcreated >= @firmlimit)
 				BEGIN
 					RAISERROR ('%s', 16, 1, 'Firm limit exceeded');
