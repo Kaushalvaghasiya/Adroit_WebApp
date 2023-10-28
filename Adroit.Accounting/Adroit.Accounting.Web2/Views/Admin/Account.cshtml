@@ -123,7 +123,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Address1">Address Line 1</label>
-                                <input type="text" class="form-control" id="Address1" placeholder=""maxlength="100">
+                                <input type="text" class="form-control" id="Address1" placeholder="" maxlength="100">
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -186,7 +186,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="Pincode">Pincode</label>
-                                <input type="text" class="form-control" id="Pincode" placeholder=""maxlength="10">
+                                <input type="text" class="form-control" id="Pincode" placeholder="" maxlength="10">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -221,7 +221,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="Mobile">Contact Mobile</label>
-                                <input type="text" class="form-control" id="Mobile" placeholder=""maxlength="15">
+                                <input type="text" class="form-control" id="Mobile" placeholder="" maxlength="15">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -252,13 +252,13 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="PAN">PAN</label>
-                                <input type="text" class="form-control" id="PAN" placeholder=""maxlength="12">
+                                <input type="text" class="form-control" id="PAN" placeholder="" maxlength="12">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="TAN">TAN</label>
-                                <input type="text" class="form-control" id="TAN" placeholder=""maxlength="10">
+                                <input type="text" class="form-control" id="TAN" placeholder="" maxlength="10">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -270,7 +270,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="GSTInvoiceTypeId">GST Invoice Type</label>
-                                <select class="form-control select2-show-search" id="GSTInvoiceTypeId">                                  }
+                                <select class="form-control select2-show-search" id="GSTInvoiceTypeId">
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -347,7 +348,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="CapitalPercentage">Capital %</label>
+                                <label for="CapitalPercentage" id="CapitalPercentageTitle">Capital %</label>
                                 <input type="text" class="form-control" id="CapitalPercentage" placeholder="">
                             </div>
                         </div>
@@ -415,6 +416,7 @@
     <input type="hidden" id="hdnDistrictId" value="0" />
     <input type="hidden" id="hdnTalukaId" value="0" />
     <input type="hidden" id="hdnCityId" value="0" />
+    <input type="hidden" id="hdnGSTInvoiceTypeId" value="0" />
 </div>
 
 
@@ -452,6 +454,22 @@
                     $('#PAN').val(gst.substring(2, 12));
                 }
             });
+
+            $("#AccountGroupId").on('change', function (e) {
+                if ($(this).find("option:selected").text().toLowerCase().includes('capital')) {
+                    $("#CapitalPercentageTitle").show();
+                    $("#CapitalPercentage").show();
+                    $("#CapitalPercentage").val("0.00");
+                }
+                else {
+                    $("#CapitalPercentageTitle").hide();
+                    $("#CapitalPercentage").hide();
+                }
+            });
+
+            $("#Name").on('focusout', function (e) {
+                $('#PrintName').val($(this).val());
+            });
         });
 
         function addClick() {
@@ -462,6 +480,17 @@
             $(".btn-delete").hide();
             $("#Name").focus();
             $("#Active").prop('checked', true);
+            $('#GSTInvoiceTypeId').val($("#hdnGSTInvoiceTypeId").val()).trigger('change');
+
+            $("#CreditDays").val('0');
+            $("#CreditLimit").val('0.00');
+            $("#TDS").val("0.00");
+            $("#TCS").val("0.00");
+            $("#Discount").val("0.00");
+            $("#InterestRate").val(".00");
+            $("#Commission").val("0.00");
+            $("#CapitalPercentageTitle").hide();
+            $("#CapitalPercentage").hide();
         }
 
         function viewMode(id) {
@@ -597,6 +626,9 @@
                             if (data.data.length > 0) {
                                 for (var i = 0; i < data.data.length; i++) {
                                     str += ("<option value='" + data.data[i].value + "'>" + data.data[i].text + "</option>");
+                                    if (data.data[i].text.toUpperCase() == "Regular".toUpperCase()) {
+                                        $("#hdnGSTInvoiceTypeId").val(data.data[i].value);
+                                    }
                                 }
                             }
                             $("#GSTInvoiceTypeId").html(str);
@@ -775,6 +807,7 @@
             $("#CreditDays").val("");
             $("#TDS").val("");
             $("#TCS").val("");
+            $("#Discount").val("");
             $("#CreditLimit").val("");
             $("#InterestRate").val("");
             $("#Commission").val("");
@@ -827,7 +860,7 @@
                     $("#CountryId").focus();
                     return false;
                 }
-                
+
                 if ($("#GSTInvoiceTypeId").val() == null || $("#GSTInvoiceTypeId").val() == "") {
                     showWarning("", "Please select GST invoice type");
                     $("#GSTInvoiceTypeId").focus();
@@ -863,7 +896,7 @@
                     $("#TDS").focus();
                     return false;
                 }
-                
+
                 if ($("#TCS").val() == "") {
                     showWarning("", "Please enter valid TCS.");
                     $("#TCS").focus();
@@ -887,7 +920,7 @@
                     $("#CreditLimit").focus();
                     return false;
                 }
-                
+
                 if ($("#InterestRate").val() == "") {
                     showWarning("", "Please enter valid interest rate.");
                     $("#InterestRate").focus();
@@ -1138,7 +1171,7 @@
                                 $("#CompositParty").prop('checked', result.data.compositParty);
                                 $("#RCMParty").prop('checked', result.data.rcmParty);
                                 $("#CapitalPercentage").val(result.data.capitalPercentage.toFixed(2));
-                             
+
                                 $("#hdnCountryId").val(result.data.countryId);
                                 $("#hdnStateId").val(result.data.stateId);
                                 $("#hdnDistrictId").val(result.data.districtId);
@@ -1171,9 +1204,11 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
+
                                 if (result.data != null) {
                                     $("#GSTNumber").val(result.data.gstNumber);
-                                    $("#Title").val(result.data.name);
+                                    $("#Name").val(result.data.name);
+                                    $("#PrintName").val(result.data.name);
                                     $("#Address1").val(result.data.address1);
                                     $("#Address2").val(result.data.address2);
                                     $("#Address3").val(result.data.address3);
