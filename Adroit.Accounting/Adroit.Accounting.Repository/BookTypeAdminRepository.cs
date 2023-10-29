@@ -44,5 +44,12 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.GetList<BookTypeAdminGridViewModel>("sp_BookTypeAdminList", connectionString, param);
         }
 
+        public List<DropdownViewModel> GetBookTypeAdminList(string connectionString, int loginId, int firmId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_BookTypeAdminList_Select", connectionString, parameters);
+        }
     }
 }

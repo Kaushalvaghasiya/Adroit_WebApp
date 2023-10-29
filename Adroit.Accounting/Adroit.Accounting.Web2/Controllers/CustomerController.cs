@@ -1,7 +1,6 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
@@ -21,6 +20,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
         protected readonly ICustomerAccountGroup _customerAccountGroupRepo;
         protected readonly ConfigurationData _configurationData;
+        protected readonly ICustomer _customerRepository;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
         private readonly ITransportPacking _transportpackingRepository;
@@ -29,6 +29,11 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICustomerAccountGroupHeader _customerAccountGroupHeader;
         private readonly IAccountGroupType _accountGroupType;
         private readonly IProductPacking _productPackingRepository;
+        private readonly ICustomerFirms _customerFirmsRepository;
+        private readonly IBusiness _businessRepository;
+        private readonly IGSTFirmType _gSTFirmTypeRepository;
+        private readonly IFirmType _firmTypeRepository;
+
         public CustomerController(
             IVehicle vehicleRepo,
             IVehicleModel vehicleModelRepository,
@@ -46,8 +51,12 @@ namespace Adroit.Accounting.Web.Controllers
             IDriverTypeAdmin driverTypeAdmin,
             ICustomerAccountGroupHeader customerAccountGroupHeader,
             IAccountGroupType accountGroupType,
-            IProductPacking productPackingRepository
-            )
+            IProductPacking productPackingRepository,
+            ICustomerFirms customerFirmsRepository,
+            ICustomer customerRepository,
+            IBusiness businessRepository,
+            IGSTFirmType gSTFirmTypeRepository,
+            IFirmType firmTypeRepository)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -65,6 +74,11 @@ namespace Adroit.Accounting.Web.Controllers
             _customerAccountGroupHeader = customerAccountGroupHeader;
             _accountGroupType = accountGroupType;
             _productPackingRepository = productPackingRepository;
+            _customerFirmsRepository = customerFirmsRepository;
+            _customerRepository = customerRepository;
+            _businessRepository = businessRepository;
+            _gSTFirmTypeRepository = gSTFirmTypeRepository;
+            _firmTypeRepository = firmTypeRepository;
         }
 
         public IActionResult Account()

@@ -2,7 +2,6 @@
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Utility;
-using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,13 +9,22 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class AdminController : Controller
     {
-        public IActionResult Index()
+        public IActionResult Book()
         {
-            return View();
+            var model = new BookAdminViewModel();
+
+            int loginId = LoginHandler.GetUserId(User);
+            int firmId = LoginHandler.GetFirmId(User);
+            model.BookAccountList = _accountAdminRepository.GetAccountAdminList(_configurationData.DefaultConnection, loginId, firmId);
+            model.BookTypeList = _bookTypeRepository.GetBookTypeAdminList(_configurationData.DefaultConnection, loginId, firmId);
+            model.BillTypeList = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, loginId, firmId);
+            model.BillFromList = _billEntryTypeAdminRepository.GetBillEntryTypeAdminList(_configurationData.DefaultConnection, loginId, firmId);
+
+            return View(model);
         }
 
         [HttpPost]
-        public JsonResult Save([FromBody] BookAdmin model)
+        public JsonResult SaveBook([FromBody] BookAdmin model)
         {
             ApiResult result = new ApiResult();
             try
@@ -37,7 +45,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult Get(int id)
+        public JsonResult GetBook(int id)
         {
             ApiResult result = new ApiResult();
             try
@@ -54,18 +62,17 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult List(int draw = 0, int start = 0, int length = 10)
+        public JsonResult BookList(int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<BookAdminGridViewModel>();
             try
             {
-                int sortColumn = 0, loginId = 0, firmId = 0;
-                string sortDirection = "asc", search = "";
-
+                int loginId = LoginHandler.GetUserId(User);
+                int firmId = LoginHandler.GetFirmId(User);
                 //// note: we only sort one column at a time
-                //search = Convert.ToString(Request.Query["search[value]"]);
-                //sortColumn = int.Parse(Request.Query["order[0][column]"]);
-                //sortDirection = Convert.ToString(Request.Query["order[0][dir]"]);
+                var search = Request.Query["search[value]"];
+                var sortColumn = int.Parse(Request.Query["order[0][column]"]);
+                var sortDirection = Request.Query["order[0][dir]"];
 
                 var records = _bookAdminRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
@@ -81,66 +88,12 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        public JsonResult Delete(int id)
+        public JsonResult DeleteBook(int id)
         {
             ApiResult result = new ApiResult();
             try
             {
                 result.data = _bookAdminRepository.Delete(id, _configurationData.DefaultConnection, 0, 0);
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
-        public JsonResult GetAccountAdmins()
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User);
-                result.data = _accountAdminRepository.GetAccountAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
-        public JsonResult GetBillTypeAdmins()
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User);
-                result.data = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
-        public JsonResult GetBillEntryTypeAdmins()
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User);
-                result.data = _billEntryTypeAdminRepository.GetBillEntryTypeAdminList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

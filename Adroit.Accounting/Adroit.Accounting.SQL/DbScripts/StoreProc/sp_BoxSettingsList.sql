@@ -28,9 +28,9 @@ Begin
 		LEFT JOIN Software on BoxSetting.SoftwareId = Software.Id
 		LEFT JOIN Customer on BoxSetting.CustomerId = Customer.Id
 		LEFT JOIN CustomerFirm on BoxSetting.CusomerFirmId = CustomerFirm.Id
-		WHERE Software.Deleted = 0
-			AND Customer.Deleted = 0
-			AND CustomerFirm.Deleted = 0
+		WHERE ISNULL(Software.Deleted, 0) = 0
+			AND ISNULL(Customer.Deleted, 0) = 0
+			AND ISNULL(CustomerFirm.Deleted, 0) = 0
 			AND (Coalesce(@Search,'') = '' 
 				OR Software.Title like '%'+ @Search + '%'
 				OR ISNULL(Customer.Name, '') like '%'+ @Search + '%'
