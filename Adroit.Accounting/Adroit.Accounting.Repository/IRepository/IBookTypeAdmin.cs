@@ -10,5 +10,6 @@ namespace Adroit.Accounting.Repository.IRepository
         void Delete(int id, string connectionString);
         int Save(BookTypeAdmin value, string connectionString);
         BookTypeAdminViewModel Get(int id, string connectionString);
+        List<DropdownViewModel> GetBookTypeAdminList(string connectionString, int loginId, int firmId);
     }
 }
