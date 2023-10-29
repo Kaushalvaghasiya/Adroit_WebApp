@@ -9,7 +9,7 @@ namespace Adroit.Accounting.Model
         public AccountAdmin()
         {
         }
-    
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string PrintName { get; set; }
@@ -52,6 +52,7 @@ namespace Adroit.Accounting.Model
         public bool CompositParty { get; set; }
         public bool RCMParty { get; set; }
         public decimal CapitalPercentage { get; set; }
+        public bool Deleted { get; set; }
         public bool Active { get; set; }
     }
 }
