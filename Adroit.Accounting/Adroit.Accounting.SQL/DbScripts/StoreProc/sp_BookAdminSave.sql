@@ -116,6 +116,65 @@ BEGIN
 				WHERE Id = @Id
 				SELECT @Id;
 			END
+		ELSE If EXISTS (SELECT 1 FROM BookAdmin WHERE BookAccountId = @BookAccountId AND BookTypeId = @BookTypeId AND BookShortName = @BookShortName AND Deleted = 1)
+			BEGIN
+				UPDATE  BookAdmin SET
+						BookAccountId = @BookAccountId
+						,BookTypeId = @BookTypeId
+						,BoxLabel1 = @BoxLabel1
+						,BoxLabel2 = @BoxLabel2
+						,BoxLabel3 = @BoxLabel3
+						,BoxLabel4 = @BoxLabel4
+						,BoxLabel5 = @BoxLabel5
+						,BoxLabel6 = @BoxLabel6
+						,BillNoPrefix = @BillNoPrefix
+						,BillNoPostFix = @BillNoPostFix
+						,LRRequired = @LRRequired
+						,BillTypeID = @BillTypeID
+						,IsGeneralPurchase = @IsGeneralPurchase
+						,IsItemDiscount = @IsItemDiscount
+						,IsItemDiscountSp = @IsItemDiscountSp
+						,IsCashPayAtBill = @IsCashPayAtBill
+						,ItemDesc1 = @ItemDesc1
+						,ItemDesc2 = @ItemDesc2
+						,ItemDesc3 = @ItemDesc3
+						,ItemDesc4 = @ItemDesc4
+						,ItemDesc5 = @ItemDesc5
+						,ItemDesc6 = @ItemDesc6
+						,ShowSalesOrderBoxNumber = @ShowSalesOrderBoxNumber
+						,ShowPurcahseOrderBoxNumber = @ShowPurcahseOrderBoxNumber
+						,ShowQuotationBoxNumber = @ShowQuotationBoxNumber
+						,ShowPerformaInvoiceNumber = @ShowPerformaInvoiceNumber
+						,SalesBillFrom = @SalesBillFrom
+						,IsCalcMultiply = @IsCalcMultiply
+						,BookShortName = @BookShortName
+						,HeaderBox1 = @HeaderBox1
+						,HeaderBox2 = @HeaderBox2
+						,HeaderBox3 = @HeaderBox3
+						,HeaderBox4 = @HeaderBox4
+						,HeaderBox5 = @HeaderBox5
+						,IsTDSAccount = @IsTDSAccount
+						,TDSAccountId = @TDSAccountId
+						,IsTCSAccount = @IsTCSAccount
+						,TCSAccountId = @TCSAccountId
+						,SGSTAccountId = @SGSTAccountId
+						,CGSTAccountId = @CGSTAccountId
+						,IGSTAccountId = @IGSTAccountId
+						,GSTStateCessAccountId = @GSTStateCessAccountId
+						,GSTCentralCessAccountId = @GSTCentralCessAccountId
+						,RCMSGSTPayAccountId = @RCMSGSTPayAccountId
+						,RCMCGSTPayAccountId = @RCMCGSTPayAccountId
+						,RCMIGSTPayAccountId = @RCMIGSTPayAccountId
+						,RCMSGSTRecAccountId = @RCMSGSTRecAccountId
+						,RCMCGSTRecAccountId = @RCMCGSTRecAccountId
+						,RCMIGSTRecAccountId = @RCMIGSTRecAccountId
+						,RoundOffAccountId = @RoundOffAccountId
+						,Active = @Active
+						,Deleted = 0
+					WHERE BookAccountId = @BookAccountId AND BookTypeId = @BookTypeId AND BookShortName = @BookShortName AND Deleted = 1
+
+				SELECT @Id=Id FROM BookAdmin WHERE BookAccountId = @BookAccountId AND BookTypeId = @BookTypeId AND BookShortName = @BookShortName 
+			END
 		ELSE
 			BEGIN
 				INSERT INTO BookAdmin
