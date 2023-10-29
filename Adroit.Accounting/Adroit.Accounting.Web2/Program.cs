@@ -106,6 +106,8 @@ try
     builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
     builder.Services.AddSingleton<IAccountGroupAdmin, AccountGroupAdminRepository>();
 
+    builder.Services.AddSingleton<ICustomerFirms, CustomerFirmsRepository>();
+
     if (!builder.Environment.IsDevelopment())
     {
         builder.Services.AddHttpsRedirection(options =>
