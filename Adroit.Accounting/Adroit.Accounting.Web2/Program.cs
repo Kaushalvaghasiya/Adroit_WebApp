@@ -62,7 +62,6 @@ try
     builder.Services.AddSingleton<ICustomer, CustomerRepository>();
     builder.Services.AddSingleton<ICustomerAccount, CustomerAccountRepository>();
     builder.Services.AddSingleton<ICustomerAccountGroup, CustomerAccountGroupRepository>();
-    builder.Services.AddSingleton<IGSTInvoiceType, GSTInvoiceTypeRepository>();
     builder.Services.AddSingleton<ICustomerBrokerBranchMapping, CustomerBrokerBranchMappingRepository>();
     builder.Services.AddSingleton<IBusiness, BusinessRepository>();
     builder.Services.AddSingleton<IBookAdmin, BookAdminRepository>();
@@ -101,15 +100,18 @@ try
     builder.Services.AddSingleton<IDriver, DriverRepository>();
     builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
     builder.Services.AddSingleton<IProductSize, ProductSizeRepository>();
-
     builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
+    builder.Services.AddSingleton<IProductFabric, ProductFabricRepository>();
+    builder.Services.AddSingleton<IProductGroup, ProductGroupRepository>();
+    builder.Services.AddSingleton<IProductSubGroup, ProductSubGroupRepository>();
+    builder.Services.AddSingleton<IProductDesignNumber, ProductDesignNumberRepository>();
     builder.Services.AddSingleton<IDriverTypeAdmin, DriverTypeAdminRepository>();
-
+    builder.Services.AddSingleton<IProductShadeNumber, ProductShadeNumberRepository>();
+    builder.Services.AddSingleton<IProductPacking, ProductPackingRepository>();
     builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
     builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
-    builder.Services.AddSingleton<IAccountGroupAdmin, AccountGroupAdminRepository>();
-
     builder.Services.AddSingleton<ICustomerFirms, CustomerFirmsRepository>();
+    builder.Services.AddSingleton<ICustomerUsers, CustomerUsersRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {
