@@ -7,6 +7,7 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+		Declare @CustomerId int = dbo.[fn_GetCustomerId](@UserId);
 
 		UPDATE ProductPacking SET 
 			Deleted = 1,
