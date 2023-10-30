@@ -19,12 +19,11 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@userId", id);
-            return QueryHelper.Get<CustomerUserViewModel>("sp_CustomerUserGet", connectionString, parameters);
+            return QueryHelper.Get<CustomerUserViewModel>("sp_CustomerUsersGet", connectionString, parameters);
         }
         public List<CustomerUserGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC", int CustomerId = 0)
         {
             var param = new DynamicParameters();
-            param.Add("@CustomerId", CustomerId);
             param.Add("@LoginId", loginId);
             param.Add("@FirmId", firmId);
             param.Add("@Search", search);
@@ -38,7 +37,6 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            parameters.Add("@CustomerId", value.CustomerId);
             parameters.Add("@UserId", value.UserId);
             parameters.Add("@Active", value.Active);
             parameters.Add("@FirstName", value.FirstName);
