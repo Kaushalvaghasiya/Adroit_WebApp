@@ -11,7 +11,7 @@ BEGIN
 
 		UPDATE ProductSubGroup SET 
 			Deleted = 1,
-			DeletedById = @CustomerId,
+			DeletedById = @UserId,
 			DeletedOn = GETUTCDATE()
 		WHERE Id= @Id And CustomerId=@CustomerId;
 	COMMIT TRAN
