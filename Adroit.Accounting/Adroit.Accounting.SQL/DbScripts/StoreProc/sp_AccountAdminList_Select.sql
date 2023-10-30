@@ -6,10 +6,8 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_AccountAdminList_Select]
 AS
 BEGIN
 	SELECT AccountAdmin.Id As Value, 
-		CASE ISNULL(AccountAdmin.[PrintName], '') WHEN '' 
-			THEN AccountAdmin.[Name] + ' (' + [AccountGroupAdmin].Title +'-'+ [AccountGroupAdmin].Code + ')' 
-			ELSE AccountAdmin.[PrintName] + ' (' + [AccountGroupAdmin].Title +'-'+ [AccountGroupAdmin].Code + ')' 
-		END As Text
+		CASE ISNULL(AccountAdmin.[PrintName], '') WHEN '' THEN AccountAdmin.[Name] ELSE AccountAdmin.[PrintName] 
+		END + ' (' + [AccountGroupAdmin].Title + ' - ' + [AccountGroupAdmin].Code + ')' As Text 
 	FROM AccountAdmin
 			 INNER JOIN [AccountGroupAdmin] on AccountAdmin.AccountGroupId = [AccountGroupAdmin].Id 
 	WHERE AccountAdmin.Deleted = 0 AND AccountAdmin.Active = 1 
