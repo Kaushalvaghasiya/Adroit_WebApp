@@ -29,6 +29,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IDriverTypeAdmin _driverTypeAdmin;
         private readonly ICustomerAccountGroupHeader _customerAccountGroupHeader;
         private readonly IAccountGroupType _accountGroupType;
+        protected readonly IProductShadeNumber _productShadeNumberRepository;
         private readonly IProductPacking _productPackingRepository;
         private readonly ICustomerFirms _customerFirmsRepository;
         private readonly IBusiness _businessRepository;
@@ -53,6 +54,7 @@ namespace Adroit.Accounting.Web.Controllers
             IDriverTypeAdmin driverTypeAdmin,
             ICustomerAccountGroupHeader customerAccountGroupHeader,
             IAccountGroupType accountGroupType,
+            IProductShadeNumber productShadeNumberRepository,
             IProductPacking productPackingRepository,
             ICustomerFirms customerFirmsRepository,
             ICustomer customerRepository,
@@ -76,6 +78,7 @@ namespace Adroit.Accounting.Web.Controllers
             _driverTypeAdmin = driverTypeAdmin;
             _customerAccountGroupHeader = customerAccountGroupHeader;
             _accountGroupType = accountGroupType;
+            _productShadeNumberRepository = productShadeNumberRepository;
             _productPackingRepository = productPackingRepository;
             _customerFirmsRepository = customerFirmsRepository;
             _customerRepository = customerRepository;
