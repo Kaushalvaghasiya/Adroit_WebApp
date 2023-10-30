@@ -5,6 +5,7 @@ using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -36,6 +37,13 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IBusiness _businessRepository;
         private readonly IGSTFirmType _gSTFirmTypeRepository;
         private readonly IFirmType _firmTypeRepository;
+        protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
+        protected readonly ICustomerUsers _customerUsersRepository;
+        private readonly IEmailService _emailService;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly ILogger<CustomerController> _logger;
 
         public CustomerController(
             IVehicle vehicleRepo,
@@ -62,7 +70,13 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomer customerRepository,
             IBusiness businessRepository,
             IGSTFirmType gSTFirmTypeRepository,
-            IFirmType firmTypeRepository)
+            IFirmType firmTypeRepository,
+            ICustomerFirmBranch customerFirmBranchRepository,
+            ICustomerUsers customerUsersRepository,
+            IEmailService emailService,
+            UserManager<IdentityUser> userManager,
+            IUserStore<IdentityUser> userStore,
+            ILogger<CustomerController> logger)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -88,6 +102,13 @@ namespace Adroit.Accounting.Web.Controllers
             _businessRepository = businessRepository;
             _gSTFirmTypeRepository = gSTFirmTypeRepository;
             _firmTypeRepository = firmTypeRepository;
+            _customerFirmBranchRepository = customerFirmBranchRepository;
+            _customerUsersRepository = customerUsersRepository;
+            _emailService = emailService;
+            _userManager = userManager;
+            _userStore = userStore;
+            _emailStore = GetEmailStore();
+            _logger = logger;
         }
 
         public IActionResult Account()
