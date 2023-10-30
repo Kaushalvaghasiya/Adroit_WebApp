@@ -144,10 +144,22 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class ProductDesignNumberTable
+    {
+        public const string _TableName = "ProductDesignNumber";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
     public sealed class VehicleTable
     {
         public const string _TableName = "Vehilcle";
         public const string VRN = "VRN";
+    }
+    public sealed class ProductPackingTable
+    {
+        public const string _TableName = "ProductPacking";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
     }
 
     #region Adroit - Account
