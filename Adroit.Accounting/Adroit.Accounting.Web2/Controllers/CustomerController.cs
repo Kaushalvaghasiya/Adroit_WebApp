@@ -24,6 +24,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomer _customerRepository;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
+        private readonly IProductFabric _productFabricRepository;
         private readonly IProductGroup _productGroupRepository;
         private readonly IProductSubGroup _productSubGroupRepository;
         private readonly IProductDesignNumber _productDesignNumberRepository;
@@ -58,6 +59,7 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerUser customerUserRepository,
             ICommon commonRepository,
             ITransportDesc transportDescRepository,
+            IProductFabric productFabricRepository,
             IProductGroup productGroupRepository,
             IProductSubGroup productSubGroupRepository,
             IProductDesignNumber productDesignNumberRepository,
@@ -90,6 +92,7 @@ namespace Adroit.Accounting.Web.Controllers
             _customerAccountGroupRepo = customerAccountGroupRepo;
             _commonRepository = commonRepository;
             _transportDescRepository = transportDescRepository;
+            _productFabricRepository = productFabricRepository;
             _productGroupRepository = productGroupRepository;
             _productSubGroupRepository = productSubGroupRepository;
             _productDesignNumberRepository = productDesignNumberRepository;

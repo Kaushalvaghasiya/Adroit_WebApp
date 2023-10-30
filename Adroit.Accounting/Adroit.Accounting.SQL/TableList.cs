@@ -152,6 +152,13 @@
     }
     
 
+    public sealed class ProductFabricTable
+    {
+        public const string _TableName = "ProductFabric";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+    
     public sealed class ProductSubGroupTable
     {
         public const string _TableName = "ProductSubGroup";
