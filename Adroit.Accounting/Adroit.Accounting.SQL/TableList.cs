@@ -145,6 +145,13 @@
         public const string OrderNumber = "OrderNumber";
     }
 
+    public sealed class ProductSubGroupTable
+    {
+        public const string _TableName = "ProductSubGroup";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+
     public sealed class ProductShadeNumberTable
     {
         public const string _TableName = "ProductShadeNumber";
