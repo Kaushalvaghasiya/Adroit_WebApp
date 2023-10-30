@@ -23,12 +23,14 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomer _customerRepository;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
+        private readonly IProductDesignNumber _productDesignNumberRepository;
         private readonly ITransportPacking _transportpackingRepository;
         private readonly IDriver _driverRepository;
         private readonly IDriverTypeAdmin _driverTypeAdmin;
         private readonly ICustomerAccountGroupHeader _customerAccountGroupHeader;
         private readonly IAccountGroupType _accountGroupType;
         protected readonly IProductShadeNumber _productShadeNumberRepository;
+        private readonly IProductPacking _productPackingRepository;
         private readonly ICustomerFirms _customerFirmsRepository;
         private readonly IBusiness _businessRepository;
         private readonly IGSTFirmType _gSTFirmTypeRepository;
@@ -46,12 +48,14 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerUser customerUserRepository,
             ICommon commonRepository,
             ITransportDesc transportDescRepository,
+            IProductDesignNumber productDesignNumberRepository,
             ITransportPacking transportpackingRepository,
             IDriver driverRepository,
             IDriverTypeAdmin driverTypeAdmin,
             ICustomerAccountGroupHeader customerAccountGroupHeader,
             IAccountGroupType accountGroupType,
             IProductShadeNumber productShadeNumberRepository,
+            IProductPacking productPackingRepository,
             ICustomerFirms customerFirmsRepository,
             ICustomer customerRepository,
             IBusiness businessRepository,
@@ -68,12 +72,14 @@ namespace Adroit.Accounting.Web.Controllers
             _customerAccountGroupRepo = customerAccountGroupRepo;
             _commonRepository = commonRepository;
             _transportDescRepository = transportDescRepository;
+            _productDesignNumberRepository = productDesignNumberRepository;
             _transportpackingRepository = transportpackingRepository;
             _driverRepository = driverRepository;
             _driverTypeAdmin = driverTypeAdmin;
             _customerAccountGroupHeader = customerAccountGroupHeader;
             _accountGroupType = accountGroupType;
             _productShadeNumberRepository = productShadeNumberRepository;
+            _productPackingRepository = productPackingRepository;
             _customerFirmsRepository = customerFirmsRepository;
             _customerRepository = customerRepository;
             _businessRepository = businessRepository;
