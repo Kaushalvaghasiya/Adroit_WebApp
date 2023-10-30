@@ -100,7 +100,7 @@ try
     builder.Services.AddSingleton<IDriver, DriverRepository>();
     builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
     builder.Services.AddSingleton<IProductSize, ProductSizeRepository>();
-    builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
+    builder.Services.AddSingleton<IProductColor, ProductColorRepository>();
     builder.Services.AddSingleton<IProductFabric, ProductFabricRepository>();
     builder.Services.AddSingleton<IProductGroup, ProductGroupRepository>();
     builder.Services.AddSingleton<IProductSubGroup, ProductSubGroupRepository>();
