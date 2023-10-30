@@ -10,5 +10,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> BookTypeList { get; set; }
         public List<DropdownViewModel> BillTypeList { get; set; }
         public List<DropdownViewModel> BillFromList { get; set; }
+        public string BookName { get; set; }
+        public string BookType { get; set; }
     }
 }

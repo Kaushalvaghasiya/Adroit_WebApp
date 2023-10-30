@@ -5,9 +5,14 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_AccountAdminList_Select]
 )
 AS
 BEGIN
-	SELECT Id As Value, CASE ISNULL([PrintName], '') WHEN '' THEN [Name] ELSE [PrintName] END As Text
-	FROM AccountAdmin 
-	WHERE Deleted = 0 and Active = 1
-	ORDER BY [Name], PrintName
+	SELECT AccountAdmin.Id As Value, 
+		CASE ISNULL(AccountAdmin.[PrintName], '') WHEN '' 
+			THEN AccountAdmin.[Name] + ' (' + [AccountGroupAdmin].Title +'-'+ [AccountGroupAdmin].Code + ')' 
+			ELSE AccountAdmin.[PrintName] + ' (' + [AccountGroupAdmin].Title +'-'+ [AccountGroupAdmin].Code + ')' 
+		END As Text
+	FROM AccountAdmin
+			 INNER JOIN [AccountGroupAdmin] on AccountAdmin.AccountGroupId = [AccountGroupAdmin].Id 
+	WHERE AccountAdmin.Deleted = 0 AND AccountAdmin.Active = 1 
+	ORDER BY AccountAdmin.[Name], AccountAdmin.PrintName
 END
 GO
