@@ -23,6 +23,29 @@ $(function () {
         tags: true
     });
 
+    $('.select2-clear').select2({
+        placeholder: 'Choose one',
+        searchInputPlaceholder: 'Search',
+        minimumResultsForSearch: Infinity,
+        width: '100%',
+        allowClear: true
+    });
+
+    $('.select2-show-search-clear').select2({
+        placeholder: 'Choose one',
+        searchInputPlaceholder: 'Search',
+        width: '100%',
+        allowClear: true
+    });
+
+    $('.select2-show-search-add-clear').select2({
+        placeholder: 'Choose one',
+        searchInputPlaceholder: 'Search',
+        width: '100%',
+        tags: true,
+        allowClear: true
+    });
+
     // Colored Hover
     $('#select2').select2({
         dropdownCssClass: 'hover-success',
