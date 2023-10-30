@@ -155,6 +155,12 @@
         public const string _TableName = "Vehilcle";
         public const string VRN = "VRN";
     }
+    public sealed class ProductPackingTable
+    {
+        public const string _TableName = "ProductPacking";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
 
     #region Adroit - Account
     public sealed class AccountAdminTable
