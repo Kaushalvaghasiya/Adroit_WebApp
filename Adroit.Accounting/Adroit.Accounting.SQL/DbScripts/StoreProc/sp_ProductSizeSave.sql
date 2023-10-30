@@ -51,7 +51,7 @@ BEGIN
 		ROLLBACK TRAN
 		IF (@message LIKE '%Violation of UNIQUE KEY%')
 		BEGIN
-			SET @message = 'Description ''' + @Title + ''' already exist!';
+			SET @message = 'Product size ''' + @Title + ''' already exist!';
 		END
 		RAISERROR ('%s', 16, 1, @message);
 	END CATCH
