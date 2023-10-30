@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSizeGet]
+CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSizeAdminGet]
 (
 	@Id INT
 )

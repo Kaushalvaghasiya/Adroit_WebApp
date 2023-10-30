@@ -62,8 +62,6 @@ namespace Adroit.Accounting.Model
         public int? RCMIGSTRecAccountId { get; set; }
         public int RoundOffAccountId { get; set; }
         public bool Active { get; set; }
-        public string BookName { get; set; }
-        public string ShortName { get; set; }
-        public string BookType { get; set; }
+        public bool Deleted { get; set; }
     }
 }
