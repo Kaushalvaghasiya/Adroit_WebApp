@@ -107,6 +107,7 @@ try
     builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
     builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
     builder.Services.AddSingleton<ICustomerFirms, CustomerFirmsRepository>();
+    builder.Services.AddSingleton<ICustomerUsers, CustomerUsersRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {
