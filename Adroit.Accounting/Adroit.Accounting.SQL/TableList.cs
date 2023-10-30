@@ -144,6 +144,13 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class ProductColorTable
+    {
+        public const string _TableName = "ProductColor";
+        public const string Title = "Title";
+        public const string OrderNumber = "OrderNumber";
+    }
+    
     public sealed class ProductGroupTable
     {
         public const string _TableName = "ProductGroup";
