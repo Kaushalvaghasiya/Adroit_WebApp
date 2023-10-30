@@ -123,6 +123,10 @@
     <None Remove="DbScripts\StoreProc\sp_CustomerUserList.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerUserList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerUserSave.sql" />
+    <None Remove="DbScripts\StoreProc\sp_CustomerUsersDelete.sql" />
+    <None Remove="DbScripts\StoreProc\sp_CustomerUsersGet.sql" />
+    <None Remove="DbScripts\StoreProc\sp_CustomerUsersList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_CustomerUsersSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_DistrictGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_DistrictList.sql" />
     <None Remove="DbScripts\StoreProc\sp_DistrictList_Select.sql" />
@@ -247,8 +251,24 @@
     <None Remove="DbScripts\StoreProc\sp_ProductFabriccList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ProductFabriccDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_ProductFabriccSave.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductSubGroupGet.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductSubGroupList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductSubGroupDelete.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductSubGroupSave.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductShadeNumberDelete.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductShadeNumberGet.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductShadeNumberList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductShadeNumberSave.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductDesignNumberGet.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductDesignNumberList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductDesignNumberDelete.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ProductDesignNumberSave.sql" />
     
     <None Remove="DbScripts\Tables\0000 MembershipTables.sql" />
+	  <None Remove="DbScripts\StoreProc\sp_ProductPackingGet.sql" />
+	  <None Remove="DbScripts\StoreProc\sp_ProductPackingList.sql" />
+	  <None Remove="DbScripts\StoreProc\sp_ProductPackingDelete.sql" />
+	  <None Remove="DbScripts\StoreProc\sp_ProductPackingSave.sql" />
     <None Remove="DbScripts\Tables\0001 Initial.sql" />
     <None Remove="DbScripts\Tables\0002 Initial - Data.sql" />
   </ItemGroup>
@@ -581,6 +601,18 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUserSave.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUsersDelete.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUsersGet.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUsersList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUsersSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_DistrictGet.sql">
@@ -934,10 +966,33 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_VehicleSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+	  <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductShadeNumberSave.sql">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductShadeNumberList.sql">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductShadeNumberGet.sql">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductShadeNumberDelete.sql">
+    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductPackingSave.sql">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductPackingList.sql">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductPackingGet.sql">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductPackingDelete.sql">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\Tables\0000 MembershipTables.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductFabricSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -950,7 +1005,30 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductFabricDelete.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductSubGroupSave.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductSubGroupList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductSubGroupGet.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductSubGroupDelete.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductDesignNumberSave.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductDesignNumberList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductDesignNumberGet.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductDesignNumberDelete.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\Tables\0002 Initial - Data.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>

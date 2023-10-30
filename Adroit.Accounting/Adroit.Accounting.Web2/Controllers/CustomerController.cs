@@ -5,6 +5,7 @@ using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -24,15 +25,26 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
         private readonly IProductFabric _productFabricRepository;
+        private readonly IProductSubGroup _productSubGroupRepository;
+        private readonly IProductDesignNumber _productDesignNumberRepository;
         private readonly ITransportPacking _transportpackingRepository;
         private readonly IDriver _driverRepository;
         private readonly IDriverTypeAdmin _driverTypeAdmin;
         private readonly ICustomerAccountGroupHeader _customerAccountGroupHeader;
         private readonly IAccountGroupType _accountGroupType;
+        protected readonly IProductShadeNumber _productShadeNumberRepository;
+        private readonly IProductPacking _productPackingRepository;
         private readonly ICustomerFirms _customerFirmsRepository;
         private readonly IBusiness _businessRepository;
         private readonly IGSTFirmType _gSTFirmTypeRepository;
         private readonly IFirmType _firmTypeRepository;
+        protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
+        protected readonly ICustomerUsers _customerUsersRepository;
+        private readonly IEmailService _emailService;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly IUserStore<IdentityUser> _userStore;
+        private readonly IUserEmailStore<IdentityUser> _emailStore;
+        private readonly ILogger<CustomerController> _logger;
 
         public CustomerController(
             IVehicle vehicleRepo,
@@ -47,16 +59,26 @@ namespace Adroit.Accounting.Web.Controllers
             ICommon commonRepository,
             ITransportDesc transportDescRepository,
             IProductFabric productFabricRepository,
+            IProductSubGroup productSubGroupRepository,
+            IProductDesignNumber productDesignNumberRepository,
             ITransportPacking transportpackingRepository,
             IDriver driverRepository,
             IDriverTypeAdmin driverTypeAdmin,
             ICustomerAccountGroupHeader customerAccountGroupHeader,
             IAccountGroupType accountGroupType,
+            IProductShadeNumber productShadeNumberRepository,
+            IProductPacking productPackingRepository,
             ICustomerFirms customerFirmsRepository,
             ICustomer customerRepository,
             IBusiness businessRepository,
             IGSTFirmType gSTFirmTypeRepository,
-            IFirmType firmTypeRepository)
+            IFirmType firmTypeRepository,
+            ICustomerFirmBranch customerFirmBranchRepository,
+            ICustomerUsers customerUsersRepository,
+            IEmailService emailService,
+            UserManager<IdentityUser> userManager,
+            IUserStore<IdentityUser> userStore,
+            ILogger<CustomerController> logger)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -68,17 +90,27 @@ namespace Adroit.Accounting.Web.Controllers
             _customerAccountGroupRepo = customerAccountGroupRepo;
             _commonRepository = commonRepository;
             _transportDescRepository = transportDescRepository;
-            _productFabricRepository = productFabricRepository;
+            _productSubGroupRepository = productSubGroupRepository;
+            _productDesignNumberRepository = productDesignNumberRepository;
             _transportpackingRepository = transportpackingRepository;
             _driverRepository = driverRepository;
             _driverTypeAdmin = driverTypeAdmin;
             _customerAccountGroupHeader = customerAccountGroupHeader;
             _accountGroupType = accountGroupType;
+            _productShadeNumberRepository = productShadeNumberRepository;
+            _productPackingRepository = productPackingRepository;
             _customerFirmsRepository = customerFirmsRepository;
             _customerRepository = customerRepository;
             _businessRepository = businessRepository;
             _gSTFirmTypeRepository = gSTFirmTypeRepository;
             _firmTypeRepository = firmTypeRepository;
+            _customerFirmBranchRepository = customerFirmBranchRepository;
+            _customerUsersRepository = customerUsersRepository;
+            _emailService = emailService;
+            _userManager = userManager;
+            _userStore = userStore;
+            _emailStore = GetEmailStore();
+            _logger = logger;
         }
 
         public IActionResult Account()
