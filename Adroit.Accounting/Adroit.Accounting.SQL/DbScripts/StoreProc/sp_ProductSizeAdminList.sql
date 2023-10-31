@@ -19,7 +19,7 @@ Begin
 		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN ProductSizeAdmin.[OrderNumber] END DESC,
 		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN ProductSizeAdmin.[Active] END ASC,  
 		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN ProductSizeAdmin.[Active] END DESC
-		 ) AS RowNum,
+		) AS RowNum,
 	   Count(*) over () AS TotalCount, ProductSizeAdmin.* 
 	  FROM ProductSizeAdmin
 	  WHERE Deleted = 0
