@@ -11,12 +11,9 @@ BEGIN
 		[Broker].*,
 		[Country].Id as CountryId, 
 		[Country].Title as Country, 
-		[State].Title as State, 
+		[State].Id as StateId, 
 		[District].Id as DistrictId, 
-		[District].Title as District, 
-		[Taluka].Id as TalukaId, 
-		[Taluka].Title as Taluka, 
-		[City].Title as City
+		[Taluka].Id as TalukaId 
 	FROM [Broker]
 	LEFT JOIN [City] on [Broker].CityId = [City].Id
 	LEFT JOIN [Taluka] on [City].TalukaId = [Taluka].Id

@@ -38,7 +38,7 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">BROKER</th>
-                                    <th class="border-bottom-0">BRANCH</th>
+                                    <th class="border-bottom-0">CONTACT PERSON</th>
                                     <th class="border-bottom-0">CITY</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
@@ -90,25 +90,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="OwnerBranchId">Broker Branch</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="OwnerBranchId">
-                                    <option></option>
-                                    @{
-                                        if (Model.OwnerBranchList != null)
-                                        {
-                                            foreach (var o in Model.OwnerBranchList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
+                        <div class="col-md-8">
                             <div class="form-group">
                                 <label for="BrokerName">Broker Name</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="BrokerName">
@@ -129,7 +111,18 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Brokerage">Brokerage in %</label>
-                                <input type="text" class="form-control mode-ed" id="Brokerage" placeholder="">
+                                <select class="form-control select2-show-search-add mode-ed" id="Brokerage">
+                                    <option></option>
+                                    @{
+                                        if (Model.BrokerageList != null)
+                                        {
+                                            foreach (var o in Model.BrokerageList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
                             </div>
                         </div>
 
@@ -206,7 +199,7 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="MobileAlternate">Mobile No Add</label>
+                                <label for="MobileAlternate">Alternate Mobile No</label>
                                 <input type="text" class="form-control mode-ed" id="MobileAlternate" placeholder="" maxlength="15">
                             </div>
                         </div>
@@ -232,7 +225,6 @@
                                 </label>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -321,7 +313,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.ownerBranch;
+                    return row.contactPersonName;
                 },
                 "targets": colDef.length,
             });
@@ -354,7 +346,8 @@
             });
 
             columns.push({ "data": "Name", "name": "Name" });
-            columns.push({ "data": "OwnerBranch", "name": "OwnerBranch" });
+            columns.push({ "data": "Brokerage", "name": "Brokerage" });
+            columns.push({ "data": "ContactPersonName", "name": "ContactPersonName" });
             columns.push({ "data": "City", "name": "City" });
 
             var table = $('#tblMain').DataTable({
@@ -524,7 +517,6 @@
         function fromReset() {
             $("#Id").val(0);
             $("#BrokerName").val('').trigger("change");
-            $("#OwnerBranchId").val('').trigger("change");
             $("#Brokerage").val("0.00");
             $("#Address").val("");
             $("#Country").val('').trigger("change");
@@ -561,11 +553,6 @@
                 if ($("#BrokerName").val().trim().length <= 2) {
                     showWarning("", "Enter valid Broker name.");
                     $("#BrokerName").focus();
-                    return false;
-                }
-                if ($("#OwnerBranchId").val() == null || $("#OwnerBranchId").val() == "") {
-                    showWarning("", "Please select broker branch");
-                    $("#OwnerBranchId").focus();
                     return false;
                 }
 
@@ -666,7 +653,6 @@
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Name = $("#BrokerName").val();
-                savedata.OwnerBranchId = $("#OwnerBranchId").val();
                 savedata.Brokerage = $("#Brokerage").val();
                 savedata.Address = $("#Address").val();
                 savedata.CityId = parseInt($("#CityId").val());
@@ -762,8 +748,7 @@
                                 }
                                 $('#Id').val(result.data.id);
                                 $("#BrokerName").val(result.data.name).trigger("change");
-                                $("#OwnerBranchId").val(result.data.ownerBranchId).trigger("change");
-                                $("#Brokerage").val(result.data.Brokerage);
+                                $("#Brokerage").val(result.data.brokerage);
                                 $("#Address").val(result.data.address);
                                 $("#PinCode").val(result.data.pincode);
                                 $("#ContactPersonName").val(result.data.contactPersonName);

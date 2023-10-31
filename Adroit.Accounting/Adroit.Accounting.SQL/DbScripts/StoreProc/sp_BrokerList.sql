@@ -16,8 +16,8 @@ Begin
 	   ROW_NUMBER() over (ORDER BY
 		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN [Name] END ASC,
 		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN [Name] END DESC,
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CustomerFirmBranch.Title END ASC,
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CustomerFirmBranch.Title END DESC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN ContactPersonName END ASC,
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN ContactPersonName END DESC,
 		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN City.Title END ASC,
 		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN City.Title END DESC,
 		 CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN [Broker].Active END ASC,
@@ -25,15 +25,13 @@ Begin
 		) AS RowNum,
 		Count(*) over () AS TotalCount, 
 		Broker.*,
-		City.Title As City,
-		CustomerFirmBranch.Title As OwnerBranch
+		City.Title As City
 		FROM [Broker]
 		LEFT JOIN City on City.Id = [Broker].CityId
-		LEFT JOIN CustomerFirmBranch on [Broker].OwnerBranchId = CustomerFirmBranch.Id
 		WHERE [Broker].Deleted = 0 And [Broker].CustomerId=@CustomerId
 		AND (
 			Coalesce(@Search,'') = '' OR [Broker].[Name] like '%'+ @Search + '%'
-			OR CustomerFirmBranch.Title like '%'+ @Search + '%'
+			OR ContactPersonName like '%'+ @Search + '%'
 			OR City.Title like '%'+ @Search + '%'
 		)
 	 ) AS T   

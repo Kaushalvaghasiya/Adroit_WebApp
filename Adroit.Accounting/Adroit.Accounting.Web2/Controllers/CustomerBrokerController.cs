@@ -14,14 +14,9 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Broker(int id = 0)
         {
             BrokerViewModel model = new BrokerViewModel() { Id = id };
-            int loginId = LoginHandler.GetUserId(User);
-
-            CustomerUserViewModel customermodel = new();
-            customermodel.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
-
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
             model.BrokerNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BrokerTable._TableName, BrokerTable.Name);
-            model.OwnerBranchList = _customerFirmBranchRepository.SelectList(customermodel.Customer.Id, true, _configurationData.DefaultConnection);
+            model.BrokerageList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BrokerTable._TableName, BrokerTable.Brokerage);
             return View(model);
         }
 
@@ -58,6 +53,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int userId = LoginHandler.GetUserId(User);
+                model.OwnerBranchId = LoginHandler.GetBranchId(User);
                 model.ModifiedById = LoginHandler.GetUserId(User);
                 model.AddedById = LoginHandler.GetUserId(User);
                 int id = _brokerRepository.Save(model, userId, _configurationData.DefaultConnection);
