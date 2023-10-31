@@ -97,6 +97,7 @@ try
     builder.Services.AddSingleton<ITransportPackingAdmin, TransportPackingAdminRepository>();
     builder.Services.AddSingleton<ISalesBillFromAdmin, SalesBillFromAdminRepository>();
     builder.Services.AddSingleton<ITransportPacking, TransportPackingRepository>();
+    builder.Services.AddSingleton<IBroker, BrokerRepository>();
     builder.Services.AddSingleton<IDriver, DriverRepository>();
     builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
     builder.Services.AddSingleton<IProductSize, ProductSizeRepository>();
