@@ -562,6 +562,12 @@
                     return false;
                 }
 
+                if (parseFloat($("#Brokerage").val()) > 100) {
+                    showWarning("", "Brokerage percentage must be upto 100.");
+                    $("#Brokerage").focus();
+                    return false;
+                }
+
                 if (!/^[-+]?(\d{1,3}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Brokerage").val())) {
                     showWarning("", "Brokerage percentage must be upto 3 characters before decimal point and 2 characters after decimal point long.");
                     $("#Brokerage").focus();
