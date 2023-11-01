@@ -110,7 +110,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Brokerage">Brokerage</label>
+                                <label for="Brokerage">Brokerage in %</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="Brokerage">
                                     <option></option>
                                     @{
@@ -562,8 +562,8 @@
                     return false;
                 }
 
-                if (!/^[-+]?(\d{1,14}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Brokerage").val())) {
-                    showWarning("", "Brokerage percentage must be upto 14 characters before decimal point and 2 characters after decimal point long.");
+                if (!/^[-+]?(\d{1,3}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Brokerage").val())) {
+                    showWarning("", "Brokerage percentage must be upto 3 characters before decimal point and 2 characters after decimal point long.");
                     $("#Brokerage").focus();
                     return false;
                 }
@@ -736,8 +736,6 @@
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
-                                console.log(result.data);
-                                debugger;
                                 $('#Id').val(result.data.id);
                                 $("#BrokerName").val(result.data.name).trigger("change");
                                 $("#Brokerage").val(result.data.brokerage.toFixed(2)).trigger("change");
