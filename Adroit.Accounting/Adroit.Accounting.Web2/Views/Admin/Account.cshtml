@@ -469,7 +469,7 @@
                 if ($(this).find("option:selected").text().toLowerCase().includes('capital')) {
                     $("#CapitalPercentageTitle").show();
                     $("#CapitalPercentage").show();
-                    $("#CapitalPercentage").val("0.00");
+                    $("#CapitalPercentage").val("000.00");
                 }
                 else {
                     $("#CapitalPercentageTitle").hide();
@@ -480,6 +480,52 @@
             $("#Name").on('change', function (e) {
                 $('#PrintName').val($(this).val());
             });
+
+            $('#TDS').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
+
+            $('#TCS').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
+
+            $('#Discount').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
+
+            $('#Commission').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
+
+            $('#CapitalPercentage').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
+
         });
 
         function addClick() {
@@ -493,12 +539,12 @@
             $('#GSTInvoiceTypeId').val($("#hdnGSTInvoiceTypeId").val()).trigger('change');
 
             $("#CreditDays").val('0');
-            $("#CreditLimit").val('0.00');
-            $("#TDS").val("0.00");
-            $("#TCS").val("0.00");
-            $("#Discount").val("0.00");
+            $("#CreditLimit").val('000.00');
+            $("#TDS").val("000.00");
+            $("#TCS").val("000.00");
+            $("#Discount").val("000.00");
             $("#InterestRate").val("0.00");
-            $("#Commission").val("0.00");
+            $("#Commission").val("000.00");
             $("#CapitalPercentageTitle").hide();
             $("#CapitalPercentage").hide();
         }
