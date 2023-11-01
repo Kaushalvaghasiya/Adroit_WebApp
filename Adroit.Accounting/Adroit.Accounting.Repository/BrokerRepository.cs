@@ -30,13 +30,6 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_BrokerSave", connectionString, parameters);
         }
-        //public BrokerViewModel Get(string email, int userId, string connectionString)
-        //{
-        //    var parameters = new DynamicParameters();
-        //    parameters.Add("@Email", email);
-        //    parameters.Add("@UserId", userId);
-        //    return QueryHelper.Get<BrokerViewModel>("sp_BrokerGetByEmail", connectionString, parameters);
-        //}
         public BrokerViewModel Get(int id, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
@@ -68,10 +61,5 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_BrokerList_Select", connectionString, parameters);
         }
-        //public List<DropdownViewModel> SelectLicenceIssuePlace(string connectionString)
-        //{
-        //    var parameters = new DynamicParameters();
-        //    return QueryHelper.GetList<DropdownViewModel>("sp_LicenceIssuePlaceList_Select", connectionString, parameters);
-        //}
     }
 }
