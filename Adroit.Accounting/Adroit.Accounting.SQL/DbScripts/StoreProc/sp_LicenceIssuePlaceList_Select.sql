@@ -2,7 +2,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_LicenceIssuePlaceList_Select]
 AS
 BEGIN
 	Select City.Id As Value,
-	City.Title + ', ' + Taluka.Title + ', ' + District.Title + ', ' + State.Title + ', ' + Country.Title  As Text
+	City.Title + ' | ' + Taluka.Title + ' | ' + District.Title + ' | ' + State.Title + ' | ' + Country.Title  As Text
 	From City City
 	Left Join Taluka On City.TalukaId =  Taluka.Id
 	Left Join District On Taluka.DistrictId = District.Id 
