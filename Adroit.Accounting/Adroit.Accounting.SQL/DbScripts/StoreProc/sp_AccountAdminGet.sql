@@ -4,7 +4,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_AccountAdminGet]
 )
 AS
 BEGIN
-	SELECT *, 
+	SELECT AccountAdmin.*, 
 		Taluka.Id As TalukaId,
 		District.Id As DistrictId
 	FROM AccountAdmin

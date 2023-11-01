@@ -94,7 +94,18 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="Name">Account Name</label>
-                                <input type="text" class="form-control" id="Name" placeholder="" maxlength="100">
+                                <select class="form-control select2-show-search-add mode-ed" id="Name">
+                                    <option></option>
+                                    @{
+                                        if (Model.NameList != null)
+                                        {
+                                            foreach (var o in Model.NameList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-8">
@@ -113,7 +124,7 @@
                                         {
                                             foreach (var o in Model.AccountGroupList)
                                             {
-                                                    <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -148,7 +159,7 @@
                                         {
                                             foreach (var o in Model.CountryList)
                                             {
-                                                    <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -186,7 +197,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="Pincode">Pincode</label>
-                                <input type="text" class="form-control" id="Pincode" placeholder="" maxlength="10">
+                                <input type="text" class="form-control numberonly" id="Pincode" placeholder="" maxlength="10">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -205,7 +216,7 @@
                                         {
                                             foreach (var o in Model.AreaNameList)
                                             {
-                                                    <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -215,19 +226,19 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="ContactPersonName">Contact Person</label>
-                                <input type="text" class="form-control" id="ContactPersonName" placeholder="" maxlength="30">
+                                <input type="text" class="form-control numberonly" id="ContactPersonName" placeholder="" maxlength="30">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="Mobile">Contact Mobile</label>
-                                <input type="text" class="form-control" id="Mobile" placeholder="" maxlength="15">
+                                <input type="text" class="form-control numberonly" id="Mobile" placeholder="" maxlength="15">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="MobileAlternate">Alternate Mobile</label>
-                                <input type="text" class="form-control" id="MobileAlternate" placeholder="" maxlength="15">
+                                <input type="text" class="form-control numberonly" id="MobileAlternate" placeholder="" maxlength="15">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -239,7 +250,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="AdharUID">Aadhaar UID</label>
-                                <input type="text" class="form-control" id="AdharUID" placeholder="" maxlength="12">
+                                <input type="text" class="form-control numberonly" id="AdharUID" placeholder="" maxlength="12">
                             </div>
                         </div>
 
@@ -283,7 +294,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CreditLimit">Credit Limit</label>
-                                <input type="text" class="form-control" id="CreditLimit" placeholder="">
+                                <input type="text" class="form-control" id="CreditLimit" placeholder="" maxlength="18">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -296,7 +307,7 @@
                                         {
                                             foreach (var o in Model.TransportNameList)
                                             {
-                                                    <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -399,7 +410,7 @@
                 <div class="card-footer text-right">
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
-                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    @* <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a> *@
                     <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
                     <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
@@ -466,7 +477,7 @@
                 }
             });
 
-            $("#Name").on('focusout', function (e) {
+            $("#Name").on('change', function (e) {
                 $('#PrintName').val($(this).val());
             });
         });
@@ -486,7 +497,7 @@
             $("#TDS").val("0.00");
             $("#TCS").val("0.00");
             $("#Discount").val("0.00");
-            $("#InterestRate").val(".00");
+            $("#InterestRate").val("0.00");
             $("#Commission").val("0.00");
             $("#CapitalPercentageTitle").hide();
             $("#CapitalPercentage").hide();
@@ -507,7 +518,9 @@
                 $("#GSTNumber").focus();
                 return false;
             }
-            if (query.length != 15) {
+            var gstPattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
+
+            if (query.length != 15 || !gstPattern.test(query)) {
                 showWarning("", "Please enter valid GST number.");
                 $("#GSTNumber").focus();
                 return false;
@@ -773,7 +786,7 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#Name").val("");
+            $("#Name").val('').trigger("change");
             $("#PrintName").val("");
             $("#AccountGroupId").val('').trigger("change");
             $("#Address1").val("");
@@ -844,16 +857,22 @@
                     return false;
                 }
 
-                // if ($("#GSTNumber").val().trim() != "" && $("#GSTNumber").val().trim().length != 15) {
-                //     showWarning("", "Please enter valid GST number.");
-                //     $("#GSTNumber").focus();
-                //     return false;
-                // }
-                // if ($("#PAN").val().trim() != "" && $("#PAN").val().trim().length != 10) {
-                //     showWarning("", "Please enter valid PAN.");
-                //     $("#PAN").focus();
-                //     return false;
-                // }
+                var gstPattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
+                if ($("#GSTNumber").val().trim() != "") {
+                    if ($("#GSTNumber").val().trim().length != 15 || !gstPattern.test($("#GSTNumber").val().trim())) {
+                        showWarning("", "Please enter valid GST number.");
+                        $("#GSTNumber").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#PAN").val().trim() != "") {
+                    if ($("#PAN").val().trim().length != 10) {
+                        showWarning("", "Please enter valid PAN.");
+                        $("#PAN").focus();
+                        return false;
+                    }
+                }
 
                 if ($("#CountryId").val() == null || $("#CountryId").val() == "") {
                     showWarning("", "Please select country.");
@@ -867,7 +886,8 @@
                         $("#Mobile").focus();
                         return false;
                     }
-                    if (!isNumber($("#Mobile").val().trim())) {
+
+                    if (!isNumber($("#Mobile").val().trim()) || $("#Mobile").val().trim().charAt(0) == '0') {
                         showWarning("", "Please enter valid mobile number.");
                         $("#Mobile").focus();
                         return false;
@@ -881,7 +901,7 @@
                         return false;
                     }
 
-                    if (!isNumber($("#MobileAlternate").val().trim())) {
+                    if (!isNumber($("#MobileAlternate").val().trim()) || $("#MobileAlternate").val().trim().charAt(0) == '0') {
                         showWarning("", "Please enter valid alternate mobile number.");
                         $("#MobileAlternate").focus();
                         return false;
@@ -897,16 +917,18 @@
                     }
                 }
 
-                if ($("#AdharUID").val() == "" || parseInt($("#AdharUID").val()) < 0) {
-                    showWarning("", "Please enter adharUID");
-                    $("#AdharUID").focus();
-                    return false;
-                }
-                
-                if ($("#TAN").val() == "" || parseInt($("#TAN").val()) < 0) {
-                    showWarning("", "Please enter TAN");
-                    $("#AdharUTANID").focus();
-                    return false;
+                if ($("#AdharUID").val().trim() != "") {
+                    if ($("#AdharUID").val().trim().length != 12) {
+                        showWarning("", "Please enter valid adhar uid.");
+                        $("#AdharUID").focus();
+                        return false;
+                    }
+
+                    if (!isNumber($("#AdharUID").val().trim())) {
+                        showWarning("", "Please enter valid adhar uid.");
+                        $("#AdharUID").focus();
+                        return false;
+                    }
                 }
 
                 if ($("#GSTInvoiceTypeId").val() == null || $("#GSTInvoiceTypeId").val() == "") {
@@ -918,18 +940,6 @@
                 if ($("#CreditDays").val() == "" || parseInt($("#CreditDays").val()) < 0) {
                     showWarning("", "Please enter credit days");
                     $("#CreditDays").focus();
-                    return false;
-                }
-
-                if ($("#CreditLimit").val() == "") {
-                    showWarning("", "Please enter valid credit limit.");
-                    $("#CreditLimit").focus();
-                    return false;
-                }
-
-                if (!/^[-+]?(\d{1,18}(\.\d{0})?|\.\d{0})$/.test($("#CreditLimit").val())) {
-                    showWarning("", "Credit Limit must be upto 18 characters before decimal point and 0 characters after decimal point long.");
-                    $("#CreditLimit").focus();
                     return false;
                 }
 
@@ -975,7 +985,7 @@
                     return false;
                 }
 
-                if (!/^[-+]?(\d{0}(\.\d{0,2})?|\.\d{1,2})$/.test($("#InterestRate").val())) {
+                if (!/^[-+]?([0](\.\d{0,2})?|\.\d{1,2})$/.test($("#InterestRate").val())) {
                     showWarning("", "Interest rate must be upto 0 characters before decimal point and 2 characters after decimal point long.");
                     $("#InterestRate").focus();
                     return false;
@@ -1038,7 +1048,7 @@
                 savedata.Discount = parseFloat($("#Discount").val()).toFixed(3);
                 savedata.TDS = parseFloat($("#TDS").val()).toFixed(3);
                 savedata.TCS = parseFloat($("#TCS").val()).toFixed(3);
-                savedata.CreditLimit = parseFloat($("#CreditLimit").val()).toFixed(0);
+                savedata.CreditLimit = (isNaN(parseFloat($("#CreditLimit").val())) ? 0 : parseFloat($("#CreditLimit").val())).toFixed(0);
                 savedata.InterestRate = parseFloat($("#InterestRate").val()).toFixed(2);
                 savedata.Commission = parseFloat($("#Commission").val()).toFixed(3);
                 savedata.IsEcommerce = $("#IsEcommerce").is(':checked');
@@ -1046,7 +1056,8 @@
                 savedata.TAN = $("#TAN").val();
                 savedata.CompositParty = $("#CompositParty").is(':checked');
                 savedata.RCMParty = $("#RCMParty").is(':checked');
-                savedata.CapitalPercentage = parseFloat($("#CapitalPercentage").val()).toFixed(2);
+                savedata.CapitalPercentage = (isNaN(parseFloat($("#CapitalPercentage").val())) ? 0 : parseFloat($("#CapitalPercentage").val())).toFixed(2);
+
                 savedata.Active = $('#Active').is(':checked');
 
                 blockUI('container');
@@ -1131,7 +1142,7 @@
                                 }
 
                                 $("#Id").val(result.data.id);
-                                $("#Name").val(result.data.name);
+                                $("#Name").val(result.data.name).trigger("change");
                                 $("#PrintName").val(result.data.printName);
                                 $("#AccountGroupId").val(result.data.accountGroupId).trigger("change");
                                 $("#Address1").val(result.data.address1);
@@ -1210,7 +1221,14 @@
 
                                 if (result.data != null) {
                                     $("#GSTNumber").val(result.data.gstNumber);
-                                    $("#Name").val(result.data.name);
+
+                                    if ($("#Name option[value='" + result.data.name + "']").length === 0) {
+                                        $("#Name").append($("<option>", {
+                                            value: result.data.name,
+                                            text: result.data.name
+                                        }));
+                                    }
+                                    $("#Name").val(result.data.name).trigger("change");
                                     $("#PrintName").val(result.data.name);
                                     $("#Address1").val(result.data.address1);
                                     $("#Address2").val(result.data.address2);
