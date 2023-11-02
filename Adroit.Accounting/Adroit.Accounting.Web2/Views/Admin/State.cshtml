@@ -348,20 +348,25 @@
 
         function saveItem() {
             try {
+                if ($("#CountryId").val() == "" || $("#CountryId").val() == null || $("#CountryId").val() == "0") {
+                    showWarning("", "Please select country.");
+                    $("#Title").focus();
+                    return false;
+                }
 
-                if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid state title.");
+                if ($("#Title").val() == "" || $("#Title").val() == null || $("#Title").val() == "0") {
+                    showWarning("", "Please enter valid state name.");
                     $("#Title").focus();
                     return false;
                 }
 
                 if ($("#Title").val().length > 100) {
-                    showWarning("", "state title must be upto 100 characters long.");
+                    showWarning("", "State name must be upto 100 characters long.");
                     $("#Title").focus();
                     return false;
                 }
 
-                if ($("#TitleGSTR").val() == "") {
+                if ($("#TitleGSTR").val() == "" || $("#TitleGSTR").val() == null) {
                     showWarning("", "Please enter valid State GSTR .");
                     $("#TitleGSTR").focus();
                     return false;
@@ -372,18 +377,8 @@
                     $("#TitleGSTR").focus();
                     return false;
                 }
-                if ($("#TitleEWay").val() == "") {
-                    showWarning("", "Please enter valid TitleEWay.");
-                    $("#TitleEWay").focus();
-                    return false;
-                }
 
-                if ($("#TitleEWay").val().length > 100) {
-                    showWarning("", "state  EWay  must be upto 100 characters long.");
-                    $("#TitleEWay").focus();
-                    return false;
-                }
-                if ($("#Code").val() == "") {
+                if ($("#Code").val() == "" || $("#Code").val() == null) {
                     showWarning("", "Please enter valid Code.");
                     $("#Code").focus();
                     return false;
@@ -394,9 +389,16 @@
                     $("#Code").focus();
                     return false;
                 }
-                if ($("#CountryId").val() == "") {
-                    showWarning("", "Please select valid Country.");
-                    $("#CountryId").focus();
+
+                if ($("#TitleEWay").val() == "" || $("#TitleEWay").val() == null) {
+                    showWarning("", "Please enter valid TitleEWay.");
+                    $("#TitleEWay").focus();
+                    return false;
+                }
+
+                if ($("#TitleEWay").val().length > 100) {
+                    showWarning("", "state  EWay  must be upto 100 characters long.");
+                    $("#TitleEWay").focus();
                     return false;
                 }
 
