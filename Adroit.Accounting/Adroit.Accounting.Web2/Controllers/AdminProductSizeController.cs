@@ -46,7 +46,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult ProductSaveSize([FromBody] ProductSizeAdmin savedata)
+        public JsonResult SaveProductSize([FromBody] ProductSizeAdmin savedata)
         {
             ApiResult result = new ApiResult();
             try
