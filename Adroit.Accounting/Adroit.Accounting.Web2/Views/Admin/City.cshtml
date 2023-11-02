@@ -350,22 +350,39 @@
 
         function saveItem() {
             try {
+                if ($("#CountryId").val() == "" || $("#CountryId").val() == null || $("#CountryId").val() == "0") {
+                    showWarning("", "Please select country.");
+                    $("#Title").focus();
+                    return false;
+                }
 
-                if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid City title.");
+                if ($("#StateId").val() == "" || $("#StateId").val() == null || $("#StateId").val() == "0") {
+                    showWarning("", "Please select state.");
+                    $("#Title").focus();
+                    return false;
+                }
+
+                if ($("#DistrictId").val() == "" || $("#DistrictId").val() == null || $("#DistrictId").val() == "0") {
+                    showWarning("", "Please select district.");
+                    $("#Title").focus();
+                    return false;
+                }
+
+                if ($("#TalukaId").val() == "" || $("#TalukaId").val() == null || $("#TalukaId").val() == "0") {
+                    showWarning("", "Please select taluka.");
+                    $("#Title").focus();
+                    return false;
+                }
+
+                if ($("#Title").val() == "" || $("#Title").val() == null || $("#Title").val() == "0") {
+                    showWarning("", "Please enter valid city name.");
                     $("#Title").focus();
                     return false;
                 }
 
                 if ($("#Title").val().length > 100) {
-                    showWarning("", "City title must be upto 100 characters long.");
+                    showWarning("", "City name must be upto 100 characters long.");
                     $("#Title").focus();
-                    return false;
-                }
-
-                if ($("#TalukaId").val() == "" || $("#TalukaId").val() == 0) {
-                    showWarning("", "Please select Taluka.");
-                    $("#TalukaId").focus();
                     return false;
                 }
 
