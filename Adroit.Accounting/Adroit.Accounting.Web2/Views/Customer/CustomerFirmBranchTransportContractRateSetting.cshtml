@@ -94,18 +94,18 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="AccountBranchMappingId">Customer Name</label>
-                                @*  <select class="form-control select2-show-search-add mode-ed" id="AccountBranchMappingId">
-                                <option></option>
-                                @{
-                                if (Model.BrokerNameList != null)
-                                {
-                                foreach (var o in Model.BrokerNameList)
-                                {
-                                <option value="@o.Value">@o.Text</option>
-                                }
-                                }
-                                }
-                                </select> *@
+                                <select class="form-control select2-show-search-add mode-ed" id="AccountBranchMappingId">
+                                    <option></option>
+                                    @{
+                                        if (Model.CustomerList != null)
+                                        {
+                                            foreach (var o in Model.CustomerList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -128,7 +128,7 @@
                             <div class="form-group">
                                 <label for="RatePerKG">LR Rate Per Kg</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="RatePerKG">
-                                    <option></option>
+                                    <option>0.00</option>
                                     @{
                                         if (Model.RatePerKGList != null)
                                         {
@@ -145,7 +145,7 @@
                             <div class="form-group">
                                 <label for="RatePerParcel">LR Rate Per Parcel</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="RatePerParcel">
-                                    <option></option>
+                                    <option>0.00</option>
                                     @{
                                         if (Model.RatePerParcelList != null)
                                         {
@@ -229,13 +229,13 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.ratePerKG;
+                    return row.ratePerKG.toFixed(2);
                 },
                 "targets": colDef.length,
-            }); 
+            });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.ratePerParcel;
+                    return row.ratePerParcel.toFixed(2);
                 },
                 "targets": colDef.length,
             });
@@ -315,20 +315,29 @@
                 }
 
                 if ($("#CityId").val() == null || $("#CityId").val() == "") {
-                    showWarning("", "Please enter valid city.");
+                    showWarning("", "Please select city.");
                     $("#CityId").focus();
                     return false;
                 }
 
-                if ($("#RatePerKG").val().trim() == "" || $("#RatePerParcel").val().trim() == "") {
-                    showWarning("", "Plese enter rete per kg or rate per parcel.");
-                    $("#CountryId").focus();
+                if (parseFloat($("#RatePerKG").val().trim()) === 0 && parseFloat($("#RatePerParcel").val().trim()) === 0) {
+                    showWarning("", "Plese enter rate per kg or rate per parcel.");
+                    $("#RatePerKG").focus();
                     return false;
                 }
-                if ($("#RatePerKG").val().trim() != "") {
-                    showWarning("", "Plese enter rete per kg or rate per parcel.");
-                    $("#CountryId").focus();
-                    return false;
+                if (parseFloat($("#RatePerKG").val().trim()) !== 0 ) {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#RatePerKG").val())) {
+                        showWarning("", "Rate per KG must be upto 7 characters before decimal point and  characters after decimal point long.");
+                        $("#RatePerKG").focus();
+                        return false;
+                    }
+                }
+                if (parseFloat($("#RatePerParcel").val().trim()) === 0) {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#RatePerParcel").val())) {
+                        showWarning("", "Rate per Parcel must be upto 7 characters before decimal point and  characters after decimal point long.");
+                        $("#RatePerParcel").focus();
+                        return false;
+                    }
                 }
 
                 var savedata = new Object();
@@ -390,6 +399,7 @@
                                 }
                                 $('#Id').val(result.data.id);
                                 $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger("change");
+                                $("#CityId").val(result.data.cityId).trigger("change");
                                 $("#RatePerKG").val(result.data.ratePerKG.toFixed(2)).trigger("change");
                                 $("#RatePerParcel").val(result.data.ratePerParcel.toFixed(2)).trigger("change");
                             } else {

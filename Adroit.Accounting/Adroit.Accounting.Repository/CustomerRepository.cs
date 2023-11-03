@@ -64,7 +64,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@StatusId", $"{(short)value.StatusId}");
             parameters.Add("@TotalUsers", value.TotalUsers);
             parameters.Add("@AgreeTerms", value.AgreeTerms);
-            parameters.Add("@EmailOtp", value.EmailOtp ?? ""    );
+            parameters.Add("@EmailOtp", value.EmailOtp ?? "");
             parameters.Add("@MobileOtp", value.MobileOtp ?? "");
             parameters.Add("@Active", value.Active);
             parameters.Add("@DefaultUserId", value.DefaultUserId);
@@ -117,6 +117,13 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             parameters.Add("@Id", softwarePlanId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerListBySoftwarePlan_Select", connectionString, parameters);
+        }
+        public List<DropdownViewModel> SelectListByBranchMapping(int userId, int branchId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@UserId", userId);
+            parameters.Add("@BranchId", branchId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerListByBranchiMapping_Select", connectionString, parameters);
         }
     }
 }

@@ -12,28 +12,20 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            //parameters.Add("@OwnerBranchId", value.OwnerBranchId);
-            //parameters.Add("@Name", value.Name);
-            //parameters.Add("@Brokerage", value.Brokerage);
-            //parameters.Add("@Address", value.Address ?? "");
-            //parameters.Add("@CityId", value.CityId);
-            //parameters.Add("@Pincode", value.Pincode);
-            //parameters.Add("@ContactPersonName", value.ContactPersonName);
-            //parameters.Add("@Mobile", value.Mobile);
-            //parameters.Add("@MobileAlternate", value.MobileAlternate ?? "");
-            //parameters.Add("@Email", value.Email);
-            //parameters.Add("@AdharUID", value.AdharUID ?? "");
-            //parameters.Add("@Active", value.Active);
+            parameters.Add("@AccountBranchMappingId", value.AccountBranchMappingId);
+            parameters.Add("@CityId", value.CityId);
+            parameters.Add("@RatePerKG", value.RatePerKG);
+            parameters.Add("@RatePerParcel", value.RatePerParcel);
             parameters.Add("@AddedById", value.AddedById);
             parameters.Add("@ModifiedById", value.ModifiedById);
 
-            return QueryHelper.Save("sp_BrokerSave", connectionString, parameters);
+            return QueryHelper.Save("sp_CustomerFirmBranchTransportContractRateSettingSave", connectionString, parameters);
         }
         public CustomerFirmBranchTransportContractRateSettingViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.Get<CustomerFirmBranchTransportContractRateSettingViewModel>("sp_BrokerGet", connectionString, parameters);
+            return QueryHelper.Get<CustomerFirmBranchTransportContractRateSettingViewModel>("sp_CustomerFirmBranchTransportContractRateSettingGet", connectionString, parameters);
         }
         public List<CustomerFirmBranchTransportContractRateSettingGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
@@ -45,7 +37,7 @@ namespace Adroit.Accounting.Repository
             param.Add("@PageSize", pageSize);
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<CustomerFirmBranchTransportContractRateSettingGridViewModel>("sp_BrokerList", connectionString, param);
+            return QueryHelper.GetList<CustomerFirmBranchTransportContractRateSettingGridViewModel>("sp_CustomerFirmBranchTransportContractRateSettingList", connectionString, param);
         }
         public List<DropdownViewModel> SelectList(string connectionString)
         {

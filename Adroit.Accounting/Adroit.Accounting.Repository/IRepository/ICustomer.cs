@@ -14,5 +14,6 @@ namespace Adroit.Accounting.Repository.IRepository
         List<DropdownViewModel> SelectList(string connectionString);
         List<DropdownViewModel> SelectListBySoftware(byte softwareId, string connectionString);
         List<DropdownViewModel> SelectListBySoftwarePlan(byte softwarePlanId, string connectionString);
+        List<DropdownViewModel> SelectListByBranchMapping(int userid, int branchId, string connectionString);
     }
 }
