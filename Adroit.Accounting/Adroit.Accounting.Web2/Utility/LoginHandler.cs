@@ -52,7 +52,7 @@ namespace Adroit.Accounting.Web.Utility
 
             return 0;
         }
-        public static int? GetBranchId(IPrincipal user)
+        public static int GetBranchId(IPrincipal user)
         {
             //var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.SerialNumber);
             //if (null != claim)
@@ -60,7 +60,7 @@ namespace Adroit.Accounting.Web.Utility
             //    return Convert.ToInt32(claim.Value);
             //}
 
-            return null;
+            return 1;
         }
 
         public static string GetUserFullName(IPrincipal user)

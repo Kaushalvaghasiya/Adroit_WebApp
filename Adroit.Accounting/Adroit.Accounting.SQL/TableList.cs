@@ -130,6 +130,11 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class BrokerTable {
+        public const string _TableName = "Broker";
+        public const string Name = "Name";
+        public const string Brokerage = "Brokerage";
+    }
 
     public sealed class DriverTable
     {

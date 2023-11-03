@@ -1,0 +1,779 @@
+﻿@using Adroit.Accounting.Model;
+@using Adroit.Accounting.Model.Enums;
+@model Adroit.Accounting.Model.ViewModel.BrokerViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Master</a></li>
+                    <li><a href="#">Broker</a></li>
+                    <li class="active"><span>List</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">BROKER</th>
+                                    <th class="border-bottom-0">CONTACT PERSON</th>
+                                    <th class="border-bottom-0">CITY</th>
+                                    <th class="border-bottom-0" style="width:100px">ACTIVE</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Master</a></li>
+                    <li><a href="#" class="btn-back">Broker</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search Broker...">
+                        <span class="input-group-append mr-2">
+                            <button class="btn btn-primary" type="button" onclick="showUnderDevMsg()">Go!</button>
+                        </span>
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-blue text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-success text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send"><span><i class="fa fa-share-alt"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-arrow-left"></i></span>                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>-
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="BrokerName">Broker Name</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="BrokerName">
+                                    <option></option>
+                                    @{
+                                        if (Model.BrokerNameList != null)
+                                        {
+                                            foreach (var o in Model.BrokerNameList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Brokerage">Brokerage in %</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="Brokerage">
+                                    <option></option>
+                                    @{
+                                        if (Model.BrokerageList != null)
+                                        {
+                                            foreach (var o in Model.BrokerageList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Address">Address</label>
+                                <input type="text" class="form-control mode-ed" id="Address" placeholder="" maxlength="400">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Country">Country</label>
+                                <select class="form-control select2-show-search mode-ed" id="Country">
+                                    @{
+                                        if (Model.CountryList != null)
+                                        {
+                                            foreach (var o in Model.CountryList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="StateId">State</label>
+                                <select class="form-control select2-show-search mode-ed" id="StateId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="District">District</label>
+                                <select class="form-control select2-show-search mode-ed" id="District">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Taluka">Taluka</label>
+                                <select class="form-control select2-show-search mode-ed" id="Taluka">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="CityId">City</label>
+                                <select class="form-control select2-show-search mode-ed" id="CityId">
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Pincode">Pincode</label>
+                                <input type="text" class="form-control mode-ed numberonly " id="PinCode" placeholder="" maxlength="10">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ContactPersonName">Contact Person</label>
+                                <input type="text" class="form-control mode-ed" id="ContactPersonName" placeholder="" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Mobile">Mobile No</label>
+                                <input type="text" class="form-control mode-ed" id="Mobile" placeholder="" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="MobileAlternate">Alternate Mobile No</label>
+                                <input type="text" class="form-control mode-ed" id="MobileAlternate" placeholder="" maxlength="15">
+                            </div>
+                        </div>
+
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="Email">Email</label>
+                                <input type="text" class="form-control mode-ed" id="Email" placeholder="" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="AadhaarUID">Aadhaar UID</label>
+                                <input type="text" class="form-control mode-ed" id="AadhaarUID" placeholder="" maxlength="12">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div><label for="Active">Active</label></div>
+                                <label class="custom-switch">
+                                    <input id="Active" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="New"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" id="btnCancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="hdnCountryId" value="0" />
+    <input type="hidden" id="hdnStateId" value="0" />
+    <input type="hidden" id="hdnDistrictId" value="0" />
+    <input type="hidden" id="hdnTalukaId" value="0" />
+    <input type="hidden" id="hdnCityId" value="0" />
+</div>
+
+@section Scripts
+    {
+
+    <script>
+
+        $(function (e) {
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+            bindDatatableList();
+
+            $("#Country").on('change', function (e) {
+                bindStateList($(this).val());
+            });
+
+            $("#StateId").on('change', function (e) {
+                bindDistrictList($(this).val());
+            });
+
+            $("#District").on('change', function (e) {
+                bindTalukaList($(this).val());
+            });
+
+            $("#Taluka").on('change', function (e) {
+                bindCityList($(this).val());
+            });
+
+            if (@Model.Id > 0) {
+                getDetail(@Model.Id, false);
+            }
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#BrokerName").focus();
+
+            $("#Active").prop('checked', true);
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.name;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.contactPersonName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.city;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.active ? "Yes" : "No";
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    if (row.customerType != "@CustomerType.BackOffice") {
+                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    }
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "orderable": false
+            });
+
+            columns.push({ "data": "Name", "name": "Name" });
+            columns.push({ "data": "Brokerage", "name": "Brokerage" });
+            columns.push({ "data": "ContactPersonName", "name": "ContactPersonName" });
+            columns.push({ "data": "City", "name": "City" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/BrokerList"))',
+                    type: 'GET',
+                    data: function (d) {
+
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+            });
+        }
+
+        function bindStateList(countryId) {
+            try {
+                $("#StateId").empty();
+
+                if (countryId == '' || countryId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#StateId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#StateId').val($("#hdnStateId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindDistrictList(stateId) {
+            try {
+                $("#District").empty();
+                if (stateId == '' || stateId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetDistricts"))" + "?stateId=" + stateId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#District').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#District').val($("#hdnDistrictId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindTalukaList(districtId) {
+            try {
+                $("#Taluka").empty();
+                if (districtId == '' || districtId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetTalukas"))" + "?districtId=" + districtId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#Taluka').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#Taluka').val($("#hdnTalukaId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindCityList(talukaId) {
+            try {
+                $("#CityId").empty();
+                if (talukaId == '' || talukaId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?talukaId=" + talukaId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#CityId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#CityId').val($("#hdnCityId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function fromReset() {
+            $("#Id").val(0);
+            $("#BrokerName").val('').trigger("change");
+            $("#Brokerage").val('').trigger("change");
+            $("#Address").val("");
+            $("#Country").val('').trigger("change");
+            $("#StateId").val('').trigger("change");
+            $("#District").val('').trigger("change");
+            $("#Taluka").val('').trigger("change");
+            $("#CityId").val('').trigger("change");
+            $("#PinCode").val("");
+            $("#ContactPersonName").val("");
+            $("#Mobile").val("");
+            $("#MobileAlternate").val("");
+            $("#Email").val("");
+            $("#AadhaarUID").val("");
+            $("#Active").prop('checked', false);
+
+            $("#hdnCountryId").val("");
+            $("#hdnStateId").val("");
+            $("#hdnDistrictId").val("");
+            $("#hdnTalukaId").val("");
+            $("#hdnCityId").val("");
+
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+        }
+
+        function saveItem() {
+            try {
+
+                if ($("#BrokerName").val().trim() == "") {
+                    showWarning("", "Please enter name.");
+                    $("#BrokerName").focus();
+                    return false;
+                }
+                if ($("#BrokerName").val().trim().length <= 2) {
+                    showWarning("", "Enter valid Broker name.");
+                    $("#BrokerName").focus();
+                    return false;
+                }
+
+                if ($("#Brokerage").val() == "") {
+                    showWarning("", "Please enter valid brokerage percentage.");
+                    $("#Brokerage").focus();
+                    return false;
+                }
+
+                if (parseFloat($("#Brokerage").val()) > 100) {
+                    showWarning("", "Brokerage percentage must be upto 100.");
+                    $("#Brokerage").focus();
+                    return false;
+                }
+
+                if (!/^[-+]?(\d{1,3}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Brokerage").val())) {
+                    showWarning("", "Brokerage percentage must be upto 3 characters before decimal point and 2 characters after decimal point long.");
+                    $("#Brokerage").focus();
+                    return false;
+                }
+
+                if ($("#Address").val().trim() == "") {
+                    showWarning("", "Please enter address.");
+                    $("#Address").focus();
+                    return false;
+                }
+                if ($("#Country").val() == null || $("#Country").val() == "") {
+                    showWarning("", "Please select country.");
+                    $("#Country").focus();
+                    return false;
+                }
+                if ($("#StateId").val() == null || $("#StateId").val() == "") {
+                    showWarning("", "Please select state.");
+                    $("#StateId").focus();
+                    return false;
+                }
+                if ($("#District").val() == null || $("#District").val() == "") {
+                    showWarning("", "Please select district.");
+                    $("#District").focus();
+                    return false;
+                }
+                if ($("#Taluka").val() == null || $("#Taluka").val() == "") {
+                    showWarning("", "Please select taluka.");
+                    $("#Taluka").focus();
+                    return false;
+                }
+                if ($("#CityId").val() == null || $("#CityId").val() == "") {
+                    showWarning("", "Please select city.");
+                    $("#CityId").focus();
+                    return false;
+                }
+                if ($("#ContactPersonName").val().trim() == "") {
+                    showWarning("", "Please enter contact person name.");
+                    $("#ContactPersonName").focus();
+                    return false;
+                }
+                if ($("#Mobile").val().trim() == "") {
+                    showWarning("", "Please enter mobile number.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if ($("#Mobile").val().trim().length != 10) {
+                    showWarning("", "Please enter valid mobile number.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+                if (!isNumber($("#Mobile").val().trim())) {
+                    showWarning("", "Please enter valid mobile number.");
+                    $("#Mobile").focus();
+                    return false;
+                }
+
+                if ($("#Email").val() != "") {
+                    let isValidemail = isEmail($("#Email").val());
+                    if (!isValidemail) {
+                        showWarning("", "Please enter valid email");
+                        $("#Email").focus();
+                        return;
+                    }
+                }
+
+                if ($("#AadhaarUID").val().trim().length > 0 && $("#AadhaarUID").val().trim().length != 12) {
+                    showWarning("", "Please enter valid Aadhaar UID.");
+                    $("#AadhaarUID").focus();
+                    return false;
+                }
+                if ($("#AadhaarUID").val().trim().length > 0 && !isNumber($("#AadhaarUID").val().trim())) {
+                    showWarning("", "Please enter valid Aadhaar UID.");
+                    $("#AadhaarUID").focus();
+                    return false;
+                }
+
+
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.Name = $("#BrokerName").val();
+                savedata.Brokerage = parseFloat($("#Brokerage").val()).toFixed(2);
+                savedata.Address = $("#Address").val();
+                savedata.CityId = parseInt($("#CityId").val());
+                savedata.Pincode = $("#PinCode").val();
+                savedata.ContactPersonName = $("#ContactPersonName").val();
+                savedata.Mobile = $("#Mobile").val();
+                savedata.MobileAlternate = $("#MobileAlternate").val();
+                savedata.Email = $("#Email").val();
+                savedata.AdharUID = $("#AadhaarUID").val();
+                savedata.Active = $('#Active').is(':checked');
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveBroker", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Broker saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteBroker"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetBroker"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+                                $('#Id').val(result.data.id);
+                                $("#BrokerName").val(result.data.name).trigger("change");
+                                $("#Brokerage").val(result.data.brokerage.toFixed(2)).trigger("change");
+                                $("#Address").val(result.data.address);
+                                $("#PinCode").val(result.data.pincode);
+                                $("#ContactPersonName").val(result.data.contactPersonName);
+                                $("#Mobile").val(result.data.mobile);
+                                $("#MobileAlternate").val(result.data.mobileAlternate);
+                                $("#Email").val(result.data.email);
+                                $("#AadhaarUID").val(result.data.adharUID);
+                                $('#Active').prop('checked', result.data.active);
+
+                                $("#hdnCountryId").val(result.data.countryId);
+                                $("#hdnStateId").val(result.data.stateId);
+                                $("#hdnDistrictId").val(result.data.districtId);
+                                $("#hdnTalukaId").val(result.data.talukaId);
+                                $("#hdnCityId").val(result.data.cityId);
+                                $("#Country").val(result.data.countryId).trigger("change");
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+    </script>
+}
