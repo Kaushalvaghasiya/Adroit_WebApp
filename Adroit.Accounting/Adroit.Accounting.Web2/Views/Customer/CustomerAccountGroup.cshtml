@@ -351,38 +351,31 @@
 
         function saveItem() {
             try {
-                debugger;
-                if ($("#AccountGroupHeaderId").val() == "") {
-                    showWarning("", "Please select primary account group.");
-                    $("#AccountGroupHeaderId").focus();
-                    return false;
-                }
-                if ($("#TypeId").val() == "") {
-                    showWarning("", "Please select account group type.");
-                    $("#TypeId").focus();
-                    return false;
-                }
                 if ($("#Title").val() == "") {
                     showWarning("", "Please enter valid secondary account group title.");
                     $("#Title").focus();
                     return false;
                 }
-
                 if ($("#Title").val().length > 50) {
                     showWarning("", "Secondary account group title must be upto 50 characters long.");
                     $("#Title").focus();
                     return false;
                 }
                 if ($("#Code").val() == "") {
-                    showWarning("", "Please enter valid code.");
+                    showWarning("", "Please enter valid secondary account group code.");
                     $("#Code").focus();
                     return false;
                 }
-                // if ($("#Code").val().length != 3) {
-                //     showWarning("", "Code must be 3 characters long.");
-                //     $("#Code").focus();
-                //     return false;
-                // }
+                if ($("#AccountGroupHeaderId").val() == "") {
+                    showWarning("", "Please select primary account group.");
+                    $("#AccountGroupHeaderId").focus();
+                    return false;
+                }
+                if ($("#TypeId").val() == "") {
+                    showWarning("", "Please select main account group.");
+                    $("#TypeId").focus();
+                    return false;
+                }
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
