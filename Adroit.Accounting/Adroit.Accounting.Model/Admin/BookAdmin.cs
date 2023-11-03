@@ -49,9 +49,9 @@ namespace Adroit.Accounting.Model
         public int? TDSAccountId { get; set; }
         public bool IsTCSAccount { get; set; }
         public int? TCSAccountId { get; set; }
-        public int SGSTAccountId { get; set; }
-        public int CGSTAccountId { get; set; }
-        public int IGSTAccountId { get; set; }
+        public int? SGSTAccountId { get; set; }
+        public int? CGSTAccountId { get; set; }
+        public int? IGSTAccountId { get; set; }
         public int? GSTStateCessAccountId { get; set; }
         public int? GSTCentralCessAccountId { get; set; }
         public int? RCMSGSTPayAccountId { get; set; }
@@ -60,8 +60,9 @@ namespace Adroit.Accounting.Model
         public int? RCMSGSTRecAccountId { get; set; }
         public int? RCMCGSTRecAccountId { get; set; }
         public int? RCMIGSTRecAccountId { get; set; }
-        public int RoundOffAccountId { get; set; }
+        public int? RoundOffAccountId { get; set; }
         public bool Active { get; set; }
         public bool Deleted { get; set; }
+        public string SoftwareIds { get; set; }
     }
 }

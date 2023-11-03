@@ -64,6 +64,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@RCMCGSTRecAccountId", (value.RCMCGSTRecAccountId == 0 ? null : value.RCMCGSTRecAccountId));
             parameters.Add("@RCMIGSTRecAccountId", (value.RCMIGSTRecAccountId == 0 ? null : value.RCMIGSTRecAccountId));
             parameters.Add("@RoundOffAccountId", value.RoundOffAccountId);
+            parameters.Add("@SoftwareIds", value.SoftwareIds);
             parameters.Add("@Active", value.Active);
 
             return QueryHelper.Save("sp_BookAdminSave", connectionString, parameters);
