@@ -24,7 +24,7 @@
         public const string _TableName = "Software";
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
-    } 
+    }
     public sealed class AccountGroupAdminTable
     {
         public const string _TableName = "AccountGroupAdmin";
@@ -162,7 +162,7 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
-    
+
     public sealed class ProductGroupTable
     {
         public const string _TableName = "ProductGroup";
@@ -176,7 +176,7 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
-    
+
     public sealed class ProductSubGroupTable
     {
         public const string _TableName = "ProductSubGroup";
@@ -214,6 +214,7 @@
         public const string _TableName = "AccountAdmin";
         public const string AreaName = "AreaName";
         public const string TransportName = "TransportName";
+        public const string Name = "Name";
     }
     public sealed class BookTypeAdminTable
     {
@@ -273,7 +274,7 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
-        public sealed class TransportLRChargesTable
+    public sealed class TransportLRChargesTable
     {
         public const string _TableName = "TransportLRCharges";
         public const string Title = "Title";

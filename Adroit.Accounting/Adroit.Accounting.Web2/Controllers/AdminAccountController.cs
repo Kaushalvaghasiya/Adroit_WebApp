@@ -18,6 +18,7 @@ namespace Adroit.Accounting.Web.Controllers
 
             model.AreaNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, AccountAdminTable._TableName, AccountAdminTable.AreaName);
             model.TransportNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, AccountAdminTable._TableName, AccountAdminTable.TransportName);
+            model.NameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, AccountAdminTable._TableName, AccountAdminTable.Name);
 
             return View(model);
         }
