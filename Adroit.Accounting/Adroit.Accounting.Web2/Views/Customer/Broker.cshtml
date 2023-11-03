@@ -129,7 +129,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="Address">Address</label>
-                                <input type="text" class="form-control mode-ed" id="Address" placeholder="" maxlength="400">
+                                <input type="text" class="form-control mode-ed" id="Address" placeholder="" maxlength="150">
                             </div>
                         </div>
 
@@ -203,7 +203,6 @@
                                 <input type="text" class="form-control mode-ed" id="MobileAlternate" placeholder="" maxlength="15">
                             </div>
                         </div>
-
                         <div class="col-md-8">
                             <div class="form-group">
                                 <label for="Email">Email</label>
@@ -277,6 +276,15 @@
             if (@Model.Id > 0) {
                 getDetail(@Model.Id, false);
             }
+
+            $('#Brokerage').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
         });
 
         function addClick() {
@@ -517,7 +525,7 @@
         function fromReset() {
             $("#Id").val(0);
             $("#BrokerName").val('').trigger("change");
-            $("#Brokerage").val('').trigger("change");
+            $("#Brokerage").val('0.00').trigger("change");
             $("#Address").val("");
             $("#Country").val('').trigger("change");
             $("#StateId").val('').trigger("change");
@@ -546,12 +554,12 @@
             try {
 
                 if ($("#BrokerName").val().trim() == "") {
-                    showWarning("", "Please enter name.");
+                    showWarning("", "Please enter broker name.");
                     $("#BrokerName").focus();
                     return false;
                 }
                 if ($("#BrokerName").val().trim().length <= 2) {
-                    showWarning("", "Enter valid Broker name.");
+                    showWarning("", "Please enter valid broker name.");
                     $("#BrokerName").focus();
                     return false;
                 }
@@ -573,12 +581,7 @@
                     $("#Brokerage").focus();
                     return false;
                 }
-
-                if ($("#Address").val().trim() == "") {
-                    showWarning("", "Please enter address.");
-                    $("#Address").focus();
-                    return false;
-                }
+                
                 if ($("#Country").val() == null || $("#Country").val() == "") {
                     showWarning("", "Please select country.");
                     $("#Country").focus();
@@ -604,25 +607,19 @@
                     $("#CityId").focus();
                     return false;
                 }
-                if ($("#ContactPersonName").val().trim() == "") {
-                    showWarning("", "Please enter contact person name.");
-                    $("#ContactPersonName").focus();
-                    return false;
-                }
-                if ($("#Mobile").val().trim() == "") {
-                    showWarning("", "Please enter mobile number.");
-                    $("#Mobile").focus();
-                    return false;
-                }
-                if ($("#Mobile").val().trim().length != 10) {
-                    showWarning("", "Please enter valid mobile number.");
-                    $("#Mobile").focus();
-                    return false;
-                }
-                if (!isNumber($("#Mobile").val().trim())) {
-                    showWarning("", "Please enter valid mobile number.");
-                    $("#Mobile").focus();
-                    return false;
+
+                if ($("#Mobile").val().trim() != "") {
+                    if ($("#Mobile").val().trim().length != 10) {
+                        showWarning("", "Please enter valid mobile number.");
+                        $("#Mobile").focus();
+                        return false;
+                    }
+
+                    if (!isNumber($("#Mobile").val().trim()) || $("#Mobile").val().trim().charAt(0) == '0') {
+                        showWarning("", "Please enter valid mobile number.");
+                        $("#Mobile").focus();
+                        return false;
+                    }
                 }
 
                 if ($("#Email").val() != "") {
@@ -634,17 +631,19 @@
                     }
                 }
 
-                if ($("#AadhaarUID").val().trim().length > 0 && $("#AadhaarUID").val().trim().length != 12) {
-                    showWarning("", "Please enter valid Aadhaar UID.");
-                    $("#AadhaarUID").focus();
-                    return false;
-                }
-                if ($("#AadhaarUID").val().trim().length > 0 && !isNumber($("#AadhaarUID").val().trim())) {
-                    showWarning("", "Please enter valid Aadhaar UID.");
-                    $("#AadhaarUID").focus();
-                    return false;
-                }
+                if ($("#AadhaarUID").val().trim() != "") {
+                    if ($("#AadhaarUID").val().trim().length != 12) {
+                        showWarning("", "Please enter valid adhar uid.");
+                        $("#AadhaarUID").focus();
+                        return false;
+                    }
 
+                    if (!isNumber($("#AadhaarUID").val().trim())) {
+                        showWarning("", "Please enter valid adhar uid.");
+                        $("#AadhaarUID").focus();
+                        return false;
+                    }
+                }
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
