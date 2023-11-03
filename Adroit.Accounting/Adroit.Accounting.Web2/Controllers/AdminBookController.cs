@@ -19,6 +19,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.BookTypeList = _bookTypeRepository.GetBookTypeAdminList(_configurationData.DefaultConnection, loginId, firmId);
             model.BillTypeList = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, loginId, firmId);
             model.BillFromList = _billEntryTypeAdminRepository.GetBillEntryTypeAdminList(_configurationData.DefaultConnection, loginId, firmId);
+            model.SoftwareList = _softwareRepository.SelectList(_configurationData.DefaultConnection);
 
             return View(model);
         }

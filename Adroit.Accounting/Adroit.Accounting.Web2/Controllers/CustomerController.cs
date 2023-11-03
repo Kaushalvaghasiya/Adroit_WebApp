@@ -51,7 +51,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<CustomerController> _logger;
-
+        private readonly ICity _cityRepository;
         public CustomerController(
             IVehicle vehicleRepo,
             IVehicleModel vehicleModelRepository,
@@ -89,7 +89,8 @@ namespace Adroit.Accounting.Web.Controllers
             IEmailService emailService,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
-            ILogger<CustomerController> logger)
+            ILogger<CustomerController> logger,
+            ICity cityRepository)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -128,6 +129,7 @@ namespace Adroit.Accounting.Web.Controllers
             _userStore = userStore;
             _emailStore = GetEmailStore();
             _logger = logger;
+            _cityRepository = cityRepository;
         }
 
         public IActionResult Account()

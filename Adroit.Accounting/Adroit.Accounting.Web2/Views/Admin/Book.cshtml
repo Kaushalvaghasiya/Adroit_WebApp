@@ -424,7 +424,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="SGSTAccountId">SGST A/C</label>
-                                <select class="form-control select2-show-search" id="SGSTAccountId">
+                                <select class="form-control select2-show-search-clear" id="SGSTAccountId">
                                     <option></option>
                                     @{
                                         if (Model.BookAccountList != null)
@@ -441,7 +441,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="CGSTAccountId">CGST A/C</label>
-                                <select class="form-control select2-show-search" id="CGSTAccountId">
+                                <select class="form-control select2-show-search-clear" id="CGSTAccountId">
                                     <option></option>
                                     @{
                                         if (Model.BookAccountList != null)
@@ -458,7 +458,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="IGSTAccountId">IGST A/C</label>
-                                <select class="form-control select2-show-search" id="IGSTAccountId">
+                                <select class="form-control select2-show-search-clear" id="IGSTAccountId">
                                     <option></option>
                                     @{
                                         if (Model.BookAccountList != null)
@@ -509,7 +509,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="RoundOffAccountId">Round Off A/C</label>
-                                <select class="form-control select2-show-search" id="RoundOffAccountId">
+                                <select class="form-control select2-show-search-clear" id="RoundOffAccountId">
                                     <option></option>
                                     @{
                                         if (Model.BookAccountList != null)
@@ -617,6 +617,22 @@
                                         if (Model.BookAccountList != null)
                                         {
                                             foreach (var o in Model.BookAccountList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="SoftwareIds">Software</label>
+                                <select id="SoftwareIds" multiple="multiple" class="filter-multi mode-ed-multi">
+                                    @{
+                                        if (Model.SoftwareList != null)
+                                        {
+                                            foreach (var o in Model.SoftwareList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -833,6 +849,7 @@
             $("#RCMCGSTRecAccountId").val(null).trigger('change');
             $("#RCMIGSTRecAccountId").val(null).trigger('change');
             $("#RoundOffAccountId").val(null).trigger('change');
+            $("#SoftwareIds").multipleSelect('uncheckAll');
 
             $("#Active").prop('checked', true);
 
@@ -875,27 +892,11 @@
                     }
                 }
 
-                if ($("#SGSTAccountId").val() == null || $("#SGSTAccountId").val() == "") {
-                    showWarning("", "Please select SGST a/c");
-                    $("#SGSTAccountId").focus();
+                if ($("#SoftwareIds").val() == "") {
+                    showWarning("", "Please select valid software for this business.");
+                    $("#SoftwareIds").focus();
                     return false;
                 }
-                if ($("#CGSTAccountId").val() == null || $("#CGSTAccountId").val() == "") {
-                    showWarning("", "Please select CGST a/c");
-                    $("#CGSTAccountId").focus();
-                    return false;
-                }
-                if ($("#IGSTAccountId").val() == null || $("#IGSTAccountId").val() == "") {
-                    showWarning("", "Please select IGST a/c");
-                    $("#IGSTAccountId").focus();
-                    return false;
-                }
-                if ($("#RoundOffAccountId").val() == null || $("#RoundOffAccountId").val() == "") {
-                    showWarning("", "Please select round off a/c");
-                    $("#RoundOffAccountId").focus();
-                    return false;
-                }
-
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
@@ -910,7 +911,7 @@
                 savedata.BillNoPrefix = $("#BillNoPrefix").val();
                 savedata.BillNoPostFix = $("#BillNoPostFix").val();
                 savedata.LRRequired = $("#LRRequired").is(':checked');
-                savedata.BillTypeID = isNaN(parseInt($("#BillTypeID").val())) ? 0 : parseInt($("#BillTypeID").val());
+                savedata.BillTypeID = isNaN(parseInt($("#BillTypeID").val())) ? null : parseInt($("#BillTypeID").val());
                 savedata.IsGeneralPurchase = $("#IsGeneralPurchase").is(':checked');
                 savedata.IsItemDiscount = $("#IsItemDiscount").is(':checked');
                 savedata.IsItemDiscountSp = $("#IsItemDiscountSp").is(':checked');
@@ -934,21 +935,22 @@
                 savedata.HeaderBox4 = $("#HeaderBox4").val();
                 savedata.HeaderBox5 = $("#HeaderBox5").val();
                 savedata.IsTDSAccount = $("#IsTDSAccount").is(':checked');
-                savedata.TDSAccountId = isNaN(parseInt($("#TDSAccountId").val())) ? 0 : parseInt($("#TDSAccountId").val());
+                savedata.TDSAccountId = isNaN(parseInt($("#TDSAccountId").val())) ? null : parseInt($("#TDSAccountId").val());
                 savedata.IsTCSAccount = $("#IsTCSAccount").is(':checked');
-                savedata.TCSAccountId = isNaN(parseInt($("#TCSAccountId").val())) ? 0 : parseInt($("#TCSAccountId").val());
-                savedata.SGSTAccountId = parseInt($("#SGSTAccountId").val());
-                savedata.CGSTAccountId = parseInt($("#CGSTAccountId").val());
-                savedata.IGSTAccountId = parseInt($("#IGSTAccountId").val());
-                savedata.GSTStateCessAccountId = isNaN(parseInt($("#GSTStateCessAccountId").val())) ? 0 : parseInt($("#GSTStateCessAccountId").val());
-                savedata.GSTCentralCessAccountId = isNaN(parseInt($("#GSTCentralCessAccountId").val())) ? 0 : parseInt($("#GSTCentralCessAccountId").val());
-                savedata.RCMSGSTPayAccountId = isNaN(parseInt($("#RCMSGSTPayAccountId").val())) ? 0 : parseInt($("#RCMSGSTPayAccountId").val());
-                savedata.RCMCGSTPayAccountId = isNaN(parseInt($("#RCMCGSTPayAccountId").val())) ? 0 : parseInt($("#RCMCGSTPayAccountId").val());
-                savedata.RCMIGSTPayAccountId = isNaN(parseInt($("#RCMIGSTPayAccountId").val())) ? 0 : parseInt($("#RCMIGSTPayAccountId").val());
-                savedata.RCMSGSTRecAccountId = isNaN(parseInt($("#RCMSGSTRecAccountId").val())) ? 0 : parseInt($("#RCMSGSTRecAccountId").val());
-                savedata.RCMCGSTRecAccountId = isNaN(parseInt($("#RCMCGSTRecAccountId").val())) ? 0 : parseInt($("#RCMCGSTRecAccountId").val());
-                savedata.RCMIGSTRecAccountId = isNaN(parseInt($("#RCMIGSTRecAccountId").val())) ? 0 : parseInt($("#RCMIGSTRecAccountId").val());
-                savedata.RoundOffAccountId = parseInt($("#RoundOffAccountId").val());
+                savedata.TCSAccountId = isNaN(parseInt($("#TCSAccountId").val())) ? null : parseInt($("#TCSAccountId").val());
+                savedata.SGSTAccountId = isNaN(parseInt($("#SGSTAccountId").val())) ? null : parseInt($("#SGSTAccountId").val());
+                savedata.CGSTAccountId = isNaN(parseInt($("#CGSTAccountId").val())) ? null : parseInt($("#CGSTAccountId").val());
+                savedata.IGSTAccountId = isNaN(parseInt($("#IGSTAccountId").val())) ? null : parseInt($("#IGSTAccountId").val());
+                savedata.GSTStateCessAccountId = isNaN(parseInt($("#GSTStateCessAccountId").val())) ? null : parseInt($("#GSTStateCessAccountId").val());
+                savedata.GSTCentralCessAccountId = isNaN(parseInt($("#GSTCentralCessAccountId").val())) ? null : parseInt($("#GSTCentralCessAccountId").val());
+                savedata.RCMSGSTPayAccountId = isNaN(parseInt($("#RCMSGSTPayAccountId").val())) ? null : parseInt($("#RCMSGSTPayAccountId").val());
+                savedata.RCMCGSTPayAccountId = isNaN(parseInt($("#RCMCGSTPayAccountId").val())) ? null : parseInt($("#RCMCGSTPayAccountId").val());
+                savedata.RCMIGSTPayAccountId = isNaN(parseInt($("#RCMIGSTPayAccountId").val())) ? null : parseInt($("#RCMIGSTPayAccountId").val());
+                savedata.RCMSGSTRecAccountId = isNaN(parseInt($("#RCMSGSTRecAccountId").val())) ? null : parseInt($("#RCMSGSTRecAccountId").val());
+                savedata.RCMCGSTRecAccountId = isNaN(parseInt($("#RCMCGSTRecAccountId").val())) ? null : parseInt($("#RCMCGSTRecAccountId").val());
+                savedata.RCMIGSTRecAccountId = isNaN(parseInt($("#RCMIGSTRecAccountId").val())) ? null : parseInt($("#RCMIGSTRecAccountId").val());
+                savedata.RoundOffAccountId = isNaN(parseInt($("#RoundOffAccountId").val())) ? null : parseInt($("#RoundOffAccountId").val());
+                savedata.SoftwareIds = $("#SoftwareIds").val().join(",");             
                 savedata.Active = $('#Active').is(':checked');
 
                 blockUI('container');
@@ -1084,6 +1086,8 @@
                                 $("#RCMCGSTRecAccountId").val(result.data.rcmcgstRecAccountId).trigger('change');
                                 $("#RCMIGSTRecAccountId").val(result.data.rcmigstRecAccountId).trigger('change');
                                 $("#RoundOffAccountId").val(result.data.roundOffAccountId).trigger('change');
+                                var selectedSoftwares = result.data.softwareIds.split(',');
+                                $("#SoftwareIds").multipleSelect('setSelects', selectedSoftwares);
                                 $('#Active').prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info

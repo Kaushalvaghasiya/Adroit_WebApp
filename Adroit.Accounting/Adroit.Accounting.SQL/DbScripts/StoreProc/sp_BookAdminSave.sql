@@ -53,6 +53,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_BookAdminSave]
 	,@RCMCGSTRecAccountId int
 	,@RCMIGSTRecAccountId int
 	,@RoundOffAccountId int
+	,@SoftwareIds VARCHAR(max)
 	,@Active bit = 1
 )
 AS
@@ -115,6 +116,10 @@ BEGIN
 				,Active = @Active
 				WHERE Id = @Id
 				SELECT @Id;
+
+				DELETE BookAdminSoftwareMapping WHERE BookId = @Id 
+				INSERT INTO BookAdminSoftwareMapping (BookId, SoftwareId) SELECT @Id, S.Id from dbo.[fnStringToIntArray](@SoftwareIds) AS S 
+
 			END
 		ELSE If EXISTS (SELECT 1 FROM BookAdmin WHERE BookAccountId = @BookAccountId AND BookTypeId = @BookTypeId AND BookShortName = @BookShortName AND Deleted = 1)
 			BEGIN
@@ -174,7 +179,10 @@ BEGIN
 					WHERE BookAccountId = @BookAccountId AND BookTypeId = @BookTypeId AND BookShortName = @BookShortName AND Deleted = 1
 
 				SELECT @Id=Id FROM BookAdmin WHERE BookAccountId = @BookAccountId AND BookTypeId = @BookTypeId AND BookShortName = @BookShortName 
-			END
+					
+				DELETE BookAdminSoftwareMapping WHERE BookId = @Id 
+				INSERT INTO BookAdminSoftwareMapping (BookId, SoftwareId) SELECT @Id, S.Id from dbo.[fnStringToIntArray](@SoftwareIds) AS S 
+		END
 		ELSE
 			BEGIN
 				INSERT INTO BookAdmin
@@ -192,6 +200,8 @@ BEGIN
 
 				SET @Id = SCOPE_IDENTITY();
 				SELECT @Id;
+
+				INSERT INTO BookAdminSoftwareMapping (BookId, SoftwareId) SELECT @Id, S.Id from dbo.[fnStringToIntArray](@SoftwareIds) AS S 
 			END
 		
 		COMMIT TRAN
