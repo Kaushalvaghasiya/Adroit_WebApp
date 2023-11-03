@@ -22,6 +22,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomerAccountGroup _customerAccountGroupRepo;
         protected readonly ConfigurationData _configurationData;
         protected readonly ICustomer _customerRepository;
+        protected readonly ICustomerFirm _customerFirmRepository;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
         private readonly IProductSize  _productSizeRepository;
@@ -50,6 +51,10 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<CustomerController> _logger;
         private readonly ICity _cityRepository;
+        private readonly ICustomerFirmBranches _customerFirmBranchesRepository;
+        private readonly ISoftwarePlan _softwarePlanRepository;
+        private readonly IBranchTypeAdmin _branchTypeRepository;
+
         public CustomerController(
             IVehicle vehicleRepo,
             IVehicleModel vehicleModelRepository,
@@ -87,7 +92,11 @@ namespace Adroit.Accounting.Web.Controllers
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             ILogger<CustomerController> logger,
-            ICity cityRepository)
+            ICity cityRepository,
+            ICustomerFirmBranches customerFirmBranchesRepository,
+            ICustomerFirm customerFirmRepository,
+            ISoftwarePlan softwarePlanRepository,
+            IBranchTypeAdmin branchTypeRepository)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -126,6 +135,10 @@ namespace Adroit.Accounting.Web.Controllers
             _emailStore = GetEmailStore();
             _logger = logger;
             _cityRepository = cityRepository;
+            _customerFirmBranchesRepository = customerFirmBranchesRepository;
+            _customerFirmRepository = customerFirmRepository;
+            _softwarePlanRepository = softwarePlanRepository;
+            _branchTypeRepository = branchTypeRepository;
         }
 
         public IActionResult Account()
