@@ -53,7 +53,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_BookAdminSave]
 	,@RCMCGSTRecAccountId int
 	,@RCMIGSTRecAccountId int
 	,@RoundOffAccountId int
-	,@SoftwareIds VARCHAR(250)
+	,@SoftwareIds VARCHAR(max)
 	,@Active bit = 1
 )
 AS
