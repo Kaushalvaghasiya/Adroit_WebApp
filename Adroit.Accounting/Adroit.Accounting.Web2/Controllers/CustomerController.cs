@@ -1,6 +1,7 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
@@ -24,8 +25,8 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomer _customerRepository;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
-        private readonly IProductSize  _productSizeRepository;
-        private readonly IProductColor  _productColorRepository;
+        private readonly IProductSize _productSizeRepository;
+        private readonly IProductColor _productColorRepository;
         private readonly IProductFabric _productFabricRepository;
         private readonly IProductGroup _productGroupRepository;
         private readonly IProductSubGroup _productSubGroupRepository;
@@ -33,6 +34,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportPacking _transportpackingRepository;
         private readonly IBroker _brokerRepository;
         private readonly IDriver _driverRepository;
+        private readonly ICustomerFirmBranchTransportContractRateSetting _customerFirmBranchTransportContractRateSettingRepository;
         private readonly IDriverTypeAdmin _driverTypeAdmin;
         private readonly ICustomerAccountGroupHeader _customerAccountGroupHeader;
         private readonly IAccountGroupType _accountGroupType;
@@ -71,6 +73,7 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportPacking transportpackingRepository,
             IBroker brokerRepository,
             IDriver driverRepository,
+            ICustomerFirmBranchTransportContractRateSetting customerFirmBranchTransportContractRateSettingRepository,
             IDriverTypeAdmin driverTypeAdmin,
             ICustomerAccountGroupHeader customerAccountGroupHeader,
             IAccountGroupType accountGroupType,
@@ -107,6 +110,7 @@ namespace Adroit.Accounting.Web.Controllers
             _transportpackingRepository = transportpackingRepository;
             _brokerRepository = brokerRepository;
             _driverRepository = driverRepository;
+            _customerFirmBranchTransportContractRateSettingRepository = customerFirmBranchTransportContractRateSettingRepository;
             _driverTypeAdmin = driverTypeAdmin;
             _customerAccountGroupHeader = customerAccountGroupHeader;
             _accountGroupType = accountGroupType;

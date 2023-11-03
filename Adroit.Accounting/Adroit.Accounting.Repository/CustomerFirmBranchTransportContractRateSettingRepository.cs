@@ -47,12 +47,6 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<CustomerFirmBranchTransportContractRateSettingGridViewModel>("sp_BrokerList", connectionString, param);
         }
-        public void Delete(int id, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@Id", id);
-            QueryHelper.Save("sp_BrokerDelete", connectionString, parameters);
-        }
         public List<DropdownViewModel> SelectList(string connectionString)
         {
             var parameters = new DynamicParameters();

@@ -142,6 +142,12 @@
         public const string Customer = "Customer";
         public const string Name = "Name";
     }
+    public sealed class CustomerFirmBranchTransportContractRateSettingTable
+    {
+        public const string _TableName = "CustomerFirmBranchTransportContractRateSetting";
+        public const string RatePerKG = "RatePerKG";
+        public const string RatePerParcel = "RatePerParcel";
+    }
 
     public sealed class VehicleModelTable
     {

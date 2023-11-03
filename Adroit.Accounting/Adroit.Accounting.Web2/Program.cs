@@ -99,6 +99,7 @@ try
     builder.Services.AddSingleton<ITransportPacking, TransportPackingRepository>();
     builder.Services.AddSingleton<IBroker, BrokerRepository>();
     builder.Services.AddSingleton<IDriver, DriverRepository>();
+    builder.Services.AddSingleton<ICustomerFirmBranchTransportContractRateSetting, CustomerFirmBranchTransportContractRateSettingRepository>();
     builder.Services.AddSingleton<ITransportDesc, TransportDescRepository>();
     builder.Services.AddSingleton<IProductSize, ProductSizeRepository>();
     builder.Services.AddSingleton<IProductColor, ProductColorRepository>();
