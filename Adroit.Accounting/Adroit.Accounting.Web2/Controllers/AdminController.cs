@@ -58,6 +58,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportDescAdmin _transportDescAdminRepository;
         private readonly ITransportLRCharges _transportLRChargesRepository;
         private readonly IGSTCollection _gstCollectionRepository;
+        private readonly ILRBookingRange _lrBookingRangeRepository;
 
         public AdminController(
             IOptions<ConfigurationData> configurationData,
@@ -106,7 +107,8 @@ namespace Adroit.Accounting.Web.Controllers
             ISalesBillFromAdmin salesBillFromAdminRepository,
             ITransportDescAdmin transportDescAdminRepository,
             ITransportLRCharges transportLRChargesRepository,
-            IGSTCollection gstCollectionRepository
+            IGSTCollection gstCollectionRepository,
+            ILRBookingRange lrBookingRangeRepository
             )
 
         {
@@ -158,6 +160,7 @@ namespace Adroit.Accounting.Web.Controllers
             _transportDescAdminRepository = transportDescAdminRepository;
             _transportLRChargesRepository = transportLRChargesRepository;
             _gstCollectionRepository = gstCollectionRepository;
+            _lrBookingRangeRepository = lrBookingRangeRepository;
         }
     }
 }

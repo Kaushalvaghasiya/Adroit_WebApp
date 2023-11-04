@@ -113,6 +113,7 @@ try
     builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
     builder.Services.AddSingleton<ICustomerFirms, CustomerFirmsRepository>();
     builder.Services.AddSingleton<ICustomerUsers, CustomerUsersRepository>();
+    builder.Services.AddSingleton<ILRBookingRange, LRBookingRangeRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {
