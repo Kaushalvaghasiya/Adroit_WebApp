@@ -23,13 +23,13 @@ namespace Adroit.Accounting.Web.Controllers
                 model.Firm = _customerFirmRepository.Get(id, _configurationData.DefaultConnection);
                 model.FirmId = model.Firm.Id;
             }
-                
+
             model.Firm.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
 
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
             model.BranchTypeList = _branchTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchTable._TableName, CustomerFirmBranchTable.OrderNumber);
-            
+
             return View(model);
         }
 
@@ -66,8 +66,8 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                model.AddedById = LoginHandler.GetUserId(User);
-                model.ModifiedById = LoginHandler.GetUserId(User);
+                model.AddedById = loginId;
+                model.ModifiedById = loginId;
                 int id = _customerFirmBranchesRepository.Save(model, loginId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {

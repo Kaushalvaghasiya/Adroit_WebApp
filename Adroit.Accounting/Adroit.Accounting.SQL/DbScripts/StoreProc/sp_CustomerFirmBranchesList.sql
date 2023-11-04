@@ -40,14 +40,13 @@ Begin
 			[FirmBranchTypeAdmin].Title as FirmBranchTypeAdmin, 
 			[City].Title as City,
 			SoftwarePlan.Code + ' - ' + SoftwarePlan.Title AS SoftwarePlan
-		FROM CustomerFirmBranch
-		LEFT JOIN CustomerFirm ON CustomerFirm.Id=CustomerFirmBranch.FirmId
-		LEFT JOIN FirmBranchTypeAdmin ON CustomerFirmBranch.FirmBranchTypeId=FirmBranchTypeAdmin.Id
-		LEFT JOIN SoftwarePlan ON CustomerFirmBranch.SoftwarePlanId = SoftwarePlan.Id
-		LEFT JOIN Software ON SoftwarePlan.SoftwareId = Software.Id
+		FROM CustomerFirm 
+		INNER JOIN CustomerFirmBranch ON CustomerFirm.Id=CustomerFirmBranch.FirmId
+		INNER JOIN FirmBranchTypeAdmin ON CustomerFirmBranch.FirmBranchTypeId=FirmBranchTypeAdmin.Id
+		INNER JOIN SoftwarePlan ON CustomerFirmBranch.SoftwarePlanId = SoftwarePlan.Id
+		INNER JOIN Software ON SoftwarePlan.SoftwareId = Software.Id
 		LEFT JOIN City ON CustomerFirmBranch.CityId = City.Id
-		WHERE [CustomerFirmBranch].FirmId = @FirmId
-		AND [CustomerFirm].[CustomerId] = @CustomerId
+		WHERE [CustomerFirm].[CustomerId] = @CustomerId AND (@FirmId = 0 OR [CustomerFirm].Id = @FirmId)
 		AND CustomerFirmBranch.Deleted = 0
 		AND (Coalesce(@Search,'') = '' 
 			OR CustomerFirm.[Title] like '%'+ @Search + '%'

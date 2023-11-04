@@ -34,10 +34,7 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
 
-            if (firmId == 0)
-                return QueryHelper.GetList<CustomerFirmBranchGridViewModel>("sp_CustomerFirmAllBranchesByCustomerIdList", connectionString, param);
-            else
-                return QueryHelper.GetList<CustomerFirmBranchGridViewModel>("sp_CustomerFirmBranchesList", connectionString, param);
+            return QueryHelper.GetList<CustomerFirmBranchGridViewModel>("sp_CustomerFirmBranchesList", connectionString, param);
         }
         public int Save(CustomerFirmBranch value, int loginId, string connectionString)
         {

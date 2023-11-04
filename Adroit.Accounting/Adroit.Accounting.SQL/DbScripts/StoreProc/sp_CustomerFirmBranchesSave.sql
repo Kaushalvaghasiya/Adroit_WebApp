@@ -66,7 +66,7 @@ BEGIN
 					SetupPrice= @SetupPrice,
 					RenewalPrice= @RenewalPrice, 
 					OrderNumber= @OrderNumber, 
-					ModifiedById=NULL,  --need to set parameter value
+					ModifiedById=@ModifiedById, 
 					ModifiedOn=GETUTCDATE(),
 					Active=@Active,
 					SoftwarePlanId = @SoftwarePlanId
@@ -91,7 +91,7 @@ BEGIN
 				VALUES
 					(@FirmId,@Title,@PrintTitle,@ShortTitle,@FirmBranchTypeId,@Address1,@Address2,@Address3,@CityId,
 					@StateId,@CountryId,@PinCode,@Phone,@ContactPersonName,@Mobile,@MobileAlternate,@Email,@GSTNumber,
-					@PAN,@EWBAddress1,@EWBAddress2,@RenewalDate,@SetupPrice,@RenewalPrice,@OrderNumber,NULL,GETUTCDATE(),
+					@PAN,@EWBAddress1,@EWBAddress2,@RenewalDate,@SetupPrice,@RenewalPrice,@OrderNumber,@AddedById,GETUTCDATE(),
 					@Active,@SoftwarePlanId
 					)
 
