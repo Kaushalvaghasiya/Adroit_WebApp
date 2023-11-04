@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerListByBranchiMapping_Select]
+CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountListByBranchiMapping_Select]
 (
 	@UserId INT,
 	@BranchId INT

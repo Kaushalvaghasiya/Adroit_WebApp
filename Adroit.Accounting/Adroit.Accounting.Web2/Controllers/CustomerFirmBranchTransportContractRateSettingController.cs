@@ -17,7 +17,7 @@ namespace Adroit.Accounting.Web.Controllers
             int userId = LoginHandler.GetUserId(User);
             int branchId = LoginHandler.GetBranchId(User);
 
-            model.CustomerList = _customerRepository.SelectListByBranchMapping(userId, branchId, _configurationData.DefaultConnection);
+            model.CustomerList = _customerAccountRepo.GetCustomerAccountListByBranchMapping(userId, branchId, _configurationData.DefaultConnection);
             model.CityList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);
             model.RatePerKGList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchTransportContractRateSettingTable._TableName, CustomerFirmBranchTransportContractRateSettingTable.RatePerKG);
             model.RatePerParcelList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchTransportContractRateSettingTable._TableName, CustomerFirmBranchTransportContractRateSettingTable.RatePerParcel);

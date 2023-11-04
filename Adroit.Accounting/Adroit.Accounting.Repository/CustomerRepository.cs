@@ -118,12 +118,5 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Id", softwarePlanId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerListBySoftwarePlan_Select", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectListByBranchMapping(int userId, int branchId, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@UserId", userId);
-            parameters.Add("@BranchId", branchId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerListByBranchiMapping_Select", connectionString, parameters);
-        }
     }
 }
