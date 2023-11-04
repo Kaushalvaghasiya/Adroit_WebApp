@@ -39,10 +39,5 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<CustomerFirmBranchTransportContractRateSettingGridViewModel>("sp_CustomerFirmBranchTransportContractRateSettingList", connectionString, param);
         }
-        public List<DropdownViewModel> SelectList(string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            return QueryHelper.GetList<DropdownViewModel>("sp_BrokerList_Select", connectionString, parameters);
-        }
     }
 }
