@@ -93,7 +93,7 @@
 
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="Title">Driver Name</label>
+                                <label for="DriverName">Driver Name</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="DriverName">
                                     <option></option>
                                     @{
@@ -111,7 +111,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Type">Driver Type</label>
+                                <label for="DriverType">Driver Type</label>
                                 <select class="form-control select2-show-search mode-ed" id="DriverType">
                                     @{
                                         if (Model.DriverTypeList != null)
@@ -211,7 +211,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="LicenceExpiry">LicenceExpiry</label>
+                                <label for="LicenceExpiry">Licence Expiry</label>
                                 <input type="text" class="form-control mode-ed fc-datepicker" id="LicenceExpiry" placeholder="@Constant.DateFormat.ToUpper()" maxlength="100">
                             </div>
                         </div>
@@ -365,7 +365,7 @@
             columns.push({ "data": "Name", "name": "Name" });
             columns.push({ "data": "DriverType", "name": "DriverType" });
             columns.push({ "data": "City", "name": "City" });
-            
+
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
                 lengthChange: false,
@@ -565,13 +565,13 @@
                     return false;
                 }
                 if ($("#DriverName").val().trim().length <= 2) {
-                    showWarning("", "Enter valid Driver name.");
+                    showWarning("", "Enter valid driver name.");
                     $("#DriverName").focus();
                     return false;
                 }
-                if ($("#Address").val().trim() == "") {
-                    showWarning("", "Please enter address.");
-                    $("#Address").focus();
+                if ($("#DriverType").val() == "" || $("#DriverType").val() == null) {
+                    showWarning("", "Please select driver type.");
+                    $("#DriverType").focus();
                     return false;
                 }
                 if ($("#Country").val() == null || $("#Country").val() == "") {
@@ -600,35 +600,47 @@
                     return false;
                 }
 
-                if ($("#Mobile").val().trim() == "") {
-                    showWarning("", "Please enter contact mobile.");
-                    $("#Mobile").focus();
+                if ($("#LicenceNumber").val().trim() == "") {
+                    showWarning("", "Please enter licence number.");
+                    $("#LicenceNumber").focus();
                     return false;
                 }
-                if ($("#Mobile").val().trim().length != 10) {
-                    showWarning("", "Please enter valid mobile number.");
-                    $("#Mobile").focus();
+                if ($("#LicenceIssuePlaceId").val() == null || $("#LicenceIssuePlaceId").val() == "") {
+                    showWarning("", "Please select licence issue place.");
+                    $("#LicenceIssuePlaceId").focus();
                     return false;
                 }
-                if ($("#AadhaarUID").val().trim().length > 0 && $("#AadhaarUID").val().trim().length != 12) {
-                    showWarning("", "Please enter valid Aadhaar UID.");
-                    $("#AadhaarUID").focus();
+                if ($("#LicenceExpiry").val().trim() == "") {
+                    showWarning("", "Please select licence expiry.");
+                    $("#LicenceExpiry").focus();
                     return false;
                 }
-                if ($("#AadhaarUID").val().trim().length > 0 && !isNumber($("#AadhaarUID").val().trim())) {
-                    showWarning("", "Please enter valid Aadhaar UID.");
-                    $("#AadhaarUID").focus();
-                    return false;
+
+                if ($("#Mobile").val().trim() != "") {
+                    if ($("#Mobile").val().trim().length != 10) {
+                        showWarning("", "Please enter valid mobile number.");
+                        $("#Mobile").focus();
+                        return false;
+                    }
+
+                    if (!isNumber($("#Mobile").val().trim()) || $("#Mobile").val().trim().charAt(0) == '0') {
+                        showWarning("", "Please enter valid mobile number.");
+                        $("#Mobile").focus();
+                        return false;
+                    }
                 }
-                if ($("#DriverType").val() == "" || $("#DriverType").val() == null) {
-                    showWarning("", "Please select Driver type.");
-                    $("#DriverType").focus();
-                    return false;
-                }
-                if (!isNumber($("#Mobile").val().trim())) {
-                    showWarning("", "Please enter valid mobile number.");
-                    $("#Mobile").focus();
-                    return false;
+                if ($("#AadhaarUID").val().trim() != "") {
+                    if ($("#AadhaarUID").val().trim().length != 12) {
+                        showWarning("", "Please enter valid adhar uid.");
+                        $("#AadhaarUID").focus();
+                        return false;
+                    }
+
+                    if (!isNumber($("#AadhaarUID").val().trim())) {
+                        showWarning("", "Please enter valid adhar uid.");
+                        $("#AadhaarUID").focus();
+                        return false;
+                    }
                 }
 
                 var savedata = new Object();
