@@ -1,11 +1,5 @@
 ﻿namespace Adroit.Accounting.SQL.Tables
 {
-    public sealed class LRBookingRangeTable
-    {
-        public const string _TableName = "LRBookingRange";
-        public const string StartNumber = "StartNumber";
-        public const string EndNumber = "EndNumber";
-    }
     public sealed class CustomerAccountGroupHeaderTable
     {
         public const string _TableName = "CustomerAccountGroupHeader";
