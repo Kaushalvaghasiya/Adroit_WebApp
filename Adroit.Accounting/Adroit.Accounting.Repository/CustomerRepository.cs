@@ -64,7 +64,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@StatusId", $"{(short)value.StatusId}");
             parameters.Add("@TotalUsers", value.TotalUsers);
             parameters.Add("@AgreeTerms", value.AgreeTerms);
-            parameters.Add("@EmailOtp", value.EmailOtp ?? ""    );
+            parameters.Add("@EmailOtp", value.EmailOtp ?? "");
             parameters.Add("@MobileOtp", value.MobileOtp ?? "");
             parameters.Add("@Active", value.Active);
             parameters.Add("@DefaultUserId", value.DefaultUserId);

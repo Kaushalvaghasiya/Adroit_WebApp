@@ -1,6 +1,7 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
@@ -24,8 +25,8 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomer _customerRepository;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
-        private readonly IProductSize  _productSizeRepository;
-        private readonly IProductColor  _productColorRepository;
+        private readonly IProductSize _productSizeRepository;
+        private readonly IProductColor _productColorRepository;
         private readonly IProductFabric _productFabricRepository;
         private readonly IProductGroup _productGroupRepository;
         private readonly IProductSubGroup _productSubGroupRepository;
@@ -33,6 +34,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportPacking _transportpackingRepository;
         private readonly IBroker _brokerRepository;
         private readonly IDriver _driverRepository;
+        private readonly ICustomerFirmBranchTransportContractRateSetting _customerFirmBranchTransportContractRateSettingRepository;
         private readonly IDriverTypeAdmin _driverTypeAdmin;
         private readonly ICustomerAccountGroupHeader _customerAccountGroupHeader;
         private readonly IAccountGroupType _accountGroupType;
@@ -45,6 +47,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
         protected readonly ICustomerUsers _customerUsersRepository;
         private readonly IEmailService _emailService;
+        private readonly IUser _userRepository;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
@@ -71,6 +74,7 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportPacking transportpackingRepository,
             IBroker brokerRepository,
             IDriver driverRepository,
+            ICustomerFirmBranchTransportContractRateSetting customerFirmBranchTransportContractRateSettingRepository,
             IDriverTypeAdmin driverTypeAdmin,
             ICustomerAccountGroupHeader customerAccountGroupHeader,
             IAccountGroupType accountGroupType,
@@ -84,6 +88,7 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerFirmBranch customerFirmBranchRepository,
             ICustomerUsers customerUsersRepository,
             IEmailService emailService,
+            IUser userRepository,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             ILogger<CustomerController> logger,
@@ -108,6 +113,7 @@ namespace Adroit.Accounting.Web.Controllers
             _transportpackingRepository = transportpackingRepository;
             _brokerRepository = brokerRepository;
             _driverRepository = driverRepository;
+            _customerFirmBranchTransportContractRateSettingRepository = customerFirmBranchTransportContractRateSettingRepository;
             _driverTypeAdmin = driverTypeAdmin;
             _customerAccountGroupHeader = customerAccountGroupHeader;
             _accountGroupType = accountGroupType;
@@ -121,6 +127,7 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmBranchRepository = customerFirmBranchRepository;
             _customerUsersRepository = customerUsersRepository;
             _emailService = emailService;
+            _userRepository = userRepository;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();

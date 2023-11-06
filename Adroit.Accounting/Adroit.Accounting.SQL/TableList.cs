@@ -130,7 +130,8 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
-    public sealed class BrokerTable {
+    public sealed class BrokerTable
+    {
         public const string _TableName = "Broker";
         public const string Name = "Name";
         public const string Brokerage = "Brokerage";
@@ -141,6 +142,12 @@
         public const string _TableName = "Driver";
         public const string Customer = "Customer";
         public const string Name = "Name";
+    }
+    public sealed class CustomerFirmBranchTransportContractRateSettingTable
+    {
+        public const string _TableName = "CustomerFirmBranchTransportContractRateSetting";
+        public const string RatePerKG = "RatePerKG";
+        public const string RatePerParcel = "RatePerParcel";
     }
 
     public sealed class VehicleModelTable
