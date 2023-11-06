@@ -26,16 +26,17 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchSave]
 	 @SetupPrice decimal(16,2),
 	 @RenewalPrice decimal(16,2),
 	 @OrderNumber smallint,
-	 @AddedById INT,
-	 @ModifiedById INT,
 	 @Active bit,
-	 @SoftwarePlanId tinyint
+	 @SoftwarePlanId tinyint,
+	 @LoginId INT
 )
 AS
 BEGIN
+	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+	
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM CustomerFirmBranch WHERE Id = @Id)
+		IF EXISTS (SELECT 1 FROM CustomerFirmBranch WHERE FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId) AND Id = @Id)
 			BEGIN
 				UPDATE CustomerFirmBranch SET
 					FirmId= @FirmId,
@@ -63,18 +64,18 @@ BEGIN
 					SetupPrice= @SetupPrice,
 					RenewalPrice= @RenewalPrice, 
 					OrderNumber= @OrderNumber, 
-					ModifiedById=NULL,  --need to set parameter value
+					ModifiedById=@LoginId, 
 					ModifiedOn=GETUTCDATE(),
 					Active=@Active,
 					SoftwarePlanId = @SoftwarePlanId
-					WHERE ID = @Id
+					WHERE FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId) AND ID = @Id
 			END
 		ELSE
 			BEGIN
 				declare @branchlimit int = 0
 				declare @branchcreated int = 0
-				SELECT @branchlimit = BranchLimit FROM CustomerFirm Where Id = @FirmId
-				SELECT @branchcreated = count(*) FROM CustomerFirmBranch Where FirmId = @FirmId ANd Deleted = 0
+				SELECT @branchlimit = BranchLimit FROM CustomerFirm Where [CustomerId] = @CustomerId AND Id = @FirmId
+				SELECT @branchcreated = count(*) FROM CustomerFirmBranch Where FirmId = @FirmId AND Deleted = 0
 				IF (@branchcreated >= @branchlimit)
 				BEGIN
 					RAISERROR ('%s', 16, 1, 'Branch limit exceeded');
@@ -88,7 +89,7 @@ BEGIN
 				VALUES
 					(@FirmId,@Title,@PrintTitle,@ShortTitle,@FirmBranchTypeId,@Address1,@Address2,@Address3,@CityId,
 					@StateId,@CountryId,@PinCode,@Phone,@ContactPersonName,@Mobile,@MobileAlternate,@Email,@GSTNumber,
-					@PAN,@EWBAddress1,@EWBAddress2,@RenewalDate,@SetupPrice,@RenewalPrice,@OrderNumber,NULL,GETUTCDATE(),
+					@PAN,@EWBAddress1,@EWBAddress2,@RenewalDate,@SetupPrice,@RenewalPrice,@OrderNumber,@LoginId,GETUTCDATE(),
 					@Active,@SoftwarePlanId
 					)
 

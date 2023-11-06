@@ -1,32 +1,32 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUserSave]
 (
 	 @Id int,
-	 @CustomerId int,
+	 @loginId int,
 	 @UserId uniqueidentifier,
 	 @Active bit = 1,
 	 @FirstName VARCHAR(50),
 	 @LastName VARCHAR(50),
 	 @OwnerBranchId INT = NULL,
-	 @AddedById int = NULL,
-	 @ModifiedById INT = NULL,
 	 @AllowUpdateUserMenuSettingToCustomer bit = 0,
 	 @CustomerUserBranchIds NVARCHAR(MAX)
 )
 AS
 BEGIN
+	Declare @CustomerId int = dbo.fn_GetCustomerId(@loginId);
+
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM CustomerUser WHERE Id = @Id)
+		IF EXISTS (SELECT 1 FROM CustomerUser WHERE CustomerUser.CustomerId = @CustomerId AND Id = @Id)
 			BEGIN
 				UPDATE CustomerUser SET
 					Active = @Active, 
-					ModifiedById = @ModifiedById, 
+					ModifiedById = @loginId, 
 					ModifiedOn = GETUTCDATE(),
 					OwnerBranchId = @OwnerBranchId,
 					FirstName = @FirstName,
 					LastName = @LastName,
 					AllowUpdateUserMenuSettingToCustomer = @AllowUpdateUserMenuSettingToCustomer
-					WHERE ID = @Id
+					WHERE CustomerUser.CustomerId = @CustomerId AND ID = @Id 
 
 				DELETE FROM [CustomerUserBranchMapping] where UserId = @Id
 			END
@@ -44,7 +44,7 @@ BEGIN
 				Select 
 				@Id,
 				Id,
-				@AddedById,
+				@loginId,
 				GETUTCDATE()
 				from dbo.[fnStringToIntArray](@CustomerUserBranchIds)
 		

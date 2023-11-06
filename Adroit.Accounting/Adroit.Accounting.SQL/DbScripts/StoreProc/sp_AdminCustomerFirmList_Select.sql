@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmList_Select]
+CREATE OR ALTER PROCEDURE [dbo].[sp_AdminCustomerFirmList_Select]
 (
 	@CustomerId INT
 )

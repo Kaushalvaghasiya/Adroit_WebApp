@@ -1,19 +1,23 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchGet]
 (
-	@Id INT
+	@Id INT,
+	@LoginId INT
 )
 AS
 BEGIN
+	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+	
 	SELECT 
 		CustomerFirmBranch.*, 
 		Taluka.Id As TalukaId,
 		District.Id As DistrictId
-	FROM CustomerFirmBranch 
-	LEFT JOIN City ON CustomerFirmBranch.CityId = City.Id
-	LEFT JOIN Taluka ON City.TalukaId = Taluka.Id
-	LEFT JOIN District ON Taluka.DistrictId = District.Id
-	LEFT JOIN State ON District.StateId = State.Id
-	LEFT JOIN Country ON State.CountryId = Country.Id
-	WHERE CustomerFirmBranch.Id = @Id
+	FROM  [CustomerFirm]
+	INNER JOIN CustomerFirmBranch ON CustomerFirmBranch.FirmId = [CustomerFirm]. Id
+	LEFT JOIN City ON City.Id = CustomerFirmBranch.CityId
+	LEFT JOIN Taluka ON Taluka.Id = City.TalukaId 
+	LEFT JOIN District ON District.Id = Taluka.DistrictId 
+	LEFT JOIN State ON State.Id = District.StateId 
+	LEFT JOIN Country ON Country.Id = State.CountryId 
+	WHERE [CustomerFirm].[CustomerId] = @CustomerId AND CustomerFirmBranch.Id = @Id
 END
 GO

@@ -1,21 +1,25 @@
-CREATE OR ALTER procedure [dbo].[sp_CustomerFirmBranchesDelete]
+CREATE OR ALTER procedure [dbo].[sp_AdminCustomerUserDelete]
 (
 	@Id INT = NULL,
-	@DeletedById INT,
-	@LoginId INT
+	@DeletedById INT
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);	
-	
 	BEGIN TRAN
 	BEGIN TRY
-		UPDATE CustomerFirmBranch SET 
+		UPDATE CustomerUser SET 
 		Active = 0,
-		--DeletedById = NULL,  -- need to change fore key
+		DeletedById = @DeletedById,  
 		DeletedOn = GETUTCDATE(),
 		Deleted = 1
-		WHERE FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId) AND Id= @Id;
+		WHERE Id= @Id ;
+		
+		UPDATE CustomerUserBranchMapping SET 
+		DeletedById = @DeletedById, 
+		DeletedOn = GETUTCDATE(),
+		Deleted = 1
+		WHERE UserId= @Id ;
+	
 	COMMIT TRAN
 	END TRY
 	BEGIN CATCH

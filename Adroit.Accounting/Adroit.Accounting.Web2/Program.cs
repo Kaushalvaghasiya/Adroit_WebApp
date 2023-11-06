@@ -71,13 +71,13 @@ try
     builder.Services.AddSingleton<IAccountGroupAdmin, AccountGroupAdminRepository>();
     builder.Services.AddSingleton<IBillTypeAdmin, BillTypeAdminRepository>();
     builder.Services.AddSingleton<IBillEntryTypeAdmin, BillEntryTypeAdminRepository>();
-    builder.Services.AddSingleton<ICustomerFirm, CustomerFirmRepository>();
+    builder.Services.AddSingleton<IAdminCustomerFirm, AdminCustomerFirmRepository>();
     builder.Services.AddSingleton<IFirmType, FirmTypeRepository>();
     builder.Services.AddSingleton<IGSTFirmType, GSTFirmTypeRepository>();
     builder.Services.AddSingleton<ISoftware, SoftwareRepository>();
-    builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
+    builder.Services.AddSingleton<IAdminCustomerFirmBranch, AdminCustomerFirmBranchRepository>();
     builder.Services.AddSingleton<IBranchTypeAdmin, BranchTypeAdminRepository>();
-    builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
+    builder.Services.AddSingleton<IAdminCustomerUser, AdminCustomerUserRepository>();
     builder.Services.AddSingleton<ICustomerAccountGroupHeader, CustomerAccountGroupHeaderRepository>();
     builder.Services.AddSingleton<ISoftwarePlan, SoftwarePlanRepository>();
     builder.Services.AddSingleton<ICommon, CommonRepository>();
@@ -112,9 +112,9 @@ try
     builder.Services.AddSingleton<IProductPacking, ProductPackingRepository>();
     builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
     builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
-    builder.Services.AddSingleton<ICustomerFirms, CustomerFirmsRepository>();
-    builder.Services.AddSingleton<ICustomerUsers, CustomerUsersRepository>();
-	builder.Services.AddSingleton<ICustomerFirmBranches, CustomerFirmBranchesRepository>();
+    builder.Services.AddSingleton<ICustomerFirm, CustomerFirmRepository>();
+    builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
+	builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

@@ -1,4 +1,4 @@
-CREATE OR ALTER procedure [dbo].[sp_CustomerFirmDelete]
+CREATE OR ALTER procedure [dbo].[sp_AdminCustomerFirmDelete]
 (
 	@Id INT = NULL,
 	@DeletedById INT
@@ -9,12 +9,13 @@ BEGIN
 	BEGIN TRY
 		UPDATE CustomerFirm SET 
 			Active = 0,
-			--DeletedById = NULL,  -- need to change fore key
+			DeletedById = @DeletedById, 
 			DeletedOn = GETUTCDATE(),
 			Deleted = 1
 		WHERE Id= @Id
 
-		UPDATE CustomerFirmBranch SET 
+		UPDATE CustomerFirmBranch SET
+			DeletedById = @DeletedById,
 			DeletedOn = GETUTCDATE(),
 			Deleted = 0
 		WHERE FirmId IN (SELECT ID FROM CustomerFirm WHERE CustomerId = @Id)

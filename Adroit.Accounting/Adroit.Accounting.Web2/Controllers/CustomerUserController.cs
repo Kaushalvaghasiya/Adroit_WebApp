@@ -148,7 +148,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                _customerUsersRepository.Delete(id, LoginHandler.GetUserId(User), loginId, _configurationData.DefaultConnection);
+                _customerUsersRepository.Delete(id, loginId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

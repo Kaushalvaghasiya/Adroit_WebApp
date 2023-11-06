@@ -1,4 +1,5 @@
-CREATE OR ALTER Procedure [dbo].[sp_CustomerUsersList]
+CREATE OR ALTER Procedure [dbo].[sp_AdminCustomerUserList]
+  @CustomerId INT,
   @LoginId int,
   @FirmId int,  
   @Search VARCHAR(100) = '',
@@ -8,8 +9,6 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerUsersList]
   @SortOrder NVARCHAR(10) = 'ASC'
 As
 Begin
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@loginId);
-	
 	SELECT * FROM
 	 (   
 	  SELECT  
@@ -31,8 +30,8 @@ Begin
 	   AspNetUsers.Email
 	  FROM CustomerUser
 	  INNER JOIN AspNetUsers ON CustomerUser.UserId = AspNetUsers.Id
-	  WHERE CustomerUser.CustomerId = @CustomerId
-	  AND CustomerUser.Deleted = 0
+	  WHERE CustomerUser.Deleted = 0
+	  AND CustomerUser.CustomerId = @CustomerId
 	  AND (Coalesce(@Search,'') = '' OR CustomerUser.[FirstName] like '%'+ @Search + '%' OR CustomerUser.[LastName] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

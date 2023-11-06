@@ -18,9 +18,9 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly IBillTypeAdmin _billTypeAdminRepository;
         protected readonly IBillEntryTypeAdmin _billEntryTypeAdminRepository;
         protected readonly ConfigurationData _configurationData;
-        protected readonly ICustomerFirm _customerFirmRepository;
-        protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
-        protected readonly ICustomerUser _customerUserRepository;
+        protected readonly IAdminCustomerFirm _customerFirmRepository;
+        protected readonly IAdminCustomerFirmBranch _customerFirmBranchRepository;
+        protected readonly IAdminCustomerUser _customerUserRepository;
         private readonly ICustomerAccount _customerAccountRepository;
         private readonly IEmailService _emailService;
         private readonly UserManager<IdentityUser> _userManager;
@@ -69,9 +69,9 @@ namespace Adroit.Accounting.Web.Controllers
             IBillTypeAdmin billTypeAdminRepository,
             IBillEntryTypeAdmin billEntryTypeAdminRepository,
             ICustomer customerRepository,
-            ICustomerFirm customerFirmRepository,
-            ICustomerFirmBranch customerFirmBranchRepository,
-            ICustomerUser customerUserRepository,
+            IAdminCustomerFirm customerFirmRepository,
+            IAdminCustomerFirmBranch customerFirmBranchRepository,
+            IAdminCustomerUser customerUserRepository,
             ICustomerAccount customerAccountRepository,
             IEmailService emailService,
             UserManager<IdentityUser> userManager,

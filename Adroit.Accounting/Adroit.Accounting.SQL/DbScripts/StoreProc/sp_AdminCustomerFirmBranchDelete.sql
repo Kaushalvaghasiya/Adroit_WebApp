@@ -1,20 +1,18 @@
-CREATE OR ALTER procedure [dbo].[sp_CustomerFirmBranchDelete]
+CREATE OR ALTER procedure [dbo].[sp_AdminCustomerFirmBranchDelete]
 (
 	@Id INT = NULL,
-	@LoginId INT
+	@DeletedById INT
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);	
-	
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE CustomerFirmBranch SET 
 		Active = 0,
-		DeletedById = @LoginId, 
+		DeletedById = @DeletedById, 
 		DeletedOn = GETUTCDATE(),
 		Deleted = 1
-		WHERE FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId) AND Id= @Id;
+		WHERE Id= @Id ;
 	COMMIT TRAN
 	END TRY
 	BEGIN CATCH

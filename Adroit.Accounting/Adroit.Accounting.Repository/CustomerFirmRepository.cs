@@ -8,38 +8,39 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerFirmRepository : ICustomerFirm
     {
-        public void Delete(int id, int deletedById, string connectionString)
+        public void Delete(int id, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@DeletedById", deletedById);
+            parameters.Add("@UserId", userId);
             QueryHelper.Save("sp_CustomerFirmDelete", connectionString, parameters);
         }
-        public CustomerFirmViewModel Get(int id, string connectionString)
+        public CustomerFirmViewModel Get(int id, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
+            parameters.Add("@UserId", userId);
             return QueryHelper.Get<CustomerFirmViewModel>("sp_CustomerFirmGet", connectionString, parameters);
         }
-        public List<CustomerFirmGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder, int CustomerId)
+        public List<CustomerFirmGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder, int userId)
         {
             var param = new DynamicParameters();
             param.Add("@LoginId", loginId);
             param.Add("@FirmId", firmId);
+            param.Add("@UserId", userId);
             param.Add("@Search", search);
             param.Add("@PageStart", pageStart);
             param.Add("@PageSize", pageSize);
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
-            param.Add("@CustomerId", CustomerId);
 
             return QueryHelper.GetList<CustomerFirmGridViewModel>("sp_CustomerFirmList", connectionString, param);
         }
-        public int Save(CustomerFirm value, string connectionString)
+        public int Save(CustomerFirm value, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            parameters.Add("@CustomerId", value.CustomerId);
+            parameters.Add("@UserId", userId);
             parameters.Add("@BusinessId", value.BusinessId);
             parameters.Add("@Title", value.Title);
             parameters.Add("@OwnerName ", value.OwnerName);
@@ -53,20 +54,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SoftwareId ", value.SoftwareId);
             parameters.Add("@BranchLimit ", value.BranchLimit);
             parameters.Add("@Active", value.Active);
-            parameters.Add("@ModifiedById", value.ModifiedById);
             parameters.Add("@OrderNumber ", value.OrderNumber);
-            parameters.Add("@AddedById ", value.AddedById);
             parameters.Add("@AdharUID", value.AdharUID);
             parameters.Add("@LRResetOnYearEnd", value.LRResetOnYearEnd);
             parameters.Add("@CessRequired", value.CessRequired);
 
             return QueryHelper.Save("sp_CustomerFirmSave", connectionString, parameters);
-        }
-        public List<DropdownViewModel> SelectList(int customerId, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@CustomerId", customerId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmList_Select", connectionString, parameters);
         }
     }
 }

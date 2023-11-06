@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchWithFirmListByCustomer_Select]
+CREATE OR ALTER PROCEDURE [dbo].[sp_AdminCustomerFirmBranchWithFirmListByCustomer_Select]
 (@CustomerId INT)
 AS
 BEGIN
