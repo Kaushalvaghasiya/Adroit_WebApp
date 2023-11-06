@@ -11,6 +11,7 @@ BEGIN
 	From CustomerAccount
 	INNER JOIN CustomerAccountBranchMapping on CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 	WHERE CustomerAccount.CustomerId = @CustomerId
-	AND CustomerAccountBranchMapping.BranchId =@BranchId;
+	AND CustomerAccountBranchMapping.BranchId = @BranchId
+	Order by CustomerAccount.[Name];
 END
 GO
