@@ -38,7 +38,8 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">CUSTOMER NAME</th>
+                                    <th class="border-bottom-0">ACCOUNT/PARTY NAME</th>
+                                    <th class="border-bottom-0">BRANCH NAME</th>
                                     <th class="border-bottom-0">CITY</th>
                                     <th class="border-bottom-0">LR RATE PER KG</th>
                                     <th class="border-bottom-0">LR RATE PER PARCEL</th>
@@ -218,6 +219,12 @@
             colDef.push({
                 "render": function (data, type, row) {
                     return row.customerName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
                 },
                 "targets": colDef.length,
             });

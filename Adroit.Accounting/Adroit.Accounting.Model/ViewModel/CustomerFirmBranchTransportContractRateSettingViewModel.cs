@@ -10,6 +10,7 @@ namespace Adroit.Accounting.Model.ViewModel
     {
         public string City { get; set; }
         public string CustomerName { get; set; }
+        public string BranchName { get; set; }
         public List<DropdownViewModel> AccountBranchMappingList { get; set; }
         public List<DropdownViewModel> CustomerList { get; set; }
         public List<DropdownViewModel> CityList { get; set; }

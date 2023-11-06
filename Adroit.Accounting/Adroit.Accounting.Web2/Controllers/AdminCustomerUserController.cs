@@ -59,7 +59,7 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 //we need add user Id
                 //var UserId = Adroit.Accounting.Web.Utility.LoginHandler.GetUserId(User);
-                model.OwnerBranchId = LoginHandler.GetBranchId(User);
+                model.OwnerBranchId = LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
                 model.AddedById = LoginHandler.GetUserId(User);
 
                 if (model.Id == 0)

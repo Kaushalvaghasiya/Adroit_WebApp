@@ -53,9 +53,9 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int userId = LoginHandler.GetUserId(User);
-                model.OwnerBranchId = LoginHandler.GetBranchId(User);
-                model.ModifiedById = LoginHandler.GetUserId(User);
-                model.AddedById = LoginHandler.GetUserId(User);
+                model.OwnerBranchId = LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
+                model.ModifiedById = userId;
+                model.AddedById = userId;
                 int id = _brokerRepository.Save(model, userId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {

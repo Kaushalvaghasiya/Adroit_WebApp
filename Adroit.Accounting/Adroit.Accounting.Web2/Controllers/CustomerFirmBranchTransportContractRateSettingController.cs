@@ -15,7 +15,7 @@ namespace Adroit.Accounting.Web.Controllers
         {
             CustomerFirmBranchTransportContractRateSettingViewModel model = new CustomerFirmBranchTransportContractRateSettingViewModel() { Id = id };
             int userId = LoginHandler.GetUserId(User);
-            int branchId = LoginHandler.GetBranchId(User);
+            int branchId = LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
 
             model.CustomerList = _customerAccountRepo.GetCustomerAccountListByBranchMapping(userId, branchId, _configurationData.DefaultConnection);
             model.CityList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);
