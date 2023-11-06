@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.CustomerAccountGroupViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.LRBookingRangeViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -8,9 +8,9 @@
         <div class="col-md-12 col-lg-12">
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
-                    <li><a href="#">Master</a></li>
-                    <li><a href="#">Account</a></li>
-                    <li class="active"><span>Secondary Account Group Master</span></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Transport Setting</a></li>
+                    <li class="active"><span>LR Range</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -34,11 +34,9 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">SECONDARY ACCOUNT NAME</th>
-                                    <th class="border-bottom-0">PRIMARY ACCOUNT NAME</th>
-                                    <th class="border-bottom-0">MAIN ACCOUNT GROUP</th>
-                                    <th class="border-bottom-0">CODE</th>
-                                    <th class="border-bottom-0" style="width:130px">ORDER NUMBER</th>
+                                    <th class="border-bottom-0">BRANCH NAME</th>
+                                    <th class="border-bottom-0">LR START NUMBER</th>
+                                    <th class="border-bottom-0">LR END NUMBER</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
@@ -59,9 +57,9 @@
         <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
-                    <li><a href="#">Master</a></li>
-                    <li><a href="#">Account</a></li>
-                    <li><a href="#" class="btn-back">Secondary Account Group Master</a></li>
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Transport Setting</a></li>
+                    <li><a href="#" class="btn-back">LR Range</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
@@ -85,15 +83,15 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-12 col-md-12">
                             <div class="form-group">
-                                <label for="Title">Secondary Account Group Name</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="Title">
+                                <label for="BranchId">Branch Name</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="BranchId">
                                     <option></option>
                                     @{
-                                        if (Model.TitleList != null)
+                                        if (Model.BranchList != null)
                                         {
-                                            foreach (var o in Model.TitleList)
+                                            foreach (var o in Model.BranchList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -102,15 +100,15 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-12 col-md-12">
                             <div class="form-group">
-                                <label for="Code">Code</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="Code">
+                                <label for="StartNumber">LR Start Number</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="StartNumber">
                                     <option></option>
                                     @{
-                                        if (Model.CodeList != null)
+                                        if (Model.StartNumberList != null)
                                         {
-                                            foreach (var o in Model.CodeList)
+                                            foreach (var o in Model.StartNumberList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -119,15 +117,15 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-8 col-md-12">
+                        <div class="col-lg-12 col-md-12">
                             <div class="form-group">
-                                <label for="AccountGroupHeaderId">Primary Account Group</label>
-                                <select class="form-control select2-show-search mode-ed" id="AccountGroupHeaderId">
+                                <label for="EndNumber">LR End Number</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="EndNumber">
                                     <option></option>
                                     @{
-                                        if (Model.CustomerAccountGroupList != null)
+                                        if (Model.EndNumberList != null)
                                         {
-                                            foreach (var o in Model.CustomerAccountGroupList)
+                                            foreach (var o in Model.EndNumberList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -136,41 +134,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12">
-                            <div class="form-group">
-                                <label for="TypeId">Main Account Group</label>
-                                <select class="form-control select2-show-search mode-ed" id="TypeId">
-                                    <option></option>
-                                    @{
-                                        if (Model.AccountGroupTypeList != null)
-                                        {
-                                            foreach (var o in Model.AccountGroupTypeList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
-                                <label for="OrderNumber">Order Number</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="OrderNumber">
-                                    <option></option>
-                                    @{
-                                        if (Model.OrderNumberList != null)
-                                        {
-                                            foreach (var o in Model.OrderNumberList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-2 col-md-12">
+                        <div class="col-lg-12 col-md-12">
                             <div class="form-group">
                                 <div><label for="Active">Active</label></div>
                                 <label class="custom-switch">
@@ -212,11 +176,8 @@
             fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
-            $("#Title").focus();
-
-            //Set auto max value
-            var maxvalue = parseInt($('#OrderNumber option:last-child').val() || 0) + 1;
-            $("#OrderNumber").append(new Option(maxvalue, maxvalue, true, true)).trigger('change');
+            $("#BranchId").focus();
+            
             $("#Active").prop('checked', true);
         }
 
@@ -237,32 +198,20 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.title;
+                    return row.branch;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.customerAccountGroupHeaderName;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.mainAccountGroupName;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.code;
+                    return row.startNumber;
                 },
                 "targets": colDef.length,
                 "className": "text-center"
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.orderNumber;
+                    return row.endNumber;
                 },
                 "targets": colDef.length,
                 "className": "text-center"
@@ -288,12 +237,11 @@
                 "orderable": false
             });
 
-            columns.push({ "data": "customerAccountGroupHeaderName", "name": "customerAccountGroupHeaderName" });
-            columns.push({ "data": "title", "name": "title" });
-            columns.push({ "data": "code", "name": "code" });
-            columns.push({ "data": "orderNumber", "name": "orderNumber" });
+            columns.push({ "data": "branch", "name": "branch" });
+            columns.push({ "data": "startNumber", "name": "startNumber" });
+            columns.push({ "data": "endNumber", "name": "endNumber" });
             columns.push({ "data": "active", "name": "active" });
-            columns.push({ "data": "Id", "name": "Id" });
+            columns.push({ "data": "id", "name": "id" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -321,7 +269,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/customer/customeraccountgrouplist"))',
+                    url: '@(Url.Content("~/admin/lrbookingrangelist"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -337,13 +285,11 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#AccountGroupHeaderId").val(null).trigger('change');
-            $("#TypeId").val(null).trigger('change');
-            $("#Title").val(null).trigger('change');
-            $("#Code").val(null).trigger('change');
-            $("#OrderNumber").val(null).trigger('change');
-
+            $("#BranchId").val(null).trigger('change');
+            $("#StartNumber").val(null).trigger('change');
+            $("#EndNumber").val(null).trigger('change');
             $("#Active").prop('checked', false);
+            
             $("#activeTabName").text("Add");
             setScreenMode(false);
             $(".btn-delete").hide();
@@ -351,49 +297,38 @@
 
         function saveItem() {
             try {
-                if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid secondary account group title.");
+                if ($("#BranchId").val() == "") {
+                    showWarning("", "Please enter valid branch name.");
                     $("#Title").focus();
                     return false;
                 }
-                if ($("#Title").val().length > 50) {
-                    showWarning("", "Secondary account group title must be upto 50 characters long.");
-                    $("#Title").focus();
+                if ($("#StartNumber").val() == null || $("#StartNumber").val() == "") {
+                    showWarning("", "Please enter valid lr start number");
+                    $("#StartNumber").focus();
                     return false;
                 }
-                if ($("#Code").val() == "") {
-                    showWarning("", "Please enter valid secondary account group code.");
-                    $("#Code").focus();
-                    return false;
-                }
-                if ($("#AccountGroupHeaderId").val() == "") {
-                    showWarning("", "Please select primary account group.");
-                    $("#AccountGroupHeaderId").focus();
-                    return false;
-                }
-                if ($("#TypeId").val() == "") {
-                    showWarning("", "Please select main account group.");
-                    $("#TypeId").focus();
+                if ($("#EndNumber").val() == null || $("#EndNumber").val() == "") {
+                    showWarning("", "Please enter valid lr end number");
+                    $("#EndNumber").focus();
                     return false;
                 }
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
-                savedata.AccountGroupHeaderId = $("#AccountGroupHeaderId").val();
-                savedata.TypeId = $("#TypeId").val();
-                savedata.Title = $("#Title").val();
-                savedata.Code = $("#Code").val();
-                savedata.OrderNumber = parseFloat($("#OrderNumber").val());
-                if (isNaN(savedata.OrderNumber)) {
-                    $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
-                    showWarning("", "Please provide valid order number.");
-                    $("#OrderNumber").focus();
+                savedata.BranchId = parseInt($("#BranchId").val());
+                savedata.StartNumber = parseInt($("#StartNumber").val());
+                savedata.EndNumber = parseInt($("#EndNumber").val());
+
+                if (savedata.StartNumber > 25000) {
+                    $('#StartNumber option[value="' + $('#StartNumber').val() + '"]').detach();
+                    showWarning("", "Please provide valid lr start number less than or equal to 25000.");
+                    $("#StartNumber").focus();
                     return false;
                 }
-                if (savedata.OrderNumber > 25000) {
-                    $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
-                    showWarning("", "Please provide valid order number less than or equal to 25000.");
-                    $("#OrderNumber").focus();
+                if (savedata.EndNumber > 25000) {
+                    $('#EndNumber option[value="' + $('#EndNumber').val() + '"]').detach();
+                    showWarning("", "Please provide valid lr end number less than or equal to 25000.");
+                    $("#EndNumber").focus();
                     return false;
                 }
 
@@ -403,7 +338,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveCustomerAccountGroup", "Customer"))",
+                    url: "@(Url.Action("savelrbookingrange", "Admin"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -412,7 +347,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Secondary account group saved successfully.');
+                            showWarning("", 'LR booking range saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -431,16 +366,18 @@
                 unblockUI('container');
                 showError("", e.message);
             }
+
         }
 
         function deleteItem(id) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteCustomerAccountGroup"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteLRBookingRange"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
+                                $('#Title option[value="' + $('#Title').val() + '"]').detach();
                                 refreshDatatableList();
                                 fromReset();
                                 $('.btn-back').click();
@@ -463,7 +400,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetCustomerAccountGroup"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetLRBookingRange"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -479,13 +416,9 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#AccountGroupHeaderId").val(result.data.accountGroupHeaderId).trigger('change');
-                                //$("#TypeId").val(result.data.mainAccountGroupName).trigger('change');
-                                $("#TypeId").val(result.data.typeId).trigger('change');
-                                $("#Title").val(result.data.title).trigger('change');
-                                $("#Code").val(result.data.code).trigger('change');
-                                $("#OrderNumber").val(result.data.orderNumber).trigger('change');
-
+                                $("#BranchId").val(result.data.branchId).trigger('change');
+                                $("#StartNumber").val(result.data.startNumber).trigger('change');
+                                $("#EndNumber").val(result.data.endNumber).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
