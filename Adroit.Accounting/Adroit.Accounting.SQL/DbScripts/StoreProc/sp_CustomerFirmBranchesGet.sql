@@ -11,12 +11,13 @@ BEGIN
 		CustomerFirmBranch.*, 
 		Taluka.Id As TalukaId,
 		District.Id As DistrictId
-	FROM  Country
-	INNER JOIN State ON State.CountryId = Country.Id 
-	INNER JOIN District ON District.StateId = State.Id 
-	INNER JOIN Taluka ON Taluka.DistrictId = District.Id 
-	INNER JOIN City ON City.TalukaId = Taluka.Id 
-	INNER JOIN CustomerFirmBranch  ON CustomerFirmBranch.CityId = City.Id 
-	WHERE FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId) AND CustomerFirmBranch.Id = @Id
+	FROM  [CustomerFirm]
+	INNER JOIN CustomerFirmBranch ON CustomerFirmBranch.FirmId = [CustomerFirm]. Id
+	LEFT JOIN City ON City.Id = CustomerFirmBranch.CityId
+	LEFT JOIN Taluka ON Taluka.Id = City.TalukaId 
+	LEFT JOIN District ON District.Id = Taluka.DistrictId 
+	LEFT JOIN State ON State.Id = District.StateId 
+	LEFT JOIN Country ON Country.Id = State.CountryId 
+	WHERE [CustomerFirm].[CustomerId] = @CustomerId AND CustomerFirmBranch.Id = @Id
 END
 GO
