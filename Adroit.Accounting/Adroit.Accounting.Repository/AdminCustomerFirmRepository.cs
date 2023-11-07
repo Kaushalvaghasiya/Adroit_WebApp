@@ -8,11 +8,11 @@ namespace Adroit.Accounting.Repository
 {
     public class AdminCustomerFirmRepository : IAdminCustomerFirm
     {
-        public void Delete(int id, int deletedById, string connectionString)
+        public void Delete(int id, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@DeletedById", deletedById);
+            parameters.Add("@LoginId", loginId);
             QueryHelper.Save("sp_AdminCustomerFirmDelete", connectionString, parameters);
         }
         public CustomerFirmViewModel Get(int id, string connectionString)

@@ -8,11 +8,11 @@ namespace Adroit.Accounting.Repository
 {
     public class AdminCustomerUserRepository : IAdminCustomerUser
     {
-        public void Delete(int id, int DeletedById, string connectionString)
+        public void Delete(int id, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@DeletedById", DeletedById);
+            parameters.Add("@LoginId", loginId);
             QueryHelper.Save("sp_AdminCustomerUserDelete", connectionString, parameters);
         }
         public CustomerUserViewModel Get(int id, string connectionString)

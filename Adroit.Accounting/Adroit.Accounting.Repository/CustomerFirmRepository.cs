@@ -8,18 +8,18 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerFirmRepository : ICustomerFirm
     {
-        public void Delete(int id, int userId, string connectionString)
+        public void Delete(int id, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@UserId", userId);
+            parameters.Add("@LoginId", loginId);
             QueryHelper.Save("sp_CustomerFirmDelete", connectionString, parameters);
         }
-        public CustomerFirmViewModel Get(int id, int userId, string connectionString)
+        public CustomerFirmViewModel Get(int id, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@UserId", userId);
+            parameters.Add("@LoginId", loginId);
             return QueryHelper.Get<CustomerFirmViewModel>("sp_CustomerFirmGet", connectionString, parameters);
         }
         public List<CustomerFirmGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder, int userId)
@@ -36,11 +36,11 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.GetList<CustomerFirmGridViewModel>("sp_CustomerFirmList", connectionString, param);
         }
-        public int Save(CustomerFirm value, int userId, string connectionString)
+        public int Save(CustomerFirm value, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            parameters.Add("@UserId", userId);
+            parameters.Add("@LoginId", loginId);
             parameters.Add("@BusinessId", value.BusinessId);
             parameters.Add("@Title", value.Title);
             parameters.Add("@OwnerName ", value.OwnerName);

@@ -1,7 +1,7 @@
 CREATE OR ALTER procedure [dbo].[sp_AdminCustomerFirmDelete]
 (
 	@Id INT = NULL,
-	@DeletedById INT
+	@LoginId INT
 )
 AS
 BEGIN
@@ -9,13 +9,13 @@ BEGIN
 	BEGIN TRY
 		UPDATE CustomerFirm SET 
 			Active = 0,
-			DeletedById = @DeletedById, 
+			DeletedById = @LoginId, 
 			DeletedOn = GETUTCDATE(),
 			Deleted = 1
 		WHERE Id= @Id
 
 		UPDATE CustomerFirmBranch SET
-			DeletedById = @DeletedById,
+			DeletedById = @LoginId,
 			DeletedOn = GETUTCDATE(),
 			Deleted = 0
 		WHERE FirmId IN (SELECT ID FROM CustomerFirm WHERE CustomerId = @Id)

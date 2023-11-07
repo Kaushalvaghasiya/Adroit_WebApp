@@ -1,7 +1,7 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmSave]
 (
 	 @Id int,
-	 @UserId int,
+	 @LoginId int,
 	 @BusinessId smallint,
 	 @Title VARCHAR(100),
 	 @OwnerName varchar(100),
@@ -22,7 +22,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmSave]
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@UserId);
+	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
 
 	BEGIN TRAN
 	BEGIN TRY
@@ -44,7 +44,7 @@ BEGIN
 						BranchLimit=@BranchLimit,
 						Active=@Active,
 						OrderNumber=@OrderNumber,
-						ModifiedById=@UserId, 
+						ModifiedById=@LoginId, 
 						ModifiedOn=GETUTCDATE(),
 						AdharUID=@AdharUID,
 						LRResetOnYearEnd=@LRResetOnYearEnd,
@@ -72,7 +72,7 @@ BEGIN
 					(
 					@CustomerId,@BusinessId,@Title,@OwnerName,@TAN,@IECCode,
 					@IsLutBond,@LutBondNumber,@IsGTA,@FirmTypeId,@GstFirmTypeId,
-					@SoftwareId,@BranchLimit,@Active,@OrderNumber,@UserId,
+					@SoftwareId,@BranchLimit,@Active,@OrderNumber,@LoginId,
 					GETUTCDATE(),@AdharUID,@LRResetOnYearEnd,@CessRequired
 					)
 
