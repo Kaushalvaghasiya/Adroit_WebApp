@@ -8,14 +8,14 @@ namespace Adroit.Accounting.Repository
 {
     public class GSTRateRepository : IGSTRate
     {
-        public int Save(GSTRate gstRate, string connectionString)
+        public byte Save(GSTRate gstRate, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", gstRate.Id);
             parameters.Add("@Rate", gstRate.Rate);
             parameters.Add("@OrderNumber", gstRate.OrderNumber);
             parameters.Add("@Active", gstRate.Active);
-            return QueryHelper.Save("sp_GSTRateSave", connectionString, parameters);
+            return (byte)QueryHelper.Save("sp_GSTRateSave", connectionString, parameters);
         }
         public void Delete(int id, string connectionString)
         {
@@ -42,6 +42,11 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<GSTRateGridViewModel>("sp_GSTRateList", connectionString, param);
+        }
+        public List<DropdownViewModel> SelectList(string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            return QueryHelper.GetList<DropdownViewModel>("sp_GSTRateList_Select", connectionString, parameters);
         }
     }
 }

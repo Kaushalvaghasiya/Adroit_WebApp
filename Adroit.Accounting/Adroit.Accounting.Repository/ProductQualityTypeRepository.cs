@@ -44,6 +44,11 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<ProductQualityTypeGridViewModel>("sp_ProductQualityTypeList", connectionString, param);
         }
+        public List<DropdownViewModel> SelectList(string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            return QueryHelper.GetList<DropdownViewModel>("sp_ProductQualityTypeList_Select", connectionString, parameters);
+        }
 
     }
 }

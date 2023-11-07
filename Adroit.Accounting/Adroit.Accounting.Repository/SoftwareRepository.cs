@@ -53,5 +53,11 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<SoftwareGridViewModel>("sp_SoftwareList", connectionString, param);
         }
+        public int GetSoftwareIdByLoginId(int loginId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            return QueryHelper.Get<int>("sp_GetSoftwareIdByUserIdThroughBusinessId", connectionString, parameters);
+        }
     }
 }

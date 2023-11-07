@@ -48,6 +48,8 @@ namespace Adroit.Accounting.Model
         public bool RateUpdate { get; set; }
         public decimal Discount { get; set; }
         public string HSNDesc { get; set; }
+        public string Remarks1 { get; set; }
+        public string Remarks2 { get; set; }
         public int AddedById { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int? DeletedById { get; set; }
@@ -55,5 +57,24 @@ namespace Adroit.Accounting.Model
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
         public bool Active{ get; set; }
+
+        //Only Temp Values For Saving & Listing
+        public string CustomerName { get; set; }
+        public string ProductDesignNumber { get; set; }
+        public string ColorName { get; set; }
+        public string SizeName { get; set; }
+        public string PackingName { get; set; }
+        public string ShadeNumber { get; set; }
+        public string FabricName { get; set; }
+        public string GroupName { get; set; }
+        public string SubGroupName { get; set; }
+        public string StockTypeName { get; set; }
+        public string QualityTypeName { get; set; }
+        public string UQCTypeName { get; set; }
+        public string CategoryName { get; set; }
+        public string GSTCalculationName { get; set; }
+        public string GSTRateName { get; set; }
+        public string AmtCalcName { get; set; }
+        public int SoftwareId { get; set; }
     }
 }
