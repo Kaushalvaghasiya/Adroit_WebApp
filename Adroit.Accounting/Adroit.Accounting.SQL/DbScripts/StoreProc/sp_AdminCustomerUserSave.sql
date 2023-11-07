@@ -1,7 +1,7 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUsersSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_AdminCustomerUserSave]
 (
 	 @Id int,
-	 @loginId int,
+	 @CustomerId int,
 	 @UserId uniqueidentifier,
 	 @Active bit = 1,
 	 @FirstName VARCHAR(50),
@@ -14,11 +14,9 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUsersSave]
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@loginId);
-
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM CustomerUser WHERE CustomerUser.CustomerId = @CustomerId AND Id = @Id)
+		IF EXISTS (SELECT 1 FROM CustomerUser WHERE Id = @Id)
 			BEGIN
 				UPDATE CustomerUser SET
 					Active = @Active, 
@@ -28,7 +26,7 @@ BEGIN
 					FirstName = @FirstName,
 					LastName = @LastName,
 					AllowUpdateUserMenuSettingToCustomer = @AllowUpdateUserMenuSettingToCustomer
-					WHERE CustomerUser.CustomerId = @CustomerId AND ID = @Id 
+					WHERE ID = @Id
 
 				DELETE FROM [CustomerUserBranchMapping] where UserId = @Id
 			END

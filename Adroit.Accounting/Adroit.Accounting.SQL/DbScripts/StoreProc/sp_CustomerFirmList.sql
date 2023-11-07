@@ -1,7 +1,7 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmList]
   @LoginId int,
   @FirmId int,  
-  @CustomerId int,
+  @UserId int,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -9,6 +9,8 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmList]
   @SortOrder NVARCHAR(10) = 'ASC'
 As
 Begin
+	Declare @CustomerId int = dbo.fn_GetCustomerId(@UserId);
+
 	SELECT * FROM
 	 (   
 	  SELECT  
@@ -34,8 +36,7 @@ Begin
 	  LEFT JOIN [FirmTypeAdmin] on CustomerFirm.FirmTypeId = [FirmTypeAdmin].Id
 	  LEFT JOIN	[Customer] ON CustomerFirm.CustomerId = [Customer].Id	
 	  LEFT JOIN	Software ON CustomerFirm.SoftwareId = Software.Id	
-	  WHERE CustomerFirm.Deleted = 0
-	  AND [CustomerFirm].customerId=@CustomerId
+	  WHERE CustomerFirm.CustomerId = @CustomerId AND CustomerFirm.Deleted = 0
 	  AND (Coalesce(@Search,'') = '' 
 			OR CustomerFirm.Title like '%'+ @Search + '%'
 			OR CustomerFirm.[OwnerName] like '%'+ @Search + '%'

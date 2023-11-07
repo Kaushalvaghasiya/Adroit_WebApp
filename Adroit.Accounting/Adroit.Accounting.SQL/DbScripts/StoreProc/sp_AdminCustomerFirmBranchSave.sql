@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchesSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_AdminCustomerFirmBranchSave]
 (
 	 @Id int,
 	 @FirmId INT,
@@ -29,16 +29,13 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchesSave]
 	 @AddedById INT,
 	 @ModifiedById INT,
 	 @Active bit,
-	 @SoftwarePlanId tinyint,
-	 @LoginId INT
+	 @SoftwarePlanId tinyint
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
-	
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM CustomerFirmBranch WHERE FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId) AND Id = @Id)
+		IF EXISTS (SELECT 1 FROM CustomerFirmBranch WHERE Id = @Id)
 			BEGIN
 				UPDATE CustomerFirmBranch SET
 					FirmId= @FirmId,
@@ -70,14 +67,14 @@ BEGIN
 					ModifiedOn=GETUTCDATE(),
 					Active=@Active,
 					SoftwarePlanId = @SoftwarePlanId
-					WHERE FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId) AND ID = @Id
+					WHERE ID = @Id
 			END
 		ELSE
 			BEGIN
 				declare @branchlimit int = 0
 				declare @branchcreated int = 0
-				SELECT @branchlimit = BranchLimit FROM CustomerFirm Where [CustomerId] = @CustomerId AND Id = @FirmId
-				SELECT @branchcreated = count(*) FROM CustomerFirmBranch Where FirmId = @FirmId AND Deleted = 0
+				SELECT @branchlimit = BranchLimit FROM CustomerFirm Where Id = @FirmId
+				SELECT @branchcreated = count(*) FROM CustomerFirmBranch Where FirmId = @FirmId ANd Deleted = 0
 				IF (@branchcreated >= @branchlimit)
 				BEGIN
 					RAISERROR ('%s', 16, 1, 'Branch limit exceeded');

@@ -6,42 +6,40 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class CustomerFirmsRepository : ICustomerFirms
+    public class AdminCustomerFirmRepository : IAdminCustomerFirm
     {
-        public void Delete(int id, int deletedById, int userId, string connectionString)
+        public void Delete(int id, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@DeletedById", deletedById);
-            parameters.Add("@UserId", userId);
-            QueryHelper.Save("sp_CustomerFirmsDelete", connectionString, parameters);
+            parameters.Add("@LoginId", loginId);
+            QueryHelper.Save("sp_AdminCustomerFirmDelete", connectionString, parameters);
         }
-        public CustomerFirmViewModel Get(int id, int userId, string connectionString)
+        public CustomerFirmViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@UserId", userId);
-            return QueryHelper.Get<CustomerFirmViewModel>("sp_CustomerFirmsGet", connectionString, parameters);
+            return QueryHelper.Get<CustomerFirmViewModel>("sp_AdminCustomerFirmGet", connectionString, parameters);
         }
-        public List<CustomerFirmGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder, int userId)
+        public List<CustomerFirmGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder, int CustomerId)
         {
             var param = new DynamicParameters();
             param.Add("@LoginId", loginId);
             param.Add("@FirmId", firmId);
-            param.Add("@UserId", userId);
             param.Add("@Search", search);
             param.Add("@PageStart", pageStart);
             param.Add("@PageSize", pageSize);
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
+            param.Add("@CustomerId", CustomerId);
 
-            return QueryHelper.GetList<CustomerFirmGridViewModel>("sp_CustomerFirmsList", connectionString, param);
+            return QueryHelper.GetList<CustomerFirmGridViewModel>("sp_AdminCustomerFirmList", connectionString, param);
         }
-        public int Save(CustomerFirm value, int userId, string connectionString)
+        public int Save(CustomerFirm value, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            parameters.Add("@UserId", userId);
+            parameters.Add("@CustomerId", value.CustomerId);
             parameters.Add("@BusinessId", value.BusinessId);
             parameters.Add("@Title", value.Title);
             parameters.Add("@OwnerName ", value.OwnerName);
@@ -62,7 +60,13 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LRResetOnYearEnd", value.LRResetOnYearEnd);
             parameters.Add("@CessRequired", value.CessRequired);
 
-            return QueryHelper.Save("sp_CustomerFirmsSave", connectionString, parameters);
+            return QueryHelper.Save("sp_AdminCustomerFirmSave", connectionString, parameters);
+        }
+        public List<DropdownViewModel> SelectList(int customerId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@CustomerId", customerId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_AdminCustomerFirmList_Select", connectionString, parameters);
         }
     }
 }

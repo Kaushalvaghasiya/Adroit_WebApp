@@ -8,17 +8,18 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerFirmBranchRepository : ICustomerFirmBranch
     {
-        public void Delete(int id, int deletedById, string connectionString)
+        public void Delete(int id, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@@DeletedById", deletedById);
+            parameters.Add("@LoginId", loginId);
             QueryHelper.Save("sp_CustomerFirmBranchDelete", connectionString, parameters);
         }
-        public CustomerFirmBranchViewModel Get(int id, string connectionString)
+        public CustomerFirmBranchViewModel Get(int id, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
+            parameters.Add("@LoginId", loginId);
             return QueryHelper.Get<CustomerFirmBranchViewModel>("sp_CustomerFirmBranchGet", connectionString, parameters);
         }
         public List<CustomerFirmBranchGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder)
@@ -34,11 +35,12 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.GetList<CustomerFirmBranchGridViewModel>("sp_CustomerFirmBranchList", connectionString, param);
         }
-        public int Save(CustomerFirmBranch value, string connectionString)
+        public int Save(CustomerFirmBranch value, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
 
             parameters.Add("@Id", value.Id);
+            parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", value.FirmId);
             parameters.Add("@Title", value.Title);
             parameters.Add("@PrintTitle", value.PrintTitle);
@@ -64,24 +66,10 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SetupPrice", value.SetupPrice);
             parameters.Add("@RenewalPrice", value.RenewalPrice);
             parameters.Add("@OrderNumber", value.OrderNumber);
-            parameters.Add("@AddedById", value.AddedById);
-            parameters.Add("@ModifiedById", value.ModifiedById);
             parameters.Add("@Active", value.Active);
             parameters.Add("@SoftwarePlanId", value.SoftwarePlanId);
 
             return QueryHelper.Save("sp_CustomerFirmBranchSave", connectionString, parameters);
-        }
-        public List<DropdownViewModel> SelectList(int customerId, bool withFirmName = false, string connectionString = "")
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@CustomerId", customerId);
-            return QueryHelper.GetList<DropdownViewModel>(withFirmName ? "sp_CustomerFirmBranchWithFirmListByCustomer_Select" : "sp_CustomerFirmBranchListByCustomer_Select", connectionString, parameters);
-        }
-        public List<DropdownViewModel> SelectList(int firmId, string connectionString = "")
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@FirmId", firmId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmBranchList_Select", connectionString, parameters);
         }
     }
 }

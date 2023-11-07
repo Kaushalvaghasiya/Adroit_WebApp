@@ -1,9 +1,12 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUserGet]
 (
-	@userId INT
+	@userId INT,
+	@loginId INT
 )
 AS
 BEGIN
+	Declare @CustomerId int = dbo.fn_GetCustomerId(@loginId);
+	
 	SELECT 
 		CustomerUser.*,
 		(SELECT STUFF((SELECT ',' + CAST(t1.BranchId AS VARCHAR) FROM CustomerUserBranchMapping t1
@@ -13,6 +16,6 @@ BEGIN
 		AspNetUsers.Email
 	FROM CustomerUser
 	Left JOIN dbo.AspNetUsers on CustomerUser.UserId=dbo.AspNetUsers.Id
-	WHERE CustomerUser.id = @userId
+	WHERE CustomerUser.CustomerId = @CustomerId AND CustomerUser.id = @userId
 END
 GO

@@ -23,7 +23,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomerAccountGroup _customerAccountGroupRepo;
         protected readonly ConfigurationData _configurationData;
         protected readonly ICustomer _customerRepository;
-        protected readonly ICustomerFirm _customerFirmRepository;
+        protected readonly IAdminCustomerFirm _customerFirmRepository;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
         private readonly IProductSize _productSizeRepository;
@@ -41,12 +41,12 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IAccountGroupType _accountGroupType;
         protected readonly IProductShadeNumber _productShadeNumberRepository;
         private readonly IProductPacking _productPackingRepository;
-        private readonly ICustomerFirms _customerFirmsRepository;
+        private readonly ICustomerFirm _customerFirmsRepository;
         private readonly IBusiness _businessRepository;
         private readonly IGSTFirmType _gSTFirmTypeRepository;
         private readonly IFirmType _firmTypeRepository;
-        protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
-        protected readonly ICustomerUsers _customerUsersRepository;
+        protected readonly IAdminCustomerFirmBranch _customerFirmBranchRepository;
+        protected readonly ICustomerUser _customerUsersRepository;
         private readonly IEmailService _emailService;
         private readonly IUser _userRepository;
         private readonly UserManager<IdentityUser> _userManager;
@@ -54,7 +54,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<CustomerController> _logger;
         private readonly ICity _cityRepository;
-        private readonly ICustomerFirmBranches _customerFirmBranchesRepository;
+        private readonly ICustomerFirmBranch _customerFirmBranchesRepository;
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
 
@@ -67,7 +67,7 @@ namespace Adroit.Accounting.Web.Controllers
             IOptions<ConfigurationData> configurationData,
             ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
             ICustomerAccountGroup customerAccountGroupRepo,
-            ICustomerUser customerUserRepository,
+            IAdminCustomerUser customerUserRepository,
             ICommon commonRepository,
             ITransportDesc transportDescRepository,
             IProductSize productSizeRepository,
@@ -85,21 +85,21 @@ namespace Adroit.Accounting.Web.Controllers
             IAccountGroupType accountGroupType,
             IProductShadeNumber productShadeNumberRepository,
             IProductPacking productPackingRepository,
-            ICustomerFirms customerFirmsRepository,
+            ICustomerFirm customerFirmsRepository,
             ICustomer customerRepository,
             IBusiness businessRepository,
             IGSTFirmType gSTFirmTypeRepository,
             IFirmType firmTypeRepository,
-            ICustomerFirmBranch customerFirmBranchRepository,
-            ICustomerUsers customerUsersRepository,
+            IAdminCustomerFirmBranch customerFirmBranchRepository,
+            ICustomerUser customerUsersRepository,
             IEmailService emailService,
             IUser userRepository,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             ILogger<CustomerController> logger,
             ICity cityRepository,
-            ICustomerFirmBranches customerFirmBranchesRepository,
-            ICustomerFirm customerFirmRepository,
+            ICustomerFirmBranch customerFirmBranchesRepository,
+            IAdminCustomerFirm customerFirmRepository,
             ISoftwarePlan softwarePlanRepository,
             IBranchTypeAdmin branchTypeRepository)
         {

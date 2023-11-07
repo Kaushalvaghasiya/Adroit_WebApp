@@ -24,9 +24,9 @@ namespace Adroit.Accounting.Web.Controllers
         private ISoftware _softwareRepository;
         private ISoftwarePlan _softwarePlanRepository;
         private ICustomer _customerRepository;
-        private ICustomerFirm _customerFirmRepository;
-        private ICustomerFirmBranch _customerFirmBranchRepository;
-        private ICustomerUser _customerUserRepository;
+        private IAdminCustomerFirm _customerFirmRepository;
+        private IAdminCustomerFirmBranch _customerFirmBranchRepository;
+        private IAdminCustomerUser _customerUserRepository;
         private ICommon _commonRepository;
         private IGSTCollection _gstCollection;
         private IBranchTypeAdmin _branchTypeAdminRepository;
@@ -44,9 +44,9 @@ namespace Adroit.Accounting.Web.Controllers
             IFirmType firmTypeRepository,
             IGSTFirmType gstFirmTypeRepository,
             ICustomer customerRepository,
-            ICustomerFirm customerFirmRepository,
-            ICustomerFirmBranch customerFirmBranchRepository,
-            ICustomerUser customerUserRepository,
+            IAdminCustomerFirm customerFirmRepository,
+            IAdminCustomerFirmBranch customerFirmBranchRepository,
+            IAdminCustomerUser customerUserRepository,
             ICommon commonRepository,
             IGSTCollection gstCollection,
             IBranchTypeAdmin branchTypeAdminRepository

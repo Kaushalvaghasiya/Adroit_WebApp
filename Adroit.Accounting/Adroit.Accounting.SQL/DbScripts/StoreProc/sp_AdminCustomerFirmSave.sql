@@ -1,7 +1,7 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmsSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_AdminCustomerFirmSave]
 (
 	 @Id int,
-	 @UserId int,
+	 @CustomerId int,
 	 @BusinessId smallint,
 	 @Title VARCHAR(100),
 	 @OwnerName varchar(100),
@@ -24,11 +24,9 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmsSave]
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@UserId);
-
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM CustomerFirm WHERE [CustomerId] = @CustomerId AND Id = @Id)
+		IF EXISTS (SELECT 1 FROM CustomerFirm WHERE Id = @Id)
 			BEGIN
 				UPDATE CustomerFirm SET
 						[CustomerId]=@CustomerId,
@@ -46,7 +44,7 @@ BEGIN
 						BranchLimit=@BranchLimit,
 						Active=@Active,
 						OrderNumber=@OrderNumber,
-						ModifiedById=NULL, --need change ref key
+						ModifiedById=@ModifiedById, 
 						ModifiedOn=GETUTCDATE(),
 						AdharUID=@AdharUID,
 						LRResetOnYearEnd=@LRResetOnYearEnd,
@@ -58,7 +56,7 @@ BEGIN
 				declare @firmlimit int = 0
 				declare @firmcreated int = 0
 				SELECT @firmlimit = TotalFirm FROM Customer Where Id = @CustomerId
-				SELECT @firmcreated = count(*) FROM CustomerFirm Where CustomerId = @CustomerId AND Deleted = 0
+				SELECT @firmcreated = count(*) FROM CustomerFirm Where CustomerId = @CustomerId ANd Deleted = 0
 				IF (@firmcreated >= @firmlimit)
 				BEGIN
 					RAISERROR ('%s', 16, 1, 'Firm limit exceeded');
@@ -67,14 +65,14 @@ BEGIN
 				INSERT INTO CustomerFirm
 					([CustomerId],[BusinessId],Title,OwnerName,[TAN],IECCode,
 					IsLutBond,LutBondNumber,IsGTA,FirmTypeId,GstFirmTypeId,
-					SoftwareId,BranchLimit,Active,OrderNumber,
+					SoftwareId,BranchLimit,Active,OrderNumber,AddedById,
 					AddedOn,AdharUID,LRResetOnYearEnd,CessRequired
 					)
 				VALUES
 					(
 					@CustomerId,@BusinessId,@Title,@OwnerName,@TAN,@IECCode,
 					@IsLutBond,@LutBondNumber,@IsGTA,@FirmTypeId,@GstFirmTypeId,
-					@SoftwareId,@BranchLimit,@Active,@OrderNumber,
+					@SoftwareId,@BranchLimit,@Active,@OrderNumber,@AddedById,
 					GETUTCDATE(),@AdharUID,@LRResetOnYearEnd,@CessRequired
 					)
 

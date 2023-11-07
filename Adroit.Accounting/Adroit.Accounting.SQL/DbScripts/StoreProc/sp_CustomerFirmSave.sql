@@ -1,7 +1,7 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmSave]
 (
 	 @Id int,
-	 @CustomerId int,
+	 @LoginId int,
 	 @BusinessId smallint,
 	 @Title VARCHAR(100),
 	 @OwnerName varchar(100),
@@ -15,18 +15,18 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmSave]
 	 @SoftwareId int,
 	 @BranchLimit int,
 	 @Active bit,
-	 @ModifiedById int,
 	 @OrderNumber int,
-	 @AddedById int,
 	 @AdharUID varchar(12),
 	 @LRResetOnYearEnd bit,
 	 @CessRequired bit
 )
 AS
 BEGIN
+	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM CustomerFirm WHERE Id = @Id)
+		IF EXISTS (SELECT 1 FROM CustomerFirm WHERE [CustomerId] = @CustomerId AND Id = @Id)
 			BEGIN
 				UPDATE CustomerFirm SET
 						[CustomerId]=@CustomerId,
@@ -44,7 +44,7 @@ BEGIN
 						BranchLimit=@BranchLimit,
 						Active=@Active,
 						OrderNumber=@OrderNumber,
-						ModifiedById=NULL, --need change ref key
+						ModifiedById=@LoginId, 
 						ModifiedOn=GETUTCDATE(),
 						AdharUID=@AdharUID,
 						LRResetOnYearEnd=@LRResetOnYearEnd,
@@ -56,7 +56,7 @@ BEGIN
 				declare @firmlimit int = 0
 				declare @firmcreated int = 0
 				SELECT @firmlimit = TotalFirm FROM Customer Where Id = @CustomerId
-				SELECT @firmcreated = count(*) FROM CustomerFirm Where CustomerId = @CustomerId ANd Deleted = 0
+				SELECT @firmcreated = count(*) FROM CustomerFirm Where CustomerId = @CustomerId AND Deleted = 0
 				IF (@firmcreated >= @firmlimit)
 				BEGIN
 					RAISERROR ('%s', 16, 1, 'Firm limit exceeded');
@@ -65,14 +65,14 @@ BEGIN
 				INSERT INTO CustomerFirm
 					([CustomerId],[BusinessId],Title,OwnerName,[TAN],IECCode,
 					IsLutBond,LutBondNumber,IsGTA,FirmTypeId,GstFirmTypeId,
-					SoftwareId,BranchLimit,Active,OrderNumber,
+					SoftwareId,BranchLimit,Active,OrderNumber,AddedById,
 					AddedOn,AdharUID,LRResetOnYearEnd,CessRequired
 					)
 				VALUES
 					(
 					@CustomerId,@BusinessId,@Title,@OwnerName,@TAN,@IECCode,
 					@IsLutBond,@LutBondNumber,@IsGTA,@FirmTypeId,@GstFirmTypeId,
-					@SoftwareId,@BranchLimit,@Active,@OrderNumber,
+					@SoftwareId,@BranchLimit,@Active,@OrderNumber,@LoginId,
 					GETUTCDATE(),@AdharUID,@LRResetOnYearEnd,@CessRequired
 					)
 

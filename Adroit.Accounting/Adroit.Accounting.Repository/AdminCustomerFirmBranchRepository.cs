@@ -6,22 +6,20 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class CustomerFirmBranchesRepository : ICustomerFirmBranches
+    public class AdminCustomerFirmBranchRepository : IAdminCustomerFirmBranch
     {
-        public void Delete(int id, int deletedById, int loginId, string connectionString)
+        public void Delete(int id, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@DeletedById", deletedById);
             parameters.Add("@LoginId", loginId);
-            QueryHelper.Save("sp_CustomerFirmBranchesDelete", connectionString, parameters);
+            QueryHelper.Save("sp_AdminCustomerFirmBranchDelete", connectionString, parameters);
         }
-        public CustomerFirmBranchViewModel Get(int id, int loginId, string connectionString)
+        public CustomerFirmBranchViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@LoginId", loginId);
-            return QueryHelper.Get<CustomerFirmBranchViewModel>("sp_CustomerFirmBranchesGet", connectionString, parameters);
+            return QueryHelper.Get<CustomerFirmBranchViewModel>("sp_AdminCustomerFirmBranchGet", connectionString, parameters);
         }
         public List<CustomerFirmBranchGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder)
         {
@@ -34,14 +32,13 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
 
-            return QueryHelper.GetList<CustomerFirmBranchGridViewModel>("sp_CustomerFirmBranchesList", connectionString, param);
+            return QueryHelper.GetList<CustomerFirmBranchGridViewModel>("sp_AdminCustomerFirmBranchList", connectionString, param);
         }
-        public int Save(CustomerFirmBranch value, int loginId, string connectionString)
+        public int Save(CustomerFirmBranch value, string connectionString)
         {
             var parameters = new DynamicParameters();
 
             parameters.Add("@Id", value.Id);
-            parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", value.FirmId);
             parameters.Add("@Title", value.Title);
             parameters.Add("@PrintTitle", value.PrintTitle);
@@ -72,7 +69,19 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Active", value.Active);
             parameters.Add("@SoftwarePlanId", value.SoftwarePlanId);
 
-            return QueryHelper.Save("sp_CustomerFirmBranchesSave", connectionString, parameters);
+            return QueryHelper.Save("sp_AdminCustomerFirmBranchSave", connectionString, parameters);
+        }
+        public List<DropdownViewModel> SelectList(int customerId, bool withFirmName = false, string connectionString = "")
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@CustomerId", customerId);
+            return QueryHelper.GetList<DropdownViewModel>(withFirmName ? "sp_AdminCustomerFirmBranchWithFirmListByCustomer_Select" : "sp_AdminCustomerFirmBranchListByCustomer_Select", connectionString, parameters);
+        }
+        public List<DropdownViewModel> SelectList(int firmId, string connectionString = "")
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@FirmId", firmId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_AdminCustomerFirmBranchList_Select", connectionString, parameters);
         }
     }
 }
