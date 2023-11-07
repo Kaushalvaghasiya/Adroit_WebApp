@@ -6,6 +6,6 @@ namespace Adroit.Accounting.Repository.IRepository
     public interface IProductCategory
     {
         List<DropdownViewModel> SelectList(string connectionString);
-        short Save(ProductCategory value, string connectionString);
+        int Save(ProductCategory value, string connectionString);
     }
 }

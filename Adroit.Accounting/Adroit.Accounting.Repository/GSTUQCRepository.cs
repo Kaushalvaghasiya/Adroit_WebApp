@@ -13,7 +13,7 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_GSTUQCList_Select", connectionString, parameters);
         }
-        public byte Save(GSTUQC gstUQC, string connectionString)
+        public int Save(GSTUQC gstUQC, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", gstUQC.Id);
@@ -22,7 +22,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@CodeEWayBill", gstUQC.CodeEWayBill);
             parameters.Add("@OrderNumber", gstUQC.OrderNumber);
             parameters.Add("@Active", gstUQC.Active);
-            return (byte)QueryHelper.Save("sp_GSTUQCSave", connectionString, parameters);
+            return QueryHelper.Save("sp_GSTUQCSave", connectionString, parameters);
         }
     }
 }

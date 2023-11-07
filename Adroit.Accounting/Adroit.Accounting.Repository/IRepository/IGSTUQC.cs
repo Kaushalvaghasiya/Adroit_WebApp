@@ -6,6 +6,6 @@ namespace Adroit.Accounting.Repository.IRepository
     public interface IGSTUQC
     {
         List<DropdownViewModel> SelectList(string connectionString);
-        byte Save(GSTUQC value, string connectionString);
+        int Save(GSTUQC value, string connectionString);
     }
 }

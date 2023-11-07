@@ -8,14 +8,14 @@ namespace Adroit.Accounting.Repository
 {
     public class GSTRateRepository : IGSTRate
     {
-        public byte Save(GSTRate gstRate, string connectionString)
+        public int Save(GSTRate gstRate, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", gstRate.Id);
             parameters.Add("@Rate", gstRate.Rate);
             parameters.Add("@OrderNumber", gstRate.OrderNumber);
             parameters.Add("@Active", gstRate.Active);
-            return (byte)QueryHelper.Save("sp_GSTRateSave", connectionString, parameters);
+            return QueryHelper.Save("sp_GSTRateSave", connectionString, parameters);
         }
         public void Delete(int id, string connectionString)
         {

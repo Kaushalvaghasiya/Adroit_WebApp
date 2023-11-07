@@ -13,14 +13,14 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_ProductCategoryList_Select", connectionString, parameters);
         }
-        public short Save(ProductCategory value, string connectionString)
+        public int Save(ProductCategory value, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
             parameters.Add("@Title", value.Title);
             parameters.Add("@OrderNumber", value.OrderNumber);
             parameters.Add("@Active", value.Active);
-            return (short)QueryHelper.Save("sp_ProductCategorySave", connectionString, parameters);
+            return QueryHelper.Save("sp_ProductCategorySave", connectionString, parameters);
         }
     }
 }
