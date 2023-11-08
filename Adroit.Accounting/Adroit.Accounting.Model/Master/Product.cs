@@ -58,23 +58,5 @@ namespace Adroit.Accounting.Model
         public System.DateTime? ModifiedOn { get; set; }
         public bool Active{ get; set; }
 
-        //Only Temp Values For Saving & Listing
-        public string CustomerName { get; set; }
-        public string ProductDesignNumber { get; set; }
-        public string ColorName { get; set; }
-        public string SizeName { get; set; }
-        public string PackingName { get; set; }
-        public string ShadeNumber { get; set; }
-        public string FabricName { get; set; }
-        public string GroupName { get; set; }
-        public string SubGroupName { get; set; }
-        public string StockTypeName { get; set; }
-        public string QualityTypeName { get; set; }
-        public string UQCTypeName { get; set; }
-        public string CategoryName { get; set; }
-        public string GSTCalculationName { get; set; }
-        public string GSTRateName { get; set; }
-        public string AmtCalcName { get; set; }
-        public int SoftwareId { get; set; }
     }
 }

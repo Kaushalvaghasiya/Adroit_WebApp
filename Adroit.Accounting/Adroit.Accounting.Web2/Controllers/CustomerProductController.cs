@@ -18,7 +18,7 @@ namespace Adroit.Accounting.Web.Controllers
             var model = new ProductViewModel();
 
             int loginId = LoginHandler.GetUserId(User);
-            model.SoftwareId = (byte)_softwareRepository.GetSoftwareIdByLoginId(loginId, _configurationData.DefaultConnection);
+            model.SoftwareId = _softwareRepository.GetSoftwareIdByLoginId(loginId, _configurationData.DefaultConnection);
 
             model.CodeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductTable._TableName, ProductTable.Code);
             model.ProductList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductTable._TableName, ProductTable.Title);
@@ -50,7 +50,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.GSTCalculationList = _gstCalculationRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductSubGroupList = _productSubGroupRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductGroupList = _productGroupRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductAmtCalcOnList = _productAmtCalcOnRepository.SelectList(model.SoftwareId, _configurationData.DefaultConnection);
+            model.ProductAmtCalcOnList = _productAmtCalcOnRepository.SelectList((byte)model.SoftwareId, _configurationData.DefaultConnection);
             model.ProductQualityTypeList = _productQualityTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductShadeNumberList = _productShadeNumberRepository.SelectList(_configurationData.DefaultConnection);
             model.GSTRateList = _gstRateRepository.SelectList(_configurationData.DefaultConnection);
@@ -85,7 +85,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveProduct([FromBody] Product model)
+        public JsonResult SaveProduct([FromBody] ProductViewModel model)
         {
             ApiResult result = new ApiResult();
             try

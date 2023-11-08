@@ -16,7 +16,7 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.GetList<DropdownViewModel>("sp_ProductList_Select", connectionString, parameters);
         }
 
-        public int Save(Product value, int loginId,string connectionString)
+        public int Save(ProductViewModel value, int loginId,string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
