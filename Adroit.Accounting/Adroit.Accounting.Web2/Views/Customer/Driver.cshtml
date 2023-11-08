@@ -37,7 +37,7 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">Driver</th>
+                                    <th class="border-bottom-0">DRIVER</th>
                                     <th class="border-bottom-0">TYPE</th>
                                     <th class="border-bottom-0">CITY</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
@@ -72,7 +72,6 @@
                         </span>
                         <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
                         <a href="#" class="btn-underdevelopment btn btn-blue text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
-                        <a href="#" class="btn-underdevelopment btn btn-success text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send"><span><i class="fa fa-share-alt"></i></span></a>
                         <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="delete"><span><i class="fa fa-trash-o"></i></span></a>
                         <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-arrow-left"></i></span>                        </a>
@@ -246,7 +245,6 @@
                 <div class="card-footer text-right">
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
-                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
                     <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="New"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel" id="btnCancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
@@ -600,21 +598,22 @@
                     return false;
                 }
 
-                if ($("#LicenceNumber").val().trim() == "") {
-                    showWarning("", "Please enter licence number.");
-                    $("#LicenceNumber").focus();
-                    return false;
+                if ($("#LicenceNumber").val().trim() != "") {
+                    // showWarning("", "Please enter licence number.");
+                    // $("#LicenceNumber").focus();
+                    // return false;
+                    if ($("#LicenceIssuePlaceId").val() == null || $("#LicenceIssuePlaceId").val() == "") {
+                        showWarning("", "Please select licence issue place.");
+                        $("#LicenceIssuePlaceId").focus();
+                        return false;
+                    }
+                    if ($("#LicenceExpiry").val().trim() == "") {
+                        showWarning("", "Please select licence expiry.");
+                        $("#LicenceExpiry").focus();
+                        return false;
+                    }
                 }
-                if ($("#LicenceIssuePlaceId").val() == null || $("#LicenceIssuePlaceId").val() == "") {
-                    showWarning("", "Please select licence issue place.");
-                    $("#LicenceIssuePlaceId").focus();
-                    return false;
-                }
-                if ($("#LicenceExpiry").val().trim() == "") {
-                    showWarning("", "Please select licence expiry.");
-                    $("#LicenceExpiry").focus();
-                    return false;
-                }
+
 
                 if ($("#Mobile").val().trim() != "") {
                     if ($("#Mobile").val().trim().length != 10) {
