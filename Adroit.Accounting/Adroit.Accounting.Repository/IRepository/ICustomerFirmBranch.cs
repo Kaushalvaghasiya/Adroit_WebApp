@@ -8,6 +8,7 @@ namespace Adroit.Accounting.Repository.IRepository
         int Save(CustomerFirmBranch value, int loginId, string connectionString);
         CustomerFirmBranchViewModel Get(int id, int loginId, string connectionString);
         List<CustomerFirmBranchGridViewModel> List(string connectionString, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
-        void Delete(int id, int loginId, string connectionString);        
+        void Delete(int id, int loginId, string connectionString);
+        List<DropdownViewModel> SelectListByLoginId(int loginId, string connectionString);
     }
 }

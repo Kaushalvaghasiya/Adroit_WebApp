@@ -112,9 +112,10 @@ try
     builder.Services.AddSingleton<IProductPacking, ProductPackingRepository>();
     builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
     builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
+    builder.Services.AddSingleton<ILRBookingRange, LRBookingRangeRepository>();
     builder.Services.AddSingleton<ICustomerFirm, CustomerFirmRepository>();
     builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
-	builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
+    builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {
