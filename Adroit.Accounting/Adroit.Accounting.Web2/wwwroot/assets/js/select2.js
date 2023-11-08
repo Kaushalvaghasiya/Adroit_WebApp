@@ -23,6 +23,26 @@ $(function () {
         tags: true
     });
 
+    $('.select2-show-search-add-float-2').select2({
+        placeholder: 'Choose one',
+        searchInputPlaceholder: 'Search',
+        width: '100%',
+        tags: true,
+        createTag: function (params) {
+            var term = params.term;
+
+            if (term === '') {
+                return null;
+            }
+
+            return {
+                id: parseFloat(term).toFixed(2),
+                text: parseFloat(term).toFixed(2),
+                newTag: true // add additional parameters
+            }
+        }
+    });
+
     $('.select2-clear').select2({
         placeholder: 'Choose one',
         searchInputPlaceholder: 'Search',

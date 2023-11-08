@@ -111,7 +111,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Brokerage">Brokerage in %</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="Brokerage">
+                                <select class="form-control select2-show-search-add-float-2 mode-ed" id="Brokerage">
                                     <option>0.00</option>
                                     @{
                                         if (Model.BrokerageList != null)
@@ -604,6 +604,20 @@
                     if (!isNumber($("#Mobile").val().trim()) || $("#Mobile").val().trim().charAt(0) == '0') {
                         showWarning("", "Please enter valid mobile number.");
                         $("#Mobile").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#MobileAlternate").val().trim() != "") {
+                    if ($("#MobileAlternate").val().trim().length != 10) {
+                        showWarning("", "Please enter valid alternate mobile number.");
+                        $("#MobileAlternate").focus();
+                        return false;
+                    }
+
+                    if (!isNumber($("#MobileAlternate").val().trim()) || $("#MobileAlternate").val().trim().charAt(0) == '0') {
+                        showWarning("", "Please enter valid alternate mobile number.");
+                        $("#MobileAlternate").focus();
                         return false;
                     }
                 }
