@@ -55,6 +55,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ILogger<CustomerController> _logger;
         private readonly ICity _cityRepository;
         private readonly ICustomerFirmBranch _customerFirmBranchesRepository;
+        private readonly ILRBookingRange _lrBookingRangeRepository;
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
         private readonly ICustomerFirmBranchLRRate _customerFirmBranchLRRateRepository;
@@ -100,6 +101,7 @@ namespace Adroit.Accounting.Web.Controllers
             ILogger<CustomerController> logger,
             ICity cityRepository,
             ICustomerFirmBranch customerFirmBranchesRepository,
+            ILRBookingRange lrBookingRangeRepository,
             IAdminCustomerFirm customerFirmRepository,
             ISoftwarePlan softwarePlanRepository,
             IBranchTypeAdmin branchTypeRepository,
@@ -145,6 +147,7 @@ namespace Adroit.Accounting.Web.Controllers
             _logger = logger;
             _cityRepository = cityRepository;
             _customerFirmBranchesRepository = customerFirmBranchesRepository;
+            _lrBookingRangeRepository = lrBookingRangeRepository;
             _customerFirmRepository = customerFirmRepository;
             _softwarePlanRepository = softwarePlanRepository;
             _branchTypeRepository = branchTypeRepository;

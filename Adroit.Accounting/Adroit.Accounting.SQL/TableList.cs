@@ -299,5 +299,11 @@
         public const string CommissionPerKg = "CommissionPerKg";
         public const string CommissionPerParcel = "CommissionPerParcel";
     }
+    public sealed class LRBookingRangeTable
+    {
+        public const string _TableName = "LRBookingRange";
+        public const string StartNumber = "StartNumber";
+        public const string EndNumber = "EndNumber";
+    }
     #endregion
 }
