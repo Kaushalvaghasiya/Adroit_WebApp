@@ -10,7 +10,8 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Product</a></li>
-                    <li class="active"><span>Product Group Master</span></li>
+                    <li><a href="#">Group</a></li>
+                    <li class="active"><span>List</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -34,10 +35,10 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">Product Group</th>
+                                    <th class="border-bottom-0">Group NAME</th>
                                     <th class="border-bottom-0" style="width:130px">ORDER NUMBER</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
-                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">ACTION</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -58,7 +59,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Product</a></li>
-                    <li><a href="#" class="btn-back">Product Group</a></li>
+                    <li><a href="#" class="btn-back">Group</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
@@ -84,7 +85,7 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-12">
                             <div class="form-group">
-                                <label for="Title">Product Group</label>
+                                <label for="Title">Group Name</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="Title">
                                     <option></option>
                                     @{
@@ -273,23 +274,33 @@
         function saveItem() {
             try {
                 if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid Product Group title.");
+                    showWarning("", "Please enter valid group name.");
                     $("#Title").focus();
                     return false;
                 }
 
                 if ($("#Title").val().length > 40) {
-                    showWarning("", "Product Group title must be upto 40 characters long.");
+                    showWarning("", "Group name must be upto 40 characters long.");
                     $("#Title").focus();
                     return false;
                 }
-
-                 
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Title = $("#Title").val();
                 savedata.OrderNumber = parseInt($("#OrderNumber").val());
+                if (isNaN(savedata.OrderNumber)) {
+                    $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
+                    showWarning("", "Please provide valid order number.");
+                    $("#OrderNumber").focus();
+                    return false;
+                }
+                if (savedata.OrderNumber > 25000) {
+                    $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
+                    showWarning("", "Please provide valid order number less than or equal to 25000.");
+                    $("#OrderNumber").focus();
+                    return false;
+                }
                 savedata.Active = $("#Active").prop('checked');
 
                 blockUI('container');
@@ -305,7 +316,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Product Group saved successfully.');
+                            showWarning("", 'Group saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();

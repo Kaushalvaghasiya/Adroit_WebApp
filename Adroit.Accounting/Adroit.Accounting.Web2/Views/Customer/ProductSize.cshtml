@@ -9,8 +9,9 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">LR</a></li>
-                    <li class="active"><span>Product Size master</span></li>
+                    <li><a href="#">Product</a></li>
+                    <li><a href="#">Size</a></li>
+                    <li class="active"><span>List</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -34,10 +35,10 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">Product Size</th>
+                                    <th class="border-bottom-0">SIZE NAME</th>
                                     <th class="border-bottom-0" style="width:130px">ORDER NUMBER</th>
                                     <th class="border-bottom-0" style="width:100px">ACTIVE</th>
-                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">ACTION</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,8 +58,8 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">LR</a></li>
-                    <li><a href="#" class="btn-back">Product Size</a></li>
+                    <li><a href="#">Product</a></li>
+                    <li><a href="#" class="btn-back">Size</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
@@ -84,7 +85,7 @@
                     <div class="row">
                         <div class="col-lg-8 col-md-12">
                             <div class="form-group">
-                                <label for="Title">Product Size</label>
+                                <label for="Title">Size Name</label>
                                 <select class="form-control select2-show-search-add mode-ed" id="Title">
                                     <option></option>
                                     @{
@@ -216,7 +217,7 @@
             });
 
             columns.push({ "data": "Title", "name": "title" });
-            columns.push({ "data": "OrderNumber", "name": "ordernumber" });
+            columns.push({ "data": "OrderNumber", "name": "orderNumber" });
             columns.push({ "data": "Active", "name": "active" });
             //columns.push({ "data": "Id", "name": "Id" });
 
@@ -273,13 +274,13 @@
         function saveItem() {
             try {
                 if ($("#Title").val() == "") {
-                    showWarning("", "Please enter valid Product Size title.");
+                    showWarning("", "Please enter valid size name.");
                     $("#Title").focus();
                     return false;
                 }
 
                 if ($("#Title").val().length > 50) {
-                    showWarning("", "Product Size title must be upto 50 characters long.");
+                    showWarning("", "Size name must be upto 50 characters long.");
                     $("#Title").focus();
                     return false;
                 }
@@ -290,6 +291,18 @@
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Title = $("#Title").val();
                 savedata.OrderNumber = parseInt($("#OrderNumber").val());
+                if (isNaN(savedata.OrderNumber)) {
+                    $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
+                    showWarning("", "Please provide valid order number.");
+                    $("#OrderNumber").focus();
+                    return false;
+                }
+                if (savedata.OrderNumber > 25000) {
+                    $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
+                    showWarning("", "Please provide valid order number less than or equal to 25000.");
+                    $("#OrderNumber").focus();
+                    return false;
+                }
                 savedata.Active = $("#Active").prop('checked');
 
                 blockUI('container');
@@ -305,7 +318,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Product Size saved successfully.');
+                            showWarning("", 'Size saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
