@@ -16,11 +16,11 @@ namespace Adroit.Accounting.Model
         public int? CityId { get; set; }
         public int? StateId { get; set; }
         public string Pincode { get; set; }
-        public int LicenceIssuePlaceId { get; set; }
+        public int? LicenceIssuePlaceId { get; set; }
         public string LicenceNumber { get; set; }
         public string AdharUID { get; set; }
         public string Mobile { get; set; }
-        public System.DateTime LicenceExpiry { get; set; }
+        public System.DateTime? LicenceExpiry { get; set; }
         public byte DriverTypeId { get; set; }
         public bool Deleted { get; set; }
         public bool Active { get; set; } = true;

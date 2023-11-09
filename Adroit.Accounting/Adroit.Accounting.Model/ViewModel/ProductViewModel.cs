@@ -57,5 +57,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string GSTCalculationName { get; set; }
         public string GSTRateName { get; set; }
         public string AmtCalcName { get; set; }
+        public byte softwareId { get; set; }
+        public int loginId { get; set; }
     }
 }

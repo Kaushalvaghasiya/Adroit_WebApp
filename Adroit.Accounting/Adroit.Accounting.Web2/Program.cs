@@ -27,9 +27,8 @@ try
     builder.Host.UseNLog();
 
     // Add services to the container.
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(connectionString));
+    var connectionString = builder.Configuration.GetSection("ConfigurationData").GetValue<string>("DefaultConnection");
+    builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
     builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
     builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -47,7 +46,7 @@ try
         options.JsonSerializerOptions.Converters.Add(new CustomDateTimeConverter());
     });
 
-    builder.Services.Configure<ConfigurationData>(builder.Configuration.GetSection("ConnectionStrings"));
+    builder.Services.Configure<ConfigurationData>(builder.Configuration.GetSection("ConfigurationData"));
     builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
     builder.Services.AddSingleton<IEmailService, EmailService>();
     builder.Services.AddSingleton<IUser, UserRepository>();
@@ -112,6 +111,7 @@ try
     builder.Services.AddSingleton<IProductPacking, ProductPackingRepository>();
     builder.Services.AddSingleton<ITransportDescAdmin, TransportDescAdminRepository>();
     builder.Services.AddSingleton<ITransportLRCharges, TransportLRChargesRepository>();
+    builder.Services.AddSingleton<ILRBookingRange, LRBookingRangeRepository>();
     builder.Services.AddSingleton<ICustomerFirm, CustomerFirmRepository>();
     builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
 	builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();

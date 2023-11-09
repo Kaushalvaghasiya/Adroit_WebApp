@@ -135,7 +135,7 @@ namespace Adroit.Accounting.Web.Controllers
                 {
                     var customer = _customerRepo.Get(user.Email, _configurationData.DefaultConnection);
                     var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false)));
-                    string url = $"{Request.Scheme}://{Request.Host.ToUriComponent()}/Authentication/ResetPassword?code={code}";
+                    string url = $"{_configurationData.SiteURL}/Authentication/ResetPassword?code={code}";
 
                     var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\ResetPassword.html"));
                     msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(customer.Name) ? customer.Name : customer.Email);

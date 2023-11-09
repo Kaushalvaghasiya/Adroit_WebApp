@@ -16,12 +16,12 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.GetList<DropdownViewModel>("sp_ProductList_Select", connectionString, parameters);
         }
 
-        public int Save(ProductViewModel value, int loginId, int SoftwareId, string connectionString)
+        public int Save(ProductViewModel value, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            parameters.Add("@loginId", loginId);
-            parameters.Add("@SoftwareId", SoftwareId);
+            parameters.Add("@loginId", value.loginId);
+            parameters.Add("@SoftwareId", value.softwareId);
             parameters.Add("@Title", value.Title);
             parameters.Add("@Code", value.Code);
             parameters.Add("@PrintName", value.PrintName);
