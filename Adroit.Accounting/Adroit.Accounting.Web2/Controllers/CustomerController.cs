@@ -57,6 +57,11 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICustomerFirmBranch _customerFirmBranchesRepository;
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
+        private readonly ICustomerBook _customerBookRepository;
+        private readonly IBookTypeAdmin _bookTypeRepository;
+        protected readonly IBillTypeAdmin _billTypeAdminRepository;
+        protected readonly ISalesBillFromAdmin _salesBillFromAdminRepository;
+        
 
         public CustomerController(
             IVehicle vehicleRepo,
@@ -101,7 +106,11 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerFirmBranch customerFirmBranchesRepository,
             IAdminCustomerFirm customerFirmRepository,
             ISoftwarePlan softwarePlanRepository,
-            IBranchTypeAdmin branchTypeRepository)
+            IBranchTypeAdmin branchTypeRepository,
+            ICustomerBook customerBookRepository,
+            IBookTypeAdmin bookTypeRepository,
+            IBillTypeAdmin billTypeAdminRepository,
+            ISalesBillFromAdmin salesBillFromAdminRepository)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -146,6 +155,10 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmRepository = customerFirmRepository;
             _softwarePlanRepository = softwarePlanRepository;
             _branchTypeRepository = branchTypeRepository;
+            _customerBookRepository = customerBookRepository;
+            _bookTypeRepository = bookTypeRepository;
+            _billTypeAdminRepository = billTypeAdminRepository;
+            _salesBillFromAdminRepository = salesBillFromAdminRepository;
         }
 
         public IActionResult Account()

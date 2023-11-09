@@ -11,5 +11,6 @@ namespace Adroit.Accounting.Repository.IRepository
         public bool Delete(int id, string connectionString, int loginId = 0, int firmId = 0);
         public List<DropdownViewModel> GetCustomerAccountList(string connectionString, int loginId = 0, int firmId = 0);
         public List<DropdownViewModel> GetCustomerAccountListByBranchMapping(int userId, int branchId, string connectionString);
+        List<DropdownViewModel> GetCustomerAccountListWithAccountGroup(string connectionString, int loginId = 0, int firmId = 0);
     }
 }

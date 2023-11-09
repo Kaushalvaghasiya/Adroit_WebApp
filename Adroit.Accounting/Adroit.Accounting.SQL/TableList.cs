@@ -288,4 +288,14 @@
         public const string OrderNumber = "OrderNumber";
     }
     #endregion
+
+    #region Adroit - Customer
+    public sealed class CustomerAccountTable
+    {
+        public const string _TableName = "CustomerAccount";
+        public const string AreaName = "AreaName";
+        public const string TransportName = "TransportName";
+        public const string Name = "Name";
+    }
+    #endregion
 }
