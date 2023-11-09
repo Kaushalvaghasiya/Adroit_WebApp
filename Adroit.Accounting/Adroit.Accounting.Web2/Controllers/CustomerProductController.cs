@@ -18,7 +18,7 @@ namespace Adroit.Accounting.Web.Controllers
             var model = new ProductViewModel();
 
             int loginId = LoginHandler.GetUserId(User);
-            model.SoftwareId = _softwareRepository.GetSoftwareIdByLoginId(loginId, _configurationData.DefaultConnection);
+            int SoftwareId = _softwareRepository.GetSoftwareIdByLoginId(loginId, _configurationData.DefaultConnection);
 
             model.CodeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductTable._TableName, ProductTable.Code);
             model.ProductList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductTable._TableName, ProductTable.Title);
@@ -50,7 +50,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.GSTCalculationList = _gstCalculationRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductSubGroupList = _productSubGroupRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductGroupList = _productGroupRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductAmtCalcOnList = _productAmtCalcOnRepository.SelectList((byte)model.SoftwareId, _configurationData.DefaultConnection);
+            model.ProductAmtCalcOnList = _productAmtCalcOnRepository.SelectList(SoftwareId, _configurationData.DefaultConnection);
             model.ProductQualityTypeList = _productQualityTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductShadeNumberList = _productShadeNumberRepository.SelectList(_configurationData.DefaultConnection);
             model.GSTRateList = _gstRateRepository.SelectList(_configurationData.DefaultConnection);
@@ -91,8 +91,9 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
+                int SoftwareId = _softwareRepository.GetSoftwareIdByLoginId(loginId, _configurationData.DefaultConnection);
 
-                int id = _productRepository.Save(model, loginId,_configurationData.DefaultConnection);
+                int id = _productRepository.Save(model, loginId, SoftwareId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;

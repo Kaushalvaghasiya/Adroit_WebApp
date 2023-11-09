@@ -2,6 +2,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSave]
 (
 	 @Id INT,
 	 @loginId INT,
+	 @SoftwareId INT,
 	 @Title NVARCHAR(100),
 	 @Code VARCHAR(20),
 	 @PrintName NVARCHAR(100),
@@ -157,9 +158,7 @@ BEGIN
 		IF (@AmountCalcId IS NULL OR @AmountCalcId <= 0)
 		BEGIN
 			
-			Declare @TmpSoftwareId int = 0 
-			EXEC @TmpSoftwareId = dbo.sp_GetSoftwareIdByUserIdThroughBusinessId @loginId
-			EXEC @AmountCalcId = dbo.sp_ProductAmtCalcOnSave  0, @AmountCalc, @TmpSoftwareId, 0, 1
+			EXEC @AmountCalcId = dbo.sp_ProductAmtCalcOnSave  0, @AmountCalc, @SoftwareId, 0, 1
 			SELECT @AmountCalcId = Id FROM ProductAmtCalcOn WHERE Title = @AmountCalc AND Active = 1
 
 		END

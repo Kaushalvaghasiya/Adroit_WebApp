@@ -57,7 +57,7 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
-            return QueryHelper.Get<int>("sp_GetSoftwareIdByUserIdThroughBusinessId", connectionString, parameters);
+            return QueryHelper.Get<int>("sp_GetSoftwareIdByUserId", connectionString, parameters);
         }
     }
 }
