@@ -233,6 +233,14 @@
         public const string _TableName = "SalesBillFromAdmin";
         public const string Title = "Title";
     }
+
+    public sealed class CustomerAccountTable
+    {
+        public const string _TableName = "CustomerAccount";
+        public const string AreaName = "AreaName";
+        public const string TransportName = "TransportName";
+        public const string Name = "Name";
+    }
     #endregion
 
     #region Adroit - GST
