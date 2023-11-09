@@ -115,6 +115,7 @@ try
     builder.Services.AddSingleton<ICustomerFirm, CustomerFirmRepository>();
     builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
 	builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
+	builder.Services.AddSingleton<ITransportLRBranchCityMapping, TransportLRBranchCityMappingRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

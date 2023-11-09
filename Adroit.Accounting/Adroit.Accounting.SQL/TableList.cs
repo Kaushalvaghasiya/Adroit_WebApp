@@ -287,5 +287,10 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class TransportLRBranchCityMappingTable
+    {
+        public const string _TableName = "TransportLRBranchCityMapping";
+        public const string OrderNumber = "OrderNumber";
+    }
     #endregion
 }

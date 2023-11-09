@@ -388,6 +388,23 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        //[Route("~/Common/GetCitiesByName/{Cities}")]
+        public JsonResult GetCitiesByName(string Cities)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _cityRepository.Get(Cities, _configurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
         public JsonResult GetSoftwareByBusiness(short id)
         {
             ApiResult result = new ApiResult();
