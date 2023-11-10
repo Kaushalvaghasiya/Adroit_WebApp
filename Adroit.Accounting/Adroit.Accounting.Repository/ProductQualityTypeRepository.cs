@@ -9,13 +9,13 @@ namespace Adroit.Accounting.Repository
 {
     public class ProductQualityTypeRepository : IProductQualityType
     {
-        public int Save(ProductQualityType productQualityType, string connectionString)
+        public int Save(ProductQualityType value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Id", productQualityType.Id);
-            parameters.Add("@Title", productQualityType.Title);
-            parameters.Add("@OrderNumber", productQualityType.OrderNumber);
-            parameters.Add("@Active", productQualityType.Active);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@Title", value.Title);
+            parameters.Add("@OrderNumber", value.OrderNumber);
+            parameters.Add("@Active", value.Active);
             return QueryHelper.Save("sp_ProductQualityTypeSave", connectionString, parameters);
         }
         public void Delete(int id, string connectionString)

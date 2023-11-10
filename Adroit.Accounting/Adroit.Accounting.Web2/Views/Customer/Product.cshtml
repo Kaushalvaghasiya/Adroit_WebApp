@@ -1235,23 +1235,23 @@
                 savedata.Code = $("#Code").val();
                 savedata.PrintName = $("#PrintName").val();
                 savedata.TitleAlternate = $("#TitleAlternate").val();
-
-                savedata.DesignNumberId = (isNaN(parseInt($("#DesignNumberId").val())) ? null : parseInt($("#DesignNumberId").val()));
-                savedata.ColourId = (isNaN(parseInt($("#ColourId").val())) ? null : parseInt($("#ColourId").val()));
-                savedata.SizeId = (isNaN(parseInt($("#SizeId").val())) ? null : parseInt($("#SizeId").val()));
-                savedata.PackingId = (isNaN(parseInt($("#PackingId").val())) ? null : parseInt($("#PackingId").val()));
-                savedata.ShadeNumberId = (isNaN(parseInt($("#ShadeNumberId").val())) ? null : parseInt($("#ShadeNumberId").val()));
-                savedata.FabricId = (isNaN(parseInt($("#FabricId").val())) ? null : parseInt($("#FabricId").val()));
-                savedata.GroupId = (isNaN(parseInt($("#GroupId").val())) ? null : parseInt($("#GroupId").val()));
-                savedata.SubGroupId = (isNaN(parseInt($("#SubGroupId").val())) ? null : parseInt($("#SubGroupId").val()));
-                savedata.StockTypeId = (isNaN(parseInt($("#StockTypeId").val())) ? 0 : parseInt($("#StockTypeId").val()));
-                savedata.QualityTypeId = (isNaN(parseInt($("#QualityTypeId").val())) ? null : parseInt($("#QualityTypeId").val()));
-                savedata.UQCId = (isNaN(parseInt($("#UQCId").val())) ? 0 : parseInt($("#UQCId").val()));
-                savedata.CategoryId = (isNaN(parseInt($("#CategoryId").val())) ? null : parseInt($("#CategoryId").val()));
-                savedata.GSTCalculationId = (isNaN(parseInt($("#GSTCalculationId").val())) ? 0 : parseInt($("#GSTCalculationId").val()));
-                savedata.GSTRateId = (isNaN(parseInt($("#GSTRateId").val())) ? 0 : parseInt($("#GSTRateId").val()));
-                savedata.AmountCalcId = (isNaN(parseInt($("#AmountCalcId").val())) ? 0 : parseInt($("#AmountCalcId").val()));
                 
+                savedata.DesignNumberId = getIntValueNull("DesignNumberId");
+                savedata.ColourId = getIntValueNull("ColourId");
+                savedata.SizeId = getIntValueNull("SizeId");
+                savedata.PackingId = getIntValueNull("PackingId");
+                savedata.ShadeNumberId = getIntValueNull("ShadeNumberId");
+                savedata.FabricId = getIntValueNull("FabricId");
+                savedata.GroupId = getIntValueNull("GroupId");
+                savedata.SubGroupId = getIntValueNull("SubGroupId");
+                savedata.QualityTypeId = getIntValueNull("QualityTypeId");
+                savedata.CategoryId = getIntValueNull("CategoryId");
+                savedata.StockTypeId = getIntValueZero("StockTypeId");
+                savedata.UQCId = getIntValueZero("UQCId");
+                savedata.GSTCalculationId = getIntValueZero("GSTCalculationId");
+                savedata.GSTRateId = getIntValueZero("GSTRateId");
+                savedata.AmountCalcId = getIntValueZero("AmountCalcId");
+
                 savedata.ProductDesignNumber = $("#DesignNumberId").val();
                 savedata.ColorName = $("#ColourId").val();
                 savedata.SizeName = $("#SizeId").val();
@@ -1269,21 +1269,23 @@
                 savedata.AmtCalcName = $("#AmountCalcId").val();
 
                 savedata.HSNCode = $("#HSNCode").val();
-                savedata.DenierWeight = (isNaN(parseFloat($("#DenierWeight").val())) ? null : parseFloat($("#DenierWeight").val()).toFixed(3));
-                savedata.RatePerMeter = (isNaN(parseFloat($("#RatePerMeter").val())) ? null : parseFloat($("#RatePerMeter").val()).toFixed(3));
-                savedata.RateRetail = (isNaN(parseFloat($("#RateRetail").val())) ? null : parseFloat($("#RateRetail").val()).toFixed(3));
-                savedata.Mrp = (isNaN(parseFloat($("#Mrp").val())) ? null : parseFloat($("#Mrp").val()).toFixed(3));
-                savedata.DistributorRate = (isNaN(parseFloat($("#DistributorRate").val())) ? null : parseFloat($("#DistributorRate").val()).toFixed(3));
-                savedata.DealerRate = (isNaN(parseFloat($("#DealerRate").val())) ? null : parseFloat($("#DealerRate").val()).toFixed(3));
-                savedata.PurchaseRate = (isNaN(parseFloat($("#PurchaseRate").val())) ? null : parseFloat($("#PurchaseRate").val()).toFixed(3));
-                savedata.Cut = (isNaN(parseFloat($("#Cut").val())) ? null : parseFloat($("#Cut").val()).toFixed(2));
-                savedata.AveragePack = (isNaN(parseFloat($("#AveragePack").val())) ? null : parseFloat($("#AveragePack").val()).toFixed(2));
-                savedata.BoxPack = (isNaN(parseFloat($("#BoxPack").val())) ? null : parseFloat($("#BoxPack").val()).toFixed(2));
-                savedata.RolMin = (isNaN(parseFloat($("#RolMin").val())) ? null : parseFloat($("#RolMin").val()).toFixed(2));
-                savedata.RolMax = (isNaN(parseFloat($("#RolMax").val())) ? null : parseFloat($("#RolMax").val()).toFixed(2));
-                savedata.GstCentralCess = (isNaN(parseFloat($("#GstCentralCess").val())) ? 0.00 : parseFloat($("#GstCentralCess").val()).toFixed(2));
-                savedata.GstStateCess = (isNaN(parseFloat($("#GstStateCess").val())) ? 0.00 : parseFloat($("#GstStateCess").val()).toFixed(2));
-                savedata.Discount = (isNaN(parseFloat($("#Discount").val())) ? 0.00 : parseFloat($("#Discount").val()).toFixed(2));
+
+                savedata.DenierWeight = getFloatValueNull("DenierWeight",3);
+                savedata.RatePerMeter = getFloatValueNull("RatePerMeter",3);
+                savedata.RateRetail = getFloatValueNull("RateRetail",3);
+                savedata.Mrp = getFloatValueNull("Mrp",3);
+                savedata.DistributorRate = getFloatValueNull("DistributorRate",3);
+                savedata.DealerRate = getFloatValueNull("DealerRate",3);
+                savedata.PurchaseRate = getFloatValueNull("PurchaseRate",3);
+                savedata.Cut = getFloatValueNull("Cut",2);
+                savedata.AveragePack = getFloatValueNull("AveragePack",2);
+                savedata.BoxPack = getFloatValueNull("BoxPack",2);
+                savedata.RolMin = getFloatValueNull("RolMin",2);
+                savedata.RolMax = getFloatValueNull("RolMax",2);
+                savedata.GstCentralCess = getFloatValueZero("GstCentralCess",2);
+                savedata.GstStateCess = getFloatValueZero("GstStateCess",2);
+                savedata.Discount = getFloatValueZero("Discount",2);
+
                 savedata.Remarks1 = $("#Remarks1").val();
                 savedata.Remarks2 = $("#Remarks2").val();
                 savedata.HSNDesc = $("#HSNDesc").val();

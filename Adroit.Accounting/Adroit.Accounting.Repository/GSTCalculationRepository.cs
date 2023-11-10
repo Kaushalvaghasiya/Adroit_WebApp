@@ -14,13 +14,13 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.GetList<DropdownViewModel>("sp_GSTCalculationList_Select", connectionString, parameters);
         }
 
-        public int Save(GSTCalculation gstCalculation, string connectionString)
+        public int Save(GSTCalculation value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Id", gstCalculation.Id);
-            parameters.Add("@Title", gstCalculation.Title);
-            parameters.Add("@OrderNumber", gstCalculation.OrderNumber);
-            parameters.Add("@Active", gstCalculation.Active);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@Title", value.Title);
+            parameters.Add("@OrderNumber", value.OrderNumber);
+            parameters.Add("@Active", value.Active);
             return QueryHelper.Save("sp_GSTCalculationSave", connectionString, parameters);
         }
     }

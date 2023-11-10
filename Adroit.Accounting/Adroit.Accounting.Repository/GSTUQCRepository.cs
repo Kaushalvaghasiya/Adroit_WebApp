@@ -13,15 +13,15 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_GSTUQCList_Select", connectionString, parameters);
         }
-        public int Save(GSTUQC gstUQC, string connectionString)
+        public int Save(GSTUQC value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Id", gstUQC.Id);
-            parameters.Add("@Title", gstUQC.Title);
-            parameters.Add("@Code", gstUQC.Code);
-            parameters.Add("@CodeEWayBill", gstUQC.CodeEWayBill);
-            parameters.Add("@OrderNumber", gstUQC.OrderNumber);
-            parameters.Add("@Active", gstUQC.Active);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@Title", value.Title);
+            parameters.Add("@Code", value.Code);
+            parameters.Add("@CodeEWayBill", value.CodeEWayBill);
+            parameters.Add("@OrderNumber", value.OrderNumber);
+            parameters.Add("@Active", value.Active);
             return QueryHelper.Save("sp_GSTUQCSave", connectionString, parameters);
         }
     }
