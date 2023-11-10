@@ -82,8 +82,13 @@ BEGIN
 			END
 		END
 
-		IF EXISTS (SELECT 1 FROM CustomerAccount WHERE Id = @Id) OR EXISTS (SELECT 1 FROM CustomerAccount WHERE [Name] = @Name AND Deleted = 1)
+		IF EXISTS (SELECT 1 FROM CustomerAccount WHERE (Id = @Id) OR ([Name] = @Name AND Deleted = 1))
 			BEGIN
+			IF(ISNULL(@Id, 0) <= 0)
+			BEGIN 
+				SELECT @Id=Id FROM CustomerAccount WHERE [Name] = @Name 
+			END
+
 				UPDATE  CustomerAccount SET
 						[CustomerId] = @CustomerId
 						,[Name] = @Name
@@ -136,11 +141,6 @@ BEGIN
 						,DeletedOn = NULL
 						,Deleted = 0
 					WHERE ID = @Id
-
-					IF(ISNULL(@Id, 0) <= 0)
-					BEGIN 
-						SELECT @Id=Id FROM CustomerAccount WHERE [Name] = @Name 
-					END
 
 					DELETE FROM [CustomerAccountBranchMapping] WHERE AccountId = @Id
 				END		
