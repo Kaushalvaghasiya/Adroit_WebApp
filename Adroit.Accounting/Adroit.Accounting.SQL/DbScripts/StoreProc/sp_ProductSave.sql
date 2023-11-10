@@ -66,67 +66,67 @@ BEGIN
 
 		DECLARE @CustomerId int = dbo.fn_GetCustomerId(@loginId);
 
-		IF ISNULL(@DesignNumberId, 0) <= 0 AND @DesignNumber != ''
+		IF ISNULL(@DesignNumberId, 0) <= 0 AND ISNULL(@DesignNumber,'') != ''
 		BEGIN
 			EXEC @DesignNumberId = dbo.sp_ProductDesignNumberSave  0, @loginId, @DesignNumber , 0, @loginId, @loginId, 1
 			SELECT @DesignNumberId = Id FROM ProductDesignNumber WHERE Title = @DesignNumber AND Active = 1
 		END
 
-		IF ISNULL(@ColourId, 0) <= 0 AND @Colour != ''
+		IF ISNULL(@ColourId, 0) <= 0 AND ISNULL(@Colour,'') != ''
 		BEGIN
 			EXEC @ColourId = dbo.sp_ProductColorSave  0, @loginId, @Colour , 0, @loginId, @loginId, 1
 			SELECT @ColourId = Id FROM ProductColor WHERE Title = @Colour AND Active = 1
 		END
 
-		IF ISNULL(@SizeId, 0) <= 0 AND @Size != ''
+		IF ISNULL(@SizeId, 0) <= 0 AND ISNULL(@Size,'') != ''
 		BEGIN
 			EXEC @SizeId = dbo.sp_ProductSizeSave  0, @loginId, @Size , 0, @loginId, @loginId, 1
 			SELECT @SizeId = Id FROM ProductSize WHERE Title = @Size AND Active = 1
 		END
 
-		IF ISNULL(@PackingId, 0) <= 0 AND @Packing != ''
+		IF ISNULL(@PackingId, 0) <= 0 AND ISNULL(@Packing,'') != ''
 		BEGIN
 			EXEC @PackingId = dbo.sp_ProductPackingSave  0, @loginId, @Packing , 0, @loginId, @loginId, 1
 			SELECT @PackingId = Id FROM ProductPacking WHERE Title = @Packing AND Active = 1
 		END
 
-		IF ISNULL(@ShadeNumberId, 0) <= 0 AND @ShadeNumber != ''
+		IF ISNULL(@ShadeNumberId, 0) <= 0 AND ISNULL(@ShadeNumber,'') != ''
 		BEGIN
 			EXEC @ShadeNumberId = dbo.sp_ProductShadeNumberSave  0, @loginId, @ShadeNumber , 0, @loginId, @loginId, 1
 			SELECT @ShadeNumberId = Id FROM ProductShadeNumber WHERE Title = @ShadeNumber AND Active = 1
 		END
 
-		IF ISNULL(@FabricId, 0) <= 0 AND @Fabric != ''
+		IF ISNULL(@FabricId, 0) <= 0 AND ISNULL(@Fabric,'') != ''
 		BEGIN
 			EXEC @FabricId = dbo.sp_ProductFabricSave  0, @loginId, @Fabric , 0, @loginId, @loginId, 1
 			SELECT @FabricId = Id FROM ProductFabric WHERE Title = @Fabric AND Active = 1
 		END
 
-		IF ISNULL(@GroupId, 0) <= 0 AND @Group != ''
+		IF ISNULL(@GroupId, 0) <= 0 AND ISNULL(@Group,'') != ''
 		BEGIN
 			EXEC @GroupId = dbo.sp_ProductGroupSave  0, @loginId, @Group , 0, @loginId, @loginId, 1
 			SELECT @GroupId = Id FROM ProductGroup WHERE Title = @Group AND Active = 1
 		END
 
-		IF ISNULL(@SubGroupId, 0) <= 0 AND @SubGroup != ''
+		IF ISNULL(@SubGroupId, 0) <= 0 AND ISNULL(@SubGroup,'') != ''
 		BEGIN
 			EXEC @SubGroupId = dbo.sp_ProductSubGroupSave  0, @loginId, @SubGroup , 0, @loginId, @loginId, 1
 			SELECT @SubGroupId = Id FROM ProductSubGroup WHERE Title = @SubGroup AND Active = 1
 		END
 		 
-		IF ISNULL(@StockTypeId, 0) <= 0
+		IF ISNULL(@StockTypeId, 0) <= 0 AND ISNULL(@StockType,'') != ''
 		BEGIN
 			EXEC @StockTypeId = dbo.sp_ProductStockTypeSave  0, @StockType , 0, 1
 			SELECT @StockTypeId = Id FROM ProductStockType WHERE Title = @StockType AND Active = 1
 		END
 		 
-		IF ISNULL(@QualityTypeId, 0) <= 0 AND @QualityType != ''
+		IF ISNULL(@QualityTypeId, 0) <= 0 AND ISNULL(@QualityType,'') != ''
 		BEGIN
 			EXEC @QualityTypeId = dbo.sp_ProductQualityTypeSave  0, @QualityType , 0, 1
 			SELECT @QualityTypeId = Id FROM ProductQualityType WHERE Title = @QualityType AND Active = 1
 		END
 
-		IF ISNULL(@UQCId, 0) <= 0
+		IF ISNULL(@UQCId, 0) <= 0 AND ISNULL(@UQC,'') != ''
 		BEGIN
 			
 			Declare @UQCCode NVARCHAR(50) = SUBSTRING(@UQC,0,CHARINDEX('-',@UQC))
@@ -137,25 +137,25 @@ BEGIN
 
 		END
 
-		IF ISNULL(@CategoryId, 0) <= 0 AND @Category != ''
+		IF ISNULL(@CategoryId, 0) <= 0 AND ISNULL(@Category,'') != ''
 		BEGIN
 			EXEC @CategoryId = dbo.sp_ProductCategorySave  0, @Category , 0, 1
 			SELECT @CategoryId = Id FROM ProductCategory WHERE Title = @Category AND Active = 1
 		END
 
-		IF ISNULL(@GSTCalculationId, 0) <= 0
+		IF ISNULL(@GSTCalculationId, 0) <= 0 AND ISNULL(@GSTCalculation,'') != ''
 		BEGIN
 			EXEC @GSTCalculationId = dbo.sp_GSTCalculationSave  0, @GSTCalculation , 0, 1
 			SELECT @GSTCalculationId = Id FROM GSTCalculation WHERE Title = @GSTCalculation AND Active = 1
 		END
 
-		IF ISNULL(@GSTRateId, 0) <= 0
+		IF ISNULL(@GSTRateId, 0) <= 0 AND ISNULL(@GSTRate,'') != ''
 		BEGIN
 			EXEC @GSTRateId = dbo.sp_GSTRateSave  0, @GSTRate , 0, 1
 			SELECT @GSTRateId = Id FROM GSTRate WHERE Rate = @GSTRate AND Active = 1
 		END
 
-		IF ISNULL(@AmountCalcId, 0) <= 0
+		IF ISNULL(@AmountCalcId, 0) <= 0 AND ISNULL(@AmountCalc,'') != ''
 		BEGIN
 			
 			EXEC @AmountCalcId = dbo.sp_ProductAmtCalcOnSave  0, @AmountCalc, @SoftwareId, 0, 1
