@@ -45,5 +45,11 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.GetList<TransportLRChargesGridViewModel>("sp_TransportLRChargesList", connectionString, param);
         }
 
+        public List<DropdownViewModel> SelectList(string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            return QueryHelper.GetList<DropdownViewModel>("sp_TransportLRChargesList_Select", connectionString, parameters);
+        }
+
     }
 }
