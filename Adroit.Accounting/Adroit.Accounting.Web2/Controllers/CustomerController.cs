@@ -58,7 +58,8 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ILRBookingRange _lrBookingRangeRepository;
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
-		private readonly IProduct _productRepository;
+        private readonly ICustomerFirmBranchLRRate _customerFirmBranchLRRateRepository;
+        private readonly IProduct _productRepository;
         private readonly IProductStockType _stockTypeRepository;
         private readonly IProductQualityType _productQualityTypeRepository;
         private readonly ISoftware _softwareRepository;
@@ -114,6 +115,7 @@ namespace Adroit.Accounting.Web.Controllers
             IAdminCustomerFirm customerFirmRepository,
             ISoftwarePlan softwarePlanRepository,
             IBranchTypeAdmin branchTypeRepository,
+            ICustomerFirmBranchLRRate customerFirmBranchLRRateRepository,
             IProduct productRepository,
             IProductStockType stockTypeRepository,
             IProductQualityType productQualityTypeRepository,
@@ -170,7 +172,8 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmRepository = customerFirmRepository;
             _softwarePlanRepository = softwarePlanRepository;
             _branchTypeRepository = branchTypeRepository;
-_productRepository = productRepository;
+            _customerFirmBranchLRRateRepository = customerFirmBranchLRRateRepository;
+            _productRepository = productRepository;
             _stockTypeRepository = stockTypeRepository;
             _productQualityTypeRepository = productQualityTypeRepository;
             _softwareRepository = softwareRepository;
@@ -178,8 +181,8 @@ _productRepository = productRepository;
             _productCategoryRepository = productCategoryRepository;
             _gstUQCRepository = gstUQCRepository;
             _gstCalculationRepository = gstCalculationRepository;
-            _productAmtCalcOnRepository = productAmtCalcOnRepository;            
-_customerAccountBranchMapping = customerAccountBranchMapping;
+            _productAmtCalcOnRepository = productAmtCalcOnRepository;
+            _customerAccountBranchMapping = customerAccountBranchMapping;
         }
 
         public JsonResult GetAccountGroups()
