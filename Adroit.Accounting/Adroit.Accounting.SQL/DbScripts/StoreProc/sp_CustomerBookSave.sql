@@ -66,12 +66,12 @@ BEGIN
 		SELECT @FirmId = ( SELECT Id FROM CustomerFirm WHERE CustomerId = @CustomerId);
 		DECLARE @YearId int = ( SELECT Id FROM FinanceYear WHERE FirmId = @FirmId);
 
-		IF EXISTS (SELECT 1 FROM CustomerBook WHERE (Id = @Id) OR (BookAccountId = @BookAccountId AND CustomerId = @CustomerId AND YearId = @YearId AND Deleted = 1))
+		IF EXISTS (SELECT 1 FROM CustomerBook WHERE (Id = @Id) OR (BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId AND Deleted = 1))
 		BEGIN
 
 			IF ISNULL(@Id,0) <= 0
 			BEGIN
-				SELECT @Id = Id FROM CustomerBook WHERE BookAccountId = @BookAccountId AND CustomerId = @CustomerId AND YearId = @YearId
+				SELECT @Id = Id FROM CustomerBook WHERE BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId
 			END
 
 			UPDATE CustomerBook SET

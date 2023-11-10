@@ -63,7 +63,7 @@ namespace Adroit.Accounting.Model
         public int? RcmIGSTRecAccountId { get; set; }
         public int? RoundOffAccountId { get; set; }
         public System.DateTime AddedOn { get; set; }
-        public int? AddedById { get; set; }
+        public int AddedById { get; set; }
         public int? DeletedById { get; set; }
         public System.DateTime? DeletedOn { get; set; }
         public int OwnerBranchId { get; set; }
