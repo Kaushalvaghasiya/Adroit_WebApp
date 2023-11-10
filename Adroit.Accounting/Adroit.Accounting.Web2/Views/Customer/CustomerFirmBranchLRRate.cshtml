@@ -11,7 +11,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Settings</a></li>
                     <li><a href="#">Transport</a></li>
-                    <li class="active"><span>Lr Rate</span></li>
+                    <li class="active"><span>LR Rate</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -32,13 +32,13 @@
                 </div>
                 <div class="card-body pt-0">
                     <div class="table-responsive">
-                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                        <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">BRANCH NAME</th>
                                     <th class="border-bottom-0">CITY</th>
-                                    <th class="border-bottom-0">RATE PER KG</th>
-                                    <th class="border-bottom-0">RATE PER PARCEL</th>
+                                    <th class="border-bottom-0">LR RATE PER KG</th>
+                                    <th class="border-bottom-0">LR RATE PER PARCEL</th>
                                     <th class="border-bottom-0">IS CROSSING CHARGE</th>
                                     <th class="border-bottom-0">CROSSING CHARGE % ON FRIEGHT</th>
                                     <th class="border-bottom-0">CROSSING CHARGE PER KG</th>
@@ -47,7 +47,7 @@
                                     <th class="border-bottom-0">COMMISSION % ON FRIEGHT</th>
                                     <th class="border-bottom-0">COMMISSION PER KG</th>
                                     <th class="border-bottom-0">COMMISSION PER PARCEL</th>
-                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                    <th class="border-bottom-0 text-center" style="width:160px!important;">ACTION</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,8 +91,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="BranchId">Branch</label>
                                 <select class="form-control select2-show-search mode-ed" id="BranchId">
@@ -108,9 +107,7 @@
                                 </select>
                             </div>
                         </div>
-
-
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CityId">City</label>
                                 <select class="form-control select2-show-search mode-ed" id="CityId">
@@ -126,16 +123,15 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="RatePerKg">Lr Rate Per KG</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="RatePerKg">
+                                <label for="RatePerKg">LR Rate Per KG</label>
+                                <select class="form-control select2-show-search-add-float-2 mode-ed" id="RatePerKg">
                                     <option>0.00</option>
                                     @{
                                         if (Model.LrRatePerKgList != null)
                                         {
-                                            foreach (var o in Model.LrRatePerParcelList)
+                                            foreach (var o in Model.LrRatePerKgList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -144,11 +140,10 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <label for="RatePerParcel">Lr Rate Per Parcel</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="RatePerParcel">
+                                <label for="RatePerParcel">LR Rate Per Parcel</label>
+                                <select class="form-control select2-show-search-add-float-2 mode-ed" id="RatePerParcel">
                                     <option>0.00</option>
                                     @{
                                         if (Model.LrRatePerParcelList != null)
@@ -162,20 +157,19 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
-                                <div><label for="IsCrossingChargeApply">IsCrossingChargeApply</label></div>
+                                <div><label for="IsCrossingChargeApply">Is Crossing Charge Apply</label></div>
                                 <label class="custom-switch">
                                     <input id="IsCrossingChargeApply" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
                                     <span class="custom-switch-indicator"></span>
                                 </label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CrossingChargePercentOnFreight">Crossing Charge Per Freight</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="CrossingChargePercentOnFreight">
+                                <select class="form-control select2-show-search-add-float-2 mode-ed" id="CrossingChargePercentOnFreight">
                                     <option>0.00</option>
                                     @{
                                         if (Model.CrossingChargePerFreightList != null)
@@ -189,10 +183,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CrossingChargePerKg">Crossing Charge Per Kg</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="CrossingChargePerKg">
+                                <select class="form-control select2-show-search-add-float-2 mode-ed" id="CrossingChargePerKg">
                                     <option>0.00</option>
                                     @{
                                         if (Model.CrossingChargePerKgList != null)
@@ -206,10 +200,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CrossingChargePerParcel">Crossing Charge Per Parcel</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="CrossingChargePerParcel">
+                                <select class="form-control select2-show-search-add-float-2 mode-ed" id="CrossingChargePerParcel">
                                     <option>0.00</option>
                                     @{
                                         if (Model.CrossingChargePerParcelList != null)
@@ -223,8 +217,7 @@
                                 </select>
                             </div>
                         </div>
-
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <div><label for="IsCommissionApply">Is Commission Apply</label></div>
                                 <label class="custom-switch">
@@ -233,10 +226,10 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CommissionPercentOnFreight">Commission Per Freight</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="CommissionPercentOnFreight">
+                                <select class="form-control select2-show-search-add-float-2 mode-ed" id="CommissionPercentOnFreight">
                                     <option>0.00</option>
                                     @{
                                         if (Model.CommissionPerFreightList != null)
@@ -250,10 +243,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CommissionPerKg">Commission Per Kg</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="CommissionPerKg">
+                                <select class="form-control select2-show-search-add-float-2 mode-ed" id="CommissionPerKg">
                                     <option>0.00</option>
                                     @{
                                         if (Model.CommissionPerKgList != null)
@@ -267,10 +260,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CommissionPerParcel">Commission Per Parcel</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="CommissionPerParcel">
+                                <select class="form-control select2-show-search-add-float-2 mode-ed" id="CommissionPerParcel">
                                     <option>0.00</option>
                                     @{
                                         if (Model.CommissionPerParcelList != null)
@@ -284,7 +277,6 @@
                                 </select>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -364,9 +356,10 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.isCrossingChargeApply;
+                    return row.isCrossingChargeApply ? "Yes" : "No";
                 },
                 "targets": colDef.length,
+                "className": "text-center"
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -388,9 +381,10 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.isCommissionApply;
+                    return row.isCommissionApply ? "Yes" : "No";
                 },
                 "targets": colDef.length,
+                "className": "text-center"
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -410,7 +404,6 @@
                 },
                 "targets": colDef.length,
             });
-
             colDef.push({
                 "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
@@ -463,9 +456,9 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/Admin/CustomerFirmBranchLRRateList"))',
+                    url: '@(Url.Content("~/Customer/CustomerFirmBranchLRRateList"))',
                     type: 'GET',
-                    data: function (d) {}
+                    data: function (d) { }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
@@ -482,16 +475,16 @@
             $("#Id").val(0);
             $("#BranchId").val('').trigger("change");
             $("#CityId").val('').trigger("change");
-            $("#RatePerKg").val("");
-            $("#RatePerParcel").val("");
+            $("#RatePerKg").val("0.00").trigger("change");
+            $("#RatePerParcel").val("0.00").trigger("change");
             $("#IsCrossingChargeApply").prop('checked', false);
-            $("#CrossingChargePercentOnFreight").val("");
-            $("#CrossingChargePerKg").val("");
-            $("#CrossingChargePerParcel").val("");
+            $("#CrossingChargePercentOnFreight").val("0.00").trigger("change");
+            $("#CrossingChargePerKg").val("0.00").trigger("change");
+            $("#CrossingChargePerParcel").val("0.00").trigger("change");
             $("#IsCommissionApply").prop('checked', false);
-            $("#CommissionPercentOnFreight").val("");
-            $("#CommissionPerKg").val("");
-            $("#CommissionPerParcel").val("");
+            $("#CommissionPercentOnFreight").val("0.00").trigger("change");
+            $("#CommissionPerKg").val("0.00").trigger("change");
+            $("#CommissionPerParcel").val("0.00").trigger("change");
 
             $("#hdnCityId").val("");
             $("#activeTabName").text("Add");
@@ -499,7 +492,6 @@
 
         function saveItem() {
             try {
-
                 if ($("#BranchId").val() == null || $("#BranchId").val() == "") {
                     showWarning("", "Please enter valid branch name");
                     $("#BranchId").focus();
@@ -511,48 +503,123 @@
                     $("#CityId").focus();
                     return false;
                 }
-                if (parseInt($("#RatePerKg").val()) < 0 && parseInt($("#RatePerParcel").val()) < 0) {
-                    showWarning("", "Please enter rate of any one");
-                    $("#RatePerKg").focus();
-                    return false;
+
+                if (parseFloat($("#RatePerKg").val().trim()) !== 0) {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#RatePerKg").val())) {
+                        showWarning("", "LR Rate per KG must be upto 7 characters before decimal point and  characters after decimal point long.");
+                        $("#RatePerKg").focus();
+                        return false;
+                    }
+                    var RatePerKG = parseFloat($('#RatePerKg').val()).toFixed(2);
+                    $("#RatePerKg").append(new Option(RatePerKG, RatePerKG, true, true)).trigger('change');
+                }
+                if (parseFloat($("#RatePerParcel").val().trim()) !== 0) {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#RatePerParcel").val())) {
+                        showWarning("", "LR Rate per Parcel must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#RatePerParcel").focus();
+                        return false;
+                    }
+                    var RatePerParcel = parseFloat($('#RatePerParcel').val()).toFixed(2);
+                    $("#RatePerParcel").append(new Option(RatePerParcel, RatePerParcel, true, true)).trigger('change');
                 }
 
                 if ($('#IsCrossingChargeApply').is(':checked')) {
-                    if (parseInt($("#CrossingChargePercentOnFreight").val()) < 0 && parseInt($("#CrossingChargePerKg").val()) < 0 && parseInt($("#CrossingChargePerParcel").val()) < 0) {
-                        showWarning("", "Please enter rate of any one");
+                    if (parseFloat($("#CrossingChargePercentOnFreight").val()) === 0 && parseFloat($("#CrossingChargePerKg").val()) === 0 && parseFloat($("#CrossingChargePerParcel").val()) === 0) {
+                        showWarning("", "Please enter crossing charge rate of any one");
                         $("#CrossingChargePerParcel").focus();
                         return false;
                     }
                 }
+                if (parseFloat($("#CrossingChargePercentOnFreight").val().trim()) !== 0) {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CrossingChargePercentOnFreight").val())) {
+                        showWarning("", "Crossing charge per freight must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#CrossingChargePercentOnFreight").focus();
+                        return false;
+                    }
+                    var CrossingChargePercentOnFreight = parseFloat($('#CrossingChargePercentOnFreight').val()).toFixed(2);
+                    $("#CrossingChargePercentOnFreight").append(new Option(CrossingChargePercentOnFreight, CrossingChargePercentOnFreight, true, true)).trigger('change');
+                }
+                if (parseFloat($("#CrossingChargePerKg").val().trim()) !== 0) {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CrossingChargePerKg").val())) {
+                        showWarning("", "Crossing charge per KG must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#CrossingChargePerKg").focus();
+                        return false;
+                    }
+                    var CrossingChargePerKg = parseFloat($('#CrossingChargePerKg').val()).toFixed(2);
+                    $("#CrossingChargePerKg").append(new Option(CrossingChargePerKg, CrossingChargePerKg, true, true)).trigger('change');
+                }
+                if (parseFloat($("#CrossingChargePerParcel").val().trim()) !== 0) {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CrossingChargePerParcel").val())) {
+                        showWarning("", "Crossing charge per parcel must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#CrossingChargePerParcel").focus();
+                        return false;
+                    }
+                    var CrossingChargePerParcel = parseFloat($('#CrossingChargePerParcel').val()).toFixed(2);
+                    $("#CrossingChargePerParcel").append(new Option(CrossingChargePerParcel, CrossingChargePerParcel, true, true)).trigger('change');
+                }
 
                 if ($('#IsCommissionApply').is(':checked')) {
-                    if (parseInt($("#CommissionPercentOnFreight").val()) < 0 && parseInt($("#CommissionPerKg").val()) < 0 && parseInt($("#CommissionPerParcel").val()) < 0) {
-                        showWarning("", "Please enter rate of any one");
+                    if (parseFloat($("#CommissionPercentOnFreight").val()) === 0 && parseFloat($("#CommissionPerKg").val()) === 0 && parseFloat($("#CommissionPerParcel").val()) === 0) {
+                        showWarning("", "Please enter commission rate of any one");
                         $("#CommissionPerParcel").focus();
                         return false;
                     }
+                }
+                if (parseFloat($("#CommissionPercentOnFreight").val().trim()) !== 0) {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CommissionPercentOnFreight").val())) {
+                        showWarning("", "Commission percent on freight must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#CommissionPercentOnFreight").focus();
+                        return false;
+                    }
+                    var CommissionPercentOnFreight = parseFloat($('#CommissionPercentOnFreight').val()).toFixed(2);
+                    $("#CommissionPercentOnFreight").append(new Option(CommissionPercentOnFreight, CommissionPercentOnFreight, true, true)).trigger('change');
+                }
+                if (parseFloat($("#CommissionPerKg").val().trim()) !== 0) {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CommissionPerKg").val())) {
+                        showWarning("", "Commission per KG must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#CommissionPerKg").focus();
+                        return false;
+                    }
+                    var CommissionPerKg = parseFloat($('#CommissionPerKg').val()).toFixed(2);
+                    $("#CommissionPerKg").append(new Option(CommissionPerKg, CommissionPerKg, true, true)).trigger('change');
+                }
+                if (parseFloat($("#CommissionPerParcel").val().trim()) !== 0) {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CommissionPerParcel").val())) {
+                        showWarning("", "Commission per parcel must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#CommissionPerParcel").focus();
+                        return false;
+                    }
+                    var CommissionPerParcel = parseFloat($('#CommissionPerParcel').val()).toFixed(2);
+                    $("#CommissionPerParcel").append(new Option(CommissionPerParcel, CommissionPerParcel, true, true)).trigger('change');
+                }
+                if (parseFloat($("#RatePerKg").val().trim()) === 0 && parseFloat($("#RatePerParcel").val().trim()) === 0
+                    && parseFloat($("#CrossingChargePercentOnFreight").val()) === 0 && parseFloat($("#CrossingChargePerKg").val()) === 0 && parseFloat($("#CrossingChargePerParcel").val()) === 0
+                    && parseFloat($("#CommissionPercentOnFreight").val()) === 0 && parseFloat($("#CommissionPerKg").val()) === 0 && parseFloat($("#CommissionPerParcel").val()) === 0) {
+                    showWarning("", "Plese enter rate any of one.");
+                    $("#RatePerKg").focus();
+                    return false;
                 }
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.BranchId = parseInt($("#BranchId").val());
                 savedata.CityId = parseInt($("#CityId").val());
-                savedata.RatePerKg = $("#RatePerKg").val();
-                savedata.RatePerParcel = $("#RatePerParcel").val();
+                savedata.RatePerKg = parseFloat($("#RatePerKg").val()).toFixed(2);
+                savedata.RatePerParcel = parseFloat($("#RatePerParcel").val()).toFixed(2);
                 savedata.IsCrossingChargeApply = $('#IsCrossingChargeApply').is(':checked');
-                savedata.CrossingChargePercentOnFreight = $("#CrossingChargePercentOnFreight").val();
-                savedata.CrossingChargePerKg = $("#CrossingChargePerKg").val();
-                savedata.CrossingChargePerParcel = $("#CrossingChargePerParcel").val();
+                savedata.CrossingChargePercentOnFreight = parseFloat($("#CrossingChargePercentOnFreight").val()).toFixed(2);
+                savedata.CrossingChargePerKg = parseFloat($("#CrossingChargePerKg").val()).toFixed(2);
+                savedata.CrossingChargePerParcel = parseFloat($("#CrossingChargePerParcel").val()).toFixed(2);
                 savedata.IsCommissionApply = $('#IsCommissionApply').is(':checked');
-                savedata.CommissionPercentOnFreight = $("#CommissionPercentOnFreight").val();
-                savedata.CommissionPerKg = $("#CommissionPerKg").val();
-                savedata.CommissionPerParcel = $("#CommissionPerParcel").val();
+                savedata.CommissionPercentOnFreight = parseFloat($("#CommissionPercentOnFreight").val()).toFixed(2);
+                savedata.CommissionPerKg = parseFloat($("#CommissionPerKg").val()).toFixed(2);
+                savedata.CommissionPerParcel = parseFloat($("#CommissionPerParcel").val()).toFixed(2);
 
                 blockUI('container');
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveCustomerFirmBranchLRRate", "Admin"))",
+                    url: "@(Url.Action("SaveCustomerFirmBranchLRRate", "Customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -560,7 +627,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Lr Rate saved successfully.');
+                            showWarning("", 'LR Rate saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -585,7 +652,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetCustomerFirmBranchLRRate"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetCustomerFirmBranchLRRate"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -598,19 +665,20 @@
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
+                                debugger;
                                 $("#Id").val(result.data.id);
                                 $("#BranchId").val(result.data.branchId).trigger("change");
                                 $("#CityId").val(result.data.cityId).trigger("change");
-                                $("#RatePerKg").val(result.data.ratePerKg).trigger("change");
-                                $("#RatePerParcel").val(result.data.ratePerParcel).trigger("change");
+                                $("#RatePerKg").val(result.data.ratePerKg.toFixed(2)).trigger("change");
+                                $("#RatePerParcel").val(result.data.ratePerParcel.toFixed(2)).trigger("change");
                                 $('#IsCrossingChargeApply').prop('checked', result.data.isCrossingChargeApply);
-                                $("#CrossingChargePercentOnFreight").val(result.data.crossingChargePercentOnFreight).trigger("change");
-                                $("#CrossingChargePerKg").val(result.data.crossingChargePerKg).trigger("change");
-                                $("#CrossingChargePerParcel").val(result.data.crossingChargePerParcel).trigger("change");
+                                $("#CrossingChargePercentOnFreight").val(result.data.crossingChargePercentOnFreight.toFixed(2)).trigger("change");
+                                $("#CrossingChargePerKg").val(result.data.crossingChargePerKg.toFixed(2)).trigger("change");
+                                $("#CrossingChargePerParcel").val(result.data.crossingChargePerParcel.toFixed(2)).trigger("change");
                                 $('#IsCommissionApply').prop('checked', result.data.isCommissionApply);
-                                $("#CommissionPercentOnFreight").val(result.data.commissionPercentOnFreight).trigger("change");
-                                $("#CommissionPerKg").val(result.data.commissionPerKg).trigger("change");
-                                $("#CommissionPerParcel").val(result.data.commissionPerParcel).trigger("change");
+                                $("#CommissionPercentOnFreight").val(result.data.commissionPercentOnFreight.toFixed(2)).trigger("change");
+                                $("#CommissionPerKg").val(result.data.commissionPerKg.toFixed(2)).trigger("change");
+                                $("#CommissionPerParcel").val(result.data.commissionPerParcel.toFixed(2)).trigger("change");
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }

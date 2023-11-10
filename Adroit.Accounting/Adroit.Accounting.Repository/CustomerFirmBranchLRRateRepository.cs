@@ -50,12 +50,5 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerFirmBranchLRRateSave", connectionString, parameters);
         }
-
-        public List<DropdownViewModel> SelectListByLoginId(int loginId, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", loginId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmBranchListByLoginId_Select", connectionString, parameters);
-        }
     }
 }
