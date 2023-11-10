@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.AccountCustomerViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.CustomerAccountViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -1208,16 +1208,16 @@
                 }
 
                 var savedata = new Object();
-                savedata.Id = parseInt($("#Id").val());
+                savedata.Id = getIntValueZero("Id");
                 savedata.Name = $("#Name").val();
                 savedata.PrintName = $("#PrintName").val();
-                savedata.AccountGroupId = parseInt($("#AccountGroupId").val());
+                savedata.AccountGroupId = getIntValueZero("AccountGroupId");
                 savedata.Address1 = $("#Address1").val();
                 savedata.Address2 = $("#Address2").val();
                 savedata.Address3 = $("#Address3").val();
-                savedata.CityId = (isNaN(parseInt($("#CityId").val())) ? 0 : parseInt($("#CityId").val()));
-                savedata.StateId = parseInt($("#StateId").val());
-                savedata.CountryId = parseInt($("#CountryId").val());
+                savedata.CityId = getIntValueZero("CityId");
+                savedata.StateId = getIntValueZero("StateId");
+                savedata.CountryId = getIntValueZero("CountryId");
                 savedata.Pincode = $("#Pincode").val();
                 savedata.KM = $("#KM").val();
                 savedata.ContactPersonName = $("#ContactPersonName").val();
@@ -1228,33 +1228,33 @@
                 savedata.PAN = $("#PAN").val();
                 savedata.AreaName = $("#AreaName").val();
                 savedata.RateWithGST = $("#RateWithGST").is(':checked');
-                savedata.GSTInvoiceTypeId = parseInt($("#GSTInvoiceTypeId").val());
+                savedata.GSTInvoiceTypeId = getIntValueZero("GSTInvoiceTypeId");
                 savedata.EximCode = $("#EximCode").val();
                 savedata.IsIGST = $("#IsIGST").is(':checked');
                 savedata.GSTNumberTransport = $("#GSTNumberTransport").val();
                 savedata.TransportName = $("#TransportName").val();
                 savedata.VehicleNumber = $("#VehicleNumber").val();
-                savedata.DeliveryAccountBranchMappingId = (isNaN(parseInt($("#DeliveryAccountBranchMappingId").val())) ? null : parseInt($("#DeliveryAccountBranchMappingId").val()));
-                savedata.ShippingAccountBranchMappingId = (isNaN(parseInt($("#ShippingAccountBranchMappingId").val())) ? null : parseInt($("#ShippingAccountBranchMappingId").val()));
-                savedata.BrokerMappingId = (isNaN(parseInt($("#BrokerMappingId").val())) ? null : parseInt($("#BrokerMappingId").val()));
-                savedata.CreditDays = parseInt($("#CreditDays").val());
-                savedata.Discount = parseFloat($("#Discount").val()).toFixed(3);
-                savedata.TDS = parseFloat($("#TDS").val()).toFixed(3);
-                savedata.TCS = parseFloat($("#TCS").val()).toFixed(3);
-                savedata.CreditLimit = (isNaN(parseFloat($("#CreditLimit").val())) ? 0 : parseFloat($("#CreditLimit").val())).toFixed(0);
-                savedata.InterestRate = parseFloat($("#InterestRate").val()).toFixed(2);
-                savedata.Commission = parseFloat($("#Commission").val()).toFixed(3);
+                savedata.DeliveryAccountBranchMappingId = getIntValueNull("DeliveryAccountBranchMappingId");
+                savedata.ShippingAccountBranchMappingId = getIntValueNull("ShippingAccountBranchMappingId");
+                savedata.BrokerMappingId = getIntValueNull("BrokerMappingId");
+                savedata.CreditDays = getIntValueZero("CreditDays");
+                savedata.Discount = getFloatValueZero("Discount", 3);
+                savedata.TDS = getFloatValueZero("TDS",3);
+                savedata.TCS = getFloatValueZero("TCS", 3);
+                savedata.CreditLimit = getFloatValueZero("CreditLimit", 0);
+                savedata.InterestRate = getFloatValueZero("InterestRate", 2);
+                savedata.Commission = getFloatValueZero("Commission", 3);
                 savedata.IsEcommerce = $("#IsEcommerce").is(':checked');
                 savedata.AdharUID = $("#AdharUID").val();
                 savedata.TAN = $("#TAN").val();
                 savedata.CompositParty = $("#CompositParty").is(':checked');
                 savedata.RCMParty = $("#RCMParty").is(':checked');
-                savedata.CapitalPercentage = (isNaN(parseFloat($("#CapitalPercentage").val())) ? 0 : parseFloat($("#CapitalPercentage").val())).toFixed(2);
+                savedata.CapitalPercentage = getFloatValueZero("CapitalPercentage", 2);
                 savedata.Active = $('#Active').is(':checked');
                 savedata.City = $("#CityId").val();
-                savedata.DistrictId = (isNaN(parseInt($("#District").val())) ? 0 : parseInt($("#District").val()));
+                savedata.DistrictId = getIntValueZero("District");
                 savedata.District = $("#District").val();
-                savedata.TalukaId = (isNaN(parseInt($("#Taluka").val())) ? 0 : parseInt($("#Taluka").val()));
+                savedata.TalukaId = getIntValueZero("Taluka");
                 savedata.Taluka = $("#Taluka").val();
                 savedata.Remarks = $("#Remarks").val();
                 savedata.CustomerAccountBranchIds = $("#CustomerAccountBranchIds").val().join(",");

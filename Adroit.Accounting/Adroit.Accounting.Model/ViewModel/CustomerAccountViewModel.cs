@@ -4,7 +4,7 @@
 
 namespace Adroit.Accounting.Model.ViewModel
 {
-    public class AccountCustomerViewModel : CustomerAccount
+    public class CustomerAccountViewModel : CustomerAccount
     {
         public List<DropdownViewModel> NameList { get; set; } = new();
         public List<DropdownViewModel> AccountGroupList { get; set; } = new();

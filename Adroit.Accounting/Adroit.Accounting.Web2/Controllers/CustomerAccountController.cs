@@ -12,7 +12,7 @@ namespace Adroit.Accounting.Web.Controllers
     {
         public IActionResult CustomerAccount()
         {
-            AccountCustomerViewModel model = new();
+            CustomerAccountViewModel model = new();
             int loginId = LoginHandler.GetUserId(User);
             var Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
 
@@ -32,7 +32,7 @@ namespace Adroit.Accounting.Web.Controllers
         [HttpGet]
         public JsonResult AccountList(int draw = 0, int start = 0, int length = 10, int firmId = 0)
         {
-            var result = new DataTableListViewModel<AccountCustomerGridViewModel>();
+            var result = new DataTableListViewModel<CustomerAccountGridViewModel>();
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
@@ -48,7 +48,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             catch (Exception ex)
             {
-                result.data = new List<AccountCustomerGridViewModel>();
+                result.data = new List<CustomerAccountGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
             }
@@ -56,7 +56,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveAccount([FromBody] AccountCustomerViewModel model)
+        public JsonResult SaveAccount([FromBody] CustomerAccountViewModel model)
         {
             ApiResult result = new ApiResult();
             try
@@ -84,7 +84,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                _customerAccountRepo.Delete(id, _configurationData.DefaultConnection);
+                var loginId = LoginHandler.GetUserId(User);
+                _customerAccountRepo.Delete(id, _configurationData.DefaultConnection, loginId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

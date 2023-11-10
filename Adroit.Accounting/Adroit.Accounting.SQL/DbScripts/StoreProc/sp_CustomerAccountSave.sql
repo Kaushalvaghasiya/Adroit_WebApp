@@ -61,28 +61,28 @@ BEGIN
 	BEGIN TRY
 		Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
 
-		IF(@CountryId >= 0 AND @StateId >= 0)
+		IF(ISNULL(@CountryId,0) >= 0 AND ISNULL(@StateId,0) >= 0)
 		BEGIN 			
-			IF(@District != null AND @DistrictId <= 0)
+			IF(ISNULL(@District,'') != '' AND ISNULL(@DistrictId,0) <= 0)
 			BEGIN 
 				EXEC @DistrictId = [dbo].[sp_DistrictSave] 0,@District,@StateId,1
 				SELECT @DistrictId = Id FROM District WHERE Title = @District AND Active = 1
 			END
 			
-			IF(@DistrictId >= 0 AND @Taluka != null AND @TalukaId <= 0)
+			IF(ISNULL(@DistrictId,0) >= 0 AND ISNULL(@Taluka,'') != '' AND ISNULL(@TalukaId,0) <= 0)
 			BEGIN 
 				EXEC @TalukaId = [dbo].[sp_TalukaSave] 0,@Taluka,@DistrictId,1
 				SELECT @TalukaId = Id FROM Taluka WHERE Title = @Taluka AND Active = 1
 			END
 
-			IF(@TalukaId >= 0 AND @City != null AND @CityId <= 0)
+			IF(ISNULL(@TalukaId,0) >= 0 AND ISNULL(@City,'') != '' AND ISNULL(@CityId,0) <= 0)
 			BEGIN 
 				EXEC @CityId = [dbo].[sp_CitySave] 0,@City,@TalukaId,1
 				SELECT @CityId = Id FROM City WHERE Title = @City AND Active = 1
 			END
 		END
 
-		IF EXISTS (SELECT 1 FROM CustomerAccount WHERE Id = @Id)
+		IF EXISTS (SELECT 1 FROM CustomerAccount WHERE Id = @Id) OR EXISTS (SELECT 1 FROM CustomerAccount WHERE [Name] = @Name AND Deleted = 1)
 			BEGIN
 				UPDATE  CustomerAccount SET
 						[CustomerId] = @CustomerId
@@ -132,64 +132,18 @@ BEGIN
 						,[ModifiedOn] = GETUTCDATE()
 						,[Remarks] = @Remarks
 						,[Active] = @Active
+						,DeletedById = NULL
+						,DeletedOn = NULL
+						,Deleted = 0
 					WHERE ID = @Id
 
-					DELETE FROM [CustomerAccountBranchMapping] WHERE AccountId = @Id
-				END
-		ELSE If EXISTS (SELECT 1 FROM CustomerAccount WHERE [Name] = @Name AND Deleted = 1)
-			BEGIN
-				UPDATE  CustomerAccount SET
-						[CustomerId] = @CustomerId
-						,[Name] = @Name
-						,[PrintName] = @PrintName
-						,[AccountGroupId] = @AccountGroupId
-						,[Address1] = @Address1
-						,[Address2] = @Address2
-						,[Address3] = @Address3
-						,[CityId] = @CityId
-						,[StateId] = @StateId
-						,[CountryId] = @CountryId
-						,[Pincode] = @Pincode
-						,[KM] = @KM
-						,[ContactPersonName] = @ContactPersonName
-						,[Mobile] = @Mobile
-						,[MobileAlternate] = @MobileAlternate
-						,[Email] = @Email
-						,[GSTNumber] = @GSTNumber
-						,[PAN] = @PAN
-						,[AreaName] = @AreaName
-						,[RateWithGST] = @RateWithGST
-						,[GSTInvoiceTypeId] = @GSTInvoiceTypeId
-						,[EximCode] = @EximCode
-						,[IsIGST] = @IsIGST
-						,[GSTNumberTransport] = @GSTNumberTransport
-						,[TransportName] = @TransportName
-						,[VehicleNumber] = @VehicleNumber
-						,[DeliveryAccountBranchMappingId] = @DeliveryAccountBranchMappingId
-						,[ShippingAccountBranchMappingId] = @ShippingAccountBranchMappingId
-						,[BrokerMappingId] = @BrokerMappingId
-						,[CreditDays] = @CreditDays
-						,[Discount] = @Discount
-						,[TDS] = @TDS
-						,[TCS] = @TCS
-						,[CreditLimit] = @CreditLimit
-						,[InterestRate] = @InterestRate
-						,[Commission] = @Commission
-						,[IsEcommerce] = @IsEcommerce
-						,[AdharUID] = @AdharUID
-						,[TAN] = @TAN
-						,[CompositParty] = @CompositParty
-						,[RCMParty] = @RCMParty
-						,[CapitalPercentage] = @CapitalPercentage
-						,[OwnerBranchId] = @OwnerBranchId
-						,[Remarks] = @Remarks
-						,[Active] = @Active
-						,Deleted = 0
-					WHERE [Name] = @Name 
+					IF(ISNULL(@Id, 0) <= 0)
+					BEGIN 
+						SELECT @Id=Id FROM CustomerAccount WHERE [Name] = @Name 
+					END
 
-				SELECT @Id=Id FROM CustomerAccount WHERE [Name] = @Name 
-				DELETE FROM [CustomerAccountBranchMapping] WHERE AccountId = @Id
-			END
+					DELETE FROM [CustomerAccountBranchMapping] WHERE AccountId = @Id
+				END		
 		ELSE
 			BEGIN
 				INSERT INTO CustomerAccount

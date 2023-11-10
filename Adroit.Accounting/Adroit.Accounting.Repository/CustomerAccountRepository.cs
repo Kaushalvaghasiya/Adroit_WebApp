@@ -8,7 +8,7 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerAccountRepository : ICustomerAccount
     {
-        public int Save(AccountCustomerViewModel value, string connectionString)
+        public int Save(CustomerAccountViewModel value, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", value.loginId);
@@ -67,15 +67,15 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerAccountSave", connectionString, parameters);
         }
-        public AccountCustomerViewModel Get(int id, string connectionString, int loginId = 0, int firmId = 0)
+        public CustomerAccountViewModel Get(int id, string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             parameters.Add("@Id", id);
-            return QueryHelper.Get<AccountCustomerViewModel>("sp_CustomerAccountGet", connectionString, parameters);
+            return QueryHelper.Get<CustomerAccountViewModel>("sp_CustomerAccountGet", connectionString, parameters);
         }
-        public List<AccountCustomerGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<CustomerAccountGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
@@ -85,7 +85,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<AccountCustomerGridViewModel>("sp_CustomerAccountList", connectionString, parameters);
+            return QueryHelper.GetList<CustomerAccountGridViewModel>("sp_CustomerAccountList", connectionString, parameters);
         }
         public bool Delete(int id, string connectionString, int loginId = 0, int firmId = 0)
         {
