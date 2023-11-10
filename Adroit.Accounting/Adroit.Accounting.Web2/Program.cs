@@ -114,7 +114,11 @@ try
     builder.Services.AddSingleton<ILRBookingRange, LRBookingRangeRepository>();
     builder.Services.AddSingleton<ICustomerFirm, CustomerFirmRepository>();
     builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
-    builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
+	builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
+	builder.Services.AddSingleton<IProduct, ProductRepository>();
+    builder.Services.AddSingleton<IProductCategory, ProductCategoryRepository>();
+    builder.Services.AddSingleton<IGSTUQC, GSTUQCRepository>();
+    builder.Services.AddSingleton<IGSTCalculation, GSTCalculationRepository>();
     builder.Services.AddSingleton<ICustomerAccountBranchMapping, CustomerAccountBranchMappingRepository>();
 
     if (!builder.Environment.IsDevelopment())

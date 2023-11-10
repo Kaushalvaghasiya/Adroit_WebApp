@@ -30,9 +30,9 @@ BEGIN
 		ELSE
 			BEGIN
 				INSERT INTO ProductStockType
-					(Title, OrderNumber, Active)
+					(Title, OrderNumber, Active, Deleted)
 				VALUES
-					(@Title, @OrderNumber, @Active)
+					(@Title, @OrderNumber, @Active, 0)
 
 				SET @Id = SCOPE_IDENTITY()
 			END

@@ -9,13 +9,13 @@ namespace Adroit.Accounting.Repository
 {
     public class ProductStockTypeRepository : IProductStockType
     {
-        public int Save(ProductStockType productStockType, string connectionString)
+        public int Save(ProductStockType value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Id", productStockType.Id);
-            parameters.Add("@Title", productStockType.Title);
-            parameters.Add("@OrderNumber", productStockType.OrderNumber);
-            parameters.Add("@Active", productStockType.Active);
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@Title", value.Title);
+            parameters.Add("@OrderNumber", value.OrderNumber);
+            parameters.Add("@Active", value.Active);
             return QueryHelper.Save("sp_ProductStockTypeSave", connectionString, parameters);
         }
         public void Delete(int id, string connectionString)
@@ -43,6 +43,11 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortColumn", sortColumn);
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<ProductStockTypeGridViewModel>("sp_ProductStockTypeList", connectionString, param);
+        }
+        public List<DropdownViewModel> SelectList(string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            return QueryHelper.GetList<DropdownViewModel>("sp_ProductStockTypeList_Select", connectionString, parameters);
         }
 
     }
