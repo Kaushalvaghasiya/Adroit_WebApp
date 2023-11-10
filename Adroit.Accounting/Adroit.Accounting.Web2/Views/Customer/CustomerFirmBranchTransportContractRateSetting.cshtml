@@ -95,7 +95,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="AccountBranchMappingId">Customer Name</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="AccountBranchMappingId">
+                                <select class="form-control select2-show-search mode-ed" id="AccountBranchMappingId">
                                     <option></option>
                                     @{
                                         if (Model.CustomerList != null)
@@ -128,7 +128,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="RatePerKG">LR Rate Per Kg</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="RatePerKG">
+                                <select class="form-control select2-show-search-add-float-2 mode-ed" id="RatePerKG">
                                     <option>0.00</option>
                                     @{
                                         if (Model.RatePerKGList != null)
@@ -145,7 +145,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="RatePerParcel">LR Rate Per Parcel</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="RatePerParcel">
+                                <select class="form-control select2-show-search-add-float-2 mode-ed" id="RatePerParcel">
                                     <option>0.00</option>
                                     @{
                                         if (Model.RatePerParcelList != null)
@@ -255,6 +255,7 @@
                     return btnAct;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
                 "orderable": false
             });
 
@@ -338,13 +339,17 @@
                         $("#RatePerKG").focus();
                         return false;
                     }
+                    var RatePerKG = parseFloat($('#RatePerKG').val()).toFixed(2);
+                    $("#RatePerKG").append(new Option(RatePerKG, RatePerKG, true, true)).trigger('change');
                 }
-                if (parseFloat($("#RatePerParcel").val().trim()) === 0) {
+                if (parseFloat($("#RatePerParcel").val().trim()) !== 0) {
                     if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#RatePerParcel").val())) {
                         showWarning("", "Rate per Parcel must be upto 7 characters before decimal point and  characters after decimal point long.");
                         $("#RatePerParcel").focus();
                         return false;
                     }
+                    var RatePerParcel = parseFloat($('#RatePerParcel').val()).toFixed(2);
+                    $("#RatePerParcel").append(new Option(RatePerParcel, RatePerParcel, true, true)).trigger('change');
                 }
 
                 var savedata = new Object();
