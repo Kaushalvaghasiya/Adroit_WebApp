@@ -94,5 +94,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             return QueryHelper.Delete("sp_CustomerBookDelete", connectionString, parameters);
         }
+        public List<DropdownViewModel> SelectListByLoginId(int loginId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerBookBranchMappingList_Select", connectionString, parameters);
+        }
+
     }
 }

@@ -73,7 +73,9 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IBookTypeAdmin _bookTypeRepository;
         protected readonly IBillTypeAdmin _billTypeAdminRepository;
         protected readonly ISalesBillFromAdmin _salesBillFromAdminRepository;
-        
+        protected readonly ICustomerFirmBranchTransportSetting _customerFirmBranchTransportSettingRepository;
+        protected readonly ITransportLRRateOn _transportLRRateOnRepository;
+        protected readonly ITransportLRPayType _transportLRPayTypeRepository;
 
         public CustomerController(
             IVehicle vehicleRepo,
@@ -134,7 +136,10 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerBook customerBookRepository,
             IBookTypeAdmin bookTypeRepository,
             IBillTypeAdmin billTypeAdminRepository,
-            ISalesBillFromAdmin salesBillFromAdminRepository)
+            ISalesBillFromAdmin salesBillFromAdminRepository,
+            ICustomerFirmBranchTransportSetting customerFirmBranchTransportSettingRepository,
+            ITransportLRRateOn transportLRRateOnRepository,
+            ITransportLRPayType transportLRPayTypeRepository)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -195,6 +200,9 @@ namespace Adroit.Accounting.Web.Controllers
             _bookTypeRepository = bookTypeRepository;
             _billTypeAdminRepository = billTypeAdminRepository;
             _salesBillFromAdminRepository = salesBillFromAdminRepository;
+            _customerFirmBranchTransportSettingRepository = customerFirmBranchTransportSettingRepository;
+            _transportLRRateOnRepository = transportLRRateOnRepository;
+            _transportLRPayTypeRepository = transportLRPayTypeRepository;
         }
 
         public JsonResult GetAccountGroups()
