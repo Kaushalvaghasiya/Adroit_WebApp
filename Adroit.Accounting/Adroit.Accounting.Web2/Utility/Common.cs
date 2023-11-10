@@ -103,7 +103,7 @@ namespace Adroit.Accounting.Web.Utility
                         var code = await userManager.GeneratePasswordResetTokenAsync(user);
                         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
 
-                        string url = $"{request.Scheme}://{request.Host.ToUriComponent()}/Authentication/VerifyOtpAndSetPassword?userId={userId}&code={code}";
+                        string url = $"{configurationData.SiteURL}/Authentication/VerifyOtpAndSetPassword?userId={userId}&code={code}";
                         var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\OTPEmail.html"));
                         msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(model.Name) ? model.Name : "")
                                                 .Replace("{OTP}", customer.EmailOtp)

@@ -70,5 +70,7 @@ namespace Adroit.Accounting.Model
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
         public bool Active { get; set; }
+        public string CustomerBookBranchId { get; set; } //Comma separated
+
     }
 }

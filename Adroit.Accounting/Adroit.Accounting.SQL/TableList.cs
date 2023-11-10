@@ -214,6 +214,28 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+	public sealed class ProductTable
+    {
+        public const string _TableName = "Product";
+        public const string Title = "Title";
+        public const string Code = "Code";
+        public const string HSNCode = "HSNCode";
+        public const string HSNDesc = "HSNDesc";
+        public const string RateRetail = "RateRetail";
+        public const string Mrp = "Mrp";
+        public const string DistributorRate = "DistributorRate";
+        public const string DealerRate = "DealerRate";
+        public const string AveragePack = "AveragePack";
+        public const string BoxPack = "BoxPack";
+        public const string GstCentralCess = "GstCentralCess";
+        public const string GstStateCess = "GstStateCess";
+        public const string Discount = "Discount";
+        public const string Cut = "Cut";
+        public const string RolMin = "RolMin";
+        public const string RolMax = "RolMax";
+        public const string DenierWeight = "DenierWeight";
+        public const string RatePerMeter = "RatePerMeter";
+    }
 
     #region Adroit - Account
     public sealed class AccountAdminTable
@@ -286,6 +308,12 @@
         public const string _TableName = "TransportLRCharges";
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
+    }
+    public sealed class LRBookingRangeTable
+    {
+        public const string _TableName = "LRBookingRange";
+        public const string StartNumber = "StartNumber";
+        public const string EndNumber = "EndNumber";
     }
     #endregion
 

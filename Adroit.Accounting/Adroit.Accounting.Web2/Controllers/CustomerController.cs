@@ -55,8 +55,18 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ILogger<CustomerController> _logger;
         private readonly ICity _cityRepository;
         private readonly ICustomerFirmBranch _customerFirmBranchesRepository;
+        private readonly ILRBookingRange _lrBookingRangeRepository;
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
+		private readonly IProduct _productRepository;
+        private readonly IProductStockType _stockTypeRepository;
+        private readonly IProductQualityType _productQualityTypeRepository;
+        private readonly ISoftware _softwareRepository;
+        private readonly IGSTRate _gstRateRepository;
+        private readonly IProductCategory _productCategoryRepository;
+        private readonly IGSTUQC _gstUQCRepository;
+        private readonly IGSTCalculation _gstCalculationRepository;
+        private readonly IProductAmtCalcOn _productAmtCalcOnRepository;
         private readonly ICustomerBook _customerBookRepository;
         private readonly IBookTypeAdmin _bookTypeRepository;
         protected readonly IBillTypeAdmin _billTypeAdminRepository;
@@ -104,9 +114,19 @@ namespace Adroit.Accounting.Web.Controllers
             ILogger<CustomerController> logger,
             ICity cityRepository,
             ICustomerFirmBranch customerFirmBranchesRepository,
+            ILRBookingRange lrBookingRangeRepository,
             IAdminCustomerFirm customerFirmRepository,
             ISoftwarePlan softwarePlanRepository,
             IBranchTypeAdmin branchTypeRepository,
+            IProduct productRepository,
+            IProductStockType stockTypeRepository,
+            IProductQualityType productQualityTypeRepository,
+            ISoftware softwareRepository,
+            IGSTRate gstRateRepository,
+            IProductCategory productCategoryRepository,
+            IGSTUQC gstUQCRepository,
+            IGSTCalculation gstCalculationRepository,
+            IProductAmtCalcOn productAmtCalcOnRepository,
             ICustomerBook customerBookRepository,
             IBookTypeAdmin bookTypeRepository,
             IBillTypeAdmin billTypeAdminRepository,
@@ -152,9 +172,19 @@ namespace Adroit.Accounting.Web.Controllers
             _logger = logger;
             _cityRepository = cityRepository;
             _customerFirmBranchesRepository = customerFirmBranchesRepository;
+            _lrBookingRangeRepository = lrBookingRangeRepository;
             _customerFirmRepository = customerFirmRepository;
             _softwarePlanRepository = softwarePlanRepository;
             _branchTypeRepository = branchTypeRepository;
+			_productRepository = productRepository;
+            _stockTypeRepository = stockTypeRepository;
+            _productQualityTypeRepository = productQualityTypeRepository;
+            _softwareRepository = softwareRepository;
+            _gstRateRepository = gstRateRepository;
+            _productCategoryRepository = productCategoryRepository;
+            _gstUQCRepository = gstUQCRepository;
+            _gstCalculationRepository = gstCalculationRepository;
+            _productAmtCalcOnRepository = productAmtCalcOnRepository;
             _customerBookRepository = customerBookRepository;
             _bookTypeRepository = bookTypeRepository;
             _billTypeAdminRepository = billTypeAdminRepository;
