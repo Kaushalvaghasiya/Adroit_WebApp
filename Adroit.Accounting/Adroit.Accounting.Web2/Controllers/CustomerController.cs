@@ -58,7 +58,8 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ILRBookingRange _lrBookingRangeRepository;
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
-		private readonly IProduct _productRepository;
+        private readonly ICustomerFirmBranchLRRate _customerFirmBranchLRRateRepository;
+        private readonly IProduct _productRepository;
         private readonly IProductStockType _stockTypeRepository;
         private readonly IProductQualityType _productQualityTypeRepository;
         private readonly ISoftware _softwareRepository;
@@ -67,6 +68,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IGSTUQC _gstUQCRepository;
         private readonly IGSTCalculation _gstCalculationRepository;
         private readonly IProductAmtCalcOn _productAmtCalcOnRepository;
+        private readonly ICustomerAccountBranchMapping _customerAccountBranchMapping;
         private readonly ICustomerBook _customerBookRepository;
         private readonly IBookTypeAdmin _bookTypeRepository;
         protected readonly IBillTypeAdmin _billTypeAdminRepository;
@@ -118,6 +120,7 @@ namespace Adroit.Accounting.Web.Controllers
             IAdminCustomerFirm customerFirmRepository,
             ISoftwarePlan softwarePlanRepository,
             IBranchTypeAdmin branchTypeRepository,
+            ICustomerFirmBranchLRRate customerFirmBranchLRRateRepository,
             IProduct productRepository,
             IProductStockType stockTypeRepository,
             IProductQualityType productQualityTypeRepository,
@@ -127,6 +130,7 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTUQC gstUQCRepository,
             IGSTCalculation gstCalculationRepository,
             IProductAmtCalcOn productAmtCalcOnRepository,
+            ICustomerAccountBranchMapping customerAccountBranchMapping,
             ICustomerBook customerBookRepository,
             IBookTypeAdmin bookTypeRepository,
             IBillTypeAdmin billTypeAdminRepository,
@@ -176,7 +180,8 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmRepository = customerFirmRepository;
             _softwarePlanRepository = softwarePlanRepository;
             _branchTypeRepository = branchTypeRepository;
-			_productRepository = productRepository;
+            _customerFirmBranchLRRateRepository = customerFirmBranchLRRateRepository;
+            _productRepository = productRepository;
             _stockTypeRepository = stockTypeRepository;
             _productQualityTypeRepository = productQualityTypeRepository;
             _softwareRepository = softwareRepository;
@@ -185,97 +190,13 @@ namespace Adroit.Accounting.Web.Controllers
             _gstUQCRepository = gstUQCRepository;
             _gstCalculationRepository = gstCalculationRepository;
             _productAmtCalcOnRepository = productAmtCalcOnRepository;
+            _customerAccountBranchMapping = customerAccountBranchMapping;
             _customerBookRepository = customerBookRepository;
             _bookTypeRepository = bookTypeRepository;
             _billTypeAdminRepository = billTypeAdminRepository;
             _salesBillFromAdminRepository = salesBillFromAdminRepository;
         }
 
-        public IActionResult Account()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public JsonResult SaveAccount([FromBody] CustomerAccount model)
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                int id = _customerAccountRepo.Save(model, _configurationData.DefaultConnection);
-                if (id > 0)
-                {
-                    result.data = true;
-                    result.result = Constant.API_RESULT_SUCCESS;
-                }
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
-        [HttpGet]
-        public JsonResult GetAccount(int id)
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                result.data = _customerAccountRepo.Get(id, _configurationData.DefaultConnection, 0, 0);
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
-        [HttpGet]
-        public JsonResult GetAccountList(int draw = 0, int start = 0, int length = 10)
-        {
-            var result = new DataTableListViewModel<CustomerGridViewModel>();
-            try
-            {
-                int sortColumn = 0, loginId = 0, firmId = 0;
-                string sortDirection = "asc", search = "";
-
-                //// note: we only sort one column at a time
-                //search = Convert.ToString(Request.Query["search[value]"]);
-                //sortColumn = int.Parse(Request.Query["order[0][column]"]);
-                //sortDirection = Convert.ToString(Request.Query["order[0][dir]"]);
-
-                var records = _customerAccountRepo.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
-                result.data = records;
-                result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
-                result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
-            }
-            catch (Exception ex)
-            {
-                result.data = new List<CustomerGridViewModel>();
-                result.recordsTotal = 0;
-                result.recordsFiltered = 0;
-            }
-            return Json(result);
-        }
-        public JsonResult DeleteAccount(int id)
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                result.data = _customerAccountRepo.Delete(id, _configurationData.DefaultConnection, 0, 0);
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
         public JsonResult GetAccountGroups()
         {
             ApiResult result = new ApiResult();

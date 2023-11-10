@@ -28,7 +28,7 @@ Begin
 		) AS RowNum,
 	   Count(*) over () AS TotalRows, CustomerAccount.*, [CustomerAccountGroup].Title as AccountGroup, [City].Title as [City]
 	  FROM CustomerAccount
-	  LEFT JOIN [CustomerAccountGroup] on CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id
+	  INNER JOIN [CustomerAccountGroup] on CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id
 	  LEFT JOIN [City] on CustomerAccount.CityId = [City].Id
 	  WHERE CustomerAccount.Deleted = 0
 	  AND (Coalesce(@Search,'') = '' OR CustomerAccount.[Name] like '%'+ @Search + '%')

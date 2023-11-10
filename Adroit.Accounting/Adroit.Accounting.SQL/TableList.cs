@@ -255,6 +255,14 @@
         public const string _TableName = "SalesBillFromAdmin";
         public const string Title = "Title";
     }
+
+    public sealed class CustomerAccountTable
+    {
+        public const string _TableName = "CustomerAccount";
+        public const string AreaName = "AreaName";
+        public const string TransportName = "TransportName";
+        public const string Name = "Name";
+    }
     #endregion
 
     #region Adroit - GST
@@ -309,6 +317,18 @@
         public const string Title = "Title";
         public const string OrderNumber = "OrderNumber";
     }
+    public sealed class CustomerFirmBranchLRRateTable
+    {
+        public const string _TableName = "CustomerFirmBranchLRRate";
+        public const string RatePerKg = "RatePerKg";
+        public const string RatePerParcel = "RatePerParcel";
+        public const string CrossingChargePercentOnFreight = "CrossingChargePercentOnFreight";
+        public const string CrossingChargePerKg = "CrossingChargePerKg";
+        public const string CrossingChargePerParcel = "CrossingChargePerParcel";
+        public const string CommissionPercentOnFreight = "CommissionPercentOnFreight";
+        public const string CommissionPerKg = "CommissionPerKg";
+        public const string CommissionPerParcel = "CommissionPerParcel";
+    }
     public sealed class LRBookingRangeTable
     {
         public const string _TableName = "LRBookingRange";
@@ -317,13 +337,4 @@
     }
     #endregion
 
-    #region Adroit - Customer
-    public sealed class CustomerAccountTable
-    {
-        public const string _TableName = "CustomerAccount";
-        public const string AreaName = "AreaName";
-        public const string TransportName = "TransportName";
-        public const string Name = "Name";
-    }
-    #endregion
 }

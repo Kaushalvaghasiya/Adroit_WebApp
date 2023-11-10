@@ -6,8 +6,19 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountGet]
 )
 AS
 BEGIN
-	SELECT *
-	FROM CustomerAccount 
-	WHERE Id = @Id
+	SELECT CustomerAccount.*,
+		   (SELECT STUFF((SELECT ',' + CAST(t1.BranchId AS VARCHAR) FROM CustomerAccountBranchMapping t1
+					WHERE t1.AccountId = t.AccountId FOR XML PATH('')),1,1,'') Concats
+			FROM  CustomerAccountBranchMapping t
+			WHERE t.AccountId = @Id GROUP BY t.AccountId) AS CustomerAccountBranchIds,
+		   Taluka.Id As TalukaId,
+		   District.Id As DistrictId
+	FROM CustomerAccount
+	LEFT JOIN City ON CustomerAccount.CityId = City.Id
+	LEFT JOIN Taluka ON City.TalukaId = Taluka.Id
+	LEFT JOIN District ON Taluka.DistrictId = District.Id
+	LEFT JOIN State ON District.StateId = State.Id
+	LEFT JOIN Country ON State.CountryId = Country.Id
+	WHERE CustomerAccount.Id = @Id
 END
 GO

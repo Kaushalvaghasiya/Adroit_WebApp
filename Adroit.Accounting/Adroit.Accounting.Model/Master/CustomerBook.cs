@@ -66,7 +66,7 @@ namespace Adroit.Accounting.Model
         public int? AddedById { get; set; }
         public int? DeletedById { get; set; }
         public System.DateTime? DeletedOn { get; set; }
-        public int? OwnerBranchId { get; set; }
+        public int OwnerBranchId { get; set; }
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
         public bool Active { get; set; }
