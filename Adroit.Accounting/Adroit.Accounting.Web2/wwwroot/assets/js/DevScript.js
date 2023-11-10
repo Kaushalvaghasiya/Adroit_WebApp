@@ -232,3 +232,23 @@ function getDate(value) {
     var data = value.split('/');
     return data[2] + '/' + data[1] + '/' + data[0];
 }
+
+function isNumber(text) {
+    return /^\d*$/.test(text);
+}
+
+function getIntValueNull(elementId) {
+    return (isNaN(parseInt($("#" + elementId).val())) ? null : parseInt($("#" + elementId).val()));
+}
+
+function getIntValueZero(elementId) {
+    return (isNaN(parseInt($("#" + elementId).val())) ? 0 : parseInt($("#" + elementId).val()));
+}
+
+function getFloatValueNull(elementId, decimalPoints) {
+    return (isNaN(parseFloat($("#" + elementId).val())) ? null : parseFloat($("#" + elementId).val()).toFixed(decimalPoints));
+}
+
+function getFloatValueZero(elementId, decimalPoints) {
+    return (isNaN(parseFloat($("#" + elementId).val())) ? 0.00 : parseFloat($("#" + elementId).val()).toFixed(decimalPoints));
+}

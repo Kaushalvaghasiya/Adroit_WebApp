@@ -5,6 +5,7 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface IProductDesignNumber
     {
+        List<DropdownViewModel> SelectList(string connectionString);
         int Save(ProductDesignNumber value, int userId, string connectionString);
         ProductDesignNumberViewModel Get(int id, int userId, string connectionString);
         void Delete(int id, int userId, string connectionString);
