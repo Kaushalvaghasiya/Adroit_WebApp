@@ -46,5 +46,10 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<ProductShadeNumberGridViewModel>("sp_ProductShadeNumberList", connectionString, param);
         }
+        public List<DropdownViewModel> SelectList(string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            return QueryHelper.GetList<DropdownViewModel>("sp_ProductShadeNumberList_Select", connectionString, parameters);
+        }
     }
 }

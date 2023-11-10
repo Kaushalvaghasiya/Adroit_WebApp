@@ -48,6 +48,8 @@ namespace Adroit.Accounting.Model
         public bool RateUpdate { get; set; }
         public decimal Discount { get; set; }
         public string HSNDesc { get; set; }
+        public string Remarks1 { get; set; }
+        public string Remarks2 { get; set; }
         public int AddedById { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int? DeletedById { get; set; }
@@ -55,5 +57,6 @@ namespace Adroit.Accounting.Model
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
         public bool Active{ get; set; }
+
     }
 }

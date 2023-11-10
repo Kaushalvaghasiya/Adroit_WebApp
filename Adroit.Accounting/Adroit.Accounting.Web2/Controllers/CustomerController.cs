@@ -58,6 +58,15 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ILRBookingRange _lrBookingRangeRepository;
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
+		private readonly IProduct _productRepository;
+        private readonly IProductStockType _stockTypeRepository;
+        private readonly IProductQualityType _productQualityTypeRepository;
+        private readonly ISoftware _softwareRepository;
+        private readonly IGSTRate _gstRateRepository;
+        private readonly IProductCategory _productCategoryRepository;
+        private readonly IGSTUQC _gstUQCRepository;
+        private readonly IGSTCalculation _gstCalculationRepository;
+        private readonly IProductAmtCalcOn _productAmtCalcOnRepository;
 
         public CustomerController(
             IVehicle vehicleRepo,
@@ -103,7 +112,16 @@ namespace Adroit.Accounting.Web.Controllers
             ILRBookingRange lrBookingRangeRepository,
             IAdminCustomerFirm customerFirmRepository,
             ISoftwarePlan softwarePlanRepository,
-            IBranchTypeAdmin branchTypeRepository)
+            IBranchTypeAdmin branchTypeRepository,
+            IProduct productRepository,
+            IProductStockType stockTypeRepository,
+            IProductQualityType productQualityTypeRepository,
+            ISoftware softwareRepository,
+            IGSTRate gstRateRepository,
+            IProductCategory productCategoryRepository,
+            IGSTUQC gstUQCRepository,
+            IGSTCalculation gstCalculationRepository,
+            IProductAmtCalcOn productAmtCalcOnRepository)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -149,6 +167,15 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmRepository = customerFirmRepository;
             _softwarePlanRepository = softwarePlanRepository;
             _branchTypeRepository = branchTypeRepository;
+			_productRepository = productRepository;
+            _stockTypeRepository = stockTypeRepository;
+            _productQualityTypeRepository = productQualityTypeRepository;
+            _softwareRepository = softwareRepository;
+            _gstRateRepository = gstRateRepository;
+            _productCategoryRepository = productCategoryRepository;
+            _gstUQCRepository = gstUQCRepository;
+            _gstCalculationRepository = gstCalculationRepository;
+            _productAmtCalcOnRepository = productAmtCalcOnRepository;
         }
 
         public IActionResult Account()
