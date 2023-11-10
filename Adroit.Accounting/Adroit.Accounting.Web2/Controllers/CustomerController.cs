@@ -58,6 +58,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ILRBookingRange _lrBookingRangeRepository;
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
+        private readonly ICustomerFirmBranchLRRate _customerFirmBranchLRRateRepository;
 		private readonly IProduct _productRepository;
         private readonly IProductStockType _stockTypeRepository;
         private readonly IProductQualityType _productQualityTypeRepository;
@@ -113,6 +114,7 @@ namespace Adroit.Accounting.Web.Controllers
             IAdminCustomerFirm customerFirmRepository,
             ISoftwarePlan softwarePlanRepository,
             IBranchTypeAdmin branchTypeRepository,
+            ICustomerFirmBranchLRRate customerFirmBranchLRRateRepository)
             IProduct productRepository,
             IProductStockType stockTypeRepository,
             IProductQualityType productQualityTypeRepository,
@@ -167,6 +169,7 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmRepository = customerFirmRepository;
             _softwarePlanRepository = softwarePlanRepository;
             _branchTypeRepository = branchTypeRepository;
+            _customerFirmBranchLRRateRepository = customerFirmBranchLRRateRepository;
 			_productRepository = productRepository;
             _stockTypeRepository = stockTypeRepository;
             _productQualityTypeRepository = productQualityTypeRepository;
