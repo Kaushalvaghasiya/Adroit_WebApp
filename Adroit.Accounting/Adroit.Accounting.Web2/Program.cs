@@ -121,6 +121,7 @@ try
     builder.Services.AddSingleton<IGSTUQC, GSTUQCRepository>();
     builder.Services.AddSingleton<IGSTCalculation, GSTCalculationRepository>();
     builder.Services.AddSingleton<ICustomerAccountBranchMapping, CustomerAccountBranchMappingRepository>();
+	builder.Services.AddSingleton<ICustomerBook, CustomerBookRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

@@ -50,9 +50,9 @@ namespace Adroit.Accounting.Model
         public int? TDSAccountId { get; set; }
         public bool IsTCSAccount { get; set; }
         public int? TCSAccountId { get; set; }
-        public int SGSTAccountId { get; set; }
-        public int CGSTAccountId { get; set; }
-        public int IGSTAccountId { get; set; }
+        public int? SGSTAccountId { get; set; }
+        public int? CGSTAccountId { get; set; }
+        public int? IGSTAccountId { get; set; }
         public int? GSTStateCessAccountId { get; set; }
         public int? GSTCentralCessAccountId { get; set; }
         public int? RcmSGSTPayAccountId { get; set; }
@@ -61,7 +61,7 @@ namespace Adroit.Accounting.Model
         public int? RcmSGSTRecAccountId { get; set; }
         public int? RcmCGSTRecAccountId { get; set; }
         public int? RcmIGSTRecAccountId { get; set; }
-        public int RoundOffAccountId { get; set; }
+        public int? RoundOffAccountId { get; set; }
         public System.DateTime AddedOn { get; set; }
         public int AddedById { get; set; }
         public int? DeletedById { get; set; }
@@ -70,5 +70,7 @@ namespace Adroit.Accounting.Model
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
         public bool Active { get; set; }
+        public string CustomerBookBranchId { get; set; } //Comma separated
+
     }
 }

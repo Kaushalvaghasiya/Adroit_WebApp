@@ -69,6 +69,11 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IGSTCalculation _gstCalculationRepository;
         private readonly IProductAmtCalcOn _productAmtCalcOnRepository;
         private readonly ICustomerAccountBranchMapping _customerAccountBranchMapping;
+        private readonly ICustomerBook _customerBookRepository;
+        private readonly IBookTypeAdmin _bookTypeRepository;
+        protected readonly IBillTypeAdmin _billTypeAdminRepository;
+        protected readonly ISalesBillFromAdmin _salesBillFromAdminRepository;
+        
 
         public CustomerController(
             IVehicle vehicleRepo,
@@ -125,8 +130,11 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTUQC gstUQCRepository,
             IGSTCalculation gstCalculationRepository,
             IProductAmtCalcOn productAmtCalcOnRepository,
-            ICustomerAccountBranchMapping customerAccountBranchMapping)
-
+            ICustomerAccountBranchMapping customerAccountBranchMapping,
+            ICustomerBook customerBookRepository,
+            IBookTypeAdmin bookTypeRepository,
+            IBillTypeAdmin billTypeAdminRepository,
+            ISalesBillFromAdmin salesBillFromAdminRepository)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -183,6 +191,10 @@ namespace Adroit.Accounting.Web.Controllers
             _gstCalculationRepository = gstCalculationRepository;
             _productAmtCalcOnRepository = productAmtCalcOnRepository;
             _customerAccountBranchMapping = customerAccountBranchMapping;
+            _customerBookRepository = customerBookRepository;
+            _bookTypeRepository = bookTypeRepository;
+            _billTypeAdminRepository = billTypeAdminRepository;
+            _salesBillFromAdminRepository = salesBillFromAdminRepository;
         }
 
         public JsonResult GetAccountGroups()
