@@ -60,8 +60,6 @@ namespace Adroit.Accounting.Model
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
         public bool Active { get; set; }
-
-        public string AccountGroup { get; set; }
-        public string City { get; set; }
+        public string Remarks { get; set; }
     }
 }

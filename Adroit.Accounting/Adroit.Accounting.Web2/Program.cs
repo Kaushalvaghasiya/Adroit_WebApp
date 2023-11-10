@@ -120,6 +120,7 @@ try
     builder.Services.AddSingleton<IProductCategory, ProductCategoryRepository>();
     builder.Services.AddSingleton<IGSTUQC, GSTUQCRepository>();
     builder.Services.AddSingleton<IGSTCalculation, GSTCalculationRepository>();
+    builder.Services.AddSingleton<ICustomerAccountBranchMapping, CustomerAccountBranchMappingRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

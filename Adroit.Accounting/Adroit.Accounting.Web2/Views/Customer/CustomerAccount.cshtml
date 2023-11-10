@@ -1,0 +1,1472 @@
+﻿@model Adroit.Accounting.Model.ViewModel.CustomerAccountViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Master</a></li>
+                    <li><a href="#">Account</a></li>
+                    <li class="active"><span>Add (Customer)</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">PARTY NAME</th>
+                                    <th class="border-bottom-0">A/C GROUP</th>
+                                    <th class="border-bottom-0">GST NO</th>
+                                    <th class="border-bottom-0">CITY</th>
+                                    <th class="border-bottom-0">MOBILE NO</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Master</a></li>
+                    <li><a href="#">Account</a></li>
+                    <li><a href="#" class="btn-back">Add (Customer)</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search GST Number..." id="GoSearchQuery">
+                        <span class="input-group-append mr-2">
+                            <button class="btn btn-primary go-search" type="button">Go!</button>
+                        </span>
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="Name">Account Name</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="Name">
+                                    <option></option>
+                                    @{
+                                        if (Model.NameList != null)
+                                        {
+                                            foreach (var o in Model.NameList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="form-group">
+                                <label for="PrintName">Print Account Name</label>
+                                <input type="text" class="form-control" id="PrintName" placeholder="" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="AccountGroupId">Account Group</label>
+                                <select class="form-control select2-show-search" id="AccountGroupId">
+                                    <option></option>
+                                    @{
+                                        if (Model.AccountGroupList != null)
+                                        {
+                                            foreach (var o in Model.AccountGroupList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Address1">Address Line 1</label>
+                                <input type="text" class="form-control" id="Address1" placeholder="" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Address2">Address Line 2</label>
+                                <input type="text" class="form-control" id="Address2" placeholder="" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Address3">Address Line 3</label>
+                                <input type="text" class="form-control" id="Address3" placeholder="" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="CountryId">Country</label>
+                                <select class="form-control select2-show-search" id="CountryId">
+                                    <option></option>
+                                    @{
+                                        if (Model.CountryList != null)
+                                        {
+                                            foreach (var o in Model.CountryList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="StateId">State</label>
+                                <select class="form-control select2-show-search-clear" id="StateId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="District">District</label>
+                                <select class="form-control select2-show-search-add-clear mode-ed" id="District">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Taluka">Taluka</label>
+                                <select class="form-control select2-show-search-add-clear mode-ed" id="Taluka">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="CityId">City</label>
+                                <select class="form-control select2-show-search-add-clear mode-ed" id="CityId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Pincode">Pincode</label>
+                                <input type="text" class="form-control numberonly" id="Pincode" placeholder="" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="KM">KM</label>
+                                <input type="text" class="form-control" id="KM" placeholder="" maxlength="4">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="AreaName">Area</label>
+                                <select class="form-control select2-show-search-add-clear mode-ed" id="AreaName">
+                                    <option></option>
+                                    @{
+                                        if (Model.AreaNameList != null)
+                                        {
+                                            foreach (var o in Model.AreaNameList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="ContactPersonName">Contact Person</label>
+                                <input type="text" class="form-control numberonly" id="ContactPersonName" placeholder="" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Mobile">Contact Mobile</label>
+                                <input type="text" class="form-control numberonly" id="Mobile" placeholder="" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="MobileAlternate">Alternate Mobile</label>
+                                <input type="text" class="form-control numberonly" id="MobileAlternate" placeholder="" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="Email">Email</label>
+                                <input type="text" class="form-control" id="Email" placeholder="" maxlength="50">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="AdharUID">Aadhaar UID</label>
+                                <input type="text" class="form-control numberonly" id="AdharUID" placeholder="" maxlength="12">
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="GSTNumber">GST Number</label>
+                                <input type="text" class="form-control" id="GSTNumber" placeholder="" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="PAN">PAN</label>
+                                <input type="text" class="form-control" id="PAN" placeholder="" maxlength="12">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="TAN">TAN</label>
+                                <input type="text" class="form-control" id="TAN" placeholder="" maxlength="10">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="EximCode">Exim Code</label>
+                                <input type="text" class="form-control" id="EximCode" placeholder="" maxlength="30">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="GSTInvoiceTypeId">GST Invoice Type</label>
+                                <select class="form-control select2-show-search" id="GSTInvoiceTypeId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="CreditDays">Credit Days</label>
+                                <input type="text" class="form-control" id="CreditDays" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="CreditLimit">Credit Limit</label>
+                                <input type="text" class="form-control" id="CreditLimit" placeholder="" maxlength="18">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="TransportName">Transporter Name</label>
+                                <select class="form-control select2-show-search-add-clear mode-ed" id="TransportName">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportNameList != null)
+                                        {
+                                            foreach (var o in Model.TransportNameList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="GSTNumberTransport">Transporter GST Number</label>
+                                <input type="text" class="form-control" id="GSTNumberTransport" placeholder="" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="VehicleNumber">Vehicle Number</label>
+                                <input type="text" class="form-control" id="VehicleNumber" placeholder="" maxlength="15">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ShippingAccountBranchMappingId">Shipping Party</label>
+                                <select class="form-control select2-show-search-clear" id="ShippingAccountBranchMappingId">
+                                    <option></option>
+                                    @{
+                                        if (Model.AccountBranchMappingList != null)
+                                        {
+                                            foreach (var o in Model.AccountBranchMappingList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="DeliveryAccountBranchMappingId">Delivery Party</label>
+                                <select class="form-control select2-show-search-clear" id="DeliveryAccountBranchMappingId">
+                                    <option></option>
+                                    @{
+                                        if (Model.AccountBranchMappingList != null)
+                                        {
+                                            foreach (var o in Model.AccountBranchMappingList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="BrokerMappingId">Broker</label>
+                                <select class="form-control select2-show-search-clear" id="BrokerMappingId">
+                                    <option></option>
+                                    @{
+                                        if (Model.BrokerBranchMappingList != null)
+                                        {
+                                            foreach (var o in Model.BrokerBranchMappingList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="TDS">TDS %</label>
+                                <input type="text" class="form-control" id="TDS" placeholder="" max="100.00">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="TCS">TCS %</label>
+                                <input type="text" class="form-control" id="TCS" placeholder="" max="100.00">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Discount">Discount %</label>
+                                <input type="text" class="form-control" id="Discount" placeholder="" max="100.00">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="InterestRate">Interest %</label>
+                                <input type="text" class="form-control" id="InterestRate" placeholder="" max="100.00">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Commission">Commission %</label>
+                                <input type="text" class="form-control" id="Commission" placeholder="" max="100.00">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="CapitalPercentage" id="CapitalPercentageTitle">Capital %</label>
+                                <input type="text" class="form-control" id="CapitalPercentage" placeholder="" max="100.00">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div><label for="IsIGST">IGST</label></div>
+                            <label class="custom-switch">
+                                <input type="checkbox" name="custom-switch-checkbox" id="IsIGST" class="custom-switch-input">
+                                <span class="custom-switch-indicator"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <div><label for="RateWithGST">Rate With GST in Pur.</label></div>
+                            <label class="custom-switch">
+                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="RateWithGST">
+                                <span class="custom-switch-indicator"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <div><label for="RCMParty">RCM Party</label></div>
+                            <label class="custom-switch">
+                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="RCMParty">
+                                <span class="custom-switch-indicator"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <div><label for="CompositParty">Composite Party</label></div>
+                            <label class="custom-switch">
+                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="CompositParty">
+                                <span class="custom-switch-indicator"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <div><label for="IsEcommerce">E-Commerce Party</label></div>
+                            <label class="custom-switch">
+                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="IsEcommerce">
+                                <span class="custom-switch-indicator"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <div><label for="Active">Active</label></div>
+                            <label class="custom-switch">
+                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="Active">
+                                <span class="custom-switch-indicator"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="CustomerAccountBranchIds">Branch Permission</label>
+                                <select id="CustomerAccountBranchIds" multiple="multiple" class="filter-multi mode-ed-multi">
+                                    @{
+                                        if (Model.BranchList != null)
+                                        {
+                                            foreach (var o in Model.BranchList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label>Remarks </label>
+                                <textarea class="form-control" rows="2" id="Remarks"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    @* <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a> *@
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <input type="hidden" id="Id" value="0" />
+
+    <input type="hidden" id="hdnCountryId" value="0" />
+    <input type="hidden" id="hdnStateId" value="0" />
+    <input type="hidden" id="hdnDistrictId" value="0" />
+    <input type="hidden" id="hdnTalukaId" value="0" />
+    <input type="hidden" id="hdnCityId" value="0" />
+    <input type="hidden" id="hdnGSTInvoiceTypeId" value="0" />
+</div>
+
+
+@section Scripts
+    {
+    <script>
+
+        $(function (e) {
+
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+            bindDatatableList();
+            bindGSTInvoiceTypeList();
+
+            $("#CountryId").on('change', function (e) {
+                bindStateList($(this).val());
+            });
+
+            $("#StateId").on('change', function (e) {
+                bindDistrictList($(this).val());
+            });
+
+            $("#District").on('change', function (e) {
+                bindTalukaList($(this).val());
+            });
+
+            $("#Taluka").on('change', function (e) {
+                bindCityList($(this).val());
+            });
+            $("#TransportName").on('change', function (e) {
+                getTransporterGSTNumber($(this).val());
+            });
+
+            $('#GSTNumber').on('input', function (e) {
+                var gst = $('#GSTNumber').val();
+                if (gst.length == 15 && $('#PAN').val() == "") {
+                    $('#PAN').val(gst.substring(2, 12));
+                }
+            });
+
+            $("#AccountGroupId").on('change', function (e) {
+                if ($(this).find("option:selected").text().toLowerCase().includes('capital')) {
+                    $("#CapitalPercentageTitle").show();
+                    $("#CapitalPercentage").show();
+                    $("#CapitalPercentage").val("000.00");
+                }
+                else {
+                    $("#CapitalPercentageTitle").hide();
+                    $("#CapitalPercentage").hide();
+                }
+            });
+
+            $("#Name").on('change', function (e) {
+                $('#PrintName').val($(this).val());
+            });
+
+            $('#TDS').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
+
+            $('#TCS').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
+
+            $('#Discount').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
+
+            $('#Commission').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
+
+            $('#CapitalPercentage').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
+
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#Name").focus();
+            $("#Active").prop('checked', true);
+            $('#GSTInvoiceTypeId').val($("#hdnGSTInvoiceTypeId").val()).trigger('change');
+
+            $("#CreditDays").val('0');
+            $("#CreditLimit").val('000.00');
+            $("#TDS").val("000.00");
+            $("#TCS").val("000.00");
+            $("#Discount").val("000.00");
+            $("#InterestRate").val("0.00");
+            $("#Commission").val("000.00");
+            $("#CapitalPercentageTitle").hide();
+            $("#CapitalPercentage").hide();
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function goSearch(query) {
+            query = query.trim().replace(' ', '');
+            if (query == "") {
+                showWarning("", "Please enter valid GST number.");
+                $("#GSTNumber").focus();
+                return false;
+            }
+            var gstPattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
+
+            if (query.length != 15 || !gstPattern.test(query)) {
+                showWarning("", "Please enter valid GST number.");
+                $("#GSTNumber").focus();
+                return false;
+            }
+
+            getGstCollection(query);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.name;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.accountGroup;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.gstNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.city;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.mobile;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "name", "name": "name" });
+            columns.push({ "data": "accountGroup", "name": "accountGroup" });
+            columns.push({ "data": "gstNumber", "name": "gstNumber" });
+            columns.push({ "data": "city", "name": "city" });
+            columns.push({ "data": "mobile", "name": "mobile" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/AccountList"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function bindGSTInvoiceTypeList() {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GSTInvoiceTypes"))", "",
+                    function (data) {
+                        unblockUI('container');
+                        var str = "";
+                        str += "<option value='0'>Select GST Invoice Type</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i].value + "'>" + data.data[i].text + "</option>");
+                                    if (data.data[i].text.toUpperCase() == "Regular".toUpperCase()) {
+                                        $("#hdnGSTInvoiceTypeId").val(data.data[i].value);
+                                    }
+                                }
+                            }
+                            $("#GSTInvoiceTypeId").html(str);
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindStateList(countryId) {
+            try {
+                $("#StateId").empty();
+
+                if (countryId == '' || countryId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#StateId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#StateId').val($("#hdnStateId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindDistrictList(stateId) {
+            try {
+                $("#District").empty();
+                if (stateId == '' || stateId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetDistricts"))" + "?stateId=" + stateId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#District').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#District').val($("#hdnDistrictId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindTalukaList(districtId) {
+            try {
+                $("#Taluka").empty();
+                if (districtId == '' || districtId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetTalukas"))" + "?districtId=" + districtId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#Taluka').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#Taluka').val($("#hdnTalukaId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function bindCityList(talukaId) {
+            try {
+                $("#CityId").empty();
+                if (talukaId == '' || talukaId == null) return;
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?talukaId=" + talukaId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#CityId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#CityId').val($("#hdnCityId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function getTransporterGSTNumber(name) {
+            try {
+                $("#GSTNumberTransport").val();
+                if (name == '' || name == null) return;
+
+                var getdata = new Object();
+                getdata.Id = name;
+
+                blockUI('container');
+
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetTransporterGSTNumberByTransporterName"))" + "/" + name, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                $('#GSTNumberTransport').val(data.data[0]);
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function fromReset() {
+            $("#Id").val(0);
+
+            $("#Name").val(null).trigger("change");
+            $("#PrintName").val('');
+            $("#AccountGroupId").val(null).trigger("change");
+            $("#Address1").val('');
+            $("#Address2").val('');
+            $("#Address3").val('');
+            $("#CityId").val(null).trigger("change");
+            $("#TalukaId").val(null).trigger("change");
+            $("#DistrictId").val(null).trigger("change");
+            $("#StateId").val(null).trigger("change");
+            $("#CountryId").val(null).trigger("change");
+            $("#Pincode").val('');
+            $("#KM").val('');
+
+            $("#ContactPersonName").val('');
+            $("#Mobile").val('');
+            $("#MobileAlternate").val('');
+            $("#Email").val('');
+
+            $("#GSTNumber").val('');
+            $("#PAN").val('');
+            $("#AreaName").val(null).trigger("change");
+            $("#RateWithGST").prop('checked', false);
+            $("#GSTInvoiceTypeId").val(null).trigger("change");
+
+            $("#EximCode").val('');
+            $("#IsIGST").prop('checked', false);
+            $("#GSTNumberTransport").val('');
+            $("#TransportName").val(null).trigger("change");
+            $("#VehicleNumber").val('');
+            $("#DeliveryAccountBranchMappingId").val(null).trigger("change");
+            $("#ShippingAccountBranchMappingId").val(null).trigger("change");
+            $("#BrokerMappingId").val(null).trigger("change");
+            $("#IsEcommerce").prop('checked', false);
+            $("#AdharUID").val('');
+            $("#TAN").val('');
+            $("#CompositParty").prop('checked', false);
+            $("#RCMParty").prop('checked', false);
+            $("#CapitalPercentage").val("000.00");
+
+            $("#CreditDays").val('0');
+            $("#CreditLimit").val('000.00');
+            $("#TDS").val("000.00");
+            $("#TCS").val("000.00");
+            $("#Discount").val("000.00");
+            $("#InterestRate").val("0.00");
+            $("#Commission").val("000.00");
+
+            $("#CountryId").val(null).trigger("change");
+            $("#Remarks").val('');
+            $("#CustomerAccountBranchIds").val('').trigger("change");
+
+            $('#Active').prop('checked', true);
+
+            $("#hdnCountry").val("");
+            $("#hdnStateId").val("");
+            $("#hdnDistrict").val("");
+            $("#hdnTaluka").val("");
+            $("#hdnCityId").val("");
+
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+        }
+
+        function saveItem() {
+            try {
+
+                if ($("#Name").val() == "") {
+                    showWarning("", "Please enter account name");
+                    $("#Name").focus();
+                    return false;
+                }
+
+                if ($("#AccountGroupId").val() == null || $("#AccountGroupId").val() == "") {
+                    showWarning("", "Please select account group");
+                    $("#AccountGroupId").focus();
+                    return false;
+                }
+
+                var gstPattern = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[1-9A-Z]{1}[Z]{1}[0-9A-Z]{1}$/;
+                if ($("#GSTNumber").val().trim() != "") {
+                    if ($("#GSTNumber").val().trim().length != 15 || !gstPattern.test($("#GSTNumber").val().trim())) {
+                        showWarning("", "Please enter valid GST number.");
+                        $("#GSTNumber").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#PAN").val().trim() != "") {
+                    if ($("#PAN").val().trim().length != 10) {
+                        showWarning("", "Please enter valid PAN.");
+                        $("#PAN").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CountryId").val() == null || $("#CountryId").val() == "") {
+                    showWarning("", "Please select country.");
+                    $("#CountryId").focus();
+                    return false;
+                }
+
+                if ($("#District").val() != null || $("#District").val() != "") {
+                    if ($("#StateId").val() == null || $("#StateId").val() == "") {
+                        showWarning("", "Please select state.");
+                        $("#StateId").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#Taluka").val() != null || $("#CountryId").val() != "") {
+                    if ($("#District").val() == null || $("#District").val() == "") {
+                        showWarning("", "Please select or enter district.");
+                        $("#District").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CityId").val() != null || $("#CountryId").val() != "") {
+                    if ($("#Taluka").val() == null || $("#Taluka").val() == "") {
+                        showWarning("", "Please select or enter taluka.");
+                        $("#Taluka").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#Mobile").val().trim() != "") {
+                    if ($("#Mobile").val().trim().length != 10) {
+                        showWarning("", "Please enter valid mobile number.");
+                        $("#Mobile").focus();
+                        return false;
+                    }
+
+                    if (!isNumber($("#Mobile").val().trim()) || $("#Mobile").val().trim().charAt(0) == '0') {
+                        showWarning("", "Please enter valid mobile number.");
+                        $("#Mobile").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#MobileAlternate").val().trim() != "") {
+                    if ($("#MobileAlternate").val().trim().length != 10) {
+                        showWarning("", "Please enter valid alternate mobile number.");
+                        $("#MobileAlternate").focus();
+                        return false;
+                    }
+
+                    if (!isNumber($("#MobileAlternate").val().trim()) || $("#MobileAlternate").val().trim().charAt(0) == '0') {
+                        showWarning("", "Please enter valid alternate mobile number.");
+                        $("#MobileAlternate").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#Email").val() != "") {
+                    let isValidemail = isEmail($("#Email").val());
+                    if (!isValidemail) {
+                        showWarning("", "Please enter valid email");
+                        $("#Email").focus();
+                        return;
+                    }
+                }
+
+                if ($("#AdharUID").val().trim() != "") {
+                    if ($("#AdharUID").val().trim().length != 12) {
+                        showWarning("", "Please enter valid adhar uid.");
+                        $("#AdharUID").focus();
+                        return false;
+                    }
+
+                    if (!isNumber($("#AdharUID").val().trim())) {
+                        showWarning("", "Please enter valid adhar uid.");
+                        $("#AdharUID").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#GSTInvoiceTypeId").val() == null || $("#GSTInvoiceTypeId").val() == "") {
+                    showWarning("", "Please select GST invoice type");
+                    $("#GSTInvoiceTypeId").focus();
+                    return false;
+                }
+
+                if ($("#CreditDays").val() == "" || parseInt($("#CreditDays").val()) < 0) {
+                    showWarning("", "Please enter credit days");
+                    $("#CreditDays").focus();
+                    return false;
+                }
+
+                if ($("#TDS").val() == "") {
+                    showWarning("", "Please enter valid TDS.");
+                    $("#TDS").focus();
+                    return false;
+                }
+
+                if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#TDS").val())) {
+                    showWarning("", "TDS must be upto 15 characters before decimal point and 3 characters after decimal point long.");
+                    $("#TDS").focus();
+                    return false;
+                }
+
+                if ($("#TCS").val() == "") {
+                    showWarning("", "Please enter valid TCS.");
+                    $("#TCS").focus();
+                    return false;
+                }
+
+                if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#TCS").val())) {
+                    showWarning("", "TCS must be upto 15 characters before decimal point and 0 characters after decimal point long.");
+                    $("#TCS").focus();
+                    return false;
+                }
+
+                if ($("#Discount").val() == "") {
+                    showWarning("", "Please enter valid discount.");
+                    $("#Discount").focus();
+                    return false;
+                }
+
+                if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#Discount").val())) {
+                    showWarning("", "Discount must be upto 15 characters before decimal point and 3 characters after decimal point long.");
+                    $("#Discount").focus();
+                    return false;
+                }
+
+                if ($("#InterestRate").val() == "") {
+                    showWarning("", "Please enter valid interest rate.");
+                    $("#InterestRate").focus();
+                    return false;
+                }
+
+                if (!/^[-+]?([0](\.\d{0,2})?|\.\d{1,2})$/.test($("#InterestRate").val())) {
+                    showWarning("", "Interest rate must be upto 0 characters before decimal point and 2 characters after decimal point long.");
+                    $("#InterestRate").focus();
+                    return false;
+                }
+
+                if ($("#Commission").val() == "") {
+                    showWarning("", "Please enter valid commission.");
+                    $("#Commission").focus();
+                    return false;
+                }
+
+                if (!/^[-+]?(\d{1,5}(\.\d{0,3})?|\.\d{1,3})$/.test($("#Commission").val())) {
+                    showWarning("", "Commission must be upto 5 characters before decimal point and 3 characters after decimal point long.");
+                    $("#Commission").focus();
+                    return false;
+                }
+
+                if (!$('#CapitalPercentage').is(":hidden")) {
+                    if ($("#CapitalPercentage").val() == "") {
+                        showWarning("", "Please enter valid capital percentage.");
+                        $("#CapitalPercentage").focus();
+                        return false;
+                    }
+
+                    if (!/^[-+]?(\d{1,3}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CapitalPercentage").val())) {
+                        showWarning("", "Capital percentage must be upto 3 characters before decimal point and 2 characters after decimal point long.");
+                        $("#CapitalPercentage").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CustomerAccountBranchIds").val() == "") {
+                    showWarning("", "Please select branch.");
+                    $("#CustomerAccountBranchIds").focus();
+                    return false;
+                }
+
+                var savedata = new Object();
+                savedata.Id = getIntValueZero("Id");
+                savedata.Name = $("#Name").val();
+                savedata.PrintName = $("#PrintName").val();
+                savedata.AccountGroupId = getIntValueZero("AccountGroupId");
+                savedata.Address1 = $("#Address1").val();
+                savedata.Address2 = $("#Address2").val();
+                savedata.Address3 = $("#Address3").val();
+                savedata.CityId = getIntValueZero("CityId");
+                savedata.StateId = getIntValueZero("StateId");
+                savedata.CountryId = getIntValueZero("CountryId");
+                savedata.Pincode = $("#Pincode").val();
+                savedata.KM = $("#KM").val();
+                savedata.ContactPersonName = $("#ContactPersonName").val();
+                savedata.Mobile = $("#Mobile").val();
+                savedata.MobileAlternate = $("#MobileAlternate").val();
+                savedata.Email = $("#Email").val();
+                savedata.GSTNumber = $("#GSTNumber").val();
+                savedata.PAN = $("#PAN").val();
+                savedata.AreaName = $("#AreaName").val();
+                savedata.RateWithGST = $("#RateWithGST").is(':checked');
+                savedata.GSTInvoiceTypeId = getIntValueZero("GSTInvoiceTypeId");
+                savedata.EximCode = $("#EximCode").val();
+                savedata.IsIGST = $("#IsIGST").is(':checked');
+                savedata.GSTNumberTransport = $("#GSTNumberTransport").val();
+                savedata.TransportName = $("#TransportName").val();
+                savedata.VehicleNumber = $("#VehicleNumber").val();
+                savedata.DeliveryAccountBranchMappingId = getIntValueNull("DeliveryAccountBranchMappingId");
+                savedata.ShippingAccountBranchMappingId = getIntValueNull("ShippingAccountBranchMappingId");
+                savedata.BrokerMappingId = getIntValueNull("BrokerMappingId");
+                savedata.CreditDays = getIntValueZero("CreditDays");
+                savedata.Discount = getFloatValueZero("Discount", 3);
+                savedata.TDS = getFloatValueZero("TDS",3);
+                savedata.TCS = getFloatValueZero("TCS", 3);
+                savedata.CreditLimit = getFloatValueZero("CreditLimit", 0);
+                savedata.InterestRate = getFloatValueZero("InterestRate", 2);
+                savedata.Commission = getFloatValueZero("Commission", 3);
+                savedata.IsEcommerce = $("#IsEcommerce").is(':checked');
+                savedata.AdharUID = $("#AdharUID").val();
+                savedata.TAN = $("#TAN").val();
+                savedata.CompositParty = $("#CompositParty").is(':checked');
+                savedata.RCMParty = $("#RCMParty").is(':checked');
+                savedata.CapitalPercentage = getFloatValueZero("CapitalPercentage", 2);
+                savedata.Active = $('#Active').is(':checked');
+                savedata.City = $("#CityId").val();
+                savedata.DistrictId = getIntValueZero("District");
+                savedata.District = $("#District").val();
+                savedata.TalukaId = getIntValueZero("Taluka");
+                savedata.Taluka = $("#Taluka").val();
+                savedata.Remarks = $("#Remarks").val();
+                savedata.CustomerAccountBranchIds = $("#CustomerAccountBranchIds").val().join(",");
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveAccount", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Account saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteAccount"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetAccount"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+
+                                $("#Id").val(result.data.id);
+                                $("#Name").val(result.data.name).trigger("change");
+                                $("#PrintName").val(result.data.printName);
+                                $("#AccountGroupId").val(result.data.accountGroupId).trigger("change");
+                                $("#Address1").val(result.data.address1);
+                                $("#Address2").val(result.data.address2);
+                                $("#Address3").val(result.data.address3);
+                                $("#CityId").val(result.data.cityId).trigger("change");
+                                $("#TalukaId").val(result.data.talukaId).trigger("change");
+                                $("#DistrictId").val(result.data.districtId).trigger("change");
+                                $("#StateId").val(result.data.stateId).trigger("change");
+                                $("#CountryId").val(result.data.countryId).trigger("change");
+                                $("#Pincode").val(result.data.pincode);
+                                $("#KM").val(result.data.km);
+
+                                $("#ContactPersonName").val(result.data.contactPersonName);
+                                $("#Mobile").val(result.data.mobile);
+                                $("#MobileAlternate").val(result.data.mobileAlternate);
+                                $("#Email").val(result.data.email);
+
+                                $("#GSTNumber").val(result.data.gstNumber);
+                                $("#PAN").val(result.data.pan);
+                                $("#AreaName").val(result.data.areaName).trigger("change");
+                                $("#RateWithGST").prop('checked', result.data.rateWithGST);
+                                $("#GSTInvoiceTypeId").val(result.data.gstInvoiceTypeId).trigger("change");
+
+                                $("#EximCode").val(result.data.eximCode);
+                                $("#IsIGST").prop('checked', result.data.isIGST);
+                                $("#GSTNumberTransport").val(result.data.gstNumberTransport);
+                                $("#TransportName").val(result.data.transportName).trigger("change");
+                                $("#VehicleNumber").val(result.data.vehicleNumber);
+                                $("#DeliveryAccountBranchMappingId").val(result.data.deliveryAccountBranchMappingId).trigger("change");
+                                $("#ShippingAccountBranchMappingId").val(result.data.shippingAccountBranchMappingId).trigger("change");
+                                $("#BrokerMappingId").val(result.data.brokerMappingId).trigger("change");
+                                $("#CreditDays").val(result.data.creditDays);
+                                $("#Discount").val(result.data.discount.toFixed(3));
+                                $("#TDS").val(result.data.tds.toFixed(3));
+                                $("#TCS").val(result.data.tcs.toFixed(3));
+                                $("#CreditLimit").val(result.data.creditLimit.toFixed(0));
+                                $("#InterestRate").val(result.data.interestRate.toFixed(2));
+                                $("#Commission").val(result.data.commission.toFixed(3));
+                                $("#IsEcommerce").prop('checked', result.data.isEcommerce);
+                                $("#AdharUID").val(result.data.adharUID);
+                                $("#TAN").val(result.data.tan);
+                                $("#CompositParty").prop('checked', result.data.compositParty);
+                                $("#RCMParty").prop('checked', result.data.rcmParty);
+                                $("#CapitalPercentage").val(result.data.capitalPercentage.toFixed(2));
+
+                                $("#hdnCountryId").val(result.data.countryId);
+                                $("#hdnStateId").val(result.data.stateId);
+                                $("#hdnDistrictId").val(result.data.districtId);
+                                $("#hdnTalukaId").val(result.data.talukaId);
+                                $("#hdnCityId").val(result.data.cityId);
+                                $("#CountryId").val(result.data.countryId).trigger("change");
+                                $("#Remarks").val(result.data.remarks);
+                                if (result.data.customerAccountBranchIds != null) {
+                                    $("#CustomerAccountBranchIds").multipleSelect('setSelects', result.data.customerAccountBranchIds.split(','));
+                                }
+
+                                $('#Active').prop('checked', result.data.active);
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getGstCollection(gstNumber) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Common/GetGSTCollection"))" + "/" + gstNumber, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                if (result.data != null) {
+                                    $("#GSTNumber").val(result.data.gstNumber);
+
+                                    if ($("#Name option[value='" + result.data.name + "']").length === 0) {
+                                        $("#Name").append($("<option>", {
+                                            value: result.data.name,
+                                            text: result.data.name
+                                        }));
+                                    }
+                                    $("#Name").val(result.data.name).trigger("change");
+                                    $("#PrintName").val(result.data.name);
+                                    $("#Address1").val(result.data.address1);
+                                    $("#Address2").val(result.data.address2);
+                                    $("#Address3").val(result.data.address3);
+                                    $("#Pincode").val(result.data.pincode);
+                                    $("#PAN").val(result.data.pan);
+
+                                    $("#hdnCountryId").val(result.data.countryId);
+                                    $("#hdnStateId").val(result.data.stateId);
+                                    $("#hdnDistrictId").val(result.data.districtId);
+                                    $("#hdnTalukaId").val(result.data.talukaId);
+                                    $("#hdnCityId").val(result.data.cityId);
+                                    $("#CountryId").val(result.data.countryId).trigger("change");
+
+                                    notySuccess("GST# " + result.data.gstNumber + " found.");
+                                } else {
+                                    notyError("GST# " + gstNumber + " not found.");
+                                }
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+    </script>
+}

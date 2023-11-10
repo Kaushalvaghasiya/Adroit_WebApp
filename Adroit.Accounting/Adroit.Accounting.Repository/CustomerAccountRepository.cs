@@ -8,11 +8,11 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerAccountRepository : ICustomerAccount
     {
-        public int Save(CustomerAccount value, string connectionString, int loginId = 0, int firmId = 0)
+        public int Save(CustomerAccountViewModel value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", loginId);
-            parameters.Add("@FirmId", firmId);
+            parameters.Add("@LoginId", value.loginId);
+            parameters.Add("@FirmId", value.firmId);
             parameters.Add("@Id", value.Id);
             parameters.Add("@Name", value.Name);
             parameters.Add("@PrintName", value.PrintName);
@@ -57,18 +57,25 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@CapitalPercentage", value.CapitalPercentage);
             parameters.Add("@OwnerBranchId", value.OwnerBranchId);
             parameters.Add("@Active", value.Active);
+            parameters.Add("@City", value.City);
+            parameters.Add("@DistrictId ", value.DistrictId);
+            parameters.Add("@District", value.District);
+            parameters.Add("@TalukaId", value.TalukaId);
+            parameters.Add("@Taluka", value.Taluka);
+            parameters.Add("@Remarks", value.Remarks);
+            parameters.Add("@CustomerAccountBranchIds", value.CustomerAccountBranchIds);
 
             return QueryHelper.Save("sp_CustomerAccountSave", connectionString, parameters);
         }
-        public CustomerAccount Get(int id, string connectionString, int loginId = 0, int firmId = 0)
+        public CustomerAccountViewModel Get(int id, string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             parameters.Add("@Id", id);
-            return QueryHelper.Get<CustomerAccount>("sp_CustomerAccountGet", connectionString, parameters);
+            return QueryHelper.Get<CustomerAccountViewModel>("sp_CustomerAccountGet", connectionString, parameters);
         }
-        public List<CustomerGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<CustomerAccountGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
@@ -78,7 +85,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<CustomerGridViewModel>("sp_CustomerAccountList", connectionString, parameters);
+            return QueryHelper.GetList<CustomerAccountGridViewModel>("sp_CustomerAccountList", connectionString, parameters);
         }
         public bool Delete(int id, string connectionString, int loginId = 0, int firmId = 0)
         {
@@ -95,6 +102,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountList_Select", connectionString, parameters);
+        }
+        public List<string> GetTransporterGSTNumberList(string transporterName, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@SearchName", transporterName);
+            return QueryHelper.GetList<string>("sp_GetAllGSTNoByTransportName", connectionString, parameters);
         }
         public List<DropdownViewModel> GetCustomerAccountListByBranchMapping(int userId, int branchId, string connectionString)
         {

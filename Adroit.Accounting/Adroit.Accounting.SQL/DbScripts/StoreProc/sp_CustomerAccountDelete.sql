@@ -9,10 +9,18 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		UPDATE CustomerAccount SET 
+		DeletedById = @LoginId,
 		DeletedOn = GETUTCDATE(),
 		Deleted = 1,
 		Active = 0
 		WHERE Id= @Id;
+
+		UPDATE CustomerAccountBranchMapping SET 
+		DeletedById = @LoginId,
+		DeletedOn = GETUTCDATE(),
+		Deleted = 1
+		WHERE AccountId= @Id;
+
 	COMMIT TRAN
 	END TRY
 	BEGIN CATCH
