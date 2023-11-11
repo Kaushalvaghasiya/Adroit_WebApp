@@ -129,7 +129,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -146,7 +146,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -163,7 +163,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -180,7 +180,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -197,7 +197,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -214,7 +214,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -231,7 +231,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -248,7 +248,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -265,7 +265,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -282,7 +282,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -299,7 +299,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -316,7 +316,7 @@
                                         {
                                             foreach (var o in Model.TransportLRChargesList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -390,10 +390,7 @@
             setScreenMode(false);
             $(".btn-delete").hide();
             $("#FirmId").focus();
-
-            $("#IsWeightRoundOff").prop('checked', true);
-            $("#IsPartyAndCityRateFromLastLR").prop('checked', true);
-            $("#ReverseChargeApplyForURDParty").prop('checked', true);
+            $('#FirmId').prop('disabled', false);
 
         }
 
@@ -449,7 +446,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.rcmLimit;
+                    return row.reverseChargeLimitForSalesGST;
                 },
                 "targets": colDef.length,
                 "className": "text-center"
@@ -457,8 +454,8 @@
             colDef.push({
                 "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
-                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
-                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.firmId + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.firmId + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
                     btnAct += "</div>";
                     return btnAct;
                 },
@@ -472,7 +469,7 @@
             columns.push({ "data": "isWeightRoundOff", "name": "isWeightRoundOff" });
             columns.push({ "data": "isPartyAndCityRateFromLastLR", "name": "isPartyAndCityRateFromLastLR" });
             columns.push({ "data": "reverseChargeApplyForURDParty", "name": "reverseChargeApplyForURDParty" });
-            columns.push({ "data": "rcmLimit", "name": "rcmLimit" });
+            columns.push({ "data": "reverseChargeLimitForSalesGST", "name": "reverseChargeLimitForSalesGST" });
 
 
             var table = $('#tblMain').DataTable({
@@ -516,8 +513,6 @@
         }
 
         function fromReset() {
-            $("#Id").val(0);
-
             $("#ReverseChargeLimitForSalesGST").val('');
             $("#FirmId").val(null).trigger('change');
             $("#ProductIdForSales").val(null).trigger('change');
@@ -536,7 +531,7 @@
             $("#IsWeightRoundOff").prop('checked', false);
             $("#IsPartyAndCityRateFromLastLR").prop('checked', false);
             $("#ReverseChargeApplyForURDParty").prop('checked', false);
-            
+
             $("#activeTabName").text("Add");
             setScreenMode(false);
             $(".btn-delete").hide();
@@ -568,18 +563,18 @@
 
                 savedata.FirmId = getIntValueZero("FirmId");
                 savedata.ProductIdForSales = getIntValueZero("ProductIdForSales");
-                savedata.LRBookChargeLable1 = getIntValueNull("LRBookChargeLable1");
-                savedata.LRBookChargeLable2 = getIntValueNull("LRBookChargeLable2");
-                savedata.LRBookChargeLable3 = getIntValueNull("LRBookChargeLable3");
-                savedata.LRBookChargeLable4 = getIntValueNull("LRBookChargeLable4");
-                savedata.LRBookChargeLable5 = getIntValueNull("LRBookChargeLable5");
-                savedata.LRBookChargeLable6 = getIntValueNull("LRBookChargeLable6");
-                savedata.DeliveryChargeLable1 = getIntValueNull("DeliveryChargeLable1");
-                savedata.DeliveryChargeLable2 = getIntValueNull("DeliveryChargeLable2");
-                savedata.DeliveryChargeLable3 = getIntValueNull("DeliveryChargeLable3");
-                savedata.DeliveryChargeLable4 = getIntValueNull("DeliveryChargeLable4");
-                savedata.DeliveryChargeLable5 = getIntValueNull("DeliveryChargeLable5");
-                savedata.DeliveryChargeLable6 = getIntValueNull("DeliveryChargeLable6");
+                savedata.LRBookChargeLable1 = $("#LRBookChargeLable1").val();
+                savedata.LRBookChargeLable2 = $("#LRBookChargeLable2").val();
+                savedata.LRBookChargeLable3 = $("#LRBookChargeLable3").val();
+                savedata.LRBookChargeLable4 = $("#LRBookChargeLable4").val();
+                savedata.LRBookChargeLable5 = $("#LRBookChargeLable5").val();
+                savedata.LRBookChargeLable6 = $("#LRBookChargeLable6").val();
+                savedata.DeliveryChargeLable1 = $("#DeliveryChargeLable1").val();
+                savedata.DeliveryChargeLable2 = $("#DeliveryChargeLable2").val();
+                savedata.DeliveryChargeLable3 = $("#DeliveryChargeLable3").val();
+                savedata.DeliveryChargeLable4 = $("#DeliveryChargeLable4").val();
+                savedata.DeliveryChargeLable5 = $("#DeliveryChargeLable5").val();
+                savedata.DeliveryChargeLable6 = $("#DeliveryChargeLable6").val();
                 savedata.ReverseChargeLimitForSalesGST = getFloatValueZero("ReverseChargeLimitForSalesGST", 2);
                 savedata.IsWeightRoundOff = $("#IsWeightRoundOff").is(':checked');
                 savedata.IsPartyAndCityRateFromLastLR = $('#IsPartyAndCityRateFromLastLR').is(':checked');
@@ -628,7 +623,7 @@
                         var str = "";
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                debugger;
+
                                 addClick();
                                 if (isViewMode) {
                                     setScreenMode(true);
@@ -636,9 +631,9 @@
                                 } else {
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.firmId + ")");
+                                    $('#FirmId').prop('disabled', 'disabled');
                                 }
 
-                                $("#ReverseChargeLimitForSalesGST").val(result.data.reverseChargeLimitForSalesGST).trigger('change');
                                 $("#FirmId").val(result.data.firmId).trigger('change');
                                 $("#ProductIdForSales").val(result.data.productIdForSales).trigger('change');
                                 $("#LRBookChargeLable1").val(result.data.lrBookChargeLable1).trigger('change');
@@ -653,6 +648,7 @@
                                 $("#DeliveryChargeLable4").val(result.data.deliveryChargeLable4).trigger('change');
                                 $("#DeliveryChargeLable5").val(result.data.deliveryChargeLable5).trigger('change');
                                 $("#DeliveryChargeLable6").val(result.data.deliveryChargeLable6).trigger('change');
+                                $("#ReverseChargeLimitForSalesGST").val(result.data.reverseChargeLimitForSalesGST).trigger('change');
 
                                 $("#IsWeightRoundOff").prop('checked', result.data.isWeightRoundOff);
                                 $("#IsPartyAndCityRateFromLastLR").prop('checked', result.data.isPartyAndCityRateFromLastLR);

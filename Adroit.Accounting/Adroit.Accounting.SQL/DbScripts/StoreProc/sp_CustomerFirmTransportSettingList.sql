@@ -1,6 +1,4 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmTransportSettingList]
-  @LoginId int,
-  @FirmId int,  
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -33,6 +31,8 @@ Begin
 		FROM CustomerFirmTransportSetting
 		INNER JOIN [CustomerFirm] on CustomerFirm.Id = [CustomerFirmTransportSetting].FirmId
 		INNER JOIN [Product] on Product.Id = [CustomerFirmTransportSetting].ProductIdForSales
+		WHERE [CustomerFirm].Deleted = 0 AND [CustomerFirm].Active = 1
+		AND [Product].Deleted = 0 AND [Product].Active = 1
 		AND (Coalesce(@Search,'') = '' OR CustomerFirm.[Title] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

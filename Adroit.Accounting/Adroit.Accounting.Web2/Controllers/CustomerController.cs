@@ -73,6 +73,9 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IBookTypeAdmin _bookTypeRepository;
         protected readonly IBillTypeAdmin _billTypeAdminRepository;
         protected readonly ISalesBillFromAdmin _salesBillFromAdminRepository;
+        protected readonly ICustomerFirmBranchTransportSetting _customerFirmBranchTransportSettingRepository;
+        protected readonly ITransportLRRateOn _transportLRRateOnRepository;
+        protected readonly ITransportLRPayType _transportLRPayTypeRepository;
         private readonly ICustomerFirmTransportSetting _customerFirmTransportSettingRepository;
         private readonly ITransportLRCharges _transportLRChargesRepository;
 
@@ -136,6 +139,9 @@ namespace Adroit.Accounting.Web.Controllers
             IBookTypeAdmin bookTypeRepository,
             IBillTypeAdmin billTypeAdminRepository,
             ISalesBillFromAdmin salesBillFromAdminRepository,
+            ICustomerFirmBranchTransportSetting customerFirmBranchTransportSettingRepository,
+            ITransportLRRateOn transportLRRateOnRepository,
+            ITransportLRPayType transportLRPayTypeRepository,
             ICustomerFirmTransportSetting customerFirmTransportSettingRepository,
             ITransportLRCharges transportLRChargesRepository)
         {
@@ -198,6 +204,9 @@ namespace Adroit.Accounting.Web.Controllers
             _bookTypeRepository = bookTypeRepository;
             _billTypeAdminRepository = billTypeAdminRepository;
             _salesBillFromAdminRepository = salesBillFromAdminRepository;
+            _customerFirmBranchTransportSettingRepository = customerFirmBranchTransportSettingRepository;
+            _transportLRRateOnRepository = transportLRRateOnRepository;
+            _transportLRPayTypeRepository = transportLRPayTypeRepository;
             _customerFirmTransportSettingRepository = customerFirmTransportSettingRepository;
             _transportLRChargesRepository = transportLRChargesRepository;
         }

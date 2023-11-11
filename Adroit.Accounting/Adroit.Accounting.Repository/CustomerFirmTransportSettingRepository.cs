@@ -38,7 +38,7 @@ namespace Adroit.Accounting.Repository
         public CustomerFirmTransportSettingViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@FirmId", id);
+            parameters.Add("@Id", id);
             return QueryHelper.Get<CustomerFirmTransportSettingViewModel>("sp_CustomerFirmTransportSettingGet", connectionString, parameters);
         }
 
