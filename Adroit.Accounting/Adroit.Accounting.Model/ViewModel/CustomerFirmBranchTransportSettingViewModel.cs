@@ -12,6 +12,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> CustomerBookList { get; set; }  
         public List<DropdownViewModel> CustomerAccountList { get; set; } 
 
+        public string? FirmName {  get; set; } 
         public string? BranchName {  get; set; } 
         public string? PurchaseBookName {  get; set; } 
         public string? BkSalesBookName {  get; set; } 

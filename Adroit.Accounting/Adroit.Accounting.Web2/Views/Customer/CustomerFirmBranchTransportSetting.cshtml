@@ -35,6 +35,7 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
+                                    <th class="border-bottom-0">FIRM</th>
                                     <th class="border-bottom-0">BRANCH</th>
                                     <th class="border-bottom-0">PURCHASH BOOK</th>
                                     <th class="border-bottom-0">BK SALES BOOK</th>
@@ -86,7 +87,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="BranchId">Branch</label>
                                 <select class="form-control select2-show-search" id="BranchId">
@@ -102,7 +103,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="LRRateOnId">LR Rate On</label>
                                 <select class="form-control select2-show-search" id="LRRateOnId">
@@ -118,7 +119,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="LRPayTypeId">LR Pay Type</label>
                                 <select class="form-control select2-show-search" id="LRPayTypeId">
@@ -134,7 +135,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="PurcahseBookBranchMappingId">Purcahse Book</label>
                                 <select class="form-control select2-show-search" id="PurcahseBookBranchMappingId">
@@ -150,7 +151,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="BookingSalesBookBranchMappingId">Booking Sales</label>
                                 <select class="form-control select2-show-search" id="BookingSalesBookBranchMappingId">
@@ -166,7 +167,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="DeliverySalesBookBranchMappingId">Delivery Sales</label>
                                 <select class="form-control select2-show-search" id="DeliverySalesBookBranchMappingId">
@@ -182,7 +183,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="ToPayAccountBranchMappingId">To Pay Account</label>
                                 <select class="form-control select2-show-search" id="ToPayAccountBranchMappingId">
@@ -198,7 +199,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="CrossingAmountAccountBranchMappingId">Crossing Amount Account</label>
                                 <select class="form-control select2-show-search-clear" id="CrossingAmountAccountBranchMappingId">
@@ -214,7 +215,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="CrossingCommissionAccountBranchMappingId">Crossing Commission Account</label>
                                 <select class="form-control select2-show-search-clear" id="CrossingCommissionAccountBranchMappingId">
@@ -230,7 +231,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="CrossingHamaliAccountBranchMappingId">Crossing Hamali Account</label>
                                 <select class="form-control select2-show-search-clear" id="CrossingHamaliAccountBranchMappingId">
@@ -246,10 +247,26 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="CrossingDeliveryChargeAccountBranchMappingId">Crossing Delivery ChargeAccount</label>
+                                <label for="CrossingDeliveryChargeAccountBranchMappingId">Crossing Delivery Charge Account</label>
                                 <select class="form-control select2-show-search-clear" id="CrossingDeliveryChargeAccountBranchMappingId">
+                                    @{
+                                        if (Model.CustomerAccountList != null)
+                                        {
+                                            foreach (var o in Model.CustomerAccountList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="SalesAccountBranchMappingId">Sales Account</label>
+                                <select class="form-control select2-show-search-clear" id="SalesAccountBranchMappingId">
                                     @{
                                         if (Model.CustomerAccountList != null)
                                         {
@@ -264,7 +281,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <div><label for="IsAutoJvEnableForChallan">Active</label></div>
+                                <div><label for="IsAutoJvEnableForChallan">Is Auto Jv Active For Challan</label></div>
                                 <label class="custom-switch">
                                     <input id="IsAutoJvEnableForChallan" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
                                     <span class="custom-switch-indicator"></span>
@@ -273,7 +290,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <div><label for="IsFreightAddInToBillForDelivery">Active</label></div>
+                                <div><label for="IsFreightAddInToBillForDelivery">Is Freight Add Active For Del. Inv.</label></div>
                                 <label class="custom-switch">
                                     <input id="IsFreightAddInToBillForDelivery" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
                                     <span class="custom-switch-indicator"></span>
@@ -315,6 +332,7 @@
             fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
+            $('#BranchId').prop('disabled', false);
             $("#BranchId").focus();
         }
 
@@ -334,6 +352,12 @@
             let columns = [];
             let colDef = [];
 
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.firmName;
+                },
+                "targets": colDef.length,
+            });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.branchName;
@@ -375,8 +399,8 @@
             colDef.push({
                 "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
-                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
-                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.branchId + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.branchId + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
                     // btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
                     btnAct += "</div>";
                     return btnAct;
@@ -386,6 +410,7 @@
                 "orderable": false
             });
 
+            columns.push({ "data": "FirmName", "name": "FirmName" });
             columns.push({ "data": "BranchName", "name": "BranchName" });
             columns.push({ "data": "PurchaseBookName", "name": "PurchaseBookName" });
             columns.push({ "data": "BkSalesBookName", "name": "BkSalesBookName" });
@@ -445,11 +470,11 @@
             $("#CrossingCommissionAccountBranchMappingId").val(null).trigger('change');
             $("#CrossingHamaliAccountBranchMappingId").val(null).trigger('change');
             $("#CrossingDeliveryChargeAccountBranchMappingId").val(null).trigger('change');
-            // $("#SalesAccountBranchMappingId").val(null).trigger('change');
-            $("#IsAutoJvEnableForChallan").val(null).trigger('change');
-            $("#IsFreightAddInToBillForDelivery").val(null).trigger('change');
-            $("#LRRateOnId").prop('checked', false);
-            $("#LRPayTypeId").prop('checked', false);
+            $("#SalesAccountBranchMappingId").val(null).trigger('change');
+            $("#LRRateOnId").val(null).trigger('change');
+            $("#LRPayTypeId").val(null).trigger('change');
+            $("#IsAutoJvEnableForChallan").prop('checked', false);
+            $("#IsFreightAddInToBillForDelivery").prop('checked', false);
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -511,7 +536,7 @@
                 savedata.CrossingCommissionAccountBranchMappingId = getIntValueNull("CrossingCommissionAccountBranchMappingId");
                 savedata.CrossingHamaliAccountBranchMappingId = getIntValueNull("CrossingHamaliAccountBranchMappingId");
                 savedata.CrossingDeliveryChargeAccountBranchMappingId = getIntValueNull("CrossingDeliveryChargeAccountBranchMappingId");
-                // savedata.SalesAccountBranchMappingId = getIntValueNull("SalesAccountBranchMappingId");
+                savedata.SalesAccountBranchMappingId = getIntValueNull("SalesAccountBranchMappingId");
                 savedata.LRRateOnId = getIntValueZero("LRRateOnId");
                 savedata.LRPayTypeId = getIntValueZero("LRPayTypeId");
                 savedata.IsAutoJvEnableForChallan = $("#IsAutoJvEnableForChallan").is(':checked');
@@ -562,13 +587,12 @@
                                 addClick();
                                 if (isViewMode) {
                                     setScreenMode(true);
-                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.branchId);
                                 } else {
                                     setScreenMode(false);
-                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.branchId + ")");
                                     $('#BranchId').prop('disabled', 'disabled');
                                 }
-
                                 $("#BranchId").val(result.data.branchId).trigger('change');
                                 $("#PurcahseBookBranchMappingId").val(result.data.purcahseBookBranchMappingId).trigger('change');
                                 $("#BookingSalesBookBranchMappingId").val(result.data.bookingSalesBookBranchMappingId).trigger('change');
@@ -578,11 +602,11 @@
                                 $("#CrossingCommissionAccountBranchMappingId").val(result.data.crossingCommissionAccountBranchMappingId).trigger('change');
                                 $("#CrossingHamaliAccountBranchMappingId").val(result.data.crossingHamaliAccountBranchMappingId).trigger('change');
                                 $("#CrossingDeliveryChargeAccountBranchMappingId").val(result.data.crossingDeliveryChargeAccountBranchMappingId).trigger('change');
-                                // $("#SalesAccountBranchMappingId").val(result.data.salesAccountBranchMappingId).trigger('change');
-                                $("#IsAutoJvEnableForChallan").val(result.data.isAutoJvEnableForChallan).trigger('change');
-                                $("#IsFreightAddInToBillForDelivery").val(result.data.isFreightAddInToBillForDelivery).trigger('change');
-                                $("#LRRateOnId").prop('checked', result.data.lrRateOnId);
-                                $("#LRPayTypeId").prop('checked', result.data.lrPayTypeId);
+                                $("#SalesAccountBranchMappingId").val(result.data.salesAccountBranchMappingId).trigger('change');
+                                $("#LRRateOnId").val(result.data.lrRateOnId).trigger('change');
+                                $("#LRPayTypeId").val(result.data.lrPayTypeId).trigger('change');
+                                $("#IsAutoJvEnableForChallan").prop('checked', result.data.isAutoJvEnableForChallan);
+                                $("#IsFreightAddInToBillForDelivery").prop('checked', result.data.isFreightAddInToBillForDelivery);
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
