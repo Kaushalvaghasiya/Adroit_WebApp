@@ -123,6 +123,9 @@ try
     builder.Services.AddSingleton<ICustomerAccountBranchMapping, CustomerAccountBranchMappingRepository>();
 	builder.Services.AddSingleton<ICustomerBook, CustomerBookRepository>();
 	builder.Services.AddSingleton<ICustomerFirmTransportSetting, CustomerFirmTransportSettingRepository>();
+	builder.Services.AddSingleton<ICustomerFirmBranchTransportSetting, CustomerFirmBranchTransportSettingRepository>();
+	builder.Services.AddSingleton<ITransportLRRateOn, TransportLRRateOnRepository>();
+	builder.Services.AddSingleton<ITransportLRPayType, TransportLRPayTypeRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {
