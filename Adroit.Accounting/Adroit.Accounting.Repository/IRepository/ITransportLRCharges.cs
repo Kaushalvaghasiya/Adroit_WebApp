@@ -10,5 +10,6 @@ namespace Adroit.Accounting.Repository.IRepository
         void Delete(int id, string connectionString);
         int Save(TransportLRCharge value, string connectionString);
         TransportLRChargesViewModel Get(int id, string connectionString);
+        List<DropdownViewModel> SelectList(string connectionString);
     }
 }

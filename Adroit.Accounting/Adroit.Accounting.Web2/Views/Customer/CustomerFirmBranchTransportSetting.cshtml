@@ -1,0 +1,627 @@
+﻿@model Adroit.Accounting.Model.ViewModel.CustomerFirmBranchTransportSettingViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Transport</a></li>
+                    <li class="active"><span>Branch</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">FIRM</th>
+                                    <th class="border-bottom-0">BRANCH</th>
+                                    <th class="border-bottom-0">PURCHASH BOOK</th>
+                                    <th class="border-bottom-0">BK SALES BOOK</th>
+                                    <th class="border-bottom-0">DEL SALES BOOK</th>
+                                    <th class="border-bottom-0">CHALAN JV</th>
+                                    <th class="border-bottom-0">FRT DEL INV</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Transport</a></li>
+                    <li><a href="#" class="btn-back">Branch</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        @* <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a> *@
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="BranchId">Branch</label>
+                                <select class="form-control select2-show-search" id="BranchId">
+                                    @{
+                                        if (Model.CustomerFirmBranchList != null)
+                                        {
+                                            foreach (var o in Model.CustomerFirmBranchList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="LRRateOnId">LR Rate On</label>
+                                <select class="form-control select2-show-search" id="LRRateOnId">
+                                    @{
+                                        if (Model.TransportLRRateOnList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRRateOnList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="LRPayTypeId">LR Pay Type</label>
+                                <select class="form-control select2-show-search" id="LRPayTypeId">
+                                    @{
+                                        if (Model.TransportLRPayTypeList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRPayTypeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="PurcahseBookBranchMappingId">Purcahse Book</label>
+                                <select class="form-control select2-show-search" id="PurcahseBookBranchMappingId">
+                                    @{
+                                        if (Model.CustomerBookList != null)
+                                        {
+                                            foreach (var o in Model.CustomerBookList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="BookingSalesBookBranchMappingId">Booking Sales</label>
+                                <select class="form-control select2-show-search" id="BookingSalesBookBranchMappingId">
+                                    @{
+                                        if (Model.CustomerBookList != null)
+                                        {
+                                            foreach (var o in Model.CustomerBookList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="DeliverySalesBookBranchMappingId">Delivery Sales</label>
+                                <select class="form-control select2-show-search" id="DeliverySalesBookBranchMappingId">
+                                    @{
+                                        if (Model.CustomerBookList != null)
+                                        {
+                                            foreach (var o in Model.CustomerBookList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ToPayAccountBranchMappingId">To Pay Account</label>
+                                <select class="form-control select2-show-search" id="ToPayAccountBranchMappingId">
+                                    @{
+                                        if (Model.CustomerAccountList != null)
+                                        {
+                                            foreach (var o in Model.CustomerAccountList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="CrossingAmountAccountBranchMappingId">Crossing Amount Account</label>
+                                <select class="form-control select2-show-search-clear" id="CrossingAmountAccountBranchMappingId">
+                                    @{
+                                        if (Model.CustomerAccountList != null)
+                                        {
+                                            foreach (var o in Model.CustomerAccountList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="CrossingCommissionAccountBranchMappingId">Crossing Commission Account</label>
+                                <select class="form-control select2-show-search-clear" id="CrossingCommissionAccountBranchMappingId">
+                                    @{
+                                        if (Model.CustomerAccountList != null)
+                                        {
+                                            foreach (var o in Model.CustomerAccountList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="CrossingHamaliAccountBranchMappingId">Crossing Hamali Account</label>
+                                <select class="form-control select2-show-search-clear" id="CrossingHamaliAccountBranchMappingId">
+                                    @{
+                                        if (Model.CustomerAccountList != null)
+                                        {
+                                            foreach (var o in Model.CustomerAccountList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="CrossingDeliveryChargeAccountBranchMappingId">Crossing Delivery Charge Account</label>
+                                <select class="form-control select2-show-search-clear" id="CrossingDeliveryChargeAccountBranchMappingId">
+                                    @{
+                                        if (Model.CustomerAccountList != null)
+                                        {
+                                            foreach (var o in Model.CustomerAccountList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="SalesAccountBranchMappingId">Sales Account</label>
+                                <select class="form-control select2-show-search-clear" id="SalesAccountBranchMappingId">
+                                    @{
+                                        if (Model.CustomerAccountList != null)
+                                        {
+                                            foreach (var o in Model.CustomerAccountList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div><label for="IsAutoJvEnableForChallan">Is Auto Jv Active For Challan</label></div>
+                                <label class="custom-switch">
+                                    <input id="IsAutoJvEnableForChallan" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div><label for="IsFreightAddInToBillForDelivery">Is Freight Add Active For Del. Inv.</label></div>
+                                <label class="custom-switch">
+                                    <input id="IsFreightAddInToBillForDelivery" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    @*                     <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a> *@
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+
+
+@section Scripts
+    {
+    <script>
+
+        $(function (e) {
+
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+            bindDatatableList();
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $('#BranchId').prop('disabled', false);
+            $("#BranchId").focus();
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.firmName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.purchaseBookName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.bkSalesBookName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.delSalesBookName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.isAutoJvEnableForChallan ? "Yes" : "No";
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.isFreightAddInToBillForDelivery ? "Yes" : "No";
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.branchId + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.branchId + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    // btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "FirmName", "name": "FirmName" });
+            columns.push({ "data": "BranchName", "name": "BranchName" });
+            columns.push({ "data": "PurchaseBookName", "name": "PurchaseBookName" });
+            columns.push({ "data": "BkSalesBookName", "name": "BkSalesBookName" });
+            columns.push({ "data": "DelSalesBookName", "name": "DelSalesBookName" });
+            columns.push({ "data": "IsAutoJvEnableForChallan", "name": "IsAutoJvEnableForChallan" });
+            columns.push({ "data": "IsFreightAddInToBillForDelivery", "name": "IsFreightAddInToBillForDelivery" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/CustomerFirmBranchTransportSettingList"))',
+                    type: 'GET',
+                    data: function (d) {
+                        d.firmId = parseInt($("#hdnFirmId").val());
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function fromReset() {
+            $("#BranchId").val(null).trigger('change');
+            $("#PurcahseBookBranchMappingId").val(null).trigger('change');
+            $("#BookingSalesBookBranchMappingId").val(null).trigger('change');
+            $("#DeliverySalesBookBranchMappingId").val(null).trigger('change');
+            $("#ToPayAccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingAmountAccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingCommissionAccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingHamaliAccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingDeliveryChargeAccountBranchMappingId").val(null).trigger('change');
+            $("#SalesAccountBranchMappingId").val(null).trigger('change');
+            $("#LRRateOnId").val(null).trigger('change');
+            $("#LRPayTypeId").val(null).trigger('change');
+            $("#IsAutoJvEnableForChallan").prop('checked', false);
+            $("#IsFreightAddInToBillForDelivery").prop('checked', false);
+
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+        }
+
+        function saveItem() {
+            try {
+
+                if ($("#BranchId").val() == null || $("#BranchId").val() == "") {
+                    showWarning("", "Please select Branch Name");
+                    $("#BranchId").focus();
+                    return false;
+                }
+
+                if ($("#LRRateOnId").val() == null || $("#LRRateOnId").val() == "") {
+                    showWarning("", "Please select LR Rate On");
+                    $("#LRRateOnId").focus();
+                    return false;
+                }
+
+                if ($("#LRPayTypeId").val() == null || $("#LRPayTypeId").val() == "") {
+                    showWarning("", "Please select LR Pay Type");
+                    $("#LRPayTypeId").focus();
+                    return false;
+                }
+
+                if ($("#PurcahseBookBranchMappingId").val() == null || $("#PurcahseBookBranchMappingId").val() == "") {
+                    showWarning("", "Please select Purchase Book");
+                    $("#PurcahseBookBranchMappingId").focus();
+                    return false;
+                }
+
+                if ($("#BookingSalesBookBranchMappingId").val() == null || $("#BookingSalesBookBranchMappingId").val() == "") {
+                    showWarning("", "Please select Booking Sales Book");
+                    $("#BookingSalesBookBranchMappingId").focus();
+                    return false;
+                }
+
+                if ($("#DeliverySalesBookBranchMappingId").val() == null || $("#DeliverySalesBookBranchMappingId").val() == "") {
+                    showWarning("", "Please select Delivery Sales Book");
+                    $("#DeliverySalesBookBranchMappingId").focus();
+                    return false;
+                }
+
+                if ($("#ToPayAccountBranchMappingId").val() == null || $("#ToPayAccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select To Pay Account");
+                    $("#ToPayAccountBranchMappingId").focus();
+                    return false;
+                }
+
+
+                var savedata = new Object();
+                savedata.BranchId = getIntValueZero("BranchId");
+                savedata.PurcahseBookBranchMappingId = getIntValueZero("PurcahseBookBranchMappingId");
+                savedata.BookingSalesBookBranchMappingId = getIntValueZero("BookingSalesBookBranchMappingId");
+                savedata.DeliverySalesBookBranchMappingId = getIntValueZero("DeliverySalesBookBranchMappingId");
+                savedata.ToPayAccountBranchMappingId = getIntValueZero("ToPayAccountBranchMappingId");
+                savedata.CrossingAmountAccountBranchMappingId = getIntValueNull("CrossingAmountAccountBranchMappingId");
+                savedata.CrossingCommissionAccountBranchMappingId = getIntValueNull("CrossingCommissionAccountBranchMappingId");
+                savedata.CrossingHamaliAccountBranchMappingId = getIntValueNull("CrossingHamaliAccountBranchMappingId");
+                savedata.CrossingDeliveryChargeAccountBranchMappingId = getIntValueNull("CrossingDeliveryChargeAccountBranchMappingId");
+                savedata.SalesAccountBranchMappingId = getIntValueNull("SalesAccountBranchMappingId");
+                savedata.LRRateOnId = getIntValueZero("LRRateOnId");
+                savedata.LRPayTypeId = getIntValueZero("LRPayTypeId");
+                savedata.IsAutoJvEnableForChallan = $("#IsAutoJvEnableForChallan").is(':checked');
+                savedata.IsFreightAddInToBillForDelivery = $("#IsFreightAddInToBillForDelivery").is(':checked');
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveCustomerFirmBranchTransportSetting", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Branch saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetCustomerFirmBranchTransportSetting"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.branchId);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.branchId + ")");
+                                    $('#BranchId').prop('disabled', 'disabled');
+                                }
+                                $("#BranchId").val(result.data.branchId).trigger('change');
+                                $("#PurcahseBookBranchMappingId").val(result.data.purcahseBookBranchMappingId).trigger('change');
+                                $("#BookingSalesBookBranchMappingId").val(result.data.bookingSalesBookBranchMappingId).trigger('change');
+                                $("#DeliverySalesBookBranchMappingId").val(result.data.deliverySalesBookBranchMappingId).trigger('change');
+                                $("#ToPayAccountBranchMappingId").val(result.data.toPayAccountBranchMappingId).trigger('change');
+                                $("#CrossingAmountAccountBranchMappingId").val(result.data.crossingAmountAccountBranchMappingId).trigger('change');
+                                $("#CrossingCommissionAccountBranchMappingId").val(result.data.crossingCommissionAccountBranchMappingId).trigger('change');
+                                $("#CrossingHamaliAccountBranchMappingId").val(result.data.crossingHamaliAccountBranchMappingId).trigger('change');
+                                $("#CrossingDeliveryChargeAccountBranchMappingId").val(result.data.crossingDeliveryChargeAccountBranchMappingId).trigger('change');
+                                $("#SalesAccountBranchMappingId").val(result.data.salesAccountBranchMappingId).trigger('change');
+                                $("#LRRateOnId").val(result.data.lrRateOnId).trigger('change');
+                                $("#LRPayTypeId").val(result.data.lrPayTypeId).trigger('change');
+                                $("#IsAutoJvEnableForChallan").prop('checked', result.data.isAutoJvEnableForChallan);
+                                $("#IsFreightAddInToBillForDelivery").prop('checked', result.data.isFreightAddInToBillForDelivery);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+    </script>
+}

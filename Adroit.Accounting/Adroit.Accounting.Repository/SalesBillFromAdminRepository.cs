@@ -40,5 +40,12 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<SalesBillFromAdminGridViewModel>("sp_SalesBillFromAdminList", connectionString, param);
         }
+        public List<DropdownViewModel> SalesBillFromAdminList(string connectionString, int loginId = 0, int firmId = 0)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_SalesBillFromAdminList_Select", connectionString, parameters);
+        }
     }
 }

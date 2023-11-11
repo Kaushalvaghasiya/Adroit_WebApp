@@ -1,0 +1,675 @@
+﻿@model Adroit.Accounting.Model.ViewModel.CustomerFirmTransportSettingViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Transport Settings</a></li>
+                    <li class="active"><span>Firm</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">FIRM</th>
+                                    <th class="border-bottom-0" style="width:130px">SERVICE</th>
+                                    <th class="border-bottom-0" style="width:100px">WT ROUND OFF</th>
+                                    <th class="border-bottom-0" style="width:100px">LAST LR RATE</th>
+                                    <th class="border-bottom-0" style="width:100px">URD RCM</th>
+                                    <th class="border-bottom-0" style="width:100px">RCM LIMIT</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Settings</a></li>
+                    <li><a href="#">Transport Settings</a></li>
+                    <li><a href="#" class="btn-back">Firm</a></li>
+                    <li class="active"><span id="activeTabName"></span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-8 col-md-12">
+                            <div class="form-group">
+                                <label for="FirmId">Firm Name</label>
+                                <select class="form-control select2-show-search" id="FirmId">
+                                    <option></option>
+                                    @{
+                                        if (Model.CustomerFirmList != null)
+                                        {
+                                            foreach (var o in Model.CustomerFirmList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="ProductIdForSales">Product Name Of Sales</label>
+                                <select class="form-control select2-show-search" id="ProductIdForSales">
+                                    <option></option>
+                                    @{
+                                        if (Model.ProductList != null)
+                                        {
+                                            foreach (var o in Model.ProductList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="LRBookChargeLable1">LR Booking Charge Label 1</label>
+                                <select class="form-control select2-show-search" id="LRBookChargeLable1">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="LRBookChargeLable2">LR Booking Charge Label 2</label>
+                                <select class="form-control select2-show-search" id="LRBookChargeLable2">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="LRBookChargeLable3">LR Booking Charge Label 3</label>
+                                <select class="form-control select2-show-search" id="LRBookChargeLable3">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="LRBookChargeLable4">LR Booking Charge Label 4</label>
+                                <select class="form-control select2-show-search" id="LRBookChargeLable4">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="LRBookChargeLable5">LR Booking Charge Label 5</label>
+                                <select class="form-control select2-show-search" id="LRBookChargeLable5">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="LRBookChargeLable6">LR Booking Charge Label 6</label>
+                                <select class="form-control select2-show-search" id="LRBookChargeLable6">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="DeliveryChargeLable1">LR Delivery Charge Label 1</label>
+                                <select class="form-control select2-show-search" id="DeliveryChargeLable1">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="DeliveryChargeLable2">LR Delivery Charge Label 2</label>
+                                <select class="form-control select2-show-search" id="DeliveryChargeLable2">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="DeliveryChargeLable3">LR Delivery Charge Label 3</label>
+                                <select class="form-control select2-show-search" id="DeliveryChargeLable3">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="DeliveryChargeLable4">LR Delivery Charge Label 4</label>
+                                <select class="form-control select2-show-search" id="DeliveryChargeLable4">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="DeliveryChargeLable5">LR Delivery Charge Label 5</label>
+                                <select class="form-control select2-show-search" id="DeliveryChargeLable5">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-12">
+                            <div class="form-group">
+                                <label for="DeliveryChargeLable6">LR Delivery Charge Label 6</label>
+                                <select class="form-control select2-show-search" id="DeliveryChargeLable6">
+                                    <option></option>
+                                    @{
+                                        if (Model.TransportLRChargesList != null)
+                                        {
+                                            foreach (var o in Model.TransportLRChargesList)
+                                            {
+                                                <option value="@o.Text">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="form-group">
+                                <div><label for="IsWeightRoundOff">Is Weight Round Off</label></div>
+                                <label class="custom-switch">
+                                    <input id="IsWeightRoundOff" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="form-group">
+                                <div><label for="IsPartyAndCityRateFromLastLR">Is Party And City Rate From Last LR</label></div>
+                                <label class="custom-switch">
+                                    <input id="IsPartyAndCityRateFromLastLR" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="form-group">
+                                <div><label for="ReverseChargeApplyForURDParty">Is Rev Charge Apply For URD</label></div>
+                                <label class="custom-switch">
+                                    <input id="ReverseChargeApplyForURDParty" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12">
+                            <div class="form-group">
+                                <label for="ReverseChargeLimitForSalesGST">Reverce Charge Limit</label>
+                                <input type="text" class="form-control mode-ed" id="ReverseChargeLimitForSalesGST" placeholder="" maxlength="100">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="new"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <input type="hidden" id="Id" value="0" />
+</div>
+
+@section Scripts
+    {
+
+    <script>
+
+        $(function (e) {
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+            bindDatatableList();
+        });
+
+        function addClick() {
+
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#FirmId").focus();
+            $('#FirmId').prop('disabled', false);
+
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.firm;
+                },
+                "targets": colDef.length,
+
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.service;
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.isWeightRoundOff ? "Yes" : "No";
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.isPartyAndCityRateFromLastLR ? "Yes" : "No";
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.reverseChargeApplyForURDParty ? "Yes" : "No";
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.reverseChargeLimitForSalesGST;
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.firmId + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.firmId + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "firm", "name": "firm" });
+            columns.push({ "data": "service", "name": "service" });
+            columns.push({ "data": "isWeightRoundOff", "name": "isWeightRoundOff" });
+            columns.push({ "data": "isPartyAndCityRateFromLastLR", "name": "isPartyAndCityRateFromLastLR" });
+            columns.push({ "data": "reverseChargeApplyForURDParty", "name": "reverseChargeApplyForURDParty" });
+            columns.push({ "data": "reverseChargeLimitForSalesGST", "name": "reverseChargeLimitForSalesGST" });
+
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 20,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/CustomerFirmTransportSettingList"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function fromReset() {
+            $("#ReverseChargeLimitForSalesGST").val('');
+            $("#FirmId").val(null).trigger('change');
+            $("#ProductIdForSales").val(null).trigger('change');
+            $("#LRBookChargeLable1").val(null).trigger('change');
+            $("#LRBookChargeLable2").val(null).trigger('change');
+            $("#LRBookChargeLable3").val(null).trigger('change');
+            $("#LRBookChargeLable4").val(null).trigger('change');
+            $("#LRBookChargeLable5").val(null).trigger('change');
+            $("#LRBookChargeLable6").val(null).trigger('change');
+            $("#DeliveryChargeLable1").val(null).trigger('change');
+            $("#DeliveryChargeLable2").val(null).trigger('change');
+            $("#DeliveryChargeLable3").val(null).trigger('change');
+            $("#DeliveryChargeLable4").val(null).trigger('change');
+            $("#DeliveryChargeLable5").val(null).trigger('change');
+            $("#DeliveryChargeLable6").val(null).trigger('change');
+            $("#IsWeightRoundOff").prop('checked', false);
+            $("#IsPartyAndCityRateFromLastLR").prop('checked', false);
+            $("#ReverseChargeApplyForURDParty").prop('checked', false);
+
+            $("#activeTabName").text("Add");
+            setScreenMode(false);
+            $(".btn-delete").hide();
+        }
+
+        function saveItem() {
+            try {
+                if ($("#FirmId").val() == "") {
+                    showWarning("", "Please Enter Valid Firm name.");
+                    $("#FirmId").focus();
+                    return false;
+                }
+
+                if ($("#ProductIdForSales").val() == "") {
+                    showWarning("", "Please Enter Valid Product Name.");
+                    $("#ProductIdForSales").focus();
+                    return false;
+                }
+
+                if ($("#ReverseChargeLimitForSalesGST").val() != null && $("#ReverseChargeLimitForSalesGST").val() != "") {
+                    if (!/^[-+]?(\d{1,4}(\.\d{0,2})?|\.\d{1,2})$/.test($("#ReverseChargeLimitForSalesGST").val())) {
+                        showWarning("", "Reverce Charge Limit must be upto 4 characters before decimal point and 4 characters after decimal point long.");
+                        $("#ReverseChargeLimitForSalesGST").focus();
+                        return false;
+                    }
+                }
+
+                var savedata = new Object();
+
+                savedata.FirmId = getIntValueZero("FirmId");
+                savedata.ProductIdForSales = getIntValueZero("ProductIdForSales");
+                savedata.LRBookChargeLable1 = $("#LRBookChargeLable1").val();
+                savedata.LRBookChargeLable2 = $("#LRBookChargeLable2").val();
+                savedata.LRBookChargeLable3 = $("#LRBookChargeLable3").val();
+                savedata.LRBookChargeLable4 = $("#LRBookChargeLable4").val();
+                savedata.LRBookChargeLable5 = $("#LRBookChargeLable5").val();
+                savedata.LRBookChargeLable6 = $("#LRBookChargeLable6").val();
+                savedata.DeliveryChargeLable1 = $("#DeliveryChargeLable1").val();
+                savedata.DeliveryChargeLable2 = $("#DeliveryChargeLable2").val();
+                savedata.DeliveryChargeLable3 = $("#DeliveryChargeLable3").val();
+                savedata.DeliveryChargeLable4 = $("#DeliveryChargeLable4").val();
+                savedata.DeliveryChargeLable5 = $("#DeliveryChargeLable5").val();
+                savedata.DeliveryChargeLable6 = $("#DeliveryChargeLable6").val();
+                savedata.ReverseChargeLimitForSalesGST = getFloatValueZero("ReverseChargeLimitForSalesGST", 2);
+                savedata.IsWeightRoundOff = $("#IsWeightRoundOff").is(':checked');
+                savedata.IsPartyAndCityRateFromLastLR = $('#IsPartyAndCityRateFromLastLR').is(':checked');
+                savedata.ReverseChargeApplyForURDParty = $('#ReverseChargeApplyForURDParty').is(':checked');
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveCustomerFirmTransportSetting", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Customer Firm Transport Setting saved successfully.');
+                            $("#FirmId").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetCustomerFirmTransportSetting"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.firmId);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.firmId + ")");
+                                    $('#FirmId').prop('disabled', 'disabled');
+                                }
+
+                                $("#FirmId").val(result.data.firmId).trigger('change');
+                                $("#ProductIdForSales").val(result.data.productIdForSales).trigger('change');
+                                $("#LRBookChargeLable1").val(result.data.lrBookChargeLable1).trigger('change');
+                                $("#LRBookChargeLable2").val(result.data.lrBookChargeLable2).trigger('change');
+                                $("#LRBookChargeLable3").val(result.data.lrBookChargeLable3).trigger('change');
+                                $("#LRBookChargeLable4").val(result.data.lrBookChargeLable4).trigger('change');
+                                $("#LRBookChargeLable5").val(result.data.lrBookChargeLable5).trigger('change');
+                                $("#LRBookChargeLable6").val(result.data.lrBookChargeLable6).trigger('change');
+                                $("#DeliveryChargeLable1").val(result.data.deliveryChargeLable1).trigger('change');
+                                $("#DeliveryChargeLable2").val(result.data.deliveryChargeLable2).trigger('change');
+                                $("#DeliveryChargeLable3").val(result.data.deliveryChargeLable3).trigger('change');
+                                $("#DeliveryChargeLable4").val(result.data.deliveryChargeLable4).trigger('change');
+                                $("#DeliveryChargeLable5").val(result.data.deliveryChargeLable5).trigger('change');
+                                $("#DeliveryChargeLable6").val(result.data.deliveryChargeLable6).trigger('change');
+                                $("#ReverseChargeLimitForSalesGST").val(result.data.reverseChargeLimitForSalesGST).trigger('change');
+
+                                $("#IsWeightRoundOff").prop('checked', result.data.isWeightRoundOff);
+                                $("#IsPartyAndCityRateFromLastLR").prop('checked', result.data.isPartyAndCityRateFromLastLR);
+                                $("#ReverseChargeApplyForURDParty").prop('checked', result.data.reverseChargeApplyForURDParty);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+    </script>
+
+}

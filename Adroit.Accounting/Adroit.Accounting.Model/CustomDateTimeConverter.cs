@@ -28,17 +28,24 @@ namespace Adroit.Accounting.Model
     //    }
     //}
 
-    public class CustomDateTimeConverter : JsonConverter<DateTime>
+    public class CustomDateTimeConverter : JsonConverter<DateTime?>
     {
-        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             Debug.Assert(typeToConvert == typeof(DateTime));
+
+            var str = reader.GetString();
+            if (string.IsNullOrWhiteSpace(str))
+            {
+                return null;
+            }
+
             return DateTime.Parse(reader.GetString());
         }
 
-        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, DateTime? value, JsonSerializerOptions options)
         {
-            writer.WriteStringValue(value.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ"));
+            writer.WriteStringValue(value?.ToUniversalTime().ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ssZ")??"");
         }
     }
 }

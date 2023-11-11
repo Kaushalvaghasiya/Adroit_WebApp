@@ -25,6 +25,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> LicenceIssuePlaceList { get; set; }
         public List<DropdownViewModel> AadharUIDList { get; set; }
         public List<DropdownViewModel> DriverTypeList { get; set; }
-        public string LicenceExpiryString { get { return this.LicenceExpiry.ToString(Constant.DateFormat); } }
+        public string LicenceExpiryString { get { return this.LicenceExpiry?.ToString(Constant.DateFormat); } }
     }
 }

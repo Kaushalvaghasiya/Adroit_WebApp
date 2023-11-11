@@ -12,5 +12,6 @@ namespace Adroit.Accounting.Model
         public short Id { get; set; }
         public string Title { get; set; }
         public int? OrderNumber { get; set; }
+        public bool Active { get; set; }
     }
 }
