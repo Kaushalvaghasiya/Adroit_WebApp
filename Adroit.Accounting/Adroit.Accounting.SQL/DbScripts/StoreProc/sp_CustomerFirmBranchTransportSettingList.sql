@@ -49,7 +49,12 @@ Begin
 			 INNER JOIN [CustomerBookBranchMapping] AS DSBBM ON DSBBM.[Id] = [CustomerFirmBranchTransportSetting].[DeliverySalesBookBranchMappingId]  
 			 INNER JOIN [CustomerBook] AS DSBB ON DSBB.[Id] = DSBBM.[BookId] 
 			 INNER JOIN CustomerAccount AS DSBBA ON DSBBA.[Id] = DSBB.BookAccountId 
-		WHERE (Coalesce(@Search,'') = '' 
+		WHERE [CustomerFirm].Active = 1 AND [CustomerFirm].Deleted = 0
+			AND CustomerFirmBranch.Active = 1 AND CustomerFirmBranch.Deleted = 0
+			AND PBBA.Active = 1 AND PBBA.Deleted = 0 AND PBB.Active = 1 AND PBB.Deleted = 0 AND PBBM.Deleted = 0 
+			AND BSBBA.Active = 1 AND BSBBA.Deleted = 0 AND BSBB.Active = 1 AND BSBB.Deleted = 0 AND BSBBM.Deleted = 0 
+			AND DSBBA.Active = 1 AND DSBBA.Deleted = 0 AND DSBB.Active = 1 AND DSBB.Deleted = 0 AND DSBBM.Deleted = 0 
+			AND (Coalesce(@Search,'') = '' 
 			OR CustomerFirmBranch.[Title] like '%'+ @Search + '%'
 			OR PBBA.[Name] like '%'+ @Search + '%'
 			OR BSBBA.[Name] like '%'+ @Search + '%'
