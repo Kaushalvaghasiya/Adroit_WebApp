@@ -15,6 +15,8 @@ Begin
 	(   
 		SELECT  
 			ROW_NUMBER() over (ORDER BY
+				CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN [CustomerFirm].[Title] END ASC,
+				CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN [CustomerFirm].[Title] END DESC,
 				CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CustomerFirmBranch.[Title] END ASC,
 				CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN CustomerFirmBranch.[Title] END DESC,
 				CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN PBBA.[Name] END ASC,
@@ -30,12 +32,14 @@ Begin
 			) AS RowNum,
 			Count(*) over () AS TotalCount, 
 			[CustomerFirmBranchTransportSetting].*,
+			[CustomerFirm].[Title] AS FirmName,
 			CustomerFirmBranch.[Title] AS BranchName,
 			PBBA.[Name] AS PurchaseBookName,
 			BSBBA.[Name] AS BkSalesBookName,
 			DSBBA.[Name] AS DelSalesBookName
-		FROM [dbo].[CustomerFirmBranchTransportSetting] 			 
+		FROM [dbo].[CustomerFirmBranchTransportSetting] 		
 			 INNER JOIN CustomerFirmBranch ON CustomerFirmBranch.Id = [CustomerFirmBranchTransportSetting].[BranchId] 
+			 INNER JOIN [CustomerFirm] ON [CustomerFirm].Id = CustomerFirmBranch.[FirmId]
 			 INNER JOIN [CustomerBookBranchMapping] AS PBBM ON PBBM.[Id] = [CustomerFirmBranchTransportSetting].[PurcahseBookBranchMappingId] 
 			 INNER JOIN [CustomerBook] AS PBB ON PBB.[Id] = PBBM.[BookId] 
 			 INNER JOIN CustomerAccount AS PBBA ON PBBA.Id = PBB.BookAccountId  
@@ -45,8 +49,7 @@ Begin
 			 INNER JOIN [CustomerBookBranchMapping] AS DSBBM ON DSBBM.[Id] = [CustomerFirmBranchTransportSetting].[DeliverySalesBookBranchMappingId]  
 			 INNER JOIN [CustomerBook] AS DSBB ON DSBB.[Id] = DSBBM.[BookId] 
 			 INNER JOIN CustomerAccount AS DSBBA ON DSBBA.[Id] = DSBB.BookAccountId 
-		WHERE CustomerFirmBranch.Deleted = 0
-		AND (Coalesce(@Search,'') = '' 
+		WHERE (Coalesce(@Search,'') = '' 
 			OR CustomerFirmBranch.[Title] like '%'+ @Search + '%'
 			OR PBBA.[Name] like '%'+ @Search + '%'
 			OR BSBBA.[Name] like '%'+ @Search + '%'
