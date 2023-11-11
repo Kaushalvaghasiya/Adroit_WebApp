@@ -32,5 +32,7 @@ namespace Adroit.Accounting.Model
         public int AddedById { get; set; }
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
+        public string Firm { get; set; }
+        public string Service { get; set; }
     }
 }

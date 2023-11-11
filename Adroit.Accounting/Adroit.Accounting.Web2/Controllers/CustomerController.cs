@@ -76,6 +76,8 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomerFirmBranchTransportSetting _customerFirmBranchTransportSettingRepository;
         protected readonly ITransportLRRateOn _transportLRRateOnRepository;
         protected readonly ITransportLRPayType _transportLRPayTypeRepository;
+        private readonly ICustomerFirmTransportSetting _customerFirmTransportSettingRepository;
+        private readonly ITransportLRCharges _transportLRChargesRepository;
 
         public CustomerController(
             IVehicle vehicleRepo,
@@ -139,7 +141,9 @@ namespace Adroit.Accounting.Web.Controllers
             ISalesBillFromAdmin salesBillFromAdminRepository,
             ICustomerFirmBranchTransportSetting customerFirmBranchTransportSettingRepository,
             ITransportLRRateOn transportLRRateOnRepository,
-            ITransportLRPayType transportLRPayTypeRepository)
+            ITransportLRPayType transportLRPayTypeRepository,
+            ICustomerFirmTransportSetting customerFirmTransportSettingRepository,
+            ITransportLRCharges transportLRChargesRepository)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -203,6 +207,8 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmBranchTransportSettingRepository = customerFirmBranchTransportSettingRepository;
             _transportLRRateOnRepository = transportLRRateOnRepository;
             _transportLRPayTypeRepository = transportLRPayTypeRepository;
+            _customerFirmTransportSettingRepository = customerFirmTransportSettingRepository;
+            _transportLRChargesRepository = transportLRChargesRepository;
         }
 
         public JsonResult GetAccountGroups()
