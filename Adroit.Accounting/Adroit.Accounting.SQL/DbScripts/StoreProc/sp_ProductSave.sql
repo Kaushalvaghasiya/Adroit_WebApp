@@ -57,7 +57,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSave]
 	 @HSNDesc NVARCHAR(50),
 	 @Remarks1 NVARCHAR(250),
 	 @Remarks2 NVARCHAR(250),
-	 @Active BIT
+	 @Active BIT,
+	 @ProductBranchId NVARCHAR(MAX)
 )
 AS
 BEGIN
@@ -165,10 +166,16 @@ BEGIN
 
 		IF EXISTS (SELECT 1 FROM Product WHERE Id = @Id) OR EXISTS (SELECT 1 FROM Product WHERE Title = @Title AND Deleted = 1)
 		BEGIN
+
+			IF ISNULL(@Id,0) <= 0
+			BEGIN
+				SELECT @Id = Id FROM Product WHERE Title = @Title
+			END
+
 			UPDATE  Product SET
 					CustomerId = @CustomerId,
 					Title = @Title,
-					Code = @Code,
+					Code = ISNULL(@Code,''),
 					PrintName = @PrintName,
 					TitleAlternate = @TitleAlternate,
 					DesignNumberId = @DesignNumberId,
@@ -214,10 +221,7 @@ BEGIN
 					Deleted = 0
 			WHERE Id = @Id
 
-			IF ISNULL(@Id,0) <= 0
-			BEGIN
-				SELECT @Id = Id FROM Product WHERE Title = @Title
-			END
+			DELETE FROM [ProductBranchMapping] WHERE ProductId = @Id
 		END
 		ELSE
 		BEGIN
@@ -227,13 +231,22 @@ BEGIN
 				DealerRate, PurchaseRate, Cut, AveragePack, BoxPack, RolMin, RolMax, GSTCalculationId, GSTRateId, GstCentralCess, GstStateCess, 
 				AmountCalcId, RateUpdate, Discount, HSNDesc, Remarks1, Remarks2, Active, AddedById, AddedOn)
 			VALUES
-				(@CustomerId, @Title, @Code, @PrintName, @TitleAlternate, @DesignNumberId, @ColourId, @SizeId, @PackingId, @ShadeNumberId, @FabricId, @GroupId, 
+				(@CustomerId, @Title, ISNULL(@Code,''), @PrintName, @TitleAlternate, @DesignNumberId, @ColourId, @SizeId, @PackingId, @ShadeNumberId, @FabricId, @GroupId, 
 				@SubGroupId, @StockTypeId, @QualityTypeId, @UQCId, @HSNCode, @CategoryId, @DenierWeight, @RatePerMeter, @RateRetail, @Mrp, @DistributorRate, 
 				@DealerRate, @PurchaseRate, @Cut, @AveragePack, @BoxPack, @RolMin, @RolMax, @GSTCalculationId, @GSTRateId, @GstCentralCess, @GstStateCess, 
 				@AmountCalcId, @RateUpdate, @Discount, @HSNDesc, @Remarks1, @Remarks2, @Active, @loginId, GETUTCDATE())
 
 			SET @Id = SCOPE_IDENTITY()
 		END
+
+		INSERT INTO [ProductBranchMapping] 
+				(ProductId,BranchId,AddedById,AddedOn)
+				Select 
+				@Id,
+				Id,
+				@loginId,
+				GETUTCDATE()
+				from dbo.[fnStringToIntArray](@ProductBranchId)
 
 		COMMIT TRAN
 		SELECT @Id

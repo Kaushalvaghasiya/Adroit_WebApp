@@ -39,11 +39,11 @@ BEGIN
 		IF EXISTS (SELECT 1 FROM CustomerFirmBranch WHERE FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId) AND Id = @Id)
 			BEGIN
 				UPDATE CustomerFirmBranch SET
-					FirmId= @FirmId,
-					Title= @Title,
+					--FirmId= @FirmId,
+					--Title= @Title,
 					PrintTitle= @PrintTitle,
 					ShortTitle= @ShortTitle,
-					FirmBranchTypeId= @FirmBranchTypeId,
+					--FirmBranchTypeId= @FirmBranchTypeId,
 					Address1= @Address1,
 					Address2= @Address2,
 					Address3= @Address3,
@@ -52,22 +52,22 @@ BEGIN
 					CountryId=@CountryId,  
 					Pincode= @PinCode, 
 					Phone= @Phone,
-					ContactPersonName= @ContactPersonName, 
-					Mobile= @Mobile, 
+					--ContactPersonName= @ContactPersonName, 
+					--Mobile= @Mobile, 
 					MobileAlternate= @MobileAlternate,
-					Email= @Email, 
-					GSTNumber= @GSTNumber,
-					PAN=@PAN,  
-					EWBAddress1= @EWBAddress1,
-					EWBAddress2=@EWBAddress2,  
-					RenewalDate= @RenewalDate, 
-					SetupPrice= @SetupPrice,
-					RenewalPrice= @RenewalPrice, 
-					OrderNumber= @OrderNumber, 
+					--Email= @Email, 
+					--GSTNumber= @GSTNumber,
+					--PAN=@PAN,  
+					--EWBAddress1= @EWBAddress1,
+					--EWBAddress2=@EWBAddress2,  
+					--RenewalDate= @RenewalDate, 
+					--SetupPrice= @SetupPrice,
+					--RenewalPrice= @RenewalPrice, 
+					--OrderNumber= @OrderNumber, 
 					ModifiedById=@LoginId, 
-					ModifiedOn=GETUTCDATE(),
-					Active=@Active,
-					SoftwarePlanId = @SoftwarePlanId
+					ModifiedOn=GETUTCDATE()
+					--Active=@Active,
+					--SoftwarePlanId = @SoftwarePlanId
 					WHERE FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId) AND ID = @Id
 			END
 		ELSE

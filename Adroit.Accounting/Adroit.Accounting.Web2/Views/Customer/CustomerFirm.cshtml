@@ -9,7 +9,6 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Adroit</a></li>
                     <li><a href="#">Customer</a></li>
                     <li><a href="#">@Model.Customer.Name</a></li>
                     <li class="active"><span>Firm</span></li>
@@ -62,7 +61,6 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Adroit</a></li>
                     <li><a href="#">Customer</a></li>
                     <li><a href="#">@Model.Customer.Name</a></li>
                     <li><a href="#" class="btn-back">Firm</a></li>
@@ -75,8 +73,8 @@
                             <button class="btn btn-primary" type="button">Go!</button>
                         </span>*@
                         <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
-                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
-                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                       @*  <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a> *@
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
@@ -248,10 +246,10 @@
                 </div>
                 <div class="card-footer text-right">
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    @* <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a> *@
                     <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
             </div>
@@ -295,6 +293,15 @@
             $("#BusinessId").val("@Model.Customer.BusinessId").trigger("change");
             }
             $("#Title").focus();
+            $('#Title').attr('disabled', false);
+            $('#GstFirmTypeId').attr('disabled', false);
+            $('#SoftwareId').attr('disabled', false);
+            $('#OwnerName').attr('disabled', false);
+            $('#BranchLimit').attr('disabled', false);
+            $('#CessRequired').attr('disabled', false);
+            $('#IsGTA').attr('disabled', false);
+            $('#LRResetOnYearEnd').attr('disabled', false);
+            $('#Active').attr('disabled', false);
         }
 
         function viewMode(id) {
@@ -587,6 +594,15 @@
                                 } else {
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                    $('#Title').attr('disabled', true);
+                                    $('#GstFirmTypeId').attr('disabled', true);
+                                    $('#SoftwareId').attr('disabled', true);
+                                    $('#OwnerName').attr('disabled', true);
+                                    $('#BranchLimit').attr('disabled', true);
+                                    $('#CessRequired').attr('disabled', true);
+                                    $('#IsGTA').attr('disabled', true);
+                                    $('#LRResetOnYearEnd').attr('disabled', true);
+                                    $('#Active').attr('disabled', true);
                                 }
 
                                 $('#Id').val(result.data.id);

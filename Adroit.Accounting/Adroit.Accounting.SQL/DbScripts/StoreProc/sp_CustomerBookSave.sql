@@ -66,12 +66,20 @@ BEGIN
 		SELECT @FirmId = ( SELECT Id FROM CustomerFirm WHERE CustomerId = @CustomerId);
 		DECLARE @YearId int = ( SELECT Id FROM FinanceYear WHERE FirmId = @FirmId);
 
+		DECLARE @message VARCHAR(4000);
+
+		IF @YearId IS NULL
+		BEGIN
+			SET @message = 'Year Not Found!';
+			RAISERROR ('%s', 16, 1, @message);
+		END
+
 		IF EXISTS (SELECT 1 FROM CustomerBook WHERE (Id = @Id) OR (BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId AND Deleted = 1))
 		BEGIN
 
 			IF ISNULL(@Id,0) <= 0
 			BEGIN
-				SELECT @Id = Id FROM CustomerBook WHERE BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId
+				SET @Id = (SELECT Id FROM CustomerBook WHERE BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId)
 			END
 
 			UPDATE CustomerBook SET
@@ -169,7 +177,7 @@ BEGIN
 		SELECT @Id
 	END TRY
 	BEGIN CATCH
-		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
+		DECLARE @error INT, @xstate INT;
 		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
 		ROLLBACK TRAN
 
