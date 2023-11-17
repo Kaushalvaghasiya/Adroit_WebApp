@@ -63,7 +63,7 @@ BEGIN
 	BEGIN TRY
 
 		DECLARE @CustomerId int = dbo.fn_GetCustomerId(@loginId);
-		SELECT @FirmId = (SELECT Id FROM CustomerFirm WHERE CustomerId = @CustomerId);
+		SELECT @FirmId = (SELECT TOP 1 Id FROM CustomerFirm WHERE CustomerId = @CustomerId);
 		DECLARE @YearId int = (SELECT Id FROM FinanceYear WHERE FirmId = @FirmId);
 
 		DECLARE @message VARCHAR(4000);
@@ -161,7 +161,13 @@ BEGIN
 			,DeletedOn = NULL
 			,Deleted = 0
 			WHERE Id = @Id
-			
+
+			UPDATE  CustomerBookBranchMapping SET
+					DeletedById = @loginId,
+					DeletedOn = GETUTCDATE(),
+					Deleted = 1
+			WHERE BookId = @Id AND [BranchId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@CustomerBookBranchId))
+
 			UPDATE  CustomerBookBranchMapping SET
 					DeletedById = NULL,
 					DeletedOn = NULL,

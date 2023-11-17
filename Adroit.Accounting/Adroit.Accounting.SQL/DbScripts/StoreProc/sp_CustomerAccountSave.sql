@@ -157,6 +157,12 @@ BEGIN
 			WHERE ID = @Id
 
 			UPDATE  CustomerAccountBranchMapping SET
+					DeletedById = @LoginId,
+					DeletedOn = GETUTCDATE(),
+					Deleted = 1
+			WHERE AccountId = @Id AND [BranchId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@CustomerAccountBranchIds))
+
+			UPDATE  CustomerAccountBranchMapping SET
 					DeletedById = NULL,
 					DeletedOn = NULL,
 					Deleted = 0
