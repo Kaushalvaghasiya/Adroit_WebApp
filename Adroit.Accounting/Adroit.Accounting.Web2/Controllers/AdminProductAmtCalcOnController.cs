@@ -14,7 +14,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult ProductAmtCalcOn()
         {
             var model = new ProductAmtCalcOnViewModel();
-            model.TitleList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductAmtCalcOnTable._TableName, ProductAmtCalcOnTable.Title);
+
             model.SoftwareList = _softwareRepository.SelectList(_configurationData.DefaultConnection);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductAmtCalcOnTable._TableName, ProductAmtCalcOnTable.OrderNumber);
 
@@ -95,6 +95,23 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _productAmtCalcOnRepository.Get(id, _configurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [HttpGet]
+        public JsonResult GetProductAmtCalcList(byte softwareId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _productAmtCalcOnRepository.ProductAmtCalcList(softwareId, _configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

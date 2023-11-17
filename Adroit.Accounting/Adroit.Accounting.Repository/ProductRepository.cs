@@ -77,6 +77,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Remarks1", value.Remarks1);
             parameters.Add("@Remarks2", value.Remarks2);
             parameters.Add("@Active", value.Active);
+            parameters.Add("@ProductBranchId", value.ProductBranchId);
             return QueryHelper.Save("sp_ProductSave", connectionString, parameters);
         }
         public void Delete(int id, int loginId, string connectionString)
@@ -87,9 +88,10 @@ namespace Adroit.Accounting.Repository
             QueryHelper.Save("sp_ProductDelete", connectionString, parameters);
         }
 
-        public ProductViewModel Get(int id, string connectionString)
+        public ProductViewModel Get(int id, string connectionString, int loginId)
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
             parameters.Add("@Id", id);
             return QueryHelper.Get<ProductViewModel>("sp_ProductGet", connectionString, parameters);
         }

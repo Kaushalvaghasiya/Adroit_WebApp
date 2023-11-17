@@ -45,117 +45,133 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+
+		DECLARE @StateCode VARCHAR(5) = (
+			SELECT Code
+			FROM State
+			WHERE Id = @StateId 
+		)
+		DECLARE @message VARCHAR(4000)
+
+		IF LEFT(@GSTNumber, 2) != @StateCode AND @GSTNumber != ''
+		BEGIN
+
+			SET @message = 'Invaild GST Number.';
+			RAISERROR ('%s', 16, 1, @message);
+		END
+
 		IF EXISTS (SELECT 1 FROM AccountAdmin WHERE Id = @Id)
-			BEGIN
-				UPDATE  AccountAdmin SET
-						[Name] = @Name,
-						PrintName = @PrintName,
-						AccountGroupId = @AccountGroupId,
-						Address1 = @Address1,
-						Address2 = @Address2,
-						Address3 = @Address3,
-						CityId = @CityId,
-						StateId = @StateId,
-						CountryId = @CountryId,
-						Pincode = @Pincode,
-						KM = @KM,
-						ContactPersonName = @ContactPersonName,
-						Mobile = @Mobile,
-						MobileAlternate = @MobileAlternate,
-						Email = @Email,
-						GSTNumber = @GSTNumber,
-						PAN = @PAN,
-						AreaName = @AreaName,
-						RateWithGST = @RateWithGST,
-						GSTInvoiceTypeId = @GSTInvoiceTypeId,
-						EximCode = @EximCode,
-						IsIGST = @IsIGST,
-						GSTNumberTransport = @GSTNumberTransport,
-						TransportName = @TransportName,
-						VehicleNumber = @VehicleNumber,
-						CreditDays = @CreditDays,
-						Discount = @Discount,
-						TDS = @TDS,
-						TCS = @TCS,
-						CreditLimit = @CreditLimit,
-						InterestRate = @InterestRate,
-						Commission = @Commission,
-						IsEcommerce = @IsEcommerce,
-						AdharUID = @AdharUID,
-						[TAN] = @TAN,
-						CompositParty = @CompositParty,
-						RCMParty = @RCMParty,
-						CapitalPercentage = @CapitalPercentage,
-						Active = @Active
-					WHERE ID = @Id
-			END
+		BEGIN
+			UPDATE  AccountAdmin SET
+					[Name] = @Name,
+					PrintName = @PrintName,
+					AccountGroupId = @AccountGroupId,
+					Address1 = @Address1,
+					Address2 = @Address2,
+					Address3 = @Address3,
+					CityId = @CityId,
+					StateId = @StateId,
+					CountryId = @CountryId,
+					Pincode = @Pincode,
+					KM = @KM,
+					ContactPersonName = @ContactPersonName,
+					Mobile = @Mobile,
+					MobileAlternate = @MobileAlternate,
+					Email = @Email,
+					GSTNumber = @GSTNumber,
+					PAN = @PAN,
+					AreaName = @AreaName,
+					RateWithGST = @RateWithGST,
+					GSTInvoiceTypeId = @GSTInvoiceTypeId,
+					EximCode = @EximCode,
+					IsIGST = @IsIGST,
+					GSTNumberTransport = @GSTNumberTransport,
+					TransportName = @TransportName,
+					VehicleNumber = @VehicleNumber,
+					CreditDays = @CreditDays,
+					Discount = @Discount,
+					TDS = @TDS,
+					TCS = @TCS,
+					CreditLimit = @CreditLimit,
+					InterestRate = @InterestRate,
+					Commission = @Commission,
+					IsEcommerce = @IsEcommerce,
+					AdharUID = @AdharUID,
+					[TAN] = @TAN,
+					CompositParty = @CompositParty,
+					RCMParty = @RCMParty,
+					CapitalPercentage = @CapitalPercentage,
+					Active = @Active
+				WHERE ID = @Id
+		END
 		ELSE If EXISTS (SELECT 1 FROM AccountAdmin WHERE [Name] = @Name AND Deleted = 1)
-			BEGIN
-				UPDATE  AccountAdmin SET
-						[Name] = @Name,
-						PrintName = @PrintName,
-						AccountGroupId = @AccountGroupId,
-						Address1 = @Address1,
-						Address2 = @Address2,
-						Address3 = @Address3,
-						CityId = @CityId,
-						StateId = @StateId,
-						CountryId = @CountryId,
-						Pincode = @Pincode,
-						KM = @KM,
-						ContactPersonName = @ContactPersonName,
-						Mobile = @Mobile,
-						MobileAlternate = @MobileAlternate,
-						Email = @Email,
-						GSTNumber = @GSTNumber,
-						PAN = @PAN,
-						AreaName = @AreaName,
-						RateWithGST = @RateWithGST,
-						GSTInvoiceTypeId = @GSTInvoiceTypeId,
-						EximCode = @EximCode,
-						IsIGST = @IsIGST,
-						GSTNumberTransport = @GSTNumberTransport,
-						TransportName = @TransportName,
-						VehicleNumber = @VehicleNumber,
-						CreditDays = @CreditDays,
-						Discount = @Discount,
-						TDS = @TDS,
-						TCS = @TCS,
-						CreditLimit = @CreditLimit,
-						InterestRate = @InterestRate,
-						Commission = @Commission,
-						IsEcommerce = @IsEcommerce,
-						AdharUID = @AdharUID,
-						[TAN] = @TAN,
-						CompositParty = @CompositParty,
-						RCMParty = @RCMParty,
-						CapitalPercentage = @CapitalPercentage,
-						Active = @Active,
-						Deleted = 0
-					WHERE [Name] = @Name 
+		BEGIN
+			UPDATE  AccountAdmin SET
+					[Name] = @Name,
+					PrintName = @PrintName,
+					AccountGroupId = @AccountGroupId,
+					Address1 = @Address1,
+					Address2 = @Address2,
+					Address3 = @Address3,
+					CityId = @CityId,
+					StateId = @StateId,
+					CountryId = @CountryId,
+					Pincode = @Pincode,
+					KM = @KM,
+					ContactPersonName = @ContactPersonName,
+					Mobile = @Mobile,
+					MobileAlternate = @MobileAlternate,
+					Email = @Email,
+					GSTNumber = @GSTNumber,
+					PAN = @PAN,
+					AreaName = @AreaName,
+					RateWithGST = @RateWithGST,
+					GSTInvoiceTypeId = @GSTInvoiceTypeId,
+					EximCode = @EximCode,
+					IsIGST = @IsIGST,
+					GSTNumberTransport = @GSTNumberTransport,
+					TransportName = @TransportName,
+					VehicleNumber = @VehicleNumber,
+					CreditDays = @CreditDays,
+					Discount = @Discount,
+					TDS = @TDS,
+					TCS = @TCS,
+					CreditLimit = @CreditLimit,
+					InterestRate = @InterestRate,
+					Commission = @Commission,
+					IsEcommerce = @IsEcommerce,
+					AdharUID = @AdharUID,
+					[TAN] = @TAN,
+					CompositParty = @CompositParty,
+					RCMParty = @RCMParty,
+					CapitalPercentage = @CapitalPercentage,
+					Active = @Active,
+					Deleted = 0
+				WHERE [Name] = @Name 
 
-				SELECT @Id=Id FROM AccountAdmin WHERE [Name] = @Name 
-			END
+			SELECT @Id=Id FROM AccountAdmin WHERE [Name] = @Name 
+		END
 		ELSE
-			BEGIN
-				INSERT INTO AccountAdmin
-					([Name], PrintName, AccountGroupId, Address1, Address2, Address3, CityId, StateId, CountryId, Pincode, KM, ContactPersonName, 
-					 Mobile, MobileAlternate, Email, GSTNumber, PAN, AreaName, RateWithGST, GSTInvoiceTypeId, EximCode, IsIGST, GSTNumberTransport, 
-					 TransportName, VehicleNumber, CreditDays, Discount, TDS, TCS, CreditLimit, InterestRate, Commission, IsEcommerce, AdharUID, 
-					 [TAN], CompositParty, RCMParty, CapitalPercentage, Active)
-				VALUES
-					(@Name, @PrintName, @AccountGroupId, @Address1, @Address2, @Address3, @CityId, @StateId, @CountryId, @Pincode, @KM, @ContactPersonName, 
-					 @Mobile, @MobileAlternate, @Email, @GSTNumber, @PAN, @AreaName, @RateWithGST, @GSTInvoiceTypeId, @EximCode, @IsIGST, @GSTNumberTransport, 
-					 @TransportName, @VehicleNumber, @CreditDays, @Discount, @TDS, @TCS, @CreditLimit, @InterestRate, @Commission, @IsEcommerce, @AdharUID, 
-					 @TAN, @CompositParty, @RCMParty, @CapitalPercentage, @Active)
+		BEGIN
+			INSERT INTO AccountAdmin
+				([Name], PrintName, AccountGroupId, Address1, Address2, Address3, CityId, StateId, CountryId, Pincode, KM, ContactPersonName, 
+					Mobile, MobileAlternate, Email, GSTNumber, PAN, AreaName, RateWithGST, GSTInvoiceTypeId, EximCode, IsIGST, GSTNumberTransport, 
+					TransportName, VehicleNumber, CreditDays, Discount, TDS, TCS, CreditLimit, InterestRate, Commission, IsEcommerce, AdharUID, 
+					[TAN], CompositParty, RCMParty, CapitalPercentage, Active)
+			VALUES
+				(@Name, @PrintName, @AccountGroupId, @Address1, @Address2, @Address3, @CityId, @StateId, @CountryId, @Pincode, @KM, @ContactPersonName, 
+					@Mobile, @MobileAlternate, @Email, @GSTNumber, @PAN, @AreaName, @RateWithGST, @GSTInvoiceTypeId, @EximCode, @IsIGST, @GSTNumberTransport, 
+					@TransportName, @VehicleNumber, @CreditDays, @Discount, @TDS, @TCS, @CreditLimit, @InterestRate, @Commission, @IsEcommerce, @AdharUID, 
+					@TAN, @CompositParty, @RCMParty, @CapitalPercentage, @Active)
 
-				SET @Id = SCOPE_IDENTITY()
-			END
+			SET @Id = SCOPE_IDENTITY()
+		END
 		COMMIT TRAN
 		SELECT @Id
+
 	END TRY
 	BEGIN CATCH
-		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
+		DECLARE @error INT, @xstate INT;
 		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
 		ROLLBACK TRAN
 		IF (@message LIKE '%Violation of UNIQUE KEY%')

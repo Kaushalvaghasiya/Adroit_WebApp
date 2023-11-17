@@ -11,5 +11,6 @@ namespace Adroit.Accounting.Repository.IRepository
         int Save(ProductAmtCalcOn value, string connectionString);
         ProductAmtCalcOnViewModel Get(int id, string connectionString);
         List<DropdownViewModel> SelectList(byte softwareId, string connectionString);
+        List<DropdownViewModel> ProductAmtCalcList(byte softwareId, string connectionString);
     }
 }

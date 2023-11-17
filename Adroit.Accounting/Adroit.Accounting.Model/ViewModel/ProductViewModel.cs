@@ -39,6 +39,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> ProductQualityTypeList { get; set; } = new();
         public List<DropdownViewModel> ProductShadeNumberList { get; set; } = new();
         public List<DropdownViewModel> GSTRateList { get; set; } = new();
+        public List<DropdownViewModel> BranchList { get; set; } = new();
 
         //Only Temp Values For Saving & Listing
         public string CustomerName { get; set; }
@@ -59,5 +60,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public string AmtCalcName { get; set; }
         public byte softwareId { get; set; }
         public int loginId { get; set; }
+        public CustomerViewModel Customer { get; set; }
     }
 }

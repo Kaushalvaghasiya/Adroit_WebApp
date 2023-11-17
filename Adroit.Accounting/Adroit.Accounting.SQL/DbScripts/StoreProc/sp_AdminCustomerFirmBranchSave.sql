@@ -35,67 +35,94 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+
 		IF EXISTS (SELECT 1 FROM CustomerFirmBranch WHERE Id = @Id)
-			BEGIN
-				UPDATE CustomerFirmBranch SET
-					FirmId= @FirmId,
-					Title= @Title,
-					PrintTitle= @PrintTitle,
-					ShortTitle= @ShortTitle,
-					FirmBranchTypeId= @FirmBranchTypeId,
-					Address1= @Address1,
-					Address2= @Address2,
-					Address3= @Address3,
-					CityId= @CityId,
-					StateId= @StateId, 
-					CountryId=@CountryId,  
-					Pincode= @PinCode, 
-					Phone= @Phone,
-					ContactPersonName= @ContactPersonName, 
-					Mobile= @Mobile, 
-					MobileAlternate= @MobileAlternate,
-					Email= @Email, 
-					GSTNumber= @GSTNumber,
-					PAN=@PAN,  
-					EWBAddress1= @EWBAddress1,
-					EWBAddress2=@EWBAddress2,  
-					RenewalDate= @RenewalDate, 
-					SetupPrice= @SetupPrice,
-					RenewalPrice= @RenewalPrice, 
-					OrderNumber= @OrderNumber, 
-					ModifiedById=@ModifiedById, 
-					ModifiedOn=GETUTCDATE(),
-					Active=@Active,
-					SoftwarePlanId = @SoftwarePlanId
-					WHERE ID = @Id
-			END
+		BEGIN
+			UPDATE CustomerFirmBranch SET
+				FirmId= @FirmId,
+				Title= @Title,
+				PrintTitle= @PrintTitle,
+				ShortTitle= @ShortTitle,
+				FirmBranchTypeId= @FirmBranchTypeId,
+				Address1= @Address1,
+				Address2= @Address2,
+				Address3= @Address3,
+				CityId= @CityId,
+				StateId= @StateId, 
+				CountryId=@CountryId,  
+				Pincode= @PinCode, 
+				Phone= @Phone,
+				ContactPersonName= @ContactPersonName, 
+				Mobile= @Mobile, 
+				MobileAlternate= @MobileAlternate,
+				Email= @Email, 
+				GSTNumber= @GSTNumber,
+				PAN=@PAN,  
+				EWBAddress1= @EWBAddress1,
+				EWBAddress2=@EWBAddress2,  
+				RenewalDate= @RenewalDate, 
+				SetupPrice= @SetupPrice,
+				RenewalPrice= @RenewalPrice, 
+				OrderNumber= @OrderNumber, 
+				ModifiedById=@ModifiedById, 
+				ModifiedOn=GETUTCDATE(),
+				Active=@Active,
+				SoftwarePlanId = @SoftwarePlanId
+				WHERE ID = @Id
+		END
 		ELSE
+		BEGIN
+
+			declare @branchlimit int = 0
+			declare @branchcreated int = 0
+			SELECT @branchlimit = BranchLimit FROM CustomerFirm Where Id = @FirmId
+			SELECT @branchcreated = count(*) FROM CustomerFirmBranch Where FirmId = @FirmId ANd Deleted = 0
+			IF (@branchcreated >= @branchlimit)
 			BEGIN
-				declare @branchlimit int = 0
-				declare @branchcreated int = 0
-				SELECT @branchlimit = BranchLimit FROM CustomerFirm Where Id = @FirmId
-				SELECT @branchcreated = count(*) FROM CustomerFirmBranch Where FirmId = @FirmId ANd Deleted = 0
-				IF (@branchcreated >= @branchlimit)
-				BEGIN
-					RAISERROR ('%s', 16, 1, 'Branch limit exceeded');
-				END
-
-				INSERT INTO CustomerFirmBranch
-					(FirmId,Title,PrintTitle,ShortTitle,FirmBranchTypeId,Address1,Address2,Address3,CityId,
-					StateId,CountryId,Pincode,Phone,ContactPersonName,Mobile,MobileAlternate,Email,GSTNumber,
-					PAN,EWBAddress1,EWBAddress2,RenewalDate,SetupPrice,RenewalPrice,OrderNumber,AddedById,AddedOn,
-					Active,SoftwarePlanId)
-				VALUES
-					(@FirmId,@Title,@PrintTitle,@ShortTitle,@FirmBranchTypeId,@Address1,@Address2,@Address3,@CityId,
-					@StateId,@CountryId,@PinCode,@Phone,@ContactPersonName,@Mobile,@MobileAlternate,@Email,@GSTNumber,
-					@PAN,@EWBAddress1,@EWBAddress2,@RenewalDate,@SetupPrice,@RenewalPrice,@OrderNumber,@AddedById,GETUTCDATE(),
-					@Active,@SoftwarePlanId
-					)
-
-				SET @Id = SCOPE_IDENTITY()
+				RAISERROR ('%s', 16, 1, 'Branch limit exceeded');
 			END
+
+			INSERT INTO CustomerFirmBranch
+				(FirmId,Title,PrintTitle,ShortTitle,FirmBranchTypeId,Address1,Address2,Address3,CityId,
+				StateId,CountryId,Pincode,Phone,ContactPersonName,Mobile,MobileAlternate,Email,GSTNumber,
+				PAN,EWBAddress1,EWBAddress2,RenewalDate,SetupPrice,RenewalPrice,OrderNumber,AddedById,AddedOn,
+				Active,SoftwarePlanId)
+			VALUES
+				(@FirmId,@Title,@PrintTitle,@ShortTitle,@FirmBranchTypeId,@Address1,@Address2,@Address3,@CityId,
+				@StateId,@CountryId,@PinCode,@Phone,@ContactPersonName,@Mobile,@MobileAlternate,@Email,@GSTNumber,
+				@PAN,@EWBAddress1,@EWBAddress2,@RenewalDate,@SetupPrice,@RenewalPrice,@OrderNumber,@AddedById,GETUTCDATE(),
+				@Active,@SoftwarePlanId)
+
+			SET @Id = SCOPE_IDENTITY()
+
+			DECLARE @ProductBranchId NVARCHAR(max) = (
+				SELECT STRING_AGG(CAST(Id AS NVARCHAR(max)), ',') WITHIN GROUP (ORDER BY Id) 
+				FROM (
+					SELECT DISTINCT Id
+					FROM Product
+				)ProductId
+			)
+
+			INSERT INTO [ProductBranchMapping] (ProductId,BranchId,AddedById,AddedOn)
+			SELECT Id,@Id,@AddedById,GETUTCDATE()
+			FROM dbo.[fnStringToIntArray](@ProductBranchId)
+
+			DECLARE @CustomerAccountBranchId NVARCHAR(max) = (
+				SELECT STRING_AGG(CAST(Id AS NVARCHAR(max)), ',') WITHIN GROUP (ORDER BY Id) 
+				FROM (
+					SELECT DISTINCT Id
+					FROM CustomerAccount
+				)AccountId
+			)
+
+			INSERT INTO [CustomerAccountBranchMapping] (AccountId,BranchId,AddedById,AddedOn)
+			SELECT Id,@Id,@AddedById,GETUTCDATE()
+			FROM dbo.[fnStringToIntArray](@CustomerAccountBranchId)
+
+		END
 		COMMIT TRAN
 		SELECT @Id
+
 	END TRY
 	BEGIN CATCH
 		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
