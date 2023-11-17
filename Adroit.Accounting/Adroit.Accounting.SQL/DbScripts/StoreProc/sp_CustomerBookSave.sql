@@ -79,7 +79,7 @@ BEGIN
 							WHERE (Id = @Id) 
 							OR (BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId AND Deleted = 1)
 
-		IF ISNULL(@Id, 0) = 0
+		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
 
 			INSERT INTO CustomerBook
@@ -162,17 +162,19 @@ BEGIN
 			,Deleted = 0
 			WHERE Id = @Id
 			
-			DELETE FROM [CustomerBookBranchMapping] WHERE BookId = @Id
+			UPDATE  CustomerBookBranchMapping SET
+					DeletedById = NULL,
+					DeletedOn = NULL,
+					Deleted = 0
+			WHERE BookId = @Id AND [BranchId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@CustomerBookBranchId))
 		END
 
-		INSERT INTO [CustomerBookBranchMapping] 
-				(BookId,BranchId,AddedById,AddedOn)
-				Select 
-				@Id,
-				Id,
-				@loginId,
-				GETUTCDATE()
-				from dbo.[fnStringToIntArray](@CustomerBookBranchId)
+		INSERT INTO [CustomerBookBranchMapping] (BookId,BranchId,AddedById,AddedOn)
+		SELECT @Id,Id,@loginId,GETUTCDATE()
+		FROM dbo.[fnStringToIntArray](@CustomerBookBranchId)
+		EXCEPT
+		SELECT BookId,BranchId,@loginId,GETUTCDATE() 
+		FROM [dbo].[CustomerBookBranchMapping]
 		
 		COMMIT TRAN
 		SELECT @Id

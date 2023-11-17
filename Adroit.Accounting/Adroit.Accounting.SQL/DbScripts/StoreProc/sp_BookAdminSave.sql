@@ -62,7 +62,7 @@ BEGIN
 	BEGIN TRY
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM BookAdmin WHERE (Id = @Id) OR (BookAccountId = @BookAccountId AND Deleted = 1)
-		IF ISNULL(@Id, 0) = 0
+		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
 			INSERT INTO BookAdmin
 			(BookAccountId,BookTypeId,BoxLabel1,BoxLabel2,BoxLabel3,BoxLabel4,BoxLabel5,BoxLabel6,BillNoPrefix,BillNoPostFix,LRRequired,BillTypeID,IsGeneralPurchase,

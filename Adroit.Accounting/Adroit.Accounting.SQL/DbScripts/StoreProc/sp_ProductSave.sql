@@ -235,17 +235,20 @@ BEGIN
 					Deleted = 0
 			WHERE Id = @Id
 
-			DELETE FROM [ProductBranchMapping] WHERE ProductId = @Id
+			UPDATE  ProductBranchMapping SET
+					DeletedById = NULL,
+					DeletedOn = NULL,
+					Deleted = 0
+			WHERE ProductId = @Id AND [BranchId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@ProductBranchId))
+
 		END
 
-		INSERT INTO [ProductBranchMapping] 
-				(ProductId,BranchId,AddedById,AddedOn)
-				Select 
-				@Id,
-				Id,
-				@loginId,
-				GETUTCDATE()
-				from dbo.[fnStringToIntArray](@ProductBranchId)
+		INSERT INTO [ProductBranchMapping] (ProductId,BranchId,AddedById,AddedOn)
+		SELECT @Id,Id,@loginId,GETUTCDATE()
+		FROM dbo.[fnStringToIntArray](@ProductBranchId)
+		EXCEPT
+		SELECT ProductId,BranchId,@loginId,GETUTCDATE() 
+		FROM [dbo].[ProductBranchMapping]
 
 		COMMIT TRAN
 		SELECT @Id
