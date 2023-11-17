@@ -60,13 +60,31 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		IF EXISTS (SELECT 1 FROM BookAdmin WHERE (Id = @Id) OR (BookAccountId = @BookAccountId AND Deleted = 1))
+		DECLARE @IdCheck INT
+		SELECT @IdCheck = ID FROM BookAdmin WHERE (Id = @Id) OR (BookAccountId = @BookAccountId AND Deleted = 1)
+		IF ISNULL(@Id, 0) = 0
 		BEGIN
+			INSERT INTO BookAdmin
+			(BookAccountId,BookTypeId,BoxLabel1,BoxLabel2,BoxLabel3,BoxLabel4,BoxLabel5,BoxLabel6,BillNoPrefix,BillNoPostFix,LRRequired,BillTypeID,IsGeneralPurchase,
+				IsItemDiscount,IsItemDiscountSp,IsCashPayAtBill,ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,ShowSalesOrderBoxNumber,ShowPurcahseOrderBoxNumber,
+				ShowQuotationBoxNumber,ShowPerformaInvoiceNumber,SalesBillFrom,IsCalcMultiply,BookShortName,HeaderBox1,HeaderBox2,HeaderBox3,HeaderBox4,HeaderBox5,IsTDSAccount,
+				TDSAccountId,IsTCSAccount,TCSAccountId,SGSTAccountId,CGSTAccountId,IGSTAccountId,GSTStateCessAccountId,GSTCentralCessAccountId,RCMSGSTPayAccountId,
+				RCMCGSTPayAccountId,RCMIGSTPayAccountId,RCMSGSTRecAccountId,RCMCGSTRecAccountId,RCMIGSTRecAccountId,RoundOffAccountId,Active)
+			VALUES
+			(@BookAccountId,@BookTypeId,@BoxLabel1,@BoxLabel2,@BoxLabel3,@BoxLabel4,@BoxLabel5,@BoxLabel6,@BillNoPrefix,@BillNoPostFix,@LRRequired,@BillTypeID,@IsGeneralPurchase,
+				@IsItemDiscount,@IsItemDiscountSp,@IsCashPayAtBill,@ItemDesc1,@ItemDesc2,@ItemDesc3,@ItemDesc4,@ItemDesc5,@ItemDesc6,@ShowSalesOrderBoxNumber,@ShowPurcahseOrderBoxNumber,
+				@ShowQuotationBoxNumber,@ShowPerformaInvoiceNumber,@SalesBillFrom,@IsCalcMultiply,@BookShortName,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,
+				@IsTDSAccount,@TDSAccountId,@IsTCSAccount,@TCSAccountId,@SGSTAccountId,@CGSTAccountId,@IGSTAccountId,@GSTStateCessAccountId,@GSTCentralCessAccountId,
+				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@Active)
 
-			IF ISNULL(@Id,0) <= 0
-			BEGIN
-				SET @Id = (SELECT Id FROM BookAdmin WHERE BookAccountId = @BookAccountId)
-			END
+			SET @Id = SCOPE_IDENTITY();
+			SELECT @Id;
+
+			INSERT INTO BookAdminSoftwareMapping (BookId, SoftwareId) SELECT @Id, S.Id from dbo.[fnStringToIntArray](@SoftwareIds) AS S 
+		END
+		ELSE
+		BEGIN
+			SET @Id = @IdCheck
 
 			UPDATE BookAdmin SET
 			BookAccountId = @BookAccountId
@@ -122,33 +140,13 @@ BEGIN
 			,Active = @Active
 			,Deleted = 0
 			WHERE Id = @Id
-			SELECT @Id;
 
 			DELETE BookAdminSoftwareMapping WHERE BookId = @Id 
 			INSERT INTO BookAdminSoftwareMapping (BookId, SoftwareId) SELECT @Id, S.Id from dbo.[fnStringToIntArray](@SoftwareIds) AS S 
 
-		END
-		ELSE
-		BEGIN
-			INSERT INTO BookAdmin
-			(BookAccountId,BookTypeId,BoxLabel1,BoxLabel2,BoxLabel3,BoxLabel4,BoxLabel5,BoxLabel6,BillNoPrefix,BillNoPostFix,LRRequired,BillTypeID,IsGeneralPurchase,
-				IsItemDiscount,IsItemDiscountSp,IsCashPayAtBill,ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,ShowSalesOrderBoxNumber,ShowPurcahseOrderBoxNumber,
-				ShowQuotationBoxNumber,ShowPerformaInvoiceNumber,SalesBillFrom,IsCalcMultiply,BookShortName,HeaderBox1,HeaderBox2,HeaderBox3,HeaderBox4,HeaderBox5,IsTDSAccount,
-				TDSAccountId,IsTCSAccount,TCSAccountId,SGSTAccountId,CGSTAccountId,IGSTAccountId,GSTStateCessAccountId,GSTCentralCessAccountId,RCMSGSTPayAccountId,
-				RCMCGSTPayAccountId,RCMIGSTPayAccountId,RCMSGSTRecAccountId,RCMCGSTRecAccountId,RCMIGSTRecAccountId,RoundOffAccountId,Active)
-			VALUES
-			(@BookAccountId,@BookTypeId,@BoxLabel1,@BoxLabel2,@BoxLabel3,@BoxLabel4,@BoxLabel5,@BoxLabel6,@BillNoPrefix,@BillNoPostFix,@LRRequired,@BillTypeID,@IsGeneralPurchase,
-				@IsItemDiscount,@IsItemDiscountSp,@IsCashPayAtBill,@ItemDesc1,@ItemDesc2,@ItemDesc3,@ItemDesc4,@ItemDesc5,@ItemDesc6,@ShowSalesOrderBoxNumber,@ShowPurcahseOrderBoxNumber,
-				@ShowQuotationBoxNumber,@ShowPerformaInvoiceNumber,@SalesBillFrom,@IsCalcMultiply,@BookShortName,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,
-				@IsTDSAccount,@TDSAccountId,@IsTCSAccount,@TCSAccountId,@SGSTAccountId,@CGSTAccountId,@IGSTAccountId,@GSTStateCessAccountId,@GSTCentralCessAccountId,
-				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@Active)
-
-			SET @Id = SCOPE_IDENTITY();
 			SELECT @Id;
-
-			INSERT INTO BookAdminSoftwareMapping (BookId, SoftwareId) SELECT @Id, S.Id from dbo.[fnStringToIntArray](@SoftwareIds) AS S 
 		END
-		
+	
 		COMMIT TRAN
 	END TRY
 	BEGIN CATCH

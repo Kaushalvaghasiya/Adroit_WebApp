@@ -63,8 +63,8 @@ BEGIN
 	BEGIN TRY
 
 		DECLARE @CustomerId int = dbo.fn_GetCustomerId(@loginId);
-		SELECT @FirmId = ( SELECT Id FROM CustomerFirm WHERE CustomerId = @CustomerId);
-		DECLARE @YearId int = ( SELECT Id FROM FinanceYear WHERE FirmId = @FirmId);
+		SELECT @FirmId = (SELECT Id FROM CustomerFirm WHERE CustomerId = @CustomerId);
+		DECLARE @YearId int = (SELECT Id FROM FinanceYear WHERE FirmId = @FirmId);
 
 		DECLARE @message VARCHAR(4000);
 
@@ -74,13 +74,33 @@ BEGIN
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
-		IF EXISTS (SELECT 1 FROM CustomerBook WHERE (Id = @Id) OR (BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId AND Deleted = 1))
+		DECLARE @IdCheck INT
+		SELECT @IdCheck = ID FROM CustomerBook 
+							WHERE (Id = @Id) 
+							OR (BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId AND Deleted = 1)
+
+		IF ISNULL(@Id, 0) = 0
 		BEGIN
 
-			IF ISNULL(@Id,0) <= 0
-			BEGIN
-				SET @Id = (SELECT Id FROM CustomerBook WHERE BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId)
-			END
+			INSERT INTO CustomerBook
+			(CustomerId,YearId,BookAccountId,BookTypeId,BoxLabel1,BoxLabel2,BoxLabel3,BoxLabel4,BoxLabel5,BoxLabel6,BillNoPrefix,BillNoPostFix,LRRequired,BillTypeID,IsGeneralPurchase,
+				IsItemDiscount,IsItemDiscountSp,IsCashPayAtBill,ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,ShowSalesOrderBoxNumber,ShowPurcahseOrderBoxNumber,
+				ShowQuotationBoxNumber,ShowPerformaInvoiceNumber,SalesBillFrom,IsCalcMultiply,BookShortName,HeaderBox1,HeaderBox2,HeaderBox3,HeaderBox4,HeaderBox5,IsTDSAccount,
+				TDSAccountId,IsTCSAccount,TCSAccountId,SGSTAccountId,CGSTAccountId,IGSTAccountId,GSTStateCessAccountId,GSTCentralCessAccountId,RcmSGSTPayAccountId,
+				RcmCGSTPayAccountId,RcmIGSTPayAccountId,RcmSGSTRecAccountId,RcmCGSTRecAccountId,RcmIGSTRecAccountId,RoundOffAccountId,Active,OwnerBranchId,AddedOn,AddedById)
+			VALUES
+			(@CustomerId,@YearId,@BookAccountId,@BookTypeId,@BoxLabel1,@BoxLabel2,@BoxLabel3,@BoxLabel4,@BoxLabel5,@BoxLabel6,@BillNoPrefix,@BillNoPostFix,@LRRequired,@BillTypeID,@IsGeneralPurchase,
+				@IsItemDiscount,@IsItemDiscountSp,@IsCashPayAtBill,@ItemDesc1,@ItemDesc2,@ItemDesc3,@ItemDesc4,@ItemDesc5,@ItemDesc6,@ShowSalesOrderBoxNumber,@ShowPurcahseOrderBoxNumber,
+				@ShowQuotationBoxNumber,@ShowPerformaInvoiceNumber,@SalesBillFrom,@IsCalcMultiply,@BookShortName,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,
+				@IsTDSAccount,@TDSAccountId,@IsTCSAccount,@TCSAccountId,@SGSTAccountId,@CGSTAccountId,@IGSTAccountId,@GSTStateCessAccountId,@GSTCentralCessAccountId,
+				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@Active,@BranchId,GETUTCDATE(),@loginId)
+
+			SET @Id = SCOPE_IDENTITY();
+			
+		END
+		ELSE
+		BEGIN
+			SET @Id = @IdCheck
 
 			UPDATE CustomerBook SET
 			 CustomerId = @CustomerId
@@ -143,25 +163,6 @@ BEGIN
 			WHERE Id = @Id
 			
 			DELETE FROM [CustomerBookBranchMapping] WHERE BookId = @Id
-		END
-		ELSE
-		BEGIN
-
-			INSERT INTO CustomerBook
-			(CustomerId,YearId,BookAccountId,BookTypeId,BoxLabel1,BoxLabel2,BoxLabel3,BoxLabel4,BoxLabel5,BoxLabel6,BillNoPrefix,BillNoPostFix,LRRequired,BillTypeID,IsGeneralPurchase,
-				IsItemDiscount,IsItemDiscountSp,IsCashPayAtBill,ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,ShowSalesOrderBoxNumber,ShowPurcahseOrderBoxNumber,
-				ShowQuotationBoxNumber,ShowPerformaInvoiceNumber,SalesBillFrom,IsCalcMultiply,BookShortName,HeaderBox1,HeaderBox2,HeaderBox3,HeaderBox4,HeaderBox5,IsTDSAccount,
-				TDSAccountId,IsTCSAccount,TCSAccountId,SGSTAccountId,CGSTAccountId,IGSTAccountId,GSTStateCessAccountId,GSTCentralCessAccountId,RcmSGSTPayAccountId,
-				RcmCGSTPayAccountId,RcmIGSTPayAccountId,RcmSGSTRecAccountId,RcmCGSTRecAccountId,RcmIGSTRecAccountId,RoundOffAccountId,Active,OwnerBranchId,AddedOn,AddedById)
-			VALUES
-			(@CustomerId,@YearId,@BookAccountId,@BookTypeId,@BoxLabel1,@BoxLabel2,@BoxLabel3,@BoxLabel4,@BoxLabel5,@BoxLabel6,@BillNoPrefix,@BillNoPostFix,@LRRequired,@BillTypeID,@IsGeneralPurchase,
-				@IsItemDiscount,@IsItemDiscountSp,@IsCashPayAtBill,@ItemDesc1,@ItemDesc2,@ItemDesc3,@ItemDesc4,@ItemDesc5,@ItemDesc6,@ShowSalesOrderBoxNumber,@ShowPurcahseOrderBoxNumber,
-				@ShowQuotationBoxNumber,@ShowPerformaInvoiceNumber,@SalesBillFrom,@IsCalcMultiply,@BookShortName,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,
-				@IsTDSAccount,@TDSAccountId,@IsTCSAccount,@TCSAccountId,@SGSTAccountId,@CGSTAccountId,@IGSTAccountId,@GSTStateCessAccountId,@GSTCentralCessAccountId,
-				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@Active,@BranchId,GETUTCDATE(),@loginId)
-
-			SET @Id = SCOPE_IDENTITY();
-			
 		END
 
 		INSERT INTO [CustomerBookBranchMapping] 
