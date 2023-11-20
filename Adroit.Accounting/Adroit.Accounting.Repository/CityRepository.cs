@@ -45,11 +45,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@DistrictId", districtId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CityList_Select", connectionString, parameters);
         }
-        public CityViewModel Get(string Cities, string connectionString)
+        public List<DropdownViewModel> CityList(string q, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@Cities", Cities);
-            return QueryHelper.Get<CityViewModel>("sp_GetCitiesByName", connectionString, parameters);
+            parameters.Add("@q", q);
+            return QueryHelper.GetList<DropdownViewModel>("sp_SearchCityList_Select", connectionString, parameters);
         }
     }
 }

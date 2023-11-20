@@ -10,14 +10,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class AdminController : Controller
+    public partial class CustomerController : Controller
     {
         public IActionResult TransportLRBranchCityMapping()
         {
             var model = new TransportLRBranchCityMappingViewModel();
             int loginId = LoginHandler.GetUserId(User);
 
-            model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
             model.BranchList = _customerFirmBranchRepository.SelectList(loginId, true, _configurationData.DefaultConnection);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, TransportLRBranchCityMappingTable._TableName, TransportLRBranchCityMappingTable.OrderNumber);
 

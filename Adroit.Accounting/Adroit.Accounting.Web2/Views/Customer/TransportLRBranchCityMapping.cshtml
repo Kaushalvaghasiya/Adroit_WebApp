@@ -104,6 +104,7 @@
                             <div class="form-group">
                                 <label for="CityId">City</label>
                                 <select class="form-control select2-show-search-api" id="CityId">
+                                    <option value=""></option>
                                 </select>
                             </div>
                         </div>
@@ -158,8 +159,6 @@
             $('.dv-detail').hide();
 
             bindDatatableList();
-            bindCityList();
-
 
             $('.select2-show-search-api').select2({
                 placeholder: 'Choose one',
@@ -294,7 +293,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/admin/TransportLRBranchCityMappingList"))',
+                    url: '@(Url.Content("~/customer/TransportLRBranchCityMappingList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -310,6 +309,7 @@
 
         function fromReset() {
             $("#Id").val(0);
+            $("#BranchId").val('').trigger("change");
             $("#CityId").val('').trigger("change");
             $("#OrderNumber").val(null).trigger('change');
             $("#Active").prop('checked', false);
@@ -322,8 +322,19 @@
             try {
 
                 var savedata = new Object();
-                savedata.Id = parseInt($("#Id").val());
                 savedata.OrderNumber = parseInt($("#OrderNumber").val());
+
+                if ($("#BranchId").val() == null || $("#BranchId").val() == "") {
+                    showWarning("", "Please select branch");
+                    $("#BranchId").focus();
+                    return false;
+                }
+
+                if ($("#CityId").val() == null || $("#CityId").val() == "") {
+                    showWarning("", "Please select city");
+                    $("#CityId").focus();
+                    return false;
+                }
 
                 if (savedata.OrderNumber > 25000) {
                     $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
@@ -332,17 +343,16 @@
                     return false;
                 }
 
-                // savedata.CityId = parseInt($("#CityId").val());
-                savedata.CityId = 1;
+                savedata.Id = parseInt($("#Id").val());
+                savedata.CityId = parseInt($("#CityId").val());
                 savedata.BranchId = parseInt($("#BranchId").val());
-
                 savedata.Active = $("#Active").prop('checked');
 
                 blockUI('container');
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveTransportLRBranchCityMapping", "Admin"))",
+                    url: "@(Url.Action("SaveTransportLRBranchCityMapping", "Customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -376,7 +386,7 @@
         function deleteItem(id) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/DeleteTransportLRBranchCityMapping"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteTransportLRBranchCityMapping"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -403,7 +413,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Admin/GetTransportLRBranchCityMapping"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetTransportLRBranchCityMapping"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -419,10 +429,12 @@
                                 }
 
                                 $('#Id').val(result.data.id);
+                                $("#CityId").html("<option value='" + result.data.cityId + "'>" + result.data.cityName + "</option>");
                                 $("#CityId").val(result.data.cityId).trigger("change");
                                 $("#BranchId").val(result.data.branchId).trigger("change");
                                 $("#OrderNumber").val(result.data.orderNumber).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
+
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -437,36 +449,6 @@
             }
             catch (err) {
             }
-        }
-
-        function bindCityList() {
-
-            // $("#CityId").select2({
-            //     minimumInputLength: 2,
-            //     tags: [],
-            //     ajax: {
-            //         url: "@(Url.Content("~/Common/GetCitiesByName"))",
-            //         dataType: 'json',
-            //         type: "POST",
-            //         quietMillis: 50,
-            //         data: function (term) {
-            //             return {
-            //                 term: term
-            //             };
-            //         },
-            //         processResults: function (data) {
-            //             return {
-            //                 results: $.map(data, function (item) {
-            //                     return {
-            //                         text: item.text,
-            //                         id: item.value
-            //                     }
-            //                 })
-            //             };
-            //         }
-            //     }
-            // });
-
         }
 
     </script>

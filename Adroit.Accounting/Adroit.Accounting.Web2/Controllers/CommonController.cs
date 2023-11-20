@@ -51,8 +51,7 @@ namespace Adroit.Accounting.Web.Controllers
             IAdminCustomerUser customerUserRepository,
             ICommon commonRepository,
             IGSTCollection gstCollection,
-            IBranchTypeAdmin branchTypeAdminRepository
-            )
+            IBranchTypeAdmin branchTypeAdminRepository)
         {
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
@@ -390,23 +389,6 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        //[Route("~/Common/GetCitiesByName/{Cities}")]
-        public JsonResult GetCitiesByName(string Cities)
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                result.data = _cityRepository.Get(Cities, _configurationData.DefaultConnection);
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
         public JsonResult GetSoftwareByBusiness(short id)
         {
             ApiResult result = new ApiResult();
@@ -429,25 +411,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                //make like query on city name and return. city.title like %q%
-
-                List<DropdownViewModel> cities = new List<DropdownViewModel>();
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 1", Value = "1" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 2", Value = "2" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 3", Value = "3" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 4", Value = "4" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 5", Value = "5" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 6", Value = "6" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 7", Value = "7" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 8", Value = "8" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 9", Value = "9" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 10", Value = "10" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 11", Value = "11" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 12", Value = "12" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 13", Value = "13" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 14", Value = "14" });
-                cities.Add(new DropdownViewModel() { Text = "Ahmedabad 15", Value = "15" });
-                result.data = cities;
+                result.data = _cityRepository.CityList(q, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
