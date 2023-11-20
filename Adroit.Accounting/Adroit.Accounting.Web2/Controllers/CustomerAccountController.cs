@@ -62,7 +62,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 model.loginId = LoginHandler.GetUserId(User);
-                model.OwnerBranchId = LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
+                model.OwnerBranchId = CurrentBranchId;
                 int id = _customerAccountRepo.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {

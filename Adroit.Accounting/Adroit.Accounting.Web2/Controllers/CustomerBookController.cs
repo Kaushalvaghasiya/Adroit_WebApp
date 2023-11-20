@@ -34,7 +34,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int branchId = LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
+                int branchId = CurrentBranchId;
 
                 int id = _customerBookRepository.Save(model, _configurationData.DefaultConnection, loginId, branchId, CurrentFirmId);
                 if (id > 0)

@@ -52,7 +52,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int userId = LoginHandler.GetUserId(User);
-                model.OwnerBranchId = LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
+                model.OwnerBranchId = CurrentBranchId;
                 model.ModifiedById = userId;
                 model.AddedById = userId;
                 int id = _brokerRepository.Save(model, userId, _configurationData.DefaultConnection);

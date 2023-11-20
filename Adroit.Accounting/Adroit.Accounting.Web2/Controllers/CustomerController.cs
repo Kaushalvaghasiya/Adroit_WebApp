@@ -266,5 +266,13 @@ namespace Adroit.Accounting.Web.Controllers
                 return LoginHandler.GetFirmId(User, _customerFirmRepository, _configurationData.DefaultConnection);
             }
         }
+
+        protected int CurrentBranchId
+        {
+            get
+            {
+                return LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
+            }
+        }
     }
 }
