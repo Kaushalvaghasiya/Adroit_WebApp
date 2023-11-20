@@ -32,12 +32,11 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User, _customerFirmsRepository, _configurationData.DefaultConnection);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _customerFirmsRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection, customerId).ToList();
+                var records = _customerFirmRepository.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection, customerId).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -58,7 +57,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int id = _customerFirmsRepository.Save(model, loginId, _configurationData.DefaultConnection);
+                int id = _customerFirmRepository.Save(model, loginId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -80,7 +79,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                _customerFirmsRepository.Delete(id, loginId, _configurationData.DefaultConnection);
+                _customerFirmRepository.Delete(id, loginId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -98,7 +97,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _customerFirmsRepository.Get(id, loginId, _configurationData.DefaultConnection);
+                result.data = _customerFirmRepository.Get(id, loginId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

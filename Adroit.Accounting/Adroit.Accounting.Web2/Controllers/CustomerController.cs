@@ -23,7 +23,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomerAccountGroup _customerAccountGroupRepo;
         protected readonly ConfigurationData _configurationData;
         protected readonly ICustomer _customerRepository;
-        protected readonly IAdminCustomerFirm _customerFirmRepository;
+        protected readonly IAdminCustomerFirm _adminCustomerFirmRepository;
         private readonly ICommon _commonRepository;
         private readonly ITransportDesc _transportDescRepository;
         private readonly IProductSize _productSizeRepository;
@@ -41,7 +41,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IAccountGroupType _accountGroupType;
         protected readonly IProductShadeNumber _productShadeNumberRepository;
         private readonly IProductPacking _productPackingRepository;
-        private readonly ICustomerFirm _customerFirmsRepository;
+        private readonly ICustomerFirm _customerFirmRepository;
         private readonly IBusiness _businessRepository;
         private readonly IGSTFirmType _gSTFirmTypeRepository;
         private readonly IFirmType _firmTypeRepository;
@@ -88,7 +88,7 @@ namespace Adroit.Accounting.Web.Controllers
             IOptions<ConfigurationData> configurationData,
             ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
             ICustomerAccountGroup customerAccountGroupRepo,
-            IAdminCustomerUser customerUserRepository,
+            IAdminCustomerUser adminCustomerUserRepository,
             ICommon commonRepository,
             ITransportDesc transportDescRepository,
             IProductSize productSizeRepository,
@@ -170,7 +170,7 @@ namespace Adroit.Accounting.Web.Controllers
             _accountGroupType = accountGroupType;
             _productShadeNumberRepository = productShadeNumberRepository;
             _productPackingRepository = productPackingRepository;
-            _customerFirmsRepository = customerFirmsRepository;
+            _customerFirmRepository = customerFirmsRepository;
             _customerRepository = customerRepository;
             _businessRepository = businessRepository;
             _gSTFirmTypeRepository = gSTFirmTypeRepository;
@@ -186,7 +186,7 @@ namespace Adroit.Accounting.Web.Controllers
             _cityRepository = cityRepository;
             _customerFirmBranchesRepository = customerFirmBranchesRepository;
             _lrBookingRangeRepository = lrBookingRangeRepository;
-            _customerFirmRepository = customerFirmRepository;
+            _adminCustomerFirmRepository = customerFirmRepository;
             _softwarePlanRepository = softwarePlanRepository;
             _branchTypeRepository = branchTypeRepository;
             _customerFirmBranchLRRateRepository = customerFirmBranchLRRateRepository;
@@ -217,8 +217,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User, _customerFirmsRepository, _configurationData.DefaultConnection);
-                result.data = _customerAccountGroupRepo.GetCustomerAccountGroupList(_configurationData.DefaultConnection, loginId, firmId).ToList();
+                result.data = _customerAccountGroupRepo.GetCustomerAccountGroupList(_configurationData.DefaultConnection, loginId, CurrentFirmId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -234,8 +233,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User, _customerFirmsRepository, _configurationData.DefaultConnection);
-                result.data = _customerBrokerBranchMappingRepo.GetCustomerBrokerBranchMappingList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
+                result.data = _customerBrokerBranchMappingRepo.GetCustomerBrokerBranchMappingList(_configurationData.DefaultConnection, loginId, CurrentFirmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -251,8 +249,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User, _customerFirmsRepository, _configurationData.DefaultConnection);
-                result.data = _customerAccountRepo.GetCustomerAccountList(_configurationData.DefaultConnection, loginId, firmId).ToList();
+                result.data = _customerAccountRepo.GetCustomerAccountList(_configurationData.DefaultConnection, loginId, CurrentFirmId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -261,6 +258,13 @@ namespace Adroit.Accounting.Web.Controllers
                 result.result = Constant.API_RESULT_ERROR;
             }
             return Json(result);
+        }
+        protected int CurrentFirmId
+        {
+            get
+            {
+                return LoginHandler.GetFirmId(User, _customerFirmRepository, _configurationData.DefaultConnection);
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
+using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -165,5 +166,14 @@ namespace Adroit.Accounting.Web.Controllers
             _userRepository = userRepository;
             _customerCustomerFirmRepository = customerCustomerFirmRepository;
         }
+
+        protected int CurrentFirmId
+        {
+            get
+            {
+                return LoginHandler.GetFirmId(User, _customerCustomerFirmRepository, _configurationData.DefaultConnection);
+            }
+        }
+
     }
 }
