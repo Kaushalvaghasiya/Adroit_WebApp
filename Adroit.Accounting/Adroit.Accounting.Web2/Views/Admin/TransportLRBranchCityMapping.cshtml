@@ -103,7 +103,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CityId">City</label>
-                                <select class="form-control select2-show-search" id="CityId">
+                                <select class="form-control select2-show-search-api" id="CityId">
                                 </select>
                             </div>
                         </div>
@@ -160,6 +160,33 @@
             bindDatatableList();
             bindCityList();
 
+
+            $('.select2-show-search-api').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                ajax: {
+                    minimumInputLength: 2,
+                    url: '@(Url.Content("~/common/searchcity"))',
+                    dataType: "json",
+                    type: "GET",
+                    data: function (params) {
+                        return {
+                            q: params.term// search term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data.data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.value
+                                }
+                            })
+                        };
+                    }
+                },
+            });
         });
 
         function addClick() {
