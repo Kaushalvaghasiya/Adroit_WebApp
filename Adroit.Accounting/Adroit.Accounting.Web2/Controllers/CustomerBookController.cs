@@ -16,7 +16,7 @@ namespace Adroit.Accounting.Web.Controllers
             var model = new CustomerBookViewModel();
 
             int loginId = LoginHandler.GetUserId(User);
-            int firmId = LoginHandler.GetFirmId(User);
+            int firmId = LoginHandler.GetFirmId(User, _customerFirmsRepository, _configurationData.DefaultConnection);
             model.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
             model.CustomerAccountList = _customerAccountRepo.GetCustomerAccountListWithAccountGroup(_configurationData.DefaultConnection,loginId, firmId);
             model.BookTypeList = _bookTypeRepository.GetBookTypeAdminList(_configurationData.DefaultConnection, loginId, firmId);
@@ -34,7 +34,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User);
+                int firmId = LoginHandler.GetFirmId(User, _customerFirmsRepository, _configurationData.DefaultConnection);
                 int branchId = LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
 
                 int id = _customerBookRepository.Save(model, _configurationData.DefaultConnection, loginId, branchId, firmId);

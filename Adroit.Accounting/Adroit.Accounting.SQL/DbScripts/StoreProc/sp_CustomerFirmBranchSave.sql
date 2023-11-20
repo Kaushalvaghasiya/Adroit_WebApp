@@ -69,7 +69,7 @@ BEGIN
 				ModifiedOn=GETUTCDATE()
 				--Active=@Active,
 				--SoftwarePlanId = @SoftwarePlanId
-				WHERE FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId) AND ID = @Id
+				WHERE ID = @Id AND FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId)  
 		END
 		ELSE
 		BEGIN

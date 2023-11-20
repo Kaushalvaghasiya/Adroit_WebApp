@@ -26,7 +26,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User);
+                int firmId = LoginHandler.GetFirmId(User, _customerFirmsRepository, _configurationData.DefaultConnection);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);

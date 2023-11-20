@@ -63,7 +63,6 @@ BEGIN
 	BEGIN TRY
 
 		DECLARE @CustomerId int = dbo.fn_GetCustomerId(@loginId);
-		SELECT @FirmId = (SELECT TOP 1 Id FROM CustomerFirm WHERE CustomerId = @CustomerId);
 		DECLARE @YearId int = (SELECT Id FROM FinanceYear WHERE FirmId = @FirmId);
 
 		DECLARE @message VARCHAR(4000);

@@ -14,7 +14,7 @@ namespace Adroit.Accounting.Web.Controllers
             var model = new BookAdminViewModel();
 
             int loginId = LoginHandler.GetUserId(User);
-            int firmId = LoginHandler.GetFirmId(User);
+            int firmId = LoginHandler.GetFirmId(User, _customerCustomerFirmRepository, _configurationData.DefaultConnection);
             model.BookAccountList = _accountAdminRepository.GetAccountAdminList(_configurationData.DefaultConnection, loginId, firmId);
             model.BookTypeList = _bookTypeRepository.GetBookTypeAdminList(_configurationData.DefaultConnection, loginId, firmId);
             model.BillTypeList = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, loginId, firmId);
@@ -69,7 +69,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User);
+                int firmId = LoginHandler.GetFirmId(User, _customerCustomerFirmRepository, _configurationData.DefaultConnection);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);

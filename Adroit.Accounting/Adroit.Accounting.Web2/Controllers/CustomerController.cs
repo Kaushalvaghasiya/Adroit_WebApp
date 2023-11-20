@@ -217,7 +217,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User);
+                int firmId = LoginHandler.GetFirmId(User, _customerFirmsRepository, _configurationData.DefaultConnection);
                 result.data = _customerAccountGroupRepo.GetCustomerAccountGroupList(_configurationData.DefaultConnection, loginId, firmId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
@@ -234,7 +234,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User);
+                int firmId = LoginHandler.GetFirmId(User, _customerFirmsRepository, _configurationData.DefaultConnection);
                 result.data = _customerBrokerBranchMappingRepo.GetCustomerBrokerBranchMappingList(_configurationData.DefaultConnection, loginId, firmId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
@@ -251,7 +251,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User);
+                int firmId = LoginHandler.GetFirmId(User, _customerFirmsRepository, _configurationData.DefaultConnection);
                 result.data = _customerAccountRepo.GetCustomerAccountList(_configurationData.DefaultConnection, loginId, firmId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }

@@ -2,6 +2,7 @@
 using Adroit.Accounting.Model.GridViewModel;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.Repository;
 using Adroit.Accounting.SQL.Tables;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Utility;
@@ -26,7 +27,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User);
+                int firmId = LoginHandler.GetFirmId(User, _customerCustomerFirmRepository, _configurationData.DefaultConnection);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);

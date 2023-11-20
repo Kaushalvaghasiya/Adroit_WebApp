@@ -96,14 +96,31 @@ BEGIN
 			END
 		END
 
-		IF EXISTS (SELECT 1 FROM CustomerAccount WHERE (Id = @Id) OR ([Name] = @Name AND Deleted = 1))
-		BEGIN
-		IF(ISNULL(@Id, 0) <= 0)
-		BEGIN 
-			SELECT @Id=Id FROM CustomerAccount WHERE [Name] = @Name 
-		END
+		DECLARE @IdCheck INT
+		SELECT @IdCheck = ID FROM CustomerAccount WHERE Id = @Id OR ([Name] = @Name AND Deleted = 1)
 
-		UPDATE  CustomerAccount SET
+		IF ISNULL(@IdCheck, 0) = 0
+		BEGIN
+			INSERT INTO CustomerAccount
+				([CustomerId], [Name], [PrintName], [AccountGroupId], [Address1], [Address2], [Address3], [CityId], [StateId], [CountryId], [Pincode], 
+					[KM], [ContactPersonName], [Mobile], [MobileAlternate], [Email], [GSTNumber], [PAN], [AreaName], [RateWithGST], [GSTInvoiceTypeId], 
+					[EximCode], [IsIGST], [GSTNumberTransport], [TransportName], [VehicleNumber], [DeliveryAccountBranchMappingId], [ShippingAccountBranchMappingId], 
+					[BrokerMappingId], [CreditDays], [Discount], [TDS], [TCS], [CreditLimit], [InterestRate], [Commission], [IsEcommerce], [AdharUID], [TAN], 
+					[CompositParty], [RCMParty], [CapitalPercentage], [AddedOn], [AddedById], [OwnerBranchId], [Active], [Deleted], [Remarks])
+			VALUES
+				(@CustomerId, @Name, @PrintName, @AccountGroupId, @Address1, @Address2, @Address3, @CityId, @StateId, @CountryId, @Pincode, 
+					@KM, @ContactPersonName, @Mobile, @MobileAlternate, @Email, @GSTNumber, @PAN, @AreaName, @RateWithGST, @GSTInvoiceTypeId, 
+					@EximCode, @IsIGST, @GSTNumberTransport, @TransportName, @VehicleNumber, @DeliveryAccountBranchMappingId, @ShippingAccountBranchMappingId, 
+					@BrokerMappingId, @CreditDays, @Discount, @TDS, @TCS, @CreditLimit, @InterestRate, @Commission, @IsEcommerce, @AdharUID, @TAN, 
+					@CompositParty, @RCMParty, @CapitalPercentage, GETUTCDATE(), @LoginId, @OwnerBranchId, @Active, 0, @Remarks)
+
+			SET @Id = SCOPE_IDENTITY()
+		END
+		ELSE
+		BEGIN
+			SET @Id = @IdCheck
+			
+			UPDATE  CustomerAccount SET
 				[CustomerId] = @CustomerId
 				,[Name] = @Name
 				,[PrintName] = @PrintName
@@ -168,23 +185,6 @@ BEGIN
 					Deleted = 0
 			WHERE AccountId = @Id AND [BranchId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@CustomerAccountBranchIds))
 
-		END		
-		ELSE
-		BEGIN
-			INSERT INTO CustomerAccount
-				([CustomerId], [Name], [PrintName], [AccountGroupId], [Address1], [Address2], [Address3], [CityId], [StateId], [CountryId], [Pincode], 
-					[KM], [ContactPersonName], [Mobile], [MobileAlternate], [Email], [GSTNumber], [PAN], [AreaName], [RateWithGST], [GSTInvoiceTypeId], 
-					[EximCode], [IsIGST], [GSTNumberTransport], [TransportName], [VehicleNumber], [DeliveryAccountBranchMappingId], [ShippingAccountBranchMappingId], 
-					[BrokerMappingId], [CreditDays], [Discount], [TDS], [TCS], [CreditLimit], [InterestRate], [Commission], [IsEcommerce], [AdharUID], [TAN], 
-					[CompositParty], [RCMParty], [CapitalPercentage], [AddedOn], [AddedById], [OwnerBranchId], [Active], [Deleted], [Remarks])
-			VALUES
-				(@CustomerId, @Name, @PrintName, @AccountGroupId, @Address1, @Address2, @Address3, @CityId, @StateId, @CountryId, @Pincode, 
-					@KM, @ContactPersonName, @Mobile, @MobileAlternate, @Email, @GSTNumber, @PAN, @AreaName, @RateWithGST, @GSTInvoiceTypeId, 
-					@EximCode, @IsIGST, @GSTNumberTransport, @TransportName, @VehicleNumber, @DeliveryAccountBranchMappingId, @ShippingAccountBranchMappingId, 
-					@BrokerMappingId, @CreditDays, @Discount, @TDS, @TCS, @CreditLimit, @InterestRate, @Commission, @IsEcommerce, @AdharUID, @TAN, 
-					@CompositParty, @RCMParty, @CapitalPercentage, GETUTCDATE(), @LoginId, @OwnerBranchId, @Active, 0, @Remarks)
-
-			SET @Id = SCOPE_IDENTITY()
 		END
 
 		INSERT INTO [CustomerAccountBranchMapping] (AccountId,BranchId,AddedById,AddedOn)

@@ -255,6 +255,7 @@ BEGIN
 		EXCEPT
 		SELECT ProductId,BranchId,@loginId,GETUTCDATE() 
 		FROM [dbo].[ProductBranchMapping]
+		WHERE [BranchId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@ProductBranchId))
 
 		COMMIT TRAN
 		SELECT @Id
