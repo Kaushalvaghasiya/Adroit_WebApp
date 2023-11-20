@@ -57,7 +57,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSave]
 	 @HSNDesc NVARCHAR(50),
 	 @Remarks1 NVARCHAR(250),
 	 @Remarks2 NVARCHAR(250),
-	 @Active BIT
+	 @Active BIT,
+	 @ProductBranchId NVARCHAR(MAX)
 )
 AS
 BEGIN
@@ -163,12 +164,32 @@ BEGIN
 
 		END
 
-		IF EXISTS (SELECT 1 FROM Product WHERE Id = @Id) OR EXISTS (SELECT 1 FROM Product WHERE Title = @Title AND Deleted = 1)
+		DECLARE @IdCheck INT
+		SELECT @IdCheck = ID FROM Product WHERE Id = @Id OR (Title = @Title AND Deleted = 1)
+
+		IF ISNULL(@Id, 0) = 0
 		BEGIN
+			INSERT INTO Product
+				(CustomerId, Title, Code, PrintName, TitleAlternate, DesignNumberId, ColourId, SizeId, PackingId, ShadeNumberId, FabricId, GroupId, 
+				SubGroupId, StockTypeId, QualityTypeId, UQCId, HSNCode, CategoryId, DenierWeight, RatePerMeter, RateRetail, Mrp, DistributorRate, 
+				DealerRate, PurchaseRate, Cut, AveragePack, BoxPack, RolMin, RolMax, GSTCalculationId, GSTRateId, GstCentralCess, GstStateCess, 
+				AmountCalcId, RateUpdate, Discount, HSNDesc, Remarks1, Remarks2, Active, AddedById, AddedOn)
+			VALUES
+				(@CustomerId, @Title, ISNULL(@Code,''), @PrintName, @TitleAlternate, @DesignNumberId, @ColourId, @SizeId, @PackingId, @ShadeNumberId, @FabricId, @GroupId, 
+				@SubGroupId, @StockTypeId, @QualityTypeId, @UQCId, @HSNCode, @CategoryId, @DenierWeight, @RatePerMeter, @RateRetail, @Mrp, @DistributorRate, 
+				@DealerRate, @PurchaseRate, @Cut, @AveragePack, @BoxPack, @RolMin, @RolMax, @GSTCalculationId, @GSTRateId, @GstCentralCess, @GstStateCess, 
+				@AmountCalcId, @RateUpdate, @Discount, @HSNDesc, @Remarks1, @Remarks2, @Active, @loginId, GETUTCDATE())
+
+			SET @Id = SCOPE_IDENTITY()
+		END
+		ELSE
+		BEGIN
+			SET @Id = @IdCheck
+			
 			UPDATE  Product SET
 					CustomerId = @CustomerId,
 					Title = @Title,
-					Code = @Code,
+					Code = ISNULL(@Code,''),
 					PrintName = @PrintName,
 					TitleAlternate = @TitleAlternate,
 					DesignNumberId = @DesignNumberId,
@@ -214,26 +235,20 @@ BEGIN
 					Deleted = 0
 			WHERE Id = @Id
 
-			IF ISNULL(@Id,0) <= 0
-			BEGIN
-				SELECT @Id = Id FROM Product WHERE Title = @Title
-			END
-		END
-		ELSE
-		BEGIN
-			INSERT INTO Product
-				(CustomerId, Title, Code, PrintName, TitleAlternate, DesignNumberId, ColourId, SizeId, PackingId, ShadeNumberId, FabricId, GroupId, 
-				SubGroupId, StockTypeId, QualityTypeId, UQCId, HSNCode, CategoryId, DenierWeight, RatePerMeter, RateRetail, Mrp, DistributorRate, 
-				DealerRate, PurchaseRate, Cut, AveragePack, BoxPack, RolMin, RolMax, GSTCalculationId, GSTRateId, GstCentralCess, GstStateCess, 
-				AmountCalcId, RateUpdate, Discount, HSNDesc, Remarks1, Remarks2, Active, AddedById, AddedOn)
-			VALUES
-				(@CustomerId, @Title, @Code, @PrintName, @TitleAlternate, @DesignNumberId, @ColourId, @SizeId, @PackingId, @ShadeNumberId, @FabricId, @GroupId, 
-				@SubGroupId, @StockTypeId, @QualityTypeId, @UQCId, @HSNCode, @CategoryId, @DenierWeight, @RatePerMeter, @RateRetail, @Mrp, @DistributorRate, 
-				@DealerRate, @PurchaseRate, @Cut, @AveragePack, @BoxPack, @RolMin, @RolMax, @GSTCalculationId, @GSTRateId, @GstCentralCess, @GstStateCess, 
-				@AmountCalcId, @RateUpdate, @Discount, @HSNDesc, @Remarks1, @Remarks2, @Active, @loginId, GETUTCDATE())
+			UPDATE  ProductBranchMapping SET
+					DeletedById = NULL,
+					DeletedOn = NULL,
+					Deleted = 0
+			WHERE ProductId = @Id AND [BranchId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@ProductBranchId))
 
-			SET @Id = SCOPE_IDENTITY()
 		END
+
+		INSERT INTO [ProductBranchMapping] (ProductId,BranchId,AddedById,AddedOn)
+		SELECT @Id,Id,@loginId,GETUTCDATE()
+		FROM dbo.[fnStringToIntArray](@ProductBranchId)
+		EXCEPT
+		SELECT ProductId,BranchId,@loginId,GETUTCDATE() 
+		FROM [dbo].[ProductBranchMapping]
 
 		COMMIT TRAN
 		SELECT @Id

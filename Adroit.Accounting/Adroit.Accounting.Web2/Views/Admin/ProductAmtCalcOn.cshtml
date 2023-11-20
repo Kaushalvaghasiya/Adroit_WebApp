@@ -87,23 +87,6 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="Title">Amount Calculation Name</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="Title">
-                                    <option></option>
-                                    @{
-                                        if (Model.TitleList != null)
-                                        {
-                                            foreach (var o in Model.TitleList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-md-12">
-                            <div class="form-group">
                                 <label for="SoftwareId">Software Name</label>
                                 <select class="form-control select2-show-search mode-ed" id="SoftwareId">
                                     <option></option>
@@ -116,6 +99,13 @@
                                             }
                                         }
                                     }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="Title">Amount Calculation Name</label>
+                                <select class="form-control select2-show-search mode-ed" id="Title">
                                 </select>
                             </div>
                         </div>                       
@@ -158,6 +148,7 @@
     </div>
     <!-- row end -->
     <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="hdnTitle" value="" />
 </div>
 
 @section Scripts
@@ -170,6 +161,10 @@
             $('.dv-detail').hide();
 
             bindDatatableList();
+
+            $("#SoftwareId").on('change', function (e) {
+                getProductAmtCalcList($(this).val());
+            });
         });
 
         function addClick() {
@@ -297,6 +292,7 @@
             $("#activeTabName").text("Add");
             setScreenMode(false);
             $(".btn-delete").hide();
+            $("#hdnTitle").val("");
         }
 
         function saveItem() {
@@ -425,6 +421,7 @@
                                 $("#SoftwareId").val(result.data.softwareId).trigger('change');
                                 $("#OrderNumber").val(result.data.orderNumber).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
+                                $("#hdnTitle").val(result.data.title);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -438,6 +435,37 @@
                     });
             }
             catch (err) {
+            }
+        }
+
+        function getProductAmtCalcList(softwareId) {
+            try {
+                $("#Title").empty();
+                if (softwareId == '' || softwareId == null) return;
+                
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Admin/GetProductAmtCalcList"))" + "?softwareId=" + softwareId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#Title').append(new Option(data.data[i].text, data.data[i].text, false, false));
+                                }
+                            }
+                            $('#Title').val($("#hdnTitle").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
             }
         }
 

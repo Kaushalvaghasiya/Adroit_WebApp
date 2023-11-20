@@ -11,7 +11,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Product</a></li>
-                    <li class="active"><span>Add</span></li>
+                    <li class="active"><span>Add (Product)</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -62,7 +62,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
                     <li><a href="#">Product</a></li>
-                    <li><a href="#" class="btn-back">Add</a></li>
+                    <li><a href="#" class="btn-back">Add (Product)</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
@@ -123,7 +123,7 @@
                         <div class="col-lg-2 col-md-12">
                             <div class="form-group">
                                 <label for="Code">Code/ SKU#</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="Code">
+                                <select class="form-control select2-show-search-add-clear mode-ed" id="Code">
                                     <option></option>
                                     @{
                                         if (Model.CodeList != null)
@@ -741,6 +741,22 @@
                                 <textarea class="form-control" rows="2" id="Remarks2"></textarea>
                             </div>
                         </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="ProductBranchId">Branch Permission</label>
+                                <select id="ProductBranchId" multiple="multiple" class="filter-multi mode-ed-multi">
+                                    @{
+                                        if (Model.BranchList != null)
+                                        {
+                                            foreach (var o in Model.BranchList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -812,7 +828,7 @@
 
             bindDatatableList();
 
-           
+
         });
 
         function ChangeProductValue() {
@@ -840,8 +856,8 @@
             var ShadeNumberElement = document.getElementById("select2-ShadeNumberId-container");
             var selectedShadeNumber = ShadeNumberElement.getAttribute("title");
 
-            if (selectedGroup != null ) {
-                Tmp_TitleAlternate += ( selectedGroup );
+            if (selectedGroup != null) {
+                Tmp_TitleAlternate += (selectedGroup);
             }
             if (selectedDesignNumber != null) {
                 Tmp_TitleAlternate += (" | " + selectedDesignNumber);
@@ -1006,10 +1022,8 @@
             $("#FabricId").val(null).trigger('change');
             $("#GroupId").val(null).trigger('change');
             $("#SubGroupId").val(null).trigger('change');
-            $("#StockTypeId").val(null).trigger('change');
             $("#QualityTypeId").val(null).trigger('change');
             $("#UQCId").val(null).trigger('change');
-            $("#CategoryId").val(1).trigger('change');
             $("#GSTCalculationId").val(null).trigger('change');
             $("#GSTRateId").val(null).trigger('change');
             $("#AmountCalcId").val(null).trigger('change');
@@ -1017,6 +1031,8 @@
             $("#Title").val(null).trigger('change');
             $("#HSNCode").val(null).trigger('change');
             $("#HSNDesc").val(null).trigger('change');
+            $("#StockTypeId").val(1).trigger('change');
+            $("#CategoryId").val(1).trigger('change');
 
             $("#PrintName").val("");
             $("#TitleAlternate").val("");
@@ -1030,6 +1046,8 @@
             $("#OpLossQty").val('0.00');
             $("#DistributorRate").val('0.00');
             $("#DealerRate").val('0.00');
+
+            $("#ProductBranchId").multipleSelect('setSelects', '');
 
             //Set auto max value
             var maxvalue = 0;
@@ -1057,16 +1075,10 @@
 
         function saveItem() {
             try {
-                
+
                 if ($("#Title").val() == "") {
                     showWarning("", "Please enter title");
                     $("#Title").focus();
-                    return false;
-                }
-
-                if ($("#Code").val() == "") {
-                    showWarning("", "Please enter code");
-                    $("#Code").focus();
                     return false;
                 }
 
@@ -1148,7 +1160,7 @@
                     $("#GSTCalculationId").focus();
                     return false;
                 }
-                
+
                 if (($("#GSTRateId").val() == null) || ($("#GSTRateId").val() == "")) {
                     showWarning("", "Please select IGST Or GST.");
                     $("#GSTRateId").focus();
@@ -1226,7 +1238,13 @@
                         return false;
                     }
                 }
-               
+
+                if ($("#ProductBranchId").val() == "") {
+                    showWarning("", "Please select branch.");
+                    $("#ProductBranchId").focus();
+                    return false;
+                }
+
                 var savedata = new Object();
 
                 savedata.Id = parseInt($("#Id").val());
@@ -1235,7 +1253,7 @@
                 savedata.Code = $("#Code").val();
                 savedata.PrintName = $("#PrintName").val();
                 savedata.TitleAlternate = $("#TitleAlternate").val();
-                
+
                 savedata.DesignNumberId = getIntValueNull("DesignNumberId");
                 savedata.ColourId = getIntValueNull("ColourId");
                 savedata.SizeId = getIntValueNull("SizeId");
@@ -1270,27 +1288,28 @@
 
                 savedata.HSNCode = $("#HSNCode").val();
 
-                savedata.DenierWeight = getFloatValueNull("DenierWeight",3);
-                savedata.RatePerMeter = getFloatValueNull("RatePerMeter",3);
-                savedata.RateRetail = getFloatValueNull("RateRetail",3);
-                savedata.Mrp = getFloatValueNull("Mrp",3);
-                savedata.DistributorRate = getFloatValueNull("DistributorRate",3);
-                savedata.DealerRate = getFloatValueNull("DealerRate",3);
-                savedata.PurchaseRate = getFloatValueNull("PurchaseRate",3);
-                savedata.Cut = getFloatValueNull("Cut",2);
-                savedata.AveragePack = getFloatValueNull("AveragePack",2);
-                savedata.BoxPack = getFloatValueNull("BoxPack",2);
-                savedata.RolMin = getFloatValueNull("RolMin",2);
-                savedata.RolMax = getFloatValueNull("RolMax",2);
-                savedata.GstCentralCess = getFloatValueZero("GstCentralCess",2);
-                savedata.GstStateCess = getFloatValueZero("GstStateCess",2);
-                savedata.Discount = getFloatValueZero("Discount",2);
+                savedata.DenierWeight = getFloatValueNull("DenierWeight", 3);
+                savedata.RatePerMeter = getFloatValueNull("RatePerMeter", 3);
+                savedata.RateRetail = getFloatValueNull("RateRetail", 3);
+                savedata.Mrp = getFloatValueNull("Mrp", 3);
+                savedata.DistributorRate = getFloatValueNull("DistributorRate", 3);
+                savedata.DealerRate = getFloatValueNull("DealerRate", 3);
+                savedata.PurchaseRate = getFloatValueNull("PurchaseRate", 3);
+                savedata.Cut = getFloatValueNull("Cut", 2);
+                savedata.AveragePack = getFloatValueNull("AveragePack", 2);
+                savedata.BoxPack = getFloatValueNull("BoxPack", 2);
+                savedata.RolMin = getFloatValueNull("RolMin", 2);
+                savedata.RolMax = getFloatValueNull("RolMax", 2);
+                savedata.GstCentralCess = getFloatValueZero("GstCentralCess", 2);
+                savedata.GstStateCess = getFloatValueZero("GstStateCess", 2);
+                savedata.Discount = getFloatValueZero("Discount", 2);
 
                 savedata.Remarks1 = $("#Remarks1").val();
                 savedata.Remarks2 = $("#Remarks2").val();
                 savedata.HSNDesc = $("#HSNDesc").val();
                 savedata.RateUpdate = $("#RateUpdate").is(':checked');
                 savedata.Active = $('#Active').is(':checked');
+                savedata.ProductBranchId = $("#ProductBranchId").val().join(",");
 
                 blockUI('container');
 
@@ -1375,7 +1394,7 @@
                                 }
 
                                 $("#Id").val(result.data.id);
-                                
+
                                 $("#DesignNumberId").val(result.data.designNumberId).trigger("change");
                                 $("#ColourId").val(result.data.colourId).trigger("change");
                                 $("#SizeId").val(result.data.sizeId).trigger("change");
@@ -1419,6 +1438,7 @@
 
                                 $('#Active').prop('checked', result.data.active);
                                 $('#RateUpdate').prop('checked', result.data.rateUpdate);
+                                $("#ProductBranchId").multipleSelect('setSelects', result.data.productBranchId.split(','));
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info

@@ -18,7 +18,9 @@ namespace Adroit.Accounting.Web.Controllers
             var model = new ProductViewModel();
 
             int loginId = LoginHandler.GetUserId(User);
+            model.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
             byte SoftwareId = _softwareRepository.GetSoftwareIdByLoginId(loginId, _configurationData.DefaultConnection);
+            model.BranchList = _customerFirmBranchRepository.SelectList(model.Customer.Id, true, _configurationData.DefaultConnection);
 
             model.CodeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductTable._TableName, ProductTable.Code);
             model.ProductList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductTable._TableName, ProductTable.Title);
@@ -132,7 +134,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _productRepository.Get(id, _configurationData.DefaultConnection);
+                int loginId = LoginHandler.GetUserId(User);
+                result.data = _productRepository.Get(id, _configurationData.DefaultConnection, loginId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

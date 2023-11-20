@@ -10,7 +10,6 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Adroit</a></li>
                     <li><a href="#">Customer</a></li>
                     <li><a href="#">@Model.Firm.Customer.Name</a></li>
                     @{
@@ -73,7 +72,6 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Master</a></li>
-                    <li><a href="#">Adroit</a></li>
                     <li><a href="#">Customer</a></li>
                     <li><a href="#">@Model.Firm.Customer.Name</a></li>
                     @{
@@ -93,13 +91,13 @@
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search GST Number..." id="GoSearchQuery">
+                       @*  <input type="text" class="form-control" placeholder="Search GST Number..." id="GoSearchQuery">
                         <span class="input-group-append mr-2">
                             <button class="btn btn-primary go-search" type="button">Go!</button>
-                        </span>
+                        </span> *@
                         <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
-                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
-                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        @* <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a> *@
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
@@ -341,10 +339,10 @@
                 </div>
                 <div class="card-footer text-right">
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                   @*  <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a> *@
                     <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
             </div>
@@ -433,6 +431,23 @@
             var maxvalue = parseInt($('#OrderNumber option:last-child').val()) + 1;
             $("#OrderNumber").append(new Option(maxvalue, maxvalue, true, true)).trigger('change');
             $("#Active").prop('checked', true);
+
+            $('#FirmId').attr('disabled', false);
+            $('#Title').attr('disabled', false);
+            $('#FirmBranchTypeId').attr('disabled', false);
+            $('#GSTNumber').attr('disabled', false);
+            $('#PAN').attr('disabled', false);
+            $('#ContactPersonName').attr('disabled', false);
+            $('#Mobile').attr('disabled', false);
+            $('#Email').attr('disabled', false);
+            $('#EWBAddress1').attr('disabled', false);
+            $('#EWBAddress2').attr('disabled', false);
+            $('#SoftwarePlanId').attr('disabled', false);
+            $('#SetupPrice').attr('disabled', false);
+            $('#RenewalDate').attr('disabled', false);
+            $('#RenewalPrice').attr('disabled', false);
+            $('#OrderNumber').attr('disabled', false);
+            $('#Active').attr('disabled', false);
         }
 
         function viewMode(id) {
@@ -888,7 +903,7 @@
                         return false;
                     }
                 }
-
+                
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Title = $("#Title").val();
@@ -902,8 +917,8 @@
                 savedata.Address2 = $("#Address2").val();
                 savedata.Address3 = $("#Address3").val();
                 savedata.CountryId = parseInt($("#CountryId").val());
-                savedata.StateId = $("#StateId").val();
-                savedata.CityId = $("#CityId").val();
+                savedata.StateId = parseInt($("#StateId").val());
+                savedata.CityId = parseInt($("#CityId").val());
                 savedata.Pincode = $("#Pincode").val();
                 savedata.ContactPersonName = $("#ContactPersonName").val();
                 savedata.Phone = $("#Phone").val();
@@ -912,12 +927,12 @@
                 savedata.Email = $("#Email").val();
                 savedata.EWBAddress1 = $("#EWBAddress1").val();
                 savedata.EWBAddress2 = $("#EWBAddress2").val();
-                savedata.RenewalDate = getDate($("#RenewalDate").val());
-                savedata.SetupPrice = $("#SetupPrice").val();
-                savedata.RenewalPrice = $("#RenewalPrice").val();
+                savedata.SetupPrice = parseFloat($("#SetupPrice").val());
+                savedata.RenewalPrice = parseFloat($("#RenewalPrice").val());
                 savedata.OrderNumber = orderNumber;
                 savedata.Active = $('#Active').is(':checked');
                 savedata.SoftwarePlanId = parseInt($("#SoftwarePlanId").val());
+                savedata.RenewalDate = moment(getDate($("#RenewalDate").val())).toISOString();
 
                 blockUI('container');
 
@@ -999,6 +1014,23 @@
                                 } else {
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+
+                                    $('#FirmId').attr('disabled', true);
+                                    $('#Title').attr('disabled', true);
+                                    $('#FirmBranchTypeId').attr('disabled', true);
+                                    $('#GSTNumber').attr('disabled', true);
+                                    $('#PAN').attr('disabled', true);
+                                    $('#ContactPersonName').attr('disabled', true);
+                                    $('#Mobile').attr('disabled', true);
+                                    $('#Email').attr('disabled', true);
+                                    $('#EWBAddress1').attr('disabled', true);
+                                    $('#EWBAddress2').attr('disabled', true);
+                                    $('#SoftwarePlanId').attr('disabled', true);
+                                    $('#SetupPrice').attr('disabled', true);
+                                    $('#RenewalDate').attr('disabled', true);
+                                    $('#RenewalPrice').attr('disabled', true);
+                                    $('#OrderNumber').attr('disabled', true);
+                                    $('#Active').attr('disabled', true);
                                 }
 
                                 $("#Id").val(result.data.id);

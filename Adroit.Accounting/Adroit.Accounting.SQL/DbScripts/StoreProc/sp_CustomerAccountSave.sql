@@ -61,6 +61,20 @@ BEGIN
 	BEGIN TRY
 		Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
 
+		DECLARE @StateCode VARCHAR(5) = (
+			SELECT Code
+			FROM State
+			WHERE Id = @StateId 
+		)
+		DECLARE @message VARCHAR(4000)
+
+		IF LEFT(@GSTNumber, 2) != @StateCode AND @GSTNumber != ''
+		BEGIN
+
+			SET @message = 'Invaild GST Number.';
+			RAISERROR ('%s', 16, 1, @message);
+		END
+
 		IF(ISNULL(@CountryId,0) >= 0 AND ISNULL(@StateId,0) >= 0)
 		BEGIN 			
 			IF(ISNULL(@District,'') != '' AND ISNULL(@DistrictId,0) <= 0)
@@ -83,95 +97,103 @@ BEGIN
 		END
 
 		IF EXISTS (SELECT 1 FROM CustomerAccount WHERE (Id = @Id) OR ([Name] = @Name AND Deleted = 1))
-			BEGIN
-			IF(ISNULL(@Id, 0) <= 0)
-			BEGIN 
-				SELECT @Id=Id FROM CustomerAccount WHERE [Name] = @Name 
-			END
+		BEGIN
+		IF(ISNULL(@Id, 0) <= 0)
+		BEGIN 
+			SELECT @Id=Id FROM CustomerAccount WHERE [Name] = @Name 
+		END
 
-				UPDATE  CustomerAccount SET
-						[CustomerId] = @CustomerId
-						,[Name] = @Name
-						,[PrintName] = @PrintName
-						,[AccountGroupId] = @AccountGroupId
-						,[Address1] = @Address1
-						,[Address2] = @Address2
-						,[Address3] = @Address3
-						,[CityId] = @CityId
-						,[StateId] = @StateId
-						,[CountryId] = @CountryId
-						,[Pincode] = @Pincode
-						,[KM] = @KM
-						,[ContactPersonName] = @ContactPersonName
-						,[Mobile] = @Mobile
-						,[MobileAlternate] = @MobileAlternate
-						,[Email] = @Email
-						,[GSTNumber] = @GSTNumber
-						,[PAN] = @PAN
-						,[AreaName] = @AreaName
-						,[RateWithGST] = @RateWithGST
-						,[GSTInvoiceTypeId] = @GSTInvoiceTypeId
-						,[EximCode] = @EximCode
-						,[IsIGST] = @IsIGST
-						,[GSTNumberTransport] = @GSTNumberTransport
-						,[TransportName] = @TransportName
-						,[VehicleNumber] = @VehicleNumber
-						,[DeliveryAccountBranchMappingId] = @DeliveryAccountBranchMappingId
-						,[ShippingAccountBranchMappingId] = @ShippingAccountBranchMappingId
-						,[BrokerMappingId] = @BrokerMappingId
-						,[CreditDays] = @CreditDays
-						,[Discount] = @Discount
-						,[TDS] = @TDS
-						,[TCS] = @TCS
-						,[CreditLimit] = @CreditLimit
-						,[InterestRate] = @InterestRate
-						,[Commission] = @Commission
-						,[IsEcommerce] = @IsEcommerce
-						,[AdharUID] = @AdharUID
-						,[TAN] = @TAN
-						,[CompositParty] = @CompositParty
-						,[RCMParty] = @RCMParty
-						,[CapitalPercentage] = @CapitalPercentage
-						,[OwnerBranchId] = @OwnerBranchId
-						,[ModifiedById] = @LoginId
-						,[ModifiedOn] = GETUTCDATE()
-						,[Remarks] = @Remarks
-						,[Active] = @Active
-						,DeletedById = NULL
-						,DeletedOn = NULL
-						,Deleted = 0
-					WHERE ID = @Id
+		UPDATE  CustomerAccount SET
+				[CustomerId] = @CustomerId
+				,[Name] = @Name
+				,[PrintName] = @PrintName
+				,[AccountGroupId] = @AccountGroupId
+				,[Address1] = @Address1
+				,[Address2] = @Address2
+				,[Address3] = @Address3
+				,[CityId] = @CityId
+				,[StateId] = @StateId
+				,[CountryId] = @CountryId
+				,[Pincode] = @Pincode
+				,[KM] = @KM
+				,[ContactPersonName] = @ContactPersonName
+				,[Mobile] = @Mobile
+				,[MobileAlternate] = @MobileAlternate
+				,[Email] = @Email
+				,[GSTNumber] = @GSTNumber
+				,[PAN] = @PAN
+				,[AreaName] = @AreaName
+				,[RateWithGST] = @RateWithGST
+				,[GSTInvoiceTypeId] = @GSTInvoiceTypeId
+				,[EximCode] = @EximCode
+				,[IsIGST] = @IsIGST
+				,[GSTNumberTransport] = @GSTNumberTransport
+				,[TransportName] = @TransportName
+				,[VehicleNumber] = @VehicleNumber
+				,[DeliveryAccountBranchMappingId] = @DeliveryAccountBranchMappingId
+				,[ShippingAccountBranchMappingId] = @ShippingAccountBranchMappingId
+				,[BrokerMappingId] = @BrokerMappingId
+				,[CreditDays] = @CreditDays
+				,[Discount] = @Discount
+				,[TDS] = @TDS
+				,[TCS] = @TCS
+				,[CreditLimit] = @CreditLimit
+				,[InterestRate] = @InterestRate
+				,[Commission] = @Commission
+				,[IsEcommerce] = @IsEcommerce
+				,[AdharUID] = @AdharUID
+				,[TAN] = @TAN
+				,[CompositParty] = @CompositParty
+				,[RCMParty] = @RCMParty
+				,[CapitalPercentage] = @CapitalPercentage
+				,[OwnerBranchId] = @OwnerBranchId
+				,[ModifiedById] = @LoginId
+				,[ModifiedOn] = GETUTCDATE()
+				,[Remarks] = @Remarks
+				,[Active] = @Active
+				,DeletedById = NULL
+				,DeletedOn = NULL
+				,Deleted = 0
+			WHERE ID = @Id
 
-					DELETE FROM [CustomerAccountBranchMapping] WHERE AccountId = @Id
-				END		
+			UPDATE  CustomerAccountBranchMapping SET
+					DeletedById = NULL,
+					DeletedOn = NULL,
+					Deleted = 0
+			WHERE AccountId = @Id AND [BranchId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@CustomerAccountBranchIds))
+
+		END		
 		ELSE
-			BEGIN
-				INSERT INTO CustomerAccount
-					([CustomerId], [Name], [PrintName], [AccountGroupId], [Address1], [Address2], [Address3], [CityId], [StateId], [CountryId], [Pincode], 
-					 [KM], [ContactPersonName], [Mobile], [MobileAlternate], [Email], [GSTNumber], [PAN], [AreaName], [RateWithGST], [GSTInvoiceTypeId], 
-					 [EximCode], [IsIGST], [GSTNumberTransport], [TransportName], [VehicleNumber], [DeliveryAccountBranchMappingId], [ShippingAccountBranchMappingId], 
-					 [BrokerMappingId], [CreditDays], [Discount], [TDS], [TCS], [CreditLimit], [InterestRate], [Commission], [IsEcommerce], [AdharUID], [TAN], 
-					 [CompositParty], [RCMParty], [CapitalPercentage], [AddedOn], [AddedById], [OwnerBranchId], [Active], [Deleted], [Remarks])
-				VALUES
-					(@CustomerId, @Name, @PrintName, @AccountGroupId, @Address1, @Address2, @Address3, @CityId, @StateId, @CountryId, @Pincode, 
-					 @KM, @ContactPersonName, @Mobile, @MobileAlternate, @Email, @GSTNumber, @PAN, @AreaName, @RateWithGST, @GSTInvoiceTypeId, 
-					 @EximCode, @IsIGST, @GSTNumberTransport, @TransportName, @VehicleNumber, @DeliveryAccountBranchMappingId, @ShippingAccountBranchMappingId, 
-					 @BrokerMappingId, @CreditDays, @Discount, @TDS, @TCS, @CreditLimit, @InterestRate, @Commission, @IsEcommerce, @AdharUID, @TAN, 
-					 @CompositParty, @RCMParty, @CapitalPercentage, GETUTCDATE(), @LoginId, @OwnerBranchId, @Active, 0, @Remarks)
+		BEGIN
+			INSERT INTO CustomerAccount
+				([CustomerId], [Name], [PrintName], [AccountGroupId], [Address1], [Address2], [Address3], [CityId], [StateId], [CountryId], [Pincode], 
+					[KM], [ContactPersonName], [Mobile], [MobileAlternate], [Email], [GSTNumber], [PAN], [AreaName], [RateWithGST], [GSTInvoiceTypeId], 
+					[EximCode], [IsIGST], [GSTNumberTransport], [TransportName], [VehicleNumber], [DeliveryAccountBranchMappingId], [ShippingAccountBranchMappingId], 
+					[BrokerMappingId], [CreditDays], [Discount], [TDS], [TCS], [CreditLimit], [InterestRate], [Commission], [IsEcommerce], [AdharUID], [TAN], 
+					[CompositParty], [RCMParty], [CapitalPercentage], [AddedOn], [AddedById], [OwnerBranchId], [Active], [Deleted], [Remarks])
+			VALUES
+				(@CustomerId, @Name, @PrintName, @AccountGroupId, @Address1, @Address2, @Address3, @CityId, @StateId, @CountryId, @Pincode, 
+					@KM, @ContactPersonName, @Mobile, @MobileAlternate, @Email, @GSTNumber, @PAN, @AreaName, @RateWithGST, @GSTInvoiceTypeId, 
+					@EximCode, @IsIGST, @GSTNumberTransport, @TransportName, @VehicleNumber, @DeliveryAccountBranchMappingId, @ShippingAccountBranchMappingId, 
+					@BrokerMappingId, @CreditDays, @Discount, @TDS, @TCS, @CreditLimit, @InterestRate, @Commission, @IsEcommerce, @AdharUID, @TAN, 
+					@CompositParty, @RCMParty, @CapitalPercentage, GETUTCDATE(), @LoginId, @OwnerBranchId, @Active, 0, @Remarks)
 
-				SET @Id = SCOPE_IDENTITY()
-			END
+			SET @Id = SCOPE_IDENTITY()
+		END
 
-			INSERT INTO [CustomerAccountBranchMapping] 
-				(AccountId,BranchId,AddedById,AddedOn)
-			SELECT  @Id,Id,@LoginId,GETUTCDATE()
-			FROM dbo.[fnStringToIntArray](@CustomerAccountBranchIds)
+		INSERT INTO [CustomerAccountBranchMapping] (AccountId,BranchId,AddedById,AddedOn)
+		SELECT @Id,Id,@LoginId,GETUTCDATE()
+		FROM dbo.[fnStringToIntArray](@CustomerAccountBranchIds)
+		EXCEPT
+		SELECT AccountId,BranchId,@loginId,GETUTCDATE() 
+		FROM [dbo].[CustomerAccountBranchMapping]
 
 		COMMIT TRAN
 		SELECT @Id
+
 	END TRY
 	BEGIN CATCH
-		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
+		DECLARE @error INT, @xstate INT;
 		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
 		ROLLBACK TRAN
 		IF (@message LIKE '%Violation of UNIQUE KEY%')

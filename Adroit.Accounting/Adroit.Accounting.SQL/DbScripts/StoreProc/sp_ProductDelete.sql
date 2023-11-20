@@ -7,11 +7,19 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+
 		UPDATE Product SET 
 			Deleted = 1,
 			DeletedById = @UserId,
 			DeletedOn = GETUTCDATE()
 		WHERE Id= @Id ;
+
+		UPDATE ProductBranchMapping SET 
+		DeletedById = @UserId,  
+		DeletedOn = GETUTCDATE(),
+		Deleted = 1
+		WHERE ProductId= @Id;
+
 	COMMIT TRAN
 	END TRY
 	BEGIN CATCH

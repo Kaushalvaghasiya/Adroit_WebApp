@@ -31,24 +31,24 @@ BEGIN
 				UPDATE CustomerFirm SET
 						[CustomerId]=@CustomerId,
 						[BusinessId]=@BusinessId,
-						Title=@Title,
-						OwnerName=@OwnerName,
+						--Title=@Title,
+						--OwnerName=@OwnerName,
 						[TAN]=@TAN,
 						IECCode=@IECCode,
 						IsLutBond=@IsLutBond,
 						LutBondNumber=@LutBondNumber,
-						IsGTA=@IsGTA,
+						--IsGTA=@IsGTA,
 						FirmTypeId=@FirmTypeId,
-						GstFirmTypeId=@GstFirmTypeId,
-						SoftwareId=@SoftwareId,
-						BranchLimit=@BranchLimit,
+						--GstFirmTypeId=@GstFirmTypeId,
+						--SoftwareId=@SoftwareId,
+						--BranchLimit=@BranchLimit,
 						Active=@Active,
 						OrderNumber=@OrderNumber,
 						ModifiedById=@LoginId, 
 						ModifiedOn=GETUTCDATE(),
-						AdharUID=@AdharUID,
-						LRResetOnYearEnd=@LRResetOnYearEnd,
-						CessRequired=@CessRequired
+						AdharUID=@AdharUID
+						--LRResetOnYearEnd=@LRResetOnYearEnd,
+						--CessRequired=@CessRequired
 					WHERE ID = @Id
 			END
 		ELSE

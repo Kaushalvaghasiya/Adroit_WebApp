@@ -52,5 +52,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@softwareId", softwareId);
             return QueryHelper.GetList<DropdownViewModel>("sp_ProductAmtCalcOnList_Select", connectionString, parameters);
         }
+        public List<DropdownViewModel> ProductAmtCalcList(byte softwareId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@softwareId", softwareId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_BookAdminBoxLabelListBySoftware_Select", connectionString, parameters);
+        }
     }
 }

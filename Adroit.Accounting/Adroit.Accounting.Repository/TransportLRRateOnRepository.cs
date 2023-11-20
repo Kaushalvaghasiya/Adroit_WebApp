@@ -11,7 +11,7 @@ namespace Adroit.Accounting.Repository
         public List<DropdownViewModel> SelectList(string connectionString)
         {
             var parameters = new DynamicParameters();
-            return QueryHelper.GetList<DropdownViewModel>("sp_TransportLRPayTypeList_Select", connectionString, parameters);
+            return QueryHelper.GetList<DropdownViewModel>("sp_TransportLRRateOnList_Select", connectionString, parameters);
         }
     }
 }
