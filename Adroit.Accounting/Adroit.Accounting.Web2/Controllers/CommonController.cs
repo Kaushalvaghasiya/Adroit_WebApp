@@ -406,12 +406,12 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult SearchCity(string q)
+        public JsonResult SearchCity(string city)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _cityRepository.CityList(q, _configurationData.DefaultConnection);
+                result.data = _cityRepository.CityList(city, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

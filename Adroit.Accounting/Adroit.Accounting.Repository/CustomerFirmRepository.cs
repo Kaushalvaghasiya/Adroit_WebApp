@@ -61,5 +61,11 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerFirmSave", connectionString, parameters);
         }
+        public int GetFirmId(int loginId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            return QueryHelper.Get<int>("sp_GetFirmId", connectionString, parameters);
+        }
     }
 }

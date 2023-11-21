@@ -7,6 +7,8 @@ namespace Adroit.Accounting.Model.ViewModel
     {
         public List<DropdownViewModel> BranchList { get; set; }
         public List<DropdownViewModel> OrderNumberList { get; set; }
-        
+        public string? CityName { get; set; }
+        public string? BranchName { get; set; }
+
     }
 }

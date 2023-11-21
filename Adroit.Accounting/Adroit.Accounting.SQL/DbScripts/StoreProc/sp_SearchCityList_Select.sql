@@ -1,6 +1,6 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_SearchCityList_Select]
 (
- @q VARCHAR(max)
+ @city NVARCHAR(100)
 )
 AS
 BEGIN
@@ -12,7 +12,7 @@ BEGIN
 	INNER JOIN District on District.StateId = State.Id AND District.Active = 1
 	INNER JOIN Taluka on Taluka.DistrictId = District.Id AND Taluka.Active = 1
 	INNER JOIN City on City.TalukaId = Taluka.Id AND City.Active = 1
-	WHERE city.title like '%'+ @q + '%' 
+	WHERE city.title like '%'+ @city + '%' 
 
 END
 GO

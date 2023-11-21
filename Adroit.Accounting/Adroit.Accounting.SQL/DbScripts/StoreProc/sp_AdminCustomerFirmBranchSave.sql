@@ -36,6 +36,8 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
+		DECLARE @CustomerId int = dbo.fn_GetCustomerId(@AddedById);
+
 		IF EXISTS (SELECT 1 FROM CustomerFirmBranch WHERE Id = @Id)
 		BEGIN
 			UPDATE CustomerFirmBranch SET
@@ -100,6 +102,7 @@ BEGIN
 				FROM (
 					SELECT DISTINCT Id
 					FROM Product
+					WHERE CustomerId = @CustomerId
 				)ProductId
 			)
 
@@ -112,12 +115,26 @@ BEGIN
 				FROM (
 					SELECT DISTINCT Id
 					FROM CustomerAccount
+					WHERE CustomerId = @CustomerId
 				)AccountId
 			)
 
 			INSERT INTO [CustomerAccountBranchMapping] (AccountId,BranchId,AddedById,AddedOn)
 			SELECT Id,@Id,@AddedById,GETUTCDATE()
 			FROM dbo.[fnStringToIntArray](@CustomerAccountBranchId)
+
+			DECLARE @CustomerBookBranchId NVARCHAR(max) = (
+				SELECT STRING_AGG(CAST(Id AS NVARCHAR(max)), ',') WITHIN GROUP (ORDER BY Id) 
+				FROM (
+					SELECT DISTINCT Id
+					FROM CustomerBook
+					WHERE CustomerId = @CustomerId
+				)BookId
+			)
+
+			INSERT INTO [CustomerBookBranchMapping] (BookId,BranchId,AddedById,AddedOn)
+			SELECT Id,@Id,@AddedById,GETUTCDATE()
+			FROM dbo.[fnStringToIntArray](@CustomerBookBranchId)
 
 		END
 		COMMIT TRAN

@@ -6,7 +6,7 @@ using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Model.GridViewModel
 {
-    public class TransportLRBranchCityMappingGridViewModel : TransportLRBranchCityMapping
+    public class TransportLRBranchCityMappingGridViewModel : TransportLRBranchCityMappingViewModel
     {
         public int RowNum { get; set; }
         public int TotalCount { get; set; }
