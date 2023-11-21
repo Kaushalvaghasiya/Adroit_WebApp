@@ -167,7 +167,7 @@ BEGIN
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM Product WHERE Id = @Id OR (Title = @Title AND Deleted = 1)
 
-		IF ISNULL(@Id, 0) = 0
+		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
 			INSERT INTO Product
 				(CustomerId, Title, Code, PrintName, TitleAlternate, DesignNumberId, ColourId, SizeId, PackingId, ShadeNumberId, FabricId, GroupId, 
@@ -236,6 +236,12 @@ BEGIN
 			WHERE Id = @Id
 
 			UPDATE  ProductBranchMapping SET
+					DeletedById = @loginId,
+					DeletedOn = GETUTCDATE(),
+					Deleted = 1
+			WHERE ProductId = @Id AND [BranchId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@ProductBranchId))
+
+			UPDATE  ProductBranchMapping SET
 					DeletedById = NULL,
 					DeletedOn = NULL,
 					Deleted = 0
@@ -249,6 +255,7 @@ BEGIN
 		EXCEPT
 		SELECT ProductId,BranchId,@loginId,GETUTCDATE() 
 		FROM [dbo].[ProductBranchMapping]
+		WHERE [BranchId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@ProductBranchId))
 
 		COMMIT TRAN
 		SELECT @Id

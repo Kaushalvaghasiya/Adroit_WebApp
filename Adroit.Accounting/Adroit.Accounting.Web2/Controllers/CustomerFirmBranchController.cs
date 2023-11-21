@@ -20,7 +20,7 @@ namespace Adroit.Accounting.Web.Controllers
 
             if (id != 0)
             {
-                model.Firm = _customerFirmRepository.Get(id, _configurationData.DefaultConnection);
+                model.Firm = _adminCustomerFirmRepository.Get(id, _configurationData.DefaultConnection);
                 model.FirmId = model.Firm.Id;
             }
 

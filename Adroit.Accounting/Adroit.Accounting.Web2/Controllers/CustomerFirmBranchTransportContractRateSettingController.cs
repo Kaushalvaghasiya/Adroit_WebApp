@@ -15,9 +15,7 @@ namespace Adroit.Accounting.Web.Controllers
         {
             CustomerFirmBranchTransportContractRateSettingViewModel model = new CustomerFirmBranchTransportContractRateSettingViewModel() { Id = id };
             int userId = LoginHandler.GetUserId(User);
-            int branchId = LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
-
-            model.CustomerList = _customerAccountRepo.GetCustomerAccountListByBranchMapping(userId, branchId, _configurationData.DefaultConnection);
+            model.CustomerList = _customerAccountRepo.GetCustomerAccountListByBranchMapping(userId, CurrentBranchId, _configurationData.DefaultConnection);
             model.CityList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);
             model.RatePerKGList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchTransportContractRateSettingTable._TableName, CustomerFirmBranchTransportContractRateSettingTable.RatePerKG);
             model.RatePerParcelList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchTransportContractRateSettingTable._TableName, CustomerFirmBranchTransportContractRateSettingTable.RatePerParcel);
@@ -32,12 +30,11 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int firmId = LoginHandler.GetFirmId(User);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _customerFirmBranchTransportContractRateSettingRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerFirmBranchTransportContractRateSettingRepository.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;

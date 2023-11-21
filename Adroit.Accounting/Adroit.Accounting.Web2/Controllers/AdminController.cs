@@ -2,6 +2,7 @@
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
+using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -59,6 +60,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRCharges _transportLRChargesRepository;
         private readonly IGSTCollection _gstCollectionRepository;
         private readonly IUser _userRepository;
+        private readonly ICustomerFirm _customerCustomerFirmRepository;
 
         public AdminController(
             IOptions<ConfigurationData> configurationData,
@@ -109,7 +111,8 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportLRCharges transportLRChargesRepository,
             IGSTCollection gstCollectionRepository,
             IUser userRepository
-            )
+,
+            ICustomerFirm customerCustomerFirmRepository)
 
         {
             _configurationData = configurationData.Value;
@@ -161,6 +164,22 @@ namespace Adroit.Accounting.Web.Controllers
             _transportLRChargesRepository = transportLRChargesRepository;
             _gstCollectionRepository = gstCollectionRepository;
             _userRepository = userRepository;
+            _customerCustomerFirmRepository = customerCustomerFirmRepository;
+        }
+
+        protected int CurrentFirmId
+        {
+            get
+            {
+                return LoginHandler.GetFirmId(User, _customerCustomerFirmRepository, _configurationData.DefaultConnection);
+            }
+        }
+        protected int CurrentBranchId
+        {
+            get
+            {
+                return LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
+            }
         }
     }
 }

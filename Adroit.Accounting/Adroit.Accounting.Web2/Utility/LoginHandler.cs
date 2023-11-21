@@ -1,4 +1,5 @@
 ﻿using Adroit.Accounting.Model.Enums;
+using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -43,7 +44,7 @@ namespace Adroit.Accounting.Web.Utility
             return 0;
         }
 
-        public static int GetFirmId(IPrincipal user)
+        public static int GetFirmId(IPrincipal user, ICustomerFirm customerFirmRepository, string connectionString)
         {
             //var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.SerialNumber);
             //if (null != claim)
@@ -51,7 +52,9 @@ namespace Adroit.Accounting.Web.Utility
             //    return Convert.ToInt32(claim.Value);
             //}
 
-            return 0;
+            int userid = GetUserId(user);
+            int firmId = customerFirmRepository.GetFirmId(userid, connectionString);
+            return firmId;
         }
         public static int GetBranchId(IPrincipal user, IUser userRepository, string connectionString)
         {
