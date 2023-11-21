@@ -126,6 +126,7 @@ try
 	builder.Services.AddSingleton<ICustomerFirmBranchTransportSetting, CustomerFirmBranchTransportSettingRepository>();
 	builder.Services.AddSingleton<ITransportLRRateOn, TransportLRRateOnRepository>();
 	builder.Services.AddSingleton<ITransportLRPayType, TransportLRPayTypeRepository>();
+	builder.Services.AddSingleton<ITransportLRBranchCityMapping, TransportLRBranchCityMappingRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

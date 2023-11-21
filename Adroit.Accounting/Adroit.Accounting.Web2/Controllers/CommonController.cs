@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Adroit.Accounting.Model;
+using Adroit.Accounting.Repository;
+using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -49,8 +51,7 @@ namespace Adroit.Accounting.Web.Controllers
             IAdminCustomerUser customerUserRepository,
             ICommon commonRepository,
             IGSTCollection gstCollection,
-            IBranchTypeAdmin branchTypeAdminRepository
-            )
+            IBranchTypeAdmin branchTypeAdminRepository)
         {
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
@@ -394,6 +395,23 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _softwareRepository.SelectList(id, _configurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [HttpGet]
+        public JsonResult SearchCity(string city)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _cityRepository.CityList(city, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

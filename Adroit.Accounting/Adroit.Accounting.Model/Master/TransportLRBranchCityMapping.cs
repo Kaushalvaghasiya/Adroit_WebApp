@@ -14,5 +14,6 @@ namespace Adroit.Accounting.Model
         public System.DateTime AddedOn { get; set; }
         public int? DeletedById { get; set; }
         public System.DateTime? DeletedOn { get; set; }
+        public bool Active { get; set; }
     }
 }
