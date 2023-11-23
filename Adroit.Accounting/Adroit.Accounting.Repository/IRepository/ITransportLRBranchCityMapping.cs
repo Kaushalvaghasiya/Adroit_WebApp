@@ -10,5 +10,6 @@ namespace Adroit.Accounting.Repository.IRepository
         void Delete(int id, int loginId, string connectionString);
         int Save(TransportLRBranchCityMapping value, int loginId, string connectionString);
         TransportLRBranchCityMappingViewModel Get(int id, string connectionString);
+        List<DropdownViewModel> SelectList(string connectionString, int BranchId, int loginId = 0, int firmId = 0);
     }
 }

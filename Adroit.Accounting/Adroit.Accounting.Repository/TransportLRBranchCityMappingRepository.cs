@@ -47,5 +47,11 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<TransportLRBranchCityMappingGridViewModel>("sp_TransportLRBranchCityMappingList", connectionString, param);
         }
+        public List<DropdownViewModel> SelectList(string connectionString, int BranchId, int loginId = 0, int firmId = 0)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@BranchId", BranchId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_TransportLRBranchCityMappingList_Select", connectionString, parameters);
+        }
     }
 }

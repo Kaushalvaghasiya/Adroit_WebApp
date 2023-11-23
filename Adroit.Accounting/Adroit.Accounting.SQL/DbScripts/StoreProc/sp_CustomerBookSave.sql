@@ -63,11 +63,11 @@ BEGIN
 	BEGIN TRY
 
 		DECLARE @CustomerId int = dbo.fn_GetCustomerId(@loginId);
-		DECLARE @YearId int = (SELECT Id FROM FinanceYear WHERE FirmId = @FirmId);
+		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId);
 
 		DECLARE @message VARCHAR(4000);
 
-		IF @YearId IS NULL
+		IF ISNULL(@YearId, -1) = -1
 		BEGIN
 			SET @message = 'Year Not Found!';
 			RAISERROR ('%s', 16, 1, @message);

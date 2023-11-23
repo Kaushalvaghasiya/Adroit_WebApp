@@ -1,0 +1,161 @@
+CREATE OR ALTER   PROCEDURE [dbo].[sp_Z_LRBooking_ZSave]
+(
+	 @Id INT  
+	,@FirmId INT
+	,@BranchId INT
+	,@loginId INT
+	,@CityIdTo INT
+	,@LRNumber INT
+	,@LRDate DATETIME
+	,@EwayBillNo VARCHAR(25)
+	,@AccountBranchMappingId INT
+	,@DeliveryAccountBranchMappingId INT
+	,@LRPayTypeId INT
+	,@BillAccountBranchMappingId INT
+	,@Parcel INT
+	,@PackingId INT
+	,@DescriptionId int
+	,@ActualWeight DECIMAL(18,3)
+	,@ChargeWeight DECIMAL(18,3)
+	,@LRRateOnId INT
+	,@Rate DECIMAL(18,2)
+	,@Freight DECIMAL(18,2)
+	,@InvoiceNo VARCHAR(20)
+	,@VehicleId INT
+	,@InvoiceValue DECIMAL(18,0)
+	,@LRDeliveryId INT
+	,@PrivateMarka NVARCHAR(30)
+	,@LRDeliveryTypeId INT
+	,@Remarks NVARCHAR(100)
+	,@Charges1 DECIMAL(18,2)
+	,@Charges2 DECIMAL(18,2)
+	,@Charges3 DECIMAL(18,2)
+	,@Charges4 DECIMAL(18,2)
+	,@Charges5 DECIMAL(18,2)
+	,@Charges6 DECIMAL(18,2)
+	,@IsSaleBilled BIT = 0
+	,@IsDispatched BIT = 0
+	,@ValidDateFrom DATETIME = NULL
+	,@ValidDateTo DATETIME = NULL
+)
+AS
+BEGIN
+	BEGIN TRAN
+	BEGIN TRY
+
+		DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId);
+		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @BranchId);
+		DECLARE @ProductBranchMappingId INT = (
+			SELECT ProductBranchMapping.Id 
+			FROM CustomerFirmTransportSetting 
+				INNER JOIN ProductBranchMapping on ProductBranchMapping.ProductId = CustomerFirmTransportSetting.ProductIdForSales 
+				AND ProductBranchMapping.BranchId = @BranchId
+			WHERE CustomerFirmTransportSetting.FirmId = @FirmId
+		);
+		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId);
+		DECLARE @message VARCHAR(4000);
+
+		IF ISNULL(@YearId, -1) = -1
+		BEGIN
+			SET @message = 'Year Not Found!';
+			RAISERROR ('%s', 16, 1, @message);
+		END
+
+		IF ISNULL(@LRNumber, -1) != -1
+		BEGIN
+			
+			DECLARE @LRNumberStartRange INT = (SELECT StartNumber FROM LRBookingRange WHERE BranchId = @BranchId)
+			DECLARE @LRNumberEndRange INT = (SELECT EndNumber FROM LRBookingRange WHERE BranchId = @BranchId)
+
+			IF @LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange
+			BEGIN
+				SET @message = 'LR Number Range OverFlow!';
+				RAISERROR ('%s', 16, 1, @message);
+			END
+
+		END
+
+		DECLARE @IdCheck INT
+		SELECT @IdCheck = ID FROM [Z-LRBooking-Z] 
+							WHERE (Id = @Id) 
+							OR (AccountBranchMappingId = @AccountBranchMappingId AND LRNumber = @LRNumber AND Deleted = 1)
+
+		IF ISNULL(@IdCheck, 0) = 0
+		BEGIN
+
+			INSERT INTO [Z-LRBooking-Z]
+				(BranchId,YearId,ValidDateFrom,ValidDateTo,AccountBranchMappingId,BookBranchMappingId,LRNumber,LRDate,VehicleId,CityIdFrom,CityIdTo,DeliveryAccountBranchMappingId,BillAccountBranchMappingId
+				,EwayBillNo,LRPayTypeId,InvoiceNo,InvoiceValue,PrivateMarka,Parcel,ActualWeight,ChargeWeight,DescriptionId,PackingId,LRRateOnId
+				,Rate,Freight,Charges1,Charges2,Charges3,Charges4,Charges5,Charges6,ProductBranchMappingId,Remarks,LRDeliveryId,LRDeliveryTypeId,IsSaleBilled
+				,IsDispatched,AddedById,AddedOn)
+			VALUES
+				(@BranchId,@YearId,@ValidDateFrom,@ValidDateTo,@AccountBranchMappingId,@BookBranchMappingId,@LRNumber,@LRDate,@VehicleId,@CityIdFrom,@CityIdTo,@DeliveryAccountBranchMappingId,@BillAccountBranchMappingId
+				,@EwayBillNo,@LRPayTypeId,@InvoiceNo,@InvoiceValue,@PrivateMarka,@Parcel,@ActualWeight,@ChargeWeight,@DescriptionId,@PackingId,@LRRateOnId
+				,@Rate,@Freight,@Charges1,@Charges2,@Charges3,@Charges4,@Charges5,@Charges6,@ProductBranchMappingId,@Remarks,@LRDeliveryId,@LRDeliveryTypeId,@IsSaleBilled
+				,@IsDispatched,@loginId,GETUTCDATE())
+
+			SET @Id = SCOPE_IDENTITY();
+			
+		END
+		ELSE
+		BEGIN
+			SET @Id = @IdCheck
+
+			UPDATE [Z-LRBooking-Z] SET
+			 BranchId = @BranchId
+			,YearId = @YearId
+			,ValidDateFrom = @ValidDateFrom
+			,ValidDateTo = @ValidDateTo
+			,AccountBranchMappingId = @AccountBranchMappingId
+			,BookBranchMappingId = @BookBranchMappingId
+			,LRNumber = @LRNumber
+			,LRDate = @LRDate
+			,VehicleId = @VehicleId
+			,CityIdFrom = @CityIdFrom
+			,CityIdTo = @CityIdTo
+			,DeliveryAccountBranchMappingId = @DeliveryAccountBranchMappingId
+			,BillAccountBranchMappingId = @BillAccountBranchMappingId
+			,EwayBillNo = @EwayBillNo
+			,LRPayTypeId = @LRPayTypeId
+			,InvoiceNo = @InvoiceNo
+			,InvoiceValue = @InvoiceValue
+			,PrivateMarka = @PrivateMarka
+			,Parcel = @Parcel
+			,ActualWeight = @ActualWeight
+			,ChargeWeight = @ChargeWeight
+			,DescriptionId = @DescriptionId
+			,PackingId = @PackingId
+			,LRRateOnId = @LRRateOnId
+			,Rate = @Rate
+			,Freight = @Freight
+			,Charges1 = @Charges1
+			,Charges2 = @Charges2
+			,Charges3 = @Charges3
+			,Charges4 = @Charges4
+			,Charges5 = @Charges5
+			,Charges6 = @Charges6
+			,ProductBranchMappingId = @ProductBranchMappingId
+			,Remarks = @Remarks
+			,LRDeliveryId = @LRDeliveryId
+			,LRDeliveryTypeId = @LRDeliveryTypeId
+			,IsSaleBilled = @IsSaleBilled
+			,IsDispatched = @IsDispatched
+			,DeletedById = NULL
+			,DeletedOn = NULL
+			,Deleted = 0
+			WHERE Id = @Id
+
+		END
+
+		COMMIT TRAN
+		SELECT @Id
+	END TRY
+	BEGIN CATCH
+		DECLARE @error INT, @xstate INT;
+		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
+		ROLLBACK TRAN
+
+		RAISERROR ('%s', 16, 1, @message);
+	END CATCH
+END
+GO

@@ -49,5 +49,11 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerFirmBranchTransportSettingSave", connectionString, parameters);
         }
+        public List<DropdownViewModel> GetLRPayTypeList(int branchId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@BranchId", branchId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmBranchTransportSettingListWithLRType_Select", connectionString, parameters);
+        }
     }
 }

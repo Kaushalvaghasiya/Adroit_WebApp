@@ -1,0 +1,1156 @@
+﻿@model Adroit.Accounting.Model.ViewModel.Z_LRBooking_ZViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Book</a></li>
+                    <li class="active"><span>LR</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">BOOKING#</th>
+                                    <th class="border-bottom-0">DATE</th>
+                                    <th class="border-bottom-0">E-WAY BILL#</th>
+                                    <th class="border-bottom-0">FROM CITY</th>
+                                    <th class="border-bottom-0">TO CITY</th>
+                                    <th class="border-bottom-0">CONSIGNOR</th>
+                                    <th class="border-bottom-0">CONSIGNEE</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Booking</a></li>
+                    <li><a href="#" class="btn-back">LR</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
+                        <span class="input-group-append mr-2">
+                            <button class="btn btn-primary EWayBill-search" type="button" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Popover top">Search</button>
+                        </span>
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="CityIdTo" class="col-md-1 form-label">To City</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search" id="CityIdTo">
+                                            <option></option>
+                                            @{
+                                                if (Model.CityList != null)
+                                                {
+                                                    foreach (var o in Model.CityList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="LRNumber" class="col-md-1 form-label">L.R.#</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control numberonly" id="LRNumber" placeholder="">
+                                    </div>
+                                    <label for="LRDate" class="col-md-1 form-label">Date</label>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                </div>
+                                            </div>
+                                            <input class="form-control mode-ed fc-datepicker" placeholder="DD/MM/YYYY" type="text" id="LRDate">
+                                        </div>
+                                    </div>
+                                    <label for="EwayBillNo" class="col-md-1 form-label">E-Way Bill#</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search-add-clear mode-ed" id="EwayBillNo">
+                                            <option></option>
+                                            @{
+                                                if (Model.EwayBillList != null)
+                                                {
+                                                    foreach (var o in Model.EwayBillList)
+                                                    {
+                                                        <option value="@o.Text">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="AccountBranchMappingId" class="col-md-1 form-label">Consignor</label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search" id="AccountBranchMappingId">
+                                            <option></option>
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="DeliveryAccountBranchMappingId" class="col-md-1 form-label">Consignee</label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search" id="DeliveryAccountBranchMappingId">
+                                            <option></option>
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="LRPayTypeId" class="col-md-1 form-label">Payment</label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search" id="LRPayTypeId">
+                                            <option></option>
+                                            @{
+                                                if (Model.PaymentList != null)
+                                                {
+                                                    foreach (var o in Model.PaymentList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="BillAccountBranchMappingId" class="col-md-1 form-label">Bill Party</label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search-clear" id="BillAccountBranchMappingId">
+                                            <option></option>
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-1 rounded" style="background-color: #E9ECEF;">
+                        <div class="col-md-1">
+                            <div class="form-group text-center">
+                                <label for="Parcel" class="form-label">#Parcel</label>
+                                <input type="text" class="form-control numberonly" id="Parcel" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group text-center">
+                                <label for="DescriptionId" class="form-label">Description</label>
+                                <select class="form-control select2-show-search-clear" id="DescriptionId">
+                                    <option></option>
+                                    @{
+                                        if (Model.DescriptionList != null)
+                                        {
+                                            foreach (var o in Model.DescriptionList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group text-center">
+                                <label for="PackingId" class="form-label">Packing</label>
+                                <select class="form-control select2-show-search-clear" id="PackingId">
+                                    <option></option>
+                                    @{
+                                        if (Model.PackingList != null)
+                                        {
+                                            foreach (var o in Model.PackingList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group text-center">
+                                <label for="ActualWeight" class="form-label">Act. Weight</label>
+                                <input type="text" class="form-control" id="ActualWeight" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group text-center">
+                                <label for="ChargeWeight" class="form-label">Ch. Weight</label>
+                                <input type="text" class="form-control" id="ChargeWeight" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group text-center">
+                                <label for="LRRateOnId" class="form-label">Rate On</label>
+                                <select class="form-control select2-show-search" id="LRRateOnId">
+                                    <option></option>
+                                    @{
+                                        if (Model.LRRateOnList != null)
+                                        {
+                                            foreach (var o in Model.LRRateOnList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group text-center">
+                                <label for="Rate" class="form-label">Rate</label>
+                                <input type="text" class="form-control" id="Rate" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group text-center">
+                                <label for="Freight" class="form-label">Freight</label>
+                                <input type="text" class="form-control" id="Freight" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-horizontal">
+                                        <div class="row mb-1">
+                                            <label for="InvoiceNo" class="col-md-4 form-label">Invoice Number</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="InvoiceNo" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <label for="InvoiceValue" class="col-md-4 form-label">Invoice Value</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control numbersonly" id="InvoiceValue" placeholder="">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <label for="PrivateMarka" class="col-md-4 form-label">Private Mark</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" id="PrivateMarka" placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-horizontal">
+                                        <div class="row mb-1">
+                                            <label for="VehicleId" class="col-md-4 form-label">Vehicle</label>
+                                            <div class="col-md-8">
+                                                <select class="form-control select2-show-search-clear" id="VehicleId">
+                                                    <option></option>
+                                                    @{
+                                                        if (Model.VehicleList != null)
+                                                        {
+                                                            foreach (var o in Model.VehicleList)
+                                                            {
+                                                                <option value="@o.Value">@o.Text</option>
+                                                            }
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <label for="LRDeliveryId" class="col-md-4 form-label">Delivery At</label>
+                                            <div class="col-md-8">
+                                                <select class="form-control select2-show-search" id="LRDeliveryId">
+                                                    <option></option>
+                                                    @{
+                                                        if (Model.LRDeliveryList != null)
+                                                        {
+                                                            var goDownDelivery = Model.LRDeliveryList.FirstOrDefault(x => x.Text.Trim().ToLower() == "go-down delivery");
+
+                                                            if (goDownDelivery != null)
+                                                            {
+                                                                var goDownDeliveryId = goDownDelivery.Value;
+                                                                <option value="@goDownDeliveryId" selected>@goDownDelivery.Text</option>
+                                                            }
+
+                                                            foreach (var o in Model.LRDeliveryList.Where(x => x.Text.Trim().ToLower() != "go-down delivery"))
+                                                            {
+                                                                <option value="@o.Value">@o.Text</option>
+                                                            }
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <label for="LRDeliveryTypeId" class="col-md-4 form-label">Delivery Type</label>
+                                            <div class="col-md-8">
+                                                <select class="form-control select2-show-search" id="LRDeliveryTypeId">
+                                                    <option></option>
+                                                    @{
+                                                        if (Model.LRDeliveryTypeList != null)
+                                                        {
+                                                            var FirstRow = Model.LRDeliveryTypeList.FirstOrDefault(x => x.Text == "-");
+
+                                                            if (FirstRow != null)
+                                                            {
+                                                                var FirstRowId = FirstRow.Value;
+                                                                <option value="@FirstRowId" selected>@FirstRow.Text</option>
+                                                            }
+
+                                                            foreach (var o in Model.LRDeliveryTypeList.Where(x => x.Text != "-"))
+                                                            {
+                                                                <option value="@o.Value">@o.Text</option>
+                                                            }
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-horizontal">
+                                        <div class="row mb-1">
+                                            <label for="Remarks" class="col-md-2 form-label">Remarks</label>
+                                            <div class="col-md-10">
+                                                <input type="text" class="form-control" id="Remarks" placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-horizontal">
+                                        <div class="row mb-1">
+                                            <label for="GST" class="col-md-2 form-label">GST %</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" id="GST" placeholder="" readonly tabindex="-1">
+                                            </div>
+                                            <label for="TruckLoadDate" class="col-md-2 form-label">Truck Load Date</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" id="TruckLoadDate" placeholder="" readonly tabindex="-1">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <label for="Ch" class="col-md-2 form-label">Ch#</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" id="Ch" placeholder="" readonly tabindex="-1">
+                                            </div>
+                                            <label for="Truck" class="col-md-2 form-label">Truck#</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" id="Truck" placeholder="" readonly tabindex="-1">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="Charges1" class="col-md-6 form-label">@Model.CustomerFirmTransportSetting.LRBookChargeLable1</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="Charges1" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Charges2" class="col-md-6 form-label">@Model.CustomerFirmTransportSetting.LRBookChargeLable2</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="Charges2" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Charges3" class="col-md-6 form-label">@Model.CustomerFirmTransportSetting.LRBookChargeLable3</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="Charges3" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Charge4" class="col-md-6 form-label">@Model.CustomerFirmTransportSetting.LRBookChargeLable4</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="Charges4" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Charges5" class="col-md-6 form-label">@Model.CustomerFirmTransportSetting.LRBookChargeLable5</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="Charges5" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Charges6" class="col-md-6 form-label">@Model.CustomerFirmTransportSetting.LRBookChargeLable6</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="Charges6" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="NetAmount" class="col-md-6 form-label">Net Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="NetAmount" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="hdnLRRateOn" value="" />
+
+</div>
+
+
+@section Scripts
+    {
+    <script>
+
+        $(function (e) {
+
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+            bindDatatableList();
+
+            $("#CityIdTo").on('change', function (e) {
+                $('#Rate').attr('disabled', false);
+                getLRRateDetail($(this).val(), $("#BillAccountBranchMappingId").val(), $("#LRRateOnId").val());
+            });
+
+            $('.EWayBill-search').on('click', function () {
+                var Data = "Your dynamically generated content goes here.";
+                $(this).attr('data-content', Data);
+            });
+
+            $("#BillAccountBranchMappingId").on('change', function (e) {
+                $('#Rate').attr('disabled', false);
+                getLRRateDetail($("#CityIdTo").val(), $(this).val(), $("#LRRateOnId").val());
+            });
+
+            $("#Parcel").on('keyup', function (e) {
+                $("#PrivateMarka").val(($("#InvoiceNo").val() || 0) * ($("#Parcel").val() || 0));
+                CalcFreight($("#hdnLRRateOn").val());
+            });
+
+            $("#LRRateOnId").on('change', function (e) {
+
+                $('#Rate').attr('disabled', false);
+
+                if ($("#LRRateOnId").val() != '' || $("#LRRateOnId").val() != null) {
+
+                    var LRRateElement = document.getElementById("select2-LRRateOnId-container");
+                    $("#hdnLRRateOn").val(LRRateElement.getAttribute("title"));
+
+                    getLRRateDetail($("#CityIdTo").val(), $("#BillAccountBranchMappingId").val(), $(this).val());
+                    CalcFreight($("#hdnLRRateOn").val());
+                }
+            });
+
+            var roundOff = @((Model.CustomerFirmTransportSetting.IsWeightRoundOff ? "true" : "false").ToLower());
+            if (roundOff == true) {
+                $("#ChargeWeight").on("change", function (e) {
+                    var chargeWeight = parseFloat($("#ChargeWeight").val());
+
+                    if (chargeWeight >= 1 && chargeWeight <= 49) {
+                        var roundedWeight = Math.ceil(chargeWeight / 50) * 50;
+                        $("#ChargeWeight").val(roundedWeight);
+                    }
+
+                    if (chargeWeight >= 51) {
+                        var roundedWeight = Math.ceil(chargeWeight / 5) * 5;
+                        $("#ChargeWeight").val(roundedWeight);
+                    }
+
+                });
+            }
+
+            $("#Rate").on('change', function (e) {
+                CalcFreight($("#hdnLRRateOn").val());
+            });
+
+            $("#InvoiceNo").on('keyup', function (e) {
+                $("#PrivateMarka").val(($("#InvoiceNo").val() || 0) * ($("#Parcel").val() || 0));
+            });
+
+            $("#Charges1").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#Charges2").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#Charges3").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#Charges4").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#Charges5").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#Charges6").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#Freight").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#ChargeWeight").on('keyup', function (e) {
+                CalcFreight($("#hdnLRRateOn").val());
+            });
+
+        });
+
+        function addClick(isNew = true) {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#CityIdTo").focus();
+            if (isNew)
+            getLRNumber();
+            $("#LRRateOnId").val(@Model.CustomerFirmBranchTransportSetting.LRRateOnId).trigger('change');
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.ewayBillNo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "lrDate", "name": "lrDate" });
+            columns.push({ "data": "ewayBillNo", "name": "ewayBillNo" });
+            columns.push({ "data": "consignor", "name": "consignor" });
+            columns.push({ "data": "consignee", "name": "consignee" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/Z_LRBooking_ZList"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function fromReset() {
+
+            $("#Id").val(0);
+            $("#LRDate").val('');
+            $("#Parcel").val('');
+            $("#ActualWeight").val('');
+            $("#ChargeWeight").val('');
+            $("#Rate").val('');
+            $("#Freight").val('');
+            $("#Charges1").val('');
+            $("#Charges2").val('');
+            $("#Charges3").val('');
+            $("#Charges4").val('');
+            $("#Charges5").val('');
+            $("#Charges6").val('');
+            $("#NetAmount").val('');
+            $("#InvoiceNo").val('');
+            $("#InvoiceValue").val('');
+            $("#PrivateMarka").val('');
+            $("#Remarks").val('');
+            $("#GST").val('');
+            $("#TruckLoadDate").val('');
+            $("#Ch").val('');
+            $("#Truck").val('');
+            $("#LRNumber").val(0);
+            $("#CityIdTo").val(null).trigger('change');
+            $("#EwayBillNo").val(null).trigger('change');
+            $("#AccountBranchMappingId").val(null).trigger('change');
+            $("#DeliveryAccountBranchMappingId").val(null).trigger('change');
+            $("#LRPayTypeId").val(null).trigger('change');
+            $("#BillAccountBranchMappingId").val(null).trigger('change');
+            $("#PackingId").val(null).trigger('change');
+            $("#DescriptionId").val(null).trigger('change');
+            $("#VehicleId").val(null).trigger('change');
+            $("#GST").val('0.00');
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+
+        }
+
+        function saveItem() {
+            try {
+
+                if ($("#CityIdTo").val() == null || $("#CityIdTo").val() == "") {
+                    showWarning("", "Please select to city");
+                    $("#CityIdTo").focus();
+                    return false;
+                }
+
+                if ($("#LRNumber").val() == "") {
+                    showWarning("", "Please enter lr number");
+                    $("#LRNumber").focus();
+                    return false;
+                }
+
+                if ($("#LRDate").val() == "") {
+                    showWarning("", "Please enter lr Date");
+                    $("#LRDate").focus();
+                    return false;
+                }
+
+                if ($("#AccountBranchMappingId").val() == null || $("#AccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select consignor");
+                    $("#AccountBranchMappingId").focus();
+                    return false;
+                }
+
+                if ($("#DeliveryAccountBranchMappingId").val() == null || $("#DeliveryAccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select consignee");
+                    $("#DeliveryAccountBranchMappingId").focus();
+                    return false;
+                }
+
+                if ($("#LRPayTypeId").val() == null || $("#LRPayTypeId").val() == "") {
+                    showWarning("", "Please select payment");
+                    $("#LRPayTypeId").focus();
+                    return false;
+                }
+
+                if ($("#ActualWeight").val() != null && $("#ActualWeight").val() != "") {
+                    if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#ActualWeight").val())) {
+                        showWarning("", "Actual Weight must be upto 15 characters before decimal point and 3 characters after decimal point long.");
+                        $("#ActualWeight").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#ChargeWeight").val() != null && $("#ChargeWeight").val() != "") {
+                    if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#ChargeWeight").val())) {
+                        showWarning("", "Charge Weight must be upto 15 characters before decimal point and 3 characters after decimal point long.");
+                        $("#ChargeWeight").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#LRRateOnId").val() == null || $("#LRRateOnId").val() == "") {
+                    showWarning("", "Please select rate on");
+                    $("#LRRateOnId").focus();
+                    return false;
+                }
+
+                if ($("#Rate").val() != null && $("#Rate").val() != "") {
+                    if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Rate").val())) {
+                        showWarning("", "Rate must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        $("#Rate").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#Freight").val() != null && $("#Freight").val() != "") {
+                    if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Freight").val())) {
+                        showWarning("", "Freight must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        $("#Freight").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#InvoiceValue").val() != null && $("#InvoiceValue").val() != "") {
+                    if (!/^[-+]?(\d{1,18}(\.\d{0,0})?|\.\d{0,0})$/.test($("#InvoiceValue").val())) {
+                        showWarning("", "Invoice Value must be upto 18 characters before decimal point and 0 characters after decimal point long.");
+                        $("#InvoiceValue").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#LRDeliveryId").val() == null || $("#LRDeliveryId").val() == "") {
+                    showWarning("", "Please select delivery at");
+                    $("#LRDeliveryId").focus();
+                    return false;
+                }
+
+                if ($("#LRDeliveryTypeId").val() == null || $("#LRDeliveryTypeId").val() == "") {
+                    showWarning("", "Please select delivery type");
+                    $("#LRDeliveryTypeId").focus();
+                    return false;
+                }
+
+                if ($("#Charges1").val() != null && $("#Charges1").val() != "") {
+                    if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges1").val())) {
+                        showWarning("", "Charges1 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        $("#Charges1").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#Charges2").val() != null && $("#Charges2").val() != "") {
+                    if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges2").val())) {
+                        showWarning("", "Charges2 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        $("#Charges2").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#Charges3").val() != null && $("#Charges3").val() != "") {
+                    if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges3").val())) {
+                        showWarning("", "Charges3 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        $("#Charges3").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#Charges4").val() != null && $("#Charges4").val() != "") {
+                    if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges4").val())) {
+                        showWarning("", "Charges4 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        $("#Charges4").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#Charges5").val() != null && $("#Charges5").val() != "") {
+                    if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges5").val())) {
+                        showWarning("", "Charges5 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        $("#Charges5").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#Charges6").val() != null && $("#Charges6").val() != "") {
+                    if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges6").val())) {
+                        showWarning("", "Charges6 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        $("#Charges6").focus();
+                        return false;
+                    }
+                }
+
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.CityIdTo = getIntValueZero("CityIdTo");
+                savedata.LRNumber = getIntValueZero("LRNumber");
+                savedata.LRDate = moment(getDate($("#LRDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.EwayBillNo = $("#EwayBillNo").val();
+                savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
+                savedata.DeliveryAccountBranchMappingId = getIntValueZero("DeliveryAccountBranchMappingId");
+                savedata.LRPayTypeId = getIntValueZero("LRPayTypeId");
+                savedata.BillAccountBranchMappingId = getIntValueNull("BillAccountBranchMappingId");
+                savedata.Parcel = getIntValueNull("Parcel");
+                savedata.PackingId = getIntValueNull("PackingId");
+                savedata.DescriptionId = getIntValueNull("DescriptionId");
+                savedata.ActualWeight = getFloatValueNull("ActualWeight", 3);
+                savedata.ChargeWeight = getFloatValueNull("ChargeWeight", 3);
+                savedata.LRRateOnId = getIntValueZero("LRRateOnId");
+                savedata.Rate = getFloatValueNull("Rate", 2);
+                savedata.Freight = getFloatValueNull("Freight", 2);
+                savedata.InvoiceNo = $("#InvoiceNo").val();
+                savedata.VehicleId = getIntValueNull("VehicleId");
+                savedata.InvoiceValue = getFloatValueNull("InvoiceValue", 0);
+                savedata.LRDeliveryId = getIntValueZero("LRDeliveryId");
+                savedata.PrivateMarka = $("#PrivateMarka").val();
+                savedata.LRDeliveryTypeId = getIntValueZero("LRDeliveryTypeId");
+                savedata.Remarks = $("#Remarks").val();
+                savedata.Charges1 = getFloatValueNull("Charges1", 2);
+                savedata.Charges2 = getFloatValueNull("Charges2", 2);
+                savedata.Charges3 = getFloatValueNull("Charges3", 2);
+                savedata.Charges4 = getFloatValueNull("Charges4", 2);
+                savedata.Charges5 = getFloatValueNull("Charges5", 2);
+                savedata.Charges6 = getFloatValueNull("Charges6", 2);
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveZ_LRBooking_Z", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'LR saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteZ_LRBooking_Z"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetZ_LRBooking_Z"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick(false);
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+
+                                $("#Id").val(result.data.id);
+
+                                $("#LRNumber").val(result.data.lrNumber);
+                                $("#EwayBillNo").val(result.data.ewayBillNo).trigger('change');
+                                $("#CityIdTo").val(result.data.cityIdTo).trigger('change');
+                                $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                $("#DeliveryAccountBranchMappingId").val(result.data.deliveryAccountBranchMappingId).trigger('change');
+                                $("#LRPayTypeId").val(result.data.lrPayTypeId).trigger('change');
+                                $("#BillAccountBranchMappingId").val(result.data.billAccountBranchMappingId).trigger('change');
+                                $("#PackingId").val(result.data.packingId).trigger('change');
+                                $("#DescriptionId").val(result.data.descriptionId).trigger('change');
+                                $("#LRRateOnId").val(result.data.lrRateOnId).trigger('change');
+                                $("#VehicleId").val(result.data.vehicleId).trigger('change');
+                                $("#LRDeliveryId").val(result.data.lrDeliveryId).trigger('change');
+                                $("#LRDeliveryTypeId").val(result.data.lrDeliveryTypeId).trigger('change');
+
+                                $("#LRDate").val(moment(result.data.lrDate.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#Parcel").val(result.data.parcel);
+                                $("#ActualWeight").val(result.data.actualWeight);
+                                $("#ChargeWeight").val(result.data.chargeWeight);
+                                $("#Rate").val(result.data.rate);
+                                $("#Freight").val(result.data.freight);
+                                $("#Charges1").val(result.data.charges1);
+                                $("#Charges2").val(result.data.charges2);
+                                $("#Charges3").val(result.data.charges3);
+                                $("#Charges4").val(result.data.charges4);
+                                $("#Charges5").val(result.data.charges5);
+                                $("#Charges6").val(result.data.charges6);
+                                $("#InvoiceNo").val(result.data.invoiceNo);
+                                $("#InvoiceValue").val(result.data.invoiceValue);
+                                $("#PrivateMarka").val(result.data.privateMarka);
+                                $("#Remarks").val(result.data.remarks);
+
+                                CalcNetAmount();
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getLRRateDetail(cityIdTo, billPartyId, rateOnId) {
+            try {
+
+                if ((cityIdTo == '' || cityIdTo == null)
+                    || (billPartyId == '' || billPartyId == null)
+                    || (rateOnId == '' || rateOnId == null)) return;
+
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetZ_LRBooking_Z_Rate/"))" + cityIdTo + "/" + billPartyId + "/" + rateOnId, "",
+                    function (data) {
+                        if (data.result == RESULT_SUCCESS) {
+                            $('#Rate').val(data.data.rate);
+                            $('#Rate').attr('disabled', data.data.isRateDisable == 1 ? true : false);
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                showError("", e.message);
+            }
+        }
+
+        function CalcFreight(selectedLRRate) {
+
+            if (selectedLRRate == 'Parcel') {
+                $("#Freight").val((+getFloatValueZero("Rate", 2)) * (+getFloatValueZero("Parcel", 2)));
+            }
+            if (selectedLRRate == 'Weight') {
+                $("#Freight").val((+getFloatValueZero("Rate", 2)) * (+getFloatValueZero("ChargeWeight", 3)));
+            }
+
+        }
+
+        function CalcNetAmount() {
+
+            var Charges1 = +getFloatValueZero("Charges1", 2);
+            var Charges2 = +getFloatValueZero("Charges2", 2);
+            var Charges3 = +getFloatValueZero("Charges3", 2);
+            var Charges4 = +getFloatValueZero("Charges4", 2);
+            var Charges5 = +getFloatValueZero("Charges5", 2);
+            var Charges6 = +getFloatValueZero("Charges6", 2);
+            var Freight = +getFloatValueZero("Freight", 2);
+
+            $("#NetAmount").val(Charges1 + Charges2 + Charges3 + Charges4 + Charges5 + Charges6 + Freight);
+
+        }
+
+        function getLRNumber() {
+            try {
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetLRNumber"))", "",
+                    function (result) {
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                $("#LRNumber").val(result.data);
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+    </script>
+}
