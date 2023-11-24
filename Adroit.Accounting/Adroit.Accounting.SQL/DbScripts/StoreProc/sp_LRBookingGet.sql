@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_Z_LRBooking_ZGet]
+CREATE OR ALTER PROCEDURE [dbo].[sp_LRBookingGet]
 (
 	@Id INT
 )

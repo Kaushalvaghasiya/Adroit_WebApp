@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.Z_LRBooking_ZViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.LRBookingViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -715,7 +715,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/Customer/Z_LRBooking_ZList"))',
+                    url: '@(Url.Content("~/Customer/LRBookingList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -950,7 +950,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveZ_LRBooking_Z", "Customer"))",
+                    url: "@(Url.Action("SaveLRBooking", "Customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -958,7 +958,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'LR saved successfully.');
+                            showWarning("", 'LR Book saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -986,7 +986,7 @@
             }
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteZ_LRBooking_Z"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteLRBooking"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -1014,7 +1014,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetZ_LRBooking_Z"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetLRBooking"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -1086,7 +1086,7 @@
                     || (billPartyId == '' || billPartyId == null)
                     || (rateOnId == '' || rateOnId == null)) return;
 
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetZ_LRBooking_Z_Rate/"))" + cityIdTo + "/" + billPartyId + "/" + rateOnId, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetLRBookingRate/"))" + cityIdTo + "/" + billPartyId + "/" + rateOnId, "",
                     function (data) {
                         if (data.result == RESULT_SUCCESS) {
                             $('#Rate').val(data.data.rate);

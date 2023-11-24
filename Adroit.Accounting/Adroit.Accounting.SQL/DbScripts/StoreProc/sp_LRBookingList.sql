@@ -1,4 +1,4 @@
-CREATE OR ALTER Procedure [dbo].[sp_Z_LRBooking_ZList]
+CREATE OR ALTER Procedure [dbo].[sp_LRBookingList]
   @BranchId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,

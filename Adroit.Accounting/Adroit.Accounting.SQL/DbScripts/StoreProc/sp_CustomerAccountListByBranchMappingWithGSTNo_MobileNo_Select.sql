@@ -1,11 +1,11 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountListByBranchMappingWithGSTNo_MobileNo_Select]
 (
-	@UserId INT,
+	@loginId INT,
 	@BranchId INT
 )
 AS
 BEGIN
-	DECLARE @CustomerId INT = dbo.[fn_GetCustomerId](@UserId);
+	DECLARE @CustomerId INT = dbo.[fn_GetCustomerId](@loginId);
 
 	SELECT CustomerAccountBranchMapping.Id AS [Value],
 			[CustomerAccount].[Name] + ' ' + [CustomerAccount].GSTNumber + ' ' + [CustomerAccount].Mobile AS [Text]

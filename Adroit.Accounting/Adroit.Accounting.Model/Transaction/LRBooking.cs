@@ -4,9 +4,9 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class Z_LRBooking_Z
+    public partial class LRBooking
     {
-        public Z_LRBooking_Z()
+        public LRBooking()
         {
         }
     

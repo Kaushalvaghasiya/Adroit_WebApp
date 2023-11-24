@@ -79,7 +79,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICustomerFirmTransportSetting _customerFirmTransportSettingRepository;
         private readonly ITransportLRCharges _transportLRChargesRepository;
         private readonly ITransportLRBranchCityMapping _transportLRBranchCityMappingRepository;
-        private readonly IZ_LRBooking_Z _z_lrBooking_ZRepository;
+        private readonly ILRBooking _lrBookingRepository;
         private readonly ITransportLRDelivery _transportLRDeliveryRepository;
         private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
 
@@ -149,7 +149,7 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerFirmTransportSetting customerFirmTransportSettingRepository,
             ITransportLRCharges transportLRChargesRepository,
             ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
-            IZ_LRBooking_Z z_lrBooking_ZRepository,
+            ILRBooking lrBookingRepository,
             ITransportLRDeliveryType transportLRDeliveryTypeRepository,
             ITransportLRDelivery transportLRDeliveryRepository)
         {
@@ -218,7 +218,7 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmTransportSettingRepository = customerFirmTransportSettingRepository;
             _transportLRChargesRepository = transportLRChargesRepository;
             _transportLRBranchCityMappingRepository = transportLRBranchCityMappingRepository;
-            _z_lrBooking_ZRepository = z_lrBooking_ZRepository;
+            _lrBookingRepository = lrBookingRepository;
             _transportLRDeliveryTypeRepository = transportLRDeliveryTypeRepository;
             _transportLRDeliveryRepository = transportLRDeliveryRepository;
         }

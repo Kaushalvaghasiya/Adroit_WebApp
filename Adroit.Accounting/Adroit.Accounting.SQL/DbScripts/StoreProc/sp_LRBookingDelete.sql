@@ -1,4 +1,4 @@
-CREATE OR ALTER   procedure [dbo].[sp_Z_LRBooking_ZDelete]
+CREATE OR ALTER   procedure [dbo].[sp_LRBookingDelete]
 (
 	 @LoginId int
 	,@Id INT

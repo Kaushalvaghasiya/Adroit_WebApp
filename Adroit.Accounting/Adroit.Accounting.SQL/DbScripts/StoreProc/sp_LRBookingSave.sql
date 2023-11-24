@@ -1,4 +1,4 @@
-CREATE OR ALTER   PROCEDURE [dbo].[sp_Z_LRBooking_ZSave]
+CREATE OR ALTER   PROCEDURE [dbo].[sp_LRBookingSave]
 (
 	 @Id INT  
 	,@FirmId INT

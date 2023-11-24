@@ -14,6 +14,6 @@ namespace Adroit.Accounting.Repository.IRepository
         public List<DropdownViewModel> GetCustomerAccountListByBranchMapping(int userId, int branchId, string connectionString);
         List<DropdownViewModel> GetCustomerAccountListWithAccountGroup(string connectionString, int loginId = 0, int firmId = 0);
         List<DropdownViewModel> GetCustomerAccountBranchMappingList_Select(int userId, string connectionString);
-        public List<DropdownViewModel> GetCustomerAccountListWithGSTNo_MobileNo(int userId, int branchId, string connectionString);
+        public List<DropdownViewModel> GetCustomerAccountListWithGSTNo_MobileNo(int loginId, int branchId, string connectionString);
     }
 }

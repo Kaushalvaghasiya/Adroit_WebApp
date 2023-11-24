@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_GetLRNumberFromZ_LRBooking_Z] (
+CREATE OR ALTER PROCEDURE [dbo].[sp_GetLRNumberFromLRBooking] (
 	@BranchId int
 )
 AS

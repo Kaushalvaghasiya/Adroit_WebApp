@@ -129,10 +129,10 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@UserId", userId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccounBranchMappingList_Select", connectionString, parameters);
         }
-        public List<DropdownViewModel> GetCustomerAccountListWithGSTNo_MobileNo(int userId, int branchId, string connectionString)
+        public List<DropdownViewModel> GetCustomerAccountListWithGSTNo_MobileNo(int loginId, int branchId, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@UserId", userId);
+            parameters.Add("@loginId", loginId);
             parameters.Add("@BranchId", branchId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountListByBranchMappingWithGSTNo_MobileNo_Select", connectionString, parameters);
         }

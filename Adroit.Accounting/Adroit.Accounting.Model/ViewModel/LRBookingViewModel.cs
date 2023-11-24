@@ -3,7 +3,7 @@
 //-----------------------------------------------------------------------
 namespace Adroit.Accounting.Model.ViewModel
 {
-    public class Z_LRBooking_ZViewModel : Z_LRBooking_Z
+    public class LRBookingViewModel : LRBooking
     {
         public List<DropdownViewModel> EwayBillList { get; set; }
         public List<DropdownViewModel> CityList { get; set; }

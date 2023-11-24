@@ -7,9 +7,9 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class Z_LRBooking_ZRepository : IZ_LRBooking_Z
+    public class LRBookingRepository : ILRBooking
     {
-        public int Save(Z_LRBooking_Z value, int FirmId, int BranchId, int loginId, string connectionString)
+        public int Save(LRBooking value, int FirmId, int BranchId, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
@@ -45,24 +45,24 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Charges4", value.Charges4);
             parameters.Add("@Charges5", value.Charges5);
             parameters.Add("@Charges6", value.Charges6);
-            return QueryHelper.Save("sp_Z_LRBooking_ZSave", connectionString, parameters);
+            return QueryHelper.Save("sp_LRBookingSave", connectionString, parameters);
         }
         public bool Delete(int id, int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             parameters.Add("@loginId", loginId);
-            return QueryHelper.Delete("sp_Z_LRBooking_ZDelete", connectionString, parameters);
+            return QueryHelper.Delete("sp_LRBookingDelete", connectionString, parameters);
         }
 
-        public Z_LRBooking_ZViewModel Get(int id, string connectionString)
+        public LRBookingViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            return QueryHelper.Get<Z_LRBooking_ZViewModel>("sp_Z_LRBooking_ZGet", connectionString, parameters);
+            return QueryHelper.Get<LRBookingViewModel>("sp_LRBookingGet", connectionString, parameters);
         }
 
-        public List<Z_LRBooking_ZGridViewModel> List(string connectionString, int BranchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<LRBookingGridViewModel> List(string connectionString, int BranchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@BranchId", BranchId);
@@ -71,7 +71,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<Z_LRBooking_ZGridViewModel>("sp_Z_LRBooking_ZList", connectionString, parameters);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_LRBookingList", connectionString, parameters);
         }
 
         public (string, int) GetLRBookingRate(int FirmId, int BranchId, int cityIdTo, int billPartyId, int rateOnId, int loginId, string connectionString)
@@ -83,14 +83,14 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BillPartyId", billPartyId);
             parameters.Add("@RateOnId", rateOnId); 
             parameters.Add("@loginId", loginId);
-            return QueryHelper.Get<(string,int)>("sp_GetRateFromZ_LRBooking_Z", connectionString, parameters);
+            return QueryHelper.Get<(string,int)>("sp_GetRateFromLRBooking", connectionString, parameters);
         }
 
         public int? GetLRNumber(int BranchId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@BranchId", BranchId);
-            return QueryHelper.Get<int?>("sp_GetLRNumberFromZ_LRBooking_Z", connectionString, parameters);
+            return QueryHelper.Get<int?>("sp_GetLRNumberFromLRBooking", connectionString, parameters);
         }
 
     }
