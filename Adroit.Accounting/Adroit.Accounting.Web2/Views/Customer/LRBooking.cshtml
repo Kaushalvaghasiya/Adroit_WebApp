@@ -70,7 +70,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
                         <span class="input-group-append mr-2">
-                            <button class="btn btn-primary EWayBill-search" type="button" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Popover top">Search</button>
+                            <button class="btn btn-primary" type="button">Search</button>
                         </span>
                         <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
                         <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
@@ -125,7 +125,7 @@
                                         </div>
                                     </div>
                                     <label for="EwayBillNo" class="col-md-1 form-label">E-Way Bill#</label>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="display:flex;">
                                         <select class="form-control select2-show-search-add-clear mode-ed" id="EwayBillNo">
                                             <option></option>
                                             @{
@@ -138,6 +138,14 @@
                                                 }
                                             }
                                         </select>
+                                        <span class="input-group-append">
+                                            <button class="btn btn-primary" type="button" id="EWayBill-search"
+                                                    data-container="body" data-toggle="popover" data-popover-color="default"
+                                                    data-placement="bottom" title="Popover bottom">
+                                                <i class="side-menu__icon typcn typcn-clipboard">
+                                                </i>
+                                            </button>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
@@ -509,7 +517,7 @@
                 getLRRateDetail($(this).val(), $("#BillAccountBranchMappingId").val(), $("#LRRateOnId").val());
             });
 
-            $('.EWayBill-search').on('click', function () {
+            $('#EWayBill-search').on('click', function () {
                 var Data = "Your dynamically generated content goes here.";
                 $(this).attr('data-content', Data);
             });
@@ -606,7 +614,7 @@
             $(".btn-delete").hide();
             $("#CityIdTo").focus();
             if (isNew)
-            getLRNumber();
+                getLRNumber();
             $("#LRRateOnId").val(@Model.CustomerFirmBranchTransportSetting.LRRateOnId).trigger('change');
         }
 
