@@ -56,7 +56,7 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 int loginId = LoginHandler.GetUserId(User);
 
-                int id = _transportLRBranchCityMappingRepository.Save(model, loginId, _configurationData.DefaultConnection);
+                int id = _transportLRBranchCityMappingRepository.Save(model, _configurationData.DefaultConnection, loginId, CurrentFirmId);
                 if (id > 0)
                 {
                     result.data = true;
@@ -78,8 +78,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-
-                _transportLRBranchCityMappingRepository.Delete(id, loginId, _configurationData.DefaultConnection);
+                _transportLRBranchCityMappingRepository.Delete(id, _configurationData.DefaultConnection, loginId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -96,7 +95,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _transportLRBranchCityMappingRepository.Get(id, _configurationData.DefaultConnection);
+                int loginId = LoginHandler.GetUserId(User);
+                result.data = _transportLRBranchCityMappingRepository.Get(id, _configurationData.DefaultConnection, loginId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

@@ -11,6 +11,8 @@ namespace Adroit.Accounting.Model
         }
     
         public int Id { get; set; }
+        public int BranchId { get; set; }
+        public int YearId { get; set; }
         public int AccountBranchMappingId { get; set; }
         public int BookBranchMappingId { get; set; }
         public int LRNumber { get; set; }
@@ -55,5 +57,6 @@ namespace Adroit.Accounting.Model
         public System.DateTime? DeletedOn { get; set; }
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
+
     }
 }

@@ -1,6 +1,7 @@
 CREATE OR ALTER   procedure [dbo].[sp_CustomerBookDelete]
 (
-	 @LoginId int
+	 @loginId int
+	,@firmId int
 	,@Id INT
 )
 AS
@@ -9,14 +10,14 @@ BEGIN
 	BEGIN TRY
 
 		UPDATE CustomerBook SET 
-			DeletedById = @LoginId,  
+			DeletedById = @loginId,  
 			DeletedOn = GETUTCDATE(),
 			Deleted = 1, 
 			Active = 0
 		WHERE Id= @Id;
 
 		UPDATE CustomerBookBranchMapping SET 
-		DeletedById = @LoginId,  
+		DeletedById = @loginId,  
 		DeletedOn = GETUTCDATE(),
 		Deleted = 1
 		WHERE BookId= @Id;

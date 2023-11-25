@@ -16,7 +16,6 @@ namespace Adroit.Accounting.Web.Controllers
             CustomerFirmTransportSettingViewModel model = new();
 
             model.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
-
             model.CustomerFirmList = _adminCustomerFirmRepository.SelectList(model.Customer.Id, _configurationData.DefaultConnection);
             model.TransportLRChargesList = _transportLRChargesRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductList = _productRepository.GetProductList(_configurationData.DefaultConnection, loginId ,0);
@@ -55,7 +54,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int id = _customerFirmTransportSettingRepository.Save(model, loginId, _configurationData.DefaultConnection);
+                int id = _customerFirmTransportSettingRepository.Save(model, _configurationData.DefaultConnection, loginId);
                 if (id > 0)
                 {
                     result.data = true;

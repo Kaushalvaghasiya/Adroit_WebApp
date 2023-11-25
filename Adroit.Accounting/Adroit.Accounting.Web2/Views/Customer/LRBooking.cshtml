@@ -613,8 +613,7 @@
             setScreenMode(false);
             $(".btn-delete").hide();
             $("#CityIdTo").focus();
-            if (isNew)
-                getLRNumber();
+            $("#LRNumber").val(0);
             $("#LRRateOnId").val(@Model.CustomerFirmBranchTransportSetting.LRRateOnId).trigger('change');
         }
 
@@ -1135,29 +1134,6 @@
 
             $("#NetAmount").val(Charges1 + Charges2 + Charges3 + Charges4 + Charges5 + Charges6 + Freight);
 
-        }
-
-        function getLRNumber() {
-            try {
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetLRNumber"))", "",
-                    function (result) {
-                        var str = "";
-                        try {
-                            if (result.result == RESULT_SUCCESS) {
-                                $("#LRNumber").val(result.data);
-                            } else {
-                                showError('Error', result.data); //warning,  success, error, info
-                            }
-                        } catch (e) {
-                            showError('Error', e); //warning,  success, error, info
-                        }
-                    },
-                    function (error) {
-
-                    });
-            }
-            catch (err) {
-            }
         }
 
     </script>

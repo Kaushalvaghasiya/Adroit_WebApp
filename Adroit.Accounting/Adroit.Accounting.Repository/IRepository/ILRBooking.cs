@@ -6,11 +6,10 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface ILRBooking
     {
-        public List<LRBookingGridViewModel> List(string connectionString, int BranchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
-        public bool Delete(int id, int loginId, string connectionString);
-        int Save(LRBooking value, int FirmId, int BranchId, int loginId, string connectionString);
-        public LRBookingViewModel Get(int id, string connectionString);
-        public (string, int) GetLRBookingRate(int FirmId, int BranchId, int cityIdTo, int billPartyId, int rateOnId, int loginId, string connectionString);
-        public int? GetLRNumber(int BranchId, string connectionString);
+        public List<LRBookingGridViewModel> List(string connectionString, int branchId, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
+        public bool Delete(int id, string connectionString, int loginId = 0, int firmId = 0);
+        int Save(LRBooking value, string connectionString, int branchId, int loginId);
+        public LRBookingViewModel Get(int id, string connectionString, int loginId = 0, int firmId = 0);
+        public GetRateFromLRBookingViewModel GetLRBookingRate(int firmId, int branchId, int cityIdTo, int billPartyId, int rateOnId, int loginId, string connectionString);
     }
 }

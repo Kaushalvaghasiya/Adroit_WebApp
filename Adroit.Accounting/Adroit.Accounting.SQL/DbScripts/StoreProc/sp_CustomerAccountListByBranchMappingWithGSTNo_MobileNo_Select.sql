@@ -1,7 +1,7 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountListByBranchMappingWithGSTNo_MobileNo_Select]
 (
 	@loginId INT,
-	@BranchId INT
+	@branchId INT
 )
 AS
 BEGIN
@@ -12,7 +12,7 @@ BEGIN
 	FROM CustomerAccount
 		INNER JOIN CustomerAccountBranchMapping ON CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 	WHERE CustomerAccount.CustomerId = @CustomerId
-		AND CustomerAccountBranchMapping.BranchId = @BranchId
+		AND CustomerAccountBranchMapping.BranchId = @branchId
 	ORDER BY [Text];
 END
 GO

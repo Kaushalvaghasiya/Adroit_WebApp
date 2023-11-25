@@ -1,6 +1,7 @@
 CREATE OR ALTER   procedure [dbo].[sp_LRBookingDelete]
 (
 	 @LoginId int
+	,@firmId INT
 	,@Id INT
 )
 AS

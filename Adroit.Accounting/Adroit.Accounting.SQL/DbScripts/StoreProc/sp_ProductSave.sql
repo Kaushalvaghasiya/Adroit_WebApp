@@ -2,6 +2,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSave]
 (
 	 @Id INT,
 	 @loginId INT,
+	 @firmId INT,
 	 @SoftwareId TINYINT,
 	 @Title NVARCHAR(100),
 	 @Code VARCHAR(20),

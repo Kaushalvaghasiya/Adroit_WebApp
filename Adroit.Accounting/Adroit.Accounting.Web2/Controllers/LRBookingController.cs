@@ -25,7 +25,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.DescriptionList = _transportDescRepository.SelectList(_configurationData.DefaultConnection);
             model.PackingList = _transportpackingRepository.SelectList(loginId, _configurationData.DefaultConnection);
             model.LRRateOnList = _transportLRRateOnRepository.SelectList(_configurationData.DefaultConnection);
-            model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountListWithGSTNo_MobileNo(loginId, CurrentBranchId, _configurationData.DefaultConnection);
+            model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountListWithGSTNo_MobileNo(_configurationData.DefaultConnection, loginId, CurrentBranchId);
             model.PaymentList = _transportLRPayTypeRepository.GetLRPayTypeList(CurrentBranchId, _configurationData.DefaultConnection);
             model.LRDeliveryList = _transportLRDeliveryRepository.SelectList(_configurationData.DefaultConnection);
             model.LRDeliveryTypeList = _transportLRDeliveryTypeRepository.SelectList(_configurationData.DefaultConnection);
@@ -41,7 +41,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int id = _lrBookingRepository.Save(model, CurrentFirmId, CurrentBranchId, loginId, _configurationData.DefaultConnection);
+                int id = _lrBookingRepository.Save(model, _configurationData.DefaultConnection, CurrentBranchId, loginId);
                 if (id > 0)
                 {
                     result.data = true;
@@ -62,7 +62,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _lrBookingRepository.Get(id, _configurationData.DefaultConnection);
+                int loginId = LoginHandler.GetUserId(User);
+                result.data = _lrBookingRepository.Get(id, _configurationData.DefaultConnection, loginId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -79,12 +80,13 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<LRBookingGridViewModel>();
             try
             {
+                int loginId = LoginHandler.GetUserId(User);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _lrBookingRepository.List(_configurationData.DefaultConnection, CurrentBranchId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _lrBookingRepository.List(_configurationData.DefaultConnection, CurrentBranchId, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -104,7 +106,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _lrBookingRepository.Delete(id, loginId, _configurationData.DefaultConnection);
+                result.data = _lrBookingRepository.Delete(id, _configurationData.DefaultConnection, loginId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -122,26 +124,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                var resData = _lrBookingRepository.GetLRBookingRate(CurrentFirmId, CurrentBranchId, cityIdTo, billPartyId, rateOnId, loginId, _configurationData.DefaultConnection);
-                result.data = new { Rate = resData.Item1, IsRateDisable = resData.Item2 };
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
-        public JsonResult GetLRNumber()
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-
-                int? lrNumber = _lrBookingRepository.GetLRNumber(CurrentBranchId, _configurationData.DefaultConnection);
-                result.data = lrNumber ?? 0; 
+                result.data = _lrBookingRepository.GetLRBookingRate(CurrentFirmId, CurrentBranchId, cityIdTo, billPartyId, rateOnId, loginId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

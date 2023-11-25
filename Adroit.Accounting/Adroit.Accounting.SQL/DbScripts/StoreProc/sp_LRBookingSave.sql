@@ -1,8 +1,7 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_LRBookingSave]
 (
 	 @Id INT  
-	,@FirmId INT
-	,@BranchId INT
+	,@branchId INT
 	,@loginId INT
 	,@CityIdTo INT
 	,@LRNumber INT
@@ -43,42 +42,48 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
+		DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @branchId);
 		DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId);
-		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @BranchId);
+		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @branchId);
 		DECLARE @ProductBranchMappingId INT = (
 			SELECT ProductBranchMapping.Id 
 			FROM CustomerFirmTransportSetting 
 				INNER JOIN ProductBranchMapping on ProductBranchMapping.ProductId = CustomerFirmTransportSetting.ProductIdForSales 
-				AND ProductBranchMapping.BranchId = @BranchId
+				AND ProductBranchMapping.BranchId = @branchId
 			WHERE CustomerFirmTransportSetting.FirmId = @FirmId
 		);
 		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId);
 		DECLARE @message VARCHAR(4000);
+		DECLARE @LRNumberStartRange INT;
+		DECLARE @LRNumberEndRange INT;
 
-		IF ISNULL(@YearId, -1) = -1
+		IF @YearId IS NULL
 		BEGIN
 			SET @message = 'Year Not Found!';
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
-		IF ISNULL(@LRNumber, -1) != -1
+		IF ISNULL(@LRNumber, 0) = 0
 		BEGIN
-			
-			DECLARE @LRNumberStartRange INT = (SELECT StartNumber FROM LRBookingRange WHERE BranchId = @BranchId)
-			DECLARE @LRNumberEndRange INT = (SELECT EndNumber FROM LRBookingRange WHERE BranchId = @BranchId)
+			SELECT @LRNumber = MAX(LRNumber) + 1
+			FROM [Z-LRBooking-Z]
+			WHERE BranchId = @branchId;
+		END
 
-			IF @LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange
-			BEGIN
-				SET @message = 'LR Number Range OverFlow!';
-				RAISERROR ('%s', 16, 1, @message);
-			END
+		SELECT @LRNumberStartRange = StartNumber,@LRNumberEndRange = EndNumber
+		FROM LRBookingRange 
+		WHERE BranchId = @branchId
 
+		IF @LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange
+		BEGIN
+			SET @message = 'LR Number Range OverFlow!';
+			RAISERROR ('%s', 16, 1, @message);
 		END
 
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM [Z-LRBooking-Z] 
 							WHERE (Id = @Id) 
-							OR (AccountBranchMappingId = @AccountBranchMappingId AND LRNumber = @LRNumber AND Deleted = 1)
+							OR (LRNumber = @LRNumber AND BranchId = @branchId AND Deleted = 1)
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
@@ -89,7 +94,7 @@ BEGIN
 				,Rate,Freight,Charges1,Charges2,Charges3,Charges4,Charges5,Charges6,ProductBranchMappingId,Remarks,LRDeliveryId,LRDeliveryTypeId,IsSaleBilled
 				,IsDispatched,AddedById,AddedOn)
 			VALUES
-				(@BranchId,@YearId,@ValidDateFrom,@ValidDateTo,@AccountBranchMappingId,@BookBranchMappingId,@LRNumber,@LRDate,@VehicleId,@CityIdFrom,@CityIdTo,@DeliveryAccountBranchMappingId,@BillAccountBranchMappingId
+				(@branchId,@YearId,@ValidDateFrom,@ValidDateTo,@AccountBranchMappingId,@BookBranchMappingId,@LRNumber,@LRDate,@VehicleId,@CityIdFrom,@CityIdTo,@DeliveryAccountBranchMappingId,@BillAccountBranchMappingId
 				,@EwayBillNo,@LRPayTypeId,@InvoiceNo,@InvoiceValue,@PrivateMarka,@Parcel,@ActualWeight,@ChargeWeight,@DescriptionId,@PackingId,@LRRateOnId
 				,@Rate,@Freight,@Charges1,@Charges2,@Charges3,@Charges4,@Charges5,@Charges6,@ProductBranchMappingId,@Remarks,@LRDeliveryId,@LRDeliveryTypeId,@IsSaleBilled
 				,@IsDispatched,@loginId,GETUTCDATE())
@@ -102,7 +107,7 @@ BEGIN
 			SET @Id = @IdCheck
 
 			UPDATE [Z-LRBooking-Z] SET
-			 BranchId = @BranchId
+			 BranchId = @branchId
 			,YearId = @YearId
 			,ValidDateFrom = @ValidDateFrom
 			,ValidDateTo = @ValidDateTo
