@@ -237,6 +237,12 @@
         public const string RatePerMeter = "RatePerMeter";
     }
 
+    public sealed class LRBookingTable
+    {
+        public const string _TableName = "[Z-LRBooking-Z]";
+        public const string EwayBillNo = "EwayBillNo";
+    }
+
     #region Adroit - Account
     public sealed class AccountAdminTable
     {

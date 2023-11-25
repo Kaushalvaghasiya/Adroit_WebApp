@@ -1,7 +1,7 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_ProductList_Select]
 (
-	@LoginId int, 
-	@FirmId int
+	@loginId int, 
+	@firmId int
 )
 AS
 BEGIN

@@ -79,6 +79,9 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICustomerFirmTransportSetting _customerFirmTransportSettingRepository;
         private readonly ITransportLRCharges _transportLRChargesRepository;
         private readonly ITransportLRBranchCityMapping _transportLRBranchCityMappingRepository;
+        private readonly ILRBooking _lrBookingRepository;
+        private readonly ITransportLRDelivery _transportLRDeliveryRepository;
+        private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
 
         public CustomerController(
             IVehicle vehicleRepo,
@@ -145,7 +148,10 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportLRPayType transportLRPayTypeRepository,
             ICustomerFirmTransportSetting customerFirmTransportSettingRepository,
             ITransportLRCharges transportLRChargesRepository,
-            ITransportLRBranchCityMapping transportLRBranchCityMappingRepository)
+            ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
+            ILRBooking lrBookingRepository,
+            ITransportLRDeliveryType transportLRDeliveryTypeRepository,
+            ITransportLRDelivery transportLRDeliveryRepository)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -212,6 +218,9 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmTransportSettingRepository = customerFirmTransportSettingRepository;
             _transportLRChargesRepository = transportLRChargesRepository;
             _transportLRBranchCityMappingRepository = transportLRBranchCityMappingRepository;
+            _lrBookingRepository = lrBookingRepository;
+            _transportLRDeliveryTypeRepository = transportLRDeliveryTypeRepository;
+            _transportLRDeliveryRepository = transportLRDeliveryRepository;
         }
 
         public JsonResult GetAccountGroups()

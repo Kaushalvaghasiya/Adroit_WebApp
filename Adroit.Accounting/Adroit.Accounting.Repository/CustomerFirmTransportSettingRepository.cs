@@ -10,7 +10,7 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerFirmTransportSettingRepository : ICustomerFirmTransportSetting
     {
-        public int Save(CustomerFirmTransportSetting value, int loginId, string connectionString)
+        public int Save(CustomerFirmTransportSetting value, string connectionString, int loginId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@loginId", loginId);

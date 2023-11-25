@@ -1,6 +1,6 @@
 CREATE OR ALTER Procedure [dbo].[sp_ProductList]
-  @LoginId int,
-  @FirmId int,  
+  @loginId int,
+  @firmId int,  
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,

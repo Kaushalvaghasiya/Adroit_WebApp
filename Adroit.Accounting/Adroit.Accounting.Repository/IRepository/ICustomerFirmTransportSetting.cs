@@ -7,7 +7,7 @@ namespace Adroit.Accounting.Repository.IRepository
     public interface ICustomerFirmTransportSetting
     {
         List<CustomerFirmTransportSettingGridViewModel> List(string connectionString, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
-        int Save(CustomerFirmTransportSetting value, int loginId, string connectionString);
+        int Save(CustomerFirmTransportSetting value, string connectionString, int loginId);
         CustomerFirmTransportSettingViewModel Get(int id, string connectionString);
     }
 }

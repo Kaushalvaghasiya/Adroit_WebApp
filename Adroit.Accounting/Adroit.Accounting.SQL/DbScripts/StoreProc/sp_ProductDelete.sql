@@ -1,7 +1,8 @@
 CREATE OR ALTER procedure [dbo].[sp_ProductDelete]
 (
 	@Id INT,
-	@UserId INT
+	@loginId INT,
+	@firmId INT
 )
 AS
 BEGIN
@@ -10,12 +11,12 @@ BEGIN
 
 		UPDATE Product SET 
 			Deleted = 1,
-			DeletedById = @UserId,
+			DeletedById = @loginId,
 			DeletedOn = GETUTCDATE()
 		WHERE Id= @Id ;
 
 		UPDATE ProductBranchMapping SET 
-		DeletedById = @UserId,  
+		DeletedById = @loginId,  
 		DeletedOn = GETUTCDATE(),
 		Deleted = 1
 		WHERE ProductId= @Id;

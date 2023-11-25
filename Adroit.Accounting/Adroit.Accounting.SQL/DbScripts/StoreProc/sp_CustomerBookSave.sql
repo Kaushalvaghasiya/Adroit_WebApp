@@ -1,8 +1,8 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_CustomerBookSave]
 (
 	 @loginId int
-	,@FirmId int
-	,@BranchId int
+	,@firmId int
+	,@branchId int
 	,@Id int  
 	,@BookAccountId int  
 	,@BookTypeId tinyint  
@@ -63,11 +63,11 @@ BEGIN
 	BEGIN TRY
 
 		DECLARE @CustomerId int = dbo.fn_GetCustomerId(@loginId);
-		DECLARE @YearId int = (SELECT Id FROM FinanceYear WHERE FirmId = @FirmId);
+		DECLARE @YearId int = dbo.fn_GetYearId(@firmId,@loginId);
 
 		DECLARE @message VARCHAR(4000);
 
-		IF @YearId IS NULL
+		IF ISNULL(@YearId, -1) = -1
 		BEGIN
 			SET @message = 'Year Not Found!';
 			RAISERROR ('%s', 16, 1, @message);
@@ -92,7 +92,7 @@ BEGIN
 				@IsItemDiscount,@IsItemDiscountSp,@IsCashPayAtBill,@ItemDesc1,@ItemDesc2,@ItemDesc3,@ItemDesc4,@ItemDesc5,@ItemDesc6,@ShowSalesOrderBoxNumber,@ShowPurcahseOrderBoxNumber,
 				@ShowQuotationBoxNumber,@ShowPerformaInvoiceNumber,@SalesBillFrom,@IsCalcMultiply,@BookShortName,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,
 				@IsTDSAccount,@TDSAccountId,@IsTCSAccount,@TCSAccountId,@SGSTAccountId,@CGSTAccountId,@IGSTAccountId,@GSTStateCessAccountId,@GSTCentralCessAccountId,
-				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@Active,@BranchId,GETUTCDATE(),@loginId)
+				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@Active,@branchId,GETUTCDATE(),@loginId)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -154,7 +154,7 @@ BEGIN
 			,RcmCGSTRecAccountId = @RCMCGSTRecAccountId
 			,RcmIGSTRecAccountId = @RCMIGSTRecAccountId
 			,RoundOffAccountId = @RoundOffAccountId
-			,OwnerBranchId = @BranchId
+			,OwnerBranchId = @branchId
 			,Active = @Active
 			,DeletedById = NULL
 			,DeletedOn = NULL

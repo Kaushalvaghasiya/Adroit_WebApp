@@ -1,7 +1,8 @@
 CREATE OR ALTER procedure [dbo].[sp_TransportLRBranchCityMappingDelete]
 (
 	@Id INT,
-	@loginId INT
+	@loginId INT,
+	@firmId INT
 )
 AS
 BEGIN
