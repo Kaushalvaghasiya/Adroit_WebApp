@@ -1,6 +1,7 @@
 CREATE OR ALTER FUNCTION [dbo].[fn_GetYearId]
 (
-	@FirmId int
+	@FirmId int,
+	@LoginId int = 0
 )
 RETURNS int
 AS

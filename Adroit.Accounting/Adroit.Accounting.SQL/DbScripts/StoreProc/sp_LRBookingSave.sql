@@ -52,7 +52,7 @@ BEGIN
 				AND ProductBranchMapping.BranchId = @branchId
 			WHERE CustomerFirmTransportSetting.FirmId = @FirmId
 		);
-		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId);
+		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId,@loginId);
 		DECLARE @message VARCHAR(4000);
 		DECLARE @LRNumberStartRange INT;
 		DECLARE @LRNumberEndRange INT;

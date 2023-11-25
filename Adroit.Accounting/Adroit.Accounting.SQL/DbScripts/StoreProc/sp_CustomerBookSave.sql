@@ -63,7 +63,7 @@ BEGIN
 	BEGIN TRY
 
 		DECLARE @CustomerId int = dbo.fn_GetCustomerId(@loginId);
-		DECLARE @YearId int = dbo.fn_GetYearId(@firmId);
+		DECLARE @YearId int = dbo.fn_GetYearId(@firmId,@loginId);
 
 		DECLARE @message VARCHAR(4000);
 
