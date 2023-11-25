@@ -9,11 +9,11 @@ namespace Adroit.Accounting.Repository
 {
     public class LRBookingRepository : ILRBooking
     {
-        public int Save(LRBooking value, string connectionString, int branchId, int loginId)
+        public int Save(LRBooking value, string connectionString, int loginId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            parameters.Add("@branchId", branchId);
+            parameters.Add("@branchId", value.BranchId);
             parameters.Add("@loginId", loginId);
             parameters.Add("@CityIdTo", value.CityIdTo);
             parameters.Add("@LRNumber", value.LRNumber);

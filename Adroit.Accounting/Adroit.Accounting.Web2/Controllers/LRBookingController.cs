@@ -41,7 +41,8 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int id = _lrBookingRepository.Save(model, _configurationData.DefaultConnection, CurrentBranchId, loginId);
+                model.BranchId = CurrentBranchId;
+                int id = _lrBookingRepository.Save(model, _configurationData.DefaultConnection, loginId);
                 if (id > 0)
                 {
                     result.data = true;
