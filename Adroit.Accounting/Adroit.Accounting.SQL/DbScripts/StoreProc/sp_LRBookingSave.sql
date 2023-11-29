@@ -65,7 +65,7 @@ BEGIN
 
 		IF ISNULL(@LRNumber, 0) = 0
 		BEGIN
-			SELECT @LRNumber = MAX(LRNumber) + 1
+			SELECT @LRNumber = ISNULL(MAX(LRNumber),0) + 1
 			FROM [Z-LRBooking-Z]
 			WHERE BranchId = @branchId;
 		END

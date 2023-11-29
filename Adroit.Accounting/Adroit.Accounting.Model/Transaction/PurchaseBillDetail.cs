@@ -4,9 +4,9 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class Z_PurchaseBillDetail_Z
+    public partial class PurchaseBillDetail
     {
-        public Z_PurchaseBillDetail_Z()
+        public PurchaseBillDetail()
         {
         }
         public int Id { get; set; }

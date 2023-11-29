@@ -10,7 +10,7 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Transaction</a></li>
-                    <li><a href="#">Book</a></li>
+                    <li><a href="#">Booking</a></li>
                     <li class="active"><span>LR</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -70,7 +70,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
                         <span class="input-group-append mr-2">
-                            <button class="btn btn-primary" type="button">Search</button>
+                            <button class="btn btn-primary EWayBill-search" type="button" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Popover top">Search</button>
                         </span>
                         <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
                         <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
@@ -124,7 +124,7 @@
                                             <input class="form-control mode-ed fc-datepicker" placeholder="DD/MM/YYYY" type="text" id="LRDate">
                                         </div>
                                     </div>
-                                    <label for="EwayBillNo" class="col-md-1 form-label">E-Way Bill#</label>
+                                    <label for="EwayBillNo" class="col-md-1 form-label">E-Way Bill (Part B)</label>
                                     <div class="col-md-2" style="display:flex;">
                                         <select class="form-control select2-show-search-add-clear mode-ed" id="EwayBillNo">
                                             <option></option>
@@ -606,7 +606,7 @@
 
         });
 
-        function addClick(isNew = true) {
+        function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
             fromReset();
@@ -1026,7 +1026,7 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                addClick(false);
+                                addClick();
                                 if (isViewMode) {
                                     setScreenMode(true);
                                     $("#activeTabName").text("VIEW ID# " + result.data.id);

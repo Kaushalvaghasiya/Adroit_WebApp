@@ -11,5 +11,10 @@ namespace Adroit.Accounting.Repository.IRepository
         int Save(LRBooking value, string connectionString, int loginId);
         public LRBookingViewModel Get(int id, string connectionString, int loginId = 0, int firmId = 0);
         public GetRateFromLRBookingViewModel GetLRBookingRate(int firmId, int branchId, int cityIdTo, int billPartyId, int rateOnId, int loginId, string connectionString);
+		List<DropdownViewModel> SelectList(string connectionString, int branchId);
+        public List<LRBookingGridViewModel> GetLRBookingTableListByCityFrom_ToList(string connectionString, int fromCityId, int toCityId, int branchId, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
+        public List<LRBookingGridViewModel> GetLRBookingTableListByPurchaseBillMasterId(string connectionString, int purchaseBillMasterId, int loginId, int branchId, int firmId = 0);
+        public List<LRBookingGridViewModel> GetLRBookingTableListByLRNumberId(string connectionString, int LRNumberId, int loginId, int branchId, int firmId = 0);
+
     }
 }

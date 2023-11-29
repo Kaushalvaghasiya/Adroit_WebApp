@@ -8,7 +8,11 @@ BEGIN
 	DECLARE @CustomerId INT = dbo.[fn_GetCustomerId](@loginId);
 
 	SELECT CustomerAccountBranchMapping.Id AS [Value],
-			[CustomerAccount].[Name] + ' ' + [CustomerAccount].GSTNumber + ' ' + [CustomerAccount].Mobile AS [Text]
+			CONCAT(
+				[CustomerAccount].[Name],
+				NULLIF(' | ' + [CustomerAccount].GSTNumber, ' | '),  
+				NULLIF(' | ' + [CustomerAccount].Mobile, ' | ')     
+			) AS [Text]
 	FROM CustomerAccount
 		INNER JOIN CustomerAccountBranchMapping ON CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 	WHERE CustomerAccount.CustomerId = @CustomerId

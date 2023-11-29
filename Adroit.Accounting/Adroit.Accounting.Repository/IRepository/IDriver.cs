@@ -12,5 +12,6 @@ namespace Adroit.Accounting.Repository.IRepository
         void Delete(int id, int userId, string connectionString);
         List<DropdownViewModel> SelectList(string connectionString);
         List<DropdownViewModel> SelectLicenceIssuePlace(string connectionString);
+        List<DropdownViewModel> GetDriverListWithCityId_MobileNo(string connectionString, int loginId);
     }
 }
