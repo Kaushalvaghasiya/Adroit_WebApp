@@ -18,20 +18,19 @@ namespace Adroit.Accounting.Web.Controllers
             var model = new PurchaseBillMasterViewModel();
             int loginId = LoginHandler.GetUserId(User);
 
-            model.CustomerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.CustomerFirmBranchTransportSettingListForLabel_Total("0", _configurationData.DefaultConnection, loginId ,CurrentBranchId);
+            model.CustomerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.GetListWithLabel_Total("0", _configurationData.DefaultConnection, loginId ,CurrentBranchId);
             model.EwayBillList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillMasterTable._TableName, PurchaseBillMasterTable.EwayBillNumber);
             model.CityList = _transportLRBranchCityMappingRepository.SelectList(_configurationData.DefaultConnection, CurrentBranchId);
             model.VehicleList = _vehicleRepo.SelectList(loginId, _configurationData.DefaultConnection);
             model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountListWithGSTNo_MobileNo(_configurationData.DefaultConnection, loginId, CurrentBranchId);
-            model.DriverList = _driverRepository.GetDriverListWithCityId_MobileNo(_configurationData.DefaultConnection, loginId);
+            model.DriverList = _driverRepository.GetListWithCityId_MobileNo(_configurationData.DefaultConnection, loginId);
             model.BrokerList = _customerBrokerBranchMappingRepo.GetCustomerBrokerBranchMappingList(_configurationData.DefaultConnection, loginId, CurrentFirmId);
-            model.LRNumberList = _lrBookingRepository.SelectList(_configurationData.DefaultConnection, CurrentBranchId);
 
             return View(model);
         }
 
         [HttpPost]
-        public JsonResult SaveChalan([FromBody] PurchaseBillMaster model)
+        public JsonResult SaveChalan([FromBody] PurchaseBillMasterViewModel model)
         {
             ApiResult result = new ApiResult();
             try
@@ -60,7 +59,7 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 int loginId = LoginHandler.GetUserId(User);
                 var data = _chalanRepository.Get(id, _configurationData.DefaultConnection, loginId, CurrentBranchId);
-                data.LRBookingList = _lrBookingRepository.GetLRBookingTableListByPurchaseBillMasterId(_configurationData.DefaultConnection, id, loginId, CurrentBranchId);
+                data.LRBookingList = _lrBookingRepository.GetListByPurchaseBillMasterId(_configurationData.DefaultConnection, id, loginId, CurrentBranchId);
                 result.data = data;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
@@ -114,8 +113,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetLRBookingTableList/{fromCityId}/{toCityId}")]
-        public JsonResult GetLRBookingTableList(int fromCityId, int toCityId, int draw = 0, int start = 0, int length = 10)
+        [Route("~/Customer/GetListByCityFrom_To/{fromCityId}/{toCityId}")]
+        public JsonResult GetListByCityFrom_To(int fromCityId, int toCityId, int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<LRBookingGridViewModel>();
             try
@@ -126,7 +125,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _lrBookingRepository.GetLRBookingTableListByCityFrom_ToList(_configurationData.DefaultConnection, fromCityId, toCityId, CurrentBranchId, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _lrBookingRepository.GetListByCityFrom_To(_configurationData.DefaultConnection, fromCityId, toCityId, CurrentBranchId, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -147,7 +146,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _customerFirmBranchTransportSettingRepository.CustomerFirmBranchTransportSettingListForLabel_Total(lrNumberId, _configurationData.DefaultConnection, loginId, CurrentBranchId);
+                result.data = _customerFirmBranchTransportSettingRepository.GetListWithLabel_Total(lrNumberId, _configurationData.DefaultConnection, loginId, CurrentBranchId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -158,14 +157,14 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetLRBookingTableListByPurchaseBillMasterId/{purchaseBillMasterId}")]
-        public JsonResult GetLRBookingTableListByPurchaseBillMasterId(int purchaseBillMasterId)
+        [Route("~/Customer/GetListByPurchaseBillMasterId/{purchaseBillMasterId}")]
+        public JsonResult GetListByPurchaseBillMasterId(int purchaseBillMasterId)
         {
             ApiResult result = new ApiResult();
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _lrBookingRepository.GetLRBookingTableListByPurchaseBillMasterId(_configurationData.DefaultConnection, purchaseBillMasterId, loginId, CurrentBranchId, CurrentFirmId);
+                result.data = _lrBookingRepository.GetListByPurchaseBillMasterId(_configurationData.DefaultConnection, purchaseBillMasterId, loginId, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -176,14 +175,14 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetLRBookingTableListByLRNumberId/{LRNumberId}")]
-        public JsonResult GetLRBookingTableListByLRNumberId(int LRNumberId)
+        [Route("~/Customer/GetListByLRNumberId/{LRNumberId}")]
+        public JsonResult GetListByLRNumberId(int LRNumberId)
         {
             ApiResult result = new ApiResult();
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _lrBookingRepository.GetLRBookingTableListByLRNumberId(_configurationData.DefaultConnection, LRNumberId, loginId, CurrentBranchId, CurrentFirmId);
+                result.data = _lrBookingRepository.GetListByLRNumberId(_configurationData.DefaultConnection, LRNumberId, loginId, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

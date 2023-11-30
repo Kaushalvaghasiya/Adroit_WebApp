@@ -74,7 +74,7 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_LicenceIssuePlaceList_Select", connectionString, parameters);
         }
-        public List<DropdownViewModel> GetDriverListWithCityId_MobileNo(string connectionString, int loginId)
+        public List<DropdownViewModel> GetListWithCityId_MobileNo(string connectionString, int loginId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@loginId", loginId);

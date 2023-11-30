@@ -36,7 +36,7 @@ Begin
 		(ISNULL([Z-PurchaseBillMaster-Z].TDSAmount,0) + ISNULL([Z-PurchaseBillMaster-Z].AdvanceCash,0) + ISNULL([Z-PurchaseBillMaster-Z].AdvanceNeft,0) + ISNULL([Z-PurchaseBillMaster-Z].OtherLess,0))
 		+ (ISNULL([Z-PurchaseBillMaster-Z].ReceiveCash,0) + ISNULL([Z-PurchaseBillMaster-Z].OtherPlus,0)) AS NetAmount 
 		FROM [Z-PurchaseBillMaster-Z]
-		INNER JOIN [City] AS CT2 on CT2.Id = [Z-PurchaseBillMaster-Z].CityIdTo
+		LEFT JOIN [City] AS CT2 on CT2.Id = [Z-PurchaseBillMaster-Z].CityIdTo AND CT2.Active = 1
 		WHERE [Z-PurchaseBillMaster-Z].Deleted = 0 
 		AND [Z-PurchaseBillMaster-Z].BranchId = @branchId
 		AND (Coalesce(@Search,'') = '' OR [Z-PurchaseBillMaster-Z].BillNumberBranch like '%'+ @Search + '%')

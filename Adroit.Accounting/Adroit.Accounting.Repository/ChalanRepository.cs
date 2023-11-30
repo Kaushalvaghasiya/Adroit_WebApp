@@ -9,7 +9,7 @@ namespace Adroit.Accounting.Repository
 {
     public class ChalanRepository : IChalan
     {
-        public int Save(PurchaseBillMaster value, string connectionString, int firmId, int branchId, int loginId)
+        public int Save(PurchaseBillMasterViewModel value, string connectionString, int firmId, int branchId, int loginId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);

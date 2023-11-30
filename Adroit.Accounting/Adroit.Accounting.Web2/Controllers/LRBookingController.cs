@@ -118,14 +118,14 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetLRBookingRate/{cityIdTo}/{billPartyId}/{rateOnId}")]
-        public JsonResult GetLRBookingRate(int cityIdTo, int billPartyId, int rateOnId)
+        [Route("~/Customer/GetRate/{cityIdTo}/{billPartyId}/{rateOnId}")]
+        public JsonResult GetRate(int cityIdTo, int billPartyId, int rateOnId)
         {
             ApiResult result = new ApiResult();
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _lrBookingRepository.GetLRBookingRate(CurrentFirmId, CurrentBranchId, cityIdTo, billPartyId, rateOnId, loginId, _configurationData.DefaultConnection);
+                result.data = _lrBookingRepository.GetRate(CurrentFirmId, CurrentBranchId, cityIdTo, billPartyId, rateOnId, loginId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

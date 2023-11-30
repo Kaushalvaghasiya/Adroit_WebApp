@@ -14,7 +14,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> AccountBranchMappingList { get; set; }
         public List<DropdownViewModel> EwayBillList { get; set; }
         public List<DropdownViewModel> BrokerList { get; set; }
-        public List<DropdownViewModel> LRNumberList { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
         public string CityTo { get; set; }
         public string LRNumberId { get; set; }

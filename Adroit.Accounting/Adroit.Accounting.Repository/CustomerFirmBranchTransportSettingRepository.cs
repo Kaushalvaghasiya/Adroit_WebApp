@@ -49,7 +49,7 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerFirmBranchTransportSettingSave", connectionString, parameters);
         }
-        public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSettingListForLabel_Total(string lrNumberId, string connectionString, int loginId, int branchId)
+        public CustomerFirmBranchTransportSettingViewModel GetListWithLabel_Total(string lrNumberId, string connectionString, int loginId, int branchId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@loginId", loginId);

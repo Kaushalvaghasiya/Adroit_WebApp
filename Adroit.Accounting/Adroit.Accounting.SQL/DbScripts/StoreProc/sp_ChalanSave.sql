@@ -79,6 +79,7 @@ BEGIN
 			SELECT Id
 			FROM [BillEntryTypeAdmin]
 			WHERE [BillEntryTypeAdmin].Code = 'PUR'
+			AND [BillEntryTypeAdmin].Active = 1
 		);
 
 		IF ISNULL(@BillNumberBranch, 0) = 0

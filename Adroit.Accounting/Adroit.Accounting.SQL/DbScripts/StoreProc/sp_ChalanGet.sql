@@ -15,9 +15,10 @@ BEGIN
 			FROM  [Z-PurchaseBillDetail-Z] t
 			WHERE t.PurchaseBillMasterId = @Id GROUP BY t.PurchaseBillMasterId) AS LRNumberId
 	FROM [Z-PurchaseBillMaster-Z] PBM
-	LEFT JOIN [CustomerAccountBranchMapping] CABM1 on CABM1.Id = PBM.ToPayAccountBranchMappingId
-	LEFT JOIN [CustomerAccount] CA1 on CA1.Id = CABM1.AccountId
+	LEFT JOIN [CustomerAccountBranchMapping] CABM1 on CABM1.Id = PBM.ToPayAccountBranchMappingId AND CABM1.Deleted = 0
+	LEFT JOIN [CustomerAccount] CA1 on CA1.Id = CABM1.AccountId AND CA1.Deleted = 0 AND CA1.Active = 1
 	WHERE PBM.BranchId = @branchId AND PBM.Id = @Id
+	AND PBM.Deleted = 0
 
 END
 GO
