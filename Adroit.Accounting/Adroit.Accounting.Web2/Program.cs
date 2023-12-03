@@ -153,6 +153,7 @@ try
         });
 
     var app = builder.Build();
+    app.ConfigureExceptionHandler(logger);
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
@@ -169,8 +170,7 @@ try
     // Run SQL Changes
     Adroit.Accounting.SQL.SQLMigrate.ExecuteSQL(connectionString);
 
-    app.ConfigureExceptionHandler(logger);
-
+    
     app.UseHttpsRedirection();
     app.UseStaticFiles();
 

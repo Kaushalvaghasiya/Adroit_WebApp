@@ -275,7 +275,7 @@ namespace Adroit.Accounting.Web.Controllers
         {
             get
             {
-                return LoginHandler.GetFirmId(User, _customerFirmRepository, _configurationData.DefaultConnection);
+                return LoginHandler.GetLoggedInFirmId(User, _userRepository, _configurationData.DefaultConnection);
             }
         }
 
@@ -283,7 +283,7 @@ namespace Adroit.Accounting.Web.Controllers
         {
             get
             {
-                return LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
+                return LoginHandler.GetLoggedInBranchId(User, _userRepository, _configurationData.DefaultConnection);
             }
         }
     }
