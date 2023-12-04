@@ -171,14 +171,14 @@ namespace Adroit.Accounting.Web.Controllers
         {
             get
             {
-                return LoginHandler.GetFirmId(User, _customerCustomerFirmRepository, _configurationData.DefaultConnection);
+                return LoginHandler.GetLoggedInFirmId(User, _userRepository, _configurationData.DefaultConnection);
             }
         }
         protected int CurrentBranchId
         {
             get
             {
-                return LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
+                return LoginHandler.GetLoggedInBranchId(User, _userRepository, _configurationData.DefaultConnection);
             }
         }
     }

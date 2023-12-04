@@ -13,6 +13,7 @@ namespace Adroit.Accounting.Repository.IRepository
         void Active(int id, int activatedByUserId, string connectionString);
         void Deactive(int id, int deactivatedByUserId, string connectionString);
         List<DropdownViewModel> SelectList(int customerId, string connectionString);
-        int GetLastWorkingBranchId(int loginId, string connectionString);
+        int GetLoggedInBranchId(int loginId, string connectionString);
+        int GetLoggedInFirmId(int loginId, string connectionString);
     }
 }
