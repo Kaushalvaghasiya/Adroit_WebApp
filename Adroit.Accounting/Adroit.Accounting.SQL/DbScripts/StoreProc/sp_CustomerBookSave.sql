@@ -67,7 +67,7 @@ BEGIN
 
 		DECLARE @message VARCHAR(4000);
 
-		IF ISNULL(@YearId, -1) = -1
+		IF @YearId IS NULL
 		BEGIN
 			SET @message = 'Year Not Found!';
 			RAISERROR ('%s', 16, 1, @message);

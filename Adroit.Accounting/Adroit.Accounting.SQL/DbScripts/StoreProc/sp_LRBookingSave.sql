@@ -74,9 +74,9 @@ BEGIN
 		FROM LRBookingRange 
 		WHERE BranchId = @branchId
 
-		IF @LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange
+		IF (@LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange) AND (@LRNumber NOT IN ( SELECT LRNumber FROM [Z-LRBooking-Z] WHERE BranchId = @branchId ))
 		BEGIN
-			SET @message = 'LR Number Range OverFlow!';
+			SET @message = 'Please renew LR Range';
 			RAISERROR ('%s', 16, 1, @message);
 		END
 

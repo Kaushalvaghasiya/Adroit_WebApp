@@ -113,8 +113,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetListByCityFrom_To/{fromCityId}/{toCityId}")]
-        public JsonResult GetListByCityFrom_To(int fromCityId, int toCityId, int draw = 0, int start = 0, int length = 10)
+        [Route("~/Customer/GetLRBookingListByCity/{fromCityId}/{toCityId}")]
+        public JsonResult GetLRBookingListByCity(int fromCityId, int toCityId, int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<LRBookingGridViewModel>();
             try
@@ -125,7 +125,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _lrBookingRepository.GetListByCityFrom_To(_configurationData.DefaultConnection, fromCityId, toCityId, CurrentBranchId, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _lrBookingRepository.GetLRBookingListByCity(_configurationData.DefaultConnection, fromCityId, toCityId, CurrentBranchId, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;

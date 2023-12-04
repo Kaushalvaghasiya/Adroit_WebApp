@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_GetLRBookingTableListByCityFrom_To]
+CREATE OR ALTER PROCEDURE [dbo].[sp_GetLRBookingListByCity]
   @loginId int,
   @branchId int,
   @fromCityId int,
@@ -10,7 +10,12 @@ BEGIN
 	   SELECT  
 	    ROW_NUMBER() over (ORDER BY [Z-LRBooking-Z].Id ASC) AS RowNum,
 		Count(*) over () AS TotalCount, 
-		[Z-LRBooking-Z].*,
+		[Z-LRBooking-Z].Id,
+		[Z-LRBooking-Z].LRNumber,
+		[Z-LRBooking-Z].LRDate,
+		[Z-LRBooking-Z].PrivateMarka,
+		[Z-LRBooking-Z].ChargeWeight,
+		[Z-LRBooking-Z].InvoiceValue,
 		[TransportPacking].[Title] AS Packing,
 		[TransportDesc].[Title] AS Description,
 		ToCity.[Title] AS CityTo,

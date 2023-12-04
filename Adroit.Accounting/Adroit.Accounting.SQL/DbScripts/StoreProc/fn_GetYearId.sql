@@ -9,7 +9,7 @@ BEGIN
 	DECLARE @YearId int
 	SET @YearId = (SELECT TOP 1 Id
 	FROM FinanceYear
-	WHERE Id = @FirmId)
+	WHERE FirmId = @FirmId)
 
 	RETURN @YearId;
 END

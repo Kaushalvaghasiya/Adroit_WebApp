@@ -88,14 +88,14 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.Get<GetRateFromLRBookingViewModel>("sp_GetRateFromLRBooking", connectionString, parameters);
         }
         
-        public List<LRBookingGridViewModel> GetListByCityFrom_To(string connectionString, int fromCityId, int toCityId, int branchId, int loginId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<LRBookingGridViewModel> GetLRBookingListByCity(string connectionString, int fromCityId, int toCityId, int branchId, int loginId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@loginId", loginId);
             parameters.Add("@branchId", branchId);
             parameters.Add("@fromCityId", fromCityId);
             parameters.Add("@toCityId", toCityId);
-            return QueryHelper.GetList<LRBookingGridViewModel>("sp_GetLRBookingTableListByCityFrom_To", connectionString, parameters);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_GetLRBookingListByCity", connectionString, parameters);
         }
         public List<LRBookingGridViewModel> GetListByPurchaseBillMasterId(string connectionString, int PurchaseBillMasterId, int loginId, int branchId, int firmId)
         {
