@@ -1,7 +1,6 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmList]
   @LoginId int,
   @FirmId int,  
-  @UserId int,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -9,7 +8,7 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmList]
   @SortOrder NVARCHAR(10) = 'ASC'
 As
 Begin
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@UserId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
 
 	SELECT * FROM
 	 (   

@@ -6,6 +6,9 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountGet]
 )
 AS
 BEGIN
+
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+
 	SELECT CustomerAccount.*,
 		   (SELECT STUFF((SELECT ',' + CAST(t1.BranchId AS VARCHAR) FROM CustomerAccountBranchMapping t1
 					WHERE t1.AccountId = t.AccountId FOR XML PATH('')),1,1,'') Concats
@@ -19,6 +22,6 @@ BEGIN
 	LEFT JOIN District ON Taluka.DistrictId = District.Id
 	LEFT JOIN State ON District.StateId = State.Id
 	LEFT JOIN Country ON State.CountryId = Country.Id
-	WHERE CustomerAccount.Id = @Id
+	WHERE CustomerAccount.Id = @Id AND CustomerAccount.CustomerId = @CustomerId
 END
 GO

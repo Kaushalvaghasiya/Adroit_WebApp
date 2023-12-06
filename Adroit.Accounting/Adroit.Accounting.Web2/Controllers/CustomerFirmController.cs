@@ -57,7 +57,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                int id = _customerFirmRepository.Save(model, loginId, _configurationData.DefaultConnection);
+                int id = _customerFirmRepository.Save(model, loginId, CurrentFirmId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -79,7 +79,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                _customerFirmRepository.Delete(id, loginId, _configurationData.DefaultConnection);
+                _customerFirmRepository.Delete(id, loginId, CurrentFirmId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _customerFirmRepository.Get(id, loginId, _configurationData.DefaultConnection);
+                result.data = _customerFirmRepository.Get(id, CurrentFirmId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

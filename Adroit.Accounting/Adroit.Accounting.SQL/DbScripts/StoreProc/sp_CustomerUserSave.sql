@@ -1,7 +1,8 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUserSave]
 (
 	 @Id int,
-	 @loginId int,
+	 @LoginId int,
+	 @FirmId int,
 	 @UserId uniqueidentifier,
 	 @Active bit = 1,
 	 @FirstName VARCHAR(50),
@@ -12,7 +13,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUserSave]
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@loginId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
 
 	BEGIN TRAN
 	BEGIN TRY
@@ -20,7 +21,7 @@ BEGIN
 			BEGIN
 				UPDATE CustomerUser SET
 					Active = @Active, 
-					ModifiedById = @loginId, 
+					ModifiedById = @LoginId, 
 					ModifiedOn = GETUTCDATE(),
 					OwnerBranchId = @OwnerBranchId,
 					FirstName = @FirstName,
@@ -44,7 +45,7 @@ BEGIN
 				Select 
 				@Id,
 				Id,
-				@loginId,
+				@LoginId,
 				GETUTCDATE()
 				from dbo.[fnStringToIntArray](@CustomerUserBranchIds)
 		

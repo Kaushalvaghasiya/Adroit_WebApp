@@ -1,10 +1,10 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccounBranchMappingList_Select]
 (
-	@UserId INT
+	@FirmId INT
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.[fn_GetCustomerId](@UserId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
 
 	SELECT CustomerAccountBranchMapping.Id As [Value], 		
 		CASE ISNULL(CustomerAccount.[PrintName], '') WHEN '' THEN CustomerAccount.[Name] ELSE CustomerAccount.[PrintName] 

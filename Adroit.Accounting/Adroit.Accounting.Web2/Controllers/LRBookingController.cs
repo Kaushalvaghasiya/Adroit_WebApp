@@ -25,7 +25,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.DescriptionList = _transportDescRepository.SelectList(_configurationData.DefaultConnection);
             model.PackingList = _transportpackingRepository.SelectList(loginId, _configurationData.DefaultConnection);
             model.LRRateOnList = _transportLRRateOnRepository.SelectList(_configurationData.DefaultConnection);
-            model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountListWithGSTNo_MobileNo(_configurationData.DefaultConnection, loginId, CurrentBranchId);
+            model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountListWithGSTNo_MobileNo(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.PaymentList = _transportLRPayTypeRepository.GetLRPayTypeList(CurrentBranchId, _configurationData.DefaultConnection);
             model.LRDeliveryList = _transportLRDeliveryRepository.SelectList(_configurationData.DefaultConnection);
             model.LRDeliveryTypeList = _transportLRDeliveryTypeRepository.SelectList(_configurationData.DefaultConnection);
