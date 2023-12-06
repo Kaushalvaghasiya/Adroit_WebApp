@@ -9,12 +9,10 @@ BEGIN
 
 	SELECT CustomerAccountBranchMapping.Id AS [Value],
 			CONCAT(
-                  [CustomerAccount].[Name],
-                  CASE WHEN ISNULL([CustomerAccount].[Name],'') <> '' THEN ' | ' ELSE '' END,
-                  [CustomerAccount].GSTNumber,
-                  CASE WHEN ISNULL([CustomerAccount].GSTNumber,'') <> ''  THEN ' | ' ELSE '' END,
-                  [CustomerAccount].Mobile
-            ) AS [Text]
+				[CustomerAccount].[Name],
+				NULLIF(' | ' + ISNULL([CustomerAccount].GSTNumber, ''), ' | '),
+				NULLIF(' | ' + ISNULL([CustomerAccount].Mobile, ''), ' | ') 
+			) AS [Text]
 	FROM CustomerAccount
 		INNER JOIN CustomerAccountBranchMapping ON CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 	WHERE CustomerAccount.CustomerId = @CustomerId

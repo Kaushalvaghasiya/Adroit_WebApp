@@ -1,5 +1,7 @@
 CREATE OR ALTER Procedure [dbo].[sp_LRBookingList]
+  @loginId INT,
   @branchId INT,
+  @firmId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
