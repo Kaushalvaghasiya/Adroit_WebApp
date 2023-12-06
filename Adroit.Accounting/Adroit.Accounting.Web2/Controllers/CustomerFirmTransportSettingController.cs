@@ -18,7 +18,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
             model.CustomerFirmList = _adminCustomerFirmRepository.SelectList(model.Customer.Id, _configurationData.DefaultConnection);
             model.TransportLRChargesList = _transportLRChargesRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductList = _productRepository.GetProductList(_configurationData.DefaultConnection, loginId ,0);
+            model.ProductList = _productRepository.GetProductList(CurrentFirmId, _configurationData.DefaultConnection, loginId);
             
             return View(model);
         }

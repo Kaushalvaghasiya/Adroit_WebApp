@@ -1,9 +1,12 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_ProductGroupList_Select] 
+(	@FirmId INT )
 AS
 BEGIN
+	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+
 	SELECT [ProductGroup].Id As Value, Title As Text
 	FROM [ProductGroup]
-	WHERE Deleted = 0 AND Active = 1
+	WHERE CustomerId = @CustomerId AND Deleted = 0 AND Active = 1
 	ORDER BY Title
 END
 GO

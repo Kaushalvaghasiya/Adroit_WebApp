@@ -5,10 +5,10 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface IProduct
     {
-        List<DropdownViewModel> GetProductList(string connectionString, int loginId = 0, int firmId = 0);
+        List<DropdownViewModel> GetProductList(int firmId, string connectionString, int loginId = 0);
         List<ProductGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
-        void Delete(int id, string connectionString, int loginId, int firmId = 0);
-        int Save(ProductViewModel value, string connectionString, int firmId = 0);
-        ProductViewModel Get(int id, string connectionString, int loginId, int firmId = 0);
+        void Delete(int id, int firmId, string connectionString, int loginId);
+        int Save(ProductViewModel value, string connectionString);
+        ProductViewModel Get(int id, int firmId, string connectionString, int loginId);
     }
 }

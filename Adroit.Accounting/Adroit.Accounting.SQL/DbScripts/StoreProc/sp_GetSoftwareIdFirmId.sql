@@ -1,10 +1,10 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_GetSoftwareIdByUserId] (
-	@loginId int
+CREATE OR ALTER PROCEDURE [dbo].[sp_GetSoftwareIdFirmId] (
+	@FirmId int
 )
 AS
 BEGIN
 
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@loginId);
+    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
 
 	SELECT TOP 1 Software.Id
 	FROM Software

@@ -1,8 +1,8 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSave]
 (
 	 @Id INT,
-	 @loginId INT,
-	 @firmId INT,
+	 @LoginId INT,
+	 @FirmId INT,
 	 @SoftwareId TINYINT,
 	 @Title NVARCHAR(100),
 	 @Code VARCHAR(20),
@@ -66,53 +66,53 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
-		DECLARE @CustomerId int = dbo.fn_GetCustomerId(@loginId);
+    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
 
 		IF ISNULL(@DesignNumberId, 0) <= 0 AND ISNULL(@DesignNumber,'') != ''
 		BEGIN
-			EXEC @DesignNumberId = dbo.sp_ProductDesignNumberSave  0, @loginId, @DesignNumber , 0, @loginId, @loginId, 1
+			EXEC @DesignNumberId = dbo.sp_ProductDesignNumberSave  0, @LoginId, @DesignNumber , 0, @LoginId, @LoginId, 1
 			SELECT @DesignNumberId = Id FROM ProductDesignNumber WHERE Title = @DesignNumber AND Active = 1
 		END
 
-		IF ISNULL(@ColourId, 0) <= 0 AND ISNULL(@Colour,'') != ''
+		IF ISNULL(@ColourId, 0) <= 0 AND ISNULL(@Colour,'') != '' AND @Colour NOT IN ( SELECT Title From ProductColor WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
 		BEGIN
-			EXEC @ColourId = dbo.sp_ProductColorSave  0, @loginId, @Colour , 0, @loginId, @loginId, 1
+			EXEC @ColourId = dbo.sp_ProductColorSave  0, @LoginId, @Colour , 0, @LoginId, @LoginId, 1
+		END
 			SELECT @ColourId = Id FROM ProductColor WHERE Title = @Colour AND Active = 1
-		END
 
-		IF ISNULL(@SizeId, 0) <= 0 AND ISNULL(@Size,'') != ''
+		IF ISNULL(@SizeId, 0) <= 0 AND ISNULL(@Size,'') != '' AND @Size NOT IN ( SELECT Title From ProductSize WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
 		BEGIN
-			EXEC @SizeId = dbo.sp_ProductSizeSave  0, @loginId, @Size , 0, @loginId, @loginId, 1
-			SELECT @SizeId = Id FROM ProductSize WHERE Title = @Size AND Active = 1
+			EXEC @SizeId = dbo.sp_ProductSizeSave  0, @LoginId, @Size , 0, @LoginId, @LoginId, 1
 		END
+			SELECT @SizeId = Id FROM ProductSize WHERE Title = @Size AND Active = 1
 
 		IF ISNULL(@PackingId, 0) <= 0 AND ISNULL(@Packing,'') != ''
 		BEGIN
-			EXEC @PackingId = dbo.sp_ProductPackingSave  0, @loginId, @Packing , 0, @loginId, @loginId, 1
+			EXEC @PackingId = dbo.sp_ProductPackingSave  0, @LoginId, @Packing , 0, @LoginId, @LoginId, 1
 			SELECT @PackingId = Id FROM ProductPacking WHERE Title = @Packing AND Active = 1
 		END
 
 		IF ISNULL(@ShadeNumberId, 0) <= 0 AND ISNULL(@ShadeNumber,'') != ''
 		BEGIN
-			EXEC @ShadeNumberId = dbo.sp_ProductShadeNumberSave  0, @loginId, @ShadeNumber , 0, @loginId, @loginId, 1
+			EXEC @ShadeNumberId = dbo.sp_ProductShadeNumberSave  0, @LoginId, @ShadeNumber , 0, @LoginId, @LoginId, 1
 			SELECT @ShadeNumberId = Id FROM ProductShadeNumber WHERE Title = @ShadeNumber AND Active = 1
 		END
 
 		IF ISNULL(@FabricId, 0) <= 0 AND ISNULL(@Fabric,'') != ''
 		BEGIN
-			EXEC @FabricId = dbo.sp_ProductFabricSave  0, @loginId, @Fabric , 0, @loginId, @loginId, 1
+			EXEC @FabricId = dbo.sp_ProductFabricSave  0, @LoginId, @Fabric , 0, @LoginId, @LoginId, 1
 			SELECT @FabricId = Id FROM ProductFabric WHERE Title = @Fabric AND Active = 1
 		END
 
 		IF ISNULL(@GroupId, 0) <= 0 AND ISNULL(@Group,'') != ''
 		BEGIN
-			EXEC @GroupId = dbo.sp_ProductGroupSave  0, @loginId, @Group , 0, @loginId, @loginId, 1
+			EXEC @GroupId = dbo.sp_ProductGroupSave  0, @LoginId, @Group , 0, @LoginId, @LoginId, 1
 			SELECT @GroupId = Id FROM ProductGroup WHERE Title = @Group AND Active = 1
 		END
 
 		IF ISNULL(@SubGroupId, 0) <= 0 AND ISNULL(@SubGroup,'') != ''
 		BEGIN
-			EXEC @SubGroupId = dbo.sp_ProductSubGroupSave  0, @loginId, @SubGroup , 0, @loginId, @loginId, 1
+			EXEC @SubGroupId = dbo.sp_ProductSubGroupSave  0, @LoginId, @SubGroup , 0, @LoginId, @LoginId, 1
 			SELECT @SubGroupId = Id FROM ProductSubGroup WHERE Title = @SubGroup AND Active = 1
 		END
 		 
@@ -179,7 +179,7 @@ BEGIN
 				(@CustomerId, @Title, ISNULL(@Code,''), @PrintName, @TitleAlternate, @DesignNumberId, @ColourId, @SizeId, @PackingId, @ShadeNumberId, @FabricId, @GroupId, 
 				@SubGroupId, @StockTypeId, @QualityTypeId, @UQCId, @HSNCode, @CategoryId, @DenierWeight, @RatePerMeter, @RateRetail, @Mrp, @DistributorRate, 
 				@DealerRate, @PurchaseRate, @Cut, @AveragePack, @BoxPack, @RolMin, @RolMax, @GSTCalculationId, @GSTRateId, @GstCentralCess, @GstStateCess, 
-				@AmountCalcId, @RateUpdate, @Discount, @HSNDesc, @Remarks1, @Remarks2, @Active, @loginId, GETUTCDATE())
+				@AmountCalcId, @RateUpdate, @Discount, @HSNDesc, @Remarks1, @Remarks2, @Active, @LoginId, GETUTCDATE())
 
 			SET @Id = SCOPE_IDENTITY()
 		END
@@ -229,7 +229,7 @@ BEGIN
 					Remarks1 = @Remarks1,
 					Remarks2 = @Remarks2,
 					Active = @Active,
-					ModifiedById = @loginId, 
+					ModifiedById = @LoginId, 
 					ModifiedOn = GETUTCDATE(),
 					DeletedById = NULL,
 					DeletedOn = NULL,
@@ -237,7 +237,7 @@ BEGIN
 			WHERE Id = @Id
 
 			UPDATE  ProductBranchMapping SET
-					DeletedById = @loginId,
+					DeletedById = @LoginId,
 					DeletedOn = GETUTCDATE(),
 					Deleted = 1
 			WHERE ProductId = @Id AND [BranchId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@ProductBranchId))
@@ -251,10 +251,10 @@ BEGIN
 		END
 
 		INSERT INTO [ProductBranchMapping] (ProductId,BranchId,AddedById,AddedOn)
-		SELECT @Id,Id,@loginId,GETUTCDATE()
+		SELECT @Id,Id,@LoginId,GETUTCDATE()
 		FROM dbo.[fnStringToIntArray](@ProductBranchId)
 		EXCEPT
-		SELECT ProductId,BranchId,@loginId,GETUTCDATE() 
+		SELECT ProductId,BranchId,@LoginId,GETUTCDATE() 
 		FROM [dbo].[ProductBranchMapping]
 		WHERE [BranchId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@ProductBranchId))
 

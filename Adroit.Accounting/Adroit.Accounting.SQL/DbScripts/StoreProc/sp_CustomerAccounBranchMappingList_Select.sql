@@ -1,6 +1,7 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccounBranchMappingList_Select]
 (
-	@FirmId INT
+	@FirmId INT,
+	@BranchId INT
 )
 AS
 BEGIN
@@ -12,7 +13,7 @@ BEGIN
 	From CustomerAccount
 	INNER JOIN CustomerAccountBranchMapping on CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 	INNER JOIN [CustomerAccountGroup] on CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id 
-	WHERE CustomerAccount.CustomerId = @CustomerId AND CustomerAccount.Active = 1 AND CustomerAccount.Deleted = 0
+	WHERE CustomerAccount.CustomerId = @CustomerId AND CustomerAccountBranchMapping.BranchId = @BranchId AND CustomerAccount.Active = 1 AND CustomerAccount.Deleted = 0
 	Order by CustomerAccount.[Name];
 END
 GO

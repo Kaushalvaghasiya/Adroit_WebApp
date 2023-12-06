@@ -1,13 +1,13 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_ProductGet]
 (
-	@loginId INT
-	,@firmId INT
+	@LoginId INT
+	,@FirmId INT
 	,@Id INT
 )
 AS
 BEGIN
 
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@loginId);
+    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
 	
 	SELECT 
 		Product.*,

@@ -156,15 +156,15 @@
                         </div>
                         <div class="col-lg-2 col-md-12">
                             <div class="form-group">
-                                <label for="ColourId">Colour</label>
-                                <select class="form-control select2-show-search-add-clear mode-ed" id="ColourId">
+                                <label for="ColourName">Colour</label>
+                                <select class="form-control select2-show-search-add-clear mode-ed" id="ColourName">
                                     <option></option>
                                     @{
                                         if (Model.ProductColorList != null)
                                         {
                                             foreach (var o in Model.ProductColorList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -173,15 +173,15 @@
                         </div>
                         <div class="col-lg-2 col-md-12">
                             <div class="form-group">
-                                <label for="SizeId">Size</label>
-                                <select class="form-control select2-show-search-add-clear mode-ed" id="SizeId">
+                                <label for="SizeName">Size</label>
+                                <select class="form-control select2-show-search-add-clear mode-ed" id="SizeName">
                                     <option></option>
                                     @{
                                         if (Model.ProductSizeList != null)
                                         {
                                             foreach (var o in Model.ProductSizeList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -789,31 +789,31 @@
             });
 
             $("#GroupId").on('change', function (e) {
-                ChangeProductValue($(this).val());
+                ChangeProductValue();
             });
 
             $("#DesignNumberId").on('change', function (e) {
-                ChangeProductValue($(this).val());
+                ChangeProductValue();
             });
 
             $("#FabricId").on('change', function (e) {
-                ChangeProductValue($(this).val());
+                ChangeProductValue();
             });
 
-            $("#SizeId").on('change', function (e) {
-                ChangeProductValue($(this).val());
+            $("#SizeName").on('change', function (e) {
+                ChangeProductValue();
             });
 
-            $("#ColourId").on('change', function (e) {
-                ChangeProductValue($(this).val());
+            $("#ColourName").on('change', function (e) {
+                ChangeProductValue();
             });
 
             $("#SubGroupId").on('change', function (e) {
-                ChangeProductValue($(this).val());
+                ChangeProductValue();
             });
 
             $("#ShadeNumberId").on('change', function (e) {
-                ChangeProductValue($(this).val());
+                ChangeProductValue();
             });
 
             $("#GSTRateId").on('change', function (e) {
@@ -844,10 +844,10 @@
             var FabricElement = document.getElementById("select2-FabricId-container");
             var selectedFabric = FabricElement.getAttribute("title");
 
-            var SizeElement = document.getElementById("select2-SizeId-container");
+            var SizeElement = document.getElementById("select2-SizeName-container");
             var selectedSize = SizeElement.getAttribute("title");
 
-            var ColourElement = document.getElementById("select2-ColourId-container");
+            var ColourElement = document.getElementById("select2-ColourName-container");
             var selectedColour = ColourElement.getAttribute("title");
 
             var SubGroupElement = document.getElementById("select2-SubGroupId-container");
@@ -1015,8 +1015,8 @@
             $("#Id").val(0);
 
             $("#DesignNumberId").val(null).trigger('change');
-            $("#ColourId").val(null).trigger('change');
-            $("#SizeId").val(null).trigger('change');
+            $("#ColourName").val(null).trigger('change');
+            $("#SizeName").val(null).trigger('change');
             $("#PackingId").val(null).trigger('change');
             $("#ShadeNumberId").val(null).trigger('change');
             $("#FabricId").val(null).trigger('change');
@@ -1255,8 +1255,6 @@
                 savedata.TitleAlternate = $("#TitleAlternate").val();
 
                 savedata.DesignNumberId = getIntValueNull("DesignNumberId");
-                savedata.ColourId = getIntValueNull("ColourId");
-                savedata.SizeId = getIntValueNull("SizeId");
                 savedata.PackingId = getIntValueNull("PackingId");
                 savedata.ShadeNumberId = getIntValueNull("ShadeNumberId");
                 savedata.FabricId = getIntValueNull("FabricId");
@@ -1271,8 +1269,8 @@
                 savedata.AmountCalcId = getIntValueZero("AmountCalcId");
 
                 savedata.ProductDesignNumber = $("#DesignNumberId").val();
-                savedata.ColorName = $("#ColourId").val();
-                savedata.SizeName = $("#SizeId").val();
+                savedata.ColorName = $("#ColourName").val();
+                savedata.SizeName = $("#SizeName").val();
                 savedata.PackingName = $("#PackingId").val();
                 savedata.ShadeNumber = $("#ShadeNumberId").val();
                 savedata.FabricName = $("#FabricId").val();
@@ -1396,8 +1394,8 @@
                                 $("#Id").val(result.data.id);
 
                                 $("#DesignNumberId").val(result.data.designNumberId).trigger("change");
-                                $("#ColourId").val(result.data.colourId).trigger("change");
-                                $("#SizeId").val(result.data.sizeId).trigger("change");
+                                $("#ColourName").val(result.data.colourName).trigger("change");
+                                $("#SizeName").val(result.data.sizeName).trigger("change");
                                 $("#PackingId").val(result.data.packingId).trigger("change");
                                 $("#ShadeNumberId").val(result.data.shadeNumberId).trigger("change");
                                 $("#FabricId").val(result.data.fabricId).trigger("change");

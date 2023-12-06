@@ -17,7 +17,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
 
             model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectList(model.Customer.Id, true,_configurationData.DefaultConnection);
-            model.CustomerAccountList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, _configurationData.DefaultConnection);
+            model.CustomerAccountList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.CustomerBookList = _customerBookRepository.SelectListByLoginId(loginId, _configurationData.DefaultConnection);
             model.TransportLRRateOnList = _transportLRRateOnRepository.SelectList(_configurationData.DefaultConnection);
             model.TransportLRPayTypeList= _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
