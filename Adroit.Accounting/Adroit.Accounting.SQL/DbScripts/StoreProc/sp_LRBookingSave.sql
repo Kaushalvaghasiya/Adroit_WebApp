@@ -88,13 +88,13 @@ BEGIN
 		BEGIN
 			EXEC @DescriptionId = dbo.sp_TransportDescSave 0, @loginId, @Description , 0, @loginId, @loginId, 1
 		END
-			SELECT @DescriptionId = Id FROM TransportDesc WHERE Title = @Description AND Active = 1
+		SELECT @DescriptionId = Id FROM TransportDesc WHERE Title = @Description AND Active = 1
 
 		IF ISNULL(@PackingId, 0) <= 0 AND ISNULL(@Packing,'') != '' AND @Packing NOT IN ( SELECT Title From TransportPacking WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
 		BEGIN
 			EXEC @PackingId = dbo.sp_TransportPackingSave 0, @loginId, @Packing , 1, 0, @loginId, @loginId
 		END
-			SELECT @PackingId = Id FROM TransportPacking WHERE Title = @Packing AND Active = 1
+		SELECT @PackingId = Id FROM TransportPacking WHERE Title = @Packing AND Active = 1
 
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM [Z-LRBooking-Z] 

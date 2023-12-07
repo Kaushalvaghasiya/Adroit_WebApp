@@ -23,9 +23,16 @@ namespace Adroit.Accounting.Web.Controllers
                 model.Firm = _adminCustomerFirmRepository.Get(id, _configurationData.DefaultConnection);
                 model.FirmId = model.Firm.Id;
             }
-
-            model.Firm.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
-
+            var customerId = _customerRepository.GetCustomerIdByLoginId(loginId, _configurationData.DefaultConnection);
+            var Customer = _customerRepository.Get(customerId, _configurationData.DefaultConnection);
+            if (Customer == null)
+            {
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please ask your admin to add your customer data" });
+            }
+            else
+            {
+                model.Firm.Customer = Customer;
+            }
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
             model.BranchTypeList = _branchTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchTable._TableName, CustomerFirmBranchTable.OrderNumber);

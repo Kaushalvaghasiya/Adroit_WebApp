@@ -19,8 +19,26 @@ namespace Adroit.Accounting.Web.Controllers
             int loginId = LoginHandler.GetUserId(User);
 
             model.EwayBillList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, LRBookingTable._TableName, LRBookingTable.EwayBillNo);
-            model.CustomerFirmTransportSetting = _customerFirmTransportSettingRepository.Get(CurrentFirmId, _configurationData.DefaultConnection);
-            model.CustomerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.Get(CurrentBranchId, _configurationData.DefaultConnection);
+            var CustomerFirmTransportSetting = _customerFirmTransportSettingRepository.Get(CurrentFirmId, _configurationData.DefaultConnection);
+            if (CustomerFirmTransportSetting == null)
+            {
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Firm" });
+            }
+            else
+            {
+                model.CustomerFirmTransportSetting = CustomerFirmTransportSetting;
+            }
+
+            var CustomerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.Get(CurrentBranchId, _configurationData.DefaultConnection);
+            if (CustomerFirmBranchTransportSetting == null)
+            {
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch." });
+            }
+            else
+            {
+                model.CustomerFirmBranchTransportSetting = CustomerFirmBranchTransportSetting;
+            }
+
             model.CityList = _transportLRBranchCityMappingRepository.SelectList(_configurationData.DefaultConnection, CurrentBranchId);
             model.DescriptionList = _transportDescRepository.SelectList(_configurationData.DefaultConnection, CurrentFirmId);
             model.PackingList = _transportpackingRepository.SelectList(_configurationData.DefaultConnection, CurrentFirmId);

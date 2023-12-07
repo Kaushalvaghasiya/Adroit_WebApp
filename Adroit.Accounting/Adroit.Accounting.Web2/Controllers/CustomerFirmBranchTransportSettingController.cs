@@ -14,8 +14,16 @@ namespace Adroit.Accounting.Web.Controllers
         {
             int loginId = LoginHandler.GetUserId(User);
             CustomerFirmBranchTransportSettingViewModel model = new();
-            model.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
-
+            var customerId = _customerRepository.GetCustomerIdByLoginId(loginId, _configurationData.DefaultConnection);
+            var Customer = _customerRepository.Get(customerId, _configurationData.DefaultConnection);
+            if (Customer == null)
+            {
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please ask your admin to add your customer data" });
+            }
+            else
+            {
+                model.Customer = Customer;
+            }
             model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectList(model.Customer.Id, true,_configurationData.DefaultConnection);
             model.CustomerAccountList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.CustomerBookList = _customerBookRepository.SelectListByLoginId(loginId, _configurationData.DefaultConnection);
@@ -37,7 +45,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _customerFirmBranchTransportSettingRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerFirmBranchTransportSettingRepository.List(_configurationData.DefaultConnection, loginId, CurrentBranchId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;

@@ -14,7 +14,12 @@ namespace Adroit.Accounting.Web.Controllers
         {
             CustomerAccountViewModel model = new();
             int loginId = LoginHandler.GetUserId(User);
-            var Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
+            var customerId = _customerRepository.GetCustomerIdByLoginId(loginId, _configurationData.DefaultConnection);
+            var Customer = _customerRepository.Get(customerId, _configurationData.DefaultConnection);
+            if (Customer == null)
+            {
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please ask your admin to add your customer data" });
+            }
 
             model.AccountGroupList = _customerAccountGroupRepo.sp_CustomerAccountGroupByFirmIdList_Select(CurrentFirmId, _configurationData.DefaultConnection);
             model.AccountBranchMappingList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
@@ -103,7 +108,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerAccountRepo.Get(id, _configurationData.DefaultConnection,0, CurrentFirmId);
+                result.data = _customerAccountRepo.Get(id, _configurationData.DefaultConnection, 0, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -120,7 +125,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerAccountRepo.GetTransporterGSTNumberList(name, CurrentFirmId,_configurationData.DefaultConnection);
+                result.data = _customerAccountRepo.GetTransporterGSTNumberList(name, CurrentFirmId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

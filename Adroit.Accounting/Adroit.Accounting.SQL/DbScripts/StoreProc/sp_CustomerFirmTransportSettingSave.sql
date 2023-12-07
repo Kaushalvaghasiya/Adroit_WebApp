@@ -47,6 +47,8 @@ BEGIN
 			,IsPartyAndCityRateFromLastLR = @IsPartyAndCityRateFromLastLR
 			,ReverseChargeApplyForURDParty = @ReverseChargeApplyForURDParty
 			,ReverseChargeLimitForSalesGST = @ReverseChargeLimitForSalesGST
+			,ModifiedById = @loginId
+			,ModifiedOn = GETUTCDATE()
 			WHERE FirmId = @FirmId
 			
 		END
@@ -63,8 +65,6 @@ BEGIN
 				,@DeliveryChargeLable6,@IsWeightRoundOff,@IsPartyAndCityRateFromLastLR,@ReverseChargeApplyForURDParty,@ReverseChargeLimitForSalesGST
 				,GETUTCDATE(),@loginId)
 
-			SET @FirmId = SCOPE_IDENTITY();
-			
 		END
 
 		COMMIT TRAN

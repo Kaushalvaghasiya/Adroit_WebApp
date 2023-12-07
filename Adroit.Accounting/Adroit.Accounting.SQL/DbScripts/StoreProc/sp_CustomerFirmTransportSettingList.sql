@@ -1,4 +1,6 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmTransportSettingList]
+  @loginId INT,
+  @firmId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -7,6 +9,9 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmTransportSettingList]
 As
 Set Nocount on;
 Begin
+	
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@firmId);
+
 	SELECT * FROM
 	(   
 		SELECT ROW_NUMBER() over 
@@ -29,10 +34,11 @@ Begin
 		[CustomerFirm].Title as Firm,
 		[Product].Title as Service
 		FROM CustomerFirmTransportSetting
-		INNER JOIN [CustomerFirm] on CustomerFirm.Id = [CustomerFirmTransportSetting].FirmId
-		INNER JOIN [Product] on Product.Id = [CustomerFirmTransportSetting].ProductIdForSales
+		INNER JOIN [CustomerFirm] on CustomerFirm.Id = [CustomerFirmTransportSetting].FirmId AND [CustomerFirm].CustomerId = @CustomerId
+		INNER JOIN [Product] on Product.Id = [CustomerFirmTransportSetting].ProductIdForSales AND [Product].CustomerId = @CustomerId
 		WHERE [CustomerFirm].Deleted = 0 AND [CustomerFirm].Active = 1
 		AND [Product].Deleted = 0 AND [Product].Active = 1
+		AND CustomerFirmTransportSetting.FirmId = @firmId
 		AND (Coalesce(@Search,'') = '' OR CustomerFirm.[Title] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

@@ -62,12 +62,12 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
-		DECLARE @CustomerId int = dbo.fn_GetCustomerId(@loginId);
+		DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@firmId);
 		DECLARE @YearId int = dbo.fn_GetYearId(@firmId,@loginId);
 
 		DECLARE @message VARCHAR(4000);
 
-		IF ISNULL(@YearId, -1) = -1
+		IF @YearId IS NULL
 		BEGIN
 			SET @message = 'Year Not Found!';
 			RAISERROR ('%s', 16, 1, @message);
@@ -76,7 +76,7 @@ BEGIN
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM CustomerBook 
 							WHERE (Id = @Id) 
-							OR (BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId AND Deleted = 1)
+							OR (BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId AND OwnerBranchId = @branchId AND Deleted = 1)
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN

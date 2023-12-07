@@ -421,5 +421,12 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
+
+        [Route("~/Common/ErrorMessage")]
+        public IActionResult ErrorMessage(string errMessage)
+        {
+            ViewBag.ErrMessage = errMessage;
+            return View();
+        }
     }
 }

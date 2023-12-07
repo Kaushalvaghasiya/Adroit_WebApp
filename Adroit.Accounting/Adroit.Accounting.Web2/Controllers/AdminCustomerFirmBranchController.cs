@@ -14,7 +14,7 @@ namespace Adroit.Accounting.Web.Controllers
         [Route("~/admin/customer/firm/branch")]
         public IActionResult CustomerFirmBranch(int id)
         {
-            CustomerFirmBranchViewModel model = new();
+            CustomerFirmBranchViewModel model = new();            
             model.Firm = _customerFirmRepository.Get(id, _configurationData.DefaultConnection);
             model.Firm.Customer = _customerRepository.Get(model.Firm.CustomerId, _configurationData.DefaultConnection);
 

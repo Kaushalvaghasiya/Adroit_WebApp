@@ -42,9 +42,11 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.Get<CustomerFirmTransportSettingViewModel>("sp_CustomerFirmTransportSettingGet", connectionString, parameters);
         }
 
-        public List<CustomerFirmTransportSettingGridViewModel> List(string connectionString, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<CustomerFirmTransportSettingGridViewModel> List(string connectionString, int loginId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();
+            param.Add("@loginId", loginId);
+            param.Add("@firmId", firmId);
             param.Add("@Search", search);
             param.Add("@PageStart", pageStart);
             param.Add("@PageSize", pageSize);

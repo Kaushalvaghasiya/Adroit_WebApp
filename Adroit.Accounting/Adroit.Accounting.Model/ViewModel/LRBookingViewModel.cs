@@ -23,7 +23,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string CityTo { get; set; }
         public string Description { get; set; }
         public string Packing { get; set; }
-        public System.DateTime LRBookingMaxDate { get; set; }
+        public string LRBookingMaxDate { get; set; }
         
     }
 }

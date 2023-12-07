@@ -19,7 +19,18 @@ namespace Adroit.Accounting.Web.Controllers
             int loginId = LoginHandler.GetUserId(User);
 
             CustomerUserViewModel model = new();
-            model.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
+            var customerId = _customerRepository.GetCustomerIdByLoginId(loginId, _configurationData.DefaultConnection);
+            var Customer = _customerRepository.Get(customerId, _configurationData.DefaultConnection);
+
+            if (Customer == null)
+            {
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please ask your admin to add your customer data" });
+            }
+            else
+            {
+                model.Customer = Customer;
+            }
+
             model.BranchList = _customerFirmBranchRepository.SelectList(model.Customer.Id, true, _configurationData.DefaultConnection);
             return View(model);
         }

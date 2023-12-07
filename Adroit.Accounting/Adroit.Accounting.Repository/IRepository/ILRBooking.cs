@@ -11,6 +11,6 @@ namespace Adroit.Accounting.Repository.IRepository
         int Save(LRBookingViewModel value, string connectionString, int loginId);
         public LRBookingViewModel Get(int id, string connectionString, int loginId, int branchId, int firmId);
         public GetRateFromLRBookingViewModel GetLRBookingRate(int firmId, int branchId, int cityIdTo, int billPartyId, int rateOnId, int loginId, string connectionString);
-        public System.DateTime GetLRBookingMaxDate(string connectionString, int branchId);
+        public string GetLRBookingMaxDate(string connectionString, int branchId);
     }
 }

@@ -121,7 +121,7 @@
                                                     <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                                 </div>
                                             </div>
-                                            <input class="form-control mode-ed fc-datepicker" placeholder="DD/MM/YYYY" type="text" id="LRDate" min="2023/12/05">
+                                            <input class="form-control mode-ed fc-datepicker" placeholder="DD/MM/YYYY" type="text" id="LRDate">
                                         </div>
                                     </div>
                                     <label for="EwayBillNo" class="col-md-1 form-label" tabindex="4">E-Way Bill#</label>
@@ -589,12 +589,12 @@
             else {
                 $("#ActualWeight").on("change", function (e) {
                     var actualWeight = parseFloat($("#ActualWeight").val());
-                    $("#ActualWeight").val(roundedWeight.toFixed(3));
+                    $("#ActualWeight").val(actualWeight.toFixed(3));
                 });
 
                 $("#ChargeWeight").on("change", function (e) {
                     var chargeWeight = parseFloat($("#ChargeWeight").val());
-                    $("#ChargeWeight").val(roundedWeight.toFixed(3));
+                    $("#ChargeWeight").val(chargeWeight.toFixed(3));
                 });
             }
 
@@ -820,25 +820,29 @@
             $("#VehicleId").val(null).trigger('change');
             $("#GST").val('0.00');
 
-            // Initialize the datepicker
+            // Max Date Validation
+            var maxDateStr = '@Model.LRBookingMaxDate';
+
+            var maxDateParts = maxDateStr.split('/');
+            var maxDate = new Date(maxDateParts[2], maxDateParts[1] - 1, maxDateParts[0]);
+
             $('#LRDate').datepicker({
                 format: 'dd/mm/yyyy',
-                // startDate: startDate, 
-                startDate: @Model.LRBookingMaxDate,
+                startDate: maxDate,
                 autoclose: true,
             });
 
-            // Set up a change event listener on the datepicker
             $('#LRDate').change(function () {
-                // Get the selected date
-                var selectedDate = new Date($(this).val());
+                var selectedDateStr = $(this).val();
+                var selectedDateParts = selectedDateStr.split('/');
+                var selectedDate = new Date(selectedDateParts[2], selectedDateParts[1] - 1, selectedDateParts[0]);
 
-                // Disable dates before the selected date and current date
-                if (selectedDate < startDate || selectedDate <= currentDate) {
-                    alert('Please select a date on or after ' + startDate.toLocaleDateString());
+                if (selectedDate <= maxDate || selectedDate <= new Date()) {
+                    alert('Please select a date after ' + maxDate.toLocaleDateString('en-US'));
                     $(this).val('');
                 }
             });
+            // Max Date Validation
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -1021,7 +1025,7 @@
                 savedata.Charges4 = getFloatValueNull("Charges4", 2);
                 savedata.Charges5 = getFloatValueNull("Charges5", 2);
                 savedata.Charges6 = getFloatValueNull("Charges6", 2);
-                
+
                 blockUI('container');
 
                 $.ajax({
@@ -1165,8 +1169,10 @@
                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetLRBookingRate/"))" + cityIdTo + "/" + billPartyId + "/" + rateOnId, "",
                     function (data) {
                         if (data.result == RESULT_SUCCESS) {
-                            $('#Rate').val(data.data.rate);
-                            $('#Rate').attr('disabled', data.data.isRateDisable == 1 ? true : false);
+                            if (data.data != null) {
+                                $('#Rate').val(data.data.rate);
+                                $('#Rate').attr('disabled', data.data.isRateDisable == 1 ? true : false);
+                            }
                         } else {
                             showError("", data.data);
                         }

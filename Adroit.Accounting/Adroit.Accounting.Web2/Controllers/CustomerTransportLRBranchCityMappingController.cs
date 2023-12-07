@@ -34,7 +34,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _transportLRBranchCityMappingRepository.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _transportLRBranchCityMappingRepository.List(_configurationData.DefaultConnection, loginId, CurrentBranchId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -96,7 +96,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _transportLRBranchCityMappingRepository.Get(id, _configurationData.DefaultConnection, loginId, CurrentFirmId);
+                result.data = _transportLRBranchCityMappingRepository.Get(id, _configurationData.DefaultConnection, loginId, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

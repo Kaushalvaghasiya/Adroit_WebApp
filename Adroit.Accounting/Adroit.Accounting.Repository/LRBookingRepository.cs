@@ -91,11 +91,11 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.Get<GetRateFromLRBookingViewModel>("sp_GetRateFromLRBooking", connectionString, parameters);
         }
 
-        public System.DateTime GetLRBookingMaxDate(string connectionString, int branchId)
+        public string GetLRBookingMaxDate(string connectionString, int branchId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@branchId", branchId);
-            return QueryHelper.Get<System.DateTime>("sp_GetLRBookingMaxDate", connectionString, parameters);
+            return QueryHelper.Get<string> ("sp_GetLRBookingMaxDate", connectionString, parameters);
         }
 
     }

@@ -14,7 +14,16 @@ namespace Adroit.Accounting.Web.Controllers
             int loginId = LoginHandler.GetUserId(User);
 
             CustomerFirmViewModel model = new();
-            model.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
+            var customerId = _customerRepository.GetCustomerIdByLoginId(loginId, _configurationData.DefaultConnection);
+            var Customer = _customerRepository.Get(customerId, _configurationData.DefaultConnection);
+            if (Customer == null)
+            {
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please ask your admin to add your customer data" });
+            }
+            else
+            {
+                model.Customer = Customer;
+            }
             model.BusinessList = _businessRepository.SelectList(_configurationData.DefaultConnection);
             model.GSTFirmTypeList = _gSTFirmTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.FirmTypeList = _firmTypeRepository.SelectList(_configurationData.DefaultConnection);
