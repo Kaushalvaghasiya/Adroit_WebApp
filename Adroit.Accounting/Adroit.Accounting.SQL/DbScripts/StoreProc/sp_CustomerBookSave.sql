@@ -1,8 +1,8 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_CustomerBookSave]
 (
-	 @loginId int
-	,@firmId int
-	,@branchId int
+	 @LoginId int
+	,@FirmId int
+	,@BranchId int
 	,@Id int  
 	,@BookAccountId int  
 	,@BookTypeId tinyint  
@@ -62,8 +62,8 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
-		DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@firmId);
-		DECLARE @YearId int = dbo.fn_GetYearId(@firmId,@loginId);
+		DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId,@LoginId);
 
 		DECLARE @message VARCHAR(4000);
 
@@ -76,7 +76,7 @@ BEGIN
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM CustomerBook 
 							WHERE (Id = @Id) 
-							OR (BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId AND OwnerBranchId = @branchId AND Deleted = 1)
+							OR (BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId AND OwnerBranchId = @BranchId AND Deleted = 1)
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
@@ -92,7 +92,7 @@ BEGIN
 				@IsItemDiscount,@IsItemDiscountSp,@IsCashPayAtBill,@ItemDesc1,@ItemDesc2,@ItemDesc3,@ItemDesc4,@ItemDesc5,@ItemDesc6,@ShowSalesOrderBoxNumber,@ShowPurcahseOrderBoxNumber,
 				@ShowQuotationBoxNumber,@ShowPerformaInvoiceNumber,@SalesBillFrom,@IsCalcMultiply,@BookShortName,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,
 				@IsTDSAccount,@TDSAccountId,@IsTCSAccount,@TCSAccountId,@SGSTAccountId,@CGSTAccountId,@IGSTAccountId,@GSTStateCessAccountId,@GSTCentralCessAccountId,
-				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@Active,@branchId,GETUTCDATE(),@loginId)
+				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@Active,@BranchId,GETUTCDATE(),@LoginId)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -154,7 +154,7 @@ BEGIN
 			,RcmCGSTRecAccountId = @RCMCGSTRecAccountId
 			,RcmIGSTRecAccountId = @RCMIGSTRecAccountId
 			,RoundOffAccountId = @RoundOffAccountId
-			,OwnerBranchId = @branchId
+			,OwnerBranchId = @BranchId
 			,Active = @Active
 			,DeletedById = NULL
 			,DeletedOn = NULL
@@ -162,7 +162,7 @@ BEGIN
 			WHERE Id = @Id
 
 			UPDATE  CustomerBookBranchMapping SET
-					DeletedById = @loginId,
+					DeletedById = @LoginId,
 					DeletedOn = GETUTCDATE(),
 					Deleted = 1
 			WHERE BookId = @Id AND [BranchId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@CustomerBookBranchId))
@@ -175,10 +175,10 @@ BEGIN
 		END
 
 		INSERT INTO [CustomerBookBranchMapping] (BookId,BranchId,AddedById,AddedOn)
-		SELECT @Id,Id,@loginId,GETUTCDATE()
+		SELECT @Id,Id,@LoginId,GETUTCDATE()
 		FROM dbo.[fnStringToIntArray](@CustomerBookBranchId)
 		EXCEPT
-		SELECT BookId,BranchId,@loginId,GETUTCDATE() 
+		SELECT BookId,BranchId,@LoginId,GETUTCDATE() 
 		FROM [dbo].[CustomerBookBranchMapping]
 		
 		COMMIT TRAN

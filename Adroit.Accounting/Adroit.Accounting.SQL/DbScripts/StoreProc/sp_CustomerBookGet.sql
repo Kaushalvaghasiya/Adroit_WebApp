@@ -1,13 +1,13 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_CustomerBookGet]
 (
-	 @loginId INT
-	,@firmId INT
+	 @LoginId INT
+	,@FirmId INT
 	,@Id INT
 )
 AS
 BEGIN
 	
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@firmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
 	
 	SELECT 
 		CustomerBook.*,
@@ -16,7 +16,7 @@ BEGIN
 			FROM  CustomerBookBranchMapping t
 			WHERE t.BookId = @Id GROUP BY t.BookId) AS CustomerBookBranchId
 	FROM CustomerBook
-	WHERE CustomerBook.CustomerId = @CustomerId AND CustomerBook.OwnerBranchId = @Id AND CustomerBook.Id = @Id
+	WHERE CustomerBook.CustomerId = @CustomerId AND CustomerBook.Id = @Id
 
 END
 GO

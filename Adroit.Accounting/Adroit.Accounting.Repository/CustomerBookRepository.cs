@@ -11,9 +11,9 @@ namespace Adroit.Accounting.Repository
         public int Save(CustomerBook value, string connectionString, int loginId, int branchId, int firmId = 0)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@loginId", loginId);
-            parameters.Add("@firmId", firmId);
-            parameters.Add("@branchId", branchId);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
             parameters.Add("@Id", value.Id);
             parameters.Add("@BookAccountId", value.BookAccountId);
             parameters.Add("@BookTypeId", value.BookTypeId);
@@ -70,20 +70,20 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerBookSave", connectionString, parameters);
         }
-        public CustomerBook Get(int id, string connectionString, int loginId, int branchId, int firmId = 0)
+        public CustomerBook Get(int id, string connectionString, int loginId, int branchId, int firmId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@loginId", loginId);
-            parameters.Add("@firmId", firmId);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
             return QueryHelper.Get<CustomerBook>("sp_CustomerBookGet", connectionString, parameters);
         }
         public List<CustomerBookGridViewModel> List(string connectionString, int loginId = 0, int branchId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@loginId", loginId);
-            parameters.Add("@firmId", firmId);
-            parameters.Add("@branchId", branchId);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
             parameters.Add("@Search", search);
             parameters.Add("@PageStart", pageStart);
             parameters.Add("@PageSize", pageSize);
@@ -95,14 +95,15 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@loginId", loginId);
-            parameters.Add("@firmId", firmId);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
             return QueryHelper.Delete("sp_CustomerBookDelete", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectListByLoginId(int loginId, string connectionString)
+        public List<DropdownViewModel> SelectList(int firmId, int branchId, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@loginId", loginId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerBookBranchMappingList_Select", connectionString, parameters);
         }
 

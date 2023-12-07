@@ -604,10 +604,10 @@
 
             $("#Charges1, #Charges2, #Charges3, #Charges4, #Charges5, #Charges6, #Freight").on('change', function (e) {
                 var fieldId = $(this).attr('id');
-                TwoDecimalPoints(fieldId);
-            });
+                var currentValue = parseFloat($("#" + fieldId).val()); // Convert value to a number if it's not already
+                var formattedValue = currentValue.toFixed(2);
+                $("#" + fieldId).val(formattedValue);
 
-            $("#Charges1, #Charges2, #Charges3, #Charges4, #Charges5, #Charges6, #Freight").on('keyup', function (e) {
                 CalcNetAmount();
             });
 
@@ -615,10 +615,13 @@
                 CalcFreight($("#hdnLRRateOn").val());
             });
 
-            $("#Rate").on('keyup', function (e) {
-                CalcFreight($("#hdnLRRateOn").val());
+            $("#Rate").on('change', function (e) {
                 var fieldId = $(this).attr('id');
-                TwoDecimalPoints(fieldId);
+                var currentValue = parseFloat($("#" + fieldId).val()); // Convert value to a number if it's not already
+                var formattedValue = currentValue.toFixed(2);
+                $("#" + fieldId).val(formattedValue);
+
+                CalcFreight($("#hdnLRRateOn").val());
             });
 
             $("#AccountBranchMappingId, #DeliveryAccountBranchMappingId, #LRPayTypeId").on('change', function (e) {
@@ -646,10 +649,6 @@
                     }
                 }
             }
-        }
-
-        function TwoDecimalPoints(fieldId) {
-            return $("#" + fieldId).val(parseFloat($("#" + fieldId).val() || 0).toFixed(2));
         }
 
         function addClick(isNew = true) {
@@ -821,24 +820,28 @@
             $("#GST").val('0.00');
 
             // Max Date Validation
-            var maxDateStr = '@Model.LRBookingMaxDate';
+            var minDateStr = '@Model.LRBookingMaxDate';
 
-            var maxDateParts = maxDateStr.split('/');
-            var maxDate = new Date(maxDateParts[2], maxDateParts[1] - 1, maxDateParts[0]);
+            var minDateParts = minDateStr.split('/');
+            var minimumDate = new Date(minDateParts[2], minDateParts[1] - 1, minDateParts[0]);
 
             $('#LRDate').datepicker({
-                format: 'dd/mm/yyyy',
-                startDate: maxDate,
+                dateFormat: "dd/mm/yy",
+                startDate: minimumDate,
                 autoclose: true,
+                minDate: minimumDate
             });
+
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", minimumDate);
+            $("#LRDate").datepicker("setDate", formattedMinimumDate); // Set the initial date to the minimum date
 
             $('#LRDate').change(function () {
                 var selectedDateStr = $(this).val();
                 var selectedDateParts = selectedDateStr.split('/');
                 var selectedDate = new Date(selectedDateParts[2], selectedDateParts[1] - 1, selectedDateParts[0]);
 
-                if (selectedDate <= maxDate || selectedDate <= new Date()) {
-                    alert('Please select a date after ' + maxDate.toLocaleDateString('en-US'));
+                if (selectedDate < minimumDate) {
+                    alert('You can not select before date : ' + minimumDate.toLocaleDateString('en-US'));
                     $(this).val('');
                 }
             });
@@ -1126,16 +1129,16 @@
 
                                 $("#LRDate").val(moment(result.data.lrDate.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#Parcel").val(result.data.parcel);
-                                $("#ActualWeight").val(result.data.actualWeight);
-                                $("#ChargeWeight").val(result.data.chargeWeight);
-                                $("#Rate").val(result.data.rate);
-                                $("#Freight").val(result.data.freight);
-                                $("#Charges1").val(result.data.charges1);
-                                $("#Charges2").val(result.data.charges2);
-                                $("#Charges3").val(result.data.charges3);
-                                $("#Charges4").val(result.data.charges4);
-                                $("#Charges5").val(result.data.charges5);
-                                $("#Charges6").val(result.data.charges6);
+                                $("#ActualWeight").val(result.data.actualWeight.toFixed(3));
+                                $("#ChargeWeight").val(result.data.chargeWeight.toFixed(3));
+                                $("#Rate").val(result.data.rate.toFixed(2));
+                                $("#Freight").val(result.data.freight.toFixed(2));
+                                $("#Charges1").val(result.data.charges1.toFixed(2));
+                                $("#Charges2").val(result.data.charges2.toFixed(2));
+                                $("#Charges3").val(result.data.charges3.toFixed(2));
+                                $("#Charges4").val(result.data.charges4.toFixed(2));
+                                $("#Charges5").val(result.data.charges5.toFixed(2));
+                                $("#Charges6").val(result.data.charges6.toFixed(2));
                                 $("#InvoiceNo").val(result.data.invoiceNo);
                                 $("#InvoiceValue").val(result.data.invoiceValue);
                                 $("#PrivateMarka").val(result.data.privateMarka);
