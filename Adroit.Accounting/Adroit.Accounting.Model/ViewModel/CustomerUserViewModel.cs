@@ -11,6 +11,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> BranchList { get; set; }
         public CustomerViewModel Customer { get; set; }
         public string CustomerUserBranches { get; set; }
+        public int? LoggedInBranchId { get; set; }
+        public int? LoggedInYear { get; set; }
         public string FullName { get { return $"{this.FirstName} {this.LastName}"; } }
         public string MaskedEmail
         {
