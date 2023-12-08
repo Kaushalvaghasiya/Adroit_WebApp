@@ -1,8 +1,8 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_LRBookingGet]
 (
 	@Id INT,
-	@loginId INT,
-	@firmId INT
+	@LoginId INT,
+	@FirmId INT
 )
 AS
 BEGIN

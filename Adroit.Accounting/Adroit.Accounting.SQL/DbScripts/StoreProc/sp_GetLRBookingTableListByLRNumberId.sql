@@ -1,10 +1,10 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_GetLRBookingTableListByLRNumberId]
-  @loginId int,
-  @branchId int,
+  @LoginId int,
+  @BranchId int,
   @LRNumberId int
 AS
 BEGIN
-	DECLARE @CustomerId int = dbo.fn_GetCustomerId(@loginId);
+	DECLARE @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
 
 	   SELECT  
 	    ROW_NUMBER() over (ORDER BY [Z-LRBooking-Z].Id ASC) AS RowNum,
@@ -25,7 +25,7 @@ BEGIN
 		CA3.Name As BillParty,
 		(ISNULL([Freight],0)+ISNULL([Charges1],0)+ISNULL([Charges2],0)+ISNULL([Charges3],0)+ISNULL([Charges4],0)+ISNULL([Charges5],0)+ISNULL([Charges6],0)) AS ChargeAmount
 		FROM [Z-LRBooking-Z]
-			 INNER JOIN [CustomerAccountBranchMapping] ON [Z-LRBooking-Z].[AccountBranchMappingId] = [CustomerAccountBranchMapping].[Id] AND [CustomerAccountBranchMapping].[BranchId] = @branchId
+			 INNER JOIN [CustomerAccountBranchMapping] ON [Z-LRBooking-Z].[AccountBranchMappingId] = [CustomerAccountBranchMapping].[Id] AND [CustomerAccountBranchMapping].[BranchId] = @BranchId
 			 INNER JOIN [CustomerAccount] ON [CustomerAccountBranchMapping].[AccountId] = [CustomerAccount].[Id] AND [CustomerAccount].[CustomerId] = @CustomerId 
 			 INNER JOIN [CustomerAccountBranchMapping] AS CAB1 on CAB1.Id = [Z-LRBooking-Z].AccountBranchMappingId AND CAB1.Deleted = 0
 			 INNER JOIN [CustomerAccount] AS CA1 on CA1.Id = CAB1.AccountId AND CA1.Deleted = 0 AND CA1.Active = 1
@@ -38,7 +38,7 @@ BEGIN
 			 LEFT JOIN [TransportPacking] ON [Z-LRBooking-Z].[PackingId] = [TransportPacking].[Id] AND [TransportPacking].[CustomerId] = @CustomerId AND [TransportPacking].Deleted = 0 AND [TransportPacking].Active = 1 
 			 LEFT JOIN [CustomerAccountBranchMapping] AS CAB3 on CAB3.Id = [Z-LRBooking-Z].BillAccountBranchMappingId AND CAB3.Deleted = 0
 			 LEFT JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId AND CA3.Deleted = 0 AND CA3.Active = 1
-		WHERE [Z-LRBooking-Z].[BranchId] = @branchId
+		WHERE [Z-LRBooking-Z].[BranchId] = @BranchId
 			  AND [Z-LRBooking-Z].Deleted = 0
 			  AND [CustomerAccountBranchMapping].Deleted = 0
 			  AND [CustomerAccount].Deleted = 0 AND [CustomerAccount].Active = 1

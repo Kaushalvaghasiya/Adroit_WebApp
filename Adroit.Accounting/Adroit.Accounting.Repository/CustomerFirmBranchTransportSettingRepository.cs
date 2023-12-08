@@ -52,9 +52,9 @@ namespace Adroit.Accounting.Repository
         public CustomerFirmBranchTransportSettingViewModel GetListWithLabel_Total(string lrNumberId, string connectionString, int loginId, int branchId)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@loginId", loginId);
-            parameters.Add("@branchId", branchId);
-            parameters.Add("@lrNumberId", lrNumberId);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@LRNumberId", lrNumberId);
             return QueryHelper.Get<CustomerFirmBranchTransportSettingViewModel>("sp_CustomerFirmBranchTransportSettingForLabel_Total_Select", connectionString, parameters);
         }
     }

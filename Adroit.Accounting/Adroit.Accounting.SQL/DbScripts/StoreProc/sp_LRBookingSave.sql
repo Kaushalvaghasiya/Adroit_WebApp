@@ -1,8 +1,8 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_LRBookingSave]
 (
 	 @Id INT  
-	,@branchId INT
-	,@loginId INT
+	,@BranchId INT
+	,@LoginId INT
 	,@CityIdTo INT
 	,@LRNumber INT
 	,@LRDate DATETIME
@@ -42,17 +42,17 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
-		DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @branchId);
+		DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId);
 		DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId);
-		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @branchId);
+		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @BranchId);
 		DECLARE @ProductBranchMappingId INT = (
 			SELECT ProductBranchMapping.Id 
 			FROM CustomerFirmTransportSetting 
 				INNER JOIN ProductBranchMapping on ProductBranchMapping.ProductId = CustomerFirmTransportSetting.ProductIdForSales 
-				AND ProductBranchMapping.BranchId = @branchId
+				AND ProductBranchMapping.BranchId = @BranchId
 			WHERE CustomerFirmTransportSetting.FirmId = @FirmId
 		);
-		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId,@loginId);
+		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId,@LoginId);
 		DECLARE @message VARCHAR(4000);
 		DECLARE @LRNumberStartRange INT;
 		DECLARE @LRNumberEndRange INT;
@@ -67,14 +67,20 @@ BEGIN
 		BEGIN
 			SELECT @LRNumber = ISNULL(MAX(LRNumber),0) + 1
 			FROM [Z-LRBooking-Z]
-			WHERE BranchId = @branchId;
+			WHERE BranchId = @BranchId;
 		END
 
 		SELECT @LRNumberStartRange = StartNumber,@LRNumberEndRange = EndNumber
 		FROM LRBookingRange 
-		WHERE BranchId = @branchId
+		WHERE BranchId = @BranchId
 
-		IF (@LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange) AND (@LRNumber NOT IN ( SELECT LRNumber FROM [Z-LRBooking-Z] WHERE BranchId = @branchId ))
+		IF EXISTS (SELECT 1 FROM [Z-LRBooking-Z] WHERE LRNumber = @LRNumber AND BranchId = @BranchId)
+		BEGIN
+			SET @message = 'This LR Number is alreay exist';
+			RAISERROR ('%s', 16, 1, @message);
+		END
+
+		IF (@LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange) 
 		BEGIN
 			SET @message = 'Please renew LR Range';
 			RAISERROR ('%s', 16, 1, @message);
@@ -83,7 +89,7 @@ BEGIN
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM [Z-LRBooking-Z] 
 							WHERE (Id = @Id) 
-							OR (LRNumber = @LRNumber AND BranchId = @branchId AND Deleted = 1)
+							OR (LRNumber = @LRNumber AND BranchId = @BranchId AND Deleted = 1)
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
@@ -94,10 +100,10 @@ BEGIN
 				,Rate,Freight,Charges1,Charges2,Charges3,Charges4,Charges5,Charges6,ProductBranchMappingId,Remarks,LRDeliveryId,LRDeliveryTypeId,IsSaleBilled
 				,IsDispatched,AddedById,AddedOn)
 			VALUES
-				(@branchId,@YearId,@ValidDateFrom,@ValidDateTo,@AccountBranchMappingId,@BookBranchMappingId,@LRNumber,@LRDate,@VehicleId,@CityIdFrom,@CityIdTo,@DeliveryAccountBranchMappingId,@BillAccountBranchMappingId
+				(@BranchId,@YearId,@ValidDateFrom,@ValidDateTo,@AccountBranchMappingId,@BookBranchMappingId,@LRNumber,@LRDate,@VehicleId,@CityIdFrom,@CityIdTo,@DeliveryAccountBranchMappingId,@BillAccountBranchMappingId
 				,@EwayBillNo,@LRPayTypeId,@InvoiceNo,@InvoiceValue,@PrivateMarka,@Parcel,@ActualWeight,@ChargeWeight,@DescriptionId,@PackingId,@LRRateOnId
 				,@Rate,@Freight,@Charges1,@Charges2,@Charges3,@Charges4,@Charges5,@Charges6,@ProductBranchMappingId,@Remarks,@LRDeliveryId,@LRDeliveryTypeId,@IsSaleBilled
-				,@IsDispatched,@loginId,GETUTCDATE())
+				,@IsDispatched,@LoginId,GETUTCDATE())
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -107,7 +113,7 @@ BEGIN
 			SET @Id = @IdCheck
 
 			UPDATE [Z-LRBooking-Z] SET
-			 BranchId = @branchId
+			 BranchId = @BranchId
 			,YearId = @YearId
 			,ValidDateFrom = @ValidDateFrom
 			,ValidDateTo = @ValidDateTo

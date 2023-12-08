@@ -61,6 +61,6 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerFirmSave", connectionString, parameters);
         }
-        
+       
     }
 }
