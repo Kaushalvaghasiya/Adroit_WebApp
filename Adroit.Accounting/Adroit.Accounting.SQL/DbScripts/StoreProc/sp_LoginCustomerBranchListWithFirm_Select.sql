@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerBranchListWithFirm_Select]
+CREATE OR ALTER PROCEDURE [dbo].[sp_LoginCustomerBranchListWithFirm_Select]
 (
 	@LoginId INT
 )

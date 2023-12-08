@@ -436,7 +436,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _customerCustomerFirmBranchRepository.SelectList(_configurationData.DefaultConnection, loginId);
+                result.data = _customerCustomerFirmBranchRepository.LoginCustomerSelectList(_configurationData.DefaultConnection, loginId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
