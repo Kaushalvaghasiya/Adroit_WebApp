@@ -1,6 +1,6 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmTransportSettingList]
-  @loginId INT,
-  @firmId INT,
+  @LoginId INT,
+  @FirmId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -10,7 +10,7 @@ As
 Set Nocount on;
 Begin
 	
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@firmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
 
 	SELECT * FROM
 	(   
@@ -38,7 +38,7 @@ Begin
 		INNER JOIN [Product] on Product.Id = [CustomerFirmTransportSetting].ProductIdForSales AND [Product].CustomerId = @CustomerId
 		WHERE [CustomerFirm].Deleted = 0 AND [CustomerFirm].Active = 1
 		AND [Product].Deleted = 0 AND [Product].Active = 1
-		AND CustomerFirmTransportSetting.FirmId = @firmId
+		AND CustomerFirmTransportSetting.FirmId = @FirmId
 		AND (Coalesce(@Search,'') = '' OR CustomerFirm.[Title] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

@@ -21,14 +21,14 @@ namespace Adroit.Accounting.Web.Controllers
                 return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please ask your admin to add your customer data" });
             }
 
-            model.AccountGroupList = _customerAccountGroupRepo.sp_CustomerAccountGroupByFirmIdList_Select(CurrentFirmId, _configurationData.DefaultConnection);
+            model.AccountGroupList = _customerAccountGroupRepo.CustomerAccountGroupByFirmIdList_Select(CurrentFirmId, _configurationData.DefaultConnection);
             model.AccountBranchMappingList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
 
             model.AreaNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.AreaName);
             model.TransportNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.TransportName);
             model.NameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.Name);
-            model.BrokerBranchMappingList = _customerBrokerBranchMappingRepo.GetCustomerBrokerBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
+            model.BrokerBranchMappingList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId, _configurationData.DefaultConnection);
             model.BranchList = _customerFirmBranchRepository.SelectList(Customer.Id, true, _configurationData.DefaultConnection);
 
             return View(model);

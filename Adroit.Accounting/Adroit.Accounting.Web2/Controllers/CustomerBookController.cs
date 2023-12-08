@@ -65,7 +65,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _customerBookRepository.Get(id, _configurationData.DefaultConnection, loginId, CurrentBranchId, CurrentFirmId);
+                result.data = _customerBookRepository.Get(id, _configurationData.DefaultConnection, loginId, CurrentBranchId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -88,7 +88,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _customerBookRepository.List(_configurationData.DefaultConnection, loginId, CurrentBranchId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerBookRepository.List(_configurationData.DefaultConnection, loginId, CurrentBranchId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -108,7 +108,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _customerBookRepository.Delete(id, _configurationData.DefaultConnection, loginId, CurrentFirmId);
+                result.data = _customerBookRepository.Delete(id, _configurationData.DefaultConnection, loginId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

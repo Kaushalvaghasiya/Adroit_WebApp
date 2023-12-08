@@ -70,19 +70,18 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerBookSave", connectionString, parameters);
         }
-        public CustomerBook Get(int id, string connectionString, int loginId, int branchId, int firmId)
+        public CustomerBook Get(int id, string connectionString, int loginId, int BranchId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             parameters.Add("@LoginId", loginId);
-            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", BranchId);
             return QueryHelper.Get<CustomerBook>("sp_CustomerBookGet", connectionString, parameters);
         }
-        public List<CustomerBookGridViewModel> List(string connectionString, int loginId = 0, int branchId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<CustomerBookGridViewModel> List(string connectionString, int loginId = 0, int branchId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
-            parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", branchId);
             parameters.Add("@Search", search);
             parameters.Add("@PageStart", pageStart);
@@ -91,18 +90,16 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<CustomerBookGridViewModel>("sp_CustomerBookList", connectionString, parameters);
         }
-        public bool Delete(int id, string connectionString, int loginId, int firmId = 0)
+        public bool Delete(int id, string connectionString, int loginId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             parameters.Add("@LoginId", loginId);
-            parameters.Add("@FirmId", firmId);
             return QueryHelper.Delete("sp_CustomerBookDelete", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectList(int firmId, int branchId, string connectionString)
+        public List<DropdownViewModel> SelectList(int branchId, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", branchId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerBookBranchMappingList_Select", connectionString, parameters);
         }

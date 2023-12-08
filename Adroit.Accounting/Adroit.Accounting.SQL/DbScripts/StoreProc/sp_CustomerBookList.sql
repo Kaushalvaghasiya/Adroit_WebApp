@@ -1,7 +1,6 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerBookList]
 (
   @LoginId INT,
-  @FirmId INT,
   @BranchId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
@@ -13,6 +12,7 @@ As
 Set Nocount on;
 Begin
 
+	DECLARE @FirmId int = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId) 
 	DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
 
 	SELECT * FROM

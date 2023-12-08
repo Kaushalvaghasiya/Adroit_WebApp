@@ -1,14 +1,15 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_CustomerBookGet]
 (
 	 @LoginId INT
-	,@FirmId INT
+	,@BranchId INT
 	,@Id INT
 )
 AS
 BEGIN
 	
+	Declare @FirmId int = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId) 
 	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
-	
+
 	SELECT 
 		CustomerBook.*,
 		(SELECT STUFF((SELECT ',' + CAST(t1.BranchId AS VARCHAR) FROM CustomerBookBranchMapping t1

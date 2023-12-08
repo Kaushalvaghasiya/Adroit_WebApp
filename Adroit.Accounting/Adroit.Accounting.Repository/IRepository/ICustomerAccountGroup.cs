@@ -11,6 +11,6 @@ namespace Adroit.Accounting.Repository.IRepository
         List<CustomerAccountGroupGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
         List<DropdownViewModel> SelectList(int userId, string connectionString);
         List<DropdownViewModel> GetCustomerAccountGroupList(string connectionString, int loginId = 0, int firmId = 0);
-        List<DropdownViewModel> sp_CustomerAccountGroupByFirmIdList_Select(int firmId, string connectionString);
+        List<DropdownViewModel> CustomerAccountGroupByFirmIdList_Select(int firmId, string connectionString);
     }
 }

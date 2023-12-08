@@ -61,7 +61,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountGroupList_Select", connectionString, parameters);
         }
-        public List<DropdownViewModel> sp_CustomerAccountGroupByFirmIdList_Select(int firmId, string connectionString)
+        public List<DropdownViewModel> CustomerAccountGroupByFirmIdList_Select(int firmId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@FirmId", firmId);

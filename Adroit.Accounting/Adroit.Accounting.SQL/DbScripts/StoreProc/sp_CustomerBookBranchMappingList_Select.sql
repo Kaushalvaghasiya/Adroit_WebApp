@@ -1,12 +1,12 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_CustomerBookBranchMappingList_Select]
 (
-	 @FirmId int,
 	 @BranchId int
 )
 AS
 BEGIN
+		Declare @FirmId int = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId) 
 		Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
-		
+
 		SELECT CustomerBookBranchMapping.Id As Value, CustomerAccount.[Name] As Text
 		FROM CustomerBookBranchMapping 
 		INNER JOIN [CustomerBook] ON CustomerBookBranchMapping.BookId = [CustomerBook].Id AND CustomerBookBranchMapping.BranchId = @BranchId  

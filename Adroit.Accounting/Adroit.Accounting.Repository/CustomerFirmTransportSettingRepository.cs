@@ -13,7 +13,7 @@ namespace Adroit.Accounting.Repository
         public int Save(CustomerFirmTransportSetting value, string connectionString, int loginId)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@loginId", loginId);
+            parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", value.FirmId);
             parameters.Add("@ReverseChargeLimitForSalesGST", value.ReverseChargeLimitForSalesGST);
             parameters.Add("@ProductIdForSales", value.ProductIdForSales);
@@ -45,8 +45,8 @@ namespace Adroit.Accounting.Repository
         public List<CustomerFirmTransportSettingGridViewModel> List(string connectionString, int loginId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();
-            param.Add("@loginId", loginId);
-            param.Add("@firmId", firmId);
+            param.Add("@LoginId", loginId);
+            param.Add("@FirmId", firmId);
             param.Add("@Search", search);
             param.Add("@PageStart", pageStart);
             param.Add("@PageSize", pageSize);

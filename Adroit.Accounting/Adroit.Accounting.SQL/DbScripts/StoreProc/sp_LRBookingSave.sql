@@ -1,8 +1,8 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_LRBookingSave]
 (
 	 @Id INT  
-	,@branchId INT
-	,@loginId INT
+	,@BranchId INT
+	,@LoginId INT
 	,@CityIdTo INT
 	,@LRNumber INT
 	,@LRDate DATETIME
@@ -44,19 +44,19 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
-		DECLARE @CustomerId int = dbo.[fn_GetCustomerId](@loginId);
+		DECLARE @CustomerId int = dbo.[fn_GetCustomerId](@LoginId);
 
-		DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @branchId);
-		DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId AND Id = @branchId);
-		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @branchId);
+		DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId);
+		DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId AND Id = @BranchId);
+		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @BranchId);
 		DECLARE @ProductBranchMappingId INT = (
 			SELECT ProductBranchMapping.Id 
 			FROM CustomerFirmTransportSetting 
 				INNER JOIN ProductBranchMapping on ProductBranchMapping.ProductId = CustomerFirmTransportSetting.ProductIdForSales 
-				AND ProductBranchMapping.BranchId = @branchId
+				AND ProductBranchMapping.BranchId = @BranchId
 			WHERE CustomerFirmTransportSetting.FirmId = @FirmId
 		);
-		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId,@loginId);
+		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId,@LoginId);
 		DECLARE @message VARCHAR(4000);
 		DECLARE @LRNumberStartRange INT;
 		DECLARE @LRNumberEndRange INT;
@@ -71,12 +71,12 @@ BEGIN
 		BEGIN
 			SELECT @LRNumber = ISNULL(MAX(LRNumber),0) + 1
 			FROM [Z-LRBooking-Z]
-			WHERE BranchId = @branchId;
+			WHERE BranchId = @BranchId;
 		END
 
 		SELECT @LRNumberStartRange = StartNumber,@LRNumberEndRange = EndNumber
 		FROM LRBookingRange 
-		WHERE BranchId = @branchId
+		WHERE BranchId = @BranchId
 
 		IF @LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange
 		BEGIN
@@ -86,20 +86,20 @@ BEGIN
 
 		IF ISNULL(@DescriptionId, 0) <= 0 AND ISNULL(@Description,'') != '' AND @Description NOT IN ( SELECT Title From TransportDesc WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
 		BEGIN
-			EXEC @DescriptionId = dbo.sp_TransportDescSave 0, @loginId, @Description , 0, @loginId, @loginId, 1
+			EXEC @DescriptionId = dbo.sp_TransportDescSave 0, @LoginId, @Description , 0, @LoginId, @LoginId, 1
 		END
 		SELECT @DescriptionId = Id FROM TransportDesc WHERE Title = @Description AND Active = 1
 
 		IF ISNULL(@PackingId, 0) <= 0 AND ISNULL(@Packing,'') != '' AND @Packing NOT IN ( SELECT Title From TransportPacking WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
 		BEGIN
-			EXEC @PackingId = dbo.sp_TransportPackingSave 0, @loginId, @Packing , 1, 0, @loginId, @loginId
+			EXEC @PackingId = dbo.sp_TransportPackingSave 0, @LoginId, @Packing , 1, 0, @LoginId, @LoginId
 		END
 		SELECT @PackingId = Id FROM TransportPacking WHERE Title = @Packing AND Active = 1
 
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM [Z-LRBooking-Z] 
 							WHERE (Id = @Id) 
-							OR (LRNumber = @LRNumber AND BranchId = @branchId AND Deleted = 1)
+							OR (LRNumber = @LRNumber AND BranchId = @BranchId AND Deleted = 1)
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
@@ -110,10 +110,10 @@ BEGIN
 				,Rate,Freight,Charges1,Charges2,Charges3,Charges4,Charges5,Charges6,ProductBranchMappingId,Remarks,LRDeliveryId,LRDeliveryTypeId,IsSaleBilled
 				,IsDispatched,AddedById,AddedOn)
 			VALUES
-				(@branchId,@YearId,@ValidDateFrom,@ValidDateTo,@AccountBranchMappingId,@BookBranchMappingId,@LRNumber,@LRDate,@VehicleId,@CityIdFrom,@CityIdTo,@DeliveryAccountBranchMappingId,@BillAccountBranchMappingId
+				(@BranchId,@YearId,@ValidDateFrom,@ValidDateTo,@AccountBranchMappingId,@BookBranchMappingId,@LRNumber,@LRDate,@VehicleId,@CityIdFrom,@CityIdTo,@DeliveryAccountBranchMappingId,@BillAccountBranchMappingId
 				,@EwayBillNo,@LRPayTypeId,@InvoiceNo,@InvoiceValue,@PrivateMarka,@Parcel,@ActualWeight,@ChargeWeight,@DescriptionId,@PackingId,@LRRateOnId
 				,@Rate,@Freight,@Charges1,@Charges2,@Charges3,@Charges4,@Charges5,@Charges6,@ProductBranchMappingId,@Remarks,@LRDeliveryId,@LRDeliveryTypeId,@IsSaleBilled
-				,@IsDispatched,@loginId,GETUTCDATE())
+				,@IsDispatched,@LoginId,GETUTCDATE())
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -123,7 +123,7 @@ BEGIN
 			SET @Id = @IdCheck
 
 			UPDATE [Z-LRBooking-Z] SET
-			 BranchId = @branchId
+			 BranchId = @BranchId
 			,YearId = @YearId
 			,ValidDateFrom = @ValidDateFrom
 			,ValidDateTo = @ValidDateTo

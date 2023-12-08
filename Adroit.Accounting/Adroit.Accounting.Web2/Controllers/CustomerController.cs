@@ -245,7 +245,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 int loginId = LoginHandler.GetUserId(User);
-                result.data = _customerBrokerBranchMappingRepo.GetCustomerBrokerBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection, loginId ).ToList(); ;
+                result.data = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId, _configurationData.DefaultConnection, loginId ).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

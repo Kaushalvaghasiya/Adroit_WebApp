@@ -90,7 +90,7 @@ namespace Adroit.Accounting.Repository
             QueryHelper.Save("sp_ProductDelete", connectionString, parameters);
         }
 
-        public ProductViewModel Get(int id, int firmId, string connectionString, int loginId)
+        public ProductViewModel Get(int id, string connectionString, int loginId, int firmId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);

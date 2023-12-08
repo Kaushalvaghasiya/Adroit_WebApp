@@ -1,7 +1,6 @@
 CREATE OR ALTER   procedure [dbo].[sp_CustomerBookDelete]
 (
 	 @LoginId int
-	,@FirmId int
 	,@Id INT
 )
 AS

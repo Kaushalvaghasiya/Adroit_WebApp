@@ -1,7 +1,7 @@
 CREATE OR ALTER Procedure [dbo].[sp_LRBookingList]
-  @loginId INT,
-  @branchId INT,
-  @firmId INT,
+  @LoginId INT,
+  @BranchId INT,
+  @FirmId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -42,7 +42,7 @@ Begin
 		INNER JOIN [CustomerAccount] AS CA2 on CA2.Id = CAB2.AccountId
 		INNER JOIN [City] AS CT1 on CT1.Id = [Z-LRBooking-Z].CityIdFrom
 		INNER JOIN [City] AS CT2 on CT2.Id = [Z-LRBooking-Z].CityIdTo
-		WHERE [Z-LRBooking-Z].Deleted = 0 AND [Z-LRBooking-Z].BranchId = @branchId
+		WHERE [Z-LRBooking-Z].Deleted = 0 AND [Z-LRBooking-Z].BranchId = @BranchId
 		AND (Coalesce(@Search,'') = '' OR [Z-LRBooking-Z].EwayBillNo like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
