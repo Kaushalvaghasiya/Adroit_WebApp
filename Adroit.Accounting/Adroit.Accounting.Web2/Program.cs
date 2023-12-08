@@ -130,6 +130,7 @@ try
     builder.Services.AddSingleton<ILRBooking, LRBookingRepository>();
     builder.Services.AddSingleton<ITransportLRDelivery, TransportLRDeliveryRepository>();
     builder.Services.AddSingleton<ITransportLRDeliveryType, TransportLRDeliveryTypeRepository>();
+    builder.Services.AddSingleton<IFinanceYear, FinanceYearRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

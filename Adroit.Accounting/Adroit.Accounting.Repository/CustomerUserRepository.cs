@@ -49,5 +49,13 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerUserSave", connectionString, parameters);
         }
+        public int LoginCustomerUserSave(LoginCustomerUserViewModel value, string connectionString, int loginId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", value.LoggedInBranchId);
+            parameters.Add("@YearId", value.LoggedInYear);
+            return QueryHelper.Save("sp_LoginCustomerUserSave", connectionString, parameters);
+        }
     }
 }

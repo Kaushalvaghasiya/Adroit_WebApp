@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Adroit.Accounting.Model;
 using Adroit.Accounting.Repository;
 using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.Web.Utility;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -32,6 +33,8 @@ namespace Adroit.Accounting.Web.Controllers
         private ICommon _commonRepository;
         private IGSTCollection _gstCollection;
         private IBranchTypeAdmin _branchTypeAdminRepository;
+        private IFinanceYear _financeYearRepository;
+        private ICustomerFirmBranch _customerCustomerFirmBranchRepository;
         public CommonController(
             IOptions<ConfigurationData> configurationData,
             IState stateRepository,
@@ -51,7 +54,9 @@ namespace Adroit.Accounting.Web.Controllers
             IAdminCustomerUser customerUserRepository,
             ICommon commonRepository,
             IGSTCollection gstCollection,
-            IBranchTypeAdmin branchTypeAdminRepository)
+            IBranchTypeAdmin branchTypeAdminRepository,
+            IFinanceYear financeYearRepository,
+            ICustomerFirmBranch customerCustomerFirmBranchRepository)
         {
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
@@ -72,6 +77,8 @@ namespace Adroit.Accounting.Web.Controllers
             _commonRepository = commonRepository;
             _gstCollection = gstCollection;
             _branchTypeAdminRepository = branchTypeAdminRepository;
+            _financeYearRepository = financeYearRepository;
+            _customerCustomerFirmBranchRepository = customerCustomerFirmBranchRepository;
         }
         public IActionResult Index()
         {
@@ -412,6 +419,41 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _cityRepository.CityList(city, _configurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [HttpGet]
+        public JsonResult GetCustomerBranchId()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                int loginId = LoginHandler.GetUserId(User);
+                result.data = _customerCustomerFirmBranchRepository.SelectList(_configurationData.DefaultConnection, loginId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Common/GetFinanceYearId/{BranchId}")]
+        public JsonResult GetFinanceYearId(int BranchId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _financeYearRepository.SelectList(_configurationData.DefaultConnection, BranchId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

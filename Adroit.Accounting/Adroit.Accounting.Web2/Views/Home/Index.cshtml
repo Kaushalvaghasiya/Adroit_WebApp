@@ -4,5 +4,176 @@
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
-    
 </div>
+
+<div class="modal fade" id="FirmModal" data-backdrop="static" aria-modal="true" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="example-Modal3">Select Firm (Branch)</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row mb-1">
+                        <label for="FirmId" class="col-md-3 form-label">
+                            Firm (Branch)
+                        </label>
+                        <div class="col-md-9">
+                            <select class="form-control select2-show-search" id="BranchId"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-primary mt-1" id="selectFirmBranch">
+                    <i class="fa fa-save"></i>&nbsp;Select
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="YearModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="example-Modal3">Select Year</h5>
+            </div>
+            <div class="modal-body">
+                <div class="form-horizontal">
+                    <div class="row mb-1">
+                        <label for="YearId" class="col-md-3 form-label">
+                            Year
+                        </label>
+                        <div class="col-md-6">
+                            <select class="form-control select2-show-search" id="YearId"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-primary mt-1" id="selectYear">
+                    <i class="fa fa-save"></i>&nbsp;Select
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnFirmBranchId" value="0" />
+
+@section Scripts
+    {
+    <script>
+
+        $(function (e) {
+            $('#FirmModal').modal('show');
+            bindFirmBranch();
+
+            $('#selectFirmBranch').on('click', function () {
+
+                if ($("#BranchId").val() == null || $("#BranchId").val() == "" || $("#BranchId").val() == 0) {
+                    showWarning("", "Please select firm (Branch)");
+                    $("#BranchId").focus();
+                    return false;
+                }
+
+                bindFinanceYear();
+            });
+
+            $('#selectYear').on('click', function () {
+                try {
+
+                    if ($("#YearId").val() == null || $("#YearId").val() == "" || $("#YearId").val() == 0) {
+                        showWarning("", "Please select year");
+                        $("#YearId").focus();
+                        return false;
+                    }
+
+                    var savedata = new Object();
+                    savedata.LoggedInBranchId = getIntValueZero("hdnFirmBranchId");
+                    savedata.LoggedInYear = getIntValueZero("YearId");
+
+                    $.ajax({
+                        type: "POST",
+                        url: "@(Url.Action("SaveLoginCustomerUser", "Customer"))",
+                        data: JSON.stringify(savedata),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (data) {
+                            if (data.result == RESULT_SUCCESS) {
+                                $('#YearModal').modal('hide');
+                            } else {
+                                showError("", data.data);
+                            }
+                        },
+                        error: function (error) {
+                            showError("", error.statusText);
+                        }
+                    });
+
+                }
+                catch (e) {
+                    unblockUI('container');
+                    showError("", e.message);
+                }
+            });
+        });
+
+        function bindFirmBranch() {
+            try {
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCustomerBranchId"))", "",
+                    function (data) {
+                        var str = "";
+                        str += "<option value='0'>Select Firm (Branch)</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i].value + "'>" + data.data[i].text + "</option>");
+                                }
+                            }
+                            $("#BranchId").html(str);
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                showError("", e.message);
+            }
+        }
+
+        function bindFinanceYear() {
+            try {
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetFinanceYearId"))" + "/" + $("#BranchId").val(), "",
+                    function (data) {
+                        var str = "";
+                        str += "<option value='0'>Select Year</option>";
+                        if (data.result == RESULT_SUCCESS) {
+                            $('#FirmModal').modal('hide');
+                            $('#YearModal').modal('show');
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    str += ("<option value='" + data.data[i].value + "'>" + data.data[i].text + "</option>");
+                                }
+                            }
+                            $("#YearId").html(str);
+                            $("#hdnFirmBranchId").val($("#BranchId").val());
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                showError("", e.message);
+            }
+        }
+
+    </script>
+}

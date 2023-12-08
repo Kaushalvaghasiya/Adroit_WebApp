@@ -200,5 +200,28 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return (IUserEmailStore<IdentityUser>)_userStore;
         }
+
+        [HttpPost]
+        public JsonResult SaveLoginCustomerUser([FromBody] LoginCustomerUserViewModel model)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                int loginId = LoginHandler.GetUserId(User);
+
+                int id = _customerUsersRepository.LoginCustomerUserSave(model, _configurationData.DefaultConnection, loginId);
+                if (id > 0)
+                {
+                    result.data = true;
+                    result.result = Constant.API_RESULT_SUCCESS;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
     }
 }
