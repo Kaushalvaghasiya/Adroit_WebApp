@@ -184,8 +184,9 @@
     <None Remove="DbScripts\StoreProc\sp_FirmList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetAllGSTNoByTransportName.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetColumnData.sql" />
-    <None Remove="DbScripts\StoreProc\sp_GetFirmId.sql" />
-    <None Remove="DbScripts\StoreProc\sp_GetLastWorkingBranchId.sql" />
+    <None Remove="DbScripts\StoreProc\sp_GetLoggedInBranchId.sql" />
+    <None Remove="DbScripts\StoreProc\sp_GetLoggedInFirmId.sql" />
+    <None Remove="DbScripts\StoreProc\sp_GetLRNumberFromLRBooking.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetLRBookingListByCity.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetLRBookingTableListByLRNumberId.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetLRBookingTableListByPurchaseBillMasterId.sql" />
@@ -386,6 +387,7 @@
     <None Remove="DbScripts\Tables\0010 CustomerAccount.sql" />
     <None Remove="DbScripts\Tables\0011 FirmBranchTypeAdmin Data Update.sql" />
     <None Remove="DbScripts\Tables\0012 LRBooking.sql" />
+    <None Remove="DbScripts\Tables\0013 Login.sql" />
     <None Remove="DbScripts\Tables\0013 PurchaseBillMaster.sql" />
   </ItemGroup>
 
@@ -435,7 +437,7 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_LRBookingSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_GetFirmId.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_GetLoggedInFirmId.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\fn_GetCustomerId.sql">
@@ -948,7 +950,7 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_GetColumnData.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_GetLastWorkingBranchId.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_GetLoggedInBranchId.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_GetSoftwareIdByUserId.sql">
@@ -1473,6 +1475,9 @@
     <EmbeddedResource Include="DbScripts\Tables\0001 Initial.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\Tables\0013 Login.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\Tables\0013 PurchaseBillMaster.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -1516,6 +1521,12 @@
     <PackageReference Include="dbup-core" Version="5.0.10" />
     <PackageReference Include="dbup-sqlserver" Version="5.0.8" />
     <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Dapper">
+      <HintPath>..\packages\Dapper.2.1.24\lib\net5.0\Dapper.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

@@ -44,27 +44,16 @@ namespace Adroit.Accounting.Web.Utility
             return 0;
         }
 
-        public static int GetFirmId(IPrincipal user, ICustomerFirm customerFirmRepository, string connectionString)
+        public static int GetLoggedInFirmId(IPrincipal user, IUser userRepository, string connectionString)
         {
-            //var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.SerialNumber);
-            //if (null != claim)
-            //{
-            //    return Convert.ToInt32(claim.Value);
-            //}
-
             int userid = GetUserId(user);
-            int firmId = customerFirmRepository.GetFirmId(userid, connectionString);
+            int firmId = userRepository.GetLoggedInFirmId(userid, connectionString);
             return firmId;
         }
-        public static int GetBranchId(IPrincipal user, IUser userRepository, string connectionString)
+        public static int GetLoggedInBranchId(IPrincipal user, IUser userRepository, string connectionString)
         {
-            //var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.SerialNumber);
-            //if (null != claim)
-            //{
-            //    return Convert.ToInt32(claim.Value);
-            //}
             int userid = GetUserId(user);
-            int branchId = userRepository.GetLastWorkingBranchId(userid, connectionString);
+            int branchId = userRepository.GetLoggedInBranchId(userid, connectionString);
             return branchId;
         }
 
