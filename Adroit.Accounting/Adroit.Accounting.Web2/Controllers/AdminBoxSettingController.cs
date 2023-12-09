@@ -7,7 +7,7 @@ using Adroit.Accounting.Web.Utility;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class AdminController : Controller
+    public partial class AdminController : MasterController
     {
         public IActionResult BoxSetting()
         {
@@ -23,11 +23,10 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<BoxSettingGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _boxSettingRepository.List(_configurationData.DefaultConnection, loginId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _boxSettingRepository.List(_configurationData.DefaultConnection, CurrentUserId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -47,7 +46,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                model.UserId = LoginHandler.GetUserId(User);
+                model.UserId = CurrentUserId;
                 int id = _boxSettingRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {

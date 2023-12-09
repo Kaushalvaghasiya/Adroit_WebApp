@@ -11,6 +11,8 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerAccountList]
 As
 Set Nocount on;
 Begin
+    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
+
 	SELECT * FROM
 	 (   
 	  SELECT  
@@ -30,7 +32,7 @@ Begin
 	  FROM CustomerAccount
 	  INNER JOIN [CustomerAccountGroup] on CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id
 	  LEFT JOIN [City] on CustomerAccount.CityId = [City].Id
-	  WHERE CustomerAccount.Deleted = 0
+	  WHERE CustomerAccount.CustomerId = @CustomerId AND CustomerAccount.Deleted = 0 
 	  AND (Coalesce(@Search,'') = '' OR CustomerAccount.[Name] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

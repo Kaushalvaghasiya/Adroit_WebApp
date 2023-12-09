@@ -1,7 +1,7 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerBookList]
 (
-  @loginId INT,
-  @firmId INT,
+  @LoginId INT,
+  @BranchId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -11,6 +11,10 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerBookList]
 As
 Set Nocount on;
 Begin
+
+	DECLARE @FirmId int = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId) 
+	DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
+
 	SELECT * FROM
 	 (   
 	  SELECT  
@@ -29,9 +33,9 @@ Begin
 	   Count(*) over () AS TotalCount, CustomerBook.*, CustomerAccount.[Name] as [BookName], CustomerAccount.PrintName as [ShortName],
 	   BookTypeAdmin.Title as BookType
 	  FROM CustomerBook
-	  LEFT JOIN CustomerAccount on CustomerBook.BookAccountId = [CustomerAccount].Id
+	  LEFT JOIN CustomerAccount on CustomerBook.BookAccountId = [CustomerAccount].Id AND CustomerAccount.CustomerId = @CustomerId 
 	  LEFT JOIN BookTypeAdmin on CustomerBook.BookTypeId = BookTypeAdmin.Id
-	  WHERE CustomerBook.Deleted = 0
+	  WHERE CustomerBook.Deleted = 0 AND CustomerBook.OwnerBranchId = @BranchId AND CustomerBook.CustomerId = @CustomerId
 	  AND (Coalesce(@Search,'') = '' OR CustomerAccount.[Name] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

@@ -1,6 +1,6 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_CustomerFirmTransportSettingSave]
 (
-	  @loginId INT
+	  @LoginId INT
 	 ,@FirmId INT
 	 ,@ProductIdForSales INT
 	 ,@LRBookChargeLable1 NVARCHAR(20)
@@ -47,6 +47,8 @@ BEGIN
 			,IsPartyAndCityRateFromLastLR = @IsPartyAndCityRateFromLastLR
 			,ReverseChargeApplyForURDParty = @ReverseChargeApplyForURDParty
 			,ReverseChargeLimitForSalesGST = @ReverseChargeLimitForSalesGST
+			,ModifiedById = @LoginId
+			,ModifiedOn = GETUTCDATE()
 			WHERE FirmId = @FirmId
 			
 		END
@@ -61,10 +63,8 @@ BEGIN
 				(@FirmId,@ProductIdForSales,@LRBookChargeLable1,@LRBookChargeLable2,@LRBookChargeLable3,@LRBookChargeLable4,@LRBookChargeLable5
 				,@LRBookChargeLable6,@DeliveryChargeLable1,@DeliveryChargeLable2,@DeliveryChargeLable3,@DeliveryChargeLable4,@DeliveryChargeLable5
 				,@DeliveryChargeLable6,@IsWeightRoundOff,@IsPartyAndCityRateFromLastLR,@ReverseChargeApplyForURDParty,@ReverseChargeLimitForSalesGST
-				,GETUTCDATE(),@loginId)
+				,GETUTCDATE(),@LoginId)
 
-			SET @FirmId = SCOPE_IDENTITY();
-			
 		END
 
 		COMMIT TRAN

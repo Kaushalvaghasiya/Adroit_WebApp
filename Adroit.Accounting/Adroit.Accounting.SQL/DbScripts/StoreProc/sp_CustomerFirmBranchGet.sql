@@ -1,16 +1,17 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchGet]
 (
 	@Id INT,
-	@LoginId INT
+	@FirmId INT
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	
 	SELECT 
 		CustomerFirmBranch.*, 
 		Taluka.Id As TalukaId,
-		District.Id As DistrictId
+		District.Id As DistrictId,
+		FORMAT(CustomerFirmBranch.RenewalDate,'dd/MM/yyyy') AS RenewalDateString
 	FROM  [CustomerFirm]
 	INNER JOIN CustomerFirmBranch ON CustomerFirmBranch.FirmId = [CustomerFirm]. Id
 	LEFT JOIN City ON City.Id = CustomerFirmBranch.CityId

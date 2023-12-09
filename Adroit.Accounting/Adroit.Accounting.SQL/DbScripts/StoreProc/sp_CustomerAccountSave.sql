@@ -59,7 +59,7 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+		Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 		DECLARE @StateCode VARCHAR(5) = (
 			SELECT Code
@@ -97,7 +97,7 @@ BEGIN
 		END
 
 		DECLARE @IdCheck INT
-		SELECT @IdCheck = ID FROM CustomerAccount WHERE Id = @Id OR ([Name] = @Name AND Deleted = 1)
+		SELECT @IdCheck = ID FROM CustomerAccount WHERE Id = @Id AND [CustomerId] = @CustomerId OR ([Name] = @Name AND Deleted = 1)
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN

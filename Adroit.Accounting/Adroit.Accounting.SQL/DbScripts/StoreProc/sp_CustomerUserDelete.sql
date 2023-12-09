@@ -1,11 +1,12 @@
 CREATE OR ALTER procedure [dbo].[sp_CustomerUserDelete]
 (
 	@Id INT = NULL,
-	@LoginId INT
+	@LoginId INT,
+	@FirmId INT
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@loginId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	
 	BEGIN TRAN
 	BEGIN TRY

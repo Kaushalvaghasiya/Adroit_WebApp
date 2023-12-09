@@ -1,17 +1,17 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountListByBranchMappingWithGSTNo_MobileNo_Select]
 (
-	@loginId INT,
-	@branchId INT
+	@FirmId INT,
+	@BranchId INT
 )
 AS
 BEGIN
-	DECLARE @CustomerId INT = dbo.[fn_GetCustomerId](@loginId);
+	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT CustomerAccountBranchMapping.Id AS [Value],
 			CONCAT(
 				[CustomerAccount].[Name],
-				NULLIF(' | ' + [CustomerAccount].GSTNumber, ' | '),  
-				NULLIF(' | ' + [CustomerAccount].Mobile, ' | ')     
+				NULLIF(' | ' + ISNULL([CustomerAccount].GSTNumber, ''), ' | '),
+				NULLIF(' | ' + ISNULL([CustomerAccount].Mobile, ''), ' | ') 
 			) AS [Text]
 	FROM CustomerAccount
 		INNER JOIN CustomerAccountBranchMapping ON CustomerAccount.Id = CustomerAccountBranchMapping.AccountId

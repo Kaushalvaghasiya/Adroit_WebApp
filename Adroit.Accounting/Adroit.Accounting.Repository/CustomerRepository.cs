@@ -83,6 +83,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Id", id);
             return QueryHelper.Get<CustomerViewModel>("sp_CustomerGet", connectionString, parameters);
         }
+        public int GetCustomerIdByLoginId(int id, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            return QueryHelper.Get<int>("SELECT dbo.fn_GetCustomerId(@Id)", connectionString, parameters, System.Data.CommandType.Text);
+        }
         public List<CustomerGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();

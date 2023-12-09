@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authorization;
 using Adroit.Accounting.Model;
-using Adroit.Accounting.Repository;
-using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.Web.Utility;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public class CommonController : Controller
+    public class CommonController : MasterController
     {
         private IState _stateRepository;
         private ICity _cityRepository;
@@ -19,7 +18,6 @@ namespace Adroit.Accounting.Web.Controllers
         private ITaluka _talukaRepository;
         private IDistrict _districtRepository;
         private IGSTInvoiceType _gstInvoiceTypeRepository;
-        private readonly ConfigurationData _configurationData;
         private IBusiness _businessRepository;
         private IFirmType _firmTypeRepository;
         private IGSTFirmType _gstFirmTypeRepository;
@@ -33,7 +31,7 @@ namespace Adroit.Accounting.Web.Controllers
         private IGSTCollection _gstCollection;
         private IBranchTypeAdmin _branchTypeAdminRepository;
         public CommonController(
-            IOptions<ConfigurationData> configurationData,
+            ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
             IState stateRepository,
             ICity cityRepository,
             ICountry countryRepository,
@@ -52,10 +50,10 @@ namespace Adroit.Accounting.Web.Controllers
             ICommon commonRepository,
             IGSTCollection gstCollection,
             IBranchTypeAdmin branchTypeAdminRepository)
+            : base(loginHandler, userRepository, configurationData)
         {
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
-            _configurationData = configurationData.Value;
             _countryRepository = countryRepository;
             _districtRepository = districtRepository;
             _talukaRepository = talukaRepository;
@@ -308,7 +306,6 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
         public JsonResult GetUserList(int customerId)
         {
             ApiResult result = new ApiResult();
@@ -420,6 +417,13 @@ namespace Adroit.Accounting.Web.Controllers
                 result.result = Constant.API_RESULT_ERROR;
             }
             return Json(result);
+        }
+
+        [Route("~/Common/ErrorMessage")]
+        public IActionResult ErrorMessage(string errMessage)
+        {
+            ViewBag.ErrMessage = errMessage;
+            return View();
         }
     }
 }

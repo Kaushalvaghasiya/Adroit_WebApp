@@ -9,7 +9,7 @@ namespace Adroit.Accounting.Repository
 {
     public class LRBookingRepository : ILRBooking
     {
-        public int Save(LRBooking value, string connectionString, int loginId)
+        public int Save(LRBookingViewModel value, string connectionString, int loginId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
@@ -24,8 +24,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LRPayTypeId", value.LRPayTypeId);
             parameters.Add("@BillAccountBranchMappingId", value.BillAccountBranchMappingId);
             parameters.Add("@Parcel", value.Parcel);
-            parameters.Add("@PackingId", value.PackingId);
-            parameters.Add("@DescriptionId", value.DescriptionId);
+            parameters.Add("@Packing", value.Packing);
+            parameters.Add("@Description", value.Description);
             parameters.Add("@ActualWeight", value.ActualWeight);
             parameters.Add("@ChargeWeight", value.ChargeWeight);
             parameters.Add("@LRRateOnId", value.LRRateOnId);
@@ -55,19 +55,22 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.Delete("sp_LRBookingDelete", connectionString, parameters);
         }
 
-        public LRBookingViewModel Get(int id, string connectionString, int loginId = 0, int firmId = 0)
+        public LRBookingViewModel Get(int id, string connectionString, int loginId, int branchId, int firmId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
             parameters.Add("@FirmId", firmId);
             return QueryHelper.Get<LRBookingViewModel>("sp_LRBookingGet", connectionString, parameters);
         }
 
-        public List<LRBookingGridViewModel> List(string connectionString, int branchId, int loginId , int firmId , string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<LRBookingGridViewModel> List(string connectionString, int loginId, int branchId , int firmId , string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
             parameters.Add("@BranchId", branchId);
+            parameters.Add("@FirmId", firmId);
             parameters.Add("@Search", search);
             parameters.Add("@PageStart", pageStart);
             parameters.Add("@PageSize", pageSize);
@@ -112,6 +115,14 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BranchId", branchId);
             parameters.Add("@LRNumberId", LRNumberId);
             return QueryHelper.GetList<LRBookingGridViewModel>("sp_GetLRBookingTableListByLRNumberId", connectionString, parameters);
+        }
+
+
+        public string GetLRBookingMaxDate(string connectionString, int branchId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@branchId", branchId);
+            return QueryHelper.Get<string> ("sp_GetLRBookingMaxDate", connectionString, parameters);
         }
 
     }

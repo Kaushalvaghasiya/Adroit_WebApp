@@ -4,7 +4,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_GetLoggedInFirmId]
 )
 AS
 BEGIN
-	SELECT CustomerFirmBranch.FirmId
+	SELECT TOP 1 CustomerFirmBranch.FirmId
 	FROM CustomerFirmBranch 
 	INNER JOIN CustomerUser ON CustomerFirmBranch.Id = CustomerUser.LoggedInBranchId
 	WHERE CustomerUser.Id = @LoginId

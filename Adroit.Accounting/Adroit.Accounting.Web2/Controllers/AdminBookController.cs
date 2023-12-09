@@ -7,18 +7,17 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class AdminController : Controller
+    public partial class AdminController : MasterController
     {
         public IActionResult Book()
         {
             var model = new BookAdminViewModel();
 
-            int loginId = LoginHandler.GetUserId(User);
             int firmId = CurrentFirmId;
-            model.BookAccountList = _accountAdminRepository.GetAccountAdminList(_configurationData.DefaultConnection, loginId, firmId);
-            model.BookTypeList = _bookTypeRepository.GetBookTypeAdminList(_configurationData.DefaultConnection, loginId, firmId);
-            model.BillTypeList = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, loginId, firmId);
-            model.BillFromList = _salesBillFromAdminRepository.SalesBillFromAdminList(_configurationData.DefaultConnection, loginId, firmId);
+            model.BookAccountList = _accountAdminRepository.GetAccountAdminList(_configurationData.DefaultConnection, CurrentUserId, firmId);
+            model.BookTypeList = _bookTypeRepository.GetBookTypeAdminList(_configurationData.DefaultConnection, CurrentUserId, firmId);
+            model.BillTypeList = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, CurrentUserId, firmId);
+            model.BillFromList = _salesBillFromAdminRepository.SalesBillFromAdminList(_configurationData.DefaultConnection, CurrentUserId, firmId);
             model.SoftwareList = _softwareRepository.SelectList(_configurationData.DefaultConnection);
 
             return View(model);
@@ -68,13 +67,11 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<BookAdminGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _bookAdminRepository.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _bookAdminRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;

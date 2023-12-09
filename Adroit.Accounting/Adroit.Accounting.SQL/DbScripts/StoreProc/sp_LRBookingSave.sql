@@ -12,8 +12,10 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_LRBookingSave]
 	,@LRPayTypeId INT
 	,@BillAccountBranchMappingId INT
 	,@Parcel INT
-	,@PackingId INT
-	,@DescriptionId int
+	,@PackingId INT = 0
+	,@Packing NVARCHAR(100)
+	,@DescriptionId INT = 0
+	,@Description NVARCHAR(30)
 	,@ActualWeight DECIMAL(18,3)
 	,@ChargeWeight DECIMAL(18,3)
 	,@LRRateOnId INT
@@ -42,8 +44,10 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
+		DECLARE @CustomerId int = dbo.[fn_GetCustomerId](@LoginId);
+
 		DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId);
-		DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId);
+		DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId AND Id = @BranchId);
 		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @BranchId);
 		DECLARE @ProductBranchMappingId INT = (
 			SELECT ProductBranchMapping.Id 
@@ -52,7 +56,7 @@ BEGIN
 				AND ProductBranchMapping.BranchId = @BranchId
 			WHERE CustomerFirmTransportSetting.FirmId = @FirmId
 		);
-		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId,@LoginId);
+		DECLARE @YearId int = dbo.fn_GetYearId(@LoginId);
 		DECLARE @message VARCHAR(4000);
 		DECLARE @LRNumberStartRange INT;
 		DECLARE @LRNumberEndRange INT;
@@ -85,6 +89,18 @@ BEGIN
 			SET @message = 'Please renew LR Range';
 			RAISERROR ('%s', 16, 1, @message);
 		END
+
+		IF ISNULL(@DescriptionId, 0) <= 0 AND ISNULL(@Description,'') != '' AND @Description NOT IN ( SELECT Title From TransportDesc WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
+		BEGIN
+			EXEC @DescriptionId = dbo.sp_TransportDescSave 0, @LoginId, @Description , 0, @LoginId, @LoginId, 1
+		END
+		SELECT @DescriptionId = Id FROM TransportDesc WHERE Title = @Description AND Active = 1
+
+		IF ISNULL(@PackingId, 0) <= 0 AND ISNULL(@Packing,'') != '' AND @Packing NOT IN ( SELECT Title From TransportPacking WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
+		BEGIN
+			EXEC @PackingId = dbo.sp_TransportPackingSave 0, @LoginId, @Packing , 1, 0, @LoginId, @LoginId
+		END
+		SELECT @PackingId = Id FROM TransportPacking WHERE Title = @Packing AND Active = 1
 
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM [Z-LRBooking-Z] 

@@ -8,7 +8,7 @@ using Adroit.Accounting.Web.Utility;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class AdminController : Controller
+    public partial class AdminController : MasterController
     {
         public IActionResult VehicleModel()
         {
@@ -25,12 +25,10 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<VehicleModelGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _vehicleModelRepository.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _vehicleModelRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -50,10 +48,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                //we need add user Id
-                var UserId = LoginHandler.GetUserId(User);
-                savedata.AddedById = UserId;
-                savedata.ModifiedById = UserId;
+                savedata.AddedById = CurrentUserId;
+                savedata.ModifiedById = CurrentUserId;
 
                 int id = _vehicleModelRepository.Save(savedata, _configurationData.DefaultConnection);
                 if (id > 0)

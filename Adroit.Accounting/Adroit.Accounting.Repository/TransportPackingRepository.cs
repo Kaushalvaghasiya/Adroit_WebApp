@@ -35,19 +35,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@UserId", userId);
             QueryHelper.Save("sp_TransportPackingDelete", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectList(int loginId, string connectionString)
+        public List<DropdownViewModel> SelectList(string connectionString, int firmId)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@loginId", loginId);
+            parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<DropdownViewModel>("sp_TransportPackingList_Select", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectList(short businessId, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@BusinessId", businessId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_TransportPackingList_Select", connectionString, parameters);
-        }
-
         public List<TransportPackingGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();
