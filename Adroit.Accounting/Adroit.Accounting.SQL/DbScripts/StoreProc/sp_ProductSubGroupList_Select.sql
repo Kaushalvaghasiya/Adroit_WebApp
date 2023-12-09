@@ -5,7 +5,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSubGroupList_Select]
 AS
 BEGIN
 
-	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	SELECT Id As Value, Title As Text
 	FROM [ProductSubGroup]
 	WHERE CustomerId = @CustomerId AND Deleted = 0 AND Active = 1

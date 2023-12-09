@@ -8,7 +8,7 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerBookRepository : ICustomerBook
     {
-        public int Save(CustomerBook value, string connectionString, int loginId, int branchId, int firmId = 0)
+        public int Save(CustomerBook value, string connectionString, int loginId, int branchId, int firmId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);

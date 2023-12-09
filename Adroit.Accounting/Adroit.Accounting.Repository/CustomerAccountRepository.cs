@@ -11,8 +11,8 @@ namespace Adroit.Accounting.Repository
         public int Save(CustomerAccountViewModel value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", value.loginId);
-            parameters.Add("@FirmId", value.firmId);
+            parameters.Add("@LoginId", value.LoginId);
+            parameters.Add("@FirmId", value.FirmId);
             parameters.Add("@Id", value.Id);
             parameters.Add("@Name", value.Name);
             parameters.Add("@PrintName", value.PrintName);

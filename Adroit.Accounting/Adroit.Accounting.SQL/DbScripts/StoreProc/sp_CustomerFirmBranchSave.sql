@@ -32,7 +32,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchSave]
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	
 	BEGIN TRAN
 	BEGIN TRY

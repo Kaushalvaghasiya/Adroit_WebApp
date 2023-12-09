@@ -6,7 +6,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerBrokerBranchMappingList_Select]
 AS
 BEGIN
 	Declare @FirmId int = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId) 
-    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT [CustomerBrokerBranchMapping].Id As Value, [Broker].[Name] As Text
 	FROM [CustomerBrokerBranchMapping] 

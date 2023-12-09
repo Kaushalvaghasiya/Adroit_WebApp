@@ -5,7 +5,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_ProductList_Select]
 )
 AS
 BEGIN
-    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT Product.Id As Value, 
 		ISNULL(Product.[PrintName], '') + ' (' + [Product].Title + ' - ' + [Product].Code + ')' As Text 

@@ -5,7 +5,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountListByBranchMappingWithGSTNo_
 )
 AS
 BEGIN
-	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT CustomerAccountBranchMapping.Id AS [Value],
 			CONCAT(

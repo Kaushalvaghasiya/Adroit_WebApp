@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class AdminController : Controller
+    public partial class AdminController : MasterController
     {
         [Route("~/admin/customer/firm/branch")]
         public IActionResult CustomerFirmBranch(int id)
@@ -32,13 +32,11 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<CustomerFirmBranchGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _customerFirmBranchRepository.List(_configurationData.DefaultConnection, loginId, firmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerFirmBranchRepository.List(_configurationData.DefaultConnection, CurrentUserId, firmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -58,8 +56,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                model.AddedById = LoginHandler.GetUserId(User);
-                model.ModifiedById = LoginHandler.GetUserId(User);
+                model.AddedById = CurrentUserId;
+                model.ModifiedById = CurrentUserId;
                 int id = _customerFirmBranchRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
@@ -81,7 +79,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                _customerFirmBranchRepository.Delete(id, LoginHandler.GetUserId(User), _configurationData.DefaultConnection);
+                _customerFirmBranchRepository.Delete(id, CurrentUserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

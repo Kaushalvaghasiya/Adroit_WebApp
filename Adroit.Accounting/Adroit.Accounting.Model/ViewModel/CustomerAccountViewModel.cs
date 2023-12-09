@@ -24,7 +24,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public int? TalukaId { get; set; }
         public string? Taluka { get; set; }
         public string? CustomerAccountBranchIds { get; set; } //Comma separated
-        public int? loginId { get; set; } = 0;
-        public int? firmId { get; set; } = 0;
+        public int? LoginId { get; set; } = 0;
+        public int? FirmId { get; set; } = 0;
     }
 }

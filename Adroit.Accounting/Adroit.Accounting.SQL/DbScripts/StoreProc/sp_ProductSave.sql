@@ -66,7 +66,7 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
-    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 		IF ISNULL(@DesignNumberId, 0) <= 0 AND ISNULL(@DesignNumber,'') != ''
 		BEGIN

@@ -7,7 +7,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductGet]
 AS
 BEGIN
 
-    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	
 	SELECT 
 		Product.*,

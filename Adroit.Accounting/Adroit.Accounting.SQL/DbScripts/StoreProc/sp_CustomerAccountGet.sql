@@ -7,7 +7,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountGet]
 AS
 BEGIN
 
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT CustomerAccount.*,
 		   (SELECT STUFF((SELECT ',' + CAST(t1.BranchId AS VARCHAR) FROM CustomerAccountBranchMapping t1

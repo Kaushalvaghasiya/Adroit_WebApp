@@ -8,14 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class CustomerController : Controller
+    public partial class CustomerController : MasterController
     {
         [Route("~/customer/firm/branch")]
         public IActionResult CustomerFirmBranch(int id)
         {
-            int loginId = LoginHandler.GetUserId(User);
             CustomerFirmBranchViewModel model = new();
-
             model.Firm = new();
 
             if (id != 0)
@@ -23,7 +21,7 @@ namespace Adroit.Accounting.Web.Controllers
                 model.Firm = _adminCustomerFirmRepository.Get(id, _configurationData.DefaultConnection);
                 model.FirmId = model.Firm.Id;
             }
-            var customerId = _customerRepository.GetCustomerIdByLoginId(loginId, _configurationData.DefaultConnection);
+            var customerId = _customerRepository.GetCustomerIdByLoginId(CurrentUserId, _configurationData.DefaultConnection);
             var Customer = _customerRepository.Get(customerId, _configurationData.DefaultConnection);
             if (Customer == null)
             {
@@ -46,13 +44,11 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<CustomerFirmBranchGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _customerFirmBranchesRepository.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerFirmBranchesRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -72,8 +68,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                int id = _customerFirmBranchesRepository.Save(model, loginId, _configurationData.DefaultConnection);
+                int id = _customerFirmBranchesRepository.Save(model, CurrentUserId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -94,8 +89,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                _customerFirmBranchesRepository.Delete(id, loginId, CurrentFirmId, _configurationData.DefaultConnection);
+                _customerFirmBranchesRepository.Delete(id, CurrentUserId, CurrentFirmId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -112,7 +106,6 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
                 result.data = _customerFirmBranchesRepository.Get(id, CurrentFirmId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }

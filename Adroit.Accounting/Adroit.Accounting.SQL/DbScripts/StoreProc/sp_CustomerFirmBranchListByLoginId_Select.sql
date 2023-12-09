@@ -2,7 +2,7 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmBranchListByLoginId_Select]
   @FirmId int
 As
 Begin
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	Select 
 		CustomerFirmBranch.Id AS Value, CustomerFirmBranch.Title AS Text

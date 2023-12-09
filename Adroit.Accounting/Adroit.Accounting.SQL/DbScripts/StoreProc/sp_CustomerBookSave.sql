@@ -62,8 +62,8 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
-		DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
-		DECLARE @YearId int = dbo.fn_GetYearId(@FirmId,@LoginId);
+		DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
+		DECLARE @YearId int = dbo.fn_GetYearId(@LoginId);
 
 		DECLARE @message VARCHAR(4000);
 

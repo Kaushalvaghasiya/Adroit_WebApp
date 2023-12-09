@@ -5,7 +5,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmGet]
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT CustomerFirm.*,Customer.[Name] as CustomerName
 	FROM CustomerFirm 

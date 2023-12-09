@@ -6,7 +6,7 @@ CREATE OR ALTER procedure [dbo].[sp_CustomerFirmDelete]
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	BEGIN TRAN
 	BEGIN TRY

@@ -10,7 +10,7 @@ As
 Set Nocount on;
 Begin
 	
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT * FROM
 	(   

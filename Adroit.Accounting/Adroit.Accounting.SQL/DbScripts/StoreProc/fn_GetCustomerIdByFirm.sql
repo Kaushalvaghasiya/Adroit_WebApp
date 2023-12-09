@@ -1,4 +1,4 @@
-CREATE OR ALTER FUNCTION [dbo].[fn_GetCustomerIdByFirmId]
+CREATE OR ALTER FUNCTION [dbo].[fn_GetCustomerIdByFirm]
 (
 	@FirmId int
 )

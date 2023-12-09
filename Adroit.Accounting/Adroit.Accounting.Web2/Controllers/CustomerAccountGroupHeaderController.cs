@@ -9,7 +9,7 @@ using Adroit.Accounting.Repository;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class CustomerController : Controller
+    public partial class CustomerController : MasterController
     {
         public IActionResult CustomerAccountGroupHeader()
         {
@@ -26,12 +26,10 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<CustomerAccountGroupHeaderGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _customerAccountGroupHeader.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerAccountGroupHeader.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -51,10 +49,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                //we need add user Id
-                int UserId = LoginHandler.GetUserId(User);
-                model.AddedById = UserId;
-                int id = _customerAccountGroupHeader.Save(model, UserId, _configurationData.DefaultConnection);
+                model.AddedById = CurrentUserId;
+                int id = _customerAccountGroupHeader.Save(model, CurrentUserId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -75,8 +71,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int UserId = LoginHandler.GetUserId(User);
-                _customerAccountGroupHeader.Delete(id, UserId, _configurationData.DefaultConnection);
+                _customerAccountGroupHeader.Delete(id, CurrentUserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -93,8 +88,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int UserId = LoginHandler.GetUserId(User);
-                result.data = _customerAccountGroupHeader.Get(id, UserId, _configurationData.DefaultConnection);
+                result.data = _customerAccountGroupHeader.Get(id, CurrentUserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

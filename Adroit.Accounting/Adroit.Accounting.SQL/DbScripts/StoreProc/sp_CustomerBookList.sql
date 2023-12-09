@@ -13,7 +13,7 @@ Set Nocount on;
 Begin
 
 	DECLARE @FirmId int = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId) 
-	DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT * FROM
 	 (   

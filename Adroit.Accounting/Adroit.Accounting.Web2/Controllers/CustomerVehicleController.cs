@@ -8,18 +8,16 @@ using Adroit.Accounting.Web.Utility;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class CustomerController : Controller
+    public partial class CustomerController : MasterController
     {
         public IActionResult Vehicle()
         {
-            int userId = LoginHandler.GetUserId(User);
-
             var model = new VehicleViewModel();
             model.VRNList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, VehicleTable._TableName, VehicleTable.VRN);
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
 
             model.VehicleModelList = _vehicleModelRepository.SelectList(_configurationData.DefaultConnection);
-            model.VehicleOwnerList = _vehicleOwnerRepo.SelectList(userId, _configurationData.DefaultConnection);
+            model.VehicleOwnerList = _vehicleOwnerRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
 
             return View(model);
         }
@@ -30,12 +28,11 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<VehicleGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _vehicleRepo.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _vehicleRepo.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -56,11 +53,10 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 //we need add user Id
-                int userId = LoginHandler.GetUserId(User);
-                model.AddedById = userId;
-                model.ModifiedById = userId;
+                model.AddedById = CurrentUserId;
+                model.ModifiedById = CurrentUserId;
 
-                int id = _vehicleRepo.Save(model, userId, _configurationData.DefaultConnection);
+                int id = _vehicleRepo.Save(model, CurrentUserId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -81,8 +77,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int userId = LoginHandler.GetUserId(User);
-                result.data = _vehicleRepo.Get(id, userId, _configurationData.DefaultConnection);
+                result.data = _vehicleRepo.Get(id, CurrentUserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -98,8 +93,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int userId = LoginHandler.GetUserId(User);
-                _vehicleRepo.Delete(id, userId, _configurationData.DefaultConnection);
+                _vehicleRepo.Delete(id, CurrentUserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

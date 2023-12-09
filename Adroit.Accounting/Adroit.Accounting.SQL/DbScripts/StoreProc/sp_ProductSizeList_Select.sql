@@ -5,7 +5,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSizeList_Select]
 AS
 BEGIN
 
-	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT Title As Text
 	FROM [ProductSize]

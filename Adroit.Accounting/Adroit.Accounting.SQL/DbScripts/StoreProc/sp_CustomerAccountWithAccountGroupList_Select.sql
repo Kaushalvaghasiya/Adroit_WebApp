@@ -5,7 +5,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountWithAccountGroupList_Select]
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT CustomerAccount.Id As Value, 
 		CASE ISNULL(CustomerAccount.[PrintName], '') WHEN '' THEN CustomerAccount.[Name] ELSE CustomerAccount.[PrintName] 

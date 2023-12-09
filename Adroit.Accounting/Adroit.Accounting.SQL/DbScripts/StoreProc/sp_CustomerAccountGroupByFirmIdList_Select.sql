@@ -4,7 +4,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountGroupByFirmIdList_Select]
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	
 	SELECT [CustomerAccountGroup].Id As Value, [CustomerAccountGroup].Title + ' (' + [CustomerAccountGroup].Code + ')' As Text 
 	FROM [CustomerAccountGroup] 

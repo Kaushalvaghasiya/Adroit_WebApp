@@ -2,7 +2,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductColorList_Select]
 (	@FirmId INT )
 AS
 BEGIN
-	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	
 	SELECT Title As Text
 	FROM [ProductColor]

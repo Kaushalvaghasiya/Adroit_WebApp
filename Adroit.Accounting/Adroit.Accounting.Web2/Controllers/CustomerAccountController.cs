@@ -8,13 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class CustomerController : Controller
+    public partial class CustomerController : MasterController
     {
         public IActionResult CustomerAccount()
         {
             CustomerAccountViewModel model = new();
-            int loginId = LoginHandler.GetUserId(User);
-            var customerId = _customerRepository.GetCustomerIdByLoginId(loginId, _configurationData.DefaultConnection);
+            var customerId = _customerRepository.GetCustomerIdByLoginId(CurrentUserId, _configurationData.DefaultConnection);
             var Customer = _customerRepository.Get(customerId, _configurationData.DefaultConnection);
             if (Customer == null)
             {
@@ -40,13 +39,11 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<CustomerAccountGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _customerAccountRepo.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerAccountRepo.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -66,9 +63,9 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                model.loginId = LoginHandler.GetUserId(User);
+                model.LoginId = CurrentUserId;
                 model.OwnerBranchId = CurrentBranchId;
-                model.firmId = CurrentFirmId;
+                model.FirmId = CurrentFirmId;
                 int id = _customerAccountRepo.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
@@ -90,8 +87,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var loginId = LoginHandler.GetUserId(User);
-                _customerAccountRepo.Delete(id, _configurationData.DefaultConnection, loginId);
+                _customerAccountRepo.Delete(id, _configurationData.DefaultConnection, CurrentUserId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

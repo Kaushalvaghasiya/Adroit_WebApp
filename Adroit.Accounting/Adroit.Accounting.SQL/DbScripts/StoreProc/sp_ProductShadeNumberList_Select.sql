@@ -2,7 +2,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductShadeNumberList_Select]
 (	@FirmId INT )
 AS
 BEGIN
-	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT Id As Value, Title As Text
 	FROM [ProductShadeNumber]

@@ -1,21 +1,17 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.Repository;
 using Adroit.Accounting.Utility;
-using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class CustomerController : Controller
+    public partial class CustomerController : MasterController
     {
         public IActionResult CustomerFirmTransportSetting(int id)
         {
-            int loginId = LoginHandler.GetUserId(User);
             CustomerFirmTransportSettingViewModel model = new();
-
-            var customerId = _customerRepository.GetCustomerIdByLoginId(loginId, _configurationData.DefaultConnection);
+            var customerId = _customerRepository.GetCustomerIdByLoginId(CurrentUserId, _configurationData.DefaultConnection);
             var Customer = _customerRepository.Get(customerId, _configurationData.DefaultConnection);
             if (Customer == null)
             {
@@ -28,7 +24,7 @@ namespace Adroit.Accounting.Web.Controllers
 
             model.CustomerFirmList = _adminCustomerFirmRepository.SelectList(model.Customer.Id, _configurationData.DefaultConnection);
             model.TransportLRChargesList = _transportLRChargesRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductList = _productRepository.GetProductList(CurrentFirmId, _configurationData.DefaultConnection, loginId);
+            model.ProductList = _productRepository.GetProductList(CurrentFirmId, _configurationData.DefaultConnection, CurrentUserId);
 
             return View(model);
         }
@@ -39,12 +35,10 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<CustomerFirmTransportSettingGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _customerFirmTransportSettingRepository.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerFirmTransportSettingRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -64,8 +58,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                int id = _customerFirmTransportSettingRepository.Save(model, _configurationData.DefaultConnection, loginId);
+                int id = _customerFirmTransportSettingRepository.Save(model, _configurationData.DefaultConnection, CurrentUserId);
                 if (id > 0)
                 {
                     result.data = true;

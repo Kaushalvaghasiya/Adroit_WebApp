@@ -59,7 +59,7 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+		Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 		DECLARE @StateCode VARCHAR(5) = (
 			SELECT Code

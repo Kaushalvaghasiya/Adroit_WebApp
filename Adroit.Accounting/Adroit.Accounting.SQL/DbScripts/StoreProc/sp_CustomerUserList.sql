@@ -8,7 +8,7 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerUserList]
   @SortOrder NVARCHAR(10) = 'ASC'
 As
 Begin
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirmId(@FirmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	
 	SELECT * FROM
 	 (   
