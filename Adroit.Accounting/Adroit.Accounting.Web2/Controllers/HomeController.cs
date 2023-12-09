@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Adroit.Accounting.Web.Models;
-using Microsoft.AspNetCore.Authorization;
-using System.Data;
-using Adroit.Accounting.Utility;
+using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.Web.Utility;
+using Microsoft.Extensions.Options;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : MasterController
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
+            ILogger<HomeController> logger)
+            : base(loginHandler, userRepository, configurationData)
         {
             _logger = logger;
         }

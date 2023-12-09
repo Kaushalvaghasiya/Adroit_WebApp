@@ -46,9 +46,10 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<TransportDescGridViewModel>("sp_TransportDescList", connectionString, param);
         }
-        public List<DropdownViewModel> SelectList(string connectionString)
+        public List<DropdownViewModel> SelectList(string connectionString, int firmId)
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<DropdownViewModel>("sp_TransportDescList_Select", connectionString, parameters);
         }
     }

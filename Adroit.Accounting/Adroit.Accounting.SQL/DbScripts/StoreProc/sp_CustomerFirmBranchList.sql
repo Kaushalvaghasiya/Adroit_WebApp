@@ -9,7 +9,7 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmBranchList]
 As
 Set Nocount on;
 Begin
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	
 	SELECT * FROM
 	(   

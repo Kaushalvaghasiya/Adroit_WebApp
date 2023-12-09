@@ -53,7 +53,6 @@ BEGIN
 					 @CrossingDeliveryChargeAccountBranchMappingId,@SalesAccountBranchMappingId,@IsAutoJvEnableForChallan,@IsFreightAddInToBillForDelivery,
 					 @LRRateOnId,@LRPayTypeId,GETUTCDATE(),@LoginId)
 
-				SET @BranchId = SCOPE_IDENTITY()
 			END
 		COMMIT TRAN
 		SELECT @BranchId

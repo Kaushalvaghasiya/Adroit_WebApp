@@ -130,7 +130,8 @@ try
     builder.Services.AddSingleton<ILRBooking, LRBookingRepository>();
     builder.Services.AddSingleton<ITransportLRDelivery, TransportLRDeliveryRepository>();
     builder.Services.AddSingleton<ITransportLRDeliveryType, TransportLRDeliveryTypeRepository>();
-
+    builder.Services.AddSingleton<ILoginHandler, LoginHandler>();
+    
     if (!builder.Environment.IsDevelopment())
     {
         builder.Services.AddHttpsRedirection(options =>

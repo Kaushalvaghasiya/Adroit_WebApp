@@ -60,6 +60,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string AmtCalcName { get; set; }
         public byte softwareId { get; set; }
         public int loginId { get; set; }
+        public int firmId { get; set; }
         public CustomerViewModel Customer { get; set; }
     }
 }

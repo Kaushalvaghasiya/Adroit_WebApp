@@ -7,11 +7,12 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerAccountBranchMappingRepository : ICustomerAccountBranchMapping
     {
-        public List<DropdownViewModel> GetCustomerAccountBranchMappingList(string connectionString, int loginId = 0, int firmId = 0)
+        public List<DropdownViewModel> GetCustomerAccountBranchMappingList(int firmId, int branchId, string connectionString, int loginId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountBranchMappingList_Select", connectionString, parameters);
         }
     }
