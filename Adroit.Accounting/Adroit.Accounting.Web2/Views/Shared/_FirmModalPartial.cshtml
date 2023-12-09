@@ -1,0 +1,168 @@
+﻿<div class="modal fade" id="LoginFirmModal" data-backdrop="static" aria-modal="true" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="align-items:center;">
+                <h5 class="modal-title" id="example-Modal3">Branch</h5>
+                <div class="d-flex order-lg-2 ml-auto header-rightmenu">
+                    <div class="header-form">
+                        <form class="form-inline">
+                            <div class="search-element">
+                                <input id="searchFirmInput" class="form-control pr-6 mt-0" type="search" placeholder="Search" aria-label="Search">
+                                <span class="Search-icon" style="right:26px;"><i class="fa fa-search"></i></span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body" style="max-height: 74.5vh;">
+                <div class="row mb-1">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="panel panel-success" style="max-height: 72.5vh; overflow-y: auto;">
+                            <div class="list-group" id="loginfirmBranchList">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnLoggedInFirmBranchId" value="0" />
+
+@section Scripts
+{
+    <script>
+        var loginOrignalFirmBranchList = [];
+        var loginFilteredFirmBranchList = [];
+
+        function getExistingBranchId() {
+            try {
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCustomerExistsLoggedBranchAndYearId"))", "",
+                    function (data) {
+                        if (data.result == RESULT_SUCCESS) {
+                            $("#hdnLoggedInFirmBranchId").val(data.data.loggedInBranchId.toString());
+                            $("#hdnLoggedInYearId").val(data.data.loggedInYear.toString());
+
+                            bindFirmBranch();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
+            } catch (err) {
+                showError("", e.message);
+            }
+        }
+
+        function bindFirmBranch() {
+            try {
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCustomerBranchId"))", "",
+                    function (data) {
+                        if (data.result == RESULT_SUCCESS) {
+                            loginOrignalFirmBranchList = data.data;
+                            filterFirmBranchList("");
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
+            } catch (err) {
+                showError("", e.message);
+            }
+        }
+
+        function filterFirmBranchList(searchTerm) {
+            var linkList = $("#loginfirmBranchList");
+            linkList.empty();
+
+            loginFilteredFirmBranchList = loginOrignalFirmBranchList.filter(function (item) {
+                return item.text.toLowerCase().includes(searchTerm);
+            });
+
+            if (loginFilteredFirmBranchList.length > 0) {
+                for (var i = 0; i < loginFilteredFirmBranchList.length; i++) {
+                    if ($("#hdnLoggedInFirmBranchId").val() == loginFilteredFirmBranchList[i].value) {
+                        var listItem = $("<a href='#' class='list-group-item active' data-id='" + loginFilteredFirmBranchList[i].value + "'>" + loginFilteredFirmBranchList[i].text + "</a>");
+                        linkList.append(listItem);
+                    } else {
+                        var listItem = $("<a href='#' class='list-group-item' data-id='" + loginFilteredFirmBranchList[i].value + "'>" + loginFilteredFirmBranchList[i].text + "</a>");
+                        linkList.append(listItem);
+                    }
+                }
+            } else {
+                var listItem = $("<a href='#' class='list-group-item'>No data found</a>");
+                linkList.append(listItem);
+            }
+
+            initFirmBranchListClickEvent();
+        }
+
+        function initFirmBranchListClickEvent() {
+            $("#loginfirmBranchList").on("click", ".list-group-item", function () {
+                $("#loginfirmBranchList .list-group-item").removeClass("active");
+
+                $(this).addClass("active");
+
+                var selectedId = $(this).data("id");
+
+                $("#hdnLoggedInFirmBranchId").val(selectedId.toString());
+
+                saveLoggedInBranch(true);
+
+            });
+
+            $('#searchFirmInput').focus();
+
+            $("#searchFirmInput").on('input', function () {
+                var searchTerm = $(this).val().toLowerCase();
+                filterFirmBranchList(searchTerm);
+            });
+
+            $("#searchFirmInput").on("keypress", function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+
+                    if (loginFilteredFirmBranchList == null || loginFilteredFirmBranchList.length <= 0) {
+                        showWarning("", "There are no firm in filtered list.");
+                        return false;
+                    }
+
+                    var selectedId = loginFilteredFirmBranchList[0].value;
+
+                    $("#hdnLoggedInFirmBranchId").val(selectedId.toString());
+
+                    saveLoggedInBranch(true);
+                }
+            });
+        }
+
+        function saveLoggedInBranch(isLoggedYearChangeShow) {
+            $.ajax({
+                type: "POST",
+                url: "@(Url.Action("UpdateLoginCustomerUserLoggedInBranchId", "Customer"))" + "/" + $("#hdnLoggedInFirmBranchId").val(),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data) {
+                    if (data.result == RESULT_SUCCESS) {
+                        $('#LoginFirmModal').modal('hide');
+
+                        if (isLoggedYearChangeShow) {
+                            bindFinanceYear();
+                        }
+
+                    } else {
+                        showError("", data.data);
+                    }
+                },
+                error: function (error) {
+                    showError("", error.statusText);
+                }
+            });
+        }
+    </script>
+}

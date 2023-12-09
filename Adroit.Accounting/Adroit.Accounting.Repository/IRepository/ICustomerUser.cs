@@ -6,9 +6,10 @@ namespace Adroit.Accounting.Repository.IRepository
     public interface ICustomerUser
     {
         List<CustomerUserGridViewModel> List(string connectionString, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
-        void Delete(int id, int loginId, string connectionString);
-        int Save(CustomerUser value, string connectionString, int loginId);
-        CustomerUserViewModel Get(int id, string connectionString, int loginId);
-        int LoginCustomerUserSave(LoginCustomerUserViewModel value, string connectionString, int loginId);
+        void Delete(int id, int loginId, int firmId, string connectionString);
+        int Save(CustomerUser value, int loginId, int firmId, string connectionString);
+        CustomerUserViewModel Get(int id, int loginId, int firmId, string connectionString);
+        int LoginCustomerUserLoggedInBranchIdSave(int id, string connectionString, int loginId);
+        int LoginCustomerUserLoggedInYearIdSave(int id, string connectionString, int loginId);
     }
 }

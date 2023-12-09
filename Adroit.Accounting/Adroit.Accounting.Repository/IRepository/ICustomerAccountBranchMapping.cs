@@ -4,6 +4,6 @@ namespace Adroit.Accounting.Repository.IRepository
 {
     public interface ICustomerAccountBranchMapping
     {
-        List<DropdownViewModel> GetCustomerAccountBranchMappingList(string connectionString, int loginId = 0, int firmId = 0);
+        List<DropdownViewModel> GetCustomerAccountBranchMappingList(int firmId, int branchId, string connectionString, int loginId = 0);
     }
 }

@@ -4,12 +4,10 @@ using Adroit.Accounting.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.SQL.Tables;
-using Adroit.Accounting.Web.Utility;
-using Adroit.Accounting.Repository;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class CustomerController : Controller
+    public partial class CustomerController : MasterController
     {
         public IActionResult ProductFabric()
         {
@@ -25,12 +23,11 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<ProductFabricGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _productFabricRepository.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _productFabricRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -49,13 +46,10 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                //we need add user Id
-                int userId = LoginHandler.GetUserId(User);
+                model.AddedById = CurrentUserId;
+                model.ModifiedById = CurrentUserId;
 
-                model.AddedById = userId;
-                model.ModifiedById = userId;
-
-                int id = _productFabricRepository.Save(model, userId, _configurationData.DefaultConnection);
+                int id = _productFabricRepository.Save(model, CurrentUserId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -75,9 +69,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int userId = LoginHandler.GetUserId(User);
-
-                _productFabricRepository.Delete(id, userId, _configurationData.DefaultConnection);
+                _productFabricRepository.Delete(id, CurrentUserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -93,8 +85,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int userId = LoginHandler.GetUserId(User);
-                result.data = _productFabricRepository.Get(id, userId, _configurationData.DefaultConnection);
+                result.data = _productFabricRepository.Get(id, CurrentUserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

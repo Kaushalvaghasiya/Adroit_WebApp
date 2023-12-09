@@ -1,7 +1,6 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_LoginCustomerUserSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_LoginCustomerUserLoggedInYearIdSave]
 (
 	 @LoginId int,
-	 @BranchId int,
 	 @YearId int
 )
 AS
@@ -14,8 +13,6 @@ BEGIN
 		IF EXISTS (SELECT 1 FROM CustomerUser WHERE Id = @CustomerId)
 		BEGIN
 			UPDATE  CustomerUser SET
-					LoggedInBranchId = @BranchId,
-					LoggedInTime = GETUTCDATE(),
 					LoggedInYear = @YearId
 			WHERE Id = @CustomerId
 		END

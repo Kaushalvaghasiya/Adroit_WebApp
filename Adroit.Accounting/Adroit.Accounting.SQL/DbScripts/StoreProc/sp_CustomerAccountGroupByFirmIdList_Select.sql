@@ -1,10 +1,10 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountGroupByLoginIdList_Select]
+CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountGroupByFirmIdList_Select]
 (
-	@LoginId int
+	@FirmId int
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	
 	SELECT [CustomerAccountGroup].Id As Value, [CustomerAccountGroup].Title + ' (' + [CustomerAccountGroup].Code + ')' As Text 
 	FROM [CustomerAccountGroup] 

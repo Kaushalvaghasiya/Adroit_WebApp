@@ -11,8 +11,8 @@ namespace Adroit.Accounting.Repository
         public int Save(CustomerAccountViewModel value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", value.loginId);
-            parameters.Add("@FirmId", value.firmId);
+            parameters.Add("@LoginId", value.LoginId);
+            parameters.Add("@FirmId", value.FirmId);
             parameters.Add("@Id", value.Id);
             parameters.Add("@Name", value.Name);
             parameters.Add("@PrintName", value.PrintName);
@@ -103,16 +103,17 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountList_Select", connectionString, parameters);
         }
-        public List<string> GetTransporterGSTNumberList(string transporterName, string connectionString)
+        public List<string> GetTransporterGSTNumberList(string transporterName, int firmId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@SearchName", transporterName);
+            parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<string>("sp_GetAllGSTNoByTransportName", connectionString, parameters);
         }
-        public List<DropdownViewModel> GetCustomerAccountListByBranchMapping(int userId, int branchId, string connectionString)
+        public List<DropdownViewModel> GetCustomerAccountListByBranchMapping(int firmId, int branchId, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@UserId", userId);
+            parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", branchId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountListByBranchiMapping_Select", connectionString, parameters);
         }
@@ -123,17 +124,18 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountWithAccountGroupList_Select", connectionString, parameters);
         }
-        public List<DropdownViewModel> GetCustomerAccountBranchMappingList_Select(int userId, string connectionString)
+        public List<DropdownViewModel> GetCustomerAccountBranchMappingList_Select(int firmId, int branchId, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@UserId", userId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccounBranchMappingList_Select", connectionString, parameters);
         }
-        public List<DropdownViewModel> GetCustomerAccountListWithGSTNo_MobileNo(string connectionString, int loginId, int branchId)
+        public List<DropdownViewModel> GetCustomerAccountListWithGSTNo_MobileNo(int firmId, int branchId, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@loginId", loginId);
-            parameters.Add("@branchId", branchId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountListByBranchMappingWithGSTNo_MobileNo_Select", connectionString, parameters);
         }
     }

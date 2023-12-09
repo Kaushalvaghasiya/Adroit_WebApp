@@ -1,0 +1,103 @@
+﻿<div class="modal" id="LoginYearModal" tabindex="-1" data-backdrop="static" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="align-items:center;">
+                <h5 class="modal-title" id="example-Modal3">Year</h5>
+            </div>
+            <div class="modal-body" style="max-height: 18vh;">
+                <div class="row mb-1">
+                    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                        <div class="panel panel-success" style="max-height: 15vh; overflow-y: auto;">
+                            <div class="list-group" id="loginyearList">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<input type="hidden" id="hdnLoggedInYearId" value="0" />
+
+@section Scripts
+{
+    <script>
+        function bindFinanceYear() {
+            try {
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetFinanceYearId"))" + "/" + $("#hdnLoggedInFirmBranchId").val(), "",
+                    function (data) {
+                        var str = "";
+                        if (data.result == RESULT_SUCCESS) {
+                            $('#LoginYearModal').modal('show');
+                            var linkList = $("#loginyearList");
+                            linkList.empty();
+                            if (data.data.length > 0) {
+                                data.data.sort(function (a, b) {
+                                    return b.value - a.value;
+                                });
+
+                                for (var i = 0; i < data.data.length; i++) {
+                                    if ($("#hdnLoggedInYearId").val() == data.data[i].value) {
+                                        var listItem = $("<a href='#' class='list-group-item active' data-id='" + data.data[i].value + "'>" + data.data[i].text + "</a>");
+                                        linkList.append(listItem);
+                                    } else {
+                                        var listItem = $("<a href='#' class='list-group-item' data-id='" + data.data[i].value + "'>" + data.data[i].text + "</a>");
+                                        linkList.append(listItem);
+                                    }
+                                }
+                            } else {
+                                var listItem = $("<a href='#' class='list-group-item'> Year Not Exists </a>");
+                                linkList.append(listItem);
+                            }
+                            initYearListClickEvent();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                showError("", e.message);
+            }
+        }
+
+        function initYearListClickEvent() {
+            $("#loginyearList").on("click", ".list-group-item", function () {
+                $("#loginyearList .list-group-item").removeClass("active");
+
+                $(this).addClass("active");
+
+                var selectedId = $(this).data("id");
+
+                $("#hdnLoggedInYearId").val(selectedId.toString());
+
+                if ($("#hdnLoggedInYearId").val() == null || $("#hdnLoggedInYearId").val() == "" || $("#hdnLoggedInYearId").val() == 0) {
+                    showWarning("", "Please select year");
+                    $("#hdnLoggedInYearId").focus();
+                    return false;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("UpdateLoginCustomerUserLoggedInYearId", "Customer"))" + "/" + $("#hdnLoggedInYearId").val(),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.result == RESULT_SUCCESS) {
+                            $('#LoginYearModal').modal('hide');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        showError("", error.statusText);
+                    }
+                });
+            });
+        }
+
+    </script>
+}

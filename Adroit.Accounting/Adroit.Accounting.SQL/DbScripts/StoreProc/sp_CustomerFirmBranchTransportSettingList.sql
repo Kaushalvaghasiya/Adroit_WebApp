@@ -1,6 +1,7 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmBranchTransportSettingList]
   @LoginId int,
   @FirmId int,  
+  @BranchId int,  
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -54,6 +55,7 @@ Begin
 			AND PBBA.Active = 1 AND PBBA.Deleted = 0 AND PBB.Active = 1 AND PBB.Deleted = 0 AND PBBM.Deleted = 0 
 			AND BSBBA.Active = 1 AND BSBBA.Deleted = 0 AND BSBB.Active = 1 AND BSBB.Deleted = 0 AND BSBBM.Deleted = 0 
 			AND DSBBA.Active = 1 AND DSBBA.Deleted = 0 AND DSBB.Active = 1 AND DSBB.Deleted = 0 AND DSBBM.Deleted = 0 
+			AND [CustomerFirmBranchTransportSetting].BranchId = @BranchId
 			AND (Coalesce(@Search,'') = '' 
 			OR CustomerFirmBranch.[Title] like '%'+ @Search + '%'
 			OR PBBA.[Name] like '%'+ @Search + '%'

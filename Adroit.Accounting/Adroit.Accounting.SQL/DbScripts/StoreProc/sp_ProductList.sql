@@ -1,6 +1,6 @@
 CREATE OR ALTER Procedure [dbo].[sp_ProductList]
-  @loginId int,
-  @firmId int,  
+  @LoginId int,
+  @FirmId int,  
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -9,6 +9,8 @@ CREATE OR ALTER Procedure [dbo].[sp_ProductList]
 As
 Set Nocount on;
 Begin
+    Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
+
 	SELECT * FROM
 	(   
 		SELECT ROW_NUMBER() over 
@@ -32,11 +34,11 @@ Begin
 		,[GSTUQC].Title as UQCTypeName
 		,[GSTCalculation].Title as GSTCalculationName
 		FROM Product
-		LEFT JOIN [ProductDesignNumber] on Product.DesignNumberId = [ProductDesignNumber].Id
-		LEFT JOIN [ProductColor] on Product.ColourId = [ProductColor].Id
+		LEFT JOIN [ProductDesignNumber] on Product.DesignNumberId = [ProductDesignNumber].Id AND [ProductDesignNumber].CustomerId = @CustomerId
+		LEFT JOIN [ProductColor] on Product.ColourId = [ProductColor].Id AND [ProductColor].CustomerId = @CustomerId
 		INNER JOIN [GSTUQC] on Product.UQCId = [GSTUQC].Id
 		INNER JOIN [GSTCalculation] on Product.GSTCalculationId = [GSTCalculation].Id
-		WHERE [Product].Deleted = 0
+		WHERE [Product].CustomerId = @CustomerId AND [Product].Deleted = 0
 		AND (Coalesce(@Search,'') = '' OR [Product].Title like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
