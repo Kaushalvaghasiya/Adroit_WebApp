@@ -26,9 +26,9 @@ namespace Adroit.Accounting.Web.Controllers
         private ISoftware _softwareRepository;
         private ISoftwarePlan _softwarePlanRepository;
         private ICustomer _customerRepository;
-        private IAdminCustomerFirm _customerFirmRepository;
-        private IAdminCustomerFirmBranch _customerFirmBranchRepository;
-        private IAdminCustomerUser _customerUserRepository;
+        private IAdminCustomerFirm _adminCustomerFirmRepository;
+        private IAdminCustomerFirmBranch _adminCustomerFirmBranchRepository;
+        private IAdminCustomerUser _adminCustomerUserRepository;
         private ICommon _commonRepository;
         private IGSTCollection _gstCollection;
         private IBranchTypeAdmin _branchTypeAdminRepository;
@@ -48,9 +48,9 @@ namespace Adroit.Accounting.Web.Controllers
             IFirmType firmTypeRepository,
             IGSTFirmType gstFirmTypeRepository,
             ICustomer customerRepository,
-            IAdminCustomerFirm customerFirmRepository,
-            IAdminCustomerFirmBranch customerFirmBranchRepository,
-            IAdminCustomerUser customerUserRepository,
+            IAdminCustomerFirm adminCustomerFirmRepository,
+            IAdminCustomerFirmBranch adminCustomerFirmBranchRepository,
+            IAdminCustomerUser adminCustomerUserRepository,
             ICommon commonRepository,
             IGSTCollection gstCollection,
             IBranchTypeAdmin branchTypeAdminRepository,
@@ -70,9 +70,9 @@ namespace Adroit.Accounting.Web.Controllers
             _softwareRepository = softwareRepository;
             _softwarePlanRepository = softwarePlanRepository;
             _customerRepository = customerRepository;
-            _customerFirmRepository = customerFirmRepository;
-            _customerFirmBranchRepository = customerFirmBranchRepository;
-            _customerUserRepository = customerUserRepository;
+            _adminCustomerFirmRepository = adminCustomerFirmRepository;
+            _adminCustomerFirmBranchRepository = adminCustomerFirmBranchRepository;
+            _adminCustomerUserRepository = adminCustomerUserRepository;
             _commonRepository = commonRepository;
             _gstCollection = gstCollection;
             _branchTypeAdminRepository = branchTypeAdminRepository;
@@ -289,7 +289,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerFirmRepository.SelectList(customerId, _configurationData.DefaultConnection).ToList();
+                result.data = _adminCustomerFirmRepository.SelectList(customerId, _configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -304,7 +304,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerFirmBranchRepository.SelectList(firmId, _configurationData.DefaultConnection).ToList();
+                result.data = _adminCustomerFirmBranchRepository.SelectList(firmId, _configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -319,7 +319,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerUserRepository.SelectList(customerId, _configurationData.DefaultConnection).ToList();
+                result.data = _adminCustomerUserRepository.SelectList(customerId, _configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -435,7 +435,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetCustomerBranchId()
+        public JsonResult GetUserBranches()
         {
             ApiResult result = new ApiResult();
             try
@@ -468,12 +468,12 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        public JsonResult GetCustomerExistsLoggedBranchAndYearId()
+        public JsonResult GetUserLoggedInBranchAndYear()
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerUserRepository.Get(CurrentUserId, _configurationData.DefaultConnection);
+                result.data = _adminCustomerUserRepository.Get(CurrentUserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

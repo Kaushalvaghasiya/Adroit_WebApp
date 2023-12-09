@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_LoginCustomerUserLoggedInYearIdSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUserLoggedInYearSave]
 (
 	 @LoginId int,
 	 @YearId int

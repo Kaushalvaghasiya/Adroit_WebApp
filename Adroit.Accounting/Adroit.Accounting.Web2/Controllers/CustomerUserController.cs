@@ -202,13 +202,13 @@ namespace Adroit.Accounting.Web.Controllers
             return (IUserEmailStore<IdentityUser>)_userStore;
         }
 
-        [HttpPost("~/Common/GetFinanceYearId/{branchId}")]
-        public JsonResult UpdateLoginCustomerUserLoggedInBranchId(int branchId)
+        [HttpPost]
+        public JsonResult UpdateUserLoggedInBranch(int id)
         {
             ApiResult result = new ApiResult();
             try
             {
-                int id = _customerUsersRepository.LoginCustomerUserLoggedInBranchIdSave(branchId, _configurationData.DefaultConnection, CurrentUserId);
+                id = _customerUsersRepository.UpdateUserLoggedInBranch(CurrentUserId, id, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     ClearCurrentFirmId();
@@ -225,13 +225,12 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [HttpPost("~/Common/GetFinanceYearId/{yearId}")]
-        public JsonResult UpdateLoginCustomerUserLoggedInYearId(int yearId)
+        public JsonResult UpdateUserLoggedInYear(int id)
         {
             ApiResult result = new ApiResult();
             try
             {
-                int id = _customerUsersRepository.LoginCustomerUserLoggedInYearIdSave(yearId, _configurationData.DefaultConnection, CurrentUserId);
+                id = _customerUsersRepository.UpdateUserLoggedInYear(CurrentUserId, id, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     ClearLoggedInYearId();

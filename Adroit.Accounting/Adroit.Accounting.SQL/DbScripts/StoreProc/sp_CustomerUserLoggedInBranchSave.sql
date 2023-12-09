@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_LoginCustomerUserLoggedInBranchIdSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerUserLoggedInBranchSave]
 (
 	 @LoginId int,
 	 @BranchId int
