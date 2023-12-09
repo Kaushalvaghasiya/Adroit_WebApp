@@ -10,7 +10,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="example-Modal3">Select Firm (Branch)</h5>
+                <h5 class="modal-title" id="example-Modal3">Branch</h5>
             </div>
             <div class="modal-body" style="max-height: 74.5vh;">
                 <div class="row mb-1">
@@ -22,11 +22,6 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <a href="#" type="button" class="btn btn-primary mt-1" id="selectFirmBranch">
-                    <i class="fa fa-save"></i>&nbsp;Select
-                </a>
-            </div>
         </div>
     </div>
 </div>
@@ -35,7 +30,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="example-Modal3">Select Year</h5>
+                <h5 class="modal-title" id="example-Modal3">Year</h5>
             </div>
             <div class="modal-body" style="max-height: 18vh;">
                 <div class="row mb-1">
@@ -47,11 +42,6 @@
                     </div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <a href="#" type="button" class="btn btn-primary mt-1" id="selectYear">
-                    <i class="fa fa-save"></i>&nbsp;Select
-                </a>
-            </div>
         </div>
     </div>
 </div>
@@ -60,58 +50,11 @@
 <input type="hidden" id="hdnYearId" value="0" />
 
 @section Scripts
-{
+    {
     <script>
 
         $(function (e) {
             getExistingBranchId();
-
-            $('#selectFirmBranch').on('click', function () {
-
-                if ($("#hdnFirmBranchId").val() == null || $("#hdnFirmBranchId").val() == "" || $("#hdnFirmBranchId").val() == 0) {
-                    showWarning("", "Please select firm (Branch)");
-                    return false;
-                }
-
-                bindFinanceYear();
-            });
-
-            $('#selectYear').on('click', function () {
-                try {
-                    if ($("#hdnYearId").val() == null || $("#hdnYearId").val() == "" || $("#hdnYearId").val() == 0) {
-                        showWarning("", "Please select year");
-                        $("#hdnYearId").focus();
-                        return false;
-                    }
-
-                    var savedata = new Object();
-                    savedata.LoggedInBranchId = getIntValueZero("hdnFirmBranchId");
-                    savedata.LoggedInYear = getIntValueZero("hdnYearId");
-
-                    $.ajax({
-                        type: "POST",
-                        url: "@(Url.Action("SaveLoginCustomerUser", "Customer"))",
-                        data: JSON.stringify(savedata),
-                        contentType: "application/json; charset=utf-8",
-                        dataType: "json",
-                        success: function (data) {
-                            if (data.result == RESULT_SUCCESS) {
-                                $('#YearModal').modal('hide');
-                            } else {
-                                showError("", data.data);
-                            }
-                        },
-                        error: function (error) {
-                            showError("", error.statusText);
-                        }
-                    });
-
-                }
-                catch (e) {
-                    unblockUI('container');
-                    showError("", e.message);
-                }
-            });
         });
 
         function getExistingBranchId() {
@@ -183,6 +126,14 @@
                 var selectedId = $(this).data("id");
 
                 $("#hdnFirmBranchId").val(selectedId.toString());
+
+                if ($("#hdnFirmBranchId").val() == null || $("#hdnFirmBranchId").val() == "" || $("#hdnFirmBranchId").val() == 0) {
+                    showWarning("", "Please select firm (Branch)");
+                    return false;
+                }
+
+                bindFinanceYear();
+
             });
         }
 
@@ -237,9 +188,36 @@
                 var selectedId = $(this).data("id");
 
                 $("#hdnYearId").val(selectedId.toString());
+
+                if ($("#hdnYearId").val() == null || $("#hdnYearId").val() == "" || $("#hdnYearId").val() == 0) {
+                    showWarning("", "Please select year");
+                    $("#hdnYearId").focus();
+                    return false;
+                }
+
+                var savedata = new Object();
+                savedata.LoggedInBranchId = getIntValueZero("hdnFirmBranchId");
+                savedata.LoggedInYear = getIntValueZero("hdnYearId");
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveLoginCustomerUser", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        if (data.result == RESULT_SUCCESS) {
+                            $('#YearModal').modal('hide');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        showError("", error.statusText);
+                    }
+                });
             });
         }
-
 
     </script>
 }
