@@ -21,5 +21,9 @@ namespace Adroit.Accounting.Model.ViewModel
         public string Consignee { get; set; }
         public string CityFrom { get; set; }
         public string CityTo { get; set; }
+        public string Description { get; set; }
+        public string Packing { get; set; }
+        public string LRBookingMaxDate { get; set; }
+        
     }
 }

@@ -1,16 +1,24 @@
 ﻿using Adroit.Accounting.Model.Enums;
 using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Options;
 using System.Security.Claims;
 using System.Security.Principal;
 
 namespace Adroit.Accounting.Web.Utility
 {
-    public class LoginHandler
+    public class LoginHandler : ILoginHandler
     {
-        public static async Task SetupLogin(HttpContext context, int userId, string userName, string fullName, UserType userType = UserType.Customer)
+        private readonly IMemoryCache? _memoryCache = null;
+        public LoginHandler(IMemoryCache memoryCache)
+        {
+            _memoryCache = memoryCache;
+        }
+        public async Task SetupLogin(HttpContext context, int userId, string userName, string fullName, UserType userType = UserType.Customer)
         {
             var claims = new List<Claim>
                     {
@@ -32,8 +40,7 @@ namespace Adroit.Accounting.Web.Utility
 
             await context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(claimsIdentity), authProperties);
         }
-
-        public static int GetUserId(IPrincipal user)
+        public int GetUserId(IPrincipal user)
         {
             var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.SerialNumber);
             if (null != claim)
@@ -43,32 +50,72 @@ namespace Adroit.Accounting.Web.Utility
 
             return 0;
         }
-
-        public static int GetFirmId(IPrincipal user, ICustomerFirm customerFirmRepository, string connectionString)
+        public int GetLoggedInFirmId(IPrincipal user, IUser userRepository, string connectionString)
         {
-            //var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.SerialNumber);
-            //if (null != claim)
-            //{
-            //    return Convert.ToInt32(claim.Value);
-            //}
-
             int userid = GetUserId(user);
-            int firmId = customerFirmRepository.GetFirmId(userid, connectionString);
+            var key = $"CacheFirmId-{userid}";
+            int firmId;
+            if (!_memoryCache.TryGetValue(key, out firmId))
+            {
+                firmId = userRepository.GetLoggedInFirmId(userid, connectionString);
+
+                //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
+                _memoryCache.Set(key, firmId);
+            }
+
             return firmId;
         }
-        public static int GetBranchId(IPrincipal user, IUser userRepository, string connectionString)
+        public int GetLoggedInBranchId(IPrincipal user, IUser userRepository, string connectionString)
         {
-            //var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.SerialNumber);
-            //if (null != claim)
-            //{
-            //    return Convert.ToInt32(claim.Value);
-            //}
             int userid = GetUserId(user);
-            int branchId = userRepository.GetLastWorkingBranchId(userid, connectionString);
+            var key = $"CacheBrachId-{userid}";
+            int branchId;
+            if (!_memoryCache.TryGetValue(key, out branchId))
+            {
+                branchId = userRepository.GetLoggedInBranchId(userid, connectionString);
+
+                //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
+                _memoryCache.Set(key, branchId);
+            }
+
             return branchId;
         }
+        public int GetLoggedInYearId(IPrincipal user, IUser userRepository, string connectionString)
+        {
+            int userid = GetUserId(user);
+            var key = $"CacheYearId-{userid}";
+            int yearId;
+            if (!_memoryCache.TryGetValue(key, out yearId))
+            {
+                yearId = userRepository.GetLoggedInYearId(userid, connectionString);
 
-        public static string GetUserFullName(IPrincipal user)
+                //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
+                _memoryCache.Set(key, yearId);
+            }
+
+            return yearId;
+        }
+
+        public void ClearLoggedInFirmId(IPrincipal user)
+        {
+            int userid = GetUserId(user);
+            var key = $"CacheFirmId-{userid}";
+            _memoryCache?.Remove(key);
+        }
+        public void ClearLoggedInBranchId(IPrincipal user)
+        {
+            int userid = GetUserId(user);
+            var key = $"CacheBrachId-{userid}";
+            _memoryCache?.Remove(key);
+        }
+        public void ClearLoggedInYearId(IPrincipal user)
+        {
+            int userid = GetUserId(user);
+            var key = $"CacheYearId-{userid}";
+            _memoryCache?.Remove(key);
+        }
+
+        public string GetUserFullName(IPrincipal user)
         {
             var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.GivenName);
             if (null != claim)
@@ -78,7 +125,6 @@ namespace Adroit.Accounting.Web.Utility
 
             return "";
         }
-
         public static string GetDisplayName(IPrincipal user, int? characters = null)
         {
             var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.GivenName);
@@ -95,8 +141,7 @@ namespace Adroit.Accounting.Web.Utility
 
             return "";
         }
-
-        public static string GetUserName(IPrincipal user)
+        public string GetUserName(IPrincipal user)
         {
             var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.Name);
             if (null != claim)
@@ -106,8 +151,7 @@ namespace Adroit.Accounting.Web.Utility
 
             return "";
         }
-
-        public static string GetRole(IPrincipal user)
+        public string GetRole(IPrincipal user)
         {
             var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.Role);
             if (null != claim)
@@ -117,10 +161,10 @@ namespace Adroit.Accounting.Web.Utility
 
             return "";
         }
-
-        public static bool IsBackOfficeUser(IPrincipal user)
+        public bool IsBackOfficeUser(IPrincipal user)
         {
             return (UserType)Convert.ToInt32(GetRole(user)) == UserType.BackOffice;
         }
+
     }
 }

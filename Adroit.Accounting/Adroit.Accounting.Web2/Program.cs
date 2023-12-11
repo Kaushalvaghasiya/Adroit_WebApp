@@ -130,6 +130,9 @@ try
     builder.Services.AddSingleton<ILRBooking, LRBookingRepository>();
     builder.Services.AddSingleton<ITransportLRDelivery, TransportLRDeliveryRepository>();
     builder.Services.AddSingleton<ITransportLRDeliveryType, TransportLRDeliveryTypeRepository>();
+    builder.Services.AddSingleton<ILoginHandler, LoginHandler>();
+    
+    builder.Services.AddSingleton<IFinanceYear, FinanceYearRepository>();
     builder.Services.AddSingleton<ICustomerInvoice, CustomerInvoiceRepository>();
 
     if (!builder.Environment.IsDevelopment())
@@ -154,6 +157,7 @@ try
         });
 
     var app = builder.Build();
+    app.ConfigureExceptionHandler(logger);
 
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
@@ -170,8 +174,7 @@ try
     // Run SQL Changes
     Adroit.Accounting.SQL.SQLMigrate.ExecuteSQL(connectionString);
 
-    app.ConfigureExceptionHandler(logger);
-
+    
     app.UseHttpsRedirection();
     app.UseStaticFiles();
 

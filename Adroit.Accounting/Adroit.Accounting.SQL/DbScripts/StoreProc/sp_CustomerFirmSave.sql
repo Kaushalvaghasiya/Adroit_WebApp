@@ -2,6 +2,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmSave]
 (
 	 @Id int,
 	 @LoginId int,
+	 @FirmId int,
 	 @BusinessId smallint,
 	 @Title VARCHAR(100),
 	 @OwnerName varchar(100),
@@ -22,7 +23,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmSave]
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	BEGIN TRAN
 	BEGIN TRY

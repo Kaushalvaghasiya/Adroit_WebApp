@@ -68,11 +68,23 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@CustomerId", customerId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerUserList_Select", connectionString, parameters);
         }
-        public int GetLastWorkingBranchId(int loginId, string connectionString)
+        public int GetLoggedInBranchId(int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
-            return QueryHelper.Get<int>("sp_GetLastWorkingBranchId", connectionString, parameters);
+            return QueryHelper.Get<int>("sp_GetLoggedInBranchId", connectionString, parameters);
+        }
+        public int GetLoggedInFirmId(int loginId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            return QueryHelper.Get<int>("sp_GetLoggedInFirmId", connectionString, parameters);
+        }
+        public int GetLoggedInYearId(int loginId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            return QueryHelper.Get<int>("sp_GetLoggedInYearId", connectionString, parameters);
         }
     }
 }

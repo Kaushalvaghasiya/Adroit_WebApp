@@ -4,12 +4,11 @@ using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class AdminController : Controller
+    public partial class AdminController : MasterController
     {
         protected readonly IBookAdmin _bookAdminRepository;
         protected readonly IAccountGroupHeaderAdmin _accountGroupHeaderAdminRepository;
@@ -18,7 +17,6 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomer _customerRepository;
         protected readonly IBillTypeAdmin _billTypeAdminRepository;
         protected readonly IBillEntryTypeAdmin _billEntryTypeAdminRepository;
-        protected readonly ConfigurationData _configurationData;
         protected readonly IAdminCustomerFirm _customerFirmRepository;
         protected readonly IAdminCustomerFirmBranch _customerFirmBranchRepository;
         protected readonly IAdminCustomerUser _customerUserRepository;
@@ -59,11 +57,9 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportDescAdmin _transportDescAdminRepository;
         private readonly ITransportLRCharges _transportLRChargesRepository;
         private readonly IGSTCollection _gstCollectionRepository;
-        private readonly IUser _userRepository;
         private readonly ICustomerFirm _customerCustomerFirmRepository;
-
         public AdminController(
-            IOptions<ConfigurationData> configurationData,
+            ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
             IAccountGroupHeaderAdmin accountGroupHeaderAdminRepository,
             IAccountAdmin accountAdminRepository,
@@ -110,12 +106,9 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportDescAdmin transportDescAdminRepository,
             ITransportLRCharges transportLRChargesRepository,
             IGSTCollection gstCollectionRepository,
-            IUser userRepository
-,
-            ICustomerFirm customerCustomerFirmRepository)
-
+            ICustomerFirm customerCustomerFirmRepository) 
+            : base(loginHandler, userRepository, configurationData)
         {
-            _configurationData = configurationData.Value;
             _bookAdminRepository = bookAdminRepository;
             _accountGroupHeaderAdminRepository = accountGroupHeaderAdminRepository;
             _accountAdminRepository = accountAdminRepository;
@@ -163,23 +156,7 @@ namespace Adroit.Accounting.Web.Controllers
             _transportDescAdminRepository = transportDescAdminRepository;
             _transportLRChargesRepository = transportLRChargesRepository;
             _gstCollectionRepository = gstCollectionRepository;
-            _userRepository = userRepository;
             _customerCustomerFirmRepository = customerCustomerFirmRepository;
-        }
-
-        protected int CurrentFirmId
-        {
-            get
-            {
-                return LoginHandler.GetFirmId(User, _customerCustomerFirmRepository, _configurationData.DefaultConnection);
-            }
-        }
-        protected int CurrentBranchId
-        {
-            get
-            {
-                return LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
-            }
         }
     }
 }

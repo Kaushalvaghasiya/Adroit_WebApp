@@ -8,15 +8,24 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class CustomerController : Controller
+    public partial class CustomerController : MasterController
     {
         public IActionResult Product()
         {
             var model = new ProductViewModel();
 
-            int loginId = LoginHandler.GetUserId(User);
-            model.Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
-            byte SoftwareId = _softwareRepository.GetSoftwareIdByLoginId(loginId, _configurationData.DefaultConnection);
+            var customerId = _customerRepository.GetCustomerIdByLoginId(CurrentUserId, _configurationData.DefaultConnection);
+            var Customer = _customerRepository.Get(customerId, _configurationData.DefaultConnection);
+            if (Customer == null)
+            {
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please ask your admin to add your customer data" });
+            }
+            else
+            {
+                model.Customer = Customer;
+            }
+
+            byte SoftwareId = _softwareRepository.GetSoftwareIdFirmId(CurrentFirmId, _configurationData.DefaultConnection);
             model.BranchList = _customerFirmBranchRepository.SelectList(model.Customer.Id, true, _configurationData.DefaultConnection);
 
             model.CodeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductTable._TableName, ProductTable.Code);
@@ -38,20 +47,20 @@ namespace Adroit.Accounting.Web.Controllers
             model.DenierWeightList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductTable._TableName, ProductTable.DenierWeight);
             model.RatePerMeterList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductTable._TableName, ProductTable.RatePerMeter);
 
-            model.ProductDesignNumberList = _productDesignNumberRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductColorList = _productColorRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductSizeList = _productSizeRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductFabricList = _productFabricRepository.SelectList(_configurationData.DefaultConnection);
+            model.ProductDesignNumberList = _productDesignNumberRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
+            model.ProductColorList = _productColorRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
+            model.ProductSizeList = _productSizeRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
+            model.ProductFabricList = _productFabricRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
             model.ProductStockTypeList = _stockTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductCategoryList = _productCategoryRepository.SelectList(_configurationData.DefaultConnection);
             model.GSTUQCList = _gstUQCRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductPackingList = _productPackingRepository.SelectList(_configurationData.DefaultConnection);
+            model.ProductPackingList = _productPackingRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
             model.GSTCalculationList = _gstCalculationRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductSubGroupList = _productSubGroupRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductGroupList = _productGroupRepository.SelectList(_configurationData.DefaultConnection);
+            model.ProductSubGroupList = _productSubGroupRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
+            model.ProductGroupList = _productGroupRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
             model.ProductAmtCalcOnList = _productAmtCalcOnRepository.SelectList(SoftwareId, _configurationData.DefaultConnection);
             model.ProductQualityTypeList = _productQualityTypeRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductShadeNumberList = _productShadeNumberRepository.SelectList(_configurationData.DefaultConnection);
+            model.ProductShadeNumberList = _productShadeNumberRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
             model.GSTRateList = _gstRateRepository.SelectList(_configurationData.DefaultConnection);
 
             return View(model);
@@ -63,13 +72,11 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<ProductGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _productRepository.List(_configurationData.DefaultConnection, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _productRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -89,10 +96,10 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                model.loginId = LoginHandler.GetUserId(User);
-                model.softwareId = _softwareRepository.GetSoftwareIdByLoginId(model.loginId, _configurationData.DefaultConnection);
-
-                int id = _productRepository.Save(model, _configurationData.DefaultConnection, CurrentFirmId);
+                model.loginId = CurrentUserId;
+                model.softwareId = _softwareRepository.GetSoftwareIdFirmId(CurrentFirmId, _configurationData.DefaultConnection);
+                model.firmId = CurrentFirmId;
+                int id = _productRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -113,8 +120,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                _productRepository.Delete(id, _configurationData.DefaultConnection, loginId, CurrentFirmId);
+                _productRepository.Delete(id, CurrentFirmId, _configurationData.DefaultConnection, CurrentUserId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -131,8 +137,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                result.data = _productRepository.Get(id, _configurationData.DefaultConnection, loginId, CurrentFirmId);
+                result.data = _productRepository.Get(id, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

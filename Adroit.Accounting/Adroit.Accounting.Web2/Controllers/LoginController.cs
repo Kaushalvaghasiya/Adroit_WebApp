@@ -1,10 +1,7 @@
 ﻿using Adroit.Accounting.Model.Enums;
 using Adroit.Accounting.Repository.IRepository;
-using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +18,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ConfigurationData _configurationData;
         private readonly IUser _userRepository;
         private readonly ICustomer _customerRepository;
+        private readonly ILoginHandler _loginHandler;
         public LoginController(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
@@ -28,7 +26,8 @@ namespace Adroit.Accounting.Web.Controllers
             ILogger<LoginController> logger,
             IOptions<ConfigurationData> configurationData,
             IUser userRepository,
-            ICustomer customerRepository)
+            ICustomer customerRepository,
+            ILoginHandler loginHandler)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -37,10 +36,11 @@ namespace Adroit.Accounting.Web.Controllers
             _configurationData = configurationData.Value;
             _userRepository = userRepository;
             _customerRepository = customerRepository;
+            _loginHandler = loginHandler;
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
@@ -55,7 +55,7 @@ namespace Adroit.Accounting.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(Model.Login model, string? returnUrl = "")
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= Url.Content("~/BranchSelection");
 
             //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -75,7 +75,7 @@ namespace Adroit.Accounting.Web.Controllers
                         var userDetail = _userRepository.Get(model.Username, _configurationData.DefaultConnection);
                         var customer = _customerRepository.Get(userDetail.CustomerId, _configurationData.DefaultConnection);
 
-                        await LoginHandler.SetupLogin(HttpContext, userDetail.ID,
+                        await _loginHandler.SetupLogin(HttpContext, userDetail.ID,
                             model.Username,
                             $"{userDetail.FirstName} {userDetail.LastName}",
                             customer.CustomerType == Model.Enums.CustomerType.BackOffice ? UserType.BackOffice : UserType.Customer
@@ -86,7 +86,7 @@ namespace Adroit.Accounting.Web.Controllers
                     catch (Exception ex)
                     {
                     }
-                    return LocalRedirect($"~/");
+                    return LocalRedirect($"~/BranchSelection");
                 }
                 else
                 {

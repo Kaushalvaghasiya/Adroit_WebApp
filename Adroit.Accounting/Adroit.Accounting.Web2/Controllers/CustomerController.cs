@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class CustomerController : Controller
+    public partial class CustomerController : MasterController
     {
         protected readonly IVehicle _vehicleRepo;
         protected readonly IVehicleModel _vehicleModelRepository;
@@ -19,7 +19,6 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICustomerAccount _customerAccountRepo;
         protected readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
         protected readonly ICustomerAccountGroup _customerAccountGroupRepo;
-        protected readonly ConfigurationData _configurationData;
         protected readonly ICustomer _customerRepository;
         protected readonly IAdminCustomerFirm _adminCustomerFirmRepository;
         private readonly ICommon _commonRepository;
@@ -46,7 +45,6 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly IAdminCustomerFirmBranch _customerFirmBranchRepository;
         protected readonly ICustomerUser _customerUsersRepository;
         private readonly IEmailService _emailService;
-        private readonly IUser _userRepository;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
@@ -81,17 +79,15 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRDelivery _transportLRDeliveryRepository;
         private readonly ICustomerInvoice _customerInvoice;
         private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
-
         public CustomerController(
+            ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
             IVehicle vehicleRepo,
             IVehicleModel vehicleModelRepository,
             ICountry countryRepository,
             IVehicleOwner vehicleOwnerRepo,
             ICustomerAccount customerAccountRepo,
-            IOptions<ConfigurationData> configurationData,
             ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
             ICustomerAccountGroup customerAccountGroupRepo,
-            IAdminCustomerUser adminCustomerUserRepository,
             ICommon commonRepository,
             ITransportDesc transportDescRepository,
             IProductSize productSizeRepository,
@@ -117,7 +113,6 @@ namespace Adroit.Accounting.Web.Controllers
             IAdminCustomerFirmBranch customerFirmBranchRepository,
             ICustomerUser customerUsersRepository,
             IEmailService emailService,
-            IUser userRepository,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             ILogger<CustomerController> logger,
@@ -151,14 +146,15 @@ namespace Adroit.Accounting.Web.Controllers
             ILRBooking lrBookingRepository,
             ITransportLRDeliveryType transportLRDeliveryTypeRepository,
             ITransportLRDelivery transportLRDeliveryRepository,
-            ICustomerInvoice customerInvoice)
+            ICustomerInvoice customerInvoice
+            )
+            : base(loginHandler, userRepository, configurationData)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
             _countryRepository = countryRepository;
             _vehicleOwnerRepo = vehicleOwnerRepo;
             _customerAccountRepo = customerAccountRepo;
-            _configurationData = configurationData.Value;
             _customerBrokerBranchMappingRepo = customerBrokerBranchMappingRepo;
             _customerAccountGroupRepo = customerAccountGroupRepo;
             _commonRepository = commonRepository;
@@ -186,7 +182,6 @@ namespace Adroit.Accounting.Web.Controllers
             _customerFirmBranchRepository = customerFirmBranchRepository;
             _customerUsersRepository = customerUsersRepository;
             _emailService = emailService;
-            _userRepository = userRepository;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -229,8 +224,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                result.data = _customerAccountGroupRepo.GetCustomerAccountGroupList(_configurationData.DefaultConnection, loginId, CurrentFirmId).ToList();
+                result.data = _customerAccountGroupRepo.GetCustomerAccountGroupList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -245,8 +239,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                result.data = _customerBrokerBranchMappingRepo.GetCustomerBrokerBranchMappingList(_configurationData.DefaultConnection, loginId, CurrentFirmId).ToList(); ;
+                result.data = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId, _configurationData.DefaultConnection, CurrentUserId).ToList(); ;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -261,8 +254,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                result.data = _customerAccountRepo.GetCustomerAccountList(_configurationData.DefaultConnection, loginId, CurrentFirmId).ToList();
+                result.data = _customerAccountRepo.GetCustomerAccountList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -271,21 +263,6 @@ namespace Adroit.Accounting.Web.Controllers
                 result.result = Constant.API_RESULT_ERROR;
             }
             return Json(result);
-        }
-        protected int CurrentFirmId
-        {
-            get
-            {
-                return LoginHandler.GetFirmId(User, _customerFirmRepository, _configurationData.DefaultConnection);
-            }
-        }
-
-        protected int CurrentBranchId
-        {
-            get
-            {
-                return LoginHandler.GetBranchId(User, _userRepository, _configurationData.DefaultConnection);
-            }
         }
     }
 }

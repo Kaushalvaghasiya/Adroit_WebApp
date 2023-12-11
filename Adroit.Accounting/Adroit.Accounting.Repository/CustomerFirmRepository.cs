@@ -8,18 +8,19 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerFirmRepository : ICustomerFirm
     {
-        public void Delete(int id, int loginId, string connectionString)
+        public void Delete(int id, int loginId, int firmId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
             parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
             QueryHelper.Save("sp_CustomerFirmDelete", connectionString, parameters);
         }
-        public CustomerFirmViewModel Get(int id, int loginId, string connectionString)
+        public CustomerFirmViewModel Get(int id, int firmId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
             return QueryHelper.Get<CustomerFirmViewModel>("sp_CustomerFirmGet", connectionString, parameters);
         }
         public List<CustomerFirmGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder, int userId)
@@ -27,7 +28,6 @@ namespace Adroit.Accounting.Repository
             var param = new DynamicParameters();
             param.Add("@LoginId", loginId);
             param.Add("@FirmId", firmId);
-            param.Add("@UserId", userId);
             param.Add("@Search", search);
             param.Add("@PageStart", pageStart);
             param.Add("@PageSize", pageSize);
@@ -36,11 +36,12 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.GetList<CustomerFirmGridViewModel>("sp_CustomerFirmList", connectionString, param);
         }
-        public int Save(CustomerFirm value, int loginId, string connectionString)
+        public int Save(CustomerFirm value, int loginId, int firmId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
             parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
             parameters.Add("@BusinessId", value.BusinessId);
             parameters.Add("@Title", value.Title);
             parameters.Add("@OwnerName ", value.OwnerName);
@@ -61,11 +62,6 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerFirmSave", connectionString, parameters);
         }
-        public int GetFirmId(int loginId, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", loginId);
-            return QueryHelper.Get<int>("sp_GetFirmId", connectionString, parameters);
-        }
+
     }
 }

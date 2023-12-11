@@ -1,18 +1,18 @@
-﻿using Adroit.Accounting.Web.Utility;
+﻿using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.Web.Models;
+using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Options;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public class AccessDeniedController : Controller
+    public class AccessDeniedController : MasterController
     {
         private readonly ILogger<AccessDeniedController> _logger;
-        public AccessDeniedController(ILogger<AccessDeniedController> logger)
+        public AccessDeniedController(ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData, ILogger<AccessDeniedController> logger)
+            : base(loginHandler, userRepository, configurationData)
         {
             _logger = logger;
         }

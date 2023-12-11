@@ -10,10 +10,10 @@ namespace Adroit.Accounting.Repository.IRepository
         public List<CustomerAccountGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
         public bool Delete(int id, string connectionString, int loginId = 0, int firmId = 0);
         public List<DropdownViewModel> GetCustomerAccountList(string connectionString, int loginId = 0, int firmId = 0);
-        public List<string> GetTransporterGSTNumberList(string transporterName, string connectionString);
-        public List<DropdownViewModel> GetCustomerAccountListByBranchMapping(int userId, int branchId, string connectionString);
+        public List<string> GetTransporterGSTNumberList(string transporterName, int firmId, string connectionString);
+        public List<DropdownViewModel> GetCustomerAccountListByBranchMapping(int firmId, int branchId, string connectionString);
         List<DropdownViewModel> GetCustomerAccountListWithAccountGroup(string connectionString, int loginId = 0, int firmId = 0);
-        List<DropdownViewModel> GetCustomerAccountBranchMappingList_Select(int userId, string connectionString);
-        public List<DropdownViewModel> GetCustomerAccountListWithGSTNo_MobileNo(string connectionString, int loginId, int branchId);
+        List<DropdownViewModel> GetCustomerAccountBranchMappingList_Select(int firmId, int branchId, string connectionString);
+        public List<DropdownViewModel> GetCustomerAccountListWithGSTNo_MobileNo(int firmId, int branchId, string connectionString);
     }
 }

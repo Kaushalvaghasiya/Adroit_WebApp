@@ -13,30 +13,33 @@ using Microsoft.Extensions.Options;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public class RegistrationController : Controller
+    public class RegistrationController : MasterController
     {
         private readonly ICustomer _customerRepo;
         private readonly IState _stateRepo;
         private readonly ICity _cityRepo;
         private readonly ICountry _countryRepo;
         private readonly IBusiness _businessRepo;
-        private readonly ConfigurationData _configurationData;
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegistrationController> _logger;
         private readonly IEmailService _emailService;
-
-        public RegistrationController(ICustomer customerRepo, IState stateRepo, ICity cityRepo,
-                IOptions<ConfigurationData> configurationData, ICountry countryRepo,
-                IBusiness businessRepo, UserManager<IdentityUser> userManager, IUserStore<IdentityUser> userStore,
-                ILogger<RegistrationController> logger,
-                IEmailService emailService)
+        public RegistrationController(ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData, 
+            ICustomer customerRepo, 
+            IState stateRepo, 
+            ICity cityRepo,
+            ICountry countryRepo,
+            IBusiness businessRepo, 
+            UserManager<IdentityUser> userManager, 
+            IUserStore<IdentityUser> userStore,
+            ILogger<RegistrationController> logger,
+            IEmailService emailService)
+            : base(loginHandler, userRepository, configurationData)
         {
             _customerRepo = customerRepo;
             _stateRepo = stateRepo;
             _cityRepo = cityRepo;
-            _configurationData = configurationData.Value;
             _emailService = emailService;
             _countryRepo = countryRepo;
             _businessRepo = businessRepo;

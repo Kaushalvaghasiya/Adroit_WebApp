@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.Authorization;
 using Adroit.Accounting.Model;
 using Adroit.Accounting.Repository;
 using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.Web.Utility;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public class CommonController : Controller
+    public class CommonController : MasterController
     {
         private IState _stateRepository;
         private ICity _cityRepository;
@@ -19,21 +20,22 @@ namespace Adroit.Accounting.Web.Controllers
         private ITaluka _talukaRepository;
         private IDistrict _districtRepository;
         private IGSTInvoiceType _gstInvoiceTypeRepository;
-        private readonly ConfigurationData _configurationData;
         private IBusiness _businessRepository;
         private IFirmType _firmTypeRepository;
         private IGSTFirmType _gstFirmTypeRepository;
         private ISoftware _softwareRepository;
         private ISoftwarePlan _softwarePlanRepository;
         private ICustomer _customerRepository;
-        private IAdminCustomerFirm _customerFirmRepository;
-        private IAdminCustomerFirmBranch _customerFirmBranchRepository;
-        private IAdminCustomerUser _customerUserRepository;
+        private IAdminCustomerFirm _adminCustomerFirmRepository;
+        private IAdminCustomerFirmBranch _adminCustomerFirmBranchRepository;
+        private IAdminCustomerUser _adminCustomerUserRepository;
         private ICommon _commonRepository;
         private IGSTCollection _gstCollection;
         private IBranchTypeAdmin _branchTypeAdminRepository;
+        private IFinanceYear _financeYearRepository;
+        private ICustomerFirmBranch _customerCustomerFirmBranchRepository;
         public CommonController(
-            IOptions<ConfigurationData> configurationData,
+            ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
             IState stateRepository,
             ICity cityRepository,
             ICountry countryRepository,
@@ -46,16 +48,18 @@ namespace Adroit.Accounting.Web.Controllers
             IFirmType firmTypeRepository,
             IGSTFirmType gstFirmTypeRepository,
             ICustomer customerRepository,
-            IAdminCustomerFirm customerFirmRepository,
-            IAdminCustomerFirmBranch customerFirmBranchRepository,
-            IAdminCustomerUser customerUserRepository,
+            IAdminCustomerFirm adminCustomerFirmRepository,
+            IAdminCustomerFirmBranch adminCustomerFirmBranchRepository,
+            IAdminCustomerUser adminCustomerUserRepository,
             ICommon commonRepository,
             IGSTCollection gstCollection,
-            IBranchTypeAdmin branchTypeAdminRepository)
+            IBranchTypeAdmin branchTypeAdminRepository,
+            IFinanceYear financeYearRepository,
+            ICustomerFirmBranch customerCustomerFirmBranchRepository)
+            : base(loginHandler, userRepository, configurationData)
         {
             _stateRepository = stateRepository;
             _cityRepository = cityRepository;
-            _configurationData = configurationData.Value;
             _countryRepository = countryRepository;
             _districtRepository = districtRepository;
             _talukaRepository = talukaRepository;
@@ -66,12 +70,14 @@ namespace Adroit.Accounting.Web.Controllers
             _softwareRepository = softwareRepository;
             _softwarePlanRepository = softwarePlanRepository;
             _customerRepository = customerRepository;
-            _customerFirmRepository = customerFirmRepository;
-            _customerFirmBranchRepository = customerFirmBranchRepository;
-            _customerUserRepository = customerUserRepository;
+            _adminCustomerFirmRepository = adminCustomerFirmRepository;
+            _adminCustomerFirmBranchRepository = adminCustomerFirmBranchRepository;
+            _adminCustomerUserRepository = adminCustomerUserRepository;
             _commonRepository = commonRepository;
             _gstCollection = gstCollection;
             _branchTypeAdminRepository = branchTypeAdminRepository;
+            _financeYearRepository = financeYearRepository;
+            _customerCustomerFirmBranchRepository = customerCustomerFirmBranchRepository;
         }
         public IActionResult Index()
         {
@@ -283,7 +289,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerFirmRepository.SelectList(customerId, _configurationData.DefaultConnection).ToList();
+                result.data = _adminCustomerFirmRepository.SelectList(customerId, _configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -298,7 +304,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerFirmBranchRepository.SelectList(firmId, _configurationData.DefaultConnection).ToList();
+                result.data = _adminCustomerFirmBranchRepository.SelectList(firmId, _configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -308,13 +314,12 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-
         public JsonResult GetUserList(int customerId)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerUserRepository.SelectList(customerId, _configurationData.DefaultConnection).ToList();
+                result.data = _adminCustomerUserRepository.SelectList(customerId, _configurationData.DefaultConnection).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -412,6 +417,63 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _cityRepository.CityList(city, _configurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Common/ErrorMessage")]
+        public IActionResult ErrorMessage(string errMessage)
+        {
+            ViewBag.ErrMessage = errMessage;
+            return View();
+        }
+
+        [HttpGet]
+        public JsonResult GetUserBranches()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerCustomerFirmBranchRepository.LoginCustomerSelectList(_configurationData.DefaultConnection, CurrentUserId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Common/GetFinanceYearId/{branchId}")]
+        public JsonResult GetFinanceYearId(int branchId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _financeYearRepository.SelectList(_configurationData.DefaultConnection, branchId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        public JsonResult GetUserLoggedInBranchAndYear()
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _adminCustomerUserRepository.Get(CurrentUserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

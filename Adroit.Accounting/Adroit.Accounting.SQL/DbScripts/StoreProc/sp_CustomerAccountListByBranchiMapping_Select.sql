@@ -1,11 +1,11 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountListByBranchiMapping_Select]
 (
-	@UserId INT,
+	@FirmId INT,
 	@BranchId INT
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.[fn_GetCustomerId](@UserId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT CustomerAccountBranchMapping.Id As [Value], CustomerAccount.[Name] As [Text]
 	From CustomerAccount

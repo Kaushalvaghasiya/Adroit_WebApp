@@ -14,10 +14,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BranchId", id);
             return QueryHelper.Get<CustomerFirmBranchTransportSettingViewModel>("sp_CustomerFirmBranchTransportSettingGet", connectionString, parameters);
         }
-        public List<CustomerFirmBranchTransportSettingGridViewModel> List(string connectionString, int loginId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder)
+        public List<CustomerFirmBranchTransportSettingGridViewModel> List(string connectionString, int loginId, int branchId, int firmId, string search, int pageStart, int pageSize, int sortColumn, string sortOrder)
         {
             var param = new DynamicParameters();
             param.Add("@LoginId", loginId);
+            param.Add("@BranchId", branchId);
             param.Add("@FirmId", firmId);
             param.Add("@Search", search);
             param.Add("@PageStart", pageStart);

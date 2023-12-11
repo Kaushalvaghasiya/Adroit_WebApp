@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Branch/Year Selection";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome!</h1>
+</div>
+@await Html.PartialAsync("_FirmModalPartial")
+@await Html.PartialAsync("_YearModalPartial")
+
+@section Scripts
+{
+    <script>
+        $(function (e) {
+            $('#LoginFirmModal').modal('show');
+            $("#hdnLoggedInFirmBranchId").val("@ViewBag.BranchID");
+            $("#hdnLoggedInYearId").val("@ViewBag.YearID");
+
+            bindFirmBranch();
+            $('#searchFirmInput').focus();
+        });
+    </script>
+}
