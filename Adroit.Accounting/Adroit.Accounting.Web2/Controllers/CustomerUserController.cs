@@ -201,5 +201,49 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return (IUserEmailStore<IdentityUser>)_userStore;
         }
+
+        [HttpPost]
+        public JsonResult UpdateUserLoggedInBranch(int id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                id = _customerUsersRepository.UpdateUserLoggedInBranch(CurrentUserId, id, _configurationData.DefaultConnection);
+                if (id > 0)
+                {
+                    ClearCurrentFirmId();
+                    ClearLoggedInBranchId();
+                    result.data = true;
+                    result.result = Constant.API_RESULT_SUCCESS;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        public JsonResult UpdateUserLoggedInYear(int id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                id = _customerUsersRepository.UpdateUserLoggedInYear(CurrentUserId, id, _configurationData.DefaultConnection);
+                if (id > 0)
+                {
+                    ClearLoggedInYearId();
+                    result.data = true;
+                    result.result = Constant.API_RESULT_SUCCESS;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
     }
 }

@@ -40,5 +40,18 @@ namespace Adroit.Accounting.Web.Controllers
                 return _loginHandler.GetUserId(User);
             }
         }
+
+        public void ClearCurrentFirmId()
+        {
+            _loginHandler.ClearLoggedInFirmId(User);
+        }
+        public void ClearLoggedInBranchId()
+        {
+            _loginHandler.ClearLoggedInBranchId(User);
+        }
+        public void ClearLoggedInYearId()
+        {
+            _loginHandler.ClearLoggedInYearId(User);
+        }
     }
 }

@@ -10,15 +10,28 @@ namespace Adroit.Accounting.Web.Controllers
     public class HomeController : MasterController
     {
         private readonly ILogger<HomeController> _logger;
+        private IAdminCustomerUser _adminCustomerUserRepository;
         public HomeController(ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
-            ILogger<HomeController> logger)
+            ILogger<HomeController> logger,
+            IAdminCustomerUser adminCustomerUserRepository)
             : base(loginHandler, userRepository, configurationData)
         {
             _logger = logger;
+            _adminCustomerUserRepository = adminCustomerUserRepository;
         }
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        [Route("~/BranchSelection")]
+        public IActionResult BranchSelection()
+        {
+            var data = _adminCustomerUserRepository.Get(CurrentUserId, _configurationData.DefaultConnection);
+            ViewBag.BranchID = data.LoggedInBranchId;
+            ViewBag.YearID = data.LoggedInYear;
+
             return View();
         }
 

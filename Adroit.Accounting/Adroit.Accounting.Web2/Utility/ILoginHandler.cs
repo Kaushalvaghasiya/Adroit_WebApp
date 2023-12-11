@@ -14,5 +14,8 @@ namespace Adroit.Accounting.Web.Utility
         public string GetUserName(IPrincipal user);
         public string GetRole(IPrincipal user);
         public bool IsBackOfficeUser(IPrincipal user);
+        void ClearLoggedInFirmId(IPrincipal user);
+        void ClearLoggedInBranchId(IPrincipal user);
+        void ClearLoggedInYearId(IPrincipal user);
     }
 }

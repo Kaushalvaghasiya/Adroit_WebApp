@@ -11,7 +11,7 @@ using System.Security.Principal;
 
 namespace Adroit.Accounting.Web.Utility
 {
-    public class LoginHandler: ILoginHandler
+    public class LoginHandler : ILoginHandler
     {
         private readonly IMemoryCache? _memoryCache = null;
         public LoginHandler(IMemoryCache memoryCache)
@@ -58,7 +58,7 @@ namespace Adroit.Accounting.Web.Utility
             if (!_memoryCache.TryGetValue(key, out firmId))
             {
                 firmId = userRepository.GetLoggedInFirmId(userid, connectionString);
-                
+
                 //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
                 _memoryCache.Set(key, firmId);
             }
@@ -77,7 +77,7 @@ namespace Adroit.Accounting.Web.Utility
                 //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
                 _memoryCache.Set(key, branchId);
             }
-            
+
             return branchId;
         }
         public int GetLoggedInYearId(IPrincipal user, IUser userRepository, string connectionString)
@@ -95,6 +95,26 @@ namespace Adroit.Accounting.Web.Utility
 
             return yearId;
         }
+
+        public void ClearLoggedInFirmId(IPrincipal user)
+        {
+            int userid = GetUserId(user);
+            var key = $"CacheFirmId-{userid}";
+            _memoryCache?.Remove(key);
+        }
+        public void ClearLoggedInBranchId(IPrincipal user)
+        {
+            int userid = GetUserId(user);
+            var key = $"CacheBrachId-{userid}";
+            _memoryCache?.Remove(key);
+        }
+        public void ClearLoggedInYearId(IPrincipal user)
+        {
+            int userid = GetUserId(user);
+            var key = $"CacheYearId-{userid}";
+            _memoryCache?.Remove(key);
+        }
+
         public string GetUserFullName(IPrincipal user)
         {
             var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.GivenName);
@@ -145,6 +165,6 @@ namespace Adroit.Accounting.Web.Utility
         {
             return (UserType)Convert.ToInt32(GetRole(user)) == UserType.BackOffice;
         }
-        
+
     }
 }
