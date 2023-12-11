@@ -660,7 +660,6 @@
             $(".btn-delete").hide();
             $("#CityIdTo").focus();
             $("#LRNumber").val(0);
-            // $("#LRDate").val(new Date().toISOString().split('T')[0]);
             $("#LRRateOnId").val(@Model.CustomerFirmBranchTransportSetting.LRRateOnId).trigger('change');
             $("#LRPayTypeId").val(@Model.CustomerFirmBranchTransportSetting.LRPayTypeId).trigger('change');
         }
@@ -834,7 +833,7 @@
             });
 
             var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", minimumDate);
-            $("#LRDate").datepicker("setDate", formattedMinimumDate); // Set the initial date to the minimum date
+            $("#LRDate").datepicker("setDate", formattedMinimumDate); 
 
             $('#LRDate').change(function () {
                 var selectedDateStr = $(this).val();
@@ -1130,16 +1129,16 @@
 
                                 $("#LRDate").val(moment(result.data.lrDate.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#Parcel").val(result.data.parcel);
-                                $("#ActualWeight").val(result.data.actualWeight.toFixed(3));
-                                $("#ChargeWeight").val(result.data.chargeWeight.toFixed(3));
-                                $("#Rate").val(result.data.rate.toFixed(2));
-                                $("#Freight").val(result.data.freight.toFixed(2));
-                                $("#Charges1").val(result.data.charges1.toFixed(2));
-                                $("#Charges2").val(result.data.charges2.toFixed(2));
-                                $("#Charges3").val(result.data.charges3.toFixed(2));
-                                $("#Charges4").val(result.data.charges4.toFixed(2));
-                                $("#Charges5").val(result.data.charges5.toFixed(2));
-                                $("#Charges6").val(result.data.charges6.toFixed(2));
+                                $("#ActualWeight").val(result.data.actualWeight ? result.data.actualWeight.toFixed(2) : '');
+                                $("#ChargeWeight").val(result.data.chargeWeight ? result.data.chargeWeight.toFixed(2) : '');
+                                $("#Freight").val(result.data.freight ? result.data.freight.toFixed(2) : '');
+                                $("#Rate").val(result.data.rate ? result.data.rate.toFixed(2) : '');
+                                $("#Charges1").val(result.data.charges1 ? result.data.charges1.toFixed(2) : '');
+                                $("#Charges2").val(result.data.charges2 ? result.data.charges2.toFixed(2) : '');
+                                $("#Charges3").val(result.data.charges3 ? result.data.charges3.toFixed(2) : '');
+                                $("#Charges4").val(result.data.charges4 ? result.data.charges4.toFixed(2) : '');
+                                $("#Charges5").val(result.data.charges5 ? result.data.charges5.toFixed(2) : '');
+                                $("#Charges6").val(result.data.charges6 ? result.data.charges6.toFixed(2) : '');
                                 $("#InvoiceNo").val(result.data.invoiceNo);
                                 $("#InvoiceValue").val(result.data.invoiceValue);
                                 $("#PrivateMarka").val(result.data.privateMarka);

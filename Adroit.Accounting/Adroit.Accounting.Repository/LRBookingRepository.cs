@@ -106,7 +106,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             parameters.Add("@BranchId", branchId);
             parameters.Add("@PurchaseBillMasterId", PurchaseBillMasterId);
-            return QueryHelper.GetList<LRBookingGridViewModel>("sp_GetLRBookingTableListByPurchaseBillMasterId", connectionString, parameters);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_ChalanGetLRBookingTableListByPurchaseBillMasterId", connectionString, parameters);
         }
         public List<LRBookingGridViewModel> GetListByLRNumberId(string connectionString, int LRNumberId, int loginId, int branchId, int firmId)
         {
@@ -114,10 +114,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             parameters.Add("@BranchId", branchId);
             parameters.Add("@LRNumberId", LRNumberId);
-            return QueryHelper.GetList<LRBookingGridViewModel>("sp_GetLRBookingTableListByLRNumberId", connectionString, parameters);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_ChalanGetLRBookingTableListByLRNumberId", connectionString, parameters);
         }
-
-
         public string GetLRBookingMaxDate(string connectionString, int branchId)
         {
             var parameters = new DynamicParameters();

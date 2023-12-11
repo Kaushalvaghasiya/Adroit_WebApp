@@ -77,14 +77,30 @@ BEGIN
 		IF ISNULL(@ColourId, 0) <= 0 AND ISNULL(@Colour,'') != '' AND @Colour NOT IN ( SELECT Title From ProductColor WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
 		BEGIN
 			EXEC @ColourId = dbo.sp_ProductColorSave  0, @LoginId, @Colour , 0, @LoginId, @LoginId, 1
-		END
 			SELECT @ColourId = Id FROM ProductColor WHERE Title = @Colour AND Active = 1
+		END
+		ELSE IF ISNULL(@ColourId, 0) <= 0 AND ISNULL(@Colour,'') != ''
+		BEGIN
+			SELECT @ColourId = Id FROM ProductColor WHERE Title = @Colour AND Active = 1
+		END
+		ELSE
+		BEGIN
+			SELECT @ColourId = NULL
+		END
 
 		IF ISNULL(@SizeId, 0) <= 0 AND ISNULL(@Size,'') != '' AND @Size NOT IN ( SELECT Title From ProductSize WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
 		BEGIN
 			EXEC @SizeId = dbo.sp_ProductSizeSave  0, @LoginId, @Size , 0, @LoginId, @LoginId, 1
-		END
 			SELECT @SizeId = Id FROM ProductSize WHERE Title = @Size AND Active = 1
+		END
+		ELSE IF ISNULL(@SizeId, 0) <= 0 AND ISNULL(@Size,'') != ''
+		BEGIN
+			SELECT @SizeId = Id FROM ProductSize WHERE Title = @Size AND Active = 1
+		END
+		ELSE
+		BEGIN
+			SELECT @SizeId = NULL
+		END
 
 		IF ISNULL(@PackingId, 0) <= 0 AND ISNULL(@Packing,'') != ''
 		BEGIN

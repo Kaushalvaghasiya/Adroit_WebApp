@@ -11,20 +11,27 @@ using Microsoft.CodeAnalysis.Operations;
 
 namespace Adroit.Accounting.Web.Controllers
 {
-    public partial class CustomerController : Controller
+    public partial class CustomerController : MasterController
     {
         public IActionResult Chalan()
         {
             var model = new PurchaseBillMasterViewModel();
-            int loginId = LoginHandler.GetUserId(User);
+            var CustomerFirmBranchTransportSetting = _chalanRepository.GetChalanLabelList(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
+            if (CustomerFirmBranchTransportSetting == null)
+            {
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch" });
+            }
+            else
+            {
+                model.CustomerFirmBranchTransportSetting = CustomerFirmBranchTransportSetting;
+            }
 
-            model.CustomerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.GetListWithLabel_Total("0", _configurationData.DefaultConnection, loginId ,CurrentBranchId);
             model.EwayBillList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillMasterTable._TableName, PurchaseBillMasterTable.EwayBillNumber);
             model.CityList = _transportLRBranchCityMappingRepository.SelectList(_configurationData.DefaultConnection, CurrentBranchId);
-            model.VehicleList = _vehicleRepo.SelectList(loginId, _configurationData.DefaultConnection);
-            model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountListWithGSTNo_MobileNo(_configurationData.DefaultConnection, loginId, CurrentBranchId);
-            model.DriverList = _driverRepository.GetListWithCityId_MobileNo(_configurationData.DefaultConnection, loginId);
-            model.BrokerList = _customerBrokerBranchMappingRepo.GetCustomerBrokerBranchMappingList(_configurationData.DefaultConnection, loginId, CurrentFirmId);
+            model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
+            model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
+            model.DriverList = _driverRepository.SelectList(_configurationData.DefaultConnection, CurrentUserId);
+            model.BrokerList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId,_configurationData.DefaultConnection, CurrentUserId);
 
             return View(model);
         }
@@ -35,8 +42,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                int id = _chalanRepository.Save(model, _configurationData.DefaultConnection, CurrentFirmId, CurrentBranchId, loginId);
+                int id = _chalanRepository.Save(model, _configurationData.DefaultConnection, CurrentFirmId, CurrentBranchId, CurrentUserId);
                 if (id > 0)
                 {
                     result.data = true;
@@ -57,9 +63,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                var data = _chalanRepository.Get(id, _configurationData.DefaultConnection, loginId, CurrentBranchId);
-                data.LRBookingList = _lrBookingRepository.GetListByPurchaseBillMasterId(_configurationData.DefaultConnection, id, loginId, CurrentBranchId);
+                var data = _chalanRepository.Get(id, _configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
+                data.LRBookingList = _lrBookingRepository.GetListByPurchaseBillMasterId(_configurationData.DefaultConnection, id, CurrentUserId, CurrentBranchId);
                 result.data = data;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
@@ -101,8 +106,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                result.data = _chalanRepository.Delete(id, _configurationData.DefaultConnection, loginId);
+                result.data = _chalanRepository.Delete(id, _configurationData.DefaultConnection, CurrentUserId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -119,13 +123,12 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<LRBookingGridViewModel>();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
                 //// note: we only sort one column at a time
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _lrBookingRepository.GetLRBookingListByCity(_configurationData.DefaultConnection, fromCityId, toCityId, CurrentBranchId, loginId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _lrBookingRepository.GetLRBookingListByCity(_configurationData.DefaultConnection, fromCityId, toCityId, CurrentBranchId, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -139,14 +142,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetLRToPayAmount/{lrNumberId}")]
-        public JsonResult GetLRToPayAmount(string lrNumberId)
+        [Route("~/Customer/GetChalanToPayAmount/{lrNumberId}")]
+        public JsonResult GetChalanToPayAmount(string lrNumberId)
         {
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                result.data = _customerFirmBranchTransportSettingRepository.GetListWithLabel_Total(lrNumberId, _configurationData.DefaultConnection, loginId, CurrentBranchId);
+                result.data = _chalanRepository.GetChalanToPayAccountValueList(lrNumberId, _configurationData.DefaultConnection, CurrentBranchId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -163,8 +165,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                result.data = _lrBookingRepository.GetListByPurchaseBillMasterId(_configurationData.DefaultConnection, purchaseBillMasterId, loginId, CurrentBranchId, CurrentFirmId);
+                result.data = _lrBookingRepository.GetListByPurchaseBillMasterId(_configurationData.DefaultConnection, purchaseBillMasterId, CurrentUserId, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -181,8 +182,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int loginId = LoginHandler.GetUserId(User);
-                result.data = _lrBookingRepository.GetListByLRNumberId(_configurationData.DefaultConnection, LRNumberId, loginId, CurrentBranchId, CurrentFirmId);
+                result.data = _lrBookingRepository.GetListByLRNumberId(_configurationData.DefaultConnection, LRNumberId, CurrentUserId, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

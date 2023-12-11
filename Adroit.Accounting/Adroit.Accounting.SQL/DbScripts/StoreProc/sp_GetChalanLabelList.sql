@@ -1,11 +1,11 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchTransportSettingForLabel_Total_Select]
+CREATE OR ALTER   PROCEDURE [dbo].[sp_GetChalanLabelList]
 (
 	@LoginId INT,
-	@BranchId INT,
-	@LRNumberId VARCHAR(MAX)
+	@BranchId INT
 )
 AS
 BEGIN
+	
 	DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId);
 	DECLARE @CustomerId INT = dbo.[fn_GetCustomerId](@LoginId);
 
@@ -14,7 +14,6 @@ BEGIN
 	,CA3.[Name] AS CrossingCommissionLabel
 	,CA4.[Name] AS CrossingHamaliLabel
 	,CA5.[Name] AS CrossingDeliveryChargeLabel
-	,[Z-LRBooking-Z].ToPayAccountValue As ToPayAccountValue
 	FROM CustomerFirmBranchTransportSetting CFBT
 	
 	INNER JOIN CustomerAccountBranchMapping CABM1 ON CFBT.ToPayAccountBranchMappingId = CABM1.Id AND CABM1.Deleted = 0
@@ -32,13 +31,5 @@ BEGIN
 	LEFT JOIN CustomerAccountBranchMapping CABM5 ON CFBT.CrossingDeliveryChargeAccountBranchMappingId = CABM5.Id AND CABM5.Deleted = 0
 	LEFT JOIN CustomerAccount CA5 ON CA5.Id = CABM5.AccountId AND CA5.CustomerId = @CustomerId AND CABM5.BranchId = @BranchId AND CA5.Deleted = 0 AND CA5.Active = 1
 
-	LEFT JOIN (
-		SELECT [Z-LRBooking-Z].BranchId,[Z-LRBooking-Z].AccountBranchMappingId,SUM([Z-LRBooking-Z].InvoiceValue) As ToPayAccountValue
-		FROM [Z-LRBooking-Z]
-		LEFT JOIN CustomerAccountBranchMapping CABM ON [Z-LRBooking-Z].AccountBranchMappingId = CABM.Id AND CABM.Deleted = 0
-		WHERE [Z-LRBooking-Z].Deleted = 0
-		AND CAST([Z-LRBooking-Z].Id AS VARCHAR(50)) IN (SELECT * FROM [dbo].[fnStringToIntArray](@LRNumberId))
-		GROUP BY [Z-LRBooking-Z].BranchId,[Z-LRBooking-Z].AccountBranchMappingId
-	)[Z-LRBooking-Z] on [Z-LRBooking-Z].BranchId = @BranchId
 END
 GO

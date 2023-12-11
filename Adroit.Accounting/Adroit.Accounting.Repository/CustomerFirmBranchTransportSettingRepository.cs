@@ -50,13 +50,5 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerFirmBranchTransportSettingSave", connectionString, parameters);
         }
-        public CustomerFirmBranchTransportSettingViewModel GetListWithLabel_Total(string lrNumberId, string connectionString, int loginId, int branchId)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", loginId);
-            parameters.Add("@BranchId", branchId);
-            parameters.Add("@LRNumberId", lrNumberId);
-            return QueryHelper.Get<CustomerFirmBranchTransportSettingViewModel>("sp_CustomerFirmBranchTransportSettingForLabel_Total_Select", connectionString, parameters);
-        }
     }
 }

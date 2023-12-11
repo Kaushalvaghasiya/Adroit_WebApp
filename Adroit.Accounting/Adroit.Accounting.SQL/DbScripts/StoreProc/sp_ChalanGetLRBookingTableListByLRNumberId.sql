@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_GetLRBookingTableListByLRNumberId]
+CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanGetLRBookingTableListByLRNumberId]
   @LoginId int,
   @BranchId int,
   @LRNumberId int

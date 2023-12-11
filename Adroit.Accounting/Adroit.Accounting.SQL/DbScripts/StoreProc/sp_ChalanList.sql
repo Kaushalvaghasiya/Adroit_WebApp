@@ -1,5 +1,5 @@
 CREATE OR ALTER Procedure [dbo].[sp_ChalanList]
-  @branchId INT,
+  @BranchId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -38,7 +38,7 @@ Begin
 		FROM [Z-PurchaseBillMaster-Z]
 		LEFT JOIN [City] AS CT2 on CT2.Id = [Z-PurchaseBillMaster-Z].CityIdTo AND CT2.Active = 1
 		WHERE [Z-PurchaseBillMaster-Z].Deleted = 0 
-		AND [Z-PurchaseBillMaster-Z].BranchId = @branchId
+		AND [Z-PurchaseBillMaster-Z].BranchId = @BranchId
 		AND (Coalesce(@Search,'') = '' OR [Z-PurchaseBillMaster-Z].BillNumberBranch like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

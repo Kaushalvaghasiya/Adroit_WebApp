@@ -64,21 +64,16 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@UserId", userId);
             QueryHelper.Save("sp_DriverDelete", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectList(string connectionString)
+        public List<DropdownViewModel> SelectList(string connectionString, int loginId)
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
             return QueryHelper.GetList<DropdownViewModel>("sp_DriverList_Select", connectionString, parameters);
         }
         public List<DropdownViewModel> SelectLicenceIssuePlace(string connectionString)
         {
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_LicenceIssuePlaceList_Select", connectionString, parameters);
-        }
-        public List<DropdownViewModel> GetListWithCityId_MobileNo(string connectionString, int loginId)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@loginId", loginId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_DriverWithCityId_MobileNo_Select", connectionString, parameters);
         }
     }
 }

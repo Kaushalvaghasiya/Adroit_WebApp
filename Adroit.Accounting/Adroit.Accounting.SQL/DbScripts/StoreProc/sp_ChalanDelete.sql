@@ -1,7 +1,7 @@
 CREATE OR ALTER procedure [dbo].[sp_ChalanDelete]
 (	
 	@Id INT,
-	@loginId INT
+	@LoginId INT
 )
 AS
 BEGIN
@@ -10,13 +10,13 @@ BEGIN
 		
 		UPDATE [Z-PurchaseBillDetail-Z] SET 
 		Deleted = 1, 
-		DeletedById = @loginId,
+		DeletedById = @LoginId,
 		DeletedOn = GETUTCDATE()
 		WHERE PurchaseBillMasterId= @Id;
 
 		UPDATE [Z-PurchaseBillMaster-Z] SET 
 		Deleted = 1, 
-		DeletedById = @loginId,
+		DeletedById = @LoginId,
 		DeletedOn = GETUTCDATE()
 		WHERE Id= @Id;
 			

@@ -1,8 +1,8 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanSave]
 (
-	 @loginId INT
-	,@firmId INT
-	,@branchId INT
+	 @LoginId INT
+	,@FirmId INT
+	,@BranchId INT
 	,@Id INT 
 	,@BillNumberBranch INT  
 	,@BillNumberFirm VARCHAR(20) 
@@ -67,12 +67,12 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
-		DECLARE @YearId INT = dbo.fn_GetYearId(@firmId,@loginId);
+		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 		DECLARE @BookBranchMappingId INT = (
 			SELECT PurcahseBookBranchMappingId
 			FROM CustomerFirmBranchTransportSetting
-			WHERE CustomerFirmBranchTransportSetting.BranchId = @branchId
+			WHERE CustomerFirmBranchTransportSetting.BranchId = @BranchId
 		);
 
 		DECLARE @EntryTypeId INT = (
@@ -86,7 +86,7 @@ BEGIN
 		BEGIN
 			SELECT @BillNumberBranch = ISNULL(MAX(BillNumberBranch),0) + 1
 			FROM [Z-PurchaseBillMaster-Z]
-			WHERE BranchId = @branchId
+			WHERE BranchId = @BranchId
 		END
 
 		IF ISNULL(@BillNumberFirm, 0) = 0
@@ -94,7 +94,7 @@ BEGIN
 			SELECT @BillNumberFirm = ISNULL(MAX(BillNumberFirm),0) + 1
 			FROM [Z-PurchaseBillMaster-Z]
 			INNER JOIN CustomerFirmBranch on CustomerFirmBranch.Id = [Z-PurchaseBillMaster-Z].BranchId
-			WHERE BranchId = @branchId AND CustomerFirmBranch.FirmId = @firmId
+			WHERE BranchId = @BranchId AND CustomerFirmBranch.FirmId = @FirmId
 		END
 
 		DECLARE @message VARCHAR(4000);
@@ -108,7 +108,7 @@ BEGIN
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM [Z-PurchaseBillMaster-Z] 
 							WHERE (Id = @Id) 
-							OR (BranchId = @branchId AND BillNumberBranch = @BillNumberBranch AND Deleted = 1)
+							OR (BranchId = @BranchId AND BillNumberBranch = @BillNumberBranch AND Deleted = 1)
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
@@ -122,12 +122,12 @@ BEGIN
 				,ReturnReasonId,PurchaseOrderRefNo,AddedOn,AddedById,BranchId,YearId,IsAutoLedger)
 			VALUES 
 				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumberFirm,@BillNumberTable,@BillNumberBranch,@BillNumberBranchTable,@EntryTypeId,@BillDate,@VehicleId,@CityIdFrom
-				,@CityIdTo,@DriverId,@branchId,@EwayBillNumber,@ValidDateFrom,@ValidDateTo,@TaxableAmount,@TDSPercent,@TDSAmount,@AdvanceCash,@AdvanceNeft,@OtherLess,@ReceiveCash
+				,@CityIdTo,@DriverId,@BranchId,@EwayBillNumber,@ValidDateFrom,@ValidDateTo,@TaxableAmount,@TDSPercent,@TDSAmount,@AdvanceCash,@AdvanceNeft,@OtherLess,@ReceiveCash
 				,@OtherPlus,@SGSTTotal,@CGSTTotal,@IGSTTotal,@GSTStateCessTotal,@GSTCentralCessTotal,@TCSPercent,@TCSAmount,@ToPayAmount,@CrossingAmount,@CrossingCommission,@CrossingHamali
 				,@CrossingDeliveryCharge,@CreditDays,@RoundOff,@BillAmount,@BrokerBranchMappingId,@BrokerAmount,@Notes,@ToPayAccountBranchMappingId,@CrossingAmountAccountBranchMappingId
 				,@CrossingCommissionAccountBranchMappingId,@CrossingHamaliAccountBranchMappingId,@CrossingDeliveryAccountBranchMappingId,@SalesAccountBranchMappingId
 				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMId,@RCMBillNumber,@BillTypeID,@ReturnBillNumber,@ReturnBillDate,@ReturnReasonId,@PurchaseOrderRefNo,GETUTCDATE()
-				,@loginId,@branchId,@YearId,@IsAutoLedger)
+				,@LoginId,@BranchId,@YearId,@IsAutoLedger)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -149,7 +149,7 @@ BEGIN
 			,CityIdFrom = @CityIdFrom 
 			,CityIdTo = @CityIdTo 
 			,DriverId = @DriverId 
-			,DeliveryBranchId = @branchId 
+			,DeliveryBranchId = @BranchId 
 			,EwayBillNumber = @EwayBillNumber 
 			,ValidDateFrom = @ValidDateFrom 
 			,ValidDateTo = @ValidDateTo 
@@ -196,16 +196,16 @@ BEGIN
 			,PurchaseOrderRefNo = @PurchaseOrderRefNo 
 			,DeletedById = NULL 
 			,DeletedOn = NULL 
-			,ModifiedById = @loginId 
+			,ModifiedById = @LoginId 
 			,ModifiedOn = GETUTCDATE() 
 			,Deleted = 0 
-			,BranchId = @branchId 
+			,BranchId = @BranchId 
 			,YearId = @YearId 
 			,IsAutoLedger = @IsAutoLedger 
 			WHERE Id = @Id
 
 			UPDATE  [Z-PurchaseBillDetail-Z] SET
-					DeletedById = @loginId,
+					DeletedById = @LoginId,
 					DeletedOn = GETUTCDATE(),
 					Deleted = 1
 			WHERE PurchaseBillMasterId = @Id AND [LRBookingId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberId))
@@ -218,11 +218,11 @@ BEGIN
 		END
 
 		INSERT INTO [Z-PurchaseBillDetail-Z] (PurchaseBillMasterId,ProductBranchMappingId,LRBookingId,AddedById,AddedOn)
-		SELECT @Id,PBM.ProductBranchMappingId,LRN.Id,@loginId,GETUTCDATE()
+		SELECT @Id,PBM.ProductBranchMappingId,LRN.Id,@LoginId,GETUTCDATE()
 		FROM dbo.[fnStringToIntArray](@LRNumberId) AS LRN
 		INNER JOIN [Z-LRBooking-Z] AS PBM ON PBM.Id = LRN.Id
 		EXCEPT
-		SELECT PurchaseBillMasterId,ProductBranchMappingId,LRBookingId,@loginId,GETUTCDATE() 
+		SELECT PurchaseBillMasterId,ProductBranchMappingId,LRBookingId,@LoginId,GETUTCDATE() 
 		FROM [dbo].[Z-PurchaseBillDetail-Z]
 		
 		COMMIT TRAN

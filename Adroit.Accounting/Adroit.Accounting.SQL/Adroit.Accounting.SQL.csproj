@@ -93,6 +93,8 @@
     <None Remove="DbScripts\StoreProc\sp_BusinessSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanGet.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ChalanGetLRBookingTableListByLRNumberId.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ChalanGetLRBookingTableListByPurchaseBillMasterId.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_CityGet.sql" />
@@ -123,8 +125,6 @@
     <None Remove="DbScripts\StoreProc\sp_CustomerAccountGroupList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerAccountGroupSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerAccountList.sql" />
-    <None Remove="DbScripts\StoreProc\sp_CustomerAccountListByBranchiMapping_Select.sql" />
-    <None Remove="DbScripts\StoreProc\sp_CustomerAccountListByBranchMappingWithGSTNo_MobileNo_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerAccountList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerAccountSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerAccountWithAccountGroupList_Select.sql" />
@@ -146,10 +146,8 @@
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchTransportContractRateSettingGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchTransportContractRateSettingList.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchTransportContractRateSettingSave.sql" />
-    <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchTransportSettingForLabel_Total_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchTransportSettingGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchTransportSettingList.sql" />
-    <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchTransportSettingListWithLRType_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchTransportSettingSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmGet.sql" />
@@ -180,18 +178,17 @@
     <None Remove="DbScripts\StoreProc\sp_DriverList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_DriverSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_DriverTypeAdminList_Select.sql" />
-    <None Remove="DbScripts\StoreProc\sp_DriverWithCityId_MobileNo_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_FirmAdminTypeList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_FirmList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetAllGSTNoByTransportName.sql" />
+    <None Remove="DbScripts\StoreProc\sp_GetChalanLabelList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_GetChalanToPayAccountValue.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetColumnData.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetLoggedInBranchId.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetLoggedInFirmId.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetLoggedInYearId.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetLRBookingListByCity.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetLRBookingMaxDate.sql" />
-    <None Remove="DbScripts\StoreProc\sp_GetLRBookingTableListByLRNumberId.sql" />
-    <None Remove="DbScripts\StoreProc\sp_GetLRBookingTableListByPurchaseBillMasterId.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetRateFromLRBooking.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetSoftwareIdFirmId.sql" />
     <None Remove="DbScripts\StoreProc\sp_GSTCalculationList_Select.sql" />
@@ -631,6 +628,12 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanDelete.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_GetChalanToPayAccountValue.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_GetChalanLabelList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanGet.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -724,12 +727,6 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerAccountList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerAccountListByBranchiMapping_Select.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerAccountListByBranchMappingWithGSTNo_MobileNo_Select.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerAccountList_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -793,16 +790,10 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchTransportContractRateSettingSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchTransportSettingForLabel_Total_Select.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchTransportSettingGet.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchTransportSettingList.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchTransportSettingListWithLRType_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchTransportSettingSave.sql">
@@ -895,9 +886,6 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_DriverTypeAdminList_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_DriverWithCityId_MobileNo_Select.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_FirmAdminTypeList_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -925,10 +913,10 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_GetLRBookingMaxDate.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_GetLRBookingTableListByLRNumberId.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanGetLRBookingTableListByLRNumberId.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_GetLRBookingTableListByPurchaseBillMasterId.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanGetLRBookingTableListByPurchaseBillMasterId.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_GetRateFromLRBooking.sql">
