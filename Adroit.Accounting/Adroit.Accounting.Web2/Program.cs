@@ -132,6 +132,8 @@ try
     builder.Services.AddSingleton<ITransportLRDeliveryType, TransportLRDeliveryTypeRepository>();
     builder.Services.AddSingleton<ILoginHandler, LoginHandler>();
     
+    builder.Services.AddSingleton<IFinanceYear, FinanceYearRepository>();
+
     if (!builder.Environment.IsDevelopment())
     {
         builder.Services.AddHttpsRedirection(options =>

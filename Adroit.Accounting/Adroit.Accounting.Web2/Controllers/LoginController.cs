@@ -40,7 +40,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             if (User?.Identity?.IsAuthenticated ?? false)
             {
@@ -55,7 +55,7 @@ namespace Adroit.Accounting.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Index(Model.Login model, string? returnUrl = "")
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl ??= Url.Content("~/BranchSelection");
 
             //ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -86,7 +86,7 @@ namespace Adroit.Accounting.Web.Controllers
                     catch (Exception ex)
                     {
                     }
-                    return LocalRedirect($"~/");
+                    return LocalRedirect($"~/BranchSelection");
                 }
                 else
                 {

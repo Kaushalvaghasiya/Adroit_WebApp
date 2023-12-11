@@ -11,7 +11,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> OrderNumberList { get; set; }
         public List<DropdownViewModel> BranchTypeList { get; set; }
         public CustomerFirmViewModel Firm { get; set; }
-
+        public List<DropdownViewModel> CustomerBranchList { get; set; }
         public string AddedOnString { get { return this.AddedOn.ToString("dd/MM/yyyy"); } }
         public string RenewalDateString { get; set; }
         public string SoftwarePlan { get; set; }
