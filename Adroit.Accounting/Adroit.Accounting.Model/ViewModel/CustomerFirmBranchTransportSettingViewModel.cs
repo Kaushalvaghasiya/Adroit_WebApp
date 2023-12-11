@@ -19,5 +19,12 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? DelSalesBookName {  get; set; } 
         public int? LoginId {  get; set; }
         public CustomerViewModel? Customer { get; set; }
+        public string? ToPayAccountLabel { get; set; }
+        public string? CrossingAmountLabel { get; set; }
+        public string? CrossingCommissionLabel { get; set; }
+        public string? CrossingHamaliLabel { get; set; }
+        public string? CrossingDeliveryChargeLabel { get; set; }
+        public decimal? ToPayAccountValue { get; set; }
+
     }
 }

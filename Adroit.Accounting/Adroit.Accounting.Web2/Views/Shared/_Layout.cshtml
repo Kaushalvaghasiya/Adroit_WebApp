@@ -84,6 +84,9 @@
     <link id="theme" rel="stylesheet" type="text/css" media="all" href="@Url.Content("~/assets/colors/color-skins/color.css")" />
     <link rel="stylesheet" href="@Url.Content("~/assets/css/custom.css")" type="text/css" />
 
+    <!-- Accordion Css -->
+    <link href="@Url.Content("~/assets/plugins/accordion/accordion.css")" rel="stylesheet" />
+
     <style>
         .anchordisabled {
             pointer-events: none;
@@ -665,7 +668,7 @@
                                         <a href="#">Booking</a>
                                         <ul class="sub-menu">
                                             <li aria-haspopup="true"><a href="@Url.Action("LRBooking", "customer")">LR</a></li>
-                                            <li aria-haspopup="true"><a href="#">Chalan</a></li>
+                                            <li aria-haspopup="true"><a href="@Url.Action("Chalan", "customer")">Chalan</a></li>
                                             <li aria-haspopup="true"><a href="@Url.Action("CustomerInvoice", "customer")">Invoice</a></li>
                                         </ul>
                                     </li>
@@ -1835,6 +1838,9 @@
     <script src="@Url.Content("~/assets/js/custom.js")"></script>
     <script src="@Url.Content("~/assets/js/DevScript.js")"></script>
 
+    <!---Accordion js-->
+    <script src="@Url.Content("~/assets/plugins/accordion/accordion.min.js")"></script>
+
     <script>
         var RESULT_SUCCESS = "@Adroit.Accounting.Model.Constant.API_RESULT_SUCCESS";
 
@@ -1907,6 +1913,8 @@
         function showUnderDevMsg() {
             showInfo("", "Under Development");
         }
+
+        $(".demo-accordion").accordionjs();
     </script>
 
     <script>

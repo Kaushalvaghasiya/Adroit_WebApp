@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.CustomerInvoiceViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.SalesBillMasterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -53,15 +53,14 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">BRANCH BILL #</th>
-                                    <th class="border-bottom-0">BILL DATE</th>
-                                    <th class="border-bottom-0">BILL PARTY</th>
+                                    <th class="border-bottom-0">Branch Bill #</th>
+                                    <th class="border-bottom-0">Bill Date</th>
+                                    <th class="border-bottom-0">Bill Party</th>
                                     <th class="border-bottom-0">GST #</th>
-                                    <th class="border-bottom-0">AMOUNT</th>
-                                    <th class="border-bottom-0">CITY</th>
-                                    <th class="border-bottom-0">FIRM BILL #</th>
-                                    <th class="border-bottom-0 text-center"
-                                        style="width:80px!important;">Action</th>
+                                    <th class="border-bottom-0">Amount</th>
+                                    <th class="border-bottom-0">City</th>
+                                    <th class="border-bottom-0">Firm Bill #</th>
+                                    <th class="border-bottom-0 text-center" style="width:80px!important;">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -147,14 +146,14 @@
                         <div class="col-md-12">
                             <div class="form-horizontal">
                                 <div class="row mb-1">
-                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                    <label for="SerialNumberOfBranch" class="col-md-1 form-label">
                                         Branch Bill No
                                     </label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="exampleInputname"
+                                        <input type="text" class="form-control" id="SerialNumberOfBranch"
                                                placeholder="">
                                     </div>
-                                    <label for="exampleInputname" class="col-md-1 form-label mb-1">
+                                    <label for="BillDate" class="col-md-1 form-label mb-1">
                                         Bill Date
                                     </label>
                                     <div class="col-md-2">
@@ -164,57 +163,63 @@
                                                     <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                                 </div>
                                             </div>
-                                            <input class="form-control fc-datepicker"
-                                                   placeholder="MM/DD/YYYY" type="text">
+                                            <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="BillDate">
                                         </div>
                                     </div>
-                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                    <label for="LRNumber" class="col-md-1 form-label">
                                         LR Number
                                     </label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Enter LR Number..." id="LRNumber">
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="SearchLRNumber">Go!</button>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                    <label for="PayType" class="col-md-1 form-label">
                                         Pay Type
                                     </label>
                                     <div class="col-md-2">
-                                        <select class="form-control select2-show-search" id="">
+                                        <select class="form-control select2-show-search" id="PayType">
                                            <option></option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                    <label for="AccountBranchMappingId" class="col-md-1 form-label">
                                         Bill Party
                                     </label>
                                     <div class="col-md-5">
-                                        <select class="form-control select2-show-search" id="">
-                                           <option></option>
+                                        <select class="form-control select2-show-search" id="AccountBranchMappingId">
+                                            <option></option>
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
                                         </select>
                                     </div>
-                                    <label for="exampleInputname" class="col-md-1 form-label">
-                                        Credit
-                                        Days
+                                    <label for="CreditDays" class="col-md-1 form-label">
+                                        Credit Days
                                     </label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="">
+                                        <input type="text" class="form-control" id="CreditDays" placeholder="">
                                     </div>
                                     <label for="exampleInputname" class="col-md-1 form-label">
-                                        Ledger
-                                        Amount
+                                        Ledger Amount
                                     </label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="">
+                                        <input type="text" class="form-control" id="exampleInputname" placeholder="">
                                     </div>
-
                                 </div>
                                 <div class="row mb-1">
                                     <label for="exampleInputname" class="col-md-1 form-label mb-1">
-                                        From
-                                        Date
+                                        From Date
                                     </label>
                                     <div class="col-md-2">
                                         <div class="input-group">
@@ -224,14 +229,13 @@
                                                 </div>
                                             </div>
                                             <input class="form-control fc-datepicker"
-                                                   placeholder="MM/DD/YYYY" type="text">
+                                                   placeholder="MM/DD/YYYY" type="text" id="ChalanDateFrom">
                                         </div>
                                     </div>
                                     <div class="col-md-3 p-0">
                                         <div class="row">
-                                            <label for="exampleInputname" class="col-md-4 form-label mb-1">
-                                                To
-                                                Date
+                                            <label for="ChalanDateTo" class="col-md-4 form-label mb-1">
+                                                To Date
                                             </label>
                                             <div class="col-md-6">
                                                 <div class="input-group">
@@ -240,34 +244,40 @@
                                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                                         </div>
                                                     </div>
-                                                    <input class="form-control fc-datepicker"
-                                                           placeholder="MM/DD/YYYY" type="text">
+                                                    <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="ChalanDateTo">
                                                 </div>
                                             </div>
-                                            <div class="col-md-1">
-                                                <a href="#" class="btn btn-primary" data-toggle="modal"
-                                                   data-target="#lrChalanListModal" data-original-title="Select LR List">
+                                            <div class="offset-1 col-md-2" style="display:flex;">
+                                                <a href="#" class="btn btn-primary" data-toggle="modal" id="LRNumberList" data-original-title="Select LR List">
                                                     <span>
-                                                        <i class="fa fa-list"></i>
+                                                        <i class="fa fa-list"></i> &nbsp; Select LR List
                                                     </span>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <label for="exampleInputname" class="col-md-1 form-label">
-                                        Vehicle
-                                        No
+                                    <label for="VehicleId" class="col-md-1 form-label">
+                                        Vehicle No
                                     </label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="">
+                                        <select class="form-control select2-show-search" id="VehicleId">
+                                            <option></option>
+                                            @{
+                                                if (Model.VehicleList != null)
+                                                {
+                                                    foreach (var o in Model.VehicleList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
                                     </div>
-                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                    <label for="BillNumber" class="col-md-1 form-label">
                                         Firm Bill No
                                     </label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="">
+                                        <input type="text" class="form-control" id="BillNumber" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12  p-0">
@@ -279,14 +289,12 @@
                                                     <div class="row mb-0">
                                                         <div class="col-md-6">
                                                             <div class="form-group text-center mb-1">
-                                                                <label for="exampleInputname"
-                                                                       class="font-weight-bold text-white">#</label>
+                                                                <label for="LR#" class="font-weight-bold text-white">#</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group text-center mb-1">
-                                                                <label for="exampleInputname"
-                                                                       class="font-weight-bold text-white">LR#</label>
+                                                                <label for="LRBookingId" class="font-weight-bold text-white">LR#</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -295,17 +303,14 @@
                                                     <div class="row mb-0">
                                                         <div class="col-md-6">
                                                             <div class="form-group text-center mb-1">
-                                                                <label for="exampleInputname"
-                                                                       class="font-weight-bold text-white">
-                                                                    LR
-                                                                    Dt.
+                                                                <label for="LRDate" class="font-weight-bold text-white">
+                                                                    LR Dt.
                                                                 </label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group text-center mb-1">
-                                                                <label for="exampleInputname"
-                                                                       class="font-weight-bold text-white">Pkg</label>
+                                                                <label for="Packing" class="font-weight-bold text-white">Pkg</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -314,91 +319,77 @@
                                                     <div class="row mb-0">
                                                         <div class="col-md-6">
                                                             <div class="form-group text-center mb-1">
-                                                                <label for="exampleInputname"
-                                                                       class="font-weight-bold text-white">Ch.Wt.</label>
+                                                                <label for="ChargeWeight" class="font-weight-bold text-white">Ch.Wt.</label>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group text-center mb-1">
-                                                                <label for="exampleInputname"
-                                                                       class="font-weight-bold text-white">
-                                                                    Textable
-                                                                    Amt
-                                                                </label>
+                                                                <label for="TaxableAmount" class="font-weight-bold text-white">Textable Amt</label>
                                                             </div>
-                                                        </div>
+                                                        </div> 
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
-                                                        <label for="exampleInputname"
-                                                               class="font-weight-bold text-white">GST%</label>
+                                                        <label for="GST" class="font-weight-bold text-white">GST%</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
-                                                        <label for="exampleInputname"
-                                                               class="font-weight-bold text-white">Freight</label>
+                                                        <label for="Freight" class="font-weight-bold text-white">Freight</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
-                                                        <label for="exampleInputname"
-                                                               class="font-weight-bold text-white">
-                                                            [Charge
-                                                            1]
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            @* @Model.LRBooking.Charges1  *@
+                                                            [Charge 1]
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
-                                                        <label for="exampleInputname"
-                                                               class="font-weight-bold text-white">
-                                                            [Charge
-                                                            2]
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            [Charge 2]
+                                                            @* @Model.LRBooking.Charges2  *@
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
-                                                        <label for="exampleInputname"
-                                                               class="font-weight-bold text-white">
-                                                            [Charge
-                                                            3]
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            [Charge 3]
+                                                            @* @Model.LRBooking.Charges3  *@
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
-                                                        <label for="exampleInputname"
-                                                               class="font-weight-bold text-white">
-                                                            [Charge
-                                                            4]
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            [Charge 4]
+                                                            @* @Model.LRBooking.Charges4  *@
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
-                                                        <label for="exampleInputname"
-                                                               class="font-weight-bold text-white">
-                                                            [Charge
-                                                            5]
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            [Charge 5]
+                                                            @* @Model.LRBooking.Charges5  *@
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
-                                                        <label for="exampleInputname"
-                                                               class="font-weight-bold text-white">
-                                                            [Charge
-                                                            6]
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            [Charge 6]
+                                                            @* @Model.LRBooking.Charges6  *@
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
-                                                        <label for="exampleInputname"
-                                                               class="font-weight-bold text-white">Action</label>
+                                                        <label for="Action" class="font-weight-bold text-white">Action</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -418,10 +409,10 @@
                         <div class="col-md-9 vertical-bottom">
                             <div class="form-horizontal">
                                 <div class="row mb-1">
-                                    <label for="exampleInputname"
+                                    <label for="Notes"
                                            class="col-md-1 form-label">Remarks</label>
                                     <div class="col-md-11">
-                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Write a large text here ..."></textarea>
+                                        <textarea class="form-control" id="Notes" rows="3" placeholder="Write a large text here ..."></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -429,92 +420,69 @@
                         <div class="col-md-3">
                             <div class="form-horizontal">
                                 <div class="row mb-1">
-                                    <label for="exampleInputname"
-                                           class="col-md-4 form-label text-left">Basic Amount</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="" readonly tabindex="-1">
+                                    <label for="TaxableAmount" class="col-md-6 form-label text-right">Basic Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="TaxableAmount" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="exampleInputname"
-                                           class="col-md-2 form-label text-left">T.D.S.</label>
+                                    <label for="TDSPercent" class="col-md-6 form-label text-right">T.D.S.</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="%">
+                                        <input type="text" class="form-control" id="TDSPercent" placeholder="%">
                                     </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="" readonly tabindex="-1">
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" id="TDSAmount" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="exampleInputname"
-                                           class="col-md-4 form-label text-left">SGST</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="" readonly tabindex="-1">
+                                    <label for="SGSTTotal" class="col-md-6 form-label text-right">SGST</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="SGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="exampleInputname"
-                                           class="col-md-4 form-label text-left">CGST</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="" readonly tabindex="-1">
+                                    <label for="CGSTTotal" class="col-md-6 form-label text-right">CGST</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="CGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="exampleInputname"
-                                           class="col-md-4 form-label text-left">IGST</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="" readonly tabindex="-1">
+                                    <label for="IGSTTotal" class="col-md-6 form-label text-right">IGST</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="IGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="exampleInputname"
-                                           class="col-md-4 form-label text-left">State Cess</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="" readonly tabindex="-1">
+                                    <label for="GSTStateCessTotal" class="col-md-6 form-label text-right">State Cess</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="GSTStateCessTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="exampleInputname"
-                                           class="col-md-4 form-label text-left">Central Cess</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="" readonly tabindex="-1">
+                                    <label for="GSTCentralCessTotal" class="col-md-6 form-label text-right">Central Cess</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="GSTCentralCessTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="exampleInputname"
-                                           class="col-md-2 form-label text-left">T.C.S.</label>
+                                    <label for="TCSPercent" class="col-md-6 form-label text-right">T.C.S.</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="%">
+                                        <input type="text" class="form-control" id="TCSPercent" placeholder="%">
                                     </div>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="" readonly tabindex="-1">
-                                    </div>
-                                </div>
-
-                                <div class="row mb-1">
-                                    <label for="exampleInputname"
-                                           class="col-md-4 form-label text-left">Other (+/-)</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="">
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" id="TCSAmount" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="exampleInputname"
-                                           class="col-md-4 form-label text-left">Bill Amount</label>
-                                    <div class="col-md-8">
-                                        <input type="text" class="form-control" id="exampleInputname"
-                                               placeholder="" readonly tabindex="-1">
+                                    <label for="RoundOff" class="col-md-6 form-label text-right">Other (+/-)</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="RoundOff" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BillAmount" class="col-md-6 form-label text-right">Bill Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="BillAmount" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                             </div>
@@ -543,9 +511,8 @@
         <div class="modal-content ">
             <div class="modal-header pd-x-20">
                 <h5 class="modal-title col-md-1" style="align-self:center;">LR List</h5>
-                <label for="exampleInputname" class="col-md-auto form-label mb-1">
-                    From
-                    Date
+                <label for="LRFromDate" class="col-md-auto form-label mb-1">
+                    From Date
                 </label>
                 <div class="col-md-2">
                     <div class="input-group">
@@ -554,13 +521,11 @@
                                 <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                             </div>
                         </div>
-                        <input class="form-control fc-datepicker"
-                               placeholder="MM/DD/YYYY" type="text">
+                        <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="LRFromDate">
                     </div>
                 </div>
-                <label for="exampleInputname" class="col-md-auto form-label mb-1">
-                    To
-                    Date
+                <label for="LRToDate" class="col-md-auto form-label mb-1">
+                    To Date
                 </label>
                 <div class="col-md-2">
                     <div class="input-group">
@@ -569,18 +534,11 @@
                                 <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                             </div>
                         </div>
-                        <input class="form-control fc-datepicker"
-                               placeholder="MM/DD/YYYY" type="text">
+                        <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="LRToDate">
                     </div>
                 </div>
-                <a href="#" class="btn btn-primary" data-toggle="modal"
-                   data-target="#lrChalanListModal" data-original-title="Select LR List">
-                    <span>
-                        <i class="fa fa-list"></i>
-                    </span>
-                </a>
-                <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                <a href="#" class="btn btn-primary" data-toggle="modal" id="SearchLRNumberList" data-original-title="Select LR List">
+                    Search
                 </a>
             </div>
             <div class="modal-body pd-20">
@@ -624,531 +582,853 @@
             $('.dv-list').show();
             $('.dv-detail').hide();
 
-           // bindDatatableList();
+            bindDatatableList();
+
+            $("#ChalanDateFrom").on('change', function (e) {
+                if ($(this).val() != '' || $(this).val() != null) {
+                    $("#LRDateFrom").val($(this).val()).trigger('change');
+                }
+            });
+
+            $("#ChalanDateTo").on('change', function (e) {
+                if ($(this).val() != '' || $(this).val() != null) {
+                    $("#LRDateTo").val($(this).val()).trigger('change');
+                }
+            });
+
+            $("#LRNumberList").on('click', function (e) {
+
+                if ($("#ChalanDateFrom").val() == "") {
+                    showWarning("", "Please enter from date.");
+                    $("#ChalanDateFrom").focus();
+                    return false;
+                }
+                else if ($("#ChalanDateTo").val() == "") {
+                    showWarning("", "Please enter to date.");
+                    $("#ChalanDateTo").focus();
+                    return false;
+                }
+                else {
+                    $("#lrChalanListModal").modal("show");
+                    bindLRList();
+                }
+
+            });
+
+            $("#SearchLRNumberList").on('click', function (e) {
+                bindLRList();
+            });
+
         });
 
         function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
-          //  fromReset();
+            fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
-           // $("#BookAccountId").focus();
-            //$("#Active").prop('checked', true);
+            $("#SerialNumberOfBranch").focus();
         }
 
-        // function viewMode(id) {
-        //     getDetail(id, true);
-        // }
+        function viewMode(id) {
+            getDetail(id, true);
+        }
 
-        // function editMode(id) {
-        //     getDetail(id, false);
-        // }
+        function editMode(id) {
+            getDetail(id, false);
+        }
 
-        // function refreshDatatableList() {
-        //     $('#tblMain').DataTable().ajax.reload();
-        // }
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
 
-        // function bindDatatableList() {
-        //     let columns = [];
-        //     let colDef = [];
-        //     colDef.push({
-        //         "render": function (data, type, row) {
-        //             return row.bookName;
-        //         },
-        //         "targets": colDef.length,
-        //     });
-        //     colDef.push({
-        //         "render": function (data, type, row) {
-        //             return row.bookType;
-        //         },
-        //         "targets": colDef.length,
-        //     });
-        //     colDef.push({
-        //         "render": function (data, type, row) {
-        //             return row.bookShortName;
-        //         },
-        //         "targets": colDef.length,
-        //     });
-        //     colDef.push({
-        //         "render": function (data, type, row) {
-        //             return row.billNoPrefix;
-        //         },
-        //         "targets": colDef.length,
-        //     });
-        //     colDef.push({
-        //         "render": function (data, type, row) {
-        //             return row.billNoPostFix;
-        //         },
-        //         "targets": colDef.length,
-        //     });
-        //     colDef.push({
-        //         "render": function (data, type, row) {
-        //             let btnAct = "<div class='btn-list'> ";
-        //             btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
-        //             btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
-        //             btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
-        //             btnAct += "</div>";
-        //             return btnAct;
-        //         },
-        //         "targets": colDef.length,
-        //         "className": "text-center",
-        //         "orderable": false
-        //     });
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.serialNumberOfBranch;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billDate;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billParty;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.serialNumberOfBranch;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billDate;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billParty;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
 
-        //     columns.push({ "data": "bookName", "name": "bookName" });
-        //     columns.push({ "data": "bookType", "name": "bookType" });
-        //     columns.push({ "data": "bookShortName", "name": "bookShortName" });
-        //     columns.push({ "data": "billNoPrefix", "name": "billNoPrefix" });
-        //     columns.push({ "data": "billNoPostFix", "name": "billNoPostFix" });
+            columns.push({ "data": "serialNumberOfBranch", "name": "serialNumberOfBranch" });
+            columns.push({ "data": "billDate", "name": "billDate" });
+            columns.push({ "data": "billParty", "name": "billParty" });
+            columns.push({ "data": "serialNumberOfBranch", "name": "serialNumberOfBranch" });
+            columns.push({ "data": "billDate", "name": "billDate" });
+            columns.push({ "data": "billParty", "name": "billParty" });
+            columns.push({ "data": "billNumber", "name": "billNumber" });
 
-        //     var table = $('#tblMain').DataTable({
-        //         "bAutoWidth": false,
-        //         lengthChange: false,
-        //         ordering: true,
-        //         searching: true,
-        //         paging: true,
-        //         pageLength: 50,
-        //         order: [[0, 'asc']],
-        //         pagingType: 'full_numbers',
-        //         orderClasses: false,
-        //         //scrollCollapse: true,
-        //         //stateSave: false,
-        //         columnDefs: colDef,
-        //         columns: columns,
-        //         language: {
-        //             paginate: {
-        //                 next: '<i class="fa fa-angle-right"></i>', // or '→'
-        //                 previous: '<i class="fa fa-angle-left"></i>', // or '←'
-        //                 first: '<i class="fa fa-angle-double-left"></i>', // or '→'
-        //                 last: '<i class="fa fa-angle-double-right"></i>' // or '←'
-        //             }
-        //         },
-        //         buttons: ['copy', 'excel', 'colvis'],
-        //         processing: true,
-        //         serverSide: true,
-        //         ajax: {
-        //             url: '@(Url.Content("~/Customer/BookList"))',
-        //             type: 'GET',
-        //             data: function (d) {
-        //             }
-        //         },
-        //         "initComplete": function (settings, json) {
-        //             gridInitComplete(table);
-        //         },
-        //         "drawCallback": function (settings) {
-        //             gridDrawCallback(this);
-        //         }
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/InvoiceList"))',
+                    type: 'GET',
+                    data: function (d) {
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
 
-        //     });
-        // }
+            });
+        }
 
-        // function fromReset() {
-        //     $("#Id").val(0);
-        //     $("#BookAccountId").val(null).trigger('change');
-        //     $("#BookTypeId").val(null).trigger('change');
-        //     $("#BoxLabel1").val('');
-        //     $("#BoxLabel2").val('');
-        //     $("#BoxLabel3").val('');
-        //     $("#BoxLabel4").val('');
-        //     $("#BoxLabel5").val('');
-        //     $("#BoxLabel6").val('');
-        //     $("#BillNoPrefix").val('');
-        //     $("#BillNoPostFix").val('');
-        //     $("#LRRequired").prop('checked', false);
-        //     $("#BillTypeID").val(null).trigger('change');
-        //     $("#IsGeneralPurchase").prop('checked', false);
-        //     $("#IsItemDiscount").prop('checked', false);
-        //     $("#IsItemDiscountSp").prop('checked', false);
-        //     $("#IsCashPayAtBill").prop('checked', false);
-        //     $("#ItemDesc1").val('');
-        //     $("#ItemDesc2").val('');
-        //     $("#ItemDesc3").val('');
-        //     $("#ItemDesc4").val('');
-        //     $("#ItemDesc5").val('');
-        //     $("#ItemDesc6").val('');
-        //     $("#ShowSalesOrderBoxNumber").prop('checked', false);
-        //     $("#ShowPurcahseOrderBoxNumber").prop('checked', false);
-        //     $("#ShowQuotationBoxNumber").prop('checked', false);
-        //     $("#ShowPerformaInvoiceNumber").prop('checked', false);
-        //     $("#SalesBillFrom").val(null).trigger('change');
-        //     $("#IsCalcMultiply").prop('checked', false);
-        //     $("#BookShortName").val('');
-        //     $("#HeaderBox1").val('');
-        //     $("#HeaderBox2").val('');
-        //     $("#HeaderBox3").val('');
-        //     $("#HeaderBox4").val('');
-        //     $("#HeaderBox5").val('');
-        //     $("#IsTDSAccount").prop('checked', false);
-        //     $("#TDSAccountId").val(null).trigger('change');
-        //     $("#IsTCSAccount").prop('checked', false);
-        //     $("#TCSAccountId").val(null).trigger('change');
-        //     $("#SGSTAccountId").val(null).trigger('change');
-        //     $("#CGSTAccountId").val(null).trigger('change');
-        //     $("#IGSTAccountId").val(null).trigger('change');
-        //     $("#GSTStateCessAccountId").val(null).trigger('change');
-        //     $("#GSTCentralCessAccountId").val(null).trigger('change');
-        //     $("#RCMSGSTPayAccountId").val(null).trigger('change');
-        //     $("#RCMCGSTPayAccountId").val(null).trigger('change');
-        //     $("#RCMIGSTPayAccountId").val(null).trigger('change');
-        //     $("#RCMSGSTRecAccountId").val(null).trigger('change');
-        //     $("#RCMCGSTRecAccountId").val(null).trigger('change');
-        //     $("#RCMIGSTRecAccountId").val(null).trigger('change');
-        //     $("#RoundOffAccountId").val(null).trigger('change');
-        //     $("#CustomerBookBranchId").multipleSelect('setSelects', '');
+        function fromReset() {
+            $("#Id").val(0);
+            $("#BookAccountId").val(null).trigger('change');
+            $("#BookTypeId").val(null).trigger('change');
+            $("#BoxLabel1").val('');
+            $("#BoxLabel2").val('');
+            $("#BoxLabel3").val('');
+            $("#BoxLabel4").val('');
+            $("#BoxLabel5").val('');
+            $("#BoxLabel6").val('');
+            $("#BillNoPrefix").val('');
+            $("#BillNoPostFix").val('');
+            $("#LRRequired").prop('checked', false);
+            $("#BillTypeID").val(null).trigger('change');
+            $("#IsGeneralPurchase").prop('checked', false);
+            $("#IsItemDiscount").prop('checked', false);
+            $("#IsItemDiscountSp").prop('checked', false);
+            $("#IsCashPayAtBill").prop('checked', false);
+            $("#ItemDesc1").val('');
+            $("#ItemDesc2").val('');
+            $("#ItemDesc3").val('');
+            $("#ItemDesc4").val('');
+            $("#ItemDesc5").val('');
+            $("#ItemDesc6").val('');
+            $("#ShowSalesOrderBoxNumber").prop('checked', false);
+            $("#ShowPurcahseOrderBoxNumber").prop('checked', false);
+            $("#ShowQuotationBoxNumber").prop('checked', false);
+            $("#ShowPerformaInvoiceNumber").prop('checked', false);
+            $("#SalesBillFrom").val(null).trigger('change');
+            $("#IsCalcMultiply").prop('checked', false);
+            $("#BookShortName").val('');
+            $("#HeaderBox1").val('');
+            $("#HeaderBox2").val('');
+            $("#HeaderBox3").val('');
+            $("#HeaderBox4").val('');
+            $("#HeaderBox5").val('');
+            $("#IsTDSAccount").prop('checked', false);
+            $("#TDSAccountId").val(null).trigger('change');
+            $("#IsTCSAccount").prop('checked', false);
+            $("#TCSAccountId").val(null).trigger('change');
+            $("#SGSTAccountId").val(null).trigger('change');
+            $("#CGSTAccountId").val(null).trigger('change');
+            $("#IGSTAccountId").val(null).trigger('change');
+            $("#GSTStateCessAccountId").val(null).trigger('change');
+            $("#GSTCentralCessAccountId").val(null).trigger('change');
+            $("#RCMSGSTPayAccountId").val(null).trigger('change');
+            $("#RCMCGSTPayAccountId").val(null).trigger('change');
+            $("#RCMIGSTPayAccountId").val(null).trigger('change');
+            $("#RCMSGSTRecAccountId").val(null).trigger('change');
+            $("#RCMCGSTRecAccountId").val(null).trigger('change');
+            $("#RCMIGSTRecAccountId").val(null).trigger('change');
+            $("#RoundOffAccountId").val(null).trigger('change');
+            $("#CustomerBookBranchId").multipleSelect('setSelects', '');
 
-        //     $("#Active").prop('checked', true);
+            $("#Active").prop('checked', true);
 
-        //     $("#activeTabName").text("Add");
-        //     $(".btn-delete").hide();
-        // }
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+        }
 
-        // function saveItem() {
-        //     try {
+        function saveItem() {
+            try {
 
-        //         if ($("#BookAccountId").val() == null || $("#BookAccountId").val() == "") {
-        //             showWarning("", "Please select book name");
-        //             $("#BookAccountId").focus();
-        //             return false;
-        //         }
-        //         if ($("#BookTypeId").val() == null || $("#BookTypeId").val() == "") {
-        //             showWarning("", "Please select type");
-        //             $("#BookTypeId").focus();
-        //             return false;
-        //         }
-        //         if ($("#SalesBillFrom").val() == null || $("#SalesBillFrom").val() == "") {
-        //             showWarning("", "Please select bill from");
-        //             $("#SalesBillFrom").focus();
-        //             return false;
-        //         }
+                if ($("#BookAccountId").val() == null || $("#BookAccountId").val() == "") {
+                    showWarning("", "Please select book name");
+                    $("#BookAccountId").focus();
+                    return false;
+                }
+                if ($("#BookTypeId").val() == null || $("#BookTypeId").val() == "") {
+                    showWarning("", "Please select type");
+                    $("#BookTypeId").focus();
+                    return false;
+                }
+                if ($("#SalesBillFrom").val() == null || $("#SalesBillFrom").val() == "") {
+                    showWarning("", "Please select bill from");
+                    $("#SalesBillFrom").focus();
+                    return false;
+                }
 
-        //         if ($("#IsTDSAccount").is(':checked')) {
-        //             if ($("#TDSAccountId").val() == null || $("#TDSAccountId").val() == "") {
-        //                 showWarning("", "Please select TDS a/c");
-        //                 $("#TDSAccountId").focus();
-        //                 return false;
-        //             }
-        //         }
+                if ($("#IsTDSAccount").is(':checked')) {
+                    if ($("#TDSAccountId").val() == null || $("#TDSAccountId").val() == "") {
+                        showWarning("", "Please select TDS a/c");
+                        $("#TDSAccountId").focus();
+                        return false;
+                    }
+                }
 
-        //         if ($("#IsTCSAccount").is(':checked')) {
-        //             if ($("#TCSAccountId").val() == null || $("#TCSAccountId").val() == "") {
-        //                 showWarning("", "Please select TCS a/c");
-        //                 $("#TCSAccountId").focus();
-        //                 return false;
-        //             }
-        //         }
+                if ($("#IsTCSAccount").is(':checked')) {
+                    if ($("#TCSAccountId").val() == null || $("#TCSAccountId").val() == "") {
+                        showWarning("", "Please select TCS a/c");
+                        $("#TCSAccountId").focus();
+                        return false;
+                    }
+                }
 
-        //         if ($("#CustomerBookBranchId").val() == "") {
-        //             showWarning("", "Please select branch.");
-        //             $("#CustomerBookBranchId").focus();
-        //             return false;
-        //         }
+                if ($("#CustomerBookBranchId").val() == "") {
+                    showWarning("", "Please select branch.");
+                    $("#CustomerBookBranchId").focus();
+                    return false;
+                }
 
-        //         var savedata = new Object();
-        //         savedata.Id = parseInt($("#Id").val());
-        //         savedata.BookAccountId = parseInt($("#BookAccountId").val());
-        //         savedata.BookTypeId = parseInt($("#BookTypeId").val());
-        //         savedata.BoxLabel1 = $("#BoxLabel1").val();
-        //         savedata.BoxLabel2 = $("#BoxLabel2").val();
-        //         savedata.BoxLabel3 = $("#BoxLabel3").val();
-        //         savedata.BoxLabel4 = $("#BoxLabel4").val();
-        //         savedata.BoxLabel5 = $("#BoxLabel5").val();
-        //         savedata.BoxLabel6 = $("#BoxLabel6").val();
-        //         savedata.BillNoPrefix = $("#BillNoPrefix").val();
-        //         savedata.BillNoPostFix = $("#BillNoPostFix").val();
-        //         savedata.LRRequired = $("#LRRequired").is(':checked');
-        //         savedata.BillTypeID = getIntValueNull("BillTypeID");
-        //         savedata.IsGeneralPurchase = $("#IsGeneralPurchase").is(':checked');
-        //         savedata.IsItemDiscount = $("#IsItemDiscount").is(':checked');
-        //         savedata.IsItemDiscountSp = $("#IsItemDiscountSp").is(':checked');
-        //         savedata.IsCashPayAtBill = $("#IsCashPayAtBill").is(':checked');
-        //         savedata.ItemDesc1 = $("#ItemDesc1").val();
-        //         savedata.ItemDesc2 = $("#ItemDesc2").val();
-        //         savedata.ItemDesc3 = $("#ItemDesc3").val();
-        //         savedata.ItemDesc4 = $("#ItemDesc4").val();
-        //         savedata.ItemDesc5 = $("#ItemDesc5").val();
-        //         savedata.ItemDesc6 = $("#ItemDesc6").val();
-        //         savedata.ShowSalesOrderBoxNumber = $("#ShowSalesOrderBoxNumber").is(':checked');
-        //         savedata.ShowPurcahseOrderBoxNumber = $("#ShowPurcahseOrderBoxNumber").is(':checked');
-        //         savedata.ShowQuotationBoxNumber = $("#ShowQuotationBoxNumber").is(':checked');
-        //         savedata.ShowPerformaInvoiceNumber = $("#ShowPerformaInvoiceNumber").is(':checked');
-        //         savedata.SalesBillFrom = $("#SalesBillFrom").val();
-        //         savedata.IsCalcMultiply = $("#IsCalcMultiply").is(':checked');
-        //         savedata.BookShortName = $("#BookShortName").val();
-        //         savedata.HeaderBox1 = $("#HeaderBox1").val();
-        //         savedata.HeaderBox2 = $("#HeaderBox2").val();
-        //         savedata.HeaderBox3 = $("#HeaderBox3").val();
-        //         savedata.HeaderBox4 = $("#HeaderBox4").val();
-        //         savedata.HeaderBox5 = $("#HeaderBox5").val();
-        //         savedata.IsTDSAccount = $("#IsTDSAccount").is(':checked');
-        //         savedata.TDSAccountId = getIntValueNull("TDSAccountId");
-        //         savedata.IsTCSAccount = $("#IsTCSAccount").is(':checked');
-        //         savedata.TCSAccountId = getIntValueNull("TCSAccountId");
-        //         savedata.SGSTAccountId = getIntValueNull("SGSTAccountId");
-        //         savedata.CGSTAccountId = getIntValueNull("CGSTAccountId");
-        //         savedata.IGSTAccountId = getIntValueNull("IGSTAccountId");
-        //         savedata.GSTStateCessAccountId = getIntValueNull("GSTStateCessAccountId");
-        //         savedata.GSTCentralCessAccountId = getIntValueNull("GSTCentralCessAccountId");
-        //         savedata.RCMSGSTPayAccountId = getIntValueNull("RcmSGSTPayAccountId");
-        //         savedata.RCMCGSTPayAccountId = getIntValueNull("RcmCGSTPayAccountId");
-        //         savedata.RCMIGSTPayAccountId = getIntValueNull("RcmIGSTPayAccountId");
-        //         savedata.RCMSGSTRecAccountId = getIntValueNull("RcmSGSTRecAccountId");
-        //         savedata.RCMCGSTRecAccountId = getIntValueNull("RcmCGSTRecAccountId");
-        //         savedata.RCMIGSTRecAccountId = getIntValueNull("RcmIGSTRecAccountId");
-        //         savedata.RoundOffAccountId = getIntValueNull("RoundOffAccountId");
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.BookAccountId = parseInt($("#BookAccountId").val());
+                savedata.BookTypeId = parseInt($("#BookTypeId").val());
+                savedata.BoxLabel1 = $("#BoxLabel1").val();
+                savedata.BoxLabel2 = $("#BoxLabel2").val();
+                savedata.BoxLabel3 = $("#BoxLabel3").val();
+                savedata.BoxLabel4 = $("#BoxLabel4").val();
+                savedata.BoxLabel5 = $("#BoxLabel5").val();
+                savedata.BoxLabel6 = $("#BoxLabel6").val();
+                savedata.BillNoPrefix = $("#BillNoPrefix").val();
+                savedata.BillNoPostFix = $("#BillNoPostFix").val();
+                savedata.LRRequired = $("#LRRequired").is(':checked');
+                savedata.BillTypeID = getIntValueNull("BillTypeID");
+                savedata.IsGeneralPurchase = $("#IsGeneralPurchase").is(':checked');
+                savedata.IsItemDiscount = $("#IsItemDiscount").is(':checked');
+                savedata.IsItemDiscountSp = $("#IsItemDiscountSp").is(':checked');
+                savedata.IsCashPayAtBill = $("#IsCashPayAtBill").is(':checked');
+                savedata.ItemDesc1 = $("#ItemDesc1").val();
+                savedata.ItemDesc2 = $("#ItemDesc2").val();
+                savedata.ItemDesc3 = $("#ItemDesc3").val();
+                savedata.ItemDesc4 = $("#ItemDesc4").val();
+                savedata.ItemDesc5 = $("#ItemDesc5").val();
+                savedata.ItemDesc6 = $("#ItemDesc6").val();
+                savedata.ShowSalesOrderBoxNumber = $("#ShowSalesOrderBoxNumber").is(':checked');
+                savedata.ShowPurcahseOrderBoxNumber = $("#ShowPurcahseOrderBoxNumber").is(':checked');
+                savedata.ShowQuotationBoxNumber = $("#ShowQuotationBoxNumber").is(':checked');
+                savedata.ShowPerformaInvoiceNumber = $("#ShowPerformaInvoiceNumber").is(':checked');
+                savedata.SalesBillFrom = $("#SalesBillFrom").val();
+                savedata.IsCalcMultiply = $("#IsCalcMultiply").is(':checked');
+                savedata.BookShortName = $("#BookShortName").val();
+                savedata.HeaderBox1 = $("#HeaderBox1").val();
+                savedata.HeaderBox2 = $("#HeaderBox2").val();
+                savedata.HeaderBox3 = $("#HeaderBox3").val();
+                savedata.HeaderBox4 = $("#HeaderBox4").val();
+                savedata.HeaderBox5 = $("#HeaderBox5").val();
+                savedata.IsTDSAccount = $("#IsTDSAccount").is(':checked');
+                savedata.TDSAccountId = getIntValueNull("TDSAccountId");
+                savedata.IsTCSAccount = $("#IsTCSAccount").is(':checked');
+                savedata.TCSAccountId = getIntValueNull("TCSAccountId");
+                savedata.SGSTAccountId = getIntValueNull("SGSTAccountId");
+                savedata.CGSTAccountId = getIntValueNull("CGSTAccountId");
+                savedata.IGSTAccountId = getIntValueNull("IGSTAccountId");
+                savedata.GSTStateCessAccountId = getIntValueNull("GSTStateCessAccountId");
+                savedata.GSTCentralCessAccountId = getIntValueNull("GSTCentralCessAccountId");
+                savedata.RCMSGSTPayAccountId = getIntValueNull("RcmSGSTPayAccountId");
+                savedata.RCMCGSTPayAccountId = getIntValueNull("RcmCGSTPayAccountId");
+                savedata.RCMIGSTPayAccountId = getIntValueNull("RcmIGSTPayAccountId");
+                savedata.RCMSGSTRecAccountId = getIntValueNull("RcmSGSTRecAccountId");
+                savedata.RCMCGSTRecAccountId = getIntValueNull("RcmCGSTRecAccountId");
+                savedata.RCMIGSTRecAccountId = getIntValueNull("RcmIGSTRecAccountId");
+                savedata.RoundOffAccountId = getIntValueNull("RoundOffAccountId");
 
-        //         savedata.CustomerBookBranchId = $("#CustomerBookBranchId").val().join(",");
-        //         savedata.Active = $('#Active').is(':checked');
+                savedata.CustomerBookBranchId = $("#CustomerBookBranchId").val().join(",");
+                savedata.Active = $('#Active').is(':checked');
 
-        //         blockUI('container');
+                blockUI('container');
 
-        //         $.ajax({
-        //             type: "POST",
-        //             url: "@(Url.Action("SaveBook", "Customer"))",
-        //             data: JSON.stringify(savedata),
-        //             contentType: "application/json; charset=utf-8",
-        //             dataType: "json",
-        //             success: function (data) {
-        //                 unblockUI('container');
-        //                 if (data.result == RESULT_SUCCESS) {
-        //                     fromReset();
-        //                     showWarning("", 'Book saved successfully.');
-        //                     $("#Id").val(0);
-        //                     refreshDatatableList();
-        //                     $('.btn-back').click();
-        //                 } else {
-        //                     showError("", data.data);
-        //                 }
-        //             },
-        //             error: function (error) {
-        //                 unblockUI('container');
-        //                 showError("", error.statusText);
-        //             }
-        //         });
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveBook", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Book saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
 
-        //     }
-        //     catch (e) {
-        //         unblockUI('container');
-        //         showError("", e.message);
-        //     }
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
 
-        // }
+        }
 
-        // function deleteItem(id) {
-        //     if (id == 0) {
-        //         id = $('#Id').val();
-        //     }
-        //     try {
-        //         blockUI('container');
-        //         var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteBook"))" + "/" + id, "",
-        //             function (result) {
-        //                 unblockUI('container');
-        //                 var str = "";
-        //                 try {
-        //                     if (result.result == RESULT_SUCCESS) {
-        //                         refreshDatatableList();
-        //                         fromReset();
-        //                         $('.btn-back').click();
-        //                     } else {
-        //                         showError('Error', result.data); //warning,  success, error, info
-        //                     }
-        //                 } catch (e) {
-        //                     showError('Error', e); //warning,  success, error, info
-        //                 }
-        //             },
-        //             function (error) {
-        //                 unblockUI('container');
-        //             });
-        //     }
-        //     catch (err) {
-        //         unblockUI('container');
-        //     }
-        // }
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteInvoice"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
 
-        // function getDetail(id, isViewMode) {
-        //     try {
-        //         blockUI('container');
-        //         var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetBook"))" + "/" + id, "",
-        //             function (result) {
-        //                 unblockUI('container');
-        //                 try {
-        //                     if (result.result == RESULT_SUCCESS) {
-        //                         addClick();
-        //                         if (isViewMode) {
-        //                             setScreenMode(true);
-        //                             $("#activeTabName").text("VIEW ID# " + result.data.id);
-        //                         } else {
-        //                             setScreenMode(false);
-        //                             $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
-        //                         }
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetBook"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
 
-        //                         $("#Id").val(result.data.id);
-        //                         $("#BookAccountId").val(result.data.bookAccountId).trigger('change');
-        //                         $("#BookTypeId").val(result.data.bookTypeId).trigger('change');
-        //                         $("#BoxLabel1").val(result.data.boxLabel1);
-        //                         $("#BoxLabel2").val(result.data.boxLabel2);
-        //                         $("#BoxLabel3").val(result.data.boxLabel3);
-        //                         $("#BoxLabel4").val(result.data.boxLabel4);
-        //                         $("#BoxLabel5").val(result.data.boxLabel5);
-        //                         $("#BoxLabel6").val(result.data.boxLabel6);
-        //                         $("#BillNoPrefix").val(result.data.billNoPrefix);
-        //                         $("#BillNoPostFix").val(result.data.billNoPostFix);
-        //                         $("#LRRequired").prop('checked', result.data.lrRequired);
-        //                         $("#BillTypeID").val(result.data.billTypeID).trigger('change');
-        //                         $("#IsGeneralPurchase").prop('checked', result.data.isGeneralPurchase);
-        //                         $("#IsItemDiscount").prop('checked', result.data.isItemDiscount);
-        //                         $("#IsItemDiscountSp").prop('checked', result.data.isItemDiscountSp);
-        //                         $("#IsCashPayAtBill").prop('checked', result.data.isCashPayAtBill);
-        //                         $("#ItemDesc1").val(result.data.itemDesc1);
-        //                         $("#ItemDesc2").val(result.data.itemDesc2);
-        //                         $("#ItemDesc3").val(result.data.itemDesc3);
-        //                         $("#ItemDesc4").val(result.data.itemDesc4);
-        //                         $("#ItemDesc5").val(result.data.itemDesc5);
-        //                         $("#ItemDesc6").val(result.data.itemDesc6);
-        //                         $("#ShowSalesOrderBoxNumber").prop('checked', result.data.showSalesOrderBoxNumber);
-        //                         $("#ShowPurcahseOrderBoxNumber").prop('checked', result.data.showPurcahseOrderBoxNumber);
-        //                         $("#ShowQuotationBoxNumber").prop('checked', result.data.showQuotationBoxNumber);
-        //                         $("#ShowPerformaInvoiceNumber").prop('checked', result.data.showPerformaInvoiceNumber);
-        //                         $("#SalesBillFrom").val(result.data.salesBillFrom).trigger('change');
-        //                         $("#IsCalcMultiply").prop('checked', result.data.isCalcMultiply);
-        //                         $("#BookShortName").val(result.data.bookShortName);
-        //                         $("#HeaderBox1").val(result.data.headerBox1);
-        //                         $("#HeaderBox2").val(result.data.headerBox2);
-        //                         $("#HeaderBox3").val(result.data.headerBox3);
-        //                         $("#HeaderBox4").val(result.data.headerBox4);
-        //                         $("#HeaderBox5").val(result.data.headerBox5);
-        //                         $("#IsTDSAccount").prop('checked', result.data.isTDSAccount);
-        //                         $("#TDSAccountId").val(result.data.tdsAccountId).trigger('change');
-        //                         $("#IsTCSAccount").prop('checked', result.data.isTCSAccount);
-        //                         $("#TCSAccountId").val(result.data.tcsAccountId).trigger('change');
-        //                         $("#SGSTAccountId").val(result.data.sgstAccountId).trigger('change');
-        //                         $("#CGSTAccountId").val(result.data.cgstAccountId).trigger('change');
-        //                         $("#IGSTAccountId").val(result.data.igstAccountId).trigger('change');
-        //                         $("#GSTStateCessAccountId").val(result.data.gstStateCessAccountId).trigger('change');
-        //                         $("#GSTCentralCessAccountId").val(result.data.gstCentralCessAccountId).trigger('change');
-        //                         $("#RCMSGSTPayAccountId").val(result.data.rcmsgstPayAccountId).trigger('change');
-        //                         $("#RCMCGSTPayAccountId").val(result.data.rcmcgstPayAccountId).trigger('change');
-        //                         $("#RCMIGSTPayAccountId").val(result.data.rcmigstPayAccountId).trigger('change');
-        //                         $("#RCMSGSTRecAccountId").val(result.data.rcmsgstRecAccountId).trigger('change');
-        //                         $("#RCMCGSTRecAccountId").val(result.data.rcmcgstRecAccountId).trigger('change');
-        //                         $("#RCMIGSTRecAccountId").val(result.data.rcmigstRecAccountId).trigger('change');
-        //                         $("#RoundOffAccountId").val(result.data.roundOffAccountId).trigger('change');
-        //                         $("#CustomerBookBranchId").multipleSelect('setSelects', result.data.customerBookBranchId.split(','));
-        //                         $('#Active').prop('checked', result.data.active);
+                                $("#Id").val(result.data.id);
+                                $("#BookAccountId").val(result.data.bookAccountId).trigger('change');
+                                $("#BookTypeId").val(result.data.bookTypeId).trigger('change');
+                                $("#BoxLabel1").val(result.data.boxLabel1);
+                                $("#BoxLabel2").val(result.data.boxLabel2);
+                                $("#BoxLabel3").val(result.data.boxLabel3);
+                                $("#BoxLabel4").val(result.data.boxLabel4);
+                                $("#BoxLabel5").val(result.data.boxLabel5);
+                                $("#BoxLabel6").val(result.data.boxLabel6);
+                                $("#BillNoPrefix").val(result.data.billNoPrefix);
+                                $("#BillNoPostFix").val(result.data.billNoPostFix);
+                                $("#LRRequired").prop('checked', result.data.lrRequired);
+                                $("#BillTypeID").val(result.data.billTypeID).trigger('change');
+                                $("#IsGeneralPurchase").prop('checked', result.data.isGeneralPurchase);
+                                $("#IsItemDiscount").prop('checked', result.data.isItemDiscount);
+                                $("#IsItemDiscountSp").prop('checked', result.data.isItemDiscountSp);
+                                $("#IsCashPayAtBill").prop('checked', result.data.isCashPayAtBill);
+                                $("#ItemDesc1").val(result.data.itemDesc1);
+                                $("#ItemDesc2").val(result.data.itemDesc2);
+                                $("#ItemDesc3").val(result.data.itemDesc3);
+                                $("#ItemDesc4").val(result.data.itemDesc4);
+                                $("#ItemDesc5").val(result.data.itemDesc5);
+                                $("#ItemDesc6").val(result.data.itemDesc6);
+                                $("#ShowSalesOrderBoxNumber").prop('checked', result.data.showSalesOrderBoxNumber);
+                                $("#ShowPurcahseOrderBoxNumber").prop('checked', result.data.showPurcahseOrderBoxNumber);
+                                $("#ShowQuotationBoxNumber").prop('checked', result.data.showQuotationBoxNumber);
+                                $("#ShowPerformaInvoiceNumber").prop('checked', result.data.showPerformaInvoiceNumber);
+                                $("#SalesBillFrom").val(result.data.salesBillFrom).trigger('change');
+                                $("#IsCalcMultiply").prop('checked', result.data.isCalcMultiply);
+                                $("#BookShortName").val(result.data.bookShortName);
+                                $("#HeaderBox1").val(result.data.headerBox1);
+                                $("#HeaderBox2").val(result.data.headerBox2);
+                                $("#HeaderBox3").val(result.data.headerBox3);
+                                $("#HeaderBox4").val(result.data.headerBox4);
+                                $("#HeaderBox5").val(result.data.headerBox5);
+                                $("#IsTDSAccount").prop('checked', result.data.isTDSAccount);
+                                $("#TDSAccountId").val(result.data.tdsAccountId).trigger('change');
+                                $("#IsTCSAccount").prop('checked', result.data.isTCSAccount);
+                                $("#TCSAccountId").val(result.data.tcsAccountId).trigger('change');
+                                $("#SGSTAccountId").val(result.data.sgstAccountId).trigger('change');
+                                $("#CGSTAccountId").val(result.data.cgstAccountId).trigger('change');
+                                $("#IGSTAccountId").val(result.data.igstAccountId).trigger('change');
+                                $("#GSTStateCessAccountId").val(result.data.gstStateCessAccountId).trigger('change');
+                                $("#GSTCentralCessAccountId").val(result.data.gstCentralCessAccountId).trigger('change');
+                                $("#RCMSGSTPayAccountId").val(result.data.rcmsgstPayAccountId).trigger('change');
+                                $("#RCMCGSTPayAccountId").val(result.data.rcmcgstPayAccountId).trigger('change');
+                                $("#RCMIGSTPayAccountId").val(result.data.rcmigstPayAccountId).trigger('change');
+                                $("#RCMSGSTRecAccountId").val(result.data.rcmsgstRecAccountId).trigger('change');
+                                $("#RCMCGSTRecAccountId").val(result.data.rcmcgstRecAccountId).trigger('change');
+                                $("#RCMIGSTRecAccountId").val(result.data.rcmigstRecAccountId).trigger('change');
+                                $("#RoundOffAccountId").val(result.data.roundOffAccountId).trigger('change');
+                                $("#CustomerBookBranchId").multipleSelect('setSelects', result.data.customerBookBranchId.split(','));
+                                $('#Active').prop('checked', result.data.active);
 
-        //                     } else {
-        //                         showError('Error', result.data); //warning,  success, error, info
-        //                     }
-        //                 } catch (e) {
-        //                     unblockUI('container');
-        //                     showError('Error', e); //warning,  success, error, info
-        //                 }
-        //             },
-        //             function (error) {
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
 
-        //             });
-        //     }
-        //     catch (err) {
-        //     }
-        // }
+                    });
+            }
+            catch (err) {
+            }
+        }
 
-        var contentRowId = 0;
+        function bindLRList() {
+
+            if ($("#ChalanDateFrom").val() == '' || $("#ChalanDateTo").val() == '') return;
+
+            let columns = [];
+            let colDef = [];
+
+            colDef.push({
+                "render": function (data, type, row) {
+                    return '<input type="checkbox"/>';
+                },
+                "targets": 0,
+                "orderable": false,
+                'checkboxes': {
+                    'selectRow': true
+                }
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.id;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrDate;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.privateMarka;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.packing;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return parseFloat(row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return parseFloat(row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.description;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billParty;
+                },
+                "targets": colDef.length,
+            });
+            columns.push({ "data": "id", "name": "id" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "lrDate", "name": "lrDate" });
+            columns.push({ "data": "privateMarka", "name": "privateMarka" });
+            columns.push({ "data": "packing", "name": "packing" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
+            columns.push({ "data": "description", "name": "description" });
+            columns.push({ "data": "consignor", "name": "consignor" });
+            columns.push({ "data": "consignee", "name": "consignee" });
+            columns.push({ "data": "billParty", "name": "billParty" });
+
+            var table = $('#LRtblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: false,
+                paging: false,
+                pageLength: 1,
+                order: [[0, 'asc']],
+                "destroy": true,
+                // pagingType: 'full_numbers',
+                orderClasses: false,
+                scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                'select': {
+                    'style': 'multi'
+                },
+                ajax: {
+                    url: '@(Url.Content("~/Customer/GetLRBookingListByDate"))' + "/" + $('#ChalanDateFrom').val() + "/" + $('#ChalanDateTo').val(),
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                    if (selectedLRDetails.length == 0) {
+                        $('#LRtblMain input[type="checkbox"]').prop('checked', true);
+
+                        selectedIds = table.rows({ selected: true }).data().toArray().map(row => row.id);
+
+                        table.rows({ selected: true }).data().each(function (row) {
+
+                            var isDuplicate = selectedLRDetails.some(item => item.id === row.id);
+
+                            if (!isDuplicate) {
+                                selectedLRDetails.push({
+                                    id: row.id,
+                                    lrNumber: row.lrNumber,
+                                    lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                    privateMarka: row.privateMarka,
+                                    packing: row.packing,
+                                    chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
+                                    toCity: row.cityTo,
+                                    fromCity: row.cityFrom,
+                                    invoiceValue: parseFloat(row.invoiceValue || 0).toFixed(2),
+                                    description: row.description,
+                                    consignor: row.consignor,
+                                    consignee: row.consignee,
+                                    billParty: row.billParty
+                                });
+                            }
+                        });
+
+                        updateHiddenInput(selectedIds);
+                    }
+
+                    selectedLRDetails.forEach(function (item) {
+                        var row = table.row(function (idx, data, node) {
+                            return data.id === item.id;
+                        });
+
+                        if (row && row.length > 0) {
+                            $(row.node()).find('input[type="checkbox"]').prop('checked', true);
+                            $(row.node()).addClass('selected');
+                        }
+                    });
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+            });
+
+            $('#LRtblMain thead input[type="checkbox"]').on('click', function () {
+                var isChecked = this.checked;
+
+                $('#LRtblMain tbody input[type="checkbox"]').prop('checked', isChecked);
+
+                if (isChecked) {
+                    var selectedRowsData = table.rows({ selected: true }).data().toArray();
+                    selectedIds = selectedRowsData.map(row => row.id);
+                    selectedLRDetails = selectedRowsData.map(row => ({
+                        id: row.id,
+                        lrNumber: row.lrNumber,
+                        lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                        privateMarka: row.privateMarka,
+                        packing: row.packing,
+                        chargeWeight: row.chargeWeight,
+                        toCity: row.toCity,
+                        fromCity: row.fromCity,
+                        invoiceValue: row.invoiceValue,
+                        description: row.description,
+                        consignor: row.consignor,
+                        consignee: row.consignee,
+                        billParty: row.billParty
+                    }));
+                } else {
+                    selectedIds = [];
+                    selectedLRDetails = [];
+                }
+
+                updateHiddenInput(selectedIds);
+            });
+
+            var selectedIds = [];
+            $('#LRtblMain tbody').on('click', 'input[type="checkbox"]', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row && row.data() && row.data().id) {
+                    if ($(this).prop('checked')) {
+                        if (!selectedIds.includes(row.data().id)) {
+                            selectedIds.push(row.data().id);
+
+                            var isDuplicate = selectedLRDetails.some(item => item.id === row.data().id);
+
+                            if (!isDuplicate) {
+                                selectedLRDetails.push({
+                                    id: row.data().id,
+                                    lrNumber: row.data().lrNumber,
+                                    lrDate: moment(row.data().lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                    privateMarka: row.data().privateMarka,
+                                    packing: row.data().packing,
+                                    chargeWeight: row.data().chargeWeight,
+                                    toCity: row.data().toCity,
+                                    fromCity: row.data().fromCity,
+                                    invoiceValue: row.data().invoiceValue,
+                                    description: row.data().description,
+                                    consignor: row.data().consignor,
+                                    consignee: row.data().consignee,
+                                    billParty: row.data().billParty
+                                });
+                            }
+                        }
+                    } else {
+                        selectedIds = selectedIds.filter(item => item !== row.data().id);
+                        selectedLRDetails = selectedLRDetails.filter(item => item.id !== row.data().id);
+                    }
+                }
+            });
+        }
+
+        function updateHiddenInput(ids) {
+            var uniqueIds = [...new Set(ids)];
+            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
+        }
+
         function addRow() {
-            contentRowId++;
-            var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + contentRowId + '">' +
-                '<div class="col-md-1">' +
-                '<div class="row mb-0">' +
-                '<div class="col-md-6">' +
-                '<div class="form-group text-center mb-1">' +
-                '<label for="exampleInputname">123</label>' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-6">' +
-                '<div class="form-group text-center mb-1">' +
-                '<label for="exampleInputname">123</label>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-1">' +
-                '<div class="row mb-0">' +
-                '<div class="col-md-6">' +
-                '<div class="form-group text-center mb-1">' +
-                '<label for="exampleInputname">11-12-2023</label>' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-6">' +
-                '<div class="form-group text-center mb-1">' +
-                '<label for="exampleInputname">parcel</label>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-1">' +
-                '<div class="row mb-0">' +
-                '<div class="col-md-6">' +
-                '<div class="form-group text-center mb-1">' +
-                '<label for="exampleInputname">112.00</label>' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-6">' +
-                '<div class="form-group text-center mb-1">' +
-                '<label for="exampleInputname">10.00</label>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-1">' +
-                '<div class="form-group text-center mb-1">' +
-                '<label for="exampleInputname">10.52</label>' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-1">' +
-                '<div class="form-group text-center mb-1">' +
-                '<label for="exampleInputname">10.222</label>' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-1">' +
-                '<div class="form-group text-center mb-1">' +
-                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-1">' +
-                '<div class="form-group text-center mb-1">' +
-                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-1">' +
-                '<div class="form-group text-center mb-1">' +
-                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-1">' +
-                '<div class="form-group text-center mb-1">' +
-                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-1">' +
-                '<div class="form-group text-center mb-1">' +
-                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-1">' +
-                '<div class="form-group text-center mb-1">' +
-                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
-                '</div>' +
-                '</div>' +
-                '<div class="col-md-1">' +
-                '<div class="form-group text-center mb-1">' +
-                '<a href="javascript:deleteRow(' + contentRowId + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
-                '</div>' +
-                '</div>' +
-                '</div>';
+
+            var htmlContentArray = [];
+            $('#contentRow').html('');
+            for (var i = 0; i < selectedLRDetails.length; i++) {
+
+                var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + i + '">' +
+                    '<div class="col-md-1">' +
+                    '<div class="row mb-0">' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="id">' + selectedLRDetails[i].id + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="lrNumber">' + selectedLRDetails[i].lrNumber + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="row mb-0">' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="lrDate">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="privateMarka">' + (selectedLRDetails[i].privateMarka || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="packing">' + (selectedLRDetails[i].packing || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="chargeWeight">' + (selectedLRDetails[i].chargeWeight || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="row mb-0">' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="toCity">' + (selectedLRDetails[i].toCity || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="fromCity">' + (selectedLRDetails[i].fromCity || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="invoiceValue">' + (selectedLRDetails[i].invoiceValue || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="description">' + (selectedLRDetails[i].description || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="consignor">' + (selectedLRDetails[i].consignor || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="consignee">' + (selectedLRDetails[i].consignee || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="billParty">' + (selectedLRDetails[i].billParty || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="ewayBillNo">' + (selectedLRDetails[i].ewayBillNo || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<a href="javascript:deleteRow(' + i + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+
+                htmlContentArray.push(htmlContent);
+
+                addedIds.push(selectedLRDetails[i].id);
+            }
 
             $('.content-rows-add-btn').remove();
-            $('#contentRow').append(htmlContent);
+            $('#contentRow').append(htmlContentArray.join(''));
             $('.select2-show-search-contentrows').select2({
                 minimumResultsForSearch: ''
+            });
+
+            // Attach event listeners to relevant inputs for the taxable amount calculation
+            $('#Charges1' + contentRowId + ', #Charges2' + contentRowId + ', #Charges3' + contentRowId +
+            ', #Charges4' + contentRowId + ', #Charges5' + contentRowId + ', #Charges6' + contentRowId ).on('keyup', function () {
+                calculateAmount(contentRowId);
+                calculateTotalTaxableAmount();
             });
 
             var counter = 0;
@@ -1156,13 +1436,86 @@
                 $(this).val(++counter);
             });
 
+            $('.delete-row-btn').on('click', function () {
+                var index = $(this).data('index');
+                deleteRow(index);
+            });
+            calculateTotalTaxableAmount();
+            updateSelectedIdsInput();
         }
-        function deleteRow(rowId) {
-            //$('#contentRow').remove($('#row-' + rowId));
-            $('#row-' + rowId).remove();
-            if ($('.content-rows').length == 0 || $('.content-rows-add-btn').length == 0) {
-                addRow();
+
+        function calculateAmount(contentRowId) {
+            // Assuming Quantity1 to Quantity6 are the labels 1 to 6
+            var Charges = parseFloat($('#Charges1' + contentRowId).val()) || 0;
+            var Charges = parseFloat($('#Charges2' + contentRowId).val()) || 0;
+            var Charges = parseFloat($('#Charges3' + contentRowId).val()) || 0;
+            var Charges = parseFloat($('#Charges4' + contentRowId).val()) || 0;
+            var Charges = parseFloat($('#Charges5' + contentRowId).val()) || 0;
+            var Charges = parseFloat($('#Charges6' + contentRowId).val()) || 0;
+
+            // Calculate the sum of LABEL 1 to 6
+            var sumOfLabels = quantity1 + quantity2 + quantity3 + quantity4 + quantity5 + quantity6;
+
+            // Set the calculated amount in the respective input field
+            $('#BasicAmount' + contentRowId).val(sumOfLabels.toFixed(2));
+
+        }
+
+        function calculateTotalTaxableAmount() {
+            var totalTaxableAmount = 0;
+
+            $('.content-rows').each(function () {
+                var currentRowId = $(this).attr('id').replace('row-', '');
+                var taxableAmount = parseFloat($('#BasicAmount' + currentRowId).val()) || 0;
+                totalTaxableAmount += taxableAmount;
+                $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
+            });
+
+            var BasicAmount = parseFloat($('#TaxableAmount').val()) || 0;
+            var CGSTTotal = parseFloat($('#CGSTTotal').val()) || 0;
+            var SGSTTotal = parseFloat($('#SGSTTotal').val()) || 0;
+            var IGSTTotal = parseFloat($('#IGSTTotal').val()) || 0;
+            var GSTStateCessTotal = parseFloat($('#GSTStateCessTotal').val()) || 0;
+            var GSTCentralCessTotal = parseFloat($('#GSTCentralCessTotal').val()) || 0;
+            var TCSPercent = parseFloat($('#TCSPercent').val()) || 0;
+
+            $('#TCSAmount').val(((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal) * (TCSPercent) / 100).toFixed(2));
+            var TCSAmount = parseFloat($('#TCSAmount').val()) || 0;
+
+            // Calculate the sum of all components
+            var totalAmount = BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount;
+
+            // Calculate RoundOff based on custom rounding logic
+            var RoundOff = customRound(totalAmount) - totalAmount;
+
+            $('#RoundOff').val(RoundOff.toFixed(2));
+            $('#BillAmount').val((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount + RoundOff).toFixed(2));
+
+        }
+
+        function customRound(number) {
+            var decimalPart = number % 1;
+            return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
+        }
+
+        function deleteRow(index) {
+            if (selectedLRDetails[index]) {
+                var deletedId = selectedLRDetails[index].id;
+                $('#row-' + index).remove();
+                addedIds = addedIds.filter(id => id !== deletedId);
+                selectedLRDetails.splice(index, 1);
+                updateSelectedIdsInput();
             }
         }
+
+        function updateSelectedIdsInput() {
+            var uniqueIds = [...new Set(selectedLRDetails.map(item => item.id))];
+            updateHiddenInput(uniqueIds);
+            $("#ToPayAmount, #Paid, #TBB, #Total").val('0.00');
+            uniqueIds.forEach(function (id) {
+                GetChalanToPayAmount(id);
+            });
+        }
+
     </script>
 }

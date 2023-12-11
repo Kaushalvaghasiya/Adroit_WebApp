@@ -79,6 +79,8 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRDelivery _transportLRDeliveryRepository;
         private readonly ICustomerInvoice _customerInvoice;
         private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
+        private readonly IChalan _chalanRepository;
+
         public CustomerController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
             IVehicle vehicleRepo,
@@ -146,6 +148,7 @@ namespace Adroit.Accounting.Web.Controllers
             ILRBooking lrBookingRepository,
             ITransportLRDeliveryType transportLRDeliveryTypeRepository,
             ITransportLRDelivery transportLRDeliveryRepository,
+            IChalan chalanRepository,
             ICustomerInvoice customerInvoice
             )
             : base(loginHandler, userRepository, configurationData)
@@ -216,6 +219,7 @@ namespace Adroit.Accounting.Web.Controllers
             _lrBookingRepository = lrBookingRepository;
             _transportLRDeliveryTypeRepository = transportLRDeliveryTypeRepository;
             _transportLRDeliveryRepository = transportLRDeliveryRepository;
+            _chalanRepository = chalanRepository;
             _customerInvoice = customerInvoice;
         }
 
