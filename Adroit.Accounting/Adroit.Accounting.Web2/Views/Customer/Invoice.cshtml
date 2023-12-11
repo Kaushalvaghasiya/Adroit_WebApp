@@ -1,0 +1,1168 @@
+﻿@model Adroit.Accounting.Model.ViewModel.CustomerInvoiceViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Booking</a></li>
+                    <li class="active"><span>Invoice</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn btn-secondary text-white mr-2 btn-sm"
+                           data-toggle="tooltip" title="" data-placement="bottom"
+                           data-original-title="Bookmark this page">
+                            <span>
+                                <i class="fa fa-star"></i>
+                            </span>
+                        </a>
+                        <a href="lockscreen.html" class="btn btn-primary text-white mr-2 btn-sm"
+                           data-toggle="tooltip" title="" data-placement="bottom"
+                           data-original-title="lock">
+                            <span>
+                                <i class="fa fa-lock"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm"
+                           data-toggle="tooltip" title="" data-placement="bottom"
+                           data-original-title="Add New">
+                            <span>
+                                <i class="fa fa-plus"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">BRANCH BILL #</th>
+                                    <th class="border-bottom-0">BILL DATE</th>
+                                    <th class="border-bottom-0">BILL PARTY</th>
+                                    <th class="border-bottom-0">GST #</th>
+                                    <th class="border-bottom-0">AMOUNT</th>
+                                    <th class="border-bottom-0">CITY</th>
+                                    <th class="border-bottom-0">FIRM BILL #</th>
+                                    <th class="border-bottom-0 text-center"
+                                        style="width:80px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Booking</a></li>
+                    <li><a href="#">Invoice</a></li>
+                    <li class="active"><span>Invoice Add/Edit (ID# 100)</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search E-Way Bill...">
+                        <span class="input-group-append mr-2">
+                            <button class="btn btn-primary" type="button">Go!</button>
+                        </span>
+                        <a href="#" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip"
+                           title="" data-placement="bottom" data-original-title="Save">
+                            <span>
+                                <i class="fa fa-save"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip"
+                           title="" data-placement="bottom" data-original-title="Print">
+                            <span>
+                                <i class="fa fa-print"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip"
+                           title="" data-placement="bottom" data-original-title="Send">
+                            <span>
+                                <i class="fa fa-share-alt"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn btn-danger text-white mr-2 btn-sm" data-toggle="tooltip"
+                           title="" data-placement="bottom" data-original-title="Delete">
+                            <span>
+                                <i class="fa fa-trash-o"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm"
+                           data-toggle="tooltip" title="" data-placement="bottom"
+                           data-original-title="New">
+                            <span>
+                                <i class="fa fa-plus"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm"
+                           data-toggle="tooltip" title="" data-placement="bottom"
+                           data-original-title="Cancel">
+                            <span>
+                                <i class="fa fa-arrow-left"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                        Branch Bill No
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="">
+                                    </div>
+                                    <label for="exampleInputname" class="col-md-1 form-label mb-1">
+                                        Bill Date
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                </div>
+                                            </div>
+                                            <input class="form-control fc-datepicker"
+                                                   placeholder="MM/DD/YYYY" type="text">
+                                        </div>
+                                    </div>
+                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                        LR Number
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="">
+                                    </div>
+                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                        Pay Type
+                                    </label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search" id="">
+                                           <option></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                        Bill Party
+                                    </label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search" id="">
+                                           <option></option>
+                                        </select>
+                                    </div>
+                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                        Credit
+                                        Days
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="">
+                                    </div>
+                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                        Ledger
+                                        Amount
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="">
+                                    </div>
+
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="exampleInputname" class="col-md-1 form-label mb-1">
+                                        From
+                                        Date
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                </div>
+                                            </div>
+                                            <input class="form-control fc-datepicker"
+                                                   placeholder="MM/DD/YYYY" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 p-0">
+                                        <div class="row">
+                                            <label for="exampleInputname" class="col-md-4 form-label mb-1">
+                                                To
+                                                Date
+                                            </label>
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input class="form-control fc-datepicker"
+                                                           placeholder="MM/DD/YYYY" type="text">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <a href="#" class="btn btn-primary" data-toggle="modal"
+                                                   data-target="#lrChalanListModal" data-original-title="Select LR List">
+                                                    <span>
+                                                        <i class="fa fa-list"></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                        Vehicle
+                                        No
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="">
+                                    </div>
+                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                        Firm Bill No
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12  p-0">
+                                    <div class="card">
+                                        <div class="card-header bg-primary" style="display:block">
+                                            <!--header-->
+                                            <div class="row mb-0">
+                                                <div class="col-md-1">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="exampleInputname"
+                                                                       class="font-weight-bold text-white">#</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="exampleInputname"
+                                                                       class="font-weight-bold text-white">LR#</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="exampleInputname"
+                                                                       class="font-weight-bold text-white">
+                                                                    LR
+                                                                    Dt.
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="exampleInputname"
+                                                                       class="font-weight-bold text-white">Pkg</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="exampleInputname"
+                                                                       class="font-weight-bold text-white">Ch.Wt.</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="exampleInputname"
+                                                                       class="font-weight-bold text-white">
+                                                                    Textable
+                                                                    Amt
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname"
+                                                               class="font-weight-bold text-white">GST%</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname"
+                                                               class="font-weight-bold text-white">Freight</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname"
+                                                               class="font-weight-bold text-white">
+                                                            [Charge
+                                                            1]
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname"
+                                                               class="font-weight-bold text-white">
+                                                            [Charge
+                                                            2]
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname"
+                                                               class="font-weight-bold text-white">
+                                                            [Charge
+                                                            3]
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname"
+                                                               class="font-weight-bold text-white">
+                                                            [Charge
+                                                            4]
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname"
+                                                               class="font-weight-bold text-white">
+                                                            [Charge
+                                                            5]
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname"
+                                                               class="font-weight-bold text-white">
+                                                            [Charge
+                                                            6]
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname"
+                                                               class="font-weight-bold text-white">Action</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body" style="max-height: 202px; overflow-x: hidden;">
+                                            <div class="row">
+                                                <div class="col-md-12" id="contentRow">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9 vertical-bottom">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="exampleInputname"
+                                           class="col-md-1 form-label">Remarks</label>
+                                    <div class="col-md-11">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" placeholder="Write a large text here ..."></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="exampleInputname"
+                                           class="col-md-4 form-label text-left">Basic Amount</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="exampleInputname"
+                                           class="col-md-2 form-label text-left">T.D.S.</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="%">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="exampleInputname"
+                                           class="col-md-4 form-label text-left">SGST</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="exampleInputname"
+                                           class="col-md-4 form-label text-left">CGST</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="exampleInputname"
+                                           class="col-md-4 form-label text-left">IGST</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="exampleInputname"
+                                           class="col-md-4 form-label text-left">State Cess</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="exampleInputname"
+                                           class="col-md-4 form-label text-left">Central Cess</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="exampleInputname"
+                                           class="col-md-2 form-label text-left">T.C.S.</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="%">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+
+                                <div class="row mb-1">
+                                    <label for="exampleInputname"
+                                           class="col-md-4 form-label text-left">Other (+/-)</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="exampleInputname"
+                                           class="col-md-4 form-label text-left">Bill Amount</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    @*<a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a> *@
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <input type="hidden" id="Id" value="0" />
+   
+</div>
+<!--LRChalanListModal start-->
+<div id="lrChalanListModal" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
+        <div class="modal-content ">
+            <div class="modal-header pd-x-20">
+                <h5 class="modal-title col-md-1" style="align-self:center;">LR List</h5>
+                <label for="exampleInputname" class="col-md-auto form-label mb-1">
+                    From
+                    Date
+                </label>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                            </div>
+                        </div>
+                        <input class="form-control fc-datepicker"
+                               placeholder="MM/DD/YYYY" type="text">
+                    </div>
+                </div>
+                <label for="exampleInputname" class="col-md-auto form-label mb-1">
+                    To
+                    Date
+                </label>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                            </div>
+                        </div>
+                        <input class="form-control fc-datepicker"
+                               placeholder="MM/DD/YYYY" type="text">
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary" data-toggle="modal"
+                   data-target="#lrChalanListModal" data-original-title="Select LR List">
+                    <span>
+                        <i class="fa fa-list"></i>
+                    </span>
+                </a>
+                <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </a>
+            </div>
+            <div class="modal-body pd-20">
+                <div class="table-responsive">
+                    <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0"><input type="checkbox" /></th>
+                                <th class="border-bottom-0">LR#</th>
+                                <th class="border-bottom-0">LR Date</th>
+                                <th class="border-bottom-0">Pvt. Mark</th>
+                                <th class="border-bottom-0">Consignor</th>
+                                <th class="border-bottom-0">From City</th>
+                                <th class="border-bottom-0">To City</th>
+                                <th class="border-bottom-0">Net Amount</th>
+                                <th class="border-bottom-0">GST%</th>
+                                <th class="border-bottom-0">Vehicle No</th>
+                                <th class="border-bottom-0">Consignee</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- modal-body -->
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-primary">Add</a>
+                <a href="#" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+<!--LRChalanListModal end-->
+
+@section Scripts
+    {
+    <script>
+
+        $(function (e) {
+
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+           // bindDatatableList();
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+          //  fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+           // $("#BookAccountId").focus();
+            //$("#Active").prop('checked', true);
+        }
+
+        // function viewMode(id) {
+        //     getDetail(id, true);
+        // }
+
+        // function editMode(id) {
+        //     getDetail(id, false);
+        // }
+
+        // function refreshDatatableList() {
+        //     $('#tblMain').DataTable().ajax.reload();
+        // }
+
+        // function bindDatatableList() {
+        //     let columns = [];
+        //     let colDef = [];
+        //     colDef.push({
+        //         "render": function (data, type, row) {
+        //             return row.bookName;
+        //         },
+        //         "targets": colDef.length,
+        //     });
+        //     colDef.push({
+        //         "render": function (data, type, row) {
+        //             return row.bookType;
+        //         },
+        //         "targets": colDef.length,
+        //     });
+        //     colDef.push({
+        //         "render": function (data, type, row) {
+        //             return row.bookShortName;
+        //         },
+        //         "targets": colDef.length,
+        //     });
+        //     colDef.push({
+        //         "render": function (data, type, row) {
+        //             return row.billNoPrefix;
+        //         },
+        //         "targets": colDef.length,
+        //     });
+        //     colDef.push({
+        //         "render": function (data, type, row) {
+        //             return row.billNoPostFix;
+        //         },
+        //         "targets": colDef.length,
+        //     });
+        //     colDef.push({
+        //         "render": function (data, type, row) {
+        //             let btnAct = "<div class='btn-list'> ";
+        //             btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+        //             btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+        //             btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+        //             btnAct += "</div>";
+        //             return btnAct;
+        //         },
+        //         "targets": colDef.length,
+        //         "className": "text-center",
+        //         "orderable": false
+        //     });
+
+        //     columns.push({ "data": "bookName", "name": "bookName" });
+        //     columns.push({ "data": "bookType", "name": "bookType" });
+        //     columns.push({ "data": "bookShortName", "name": "bookShortName" });
+        //     columns.push({ "data": "billNoPrefix", "name": "billNoPrefix" });
+        //     columns.push({ "data": "billNoPostFix", "name": "billNoPostFix" });
+
+        //     var table = $('#tblMain').DataTable({
+        //         "bAutoWidth": false,
+        //         lengthChange: false,
+        //         ordering: true,
+        //         searching: true,
+        //         paging: true,
+        //         pageLength: 50,
+        //         order: [[0, 'asc']],
+        //         pagingType: 'full_numbers',
+        //         orderClasses: false,
+        //         //scrollCollapse: true,
+        //         //stateSave: false,
+        //         columnDefs: colDef,
+        //         columns: columns,
+        //         language: {
+        //             paginate: {
+        //                 next: '<i class="fa fa-angle-right"></i>', // or '→'
+        //                 previous: '<i class="fa fa-angle-left"></i>', // or '←'
+        //                 first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+        //                 last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+        //             }
+        //         },
+        //         buttons: ['copy', 'excel', 'colvis'],
+        //         processing: true,
+        //         serverSide: true,
+        //         ajax: {
+        //             url: '@(Url.Content("~/Customer/BookList"))',
+        //             type: 'GET',
+        //             data: function (d) {
+        //             }
+        //         },
+        //         "initComplete": function (settings, json) {
+        //             gridInitComplete(table);
+        //         },
+        //         "drawCallback": function (settings) {
+        //             gridDrawCallback(this);
+        //         }
+
+        //     });
+        // }
+
+        // function fromReset() {
+        //     $("#Id").val(0);
+        //     $("#BookAccountId").val(null).trigger('change');
+        //     $("#BookTypeId").val(null).trigger('change');
+        //     $("#BoxLabel1").val('');
+        //     $("#BoxLabel2").val('');
+        //     $("#BoxLabel3").val('');
+        //     $("#BoxLabel4").val('');
+        //     $("#BoxLabel5").val('');
+        //     $("#BoxLabel6").val('');
+        //     $("#BillNoPrefix").val('');
+        //     $("#BillNoPostFix").val('');
+        //     $("#LRRequired").prop('checked', false);
+        //     $("#BillTypeID").val(null).trigger('change');
+        //     $("#IsGeneralPurchase").prop('checked', false);
+        //     $("#IsItemDiscount").prop('checked', false);
+        //     $("#IsItemDiscountSp").prop('checked', false);
+        //     $("#IsCashPayAtBill").prop('checked', false);
+        //     $("#ItemDesc1").val('');
+        //     $("#ItemDesc2").val('');
+        //     $("#ItemDesc3").val('');
+        //     $("#ItemDesc4").val('');
+        //     $("#ItemDesc5").val('');
+        //     $("#ItemDesc6").val('');
+        //     $("#ShowSalesOrderBoxNumber").prop('checked', false);
+        //     $("#ShowPurcahseOrderBoxNumber").prop('checked', false);
+        //     $("#ShowQuotationBoxNumber").prop('checked', false);
+        //     $("#ShowPerformaInvoiceNumber").prop('checked', false);
+        //     $("#SalesBillFrom").val(null).trigger('change');
+        //     $("#IsCalcMultiply").prop('checked', false);
+        //     $("#BookShortName").val('');
+        //     $("#HeaderBox1").val('');
+        //     $("#HeaderBox2").val('');
+        //     $("#HeaderBox3").val('');
+        //     $("#HeaderBox4").val('');
+        //     $("#HeaderBox5").val('');
+        //     $("#IsTDSAccount").prop('checked', false);
+        //     $("#TDSAccountId").val(null).trigger('change');
+        //     $("#IsTCSAccount").prop('checked', false);
+        //     $("#TCSAccountId").val(null).trigger('change');
+        //     $("#SGSTAccountId").val(null).trigger('change');
+        //     $("#CGSTAccountId").val(null).trigger('change');
+        //     $("#IGSTAccountId").val(null).trigger('change');
+        //     $("#GSTStateCessAccountId").val(null).trigger('change');
+        //     $("#GSTCentralCessAccountId").val(null).trigger('change');
+        //     $("#RCMSGSTPayAccountId").val(null).trigger('change');
+        //     $("#RCMCGSTPayAccountId").val(null).trigger('change');
+        //     $("#RCMIGSTPayAccountId").val(null).trigger('change');
+        //     $("#RCMSGSTRecAccountId").val(null).trigger('change');
+        //     $("#RCMCGSTRecAccountId").val(null).trigger('change');
+        //     $("#RCMIGSTRecAccountId").val(null).trigger('change');
+        //     $("#RoundOffAccountId").val(null).trigger('change');
+        //     $("#CustomerBookBranchId").multipleSelect('setSelects', '');
+
+        //     $("#Active").prop('checked', true);
+
+        //     $("#activeTabName").text("Add");
+        //     $(".btn-delete").hide();
+        // }
+
+        // function saveItem() {
+        //     try {
+
+        //         if ($("#BookAccountId").val() == null || $("#BookAccountId").val() == "") {
+        //             showWarning("", "Please select book name");
+        //             $("#BookAccountId").focus();
+        //             return false;
+        //         }
+        //         if ($("#BookTypeId").val() == null || $("#BookTypeId").val() == "") {
+        //             showWarning("", "Please select type");
+        //             $("#BookTypeId").focus();
+        //             return false;
+        //         }
+        //         if ($("#SalesBillFrom").val() == null || $("#SalesBillFrom").val() == "") {
+        //             showWarning("", "Please select bill from");
+        //             $("#SalesBillFrom").focus();
+        //             return false;
+        //         }
+
+        //         if ($("#IsTDSAccount").is(':checked')) {
+        //             if ($("#TDSAccountId").val() == null || $("#TDSAccountId").val() == "") {
+        //                 showWarning("", "Please select TDS a/c");
+        //                 $("#TDSAccountId").focus();
+        //                 return false;
+        //             }
+        //         }
+
+        //         if ($("#IsTCSAccount").is(':checked')) {
+        //             if ($("#TCSAccountId").val() == null || $("#TCSAccountId").val() == "") {
+        //                 showWarning("", "Please select TCS a/c");
+        //                 $("#TCSAccountId").focus();
+        //                 return false;
+        //             }
+        //         }
+
+        //         if ($("#CustomerBookBranchId").val() == "") {
+        //             showWarning("", "Please select branch.");
+        //             $("#CustomerBookBranchId").focus();
+        //             return false;
+        //         }
+
+        //         var savedata = new Object();
+        //         savedata.Id = parseInt($("#Id").val());
+        //         savedata.BookAccountId = parseInt($("#BookAccountId").val());
+        //         savedata.BookTypeId = parseInt($("#BookTypeId").val());
+        //         savedata.BoxLabel1 = $("#BoxLabel1").val();
+        //         savedata.BoxLabel2 = $("#BoxLabel2").val();
+        //         savedata.BoxLabel3 = $("#BoxLabel3").val();
+        //         savedata.BoxLabel4 = $("#BoxLabel4").val();
+        //         savedata.BoxLabel5 = $("#BoxLabel5").val();
+        //         savedata.BoxLabel6 = $("#BoxLabel6").val();
+        //         savedata.BillNoPrefix = $("#BillNoPrefix").val();
+        //         savedata.BillNoPostFix = $("#BillNoPostFix").val();
+        //         savedata.LRRequired = $("#LRRequired").is(':checked');
+        //         savedata.BillTypeID = getIntValueNull("BillTypeID");
+        //         savedata.IsGeneralPurchase = $("#IsGeneralPurchase").is(':checked');
+        //         savedata.IsItemDiscount = $("#IsItemDiscount").is(':checked');
+        //         savedata.IsItemDiscountSp = $("#IsItemDiscountSp").is(':checked');
+        //         savedata.IsCashPayAtBill = $("#IsCashPayAtBill").is(':checked');
+        //         savedata.ItemDesc1 = $("#ItemDesc1").val();
+        //         savedata.ItemDesc2 = $("#ItemDesc2").val();
+        //         savedata.ItemDesc3 = $("#ItemDesc3").val();
+        //         savedata.ItemDesc4 = $("#ItemDesc4").val();
+        //         savedata.ItemDesc5 = $("#ItemDesc5").val();
+        //         savedata.ItemDesc6 = $("#ItemDesc6").val();
+        //         savedata.ShowSalesOrderBoxNumber = $("#ShowSalesOrderBoxNumber").is(':checked');
+        //         savedata.ShowPurcahseOrderBoxNumber = $("#ShowPurcahseOrderBoxNumber").is(':checked');
+        //         savedata.ShowQuotationBoxNumber = $("#ShowQuotationBoxNumber").is(':checked');
+        //         savedata.ShowPerformaInvoiceNumber = $("#ShowPerformaInvoiceNumber").is(':checked');
+        //         savedata.SalesBillFrom = $("#SalesBillFrom").val();
+        //         savedata.IsCalcMultiply = $("#IsCalcMultiply").is(':checked');
+        //         savedata.BookShortName = $("#BookShortName").val();
+        //         savedata.HeaderBox1 = $("#HeaderBox1").val();
+        //         savedata.HeaderBox2 = $("#HeaderBox2").val();
+        //         savedata.HeaderBox3 = $("#HeaderBox3").val();
+        //         savedata.HeaderBox4 = $("#HeaderBox4").val();
+        //         savedata.HeaderBox5 = $("#HeaderBox5").val();
+        //         savedata.IsTDSAccount = $("#IsTDSAccount").is(':checked');
+        //         savedata.TDSAccountId = getIntValueNull("TDSAccountId");
+        //         savedata.IsTCSAccount = $("#IsTCSAccount").is(':checked');
+        //         savedata.TCSAccountId = getIntValueNull("TCSAccountId");
+        //         savedata.SGSTAccountId = getIntValueNull("SGSTAccountId");
+        //         savedata.CGSTAccountId = getIntValueNull("CGSTAccountId");
+        //         savedata.IGSTAccountId = getIntValueNull("IGSTAccountId");
+        //         savedata.GSTStateCessAccountId = getIntValueNull("GSTStateCessAccountId");
+        //         savedata.GSTCentralCessAccountId = getIntValueNull("GSTCentralCessAccountId");
+        //         savedata.RCMSGSTPayAccountId = getIntValueNull("RcmSGSTPayAccountId");
+        //         savedata.RCMCGSTPayAccountId = getIntValueNull("RcmCGSTPayAccountId");
+        //         savedata.RCMIGSTPayAccountId = getIntValueNull("RcmIGSTPayAccountId");
+        //         savedata.RCMSGSTRecAccountId = getIntValueNull("RcmSGSTRecAccountId");
+        //         savedata.RCMCGSTRecAccountId = getIntValueNull("RcmCGSTRecAccountId");
+        //         savedata.RCMIGSTRecAccountId = getIntValueNull("RcmIGSTRecAccountId");
+        //         savedata.RoundOffAccountId = getIntValueNull("RoundOffAccountId");
+
+        //         savedata.CustomerBookBranchId = $("#CustomerBookBranchId").val().join(",");
+        //         savedata.Active = $('#Active').is(':checked');
+
+        //         blockUI('container');
+
+        //         $.ajax({
+        //             type: "POST",
+        //             url: "@(Url.Action("SaveBook", "Customer"))",
+        //             data: JSON.stringify(savedata),
+        //             contentType: "application/json; charset=utf-8",
+        //             dataType: "json",
+        //             success: function (data) {
+        //                 unblockUI('container');
+        //                 if (data.result == RESULT_SUCCESS) {
+        //                     fromReset();
+        //                     showWarning("", 'Book saved successfully.');
+        //                     $("#Id").val(0);
+        //                     refreshDatatableList();
+        //                     $('.btn-back').click();
+        //                 } else {
+        //                     showError("", data.data);
+        //                 }
+        //             },
+        //             error: function (error) {
+        //                 unblockUI('container');
+        //                 showError("", error.statusText);
+        //             }
+        //         });
+
+        //     }
+        //     catch (e) {
+        //         unblockUI('container');
+        //         showError("", e.message);
+        //     }
+
+        // }
+
+        // function deleteItem(id) {
+        //     if (id == 0) {
+        //         id = $('#Id').val();
+        //     }
+        //     try {
+        //         blockUI('container');
+        //         var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteBook"))" + "/" + id, "",
+        //             function (result) {
+        //                 unblockUI('container');
+        //                 var str = "";
+        //                 try {
+        //                     if (result.result == RESULT_SUCCESS) {
+        //                         refreshDatatableList();
+        //                         fromReset();
+        //                         $('.btn-back').click();
+        //                     } else {
+        //                         showError('Error', result.data); //warning,  success, error, info
+        //                     }
+        //                 } catch (e) {
+        //                     showError('Error', e); //warning,  success, error, info
+        //                 }
+        //             },
+        //             function (error) {
+        //                 unblockUI('container');
+        //             });
+        //     }
+        //     catch (err) {
+        //         unblockUI('container');
+        //     }
+        // }
+
+        // function getDetail(id, isViewMode) {
+        //     try {
+        //         blockUI('container');
+        //         var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetBook"))" + "/" + id, "",
+        //             function (result) {
+        //                 unblockUI('container');
+        //                 try {
+        //                     if (result.result == RESULT_SUCCESS) {
+        //                         addClick();
+        //                         if (isViewMode) {
+        //                             setScreenMode(true);
+        //                             $("#activeTabName").text("VIEW ID# " + result.data.id);
+        //                         } else {
+        //                             setScreenMode(false);
+        //                             $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+        //                         }
+
+        //                         $("#Id").val(result.data.id);
+        //                         $("#BookAccountId").val(result.data.bookAccountId).trigger('change');
+        //                         $("#BookTypeId").val(result.data.bookTypeId).trigger('change');
+        //                         $("#BoxLabel1").val(result.data.boxLabel1);
+        //                         $("#BoxLabel2").val(result.data.boxLabel2);
+        //                         $("#BoxLabel3").val(result.data.boxLabel3);
+        //                         $("#BoxLabel4").val(result.data.boxLabel4);
+        //                         $("#BoxLabel5").val(result.data.boxLabel5);
+        //                         $("#BoxLabel6").val(result.data.boxLabel6);
+        //                         $("#BillNoPrefix").val(result.data.billNoPrefix);
+        //                         $("#BillNoPostFix").val(result.data.billNoPostFix);
+        //                         $("#LRRequired").prop('checked', result.data.lrRequired);
+        //                         $("#BillTypeID").val(result.data.billTypeID).trigger('change');
+        //                         $("#IsGeneralPurchase").prop('checked', result.data.isGeneralPurchase);
+        //                         $("#IsItemDiscount").prop('checked', result.data.isItemDiscount);
+        //                         $("#IsItemDiscountSp").prop('checked', result.data.isItemDiscountSp);
+        //                         $("#IsCashPayAtBill").prop('checked', result.data.isCashPayAtBill);
+        //                         $("#ItemDesc1").val(result.data.itemDesc1);
+        //                         $("#ItemDesc2").val(result.data.itemDesc2);
+        //                         $("#ItemDesc3").val(result.data.itemDesc3);
+        //                         $("#ItemDesc4").val(result.data.itemDesc4);
+        //                         $("#ItemDesc5").val(result.data.itemDesc5);
+        //                         $("#ItemDesc6").val(result.data.itemDesc6);
+        //                         $("#ShowSalesOrderBoxNumber").prop('checked', result.data.showSalesOrderBoxNumber);
+        //                         $("#ShowPurcahseOrderBoxNumber").prop('checked', result.data.showPurcahseOrderBoxNumber);
+        //                         $("#ShowQuotationBoxNumber").prop('checked', result.data.showQuotationBoxNumber);
+        //                         $("#ShowPerformaInvoiceNumber").prop('checked', result.data.showPerformaInvoiceNumber);
+        //                         $("#SalesBillFrom").val(result.data.salesBillFrom).trigger('change');
+        //                         $("#IsCalcMultiply").prop('checked', result.data.isCalcMultiply);
+        //                         $("#BookShortName").val(result.data.bookShortName);
+        //                         $("#HeaderBox1").val(result.data.headerBox1);
+        //                         $("#HeaderBox2").val(result.data.headerBox2);
+        //                         $("#HeaderBox3").val(result.data.headerBox3);
+        //                         $("#HeaderBox4").val(result.data.headerBox4);
+        //                         $("#HeaderBox5").val(result.data.headerBox5);
+        //                         $("#IsTDSAccount").prop('checked', result.data.isTDSAccount);
+        //                         $("#TDSAccountId").val(result.data.tdsAccountId).trigger('change');
+        //                         $("#IsTCSAccount").prop('checked', result.data.isTCSAccount);
+        //                         $("#TCSAccountId").val(result.data.tcsAccountId).trigger('change');
+        //                         $("#SGSTAccountId").val(result.data.sgstAccountId).trigger('change');
+        //                         $("#CGSTAccountId").val(result.data.cgstAccountId).trigger('change');
+        //                         $("#IGSTAccountId").val(result.data.igstAccountId).trigger('change');
+        //                         $("#GSTStateCessAccountId").val(result.data.gstStateCessAccountId).trigger('change');
+        //                         $("#GSTCentralCessAccountId").val(result.data.gstCentralCessAccountId).trigger('change');
+        //                         $("#RCMSGSTPayAccountId").val(result.data.rcmsgstPayAccountId).trigger('change');
+        //                         $("#RCMCGSTPayAccountId").val(result.data.rcmcgstPayAccountId).trigger('change');
+        //                         $("#RCMIGSTPayAccountId").val(result.data.rcmigstPayAccountId).trigger('change');
+        //                         $("#RCMSGSTRecAccountId").val(result.data.rcmsgstRecAccountId).trigger('change');
+        //                         $("#RCMCGSTRecAccountId").val(result.data.rcmcgstRecAccountId).trigger('change');
+        //                         $("#RCMIGSTRecAccountId").val(result.data.rcmigstRecAccountId).trigger('change');
+        //                         $("#RoundOffAccountId").val(result.data.roundOffAccountId).trigger('change');
+        //                         $("#CustomerBookBranchId").multipleSelect('setSelects', result.data.customerBookBranchId.split(','));
+        //                         $('#Active').prop('checked', result.data.active);
+
+        //                     } else {
+        //                         showError('Error', result.data); //warning,  success, error, info
+        //                     }
+        //                 } catch (e) {
+        //                     unblockUI('container');
+        //                     showError('Error', e); //warning,  success, error, info
+        //                 }
+        //             },
+        //             function (error) {
+
+        //             });
+        //     }
+        //     catch (err) {
+        //     }
+        // }
+
+        var contentRowId = 0;
+        function addRow() {
+            contentRowId++;
+            var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + contentRowId + '">' +
+                '<div class="col-md-1">' +
+                '<div class="row mb-0">' +
+                '<div class="col-md-6">' +
+                '<div class="form-group text-center mb-1">' +
+                '<label for="exampleInputname">123</label>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-6">' +
+                '<div class="form-group text-center mb-1">' +
+                '<label for="exampleInputname">123</label>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-1">' +
+                '<div class="row mb-0">' +
+                '<div class="col-md-6">' +
+                '<div class="form-group text-center mb-1">' +
+                '<label for="exampleInputname">11-12-2023</label>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-6">' +
+                '<div class="form-group text-center mb-1">' +
+                '<label for="exampleInputname">parcel</label>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-1">' +
+                '<div class="row mb-0">' +
+                '<div class="col-md-6">' +
+                '<div class="form-group text-center mb-1">' +
+                '<label for="exampleInputname">112.00</label>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-6">' +
+                '<div class="form-group text-center mb-1">' +
+                '<label for="exampleInputname">10.00</label>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-1">' +
+                '<div class="form-group text-center mb-1">' +
+                '<label for="exampleInputname">10.52</label>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-1">' +
+                '<div class="form-group text-center mb-1">' +
+                '<label for="exampleInputname">10.222</label>' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-1">' +
+                '<div class="form-group text-center mb-1">' +
+                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-1">' +
+                '<div class="form-group text-center mb-1">' +
+                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-1">' +
+                '<div class="form-group text-center mb-1">' +
+                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-1">' +
+                '<div class="form-group text-center mb-1">' +
+                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-1">' +
+                '<div class="form-group text-center mb-1">' +
+                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-1">' +
+                '<div class="form-group text-center mb-1">' +
+                ' <input type="text" class="form-control" id="exampleInputname" placeholder="">' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-md-1">' +
+                '<div class="form-group text-center mb-1">' +
+                '<a href="javascript:deleteRow(' + contentRowId + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
+            $('.content-rows-add-btn').remove();
+            $('#contentRow').append(htmlContent);
+            $('.select2-show-search-contentrows').select2({
+                minimumResultsForSearch: ''
+            });
+
+            var counter = 0;
+            $('.content-row-srno').each(function () {
+                $(this).val(++counter);
+            });
+
+        }
+        function deleteRow(rowId) {
+            //$('#contentRow').remove($('#row-' + rowId));
+            $('#row-' + rowId).remove();
+            if ($('.content-rows').length == 0 || $('.content-rows-add-btn').length == 0) {
+                addRow();
+            }
+        }
+    </script>
+}

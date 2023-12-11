@@ -1,11 +1,8 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.Repository;
-using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL.Tables;
 using Adroit.Accounting.Utility;
-using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 
@@ -44,7 +41,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.ProductDesignNumberList = _productDesignNumberRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductColorList = _productColorRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductSizeList = _productSizeRepository.SelectList(_configurationData.DefaultConnection);
-            model.ProductFabricList = _productFabricRepository.SelectList(_configurationData.DefaultConnection); 
+            model.ProductFabricList = _productFabricRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductStockTypeList = _stockTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.ProductCategoryList = _productCategoryRepository.SelectList(_configurationData.DefaultConnection);
             model.GSTUQCList = _gstUQCRepository.SelectList(_configurationData.DefaultConnection);

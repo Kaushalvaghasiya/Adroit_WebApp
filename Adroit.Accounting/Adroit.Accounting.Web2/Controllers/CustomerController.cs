@@ -1,7 +1,5 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
-using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
@@ -81,6 +79,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRBranchCityMapping _transportLRBranchCityMappingRepository;
         private readonly ILRBooking _lrBookingRepository;
         private readonly ITransportLRDelivery _transportLRDeliveryRepository;
+        private readonly ICustomerInvoice _customerInvoice;
         private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
 
         public CustomerController(
@@ -151,7 +150,8 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
             ILRBooking lrBookingRepository,
             ITransportLRDeliveryType transportLRDeliveryTypeRepository,
-            ITransportLRDelivery transportLRDeliveryRepository)
+            ITransportLRDelivery transportLRDeliveryRepository,
+            ICustomerInvoice customerInvoice)
         {
             _vehicleRepo = vehicleRepo;
             _vehicleModelRepository = vehicleModelRepository;
@@ -221,6 +221,7 @@ namespace Adroit.Accounting.Web.Controllers
             _lrBookingRepository = lrBookingRepository;
             _transportLRDeliveryTypeRepository = transportLRDeliveryTypeRepository;
             _transportLRDeliveryRepository = transportLRDeliveryRepository;
+            _customerInvoice = customerInvoice;
         }
 
         public JsonResult GetAccountGroups()
