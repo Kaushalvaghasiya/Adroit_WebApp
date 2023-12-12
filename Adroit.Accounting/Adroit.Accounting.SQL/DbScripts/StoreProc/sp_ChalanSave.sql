@@ -69,6 +69,14 @@ BEGIN
 
 		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
+		DECLARE @message VARCHAR(4000);
+
+		IF @YearId IS NULL
+		BEGIN
+			SET @message = 'Year Not Found!';
+			RAISERROR ('%s', 16, 1, @message);
+		END
+
 		DECLARE @BookBranchMappingId INT = (
 			SELECT PurcahseBookBranchMappingId
 			FROM CustomerFirmBranchTransportSetting
@@ -93,16 +101,7 @@ BEGIN
 		BEGIN
 			SELECT @BillNumberFirm = ISNULL(MAX(BillNumberFirm),0) + 1
 			FROM [Z-PurchaseBillMaster-Z]
-			INNER JOIN CustomerFirmBranch on CustomerFirmBranch.Id = [Z-PurchaseBillMaster-Z].BranchId
-			WHERE CustomerFirmBranch.FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
-		END
-
-		DECLARE @message VARCHAR(4000);
-
-		IF ISNULL(@YearId, -1) = -1
-		BEGIN
-			SET @message = 'Year Not Found!';
-			RAISERROR ('%s', 16, 1, @message);
+			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		END
 
 		DECLARE @IdCheck INT
