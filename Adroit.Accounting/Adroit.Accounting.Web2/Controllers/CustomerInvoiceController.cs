@@ -12,7 +12,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Invoice()
         {
             var model = new SalesBillMasterViewModel();
-            //var LRBooking = _chalanRepository.Get(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
+            //var LRBooking = _lrBookingRepository.Get(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
             //if (LRBooking == null)
             //{
             //    return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Transaction > Booking > LR" });
@@ -22,11 +22,9 @@ namespace Adroit.Accounting.Web.Controllers
             //    model.LRBooking = LRBooking;
             //}
 
-            //model.EwayBillList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillMasterTable._TableName, PurchaseBillMasterTable.EwayBillNumber);
-            //model.CityList = _transportLRBranchCityMappingRepository.SelectList(_configurationData.DefaultConnection, CurrentBranchId);
+            model.LRNumberList = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentBranchId, 1);
             model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
             model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
-            //model.BrokerList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId, _configurationData.DefaultConnection, CurrentUserId);
 
             return View(model);
         }
@@ -56,29 +54,26 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [HttpPost]
-        public JsonResult SaveInvoice([FromBody] ProductViewModel model)
-        {
-            ApiResult result = new ApiResult();
-            //try
-            //{
-            //    //model.loginId = LoginHandler.GetUserId(User);
-            //    //model.softwareId = _softwareRepository.GetSoftwareIdByLoginId(model.loginId, _configurationData.DefaultConnection);
-
-            //    int id = _productRepository.Save(model, _configurationData.DefaultConnection, CurrentFirmId);
-            //    if (id > 0)
-            //    {
-            //        result.data = true;
-            //        result.result = Constant.API_RESULT_SUCCESS;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    result.data = ErrorHandler.GetError(ex);
-            //    result.result = Constant.API_RESULT_ERROR;
-            //}
-            return Json(result);
-        }
+        //[HttpPost]
+        //public JsonResult SaveInvoice([FromBody] SalesBillMasterViewModel model)
+        //{
+        //    ApiResult result = new ApiResult();
+        //    try
+        //    {
+        //        int id = _customerInvoice.Save(model, _configurationData.DefaultConnection, CurrentFirmId, CurrentBranchId, CurrentUserId);
+        //        if (id > 0)
+        //        {
+        //            result.data = true;
+        //            result.result = Constant.API_RESULT_SUCCESS;
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.data = ErrorHandler.GetError(ex);
+        //        result.result = Constant.API_RESULT_ERROR;
+        //    }
+        //    return Json(result);
+        //}
 
         [HttpGet]
         public JsonResult DeleteInvoice(int id)
@@ -97,23 +92,22 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [HttpGet]
-        public JsonResult GetInvoice(int id)
-        {
-            ApiResult result = new ApiResult();
-            //try
-            //{
-            //    int loginId = LoginHandler.GetUserId(User);
-            //    result.data = CustomerInvoiceGridViewModel.Get(id, _configurationData.DefaultConnection, loginId, CurrentFirmId);
-            //    result.result = Constant.API_RESULT_SUCCESS;
-            //}
-            //catch (Exception ex)
-            //{
-            //    result.data = ErrorHandler.GetError(ex);
-            //    result.result = Constant.API_RESULT_ERROR;
-            //}
-            return Json(result);
-        }
+        //[HttpGet]
+        //public JsonResult GetInvoice(int id)
+        //{
+        //    ApiResult result = new ApiResult();
+        //    try
+        //    {
+        //        result.data = _customerInvoice.Get(id, _configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
+        //        result.result = Constant.API_RESULT_SUCCESS;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.data = ErrorHandler.GetError(ex);
+        //        result.result = Constant.API_RESULT_ERROR;
+        //    }
+        //    return Json(result);
+        //}
 
         [Route("~/Customer/GetLRBookingListByDate/{fromDate}/{toDate}")]
         public JsonResult GetLRBookingListByDate(string fromDate, string toDate, int draw = 0, int start = 0, int length = 10)
@@ -139,6 +133,40 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
+
+        [Route("~/Customer/GetLRNumberListByLRPayTypeId/{lrPayTypeId}")]
+        public JsonResult GetLRNumberListByLRPayTypeId(int lrPayTypeId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentBranchId, lrPayTypeId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        //[Route("~/Customer/GetListByLRNumberId/{LRNumberId}")]
+        //public JsonResult GetListByLRNumberId(int LRNumberId)
+        //{
+        //    ApiResult result = new ApiResult();
+        //    try
+        //    {
+        //        result.data = _lrBookingRepository.GetListByLRNumberId(_configurationData.DefaultConnection, LRNumberId, CurrentUserId, CurrentBranchId, CurrentFirmId);
+        //        result.result = Constant.API_RESULT_SUCCESS;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        result.data = ErrorHandler.GetError(ex);
+        //        result.result = Constant.API_RESULT_ERROR;
+        //    }
+        //    return Json(result);
+        //}
 
     }
 }

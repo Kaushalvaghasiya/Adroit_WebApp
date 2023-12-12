@@ -170,19 +170,32 @@
                                         LR Number
                                     </label>
                                     <div class="col-md-2">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Enter LR Number..." id="LRNumber">
+                                        <div class="input-group" style="flex-wrap:nowrap;">
+                                            <select class="form-control select2-show-search" id="LRNumber">
+                                                <option></option>
+                                                @{
+                                                    if (Model.LRNumberList != null)
+                                                    {
+                                                        foreach (var o in Model.LRNumberList)
+                                                        {
+                                                            <option value="@o.Text">@o.Text</option>
+                                                        }
+                                                    }
+                                                }
+                                            </select>
                                             <span class="input-group-append">
                                                 <button class="btn btn-primary" type="button" id="SearchLRNumber">Go!</button>
                                             </span>
                                         </div>
                                     </div>
-                                    <label for="PayType" class="col-md-1 form-label">
+                                    <label for="PayTypeId" class="col-md-1 form-label">
                                         Pay Type
                                     </label>
                                     <div class="col-md-2">
-                                        <select class="form-control select2-show-search" id="PayType">
-                                           <option></option>
+                                        <select class="form-control select2-show-search" id="PayTypeId">
+                                            <option value="1" selected>All</option>
+                                            <option value="2">Paid</option>
+                                            <option value="3">TBB</option>
                                         </select>
                                     </div>
                                 </div>
@@ -247,10 +260,10 @@
                                                     <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="ChalanDateTo">
                                                 </div>
                                             </div>
-                                            <div class="offset-1 col-md-2" style="display:flex;">
+                                            <div class="col-md-2" style="display:flex;">
                                                 <a href="#" class="btn btn-primary" data-toggle="modal" id="LRNumberList" data-original-title="Select LR List">
                                                     <span>
-                                                        <i class="fa fa-list"></i> &nbsp; Select LR List
+                                                        <i class="fa fa-list"></i>
                                                     </span>
                                                 </a>
                                             </div>
@@ -324,9 +337,9 @@
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group text-center mb-1">
-                                                                <label for="TaxableAmount" class="font-weight-bold text-white">Textable Amt</label>
+                                                                <label for="TaxableAmount" class="font-weight-bold text-white">Taxable Amt</label>
                                                             </div>
-                                                        </div> 
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
@@ -342,7 +355,6 @@
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            @* @Model.LRBooking.Charges1  *@
                                                             [Charge 1]
                                                         </label>
                                                     </div>
@@ -351,7 +363,6 @@
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
                                                             [Charge 2]
-                                                            @* @Model.LRBooking.Charges2  *@
                                                         </label>
                                                     </div>
                                                 </div>
@@ -359,7 +370,6 @@
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
                                                             [Charge 3]
-                                                            @* @Model.LRBooking.Charges3  *@
                                                         </label>
                                                     </div>
                                                 </div>
@@ -367,7 +377,6 @@
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
                                                             [Charge 4]
-                                                            @* @Model.LRBooking.Charges4  *@
                                                         </label>
                                                     </div>
                                                 </div>
@@ -375,7 +384,6 @@
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
                                                             [Charge 5]
-                                                            @* @Model.LRBooking.Charges5  *@
                                                         </label>
                                                     </div>
                                                 </div>
@@ -383,7 +391,6 @@
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
                                                             [Charge 6]
-                                                            @* @Model.LRBooking.Charges6  *@
                                                         </label>
                                                     </div>
                                                 </div>
@@ -502,16 +509,16 @@
     </div>
     <!-- row end -->
     <input type="hidden" id="Id" value="0" />
-   
+
 </div>
 <!--LRChalanListModal start-->
 <div id="lrChalanListModal" class="modal fade" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
         <div class="modal-content ">
-            <div class="modal-header pd-x-20">
+            <div class="modal-header" style="justify-content: left !important;">
                 <h5 class="modal-title col-md-1" style="align-self:center;">LR List</h5>
-                <label for="LRFromDate" class="col-md-auto form-label mb-1">
+                <label for="LRFromDate" class="col-md-auto form-label mb-1 pt-2">
                     From Date
                 </label>
                 <div class="col-md-2">
@@ -524,7 +531,7 @@
                         <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="LRFromDate">
                     </div>
                 </div>
-                <label for="LRToDate" class="col-md-auto form-label mb-1">
+                <label for="LRToDate" class="col-md-auto form-label mb-1 pt-2">
                     To Date
                 </label>
                 <div class="col-md-2">
@@ -543,7 +550,7 @@
             </div>
             <div class="modal-body pd-20">
                 <div class="table-responsive">
-                    <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
+                    <table id="LRtblMain" class="table table-bordered key-buttons text-nowrap">
                         <thead>
                             <tr>
                                 <th class="border-bottom-0"><input type="checkbox" /></th>
@@ -565,17 +572,21 @@
                 </div>
             </div><!-- modal-body -->
             <div class="modal-footer">
-                <a href="#" type="button" class="btn btn-primary">Add</a>
+                <a href="#" type="button" class="btn btn-primary" id="AddData">Add</a>
                 <a href="#" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
             </div>
         </div>
     </div><!-- modal-dialog -->
 </div><!-- modal -->
 <!--LRChalanListModal end-->
-
 @section Scripts
     {
     <script>
+
+        var selectedLRDetails = [];
+        var addedIds = [];
+        var htmlContentArray = [];
+        var contentRowId = 0;
 
         $(function (e) {
 
@@ -586,13 +597,13 @@
 
             $("#ChalanDateFrom").on('change', function (e) {
                 if ($(this).val() != '' || $(this).val() != null) {
-                    $("#LRDateFrom").val($(this).val()).trigger('change');
+                    $("#LRFromDate").val($(this).val());
                 }
             });
 
             $("#ChalanDateTo").on('change', function (e) {
                 if ($(this).val() != '' || $(this).val() != null) {
-                    $("#LRDateTo").val($(this).val()).trigger('change');
+                    $("#LRToDate").val($(this).val());
                 }
             });
 
@@ -619,6 +630,19 @@
                 bindLRList();
             });
 
+            $("#AddData").on('click', function (e) {
+                $("#lrChalanListModal").modal("hide");
+                addRow();
+            });
+
+            $("#PayTypeId").on('change', function (e) {
+                GetLRNumberListByLRPayTypeId($(this).val());
+            });
+
+            $("#SearchLRNumber").on('click', function (e) {
+                getLRDetailListByLRNumber($('#LRNumber').val());
+            });
+
         });
 
         function addClick() {
@@ -628,6 +652,8 @@
             setScreenMode(false);
             $(".btn-delete").hide();
             $("#SerialNumberOfBranch").focus();
+            $("#SerialNumberOfBranch").val(0);
+            $("#BillNumber").val(0);
         }
 
         function viewMode(id) {
@@ -1059,6 +1085,100 @@
             }
         }
 
+        function GetLRNumberListByLRPayTypeId(LRPayTypeId) {
+
+            if ($("#PayTypeId").val() == '' || $("#PayTypeId").val() == null) return;
+
+            try {
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetLRNumberListByLRPayTypeId"))" + "/" + LRPayTypeId, "",
+                    function (result) {
+                        try {
+                            var str = "";
+                            $("#LRNumberId").html('');
+                            if (result.result == RESULT_SUCCESS) {
+                                if (result.data.length > 0) {
+                                    for (var i = 0; i < result.data.length; i++) {
+                                        str += ("<option value='" + data.data[i].text + "'>" + data.data[i].text + "</option>");
+                                    }
+                                }
+                                $("#LRNumberId").html(str);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getLRDetailListByLRNumber(LRNumberId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByLRNumberId"))" + "/" + LRNumberId, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                result.data.forEach(function (LRBookingDetail) {
+                                    var isDuplicate = selectedLRDetails.some(item => item.id === LRBookingDetail.id);
+
+                                    if (!isDuplicate) {
+                                        selectedLRDetails.push({
+                                            id: LRBookingDetail.id,
+                                            lrNumber: LRBookingDetail.lrNumber,
+                                            lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                            privateMarka: LRBookingDetail.privateMarka,
+                                            packing: LRBookingDetail.packing,
+                                            chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
+                                            toCity: LRBookingDetail.cityTo,
+                                            fromCity: LRBookingDetail.cityFrom,
+                                            invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
+                                            description: LRBookingDetail.description,
+                                            consignor: LRBookingDetail.consignor,
+                                            consignee: LRBookingDetail.consignee,
+                                            billParty: LRBookingDetail.billParty,
+                                            ewayBillNo: LRBookingDetail.ewayBillNo,
+                                            parcel: LRBookingDetail.parcel,
+                                            freight: parseFloat(LRBookingDetail.freight || 0).toFixed(2),
+                                            charges1: parseFloat(LRBookingDetail.charges1 || 0).toFixed(2),
+                                            charges2: parseFloat(LRBookingDetail.charges2 || 0).toFixed(2),
+                                            charges3: parseFloat(LRBookingDetail.charges3 || 0).toFixed(2),
+                                            charges4: parseFloat(LRBookingDetail.charges4 || 0).toFixed(2),
+                                            charges5: parseFloat(LRBookingDetail.charges5 || 0).toFixed(2),
+                                            charges6: parseFloat(LRBookingDetail.charges6 || 0).toFixed(2),
+                                            rate: parseFloat(LRBookingDetail.rate || 0).toFixed(2),
+                                            billAccountBranchMappingId: LRBookingDetail.billAccountBranchMappingId,
+                                            creditDays: LRBookingDetail.creditDays,
+                                        });
+
+                                    }
+                                });
+
+                                addRow();
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
         function bindLRList() {
 
             if ($("#ChalanDateFrom").val() == '' || $("#ChalanDateTo").val() == '') return;
@@ -1078,19 +1198,13 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.id;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
                     return row.lrNumber;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.lrDate;
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
             });
@@ -1102,25 +1216,19 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.packing;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return parseFloat(row.chargeWeight || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.cityTo;
+                    return row.consignor;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.cityFrom;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
                 },
                 "targets": colDef.length,
             });
@@ -1138,7 +1246,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.consignor;
+                    return row.vehilcleNo;
                 },
                 "targets": colDef.length,
             });
@@ -1148,25 +1256,16 @@
                 },
                 "targets": colDef.length,
             });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.billParty;
-                },
-                "targets": colDef.length,
-            });
-            columns.push({ "data": "id", "name": "id" });
             columns.push({ "data": "lrNumber", "name": "lrNumber" });
             columns.push({ "data": "lrDate", "name": "lrDate" });
             columns.push({ "data": "privateMarka", "name": "privateMarka" });
-            columns.push({ "data": "packing", "name": "packing" });
-            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
-            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "consignor", "name": "consignor" });
             columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
             columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
             columns.push({ "data": "description", "name": "description" });
-            columns.push({ "data": "consignor", "name": "consignor" });
+            columns.push({ "data": "vehilcleNo", "name": "vehilcleNo" });
             columns.push({ "data": "consignee", "name": "consignee" });
-            columns.push({ "data": "billParty", "name": "billParty" });
 
             var table = $('#LRtblMain').DataTable({
                 "bAutoWidth": false,
@@ -1190,7 +1289,7 @@
                     'style': 'multi'
                 },
                 ajax: {
-                    url: '@(Url.Content("~/Customer/GetLRBookingListByDate"))' + "/" + $('#ChalanDateFrom').val() + "/" + $('#ChalanDateTo').val(),
+                    url: '@(Url.Content("~/Customer/GetLRBookingListByDate"))' + "/" + $('#LRFromDate').val().split('/').reverse().join('-') + "/" + $('#LRToDate').val().split('/').reverse().join('-'),
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -1219,7 +1318,16 @@
                                     description: row.description,
                                     consignor: row.consignor,
                                     consignee: row.consignee,
-                                    billParty: row.billParty
+                                    billParty: row.billParty,
+                                    parcel: row.parcel,
+                                    freight: parseFloat(row.freight || 0).toFixed(2),
+                                    charges1: parseFloat(row.charges1 || 0).toFixed(2),
+                                    charges2: parseFloat(row.charges2 || 0).toFixed(2),
+                                    charges3: parseFloat(row.charges3 || 0).toFixed(2),
+                                    charges4: parseFloat(row.charges4 || 0).toFixed(2),
+                                    charges5: parseFloat(row.charges5 || 0).toFixed(2),
+                                    charges6: parseFloat(row.charges6 || 0).toFixed(2),
+                                    rate: parseFloat(row.rate || 0).toFixed(2),
                                 });
                             }
                         });
@@ -1257,14 +1365,23 @@
                         lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
                         privateMarka: row.privateMarka,
                         packing: row.packing,
-                        chargeWeight: row.chargeWeight,
-                        toCity: row.toCity,
-                        fromCity: row.fromCity,
-                        invoiceValue: row.invoiceValue,
+                        chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
+                        toCity: row.cityTo,
+                        fromCity: row.cityFrom,
+                        invoiceValue: parseFloat(row.invoiceValue || 0).toFixed(2),
                         description: row.description,
                         consignor: row.consignor,
                         consignee: row.consignee,
-                        billParty: row.billParty
+                        billParty: row.billParty,
+                        parcel: row.parcel,
+                        freight: parseFloat(row.freight || 0).toFixed(2),
+                        charges1: parseFloat(row.charges1 || 0).toFixed(2),
+                        charges2: parseFloat(row.charges2 || 0).toFixed(2),
+                        charges3: parseFloat(row.charges3 || 0).toFixed(2),
+                        charges4: parseFloat(row.charges4 || 0).toFixed(2),
+                        charges5: parseFloat(row.charges5 || 0).toFixed(2),
+                        charges6: parseFloat(row.charges6 || 0).toFixed(2),
+                        rate: parseFloat(row.rate || 0).toFixed(2),
                     }));
                 } else {
                     selectedIds = [];
@@ -1293,14 +1410,23 @@
                                     lrDate: moment(row.data().lrDate.split('T')[0]).format('DD/MM/YYYY'),
                                     privateMarka: row.data().privateMarka,
                                     packing: row.data().packing,
-                                    chargeWeight: row.data().chargeWeight,
-                                    toCity: row.data().toCity,
-                                    fromCity: row.data().fromCity,
-                                    invoiceValue: row.data().invoiceValue,
+                                    chargeWeight: parseFloat(row.data().chargeWeight || 0).toFixed(3),
+                                    toCity: row.cityTo,
+                                    fromCity: row.cityFrom,
+                                    invoiceValue: parseFloat(row.data().invoiceValue || 0).toFixed(2),
                                     description: row.data().description,
                                     consignor: row.data().consignor,
                                     consignee: row.data().consignee,
-                                    billParty: row.data().billParty
+                                    billParty: row.data().billParty,
+                                    parcel: row.parcel,
+                                    freight: parseFloat(row.data().freight || 0).toFixed(2),
+                                    charges1: parseFloat(row.data().charges1 || 0).toFixed(2),
+                                    charges2: parseFloat(row.data().charges2 || 0).toFixed(2),
+                                    charges3: parseFloat(row.data().charges3 || 0).toFixed(2),
+                                    charges4: parseFloat(row.data().charges4 || 0).toFixed(2),
+                                    charges5: parseFloat(row.data().charges5 || 0).toFixed(2),
+                                    charges6: parseFloat(row.data().charges6 || 0).toFixed(2),
+                                    rate: parseFloat(row.data().rate || 0).toFixed(2),
                                 });
                             }
                         }
@@ -1318,117 +1444,120 @@
         }
 
         function addRow() {
-
-            var htmlContentArray = [];
+            contentRowId++;
             $('#contentRow').html('');
             for (var i = 0; i < selectedLRDetails.length; i++) {
 
-                var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + i + '">' +
-                    '<div class="col-md-1">' +
-                    '<div class="row mb-0">' +
-                    '<div class="col-md-6">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="id">' + selectedLRDetails[i].id + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-6">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="lrNumber">' + selectedLRDetails[i].lrNumber + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="row mb-0">' +
-                    '<div class="col-md-6">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="lrDate">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-6">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="privateMarka">' + (selectedLRDetails[i].privateMarka || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="packing">' + (selectedLRDetails[i].packing || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="chargeWeight">' + (selectedLRDetails[i].chargeWeight || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="row mb-0">' +
-                    '<div class="col-md-6">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="toCity">' + (selectedLRDetails[i].toCity || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-6">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="fromCity">' + (selectedLRDetails[i].fromCity || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="invoiceValue">' + (selectedLRDetails[i].invoiceValue || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="description">' + (selectedLRDetails[i].description || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="consignor">' + (selectedLRDetails[i].consignor || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="consignee">' + (selectedLRDetails[i].consignee || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="billParty">' + (selectedLRDetails[i].billParty || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<label for="ewayBillNo">' + (selectedLRDetails[i].ewayBillNo || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<a href="javascript:deleteRow(' + i + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>';
+                var lrNumber = selectedLRDetails[i].id;
 
-                htmlContentArray.push(htmlContent);
+                if (addedIds.indexOf(lrNumber) === -1) {
 
-                addedIds.push(selectedLRDetails[i].id);
+                    var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + i + '">' +
+                        '<div class="col-md-1">' +
+                        '<div class="row mb-0">' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="LRId">' + selectedLRDetails[i].id + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="LRNumber">' + selectedLRDetails[i].lrNumber + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="row mb-0">' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="LRDate">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="Packing">' + (selectedLRDetails[i].parcel || '') + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="row mb-0">' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="ChargeWeight">' + (selectedLRDetails[i].chargeWeight || 0) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="TaxableAmount">' + (selectedLRDetails[i].invoiceValue || 0) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="GSTRate">' + (selectedLRDetails[i].rate || 0) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="Freight">' + (selectedLRDetails[i].freight || 0) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control" id="Charges1' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges1 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control" id="Charges2' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges2 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control" id="Charges3' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges3 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control" id="Charges4' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges4 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control" id="Charges5' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges5 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control" id="Charges6' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges6 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<a href="javascript:deleteRow(' + contentRowId + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+
+                    htmlContentArray.push(htmlContent);
+
+                    addedIds.push(selectedLRDetails[i].id);
+                }
             }
 
+            $('#Charges1' + contentRowId + ', #Charges2' + contentRowId + ', #Charges3' + contentRowId +
+                ', #Charges4' + contentRowId + ', #Charges5' + contentRowId + ', #Charges6' + contentRowId).on('keyup', function () {
+                    calculateAmount(contentRowId);
+                    calculateTotalTaxableAmount();
+                });
+
             $('.content-rows-add-btn').remove();
-            $('#contentRow').append(htmlContentArray.join(''));
+            $('#contentRow').html(htmlContentArray.join(''));
             $('.select2-show-search-contentrows').select2({
                 minimumResultsForSearch: ''
-            });
-
-            // Attach event listeners to relevant inputs for the taxable amount calculation
-            $('#Charges1' + contentRowId + ', #Charges2' + contentRowId + ', #Charges3' + contentRowId +
-            ', #Charges4' + contentRowId + ', #Charges5' + contentRowId + ', #Charges6' + contentRowId ).on('keyup', function () {
-                calculateAmount(contentRowId);
-                calculateTotalTaxableAmount();
             });
 
             var counter = 0;
@@ -1445,20 +1574,17 @@
         }
 
         function calculateAmount(contentRowId) {
-            // Assuming Quantity1 to Quantity6 are the labels 1 to 6
-            var Charges = parseFloat($('#Charges1' + contentRowId).val()) || 0;
-            var Charges = parseFloat($('#Charges2' + contentRowId).val()) || 0;
-            var Charges = parseFloat($('#Charges3' + contentRowId).val()) || 0;
-            var Charges = parseFloat($('#Charges4' + contentRowId).val()) || 0;
-            var Charges = parseFloat($('#Charges5' + contentRowId).val()) || 0;
-            var Charges = parseFloat($('#Charges6' + contentRowId).val()) || 0;
+            // Assuming Charges1 to Charges6 are the labels 1 to 6
+            var Charges1 = parseFloat($('#Charges1' + contentRowId).val()) || 0;
+            var Charges2 = parseFloat($('#Charges2' + contentRowId).val()) || 0;
+            var Charges3 = parseFloat($('#Charges3' + contentRowId).val()) || 0;
+            var Charges4 = parseFloat($('#Charges4' + contentRowId).val()) || 0;
+            var Charges5 = parseFloat($('#Charges5' + contentRowId).val()) || 0;
+            var Charges6 = parseFloat($('#Charges6' + contentRowId).val()) || 0;
 
             // Calculate the sum of LABEL 1 to 6
-            var sumOfLabels = quantity1 + quantity2 + quantity3 + quantity4 + quantity5 + quantity6;
-
-            // Set the calculated amount in the respective input field
-            $('#BasicAmount' + contentRowId).val(sumOfLabels.toFixed(2));
-
+            var sumOfLabels = Charges1 + Charges2 + Charges3 + Charges4 + Charges5 + Charges6;
+            parseFloat($('#TaxableAmount' + currentRowId).val(sumOfLabels.toFixed(2))) || 0;
         }
 
         function calculateTotalTaxableAmount() {
@@ -1466,7 +1592,7 @@
 
             $('.content-rows').each(function () {
                 var currentRowId = $(this).attr('id').replace('row-', '');
-                var taxableAmount = parseFloat($('#BasicAmount' + currentRowId).val()) || 0;
+                var taxableAmount = parseFloat($('#TaxableAmount' + currentRowId).val()) || 0;
                 totalTaxableAmount += taxableAmount;
                 $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
             });
@@ -1512,9 +1638,6 @@
             var uniqueIds = [...new Set(selectedLRDetails.map(item => item.id))];
             updateHiddenInput(uniqueIds);
             $("#ToPayAmount, #Paid, #TBB, #Total").val('0.00');
-            uniqueIds.forEach(function (id) {
-                GetChalanToPayAmount(id);
-            });
         }
 
     </script>
