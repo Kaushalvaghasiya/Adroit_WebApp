@@ -86,7 +86,7 @@ BEGIN
 		BEGIN
 			SELECT @BillNumberBranch = ISNULL(MAX(BillNumberBranch),0) + 1
 			FROM [Z-PurchaseBillMaster-Z]
-			WHERE [Z-PurchaseBillMaster-Z].BranchId = @BranchId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-PurchaseBillMaster-Z].YearId = @YearId
+			WHERE [Z-PurchaseBillMaster-Z].BranchId = @BranchId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		END
 
 		IF ISNULL(@BillNumberFirm, 0) = 0
@@ -94,7 +94,7 @@ BEGIN
 			SELECT @BillNumberFirm = ISNULL(MAX(BillNumberFirm),0) + 1
 			FROM [Z-PurchaseBillMaster-Z]
 			INNER JOIN CustomerFirmBranch on CustomerFirmBranch.Id = [Z-PurchaseBillMaster-Z].BranchId
-			WHERE [Z-PurchaseBillMaster-Z].BranchId = @BranchId AND CustomerFirmBranch.FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-PurchaseBillMaster-Z].YearId = @YearId
+			WHERE CustomerFirmBranch.FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		END
 
 		DECLARE @message VARCHAR(4000);
