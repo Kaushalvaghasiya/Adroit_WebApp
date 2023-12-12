@@ -19,7 +19,9 @@ ALTER TABLE [dbo].[Z-PurchaseBillMaster-Z] ADD CONSTRAINT
 		    [IX_PurchaseBillMaster_Firm] UNIQUE NONCLUSTERED 
 		    (
 		    	[FirmId] ASC,
-		    	[BillNumberFirm] ASC
+		    	[BillNumberFirm] ASC,
+		    	[BookBranchMappingId] ASC,
+		    	[YearId] ASC
 		    )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 Go
 
@@ -27,6 +29,8 @@ ALTER TABLE [dbo].[Z-PurchaseBillMaster-Z] ADD CONSTRAINT
 		    [IX_PurchaseBillMaster_Branch] UNIQUE NONCLUSTERED 
 		    (
 		    	[BranchId] ASC,
-		    	[BillNumberBranch] ASC
+		    	[BillNumberBranch] ASC,
+		    	[BookBranchMappingId] ASC,
+		    	[YearId] ASC
 		    )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 Go

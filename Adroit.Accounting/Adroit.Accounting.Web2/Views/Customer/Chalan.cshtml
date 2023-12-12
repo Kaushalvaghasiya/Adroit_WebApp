@@ -971,10 +971,12 @@
                     return false;
                 }
 
-                if (ewayBillNumber.length < 12) {
-                    showWarning("", "Eway Bill Number should be at least 12 characters long.");
-                    $("#EwayBillNumber").focus();
-                    return false;
+                if ($("#EwayBillNumber").val() != null && $("#EwayBillNumber").val() != "") {
+                    if (ewayBillNumber.length < 12) {
+                        showWarning("", "Eway Bill Number should be at least 12 characters long.");
+                        $("#EwayBillNumber").focus();
+                        return false;
+                    }
                 }
 
                 if ($("#BillNumberFirm").val() == "") {
@@ -1526,7 +1528,7 @@
                         selectedIds = table.rows({ selected: true }).data().toArray().map(row => row.id);
 
                         table.rows({ selected: true }).data().each(function (row) {
-                            
+
                             var isDuplicate = selectedLRDetails.some(item => item.id === row.id);
 
                             if (!isDuplicate) {
