@@ -64,9 +64,10 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@UserId", userId);
             QueryHelper.Save("sp_DriverDelete", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectList(string connectionString)
+        public List<DropdownViewModel> SelectList(string connectionString, int loginId)
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
             return QueryHelper.GetList<DropdownViewModel>("sp_DriverList_Select", connectionString, parameters);
         }
         public List<DropdownViewModel> SelectLicenceIssuePlace(string connectionString)

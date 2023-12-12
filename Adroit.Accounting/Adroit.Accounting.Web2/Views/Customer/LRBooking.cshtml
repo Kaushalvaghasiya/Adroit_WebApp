@@ -10,7 +10,7 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Transaction</a></li>
-                    <li><a href="#">Book</a></li>
+                    <li><a href="#">Booking</a></li>
                     <li class="active"><span>LR</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -70,7 +70,7 @@
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
                         <span class="input-group-append mr-2">
-                            <button class="btn btn-primary" type="button">Search</button>
+                            <button class="btn btn-primary EWayBill-search" type="button" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Popover top">Search</button>
                         </span>
                         <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
                         <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
@@ -652,7 +652,7 @@
             }
         }
 
-        function addClick(isNew = true) {
+        function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
             fromReset();
@@ -660,7 +660,6 @@
             $(".btn-delete").hide();
             $("#CityIdTo").focus();
             $("#LRNumber").val(0);
-            // $("#LRDate").val(new Date().toISOString().split('T')[0]);
             $("#LRRateOnId").val(@Model.CustomerFirmBranchTransportSetting.LRRateOnId).trigger('change');
             $("#LRPayTypeId").val(@Model.CustomerFirmBranchTransportSetting.LRPayTypeId).trigger('change');
         }
@@ -834,7 +833,7 @@
             });
 
             var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", minimumDate);
-            $("#LRDate").datepicker("setDate", formattedMinimumDate); // Set the initial date to the minimum date
+            $("#LRDate").datepicker("setDate", formattedMinimumDate); 
 
             $('#LRDate').change(function () {
                 var selectedDateStr = $(this).val();
@@ -1103,7 +1102,7 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                addClick(false);
+                                addClick();
                                 if (isViewMode) {
                                     setScreenMode(true);
                                     $("#activeTabName").text("VIEW ID# " + result.data.id);
@@ -1130,16 +1129,16 @@
 
                                 $("#LRDate").val(moment(result.data.lrDate.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#Parcel").val(result.data.parcel);
-                                $("#ActualWeight").val(result.data.actualWeight.toFixed(3));
-                                $("#ChargeWeight").val(result.data.chargeWeight.toFixed(3));
-                                $("#Rate").val(result.data.rate.toFixed(2));
-                                $("#Freight").val(result.data.freight.toFixed(2));
-                                $("#Charges1").val(result.data.charges1.toFixed(2));
-                                $("#Charges2").val(result.data.charges2.toFixed(2));
-                                $("#Charges3").val(result.data.charges3.toFixed(2));
-                                $("#Charges4").val(result.data.charges4.toFixed(2));
-                                $("#Charges5").val(result.data.charges5.toFixed(2));
-                                $("#Charges6").val(result.data.charges6.toFixed(2));
+                                $("#ActualWeight").val(result.data.actualWeight ? result.data.actualWeight.toFixed(2) : '');
+                                $("#ChargeWeight").val(result.data.chargeWeight ? result.data.chargeWeight.toFixed(2) : '');
+                                $("#Freight").val(result.data.freight ? result.data.freight.toFixed(2) : '');
+                                $("#Rate").val(result.data.rate ? result.data.rate.toFixed(2) : '');
+                                $("#Charges1").val(result.data.charges1 ? result.data.charges1.toFixed(2) : '');
+                                $("#Charges2").val(result.data.charges2 ? result.data.charges2.toFixed(2) : '');
+                                $("#Charges3").val(result.data.charges3 ? result.data.charges3.toFixed(2) : '');
+                                $("#Charges4").val(result.data.charges4 ? result.data.charges4.toFixed(2) : '');
+                                $("#Charges5").val(result.data.charges5 ? result.data.charges5.toFixed(2) : '');
+                                $("#Charges6").val(result.data.charges6 ? result.data.charges6.toFixed(2) : '');
                                 $("#InvoiceNo").val(result.data.invoiceNo);
                                 $("#InvoiceValue").val(result.data.invoiceValue);
                                 $("#PrivateMarka").val(result.data.privateMarka);
@@ -1170,7 +1169,7 @@
                     || (billPartyId == '' || billPartyId == null)
                     || (rateOnId == '' || rateOnId == null)) return;
 
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetLRBookingRate/"))" + cityIdTo + "/" + billPartyId + "/" + rateOnId, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetRate/"))" + cityIdTo + "/" + billPartyId + "/" + rateOnId, "",
                     function (data) {
                         if (data.result == RESULT_SUCCESS) {
                             if (data.data != null) {
