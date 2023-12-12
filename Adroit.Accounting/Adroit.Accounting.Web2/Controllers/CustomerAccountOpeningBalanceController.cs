@@ -15,8 +15,8 @@ namespace Adroit.Accounting.Web.Controllers
             CustomerAccountOpeningBalanceViewModel model = new();
             //int loginId = LoginHandler.GetUserId(User);
             //var Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
-
-            //model.AccountGroupList = _customerAccountGroupRepo.GetCustomerAccountGroupByLoginId_SelectList(CurrentUserId, _configurationData.DefaultConnection);
+            model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
+            model.AccountGroupList = _customerAccountGroupRepo.GetCustomerAccountGroupList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
             //model.AccountBranchMappingList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(_configurationData.DefaultConnection);
             //model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
 
@@ -30,7 +30,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult AccountOpeningBalanceList(int draw = 0, int start = 0, int length = 10, int firmId = 0)
+        public JsonResult CustomerAccountOpeningBalanceList(int draw = 0, int start = 0, int length = 10, int firmId = 0)
         {
             var result = new DataTableListViewModel<CustomerAccountOpeningBalanceGridViewModel>();
             try
@@ -62,7 +62,8 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 model.loginId = CurrentUserId;
-                
+                model.AddedById = CurrentUserId;
+                model.ModifiedById = CurrentUserId;
                 int id = _customerAccountOpeningBalanceRepo.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {

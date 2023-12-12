@@ -11,8 +11,13 @@ namespace Adroit.Accounting.Repository
         public int Save(CustomerAccountOpeningBalanceViewModel value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", value.loginId);
             parameters.Add("@Id", value.Id);
+            parameters.Add("@AccountBranchMappingId", value.AccountBranchMappingId);
+            parameters.Add("@YearId", value.YearId);
+            parameters.Add("@Type", value.Type);
+            parameters.Add("@Amount", value.Amount);
+            parameters.Add("@AddedById", value.AddedById);
+            parameters.Add("@ModifiedById", value.ModifiedById);
             return QueryHelper.Save("sp_CustomerAccountOpeningBalanceSave", connectionString, parameters);
         }
         public CustomerAccountOpeningBalanceViewModel Get(int id, string connectionString, int loginId = 0, int firmId = 0)

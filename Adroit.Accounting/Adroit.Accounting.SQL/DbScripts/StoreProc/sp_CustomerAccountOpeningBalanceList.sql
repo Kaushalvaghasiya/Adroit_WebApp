@@ -22,7 +22,7 @@ Begin
 		) AS RowNum,
 	   Count(*) over () AS TotalRows, 
 	   CustomerAccountOpeningBalance.*, 
-	   CustomerAccount.[Name] as AccountName
+	   CustomerAccount.[Name] as AccountBranchMappingName
 	  FROM CustomerAccountOpeningBalance
 	  INNER JOIN CustomerAccountBranchMapping On CustomerAccountOpeningBalance.AccountBranchMappingId = CustomerAccountBranchMapping.Id
 	  INNER JOIN CustomerAccount On CustomerAccount.Id = CustomerAccountBranchMapping.AccountId

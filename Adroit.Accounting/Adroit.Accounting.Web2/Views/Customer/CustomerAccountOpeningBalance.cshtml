@@ -85,35 +85,35 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="AccountName">Account Name</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="AccountName">
+                                <label for="AccountBranchMappingId">Account Name</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="AccountBranchMappingId">
                                     <option></option>
-                                    @* @{
-                                        if (Model.TitleList != null)
+                                    @{
+                                        if (Model.AccountBranchMappingList != null)
                                         {
-                                            foreach (var o in Model.TitleList)
+                                            foreach (var o in Model.AccountBranchMappingList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
                                         }
-                                    } *@
+                                    }
                                 </select>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="AccountGroup">Account Group</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="AccountGroup">
+                                <label for="AccountGroupId">Account Group</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="AccountGroupId">
                                     <option></option>
-                                    @* @{
-                                    if (Model.TitleList != null)
-                                    {
-                                    foreach (var o in Model.TitleList)
-                                    {
-                                    <option value="@o.Value">@o.Text</option>
+                                    @{
+                                        if (Model.AccountGroupList != null)
+                                        {
+                                            foreach (var o in Model.AccountGroupList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
                                     }
-                                    }
-                                    } *@
                                 </select>
                             </div>
                         </div>
@@ -130,10 +130,10 @@
                                 </div>
                             </div>
                         </div>
-                          <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-4 col-md-12">
                             <div class="form-group">
-                                <label for="AccountType">Account Type</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="AccountType">
+                                <label for="Type">Account Type</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="Type">
                                     <option value="D">Debit</option>
                                     <option value="C">Credit</option>
                                     @* @{
@@ -187,11 +187,8 @@
             fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
-            $("#AccountName").focus();
+            $("#AccountBranchMappingId").focus();
 
-            //Set auto max value
-            // var maxvalue = parseInt($('#OrderNumber option:last-child').val() || 0) + 1;
-            // $("#OrderNumber").append(new Option(maxvalue, maxvalue, true, true)).trigger('change');
             $("#Amount").val("0.00");
             $("#Active").prop('checked', true);
         }
@@ -213,21 +210,26 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.title;
+                    debugger;
+                    return row.accountBranchMappingName;
                 },
                 "targets": colDef.length,
-
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.orderNumber;
+                    return row.accountGroupName;
                 },
                 "targets": colDef.length,
-                "className": "text-center"
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.active ? "Yes" : "No";
+                    return row.type =="D" ? "Debit" : "Credit";
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.amount;
                 },
                 "targets": colDef.length,
                 "className": "text-center"
@@ -246,8 +248,10 @@
                 "orderable": false
             });
 
-            columns.push({ "data": "title", "name": "title" });
-            columns.push({ "data": "orderNumber", "name": "orderNumber" });
+            columns.push({ "data": "accountBranchMappingName", "name": "accountBranchMappingName" });
+            columns.push({ "data": "accountGroupName", "name": "accountGroupName" });
+            columns.push({ "data": "type", "name": "type" });
+            columns.push({ "data": "amount", "name": "amount" });
             columns.push({ "data": "active", "name": "active" });
             columns.push({ "data": "id", "name": "id" });
 
@@ -278,7 +282,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/customer/customeraccountgroupheaderlist"))',
+                    url: '@(Url.Content("~/customer/customeraccountopeningbalancelist"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -294,8 +298,10 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#AccountName").val(null).trigger('change');
-            $("#AccountGroup").val(null).trigger('change');
+            $("#AccountBranchMappingId").val(null).trigger('change');
+            $("#AccountGroupId").val(null).trigger('change');
+            $("#Date").val("");
+            $("#Type").val(null).trigger('change');
             $("#Amount").val("");
             $("#activeTabName").text("Add");
             setScreenMode(false);
@@ -304,30 +310,28 @@
 
         function saveItem() {
             try {
-                if ($("#AccountName").val() == "") {
-                    showWarning("", "Please enter valid primary account group name.");
-                    $("#AccountName").focus();
+
+                if ($("#AccountBranchMappingId").val() == null || $("#AccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select account name");
+                    $("#AccountBranchMappingId").focus();
+                    return false;
+                }
+                if ($("#AccountGroupId").val() == null || $("#AccountGroupId").val() == "") {
+                    showWarning("", "Please select account group");
+                    $("#AccountGroupId").focus();
+                    return false;
+                }
+                if (!/^[-+]?(\d{1,15}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Amount").val())) {
+                    showWarning("", "Amount must be upto 15 characters before decimal point and 2 characters after decimal point long.");
+                    $("#Amount").focus();
                     return false;
                 }
 
-                
-
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
-                savedata.AccountName = $("#AccountName").val();
-                //savedata.OrderNumber = parseInt($("#OrderNumber").val());
-                // if (isNaN(savedata.OrderNumber)) {
-                //     $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
-                //     showWarning("", "Please provide valid order number.");
-                //     $("#OrderNumber").focus();
-                //     return false;
-                // }
-                // if (savedata.OrderNumber > 25000) {
-                //     $('#OrderNumber option[value="' + $('#OrderNumber').val() + '"]').detach();
-                //     showWarning("", "Please provide valid order number less than or equal to 25000.");
-                //     $("#OrderNumber").focus();
-                //     return false;
-                // }
+                savedata.AccountBranchMappingId = $("#AccountBranchMappingId").val();
+                savedata.Type = $("#Type").val();
+                savedata.Amount = parseFloat($("#Amount").val()).toFixed(2);
 
                 savedata.Active = $("#Active").prop('checked');
                 blockUI('container');
@@ -373,7 +377,7 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                $('#AccountName option[value="' + $('#AccountName').val() + '"]').detach();
+                                $('#AccountBranchMappingId option[value="' + $('#AccountBranchMappingId').val() + '"]').detach();
                                 refreshDatatableList();
                                 fromReset();
                                 $('.btn-back').click();
@@ -412,7 +416,7 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#AccountName").val(result.data.title).trigger('change');
+                                $("#AccountBranchMappingId").val(result.data.title).trigger('change');
                                 //$("#OrderNumber").val(result.data.orderNumber).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
                             } else {
