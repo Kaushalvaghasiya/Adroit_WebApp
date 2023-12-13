@@ -8,6 +8,7 @@ namespace Adroit.Accounting.Repository.IRepository
         int Save(Customer value, string connectionString);
         int Register(Customer value, string connectionString);
         CustomerViewModel Get(string email, string connectionString);
+        CustomerViewModel GetByUsername(string email, string connectionString);
         CustomerViewModel Get(int id, string connectionString);
         int GetCustomerIdByLoginId(int id, string connectionString);
         List<CustomerGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
