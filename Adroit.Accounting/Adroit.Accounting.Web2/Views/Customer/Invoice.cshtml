@@ -147,7 +147,7 @@
                             <div class="form-horizontal">
                                 <div class="row mb-1">
                                     <label for="SerialNumberOfBranch" class="col-md-1 form-label">
-                                        Branch Bill No
+                                        Branch Bill#
                                     </label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" id="SerialNumberOfBranch"
@@ -167,7 +167,7 @@
                                         </div>
                                     </div>
                                     <label for="LRNumber" class="col-md-1 form-label">
-                                        LR Number
+                                        LR#
                                     </label>
                                     <div class="col-md-2">
                                         <div class="input-group" style="flex-wrap:nowrap;">
@@ -270,7 +270,7 @@
                                         </div>
                                     </div>
                                     <label for="VehicleNumber" class="col-md-1 form-label">
-                                        Vehicle No
+                                        Vehicle#
                                     </label>
                                     <div class="col-md-2">
                                         <select class="form-control select2-show-search" id="VehicleNumber">
@@ -287,7 +287,7 @@
                                         </select>
                                     </div>
                                     <label for="BillNumber" class="col-md-1 form-label">
-                                        Firm Bill No
+                                        Firm Bill#
                                     </label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" id="BillNumber" placeholder="">
@@ -415,10 +415,18 @@
                     <div class="row">
                         <div class="col-md-9 vertical-bottom">
                             <div class="form-horizontal">
-                                <div class="row mb-1">
+                                <div class="row mb-2">
+                                    <label for="PaymentDetail" class="col-md-1 form-label">
+                                        Payment Detail
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" id="PaymentDetail" placeholder=" Under Developement" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
                                     <label for="Notes"
                                            class="col-md-1 form-label">Remarks</label>
-                                    <div class="col-md-11">
+                                    <div class="col-md-10">
                                         <textarea class="form-control" id="Notes" rows="3" placeholder="Write a large text here ..."></textarea>
                                     </div>
                                 </div>
@@ -580,7 +588,7 @@
 </div><!-- modal -->
 <!--LRListModal end-->
 @section Scripts
-    {
+{
     <script>
 
         var selectedLRDetails = [];
@@ -592,6 +600,7 @@
 
             $('.dv-list').show();
             $('.dv-detail').hide();
+            addClick();
 
             bindDatatableList();
 
@@ -635,18 +644,54 @@
                 addRow();
             });
 
-            $("#PayTypeId").on('change', function (e) {
-                GetLRNumberListByLRPayTypeId($(this).val());
-            });
-
             $("#SearchLRNumber").on('click', function (e) {
-                getLRDetailListByLRNumber($('#LRNumber').val());
+                if ($('#LRNumber').val() == null || $('#LRNumber').val() == '') {
+                    showWarning("", "Please select LR Number.");
+                } else {
+                    getLRDetailListByLRNumber($('#LRNumber').val());
+                }
+
             });
 
             $("#AccountBranchMappingId").on('change', function (e) {
                 GetListByCustomerAccountBranchMappingId($(this).val());
                 calculateTotalTaxableAmount();
             });
+
+            $("#TaxableAmount").on('keyup', function (e) {
+                calculateTotalTaxableAmount();
+            });
+            $("#SGSTTotal").on('keyup', function (e) {
+                calculateTotalTaxableAmount();
+            });
+            $("#CGSTTotal").on('keyup', function (e) {
+                calculateTotalTaxableAmount();
+            });
+            $("#IGSTTotal").on('keyup', function (e) {
+                calculateTotalTaxableAmount();
+            });
+            $("#GSTStateCessTotal").on('keyup', function (e) {
+                calculateTotalTaxableAmount();
+            });
+            $("#GSTCentralCessTotal").on('keyup', function (e) {
+                calculateTotalTaxableAmount();
+            });
+            $("#TCSPercentage").on('keyup', function (e) {
+                calculateTotalTaxableAmount();
+            });
+            $("#TCSAmount").on('keyup', function (e) {
+                calculateTotalTaxableAmount();
+            });
+
+            $("#RoundOff").on('keyup', function (e) {
+                calculateTotalTaxableAmount();
+            });
+
+            $("#TDSPercentage").on('keyup', function (e) {
+                var amt = ($('#TaxableAmount').val() * $(this).val() / 100) || 0;
+                $("#TDSAmount").val(Math.round(amt));
+            });
+
 
         });
 
@@ -696,19 +741,19 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.serialNumberOfBranch;
+                    return row.gstNo;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.billDate;
+                    return row.billAmount;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.billParty;
+                    return row.city;
                 },
                 "targets": colDef.length,
             });
@@ -735,9 +780,9 @@
             columns.push({ "data": "serialNumberOfBranch", "name": "serialNumberOfBranch" });
             columns.push({ "data": "billDate", "name": "billDate" });
             columns.push({ "data": "billParty", "name": "billParty" });
-            columns.push({ "data": "serialNumberOfBranch", "name": "serialNumberOfBranch" });
-            columns.push({ "data": "billDate", "name": "billDate" });
-            columns.push({ "data": "billParty", "name": "billParty" });
+            columns.push({ "data": "gstNo", "name": "gstNo" });
+            columns.push({ "data": "billAmount", "name": "billAmount" });
+            columns.push({ "data": "city", "name": "city" });
             columns.push({ "data": "billNumber", "name": "billNumber" });
 
             var table = $('#tblMain').DataTable({
@@ -784,7 +829,8 @@
         function fromReset() {
             $("#Id").val(0);
             $("#SerialNumberOfBranch").val(0);
-            $("#BillDate").val('');
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
+            $("#BillDate").datepicker("setDate", formattedMinimumDate);
             $("#CreditDays").val('');
             $("#ChalanDateFrom").val('');
             $("#ChalanDateTo").val('');
@@ -936,6 +982,7 @@
                 savedata.Notes = $("#Notes").val();
                 savedata.VehicleNumber = $("#VehicleNumber").val();
                 savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
+                savedata.DeliveryPartyAccountBranchMappingId = getIntValueZero("DeliveryPartyAccountBranchMappingId");
                 savedata.TDSPercentage = getFloatValueZero("TDSPercentage", 3);
                 savedata.TCSPercentage = getFloatValueZero("TCSPercentage", 3);
                 savedata.TaxableAmount = getFloatValueZero("TaxableAmount", 2);
@@ -948,9 +995,9 @@
                 savedata.RoundOff = getFloatValueZero("RoundOff", 2);
                 savedata.BillAmount = getFloatValueZero("BillAmount", 2);
                 savedata.TCSAmount = getFloatValueZero("TCSAmount", 2);
-                
+
                 var lrDetailsArray = [];
-                    $('#contentRow .content-rows').each(function () {
+                $('#contentRow .content-rows').each(function () {
                     var contentRowId = $(this).attr('id').replace(/\D/g, '');
                     var lrDetails = {};
 
@@ -972,7 +1019,7 @@
                 });
 
                 savedata.LRDetailsArray = JSON.stringify(lrDetailsArray);
-                
+
                 blockUI('container');
 
                 $.ajax({
@@ -988,7 +1035,7 @@
                             showWarning("", 'Invoice saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
-                            $('.btn-back').click();
+                            addClick();
                         } else {
                             showError("", data.data);
                         }
@@ -1102,7 +1149,7 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                
+
                                 result.data.forEach(function (LRBookingDetail) {
                                     selectedLRDetails.push({
                                         id: LRBookingDetail.id,
@@ -1151,39 +1198,6 @@
                                 $("#CreditDays").val(result.data.creditDays);
                                 $("#TDSPercentage").val(result.data.tds);
                                 $("#TCSPercentage").val(result.data.tcs);
-
-                            } else {
-                                showError('Error', result.data); //warning,  success, error, info
-                            }
-                        } catch (e) {
-                            showError('Error', e); //warning,  success, error, info
-                        }
-                    },
-                    function (error) {
-
-                    });
-            }
-            catch (err) {
-            }
-        }
-
-        function GetLRNumberListByLRPayTypeId(LRPayTypeId) {
-
-            if ($("#PayTypeId").val() == '' || $("#PayTypeId").val() == null) return;
-
-            try {
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetLRNumberListByLRPayTypeId"))" + "/" + LRPayTypeId, "",
-                    function (result) {
-                        try {
-                            var str = "";
-                            $("#LRNumberId").html('');
-                            if (result.result == RESULT_SUCCESS) {
-                                if (result.data.length > 0) {
-                                    for (var i = 0; i < result.data.length; i++) {
-                                        str += ("<option value='" + data.data[i].text + "'>" + data.data[i].text + "</option>");
-                                    }
-                                }
-                                $("#LRNumberId").html(str);
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -1374,7 +1388,7 @@
                     'style': 'multi'
                 },
                 ajax: {
-                    url: '@(Url.Content("~/Customer/GetLRBookingListByDate"))' + "/" + $('#LRFromDate').val().split('/').reverse().join('-') + "/" + $('#LRToDate').val().split('/').reverse().join('-'),
+                    url: '@(Url.Content("~/Customer/GetLRBookingListByDate"))' + "/" + $('#LRFromDate').val().split('/').reverse().join('-') + "/" + $('#LRToDate').val().split('/').reverse().join('-') + "/" + $('#PayTypeId').val(),
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -1530,12 +1544,12 @@
 
         function addRow() {
             $('#contentRow').html('');
+            contentRowId = 0;
             for (var i = 0; i < selectedLRDetails.length; i++) {
 
                 var lrNumber = selectedLRDetails[i].id;
 
                 if (addedIds.indexOf(lrNumber) === -1) {
-                    contentRowId++;
 
                     var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + contentRowId + '">' +
                         '<div class="col-md-1">' +
@@ -1627,6 +1641,7 @@
                         '</div>' +
                         '</div>';
 
+                    contentRowId++;
                     htmlContentArray.push(htmlContent);
 
                     addedIds.push(selectedLRDetails[i].id);
@@ -1711,11 +1726,21 @@
         }
 
         function deleteRow(index) {
+            debugger;
             if (selectedLRDetails[index]) {
                 var deletedId = selectedLRDetails[index].id;
                 $('#row-' + index).remove();
                 addedIds = addedIds.filter(id => id !== deletedId);
                 selectedLRDetails.splice(index, 1);
+
+                if (selectedLRDetails.length == 0) {
+                    $('#TaxableAmount').val(0.00);
+                } else {
+                    for (var i = 0; i < selectedLRDetails.length; i++) {
+                        calculateAmount(i);
+                    }
+                    calculateTotalTaxableAmount();
+                }
                 updateSelectedIdsInput();
             }
         }

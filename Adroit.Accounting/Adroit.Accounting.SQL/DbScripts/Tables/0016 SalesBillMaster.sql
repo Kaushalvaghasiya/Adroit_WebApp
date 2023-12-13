@@ -41,7 +41,9 @@ GO
 ALTER TABLE [dbo].[Z-SalesBillMaster-Z] ADD CONSTRAINT
 		    [IX_SalesBillMaster_Firm] UNIQUE NONCLUSTERED 
 		    (
-		    	[BranchId] ASC,
+		    	[FirmId] ASC,
+		    	[YearId] ASC,
+		    	[BookBranchMappingId] ASC,
 		    	[BillNumber] ASC
 		    )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 Go
@@ -50,6 +52,8 @@ ALTER TABLE [dbo].[Z-SalesBillMaster-Z] ADD CONSTRAINT
 		    [IX_SalesBillMaster_Branch] UNIQUE NONCLUSTERED 
 		    (
 		    	[BranchId] ASC,
+		    	[YearId] ASC,
+		    	[BookBranchMappingId] ASC,
 		    	[SerialNumberOfBranch] ASC
 		    )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 Go

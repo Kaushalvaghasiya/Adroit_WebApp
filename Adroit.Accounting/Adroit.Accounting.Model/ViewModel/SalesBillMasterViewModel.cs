@@ -9,6 +9,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel>? LRNumberList { get; set; }
         public CustomerFirmTransportSettingViewModel CustomerFirmTransportSetting { get; set; }
         public string? LRDetailsArray { get; set; }
-        public string BillParty { get; set; }
+        public string? City { get; set; }
+        public string? GSTNo { get; set; }
+        public string? BillParty { get; set; }
     }   
 }

@@ -14,7 +14,7 @@ namespace Adroit.Accounting.Repository.IRepository
         public List<LRBookingGridViewModel> GetListByPurchaseBillMasterId(string connectionString, int purchaseBillMasterId, int loginId, int branchId, int firmId = 0);
         public List<LRBookingGridViewModel> GetListByLRNumberId(string connectionString, int LRNumberId, int loginId, int branchId, int firmId = 0);
         public string GetLRBookingMaxDate(string connectionString, int branchId);
-        public List<LRBookingGridViewModel> GetLRBookingListByDate(string connectionString, string fromDate, string toDate, int branchId, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
+        public List<LRBookingGridViewModel> GetLRBookingListByDate(string connectionString, string fromDate, string toDate, string PayTypeId, int branchId, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
         List<DropdownViewModel> GetLRNumberListByLRPayTypeId(string connectionString, int branchId, int lrPayTypeId);
         public List<LRBookingGridViewModel> GetListBySalesBillMasterId(string connectionString, int salesBillMasterId, int loginId, int branchId, int firmId = 0);
     }

@@ -8,13 +8,13 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerInvoiceSave]
     ,@BillDate datetime
     ,@SerialNumberOfBranch int
     ,@InvoiceMemo varchar(1) 
-    ,@SalesBillFromId char(1) = 0
+    ,@SalesBillFromId char(1) = '0'
     ,@ChalanDateFrom date
     ,@ChalanDateTo date
     ,@ChalanNo int = NULL
     ,@SalesOrderNumber varchar(25) = NULL
-    ,@BillTypeId tinyint
-    ,@DeliveryPartyAccountBranchMappingId int = 5270 -- Static
+    ,@BillTypeId tinyint = 0
+    ,@DeliveryPartyAccountBranchMappingId int 
     ,@ShippingAccountBranchMappingId int = NULL
     ,@HastePartyAccountBranchMappingId int = NULL
     ,@DeliveryLRBookingId int = NULL
@@ -57,18 +57,18 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerInvoiceSave]
     ,@HeaderBox5 nvarchar(20) = 0
     ,@PaidAmount decimal(10,2)  = 0
     ,@UnPaidAmount decimal(10,2) = 0
-    ,@CreditNoteId int = 7 --Static
+    ,@CreditNoteId int = null
 	,@BillNumber int
 	,@LRDetailsList NVARCHAR(MAX)
-	,@Prefix VARCHAR(15) 
-	,@Postfix VARCHAR(15) 
+	,@Prefix VARCHAR(15)  = null
+	,@Postfix VARCHAR(15)  = null 
 
 )
 AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-
+		Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 		DECLARE @message VARCHAR(4000);
@@ -137,29 +137,11 @@ BEGIN
 			AND SalesBillFromAdmin.Active = 1 AND SalesBillFromAdmin.Deleted = 0
 		);
 
-		SELECT @Prefix = (
-			SELECT CustomerBook.BillNoPrefix
-			FROM CustomerBookBranchMapping
-			INNER JOIN CustomerBook on CustomerBook.Id = CustomerBookBranchMapping.BookId AND CustomerBook.CustomerId = @CustomerId AND CustomerBook.Active = 1 AND CustomerBook.Deleted = 0
-			WHERE CustomerBookBranchMapping.Id = @BookBranchMappingId
-			AND CustomerBookBranchMapping.Deleted = 0
-		);
-
-		SELECT @Postfix = (
-			SELECT CustomerBook.BillNoPostfix
-			FROM CustomerBookBranchMapping
-			INNER JOIN CustomerBook on CustomerBook.Id = CustomerBookBranchMapping.BookId AND CustomerBook.CustomerId = @CustomerId AND CustomerBook.Active = 1 AND CustomerBook.Deleted = 0
-			WHERE CustomerBookBranchMapping.Id = @BookBranchMappingId
-			AND CustomerBookBranchMapping.Deleted = 0
-		);
-
-		SELECT @BillTypeId = (
-			SELECT CustomerBook.BillTypeID
-			FROM CustomerBookBranchMapping
-			INNER JOIN CustomerBook on CustomerBook.Id = CustomerBookBranchMapping.BookId AND CustomerBook.CustomerId = @CustomerId AND CustomerBook.Active = 1 AND CustomerBook.Deleted = 0
-			WHERE CustomerBookBranchMapping.Id = @BookBranchMappingId
-			AND CustomerBookBranchMapping.Deleted = 0
-		);
+		SELECT @Prefix = CustomerBook.BillNoPrefix, @Postfix = CustomerBook.BillNoPostfix, @BillTypeId = CustomerBook.BillTypeID, @SalesBillFromId = CustomerBook.SalesBillFrom
+		FROM CustomerBookBranchMapping
+		INNER JOIN CustomerBook on CustomerBook.Id = CustomerBookBranchMapping.BookId AND CustomerBook.CustomerId = @CustomerId AND CustomerBook.Active = 1 AND CustomerBook.Deleted = 0
+		WHERE CustomerBookBranchMapping.Id = @BookBranchMappingId
+		AND CustomerBookBranchMapping.Deleted = 0 
 
 		DECLARE @EntryTypeId INT = (
 			SELECT Id
@@ -199,8 +181,7 @@ BEGIN
 				,ToStationCityId,HeaderBox1,HeaderBox2,HeaderBox3,HeaderBox4,HeaderBox5,PaidAmount,UnPaidAmount,CreditNoteId
 				,Prefix,Postfix,BranchId,FirmId,YearId,AddedOn,AddedById)			
 			VALUES 
-				(
-				 @AccountBranchMappingId,@BookBranchMappingId,@BillNumber,@EntryTypeId,@BillDate,@SerialNumberOfBranch,@InvoiceMemo,@SalesBillFromId,@ChalanDateFrom
+				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumber,@EntryTypeId,@BillDate,@SerialNumberOfBranch,@InvoiceMemo,@SalesBillFromId,@ChalanDateFrom
 				,@ChalanDateTo,@ChalanNo,@SalesOrderNumber,@BillTypeId,@DeliveryPartyAccountBranchMappingId,@ShippingAccountBranchMappingId,@HastePartyAccountBranchMappingId
 				,@DeliveryLRBookingId,@SalesPartyName1,@SalesPartyName2,@CreditDays,@TaxableAmount,@SGSTTotal,@CGSTTotal,@IGSTTotal,@GSTStateCessTotal,@GSTCentralCessTotal
 				,@TCSPercentage,@TCSAmount,@TDSPercentage,@TDSAmount,@ExtraAmount,@RoundOff,@BillAmount,@BrokerBranchMappingId,@Notes,@EwayBillNumber,@IRNNumber,@AcknowledgementNumber
@@ -298,19 +279,44 @@ BEGIN
 			WHERE SalesBillMasterId = @Id AND [LRBookingId] IN ( SELECT LRNumber FROM @LRDetails)
 		END
 
-		INSERT INTO [Z-SalesBillDetail-Z] (SalesBillMasterId, LRBookingId, BasicAmount, Rate, FreightAmount, Charge1, Charge2, Charge3, Charge4, Charge5, Charge6
-			,QuantityDiscountPercentage,QuantityDiscountAmount,SpecialDiscount1,SpecialDiscount2,SpecialDiscount3,SGSTPercentage,SGSTAmount,CGSTPercentage,CGSTAmount
-			,IGSTPercentage,IGSTAmount,GSTStateCessPercentage,GSTStateCessAmount,GSTCentralCessPercentage,GSTCentralCessAmount,NetRate,DiscountPercentage,DiscountAmount
-			,OtherCharges,Quantity1,Quantity2,Quantity3,Quantity4,Quantity5,Quantity6,ProductBranchMappingId,AddedOn,AddedById)
-        SELECT @Id, LRNumber, TaxableAmount, Rate, Freight, Charges1, Charges2, Charges3, Charges4, Charges5, Charges6 
-			,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,@ProductBranchMappingId,GETUTCDATE(),@LoginId
-        FROM @LRDetails
-		EXCEPT
-		SELECT SalesBillMasterId, LRBookingId, BasicAmount, Rate, FreightAmount, Charge1, Charge2, Charge3, Charge4, Charge5, Charge6
-			,QuantityDiscountPercentage,QuantityDiscountAmount,SpecialDiscount1,SpecialDiscount2,SpecialDiscount3,SGSTPercentage,SGSTAmount,CGSTPercentage,CGSTAmount
-			,IGSTPercentage,IGSTAmount,GSTStateCessPercentage,GSTStateCessAmount,GSTCentralCessPercentage,GSTCentralCessAmount,NetRate,DiscountPercentage,DiscountAmount
-			,OtherCharges,Quantity1,Quantity2,Quantity3,Quantity4,Quantity5,Quantity6,ProductBranchMappingId,AddedOn,AddedById
-		FROM [dbo].[Z-SalesBillDetail-Z]
+		MERGE INTO [Z-SalesBillDetail-Z] AS LRTarget
+		USING @LRDetails AS LRSource
+		ON LRTarget.SalesBillMasterId = @Id AND LRTarget.LRBookingId = LRSource.LRNumber
+		WHEN MATCHED THEN
+		    UPDATE SET 
+		        LRTarget.BasicAmount = LRSource.TaxableAmount,
+		        LRTarget.Rate = LRSource.Rate,
+		        LRTarget.FreightAmount = LRSource.Freight,
+		        LRTarget.Charge1 = LRSource.Charges1,
+		        LRTarget.Charge2 = LRSource.Charges2,
+		        LRTarget.Charge3 = LRSource.Charges3,
+		        LRTarget.Charge4 = LRSource.Charges4,
+		        LRTarget.Charge5 = LRSource.Charges5,
+		        LRTarget.Charge6 = LRSource.Charges6,
+		        LRTarget.ProductBranchMappingId = @ProductBranchMappingId,
+		        LRTarget.ModifiedOn = GETUTCDATE(),
+		        LRTarget.ModifiedById = @LoginId
+		WHEN NOT MATCHED THEN
+		    INSERT (
+		        SalesBillMasterId, LRBookingId, BasicAmount, Rate, FreightAmount, Charge1, Charge2, Charge3, Charge4, Charge5, Charge6,
+		        QuantityDiscountPercentage, QuantityDiscountAmount, SpecialDiscount1, SpecialDiscount2, SpecialDiscount3,
+		        SGSTPercentage, SGSTAmount, CGSTPercentage, CGSTAmount, IGSTPercentage, IGSTAmount,
+		        GSTStateCessPercentage, GSTStateCessAmount, GSTCentralCessPercentage, GSTCentralCessAmount,
+		        NetRate, DiscountPercentage, DiscountAmount, OtherCharges,
+		        Quantity1, Quantity2, Quantity3, Quantity4, Quantity5, Quantity6,
+		        ProductBranchMappingId, AddedOn, AddedById
+		    )
+		    VALUES (
+		        @Id, LRSource.LRNumber, LRSource.TaxableAmount, LRSource.Rate, LRSource.Freight, 
+				LRSource.Charges1, LRSource.Charges2, LRSource.Charges3, LRSource.Charges4, LRSource.Charges5, LRSource.Charges6,
+		        0, 0, 0, 0, 0,
+		        0, 0, 0, 0, 0, 0,
+		        0, 0, 0, 0,
+		        0, 0, 0, 0,
+		        0, 0, 0, 0, 0, 0,
+		        @ProductBranchMappingId, GETUTCDATE(), @LoginId
+		    );
+
 
 		COMMIT TRAN
 		SELECT @Id

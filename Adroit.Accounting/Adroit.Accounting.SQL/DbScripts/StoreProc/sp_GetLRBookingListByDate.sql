@@ -2,7 +2,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_GetLRBookingListByDate]
   @LoginId INT,
   @BranchId INT,
   @FromDate NVARCHAR(20),
-  @ToDate NVARCHAR(20)
+  @ToDate NVARCHAR(20),
+  @PayTypeId NVARCHAR(20)
 AS
 BEGIN
 	DECLARE @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
@@ -57,7 +58,8 @@ BEGIN
 		WHERE [Z-LRBooking-Z].[BranchId] = @BranchId
 		AND [Z-LRBooking-Z].Deleted = 0
 		AND [CustomerAccountBranchMapping].Deleted = 0
-		AND [CustomerAccount].Deleted = 0 AND [CustomerAccount].Active = 1
+		AND [CustomerAccount].Deleted = 0 AND [CustomerAccount].Active = 1 
+		AND (@PayTypeId = '1' OR [Z-LRBooking-Z].LRPayTypeId = @PayTypeId)
 		AND CAST([Z-LRBooking-Z].LRDate AS DATE) BETWEEN @FromDate AND @ToDate
 
 END

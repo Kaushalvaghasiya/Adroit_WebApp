@@ -17,15 +17,6 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Invoice()
         {
             var model = new SalesBillMasterViewModel();
-            //var LRBooking = _lrBookingRepository.Get(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
-            //if (LRBooking == null)
-            //{
-            //    return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Transaction > Booking > LR" });
-            //}
-            //else
-            //{
-            //    model.LRBooking = LRBooking;
-            //}
 
             var CustomerFirmTransportSetting = _customerFirmTransportSettingRepository.Get(CurrentFirmId, _configurationData.DefaultConnection);
             if (CustomerFirmTransportSetting == null)
@@ -125,8 +116,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetLRBookingListByDate/{fromDate}/{toDate}")]
-        public JsonResult GetLRBookingListByDate(string fromDate, string toDate, int draw = 0, int start = 0, int length = 10)
+        [Route("~/Customer/GetLRBookingListByDate/{fromDate}/{toDate}/{PayTypeId}")]
+        public JsonResult GetLRBookingListByDate(string fromDate, string toDate, string PayTypeId, int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<LRBookingGridViewModel>();
             try
@@ -136,7 +127,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _lrBookingRepository.GetLRBookingListByDate(_configurationData.DefaultConnection, fromDate, toDate, CurrentBranchId, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _lrBookingRepository.GetLRBookingListByDate(_configurationData.DefaultConnection, fromDate, toDate, PayTypeId, CurrentBranchId, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
