@@ -11,6 +11,7 @@ namespace Adroit.Accounting.Model
         }
         public int Id { get; set; }
         public int BranchId { get; set; }
+        public int FirmId { get; set; }
         public int YearId { get; set; }
         public int AccountBranchMappingId { get; set; }
         public int BookBranchMappingId { get; set; }

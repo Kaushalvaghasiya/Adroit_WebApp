@@ -7,6 +7,7 @@ using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
@@ -18,7 +19,8 @@ logger.Debug("init main");
 
 try
 {
-    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+    var defaultCulture = new CultureInfo("en-GB");
+    Thread.CurrentThread.CurrentCulture = defaultCulture;
 
     var builder = WebApplication.CreateBuilder(args);
 
@@ -158,7 +160,12 @@ try
 
     var app = builder.Build();
     app.ConfigureExceptionHandler(logger);
-
+    app.UseRequestLocalization(new RequestLocalizationOptions
+    {
+        DefaultRequestCulture = new RequestCulture(defaultCulture),
+        SupportedCultures = new List<CultureInfo> { defaultCulture },
+        SupportedUICultures = new List<CultureInfo> { defaultCulture }
+    });
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {

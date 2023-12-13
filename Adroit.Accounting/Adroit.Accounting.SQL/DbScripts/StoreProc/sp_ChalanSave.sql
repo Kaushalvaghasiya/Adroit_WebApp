@@ -69,6 +69,14 @@ BEGIN
 
 		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
+		DECLARE @message VARCHAR(4000);
+
+		IF @YearId IS NULL
+		BEGIN
+			SET @message = 'Year Not Found!';
+			RAISERROR ('%s', 16, 1, @message);
+		END
+
 		DECLARE @BookBranchMappingId INT = (
 			SELECT PurcahseBookBranchMappingId
 			FROM CustomerFirmBranchTransportSetting
@@ -86,23 +94,14 @@ BEGIN
 		BEGIN
 			SELECT @BillNumberBranch = ISNULL(MAX(BillNumberBranch),0) + 1
 			FROM [Z-PurchaseBillMaster-Z]
-			WHERE BranchId = @BranchId
+			WHERE [Z-PurchaseBillMaster-Z].BranchId = @BranchId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		END
 
 		IF ISNULL(@BillNumberFirm, 0) = 0
 		BEGIN
 			SELECT @BillNumberFirm = ISNULL(MAX(BillNumberFirm),0) + 1
 			FROM [Z-PurchaseBillMaster-Z]
-			INNER JOIN CustomerFirmBranch on CustomerFirmBranch.Id = [Z-PurchaseBillMaster-Z].BranchId
-			WHERE BranchId = @BranchId AND CustomerFirmBranch.FirmId = @FirmId
-		END
-
-		DECLARE @message VARCHAR(4000);
-
-		IF ISNULL(@YearId, -1) = -1
-		BEGIN
-			SET @message = 'Year Not Found!';
-			RAISERROR ('%s', 16, 1, @message);
+			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		END
 
 		DECLARE @IdCheck INT
@@ -119,7 +118,7 @@ BEGIN
 				,GSTStateCessTotal,GSTCentralCessTotal,TCSPercent,TCSAmount,ToPayAmount,CrossingAmount,CrossingCommission,CrossingHamali,CrossingDeliveryCharge,CreditDays,RoundOff,BillAmount
 				,BrokerBranchMappingId,BrokerAmount,Notes,ToPayAccountBranchMappingId,CrossingAmountAccountBranchMappingId,CrossingCommissionAccountBranchMappingId,CrossingHamaliAccountBranchMappingId
 				,CrossingDeliveryAccountBranchMappingId,SalesAccountBranchMappingId,GenaralPurchaseAccountBranchMappingId,SkipInGSTR,RCMId,RCMBillNumber,BillTypeID,ReturnBillNumber,ReturnBillDate
-				,ReturnReasonId,PurchaseOrderRefNo,AddedOn,AddedById,BranchId,YearId,IsAutoLedger)
+				,ReturnReasonId,PurchaseOrderRefNo,AddedOn,AddedById,BranchId,YearId,IsAutoLedger,FirmId)
 			VALUES 
 				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumberFirm,@BillNumberTable,@BillNumberBranch,@BillNumberBranchTable,@EntryTypeId,@BillDate,@VehicleId,@CityIdFrom
 				,@CityIdTo,@DriverId,@BranchId,@EwayBillNumber,@ValidDateFrom,@ValidDateTo,@TaxableAmount,@TDSPercent,@TDSAmount,@AdvanceCash,@AdvanceNeft,@OtherLess,@ReceiveCash
@@ -127,7 +126,7 @@ BEGIN
 				,@CrossingDeliveryCharge,@CreditDays,@RoundOff,@BillAmount,@BrokerBranchMappingId,@BrokerAmount,@Notes,@ToPayAccountBranchMappingId,@CrossingAmountAccountBranchMappingId
 				,@CrossingCommissionAccountBranchMappingId,@CrossingHamaliAccountBranchMappingId,@CrossingDeliveryAccountBranchMappingId,@SalesAccountBranchMappingId
 				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMId,@RCMBillNumber,@BillTypeID,@ReturnBillNumber,@ReturnBillDate,@ReturnReasonId,@PurchaseOrderRefNo,GETUTCDATE()
-				,@LoginId,@BranchId,@YearId,@IsAutoLedger)
+				,@LoginId,@BranchId,@YearId,@IsAutoLedger,@FirmId)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -200,6 +199,7 @@ BEGIN
 			,ModifiedOn = GETUTCDATE() 
 			,Deleted = 0 
 			,BranchId = @BranchId 
+			,FirmId = @FirmId 
 			,YearId = @YearId 
 			,IsAutoLedger = @IsAutoLedger 
 			WHERE Id = @Id
