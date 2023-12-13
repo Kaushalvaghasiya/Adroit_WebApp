@@ -62,6 +62,8 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
+                model.LoginId = CurrentUserId;
+                model.BranchId = CurrentBranchId;
                 int id = _customerFirmBranchTransportSettingRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {

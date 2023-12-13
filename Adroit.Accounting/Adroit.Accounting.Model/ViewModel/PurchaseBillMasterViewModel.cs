@@ -15,9 +15,13 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> EwayBillList { get; set; }
         public List<DropdownViewModel> BrokerList { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
-        public string CityTo { get; set; }
-        public string LRNumberId { get; set; }
-        public decimal NetAmount { get; set; }
+        public string? CityFrom { get; set; }
+        public string? CityTo { get; set; }
+        public string? Vehicle { get; set; }
+        public string? LRNumberId { get; set; }
+        public string? BillParty { get; set; }
+        public string? Driver { get; set; }
+        public decimal? NetAmount { get; set; }
 
     }
 }

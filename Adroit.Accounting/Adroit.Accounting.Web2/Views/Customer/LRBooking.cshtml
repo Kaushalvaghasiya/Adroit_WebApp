@@ -35,13 +35,17 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">BOOKING#</th>
+                                    <th class="border-bottom-0">LR#</th>
                                     <th class="border-bottom-0">DATE</th>
-                                    <th class="border-bottom-0">E-WAY BILL#</th>
-                                    <th class="border-bottom-0">FROM CITY</th>
-                                    <th class="border-bottom-0">TO CITY</th>
                                     <th class="border-bottom-0">CONSIGNOR</th>
+                                    <th class="border-bottom-0">AMOUNT</th>
+                                    <th class="border-bottom-0">TO CITY</th>
+                                    <th class="border-bottom-0">TYPE </th>
+                                    <th class="border-bottom-0">PARCLE</th>
+                                    <th class="border-bottom-0">ACT. KG.</th>
+                                    <th class="border-bottom-0">CHRG. KG.</th>
                                     <th class="border-bottom-0">CONSIGNEE</th>
+                                    <th class="border-bottom-0">BILL PARTY</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -258,13 +262,13 @@
                         </div>
                         <div class="col-md-1">
                             <div class="form-group text-center">
-                                <label for="ActualWeight" class="form-label" tabindex="12">Act. Weight</label>
+                                <label for="ActualWeight" class="form-label" tabindex="12">Act. Kg.</label>
                                 <input type="text" class="form-control text-right" id="ActualWeight" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-1">
                             <div class="form-group text-center">
-                                <label for="ChargeWeight" class="form-label" tabindex="13">Ch. Weight</label>
+                                <label for="ChargeWeight" class="form-label" tabindex="13">Chrg. Kg.</label>
                                 <input type="text" class="form-control text-right" id="ChargeWeight" placeholder="">
                             </div>
                         </div>
@@ -503,7 +507,7 @@
 
 
 @section Scripts
-    {
+{
     <script>
 
         $(function (e) {
@@ -549,25 +553,6 @@
 
             var roundOff = @((Model.CustomerFirmTransportSetting.IsWeightRoundOff ? "true" : "false").ToLower());
             if (roundOff == true) {
-                $("#ActualWeight").on("change", function (e) {
-                    var actualWeight = parseFloat($("#ActualWeight").val());
-
-                    if (actualWeight >= 1 && actualWeight <= 49) {
-                        var roundedWeight = Math.ceil(actualWeight / 50) * 50;
-                        $("#ActualWeight").val(roundedWeight.toFixed(3));
-                    }
-
-                    if (actualWeight >= 51) {
-                        var roundedWeight = Math.ceil(actualWeight / 5) * 5;
-                        $("#ActualWeight").val(roundedWeight.toFixed(3));
-                    }
-
-                    if (actualWeight == 50 || actualWeight == 0) {
-                        $("#ActualWeight").val(actualWeight.toFixed(3));
-                    }
-
-                });
-
                 $("#ChargeWeight").on("change", function (e) {
                     var chargeWeight = parseFloat($("#ChargeWeight").val());
 
@@ -629,6 +614,7 @@
                 BindBillParty();
             });
 
+            addClick();
         });
 
         function BindBillParty() {
@@ -690,20 +676,50 @@
                     return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.ewayBillNo;
-                },
-                "targets": colDef.length,
-            });
+            });           
             colDef.push({
                 "render": function (data, type, row) {
                     return row.consignor;
                 },
                 "targets": colDef.length,
             });
+             colDef.push({
+                "render": function (data, type, row) {
+                    return row.amount;
+                },
+                "targets": colDef.length,
+            });
+             colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+             colDef.push({
+                "render": function (data, type, row) {
+                    return row.type;
+                },
+                "targets": colDef.length,
+            });
+             colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
             colDef.push({
+                "render": function (data, type, row) {
+                    return row.actualWeight;
+                },
+                "targets": colDef.length,
+            });
+             colDef.push({
+                "render": function (data, type, row) {
+                    return row.chargeWeight;
+                },
+                "targets": colDef.length,
+            });
+             colDef.push({
                 "render": function (data, type, row) {
                     return row.consignee;
                 },
@@ -711,13 +727,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.cityFrom;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.cityTo;
+                    return row.billParty;
                 },
                 "targets": colDef.length,
             });
@@ -737,11 +747,15 @@
 
             columns.push({ "data": "lrNumber", "name": "lrNumber" });
             columns.push({ "data": "lrDate", "name": "lrDate" });
-            columns.push({ "data": "ewayBillNo", "name": "ewayBillNo" });
             columns.push({ "data": "consignor", "name": "consignor" });
-            columns.push({ "data": "consignee", "name": "consignee" });
-            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "amount", "name": "amount" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "type", "name": "type" });
+            columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "actualWeight", "name": "actualWeight" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
+            columns.push({ "data": "consignee", "name": "consignee" });
+            columns.push({ "data": "billParty", "name": "billParty" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -833,7 +847,7 @@
             });
 
             var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", minimumDate);
-            $("#LRDate").datepicker("setDate", formattedMinimumDate); 
+            $("#LRDate").datepicker("setDate", formattedMinimumDate);
 
             $('#LRDate').change(function () {
                 var selectedDateStr = $(this).val();
@@ -893,7 +907,7 @@
 
                 if ($("#ActualWeight").val() != null && $("#ActualWeight").val() != "") {
                     if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#ActualWeight").val())) {
-                        showWarning("", "Actual Weight must be upto 15 characters before decimal point and 3 characters after decimal point long.");
+                        showWarning("", "Act. Kg. must be upto 15 characters before decimal point and 3 characters after decimal point long.");
                         $("#ActualWeight").focus();
                         return false;
                     }
@@ -901,7 +915,7 @@
 
                 if ($("#ChargeWeight").val() != null && $("#ChargeWeight").val() != "") {
                     if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#ChargeWeight").val())) {
-                        showWarning("", "Charge Weight must be upto 15 characters before decimal point and 3 characters after decimal point long.");
+                        showWarning("", "Chrg. Kg. must be upto 15 characters before decimal point and 3 characters after decimal point long.");
                         $("#ChargeWeight").focus();
                         return false;
                     }
@@ -1044,7 +1058,7 @@
                             showWarning("", 'LR Book saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
-                            $('.btn-back').click();
+                            addClick();
                         } else {
                             showError("", data.data);
                         }
