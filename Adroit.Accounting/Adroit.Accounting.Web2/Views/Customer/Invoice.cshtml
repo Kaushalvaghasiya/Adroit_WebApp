@@ -184,7 +184,7 @@
                                                 }
                                             </select>
                                             <span class="input-group-append">
-                                                <button class="btn btn-primary" type="button" id="SearchLRNumber">Go!</button>
+                                                <button class="btn btn-primary" type="button" id="SearchLRNumber" style="height:38px;">Go!</button>
                                             </span>
                                         </div>
                                     </div>
@@ -223,15 +223,15 @@
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" id="CreditDays" placeholder="">
                                     </div>
-                                    <label for="exampleInputname" class="col-md-1 form-label">
+                                    <label for="LedgerAmount" class="col-md-1 form-label">
                                         Ledger Amount
                                     </label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="exampleInputname" placeholder="">
+                                        <input type="text" class="form-control" id="LedgerAmount" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="exampleInputname" class="col-md-1 form-label mb-1">
+                                    <label for="ChalanDateFrom" class="col-md-1 form-label mb-1">
                                         From Date
                                     </label>
                                     <div class="col-md-2">
@@ -269,18 +269,18 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <label for="VehicleId" class="col-md-1 form-label">
+                                    <label for="VehicleNumber" class="col-md-1 form-label">
                                         Vehicle No
                                     </label>
                                     <div class="col-md-2">
-                                        <select class="form-control select2-show-search" id="VehicleId">
+                                        <select class="form-control select2-show-search" id="VehicleNumber">
                                             <option></option>
                                             @{
                                                 if (Model.VehicleList != null)
                                                 {
                                                     foreach (var o in Model.VehicleList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Text">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -355,42 +355,42 @@
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            [Charge 1]
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable1
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            [Charge 2]
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable2
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            [Charge 3]
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable3
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            [Charge 4]
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable4
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            [Charge 5]
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable5
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            [Charge 6]
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable6
                                                         </label>
                                                     </div>
                                                 </div>
@@ -429,67 +429,67 @@
                                 <div class="row mb-1">
                                     <label for="TaxableAmount" class="col-md-6 form-label text-right">Basic Amount</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="TaxableAmount" placeholder="" readonly tabindex="-1">
+                                        <input type="text" class="form-control text-right" id="TaxableAmount" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="TDSPercent" class="col-md-6 form-label text-right">T.D.S.</label>
+                                    <label for="TDSPercentage" class="col-md-6 form-label text-right">T.D.S.</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="TDSPercent" placeholder="%">
+                                        <input type="text" class="form-control text-right" id="TDSPercentage" placeholder="%">
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" id="TDSAmount" placeholder="" tabindex="-1">
+                                        <input type="text" class="form-control text-right" id="TDSAmount" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="SGSTTotal" class="col-md-6 form-label text-right">SGST</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="SGSTTotal" placeholder="" tabindex="-1">
+                                        <input type="text" class="form-control text-right" id="SGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="CGSTTotal" class="col-md-6 form-label text-right">CGST</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="CGSTTotal" placeholder="" tabindex="-1">
+                                        <input type="text" class="form-control text-right" id="CGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="IGSTTotal" class="col-md-6 form-label text-right">IGST</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="IGSTTotal" placeholder="" tabindex="-1">
+                                        <input type="text" class="form-control text-right" id="IGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="GSTStateCessTotal" class="col-md-6 form-label text-right">State Cess</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="GSTStateCessTotal" placeholder="" tabindex="-1">
+                                        <input type="text" class="form-control text-right" id="GSTStateCessTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="GSTCentralCessTotal" class="col-md-6 form-label text-right">Central Cess</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="GSTCentralCessTotal" placeholder="" tabindex="-1">
+                                        <input type="text" class="form-control text-right" id="GSTCentralCessTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="TCSPercent" class="col-md-6 form-label text-right">T.C.S.</label>
+                                    <label for="TCSPercentage" class="col-md-6 form-label text-right">T.C.S.</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="TCSPercent" placeholder="%">
+                                        <input type="text" class="form-control text-right" id="TCSPercentage" placeholder="%">
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control" id="TCSAmount" placeholder="" tabindex="-1">
+                                        <input type="text" class="form-control text-right" id="TCSAmount" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="RoundOff" class="col-md-6 form-label text-right">Other (+/-)</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="RoundOff" placeholder="">
+                                        <input type="text" class="form-control text-right" id="RoundOff" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="BillAmount" class="col-md-6 form-label text-right">Bill Amount</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control" id="BillAmount" placeholder="" readonly tabindex="-1">
+                                        <input type="text" class="form-control text-right" id="BillAmount" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                             </div>
@@ -511,8 +511,8 @@
     <input type="hidden" id="Id" value="0" />
 
 </div>
-<!--LRChalanListModal start-->
-<div id="lrChalanListModal" class="modal fade" tabindex="-1" role="dialog"
+<!--LRListModal start-->
+<div id="LRListModal" class="modal fade" tabindex="-1" role="dialog"
      aria-labelledby="exampleModalLongTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
         <div class="modal-content ">
@@ -578,7 +578,7 @@
         </div>
     </div><!-- modal-dialog -->
 </div><!-- modal -->
-<!--LRChalanListModal end-->
+<!--LRListModal end-->
 @section Scripts
     {
     <script>
@@ -620,7 +620,7 @@
                     return false;
                 }
                 else {
-                    $("#lrChalanListModal").modal("show");
+                    $("#LRListModal").modal("show");
                     bindLRList();
                 }
 
@@ -631,7 +631,7 @@
             });
 
             $("#AddData").on('click', function (e) {
-                $("#lrChalanListModal").modal("hide");
+                $("#LRListModal").modal("hide");
                 addRow();
             });
 
@@ -641,6 +641,11 @@
 
             $("#SearchLRNumber").on('click', function (e) {
                 getLRDetailListByLRNumber($('#LRNumber').val());
+            });
+
+            $("#AccountBranchMappingId").on('change', function (e) {
+                GetListByCustomerAccountBranchMappingId($(this).val());
+                calculateTotalTaxableAmount();
             });
 
         });
@@ -778,60 +783,30 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#BookAccountId").val(null).trigger('change');
-            $("#BookTypeId").val(null).trigger('change');
-            $("#BoxLabel1").val('');
-            $("#BoxLabel2").val('');
-            $("#BoxLabel3").val('');
-            $("#BoxLabel4").val('');
-            $("#BoxLabel5").val('');
-            $("#BoxLabel6").val('');
-            $("#BillNoPrefix").val('');
-            $("#BillNoPostFix").val('');
-            $("#LRRequired").prop('checked', false);
-            $("#BillTypeID").val(null).trigger('change');
-            $("#IsGeneralPurchase").prop('checked', false);
-            $("#IsItemDiscount").prop('checked', false);
-            $("#IsItemDiscountSp").prop('checked', false);
-            $("#IsCashPayAtBill").prop('checked', false);
-            $("#ItemDesc1").val('');
-            $("#ItemDesc2").val('');
-            $("#ItemDesc3").val('');
-            $("#ItemDesc4").val('');
-            $("#ItemDesc5").val('');
-            $("#ItemDesc6").val('');
-            $("#ShowSalesOrderBoxNumber").prop('checked', false);
-            $("#ShowPurcahseOrderBoxNumber").prop('checked', false);
-            $("#ShowQuotationBoxNumber").prop('checked', false);
-            $("#ShowPerformaInvoiceNumber").prop('checked', false);
-            $("#SalesBillFrom").val(null).trigger('change');
-            $("#IsCalcMultiply").prop('checked', false);
-            $("#BookShortName").val('');
-            $("#HeaderBox1").val('');
-            $("#HeaderBox2").val('');
-            $("#HeaderBox3").val('');
-            $("#HeaderBox4").val('');
-            $("#HeaderBox5").val('');
-            $("#IsTDSAccount").prop('checked', false);
-            $("#TDSAccountId").val(null).trigger('change');
-            $("#IsTCSAccount").prop('checked', false);
-            $("#TCSAccountId").val(null).trigger('change');
-            $("#SGSTAccountId").val(null).trigger('change');
-            $("#CGSTAccountId").val(null).trigger('change');
-            $("#IGSTAccountId").val(null).trigger('change');
-            $("#GSTStateCessAccountId").val(null).trigger('change');
-            $("#GSTCentralCessAccountId").val(null).trigger('change');
-            $("#RCMSGSTPayAccountId").val(null).trigger('change');
-            $("#RCMCGSTPayAccountId").val(null).trigger('change');
-            $("#RCMIGSTPayAccountId").val(null).trigger('change');
-            $("#RCMSGSTRecAccountId").val(null).trigger('change');
-            $("#RCMCGSTRecAccountId").val(null).trigger('change');
-            $("#RCMIGSTRecAccountId").val(null).trigger('change');
-            $("#RoundOffAccountId").val(null).trigger('change');
-            $("#CustomerBookBranchId").multipleSelect('setSelects', '');
-
-            $("#Active").prop('checked', true);
-
+            $("#SerialNumberOfBranch").val(0);
+            $("#BillDate").val('');
+            $("#CreditDays").val('');
+            $("#ChalanDateFrom").val('');
+            $("#ChalanDateTo").val('');
+            $("#BillNumber").val(0);
+            $("#Notes").val('');
+            $("#TaxableAmount").val('');
+            $("#TDSPercentage").val('');
+            $("#TDSAmount").val('');
+            $("#SGSTTotal").val('');
+            $("#CGSTTotal").val('');
+            $("#IGSTTotal").val('');
+            $("#GSTStateCessTotal").val('');
+            $("#GSTCentralCessTotal").val('');
+            $("#RoundOff").val('');
+            $("#BillAmount").val('');
+            $("#TCSPercentage").val('');
+            $("#TCSAmount").val('');
+            $("#LRNumber").val(null).trigger('change');
+            $("#PayTypeId").val(null).trigger('change');
+            $("#AccountBranchMappingId").val(null).trigger('change');
+            $("#VehicleNumber").val(null).trigger('change');
+            $("#contentRow").html('');
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
         }
@@ -839,105 +814,170 @@
         function saveItem() {
             try {
 
-                if ($("#BookAccountId").val() == null || $("#BookAccountId").val() == "") {
-                    showWarning("", "Please select book name");
-                    $("#BookAccountId").focus();
-                    return false;
-                }
-                if ($("#BookTypeId").val() == null || $("#BookTypeId").val() == "") {
-                    showWarning("", "Please select type");
-                    $("#BookTypeId").focus();
-                    return false;
-                }
-                if ($("#SalesBillFrom").val() == null || $("#SalesBillFrom").val() == "") {
-                    showWarning("", "Please select bill from");
-                    $("#SalesBillFrom").focus();
+                if ($("#BillDate").val() == "") {
+                    showWarning("", "Please select bill date");
+                    $("#BillDate").focus();
                     return false;
                 }
 
-                if ($("#IsTDSAccount").is(':checked')) {
-                    if ($("#TDSAccountId").val() == null || $("#TDSAccountId").val() == "") {
-                        showWarning("", "Please select TDS a/c");
-                        $("#TDSAccountId").focus();
+                if ($("#AccountBranchMappingId").val() == null || $("#AccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select bill party");
+                    $("#AccountBranchMappingId").focus();
+                    return false;
+                }
+
+                if ($("#TaxableAmount").val() != null && $("#TaxableAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TaxableAmount").val())) {
+                        showWarning("", "Taxable amount must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#TaxableAmount").focus();
                         return false;
                     }
                 }
 
-                if ($("#IsTCSAccount").is(':checked')) {
-                    if ($("#TCSAccountId").val() == null || $("#TCSAccountId").val() == "") {
-                        showWarning("", "Please select TCS a/c");
-                        $("#TCSAccountId").focus();
+                if ($("#TDSPercentage").val() != null && $("#TDSPercentage").val() != "") {
+                    if (!/^[-+]?(\d{1,2}(\.\d{0,3})?|\.\d{1,3})$/.test($("#TDSPercentage").val())) {
+                        showWarning("", "TDS percentage must be up to 2 characters before the decimal point and 3 characters after the decimal point.");
+                        $("#TDSPercentage").focus();
                         return false;
                     }
                 }
 
-                if ($("#CustomerBookBranchId").val() == "") {
-                    showWarning("", "Please select branch.");
-                    $("#CustomerBookBranchId").focus();
-                    return false;
+                if ($("#TDSAmount").val() != null && $("#TDSAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSAmount").val())) {
+                        showWarning("", "TDS amount must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#TDSAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#SGSTTotal").val() != null && $("#SGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#SGSTTotal").val())) {
+                        showWarning("", "SGST must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#SGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CGSTTotal").val() != null && $("#CGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CGSTTotal").val())) {
+                        showWarning("", "CGST must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#CGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#IGSTTotal").val() != null && $("#IGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#IGSTTotal").val())) {
+                        showWarning("", "IGST must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#IGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#GSTStateCessTotal").val() != null && $("#GSTStateCessTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#GSTStateCessTotal").val())) {
+                        showWarning("", "GSTStateCess must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#GSTStateCessTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#GSTCentralCessTotal").val() != null && $("#GSTCentralCessTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#GSTCentralCessTotal").val())) {
+                        showWarning("", "GSTCentralCess must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#GSTCentralCessTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TCSPercentage").val() != null && $("#TCSPercentage").val() != "") {
+                    if (!/^[-+]?(\d{1,2}(\.\d{0,3})?|\.\d{1,3})$/.test($("#TCSPercentage").val())) {
+                        showWarning("", "TCS percentage must be up to 2 characters before the decimal point and 3 characters after the decimal point.");
+                        $("#TCSPercentage").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TCSAmount").val() != null && $("#TCSAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TCSAmount").val())) {
+                        showWarning("", "TCS amount must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#TCSAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#RoundOff").val() != null && $("#RoundOff").val() != "") {
+                    if (!/^[-+]?(\d{1,2}(\.\d{0,2})?|\.\d{1,2})$/.test($("#RoundOff").val())) {
+                        showWarning("", "RoundOff must be up to 2 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#RoundOff").focus();
+                        return false;
+                    }
+                }
+
+
+                if ($("#BillAmount").val() != null && $("#BillAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#BillAmount").val())) {
+                        showWarning("", "Bill amount must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#BillAmount").focus();
+                        return false;
+                    }
                 }
 
                 var savedata = new Object();
+
                 savedata.Id = parseInt($("#Id").val());
-                savedata.BookAccountId = parseInt($("#BookAccountId").val());
-                savedata.BookTypeId = parseInt($("#BookTypeId").val());
-                savedata.BoxLabel1 = $("#BoxLabel1").val();
-                savedata.BoxLabel2 = $("#BoxLabel2").val();
-                savedata.BoxLabel3 = $("#BoxLabel3").val();
-                savedata.BoxLabel4 = $("#BoxLabel4").val();
-                savedata.BoxLabel5 = $("#BoxLabel5").val();
-                savedata.BoxLabel6 = $("#BoxLabel6").val();
-                savedata.BillNoPrefix = $("#BillNoPrefix").val();
-                savedata.BillNoPostFix = $("#BillNoPostFix").val();
-                savedata.LRRequired = $("#LRRequired").is(':checked');
-                savedata.BillTypeID = getIntValueNull("BillTypeID");
-                savedata.IsGeneralPurchase = $("#IsGeneralPurchase").is(':checked');
-                savedata.IsItemDiscount = $("#IsItemDiscount").is(':checked');
-                savedata.IsItemDiscountSp = $("#IsItemDiscountSp").is(':checked');
-                savedata.IsCashPayAtBill = $("#IsCashPayAtBill").is(':checked');
-                savedata.ItemDesc1 = $("#ItemDesc1").val();
-                savedata.ItemDesc2 = $("#ItemDesc2").val();
-                savedata.ItemDesc3 = $("#ItemDesc3").val();
-                savedata.ItemDesc4 = $("#ItemDesc4").val();
-                savedata.ItemDesc5 = $("#ItemDesc5").val();
-                savedata.ItemDesc6 = $("#ItemDesc6").val();
-                savedata.ShowSalesOrderBoxNumber = $("#ShowSalesOrderBoxNumber").is(':checked');
-                savedata.ShowPurcahseOrderBoxNumber = $("#ShowPurcahseOrderBoxNumber").is(':checked');
-                savedata.ShowQuotationBoxNumber = $("#ShowQuotationBoxNumber").is(':checked');
-                savedata.ShowPerformaInvoiceNumber = $("#ShowPerformaInvoiceNumber").is(':checked');
-                savedata.SalesBillFrom = $("#SalesBillFrom").val();
-                savedata.IsCalcMultiply = $("#IsCalcMultiply").is(':checked');
-                savedata.BookShortName = $("#BookShortName").val();
-                savedata.HeaderBox1 = $("#HeaderBox1").val();
-                savedata.HeaderBox2 = $("#HeaderBox2").val();
-                savedata.HeaderBox3 = $("#HeaderBox3").val();
-                savedata.HeaderBox4 = $("#HeaderBox4").val();
-                savedata.HeaderBox5 = $("#HeaderBox5").val();
-                savedata.IsTDSAccount = $("#IsTDSAccount").is(':checked');
-                savedata.TDSAccountId = getIntValueNull("TDSAccountId");
-                savedata.IsTCSAccount = $("#IsTCSAccount").is(':checked');
-                savedata.TCSAccountId = getIntValueNull("TCSAccountId");
-                savedata.SGSTAccountId = getIntValueNull("SGSTAccountId");
-                savedata.CGSTAccountId = getIntValueNull("CGSTAccountId");
-                savedata.IGSTAccountId = getIntValueNull("IGSTAccountId");
-                savedata.GSTStateCessAccountId = getIntValueNull("GSTStateCessAccountId");
-                savedata.GSTCentralCessAccountId = getIntValueNull("GSTCentralCessAccountId");
-                savedata.RCMSGSTPayAccountId = getIntValueNull("RcmSGSTPayAccountId");
-                savedata.RCMCGSTPayAccountId = getIntValueNull("RcmCGSTPayAccountId");
-                savedata.RCMIGSTPayAccountId = getIntValueNull("RcmIGSTPayAccountId");
-                savedata.RCMSGSTRecAccountId = getIntValueNull("RcmSGSTRecAccountId");
-                savedata.RCMCGSTRecAccountId = getIntValueNull("RcmCGSTRecAccountId");
-                savedata.RCMIGSTRecAccountId = getIntValueNull("RcmIGSTRecAccountId");
-                savedata.RoundOffAccountId = getIntValueNull("RoundOffAccountId");
 
-                savedata.CustomerBookBranchId = $("#CustomerBookBranchId").val().join(",");
-                savedata.Active = $('#Active').is(':checked');
+                savedata.SerialNumberOfBranch = getIntValueZero("SerialNumberOfBranch");
+                savedata.BillDate = moment(getDate($("#BillDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.ChalanDateFrom = getDate($("#ChalanDateFrom").val());
+                savedata.ChalanDateTo = getDate($("#ChalanDateTo").val());
+                savedata.CreditDays = getIntValueZero("CreditDays");
+                savedata.BillNumber = getIntValueZero("BillNumber");
+                savedata.Notes = $("#Notes").val();
+                savedata.VehicleNumber = $("#VehicleNumber").val();
+                savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
+                savedata.TDSPercentage = getFloatValueZero("TDSPercentage", 3);
+                savedata.TCSPercentage = getFloatValueZero("TCSPercentage", 3);
+                savedata.TaxableAmount = getFloatValueZero("TaxableAmount", 2);
+                savedata.TDSAmount = getFloatValueZero("TDSAmount", 2);
+                savedata.SGSTTotal = getFloatValueZero("SGSTTotal", 2);
+                savedata.CGSTTotal = getFloatValueZero("CGSTTotal", 2);
+                savedata.IGSTTotal = getFloatValueZero("IGSTTotal", 2);
+                savedata.GSTStateCessTotal = getFloatValueZero("GSTStateCessTotal", 2);
+                savedata.GSTCentralCessTotal = getFloatValueZero("GSTCentralCessTotal", 2);
+                savedata.RoundOff = getFloatValueZero("RoundOff", 2);
+                savedata.BillAmount = getFloatValueZero("BillAmount", 2);
+                savedata.TCSAmount = getFloatValueZero("TCSAmount", 2);
+                
+                var lrDetailsArray = [];
+                    $('#contentRow .content-rows').each(function () {
+                    var contentRowId = $(this).attr('id').replace(/\D/g, '');
+                    var lrDetails = {};
 
+                    lrDetails.LRNumber = $('#LRId' + contentRowId).text();
+                    lrDetails.LRDate = getDate($('#LRDate' + contentRowId).text()) || '';
+                    lrDetails.Parcel = $('#Packing' + contentRowId).text() || '';
+                    lrDetails.ChargeWeight = parseFloat($('#ChargeWeight' + contentRowId).text()) || 0;
+                    lrDetails.TaxableAmount = parseFloat($('#TaxableAmount' + contentRowId).text()) || 0;
+                    lrDetails.Rate = parseFloat($('#GSTRate' + contentRowId).text()) || 0;
+                    lrDetails.Freight = parseFloat($('#Freight' + contentRowId).text()) || 0;
+                    lrDetails.Charges1 = parseFloat($('#Charges1' + contentRowId).val()) || 0;
+                    lrDetails.Charges2 = parseFloat($('#Charges2' + contentRowId).val()) || 0;
+                    lrDetails.Charges3 = parseFloat($('#Charges3' + contentRowId).val()) || 0;
+                    lrDetails.Charges4 = parseFloat($('#Charges4' + contentRowId).val()) || 0;
+                    lrDetails.Charges5 = parseFloat($('#Charges5' + contentRowId).val()) || 0;
+                    lrDetails.Charges6 = parseFloat($('#Charges6' + contentRowId).val()) || 0;
+
+                    lrDetailsArray.push(lrDetails);
+                });
+
+                savedata.LRDetailsArray = JSON.stringify(lrDetailsArray);
+                
                 blockUI('container');
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveBook", "Customer"))",
+                    url: "@(Url.Action("SaveInvoice", "Customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -945,7 +985,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Book saved successfully.');
+                            showWarning("", 'Invoice saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -1001,7 +1041,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetBook"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetInvoice"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -1014,66 +1054,108 @@
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
-
                                 $("#Id").val(result.data.id);
-                                $("#BookAccountId").val(result.data.bookAccountId).trigger('change');
-                                $("#BookTypeId").val(result.data.bookTypeId).trigger('change');
-                                $("#BoxLabel1").val(result.data.boxLabel1);
-                                $("#BoxLabel2").val(result.data.boxLabel2);
-                                $("#BoxLabel3").val(result.data.boxLabel3);
-                                $("#BoxLabel4").val(result.data.boxLabel4);
-                                $("#BoxLabel5").val(result.data.boxLabel5);
-                                $("#BoxLabel6").val(result.data.boxLabel6);
-                                $("#BillNoPrefix").val(result.data.billNoPrefix);
-                                $("#BillNoPostFix").val(result.data.billNoPostFix);
-                                $("#LRRequired").prop('checked', result.data.lrRequired);
-                                $("#BillTypeID").val(result.data.billTypeID).trigger('change');
-                                $("#IsGeneralPurchase").prop('checked', result.data.isGeneralPurchase);
-                                $("#IsItemDiscount").prop('checked', result.data.isItemDiscount);
-                                $("#IsItemDiscountSp").prop('checked', result.data.isItemDiscountSp);
-                                $("#IsCashPayAtBill").prop('checked', result.data.isCashPayAtBill);
-                                $("#ItemDesc1").val(result.data.itemDesc1);
-                                $("#ItemDesc2").val(result.data.itemDesc2);
-                                $("#ItemDesc3").val(result.data.itemDesc3);
-                                $("#ItemDesc4").val(result.data.itemDesc4);
-                                $("#ItemDesc5").val(result.data.itemDesc5);
-                                $("#ItemDesc6").val(result.data.itemDesc6);
-                                $("#ShowSalesOrderBoxNumber").prop('checked', result.data.showSalesOrderBoxNumber);
-                                $("#ShowPurcahseOrderBoxNumber").prop('checked', result.data.showPurcahseOrderBoxNumber);
-                                $("#ShowQuotationBoxNumber").prop('checked', result.data.showQuotationBoxNumber);
-                                $("#ShowPerformaInvoiceNumber").prop('checked', result.data.showPerformaInvoiceNumber);
-                                $("#SalesBillFrom").val(result.data.salesBillFrom).trigger('change');
-                                $("#IsCalcMultiply").prop('checked', result.data.isCalcMultiply);
-                                $("#BookShortName").val(result.data.bookShortName);
-                                $("#HeaderBox1").val(result.data.headerBox1);
-                                $("#HeaderBox2").val(result.data.headerBox2);
-                                $("#HeaderBox3").val(result.data.headerBox3);
-                                $("#HeaderBox4").val(result.data.headerBox4);
-                                $("#HeaderBox5").val(result.data.headerBox5);
-                                $("#IsTDSAccount").prop('checked', result.data.isTDSAccount);
-                                $("#TDSAccountId").val(result.data.tdsAccountId).trigger('change');
-                                $("#IsTCSAccount").prop('checked', result.data.isTCSAccount);
-                                $("#TCSAccountId").val(result.data.tcsAccountId).trigger('change');
-                                $("#SGSTAccountId").val(result.data.sgstAccountId).trigger('change');
-                                $("#CGSTAccountId").val(result.data.cgstAccountId).trigger('change');
-                                $("#IGSTAccountId").val(result.data.igstAccountId).trigger('change');
-                                $("#GSTStateCessAccountId").val(result.data.gstStateCessAccountId).trigger('change');
-                                $("#GSTCentralCessAccountId").val(result.data.gstCentralCessAccountId).trigger('change');
-                                $("#RCMSGSTPayAccountId").val(result.data.rcmsgstPayAccountId).trigger('change');
-                                $("#RCMCGSTPayAccountId").val(result.data.rcmcgstPayAccountId).trigger('change');
-                                $("#RCMIGSTPayAccountId").val(result.data.rcmigstPayAccountId).trigger('change');
-                                $("#RCMSGSTRecAccountId").val(result.data.rcmsgstRecAccountId).trigger('change');
-                                $("#RCMCGSTRecAccountId").val(result.data.rcmcgstRecAccountId).trigger('change');
-                                $("#RCMIGSTRecAccountId").val(result.data.rcmigstRecAccountId).trigger('change');
-                                $("#RoundOffAccountId").val(result.data.roundOffAccountId).trigger('change');
-                                $("#CustomerBookBranchId").multipleSelect('setSelects', result.data.customerBookBranchId.split(','));
-                                $('#Active').prop('checked', result.data.active);
+                                $("#SerialNumberOfBranch").val(result.data.serialNumberOfBranch);
+                                $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#CreditDays").val(result.data.creditDays);
+                                $("#ChalanDateFrom").val(moment(result.data.chalanDateFrom.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#ChalanDateTo").val(moment(result.data.chalanDateTo.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#BillNumber").val(result.data.billNumber);
+                                $("#Notes").val(result.data.notes);
+                                $("#TaxableAmount").val(result.data.taxableAmount);
+                                $("#TDSPercentage").val(result.data.tdsPercentage);
+                                $("#TDSAmount").val(result.data.tdsAmount);
+                                $("#SGSTTotal").val(result.data.sGSTTotal);
+                                $("#CGSTTotal").val(result.data.cGSTTotal);
+                                $("#IGSTTotal").val(result.data.iGSTTotal);
+                                $("#GSTStateCessTotal").val(result.data.gstStateCessTotal);
+                                $("#GSTCentralCessTotal").val(result.data.gstCentralCessTotal);
+                                $("#RoundOff").val(result.data.roundOff);
+                                $("#BillAmount").val(result.data.billAmount);
+                                $("#TCSPercentage").val(result.data.tcsPercentage);
+                                $("#TCSAmount").val(result.data.tcsAmount);
+                                $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                $("#VehicleNumber").val(result.data.vehicleNumber).trigger('change');
+                                getLRDetailListBySalesBillMas(result.data.id);
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
                         } catch (e) {
                             unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getLRDetailListBySalesBillMas(salesBillMasterId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListBySalesBillMasterId"))" + "/" + salesBillMasterId, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                
+                                result.data.forEach(function (LRBookingDetail) {
+                                    selectedLRDetails.push({
+                                        id: LRBookingDetail.id,
+                                        lrNumber: LRBookingDetail.lrNumber,
+                                        lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                        parcel: LRBookingDetail.parcel,
+                                        chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
+                                        taxableAmount: parseFloat(LRBookingDetail.basicamount || 0).toFixed(2),
+                                        freight: parseFloat(LRBookingDetail.freightamount || 0).toFixed(2),
+                                        charges1: parseFloat(LRBookingDetail.charge1 || 0).toFixed(2),
+                                        charges2: parseFloat(LRBookingDetail.charge2 || 0).toFixed(2),
+                                        charges3: parseFloat(LRBookingDetail.charge3 || 0).toFixed(2),
+                                        charges4: parseFloat(LRBookingDetail.charge4 || 0).toFixed(2),
+                                        charges5: parseFloat(LRBookingDetail.charge5 || 0).toFixed(2),
+                                        charges6: parseFloat(LRBookingDetail.charge6 || 0).toFixed(2),
+                                        rate: parseFloat(LRBookingDetail.rate || 0).toFixed(2),
+                                    });
+                                });
+
+                                addRow();
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetListByCustomerAccountBranchMappingId(CustomerAccountBranchMappingId, contentRowId) {
+            try {
+                if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#CreditDays").val(result.data.creditDays);
+                                $("#TDSPercentage").val(result.data.tds);
+                                $("#TCSPercentage").val(result.data.tcs);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
                             showError('Error', e); //warning,  success, error, info
                         }
                     },
@@ -1121,13 +1203,16 @@
         function getLRDetailListByLRNumber(LRNumberId) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByLRNumberId"))" + "/" + LRNumberId, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetInvoiceListByLRNumberId"))" + "/" + LRNumberId, "",
                     function (result) {
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
                                 result.data.forEach(function (LRBookingDetail) {
                                     var isDuplicate = selectedLRDetails.some(item => item.id === LRBookingDetail.id);
+
+                                    $("#AccountBranchMappingId").val(LRBookingDetail.billAccountBranchMappingId).trigger('change');
+                                    $("#CreditDays").val(LRBookingDetail.creditDays);
 
                                     if (!isDuplicate) {
                                         selectedLRDetails.push({
@@ -1234,13 +1319,13 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return parseFloat(row.invoiceValue || 0).toFixed(2);
+                    return parseFloat(row.chargeAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.description;
+                    return row.rate;
                 },
                 "targets": colDef.length,
             });
@@ -1262,8 +1347,8 @@
             columns.push({ "data": "consignor", "name": "consignor" });
             columns.push({ "data": "cityFrom", "name": "cityFrom" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
-            columns.push({ "data": "description", "name": "description" });
+            columns.push({ "data": "chargeAmount", "name": "chargeAmount" });
+            columns.push({ "data": "rate", "name": "rate" });
             columns.push({ "data": "vehilcleNo", "name": "vehilcleNo" });
             columns.push({ "data": "consignee", "name": "consignee" });
 
@@ -1314,7 +1399,7 @@
                                     chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
                                     toCity: row.cityTo,
                                     fromCity: row.cityFrom,
-                                    invoiceValue: parseFloat(row.invoiceValue || 0).toFixed(2),
+                                    taxableAmount: parseFloat(row.chargeAmount || 0).toFixed(2),
                                     description: row.description,
                                     consignor: row.consignor,
                                     consignee: row.consignee,
@@ -1368,7 +1453,7 @@
                         chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
                         toCity: row.cityTo,
                         fromCity: row.cityFrom,
-                        invoiceValue: parseFloat(row.invoiceValue || 0).toFixed(2),
+                        taxableAmount: parseFloat(row.chargeAmount || 0).toFixed(2),
                         description: row.description,
                         consignor: row.consignor,
                         consignee: row.consignee,
@@ -1413,7 +1498,7 @@
                                     chargeWeight: parseFloat(row.data().chargeWeight || 0).toFixed(3),
                                     toCity: row.cityTo,
                                     fromCity: row.cityFrom,
-                                    invoiceValue: parseFloat(row.data().invoiceValue || 0).toFixed(2),
+                                    taxableAmount: parseFloat(row.data().chargeAmount || 0).toFixed(2),
                                     description: row.data().description,
                                     consignor: row.data().consignor,
                                     consignee: row.data().consignee,
@@ -1444,39 +1529,25 @@
         }
 
         function addRow() {
-            contentRowId++;
             $('#contentRow').html('');
             for (var i = 0; i < selectedLRDetails.length; i++) {
 
                 var lrNumber = selectedLRDetails[i].id;
 
                 if (addedIds.indexOf(lrNumber) === -1) {
+                    contentRowId++;
 
-                    var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + i + '">' +
+                    var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + contentRowId + '">' +
                         '<div class="col-md-1">' +
                         '<div class="row mb-0">' +
                         '<div class="col-md-6">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="LRId">' + selectedLRDetails[i].id + '</label>' +
+                        '<label for="LRId" id="LRId' + contentRowId + '">' + selectedLRDetails[i].id + '</label>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-6">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="LRNumber">' + selectedLRDetails[i].lrNumber + '</label>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="col-md-1">' +
-                        '<div class="row mb-0">' +
-                        '<div class="col-md-6">' +
-                        '<div class="form-group text-center mb-1">' +
-                        '<label for="LRDate">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="col-md-6">' +
-                        '<div class="form-group text-center mb-1">' +
-                        '<label for="Packing">' + (selectedLRDetails[i].parcel || '') + '</label>' +
+                        '<label for="LRNumber" id="LRNumber' + contentRowId + '">' + selectedLRDetails[i].lrNumber + '</label>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
@@ -1485,54 +1556,68 @@
                         '<div class="row mb-0">' +
                         '<div class="col-md-6">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="ChargeWeight">' + (selectedLRDetails[i].chargeWeight || 0) + '</label>' +
+                        '<label for="LRDate" id="LRDate' + contentRowId + '">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-6">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="TaxableAmount">' + (selectedLRDetails[i].invoiceValue || 0) + '</label>' +
+                        '<label for="Packing" id="Packing' + contentRowId + '">' + (selectedLRDetails[i].parcel || '') + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="row mb-0">' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="ChargeWeight" id="ChargeWeight' + contentRowId + '">' + (selectedLRDetails[i].chargeWeight || 0) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="TaxableAmount" id="TaxableAmount' + contentRowId + '">' + (selectedLRDetails[i].taxableAmount || 0) + '</label>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="GSTRate">' + (selectedLRDetails[i].rate || 0) + '</label>' +
+                        '<label for="GSTRate" id="GSTRate' + contentRowId + '">' + (selectedLRDetails[i].rate || 0) + '</label>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="Freight">' + (selectedLRDetails[i].freight || 0) + '</label>' +
+                        '<label for="Freight" id="Freight' + contentRowId + '">' + (selectedLRDetails[i].freight || 0) + '</label>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control" id="Charges1' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges1 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right" id="Charges1' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges1 || 0) + '" min="' + (selectedLRDetails[i].charges1 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control" id="Charges2' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges2 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right" id="Charges2' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges2 || 0) + '" min="' + (selectedLRDetails[i].charges2 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control" id="Charges3' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges3 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right" id="Charges3' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges3 || 0) + '" min="' + (selectedLRDetails[i].charges3 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control" id="Charges4' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges4 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right" id="Charges4' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges4 || 0) + '" min="' + (selectedLRDetails[i].charges4 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control" id="Charges5' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges5 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right" id="Charges5' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges5 || 0) + '" min="' + (selectedLRDetails[i].charges5 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control" id="Charges6' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges6 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right" id="Charges6' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges6 || 0) + '" min="' + (selectedLRDetails[i].charges6 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
@@ -1548,17 +1633,17 @@
                 }
             }
 
-            $('#Charges1' + contentRowId + ', #Charges2' + contentRowId + ', #Charges3' + contentRowId +
-                ', #Charges4' + contentRowId + ', #Charges5' + contentRowId + ', #Charges6' + contentRowId).on('keyup', function () {
-                    calculateAmount(contentRowId);
-                    calculateTotalTaxableAmount();
-                });
-
             $('.content-rows-add-btn').remove();
             $('#contentRow').html(htmlContentArray.join(''));
             $('.select2-show-search-contentrows').select2({
                 minimumResultsForSearch: ''
             });
+
+            $('#Charges1' + contentRowId + ', #Charges2' + contentRowId + ', #Charges3' + contentRowId +
+                ', #Charges4' + contentRowId + ', #Charges5' + contentRowId + ', #Charges6' + contentRowId).on('keyup', function () {
+                    calculateAmount(contentRowId);
+                    calculateTotalTaxableAmount();
+                });
 
             var counter = 0;
             $('.content-row-srno').each(function () {
@@ -1569,6 +1654,7 @@
                 var index = $(this).data('index');
                 deleteRow(index);
             });
+            calculateAmount(contentRowId);
             calculateTotalTaxableAmount();
             updateSelectedIdsInput();
         }
@@ -1584,15 +1670,15 @@
 
             // Calculate the sum of LABEL 1 to 6
             var sumOfLabels = Charges1 + Charges2 + Charges3 + Charges4 + Charges5 + Charges6;
-            parseFloat($('#TaxableAmount' + currentRowId).val(sumOfLabels.toFixed(2))) || 0;
+            parseFloat($('#TaxableAmount' + contentRowId).text(sumOfLabels.toFixed(2))) || 0;
         }
 
         function calculateTotalTaxableAmount() {
             var totalTaxableAmount = 0;
 
             $('.content-rows').each(function () {
-                var currentRowId = $(this).attr('id').replace('row-', '');
-                var taxableAmount = parseFloat($('#TaxableAmount' + currentRowId).val()) || 0;
+                var contentRowId = $(this).attr('id').replace('row-', '');
+                var taxableAmount = parseFloat($('#TaxableAmount' + contentRowId).text()) || 0;
                 totalTaxableAmount += taxableAmount;
                 $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
             });
@@ -1603,9 +1689,9 @@
             var IGSTTotal = parseFloat($('#IGSTTotal').val()) || 0;
             var GSTStateCessTotal = parseFloat($('#GSTStateCessTotal').val()) || 0;
             var GSTCentralCessTotal = parseFloat($('#GSTCentralCessTotal').val()) || 0;
-            var TCSPercent = parseFloat($('#TCSPercent').val()) || 0;
+            var TCSPercentage = parseFloat($('#TCSPercentage').val()) || 0;
 
-            $('#TCSAmount').val(((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal) * (TCSPercent) / 100).toFixed(2));
+            $('#TCSAmount').val(((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal) * (TCSPercentage) / 100).toFixed(2));
             var TCSAmount = parseFloat($('#TCSAmount').val()) || 0;
 
             // Calculate the sum of all components

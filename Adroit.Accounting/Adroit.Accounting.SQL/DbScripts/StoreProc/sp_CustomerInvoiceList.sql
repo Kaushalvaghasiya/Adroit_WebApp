@@ -31,10 +31,15 @@ Begin
 		,[Z-SalesBillMaster-Z].SerialNumberOfBranch As SerialNumberOfBranch
 		,[Z-SalesBillMaster-Z].BillDate As BillDate
 		,CustomerAccount.Name As BillParty
+		,[GSTRate].Rate As Rate
 		,[Z-SalesBillMaster-Z].BillNumber As BillNumber
 		FROM [Z-SalesBillMaster-Z]
 		INNER JOIN CustomerAccountBranchMapping on CustomerAccountBranchMapping.Id = [Z-SalesBillMaster-Z].AccountBranchMappingId AND CustomerAccountBranchMapping.Deleted = 0
 		INNER JOIN CustomerAccount on CustomerAccount.Id = CustomerAccountBranchMapping.AccountId AND CustomerAccount.Deleted = 0 AND CustomerAccount.Active = 1
+		INNER JOIN [CustomerFirmBranch] on [CustomerFirmBranch].Id = [Z-SalesBillMaster-Z].BranchId AND [CustomerFirmBranch].Deleted = 0 AND [CustomerFirmBranch].Active = 1 
+		INNER JOIN [CustomerFirmTransportSetting] on [CustomerFirmTransportSetting].FirmId = [CustomerFirmBranch].FirmId
+		INNER JOIN [Product] on [Product].Id = [CustomerFirmTransportSetting].ProductIdForSales AND [Product].Deleted = 0 AND [Product].Active = 1
+		INNER JOIN [GSTRate] on [GSTRate].Id = [Product].GSTRateId AND [GSTRate].Deleted = 0 AND [GSTRate].Active = 1
 		WHERE [Z-SalesBillMaster-Z].Deleted = 0
 	  AND (Coalesce(@Search,'') = '' OR [Z-SalesBillMaster-Z].SerialNumberOfBranch like '%'+ @Search + '%')
 	 ) AS T   

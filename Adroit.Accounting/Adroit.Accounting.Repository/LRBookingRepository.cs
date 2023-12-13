@@ -138,5 +138,13 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LRPayTypeId", lrPayTypeId);
             return QueryHelper.GetList<DropdownViewModel>("sp_LRBookingList_Select", connectionString, parameters);
         }
+        public List<LRBookingGridViewModel> GetListBySalesBillMasterId(string connectionString, int salesBillMasterId, int loginId, int branchId, int firmId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@SalesBillMasterId", salesBillMasterId);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_InvoiceGetLRBookingTableListBySalesBillMasterId", connectionString, parameters);
+        }
     }
 }

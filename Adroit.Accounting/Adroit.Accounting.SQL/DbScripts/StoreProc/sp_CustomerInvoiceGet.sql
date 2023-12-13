@@ -14,8 +14,8 @@ BEGIN
 			FROM  [Z-SalesBillDetail-Z] t
 			WHERE t.SalesBillMasterId = @Id GROUP BY t.SalesBillMasterId) AS LRNumberId
 	FROM [Z-SalesBillMaster-Z] SBM
-	--WHERE SBM.BranchId = @BranchId AND SBM.Id = @Id
-	--AND SBM.Deleted = 0
+	WHERE SBM.BranchId = @BranchId AND SBM.Id = @Id
+	AND SBM.Deleted = 0
 
 END
 GO

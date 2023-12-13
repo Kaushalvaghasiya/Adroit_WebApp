@@ -2,6 +2,8 @@
 //    Copyright (c) Adroit IBS Pvt Ltd. All rights reserved.
 //-----------------------------------------------------------------------
 
+using System.Text.Json.Serialization;
+
 namespace Adroit.Accounting.Model
 {
     public partial class SalesBillMaster
@@ -14,11 +16,14 @@ namespace Adroit.Accounting.Model
         public int BookBranchMappingId { get; set; }
         public int BillNumber { get; set; }
         public byte EntryTypeId { get; set; }
+        [JsonConverter(typeof(CustomDateTimeConverter))]
         public System.DateTime BillDate { get; set; }
         public int SerialNumberOfBranch { get; set; }
         public string InvoiceMemo { get; set; }
         public string SalesBillFromId { get; set; }
+        [JsonConverter(typeof(CustomDateTimeConverter))]
         public System.DateTime ChalanDateFrom { get; set; }
+        [JsonConverter(typeof(CustomDateTimeConverter))]
         public System.DateTime ChalanDateTo { get; set; }
         public int ChalanNo { get; set; }
         public string SalesOrderNumber { get; set; }
@@ -49,11 +54,13 @@ namespace Adroit.Accounting.Model
         public string IRNNumber { get; set; }
         public string AcknowledgementNumber { get; set; }
         public string ReturnBillNumber { get; set; }
+        [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? ReturnBillDate { get; set; }
         public byte? ReturnReasonId { get; set; }
-        public int VehicleNumber { get; set; }
+        public string VehicleNumber { get; set; }
         public string TransportGSTNumber { get; set; }
         public string TransportLRNumber { get; set; }
+        [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public DateTime? TransportLRDate { get; set; }
         public string TransportName { get; set; }
         public byte TransportModeId { get; set; }
@@ -72,11 +79,14 @@ namespace Adroit.Accounting.Model
         public decimal Charge5 { get; set; }
         public decimal Charge6 { get; set; }
         public int CreditNoteId { get; set; }
+        [JsonConverter(typeof(CustomDateTimeConverter))]
         public System.DateTime AddedOn { get; set; }
         public int AddedById { get; set; }
         public int? DeletedById { get; set; }
+        [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? DeletedOn { get; set; }
         public int? ModifiedById { get; set; }
+        [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? ModifiedOn { get; set; }
         public bool Deleted { get; set; }
 
