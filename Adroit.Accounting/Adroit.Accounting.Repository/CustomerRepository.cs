@@ -77,6 +77,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Email", email);
             return QueryHelper.Get<CustomerViewModel>("sp_CustomerGetByEmail", connectionString, parameters);
         }
+        public CustomerViewModel GetByUsername(string email, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Email", email);
+            return QueryHelper.Get<CustomerViewModel>("sp_CustomerGetByUserEmail", connectionString, parameters);
+        }
         public CustomerViewModel Get(int id, string connectionString)
         {
             var parameters = new DynamicParameters();
