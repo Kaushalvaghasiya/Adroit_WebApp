@@ -60,7 +60,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var user = await _userManager.FindByIdAsync($"{model.IdentityUserId}");
                 if (user != null)
                 {
-                    var customer = _customerRepo.Get(user.Email, _configurationData.DefaultConnection);
+                    var customer = _customerRepo.GetByUsername(user.Email, _configurationData.DefaultConnection);
                     if (customer != null)
                     {
                         if (customer.EmailOtp == customer.EmailOtp) //&& customer.MobileOtp == model.MobileOtp)
@@ -133,7 +133,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null)
                 {
-                    var customer = _customerRepo.Get(user.Email, _configurationData.DefaultConnection);
+                    var customer = _customerRepo.GetByUsername(user.Email, _configurationData.DefaultConnection);
                     var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false)));
                     string url = $"{_configurationData.SiteURL}/Authentication/ResetPassword?code={code}";
 
@@ -178,7 +178,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null)
                 {
-                    Customer customer = _customerRepo.Get(user.Email, _configurationData.DefaultConnection);
+                    Customer customer = _customerRepo.GetByUsername(user.Email, _configurationData.DefaultConnection);
                     if (customer != null)
                     {
                         model.TokenCode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.TokenCode));
