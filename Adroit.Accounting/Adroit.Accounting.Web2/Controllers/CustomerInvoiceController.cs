@@ -28,7 +28,7 @@ namespace Adroit.Accounting.Web.Controllers
                 model.CustomerFirmTransportSetting = CustomerFirmTransportSetting;
             }
 
-            model.LRNumberList = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentBranchId, 1);
+            model.LRNumberList = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId);
             model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
             model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
 
@@ -46,7 +46,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _customerInvoice.List(_configurationData.DefaultConnection, CurrentBranchId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerInvoice.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -147,7 +147,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentBranchId, lrPayTypeId);
+                result.data = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId, lrPayTypeId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

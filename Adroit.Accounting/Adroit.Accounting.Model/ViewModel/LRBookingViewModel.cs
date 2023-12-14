@@ -24,6 +24,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? Packing { get; set; }
         public string? Description { get; set; }
         public string? LRPayType { get; set; }
+        public decimal? Amount { get; set; }
         public decimal? ChargeAmount { get; set; }
         public string? BillParty { get; set; }
         public string? VehilcleNo { get; set; }

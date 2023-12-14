@@ -193,7 +193,7 @@
                                     </label>
                                     <div class="col-md-2">
                                         <select class="form-control select2-show-search" id="PayTypeId">
-                                            <option value="1" selected>All</option>
+                                            <option value="1">All</option>
                                             <option value="2">Paid</option>
                                             <option value="3">TBB</option>
                                         </select>
@@ -655,41 +655,45 @@
 
             $("#AccountBranchMappingId").on('change', function (e) {
                 GetListByCustomerAccountBranchMappingId($(this).val());
-                calculateTotalTaxableAmount();
+                calculateBasicAmount();
             });
 
             $("#TaxableAmount").on('keyup', function (e) {
-                calculateTotalTaxableAmount();
+                calculateBasicAmount();
             });
             $("#SGSTTotal").on('keyup', function (e) {
-                calculateTotalTaxableAmount();
+                calculateBasicAmount();
             });
             $("#CGSTTotal").on('keyup', function (e) {
-                calculateTotalTaxableAmount();
+                calculateBasicAmount();
             });
             $("#IGSTTotal").on('keyup', function (e) {
-                calculateTotalTaxableAmount();
+                calculateBasicAmount();
             });
             $("#GSTStateCessTotal").on('keyup', function (e) {
-                calculateTotalTaxableAmount();
+                calculateBasicAmount();
             });
             $("#GSTCentralCessTotal").on('keyup', function (e) {
-                calculateTotalTaxableAmount();
+                calculateBasicAmount();
             });
             $("#TCSPercentage").on('keyup', function (e) {
-                calculateTotalTaxableAmount();
+                calculateBasicAmount();
             });
             $("#TCSAmount").on('keyup', function (e) {
-                calculateTotalTaxableAmount();
+                calculateBasicAmount();
             });
 
             $("#RoundOff").on('keyup', function (e) {
-                calculateTotalTaxableAmount();
+                calculateBasicAmount();
             });
 
             $("#TDSPercentage").on('keyup', function (e) {
                 var amt = ($('#TaxableAmount').val() * $(this).val() / 100) || 0;
                 $("#TDSAmount").val(Math.round(amt));
+            });
+
+            $("#PayTypeId").on('change', function (e) {
+                GetLRNumberListByLRPayTypeId($(this).val());
             });
 
         });
@@ -728,7 +732,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.billDate;
+                    return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
             });
@@ -848,7 +852,7 @@
             $("#TCSPercentage").val('');
             $("#TCSAmount").val('');
             $("#LRNumber").val(null).trigger('change');
-            $("#PayTypeId").val(null).trigger('change');
+            $("#PayTypeId").val(1).trigger('change');
             $("#AccountBranchMappingId").val(null).trigger('change');
             $("#VehicleNumber").val(null).trigger('change');
             $("#contentRow").html('');
@@ -981,7 +985,7 @@
                 savedata.Notes = $("#Notes").val();
                 savedata.VehicleNumber = $("#VehicleNumber").val();
                 savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
-                savedata.DeliveryPartyAccountBranchMappingId = getIntValueZero("DeliveryPartyAccountBranchMappingId");
+                savedata.DeliveryPartyAccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
                 savedata.TDSPercentage = getFloatValueZero("TDSPercentage", 3);
                 savedata.TCSPercentage = getFloatValueZero("TCSPercentage", 3);
                 savedata.TaxableAmount = getFloatValueZero("TaxableAmount", 2);
@@ -1018,7 +1022,7 @@
                 });
 
                 savedata.LRDetailsArray = JSON.stringify(lrDetailsArray);
-
+                
                 blockUI('container');
 
                 $.ajax({
@@ -1100,29 +1104,32 @@
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
+                                getLRDetailListBySalesBillMas(result.data.id);
+
                                 $("#Id").val(result.data.id);
                                 $("#SerialNumberOfBranch").val(result.data.serialNumberOfBranch);
                                 $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#CreditDays").val(result.data.creditDays);
                                 $("#ChalanDateFrom").val(moment(result.data.chalanDateFrom.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#ChalanDateTo").val(moment(result.data.chalanDateTo.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#LRFromDate").val(moment(result.data.chalanDateFrom.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#LRToDate").val(moment(result.data.chalanDateTo.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#BillNumber").val(result.data.billNumber);
                                 $("#Notes").val(result.data.notes);
-                                $("#TaxableAmount").val(result.data.taxableAmount);
-                                $("#TDSPercentage").val(result.data.tdsPercentage);
-                                $("#TDSAmount").val(result.data.tdsAmount);
-                                $("#SGSTTotal").val(result.data.sGSTTotal);
-                                $("#CGSTTotal").val(result.data.cGSTTotal);
-                                $("#IGSTTotal").val(result.data.iGSTTotal);
-                                $("#GSTStateCessTotal").val(result.data.gstStateCessTotal);
-                                $("#GSTCentralCessTotal").val(result.data.gstCentralCessTotal);
-                                $("#RoundOff").val(result.data.roundOff);
-                                $("#BillAmount").val(result.data.billAmount);
-                                $("#TCSPercentage").val(result.data.tcsPercentage);
-                                $("#TCSAmount").val(result.data.tcsAmount);
+                                $("#TaxableAmount").val((result.data.taxableAmount || 0).toFixed(2));
+                                $("#TDSPercentage").val((result.data.tdsPercentage || 0).toFixed(3));
+                                $("#TDSAmount").val((result.data.tdsAmount || 0).toFixed(2));
+                                $("#SGSTTotal").val((result.data.sgstTotal || 0).toFixed(2));
+                                $("#CGSTTotal").val((result.data.cgstTotal || 0).toFixed(2));
+                                $("#IGSTTotal").val((result.data.igstTotal || 0).toFixed(2));
+                                $("#GSTStateCessTotal").val((result.data.gstStateCessTotal || 0).toFixed(2));
+                                $("#GSTCentralCessTotal").val((result.data.gstCentralCessTotal || 0).toFixed(2));
+                                $("#RoundOff").val((result.data.roundOff || 0).toFixed(2));
+                                $("#BillAmount").val((result.data.billAmount || 0).toFixed(2));
+                                $("#TCSPercentage").val((result.data.tcsPercentage || 0).toFixed(3));
+                                $("#TCSAmount").val((result.data.tcsAmount || 0).toFixed(2));
                                 $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
                                 $("#VehicleNumber").val(result.data.vehicleNumber).trigger('change');
-                                getLRDetailListBySalesBillMas(result.data.id);
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -1138,6 +1145,42 @@
             }
             catch (err) {
             }
+        }
+
+        function GetLRNumberListByLRPayTypeId(LRPayTypeId) {
+
+            if ($("#PayTypeId").val() == '' || $("#PayTypeId").val() == null) return;
+
+            try {
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetLRNumberListByLRPayTypeId"))" + "/" + LRPayTypeId, "",
+                    function (result) {
+                        try {
+                            var str = "";
+                            $("#LRNumber").html('');
+                            if (result.result == RESULT_SUCCESS) {
+
+                                if (result.data.length > 0) {
+                                    str = ("<option></option>");
+                                    for (var i = 0; i < result.data.length; i++) {
+                                        str += ("<option value='" + result.data[i].text + "'>" + result.data[i].text + "</option>");
+                                    }
+                                }
+                                $("#LRNumber").html(str);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+
         }
 
         function getLRDetailListBySalesBillMas(salesBillMasterId) {
@@ -1156,14 +1199,14 @@
                                         lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
                                         parcel: LRBookingDetail.parcel,
                                         chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
-                                        taxableAmount: parseFloat(LRBookingDetail.basicamount || 0).toFixed(2),
-                                        freight: parseFloat(LRBookingDetail.freightamount || 0).toFixed(2),
-                                        charges1: parseFloat(LRBookingDetail.charge1 || 0).toFixed(2),
-                                        charges2: parseFloat(LRBookingDetail.charge2 || 0).toFixed(2),
-                                        charges3: parseFloat(LRBookingDetail.charge3 || 0).toFixed(2),
-                                        charges4: parseFloat(LRBookingDetail.charge4 || 0).toFixed(2),
-                                        charges5: parseFloat(LRBookingDetail.charge5 || 0).toFixed(2),
-                                        charges6: parseFloat(LRBookingDetail.charge6 || 0).toFixed(2),
+                                        taxableAmount: parseFloat(LRBookingDetail.taxableAmount || 0).toFixed(2),
+                                        freight: parseFloat(LRBookingDetail.freight || 0).toFixed(2),
+                                        charges1: parseFloat(LRBookingDetail.charges1 || 0).toFixed(2),
+                                        charges2: parseFloat(LRBookingDetail.charges2 || 0).toFixed(2),
+                                        charges3: parseFloat(LRBookingDetail.charges3 || 0).toFixed(2),
+                                        charges4: parseFloat(LRBookingDetail.charges4 || 0).toFixed(2),
+                                        charges5: parseFloat(LRBookingDetail.charges5 || 0).toFixed(2),
+                                        charges6: parseFloat(LRBookingDetail.charges6 || 0).toFixed(2),
                                         rate: parseFloat(LRBookingDetail.rate || 0).toFixed(2),
                                     });
                                 });
@@ -1543,7 +1586,6 @@
 
         function addRow() {
             $('#contentRow').html('');
-            contentRowId = 0;
             for (var i = 0; i < selectedLRDetails.length; i++) {
 
                 var lrNumber = selectedLRDetails[i].id;
@@ -1639,11 +1681,10 @@
                         '</div>' +
                         '</div>';
 
-                    calculateAmount(contentRowId);
-                    contentRowId++;
                     htmlContentArray.push(htmlContent);
 
                     addedIds.push(selectedLRDetails[i].id);
+                    contentRowId++;
 
                 }
             }
@@ -1656,11 +1697,11 @@
 
             $('.charges-input').on('keyup', function () {
                 var inputField = $(this).attr('data-contentRowId');
-                calculateAmount(inputField);
-                calculateTotalTaxableAmount();
+                calculateTaxableAmount(inputField);
+                calculateBasicAmount();
             });
 
-            $('.charges-input').on('change', function () {                
+            $('.charges-input').on('change', function () {
                 var minValue = parseFloat($(this).attr('data-min'));
                 var inputValue = $(this).val();
 
@@ -1678,25 +1719,31 @@
                 var index = $(this).data('index');
                 deleteRow(index);
             });
-            calculateTotalTaxableAmount();
+            calculateTaxableAmount();
+            calculateBasicAmount();
             updateSelectedIdsInput();
         }
 
-        function calculateAmount(contentRowId) {
-            // Assuming Charges1 to Charges6 are the labels 1 to 6
-            var Charges1 = parseFloat($('#Charges1' + contentRowId).val()) || 0;
-            var Charges2 = parseFloat($('#Charges2' + contentRowId).val()) || 0;
-            var Charges3 = parseFloat($('#Charges3' + contentRowId).val()) || 0;
-            var Charges4 = parseFloat($('#Charges4' + contentRowId).val()) || 0;
-            var Charges5 = parseFloat($('#Charges5' + contentRowId).val()) || 0;
-            var Charges6 = parseFloat($('#Charges6' + contentRowId).val()) || 0;
+        function calculateTaxableAmount() {
 
-            // Calculate the sum of LABEL 1 to 6
-            var sumOfLabels = Charges1 + Charges2 + Charges3 + Charges4 + Charges5 + Charges6;
-            parseFloat($('#TaxableAmount' + contentRowId).text(sumOfLabels.toFixed(2))) || 0;
+            $('.content-rows').each(function () {
+                var contentRowId = $(this).attr('id').replace('row-', '');
+                var Freight = parseFloat($('#Freight' + contentRowId).text()) || 0;
+                var Freight = parseFloat($('#Freight' + contentRowId).text()) || 0;
+                var Charges1 = parseFloat($('#Charges1' + contentRowId).val()) || 0;
+                var Charges2 = parseFloat($('#Charges2' + contentRowId).val()) || 0;
+                var Charges3 = parseFloat($('#Charges3' + contentRowId).val()) || 0;
+                var Charges4 = parseFloat($('#Charges4' + contentRowId).val()) || 0;
+                var Charges5 = parseFloat($('#Charges5' + contentRowId).val()) || 0;
+                var Charges6 = parseFloat($('#Charges6' + contentRowId).val()) || 0;
+
+                var sumOfLabels = Freight + Charges1 + Charges2 + Charges3 + Charges4 + Charges5 + Charges6;
+                parseFloat($('#TaxableAmount' + contentRowId).text(sumOfLabels.toFixed(2))) || 0;
+            });
+
         }
 
-        function calculateTotalTaxableAmount() {
+        function calculateBasicAmount() {
             var totalTaxableAmount = 0;
 
             $('.content-rows').each(function () {
@@ -1717,10 +1764,8 @@
             $('#TCSAmount').val(((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal) * (TCSPercentage) / 100).toFixed(2));
             var TCSAmount = parseFloat($('#TCSAmount').val()) || 0;
 
-            // Calculate the sum of all components
             var totalAmount = BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount;
 
-            // Calculate RoundOff based on custom rounding logic
             var RoundOff = customRound(totalAmount) - totalAmount;
 
             $('#RoundOff').val(RoundOff.toFixed(2));
@@ -1745,9 +1790,9 @@
                     $('#TaxableAmount').val(0.00);
                 } else {
                     for (var i = 0; i < selectedLRDetails.length; i++) {
-                        calculateAmount(i);
+                        calculateTaxableAmount(i);
                     }
-                    calculateTotalTaxableAmount();
+                    calculateBasicAmount();
                 }
                 updateSelectedIdsInput();
             }

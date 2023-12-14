@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountBranchMappingListById]
+CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountGetByBranchMappingId]
 (
 	@CustomerAccountBranchMappingId INT,
 	@BranchId INT
@@ -6,9 +6,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountBranchMappingListById]
 AS
 BEGIN
 
-	SELECT CustomerAccount.CreditDays As CreditDays
-	,CustomerAccount.TDS As TDS
-	,CustomerAccount.TCS As TCS
+	SELECT CustomerAccount.*
 	FROM CustomerAccount
 		INNER JOIN CustomerAccountBranchMapping ON CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 	WHERE CustomerAccountBranchMapping.Id = @CustomerAccountBranchMappingId AND CustomerAccountBranchMapping.BranchId = @BranchId

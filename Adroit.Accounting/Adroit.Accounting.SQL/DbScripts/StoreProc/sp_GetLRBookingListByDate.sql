@@ -1,12 +1,14 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_GetLRBookingListByDate]
   @LoginId INT,
+  @FirmId INT,
   @BranchId INT,
   @FromDate NVARCHAR(20),
   @ToDate NVARCHAR(20),
   @PayTypeId NVARCHAR(20)
 AS
 BEGIN
-	DECLARE @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
+	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 	   SELECT  
 	    ROW_NUMBER() over (ORDER BY [Z-LRBooking-Z].Id ASC) AS RowNum,
@@ -55,12 +57,14 @@ BEGIN
 		LEFT JOIN [CustomerAccountBranchMapping] AS CAB3 on CAB3.Id = [Z-LRBooking-Z].BillAccountBranchMappingId AND CAB3.Deleted = 0
 		LEFT JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId AND CA3.Deleted = 0 AND CA3.Active = 1
 		LEFT JOIN [Vehilcle] on [Vehilcle].Id = [Z-LRBooking-Z].VehicleId AND [Vehilcle].Deleted = 0 AND [Vehilcle].Active = 1 AND [Vehilcle].CustomerId = @CustomerId
-		WHERE [Z-LRBooking-Z].[BranchId] = @BranchId
-		AND [Z-LRBooking-Z].Deleted = 0
+		WHERE [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT [Z-SalesBillDetail-Z].LRBookingId FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 ) 
+		AND [Z-LRBooking-Z].[BranchId] = @BranchId
+		AND [Z-LRBooking-Z].YearId = @YearId
+		AND CAST([Z-LRBooking-Z].LRDate AS DATE) BETWEEN @FromDate AND @ToDate
+		AND (@PayTypeId = '1' OR [Z-LRBooking-Z].LRPayTypeId = @PayTypeId)
 		AND [CustomerAccountBranchMapping].Deleted = 0
 		AND [CustomerAccount].Deleted = 0 AND [CustomerAccount].Active = 1 
-		AND (@PayTypeId = '1' OR [Z-LRBooking-Z].LRPayTypeId = @PayTypeId)
-		AND CAST([Z-LRBooking-Z].LRDate AS DATE) BETWEEN @FromDate AND @ToDate
+		AND [Z-LRBooking-Z].Deleted = 0
 
 END
 GO

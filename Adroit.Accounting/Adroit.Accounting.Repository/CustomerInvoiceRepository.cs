@@ -11,10 +11,10 @@ namespace Adroit.Accounting.Repository
         public int Save(SalesBillMasterViewModel value, string connectionString, int firmId, int branchId, int loginId)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", value.Id);
+            parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", branchId);
-            parameters.Add("@Id", loginId);
+            parameters.Add("@Id", value.Id);
             parameters.Add("@AccountBranchMappingId", value.AccountBranchMappingId);
             parameters.Add("@BillDate", value.BillDate);
             parameters.Add("@SerialNumberOfBranch", value.SerialNumberOfBranch);
@@ -88,9 +88,11 @@ namespace Adroit.Accounting.Repository
         parameters.Add("@BranchId", branchId);
         return QueryHelper.Get<SalesBillMasterViewModel>("sp_CustomerInvoiceGet", connectionString, parameters);
     }
-    public List<SalesBillMasterGridViewModel> List(string connectionString, int branchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+    public List<SalesBillMasterGridViewModel> List(string connectionString, int loginId, int firmId, int branchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
     {
         var parameters = new DynamicParameters();
+        parameters.Add("@LoginId", loginId);
+        parameters.Add("@FirmId", firmId);
         parameters.Add("@BranchId", branchId);
         parameters.Add("@Search", search);
         parameters.Add("@PageStart", pageStart);

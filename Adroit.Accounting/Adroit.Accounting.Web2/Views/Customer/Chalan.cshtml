@@ -130,7 +130,7 @@
                                                 {
                                                     foreach (var o in Model.CityList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -145,7 +145,7 @@
                                                 {
                                                     foreach (var o in Model.CityList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -162,7 +162,7 @@
                                                 {
                                                     foreach (var o in Model.VehicleList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -177,7 +177,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -192,7 +192,7 @@
                                                 {
                                                     foreach (var o in Model.DriverList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -207,7 +207,7 @@
                                                 {
                                                     foreach (var o in Model.EwayBillList)
                                                     {
-                                                            <option value="@o.Text">@o.Text</option>
+                                                        <option value="@o.Text">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -374,7 +374,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -413,7 +413,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -434,7 +434,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -455,7 +455,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -476,7 +476,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -497,7 +497,7 @@
                                                 {
                                                     foreach (var o in Model.BrokerList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -599,7 +599,7 @@
                                 {
                                     foreach (var o in Model.CityList)
                                     {
-                                            <option value="@o.Value">@o.Text</option>
+                                        <option value="@o.Value">@o.Text</option>
                                     }
                                 }
                             }
@@ -614,7 +614,7 @@
                                 {
                                     foreach (var o in Model.CityList)
                                     {
-                                            <option value="@o.Value">@o.Text</option>
+                                        <option value="@o.Value">@o.Text</option>
                                     }
                                 }
                             }
@@ -1363,32 +1363,36 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                result.data.forEach(function (LRBookingDetail) {
-                                    var isDuplicate = selectedLRDetails.some(item => item.id === LRBookingDetail.id);
 
-                                    if (!isDuplicate) {
-                                        selectedLRDetails.push({
-                                            id: LRBookingDetail.id,
-                                            lrNumber: LRBookingDetail.lrNumber,
-                                            lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
-                                            privateMarka: LRBookingDetail.privateMarka,
-                                            parcel: LRBookingDetail.parcel,
-                                            chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
-                                            toCity: LRBookingDetail.cityTo,
-                                            fromCity: LRBookingDetail.cityFrom,
-                                            invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
-                                            description: LRBookingDetail.description,
-                                            consignor: LRBookingDetail.consignor,
-                                            consignee: LRBookingDetail.consignee,
-                                            billParty: LRBookingDetail.billParty,
-                                            ewayBillNo: LRBookingDetail.ewayBillNo
-                                        });
+                                if (result.data = []) {
+                                    showWarning("", 'No LR data found!.');
+                                }
+                                else {
+                                    result.data.forEach(function (LRBookingDetail) {
+                                        var isDuplicate = selectedLRDetails.some(item => item.id === LRBookingDetail.id);
 
-                                    }
-                                });
+                                        if (!isDuplicate) {
+                                            selectedLRDetails.push({
+                                                id: LRBookingDetail.id,
+                                                lrNumber: LRBookingDetail.lrNumber,
+                                                lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                                privateMarka: LRBookingDetail.privateMarka,
+                                                parcel: LRBookingDetail.parcel,
+                                                chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
+                                                toCity: LRBookingDetail.cityTo,
+                                                fromCity: LRBookingDetail.cityFrom,
+                                                invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
+                                                description: LRBookingDetail.description,
+                                                consignor: LRBookingDetail.consignor,
+                                                consignee: LRBookingDetail.consignee,
+                                                billParty: LRBookingDetail.billParty,
+                                                ewayBillNo: LRBookingDetail.ewayBillNo
+                                            });
 
-                                addRow();
-
+                                        }
+                                    });
+                                    addRow();
+                                }
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }

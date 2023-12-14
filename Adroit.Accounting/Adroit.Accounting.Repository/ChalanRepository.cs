@@ -65,9 +65,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BranchId", branchId);
             return QueryHelper.Get<PurchaseBillMasterViewModel>("sp_ChalanGet", connectionString, parameters);
         }
-        public List<PurchaseBillMasterGridViewModel> List(string connectionString, int branchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<PurchaseBillMasterGridViewModel> List(string connectionString, int loginId, int firmId, int branchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", branchId);
             parameters.Add("@Search", search);
             parameters.Add("@PageStart", pageStart);

@@ -14,14 +14,14 @@ BEGIN
 		[Z-LRBooking-Z].LRDate As LRDate,
 		[Z-LRBooking-Z].ChargeWeight As ChargeWeight,
 		[Z-LRBooking-Z].parcel As Parcel,
-		[Z-SalesBillDetail-Z].BasicAmount As BasicAmount,
-		[Z-SalesBillDetail-Z].FreightAmount As FreightAmount,
-		[Z-SalesBillDetail-Z].Charge1 As Charge1,
-		[Z-SalesBillDetail-Z].Charge2 As Charge2,
-		[Z-SalesBillDetail-Z].Charge3 As Charge3,
-		[Z-SalesBillDetail-Z].Charge4 As Charge4,
-		[Z-SalesBillDetail-Z].Charge5 As Charge5,
-		[Z-SalesBillDetail-Z].Charge6 As Charge6,
+		[Z-SalesBillDetail-Z].BasicAmount As TaxableAmount,
+		[Z-SalesBillDetail-Z].FreightAmount As Freight,
+		[Z-SalesBillDetail-Z].Charge1 As Charges1,
+		[Z-SalesBillDetail-Z].Charge2 As Charges2,
+		[Z-SalesBillDetail-Z].Charge3 As Charges3,
+		[Z-SalesBillDetail-Z].Charge4 As Charges4,
+		[Z-SalesBillDetail-Z].Charge5 As Charges5,
+		[Z-SalesBillDetail-Z].Charge6 As Charges6,
 		[GSTRate].Rate As Rate
 		FROM [Z-SalesBillDetail-Z]
 			 INNER JOIN [Z-LRBooking-Z] ON [Z-LRBooking-Z].[Id] = [Z-SalesBillDetail-Z].[LRBookingId] AND [Z-LRBooking-Z].[BranchId] = @BranchId

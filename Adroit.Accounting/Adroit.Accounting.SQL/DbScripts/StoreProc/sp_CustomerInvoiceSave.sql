@@ -54,7 +54,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerInvoiceSave]
     ,@HeaderBox2 nvarchar(20) = NULL
     ,@HeaderBox3 nvarchar(20) = NULL
     ,@HeaderBox4 nvarchar(20) = NULL
-    ,@HeaderBox5 nvarchar(20) = 0
+    ,@HeaderBox5 nvarchar(20) = '0'
     ,@PaidAmount decimal(10,2)  = 0
     ,@UnPaidAmount decimal(10,2) = 0
     ,@CreditNoteId int = null
@@ -68,7 +68,7 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
+		DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 		DECLARE @message VARCHAR(4000);
@@ -203,7 +203,6 @@ BEGIN
 			,EntryTypeId = @EntryTypeId
 			,BillDate = @BillDate
 			,SerialNumberOfBranch = @SerialNumberOfBranch
-			,InvoiceMemo = @InvoiceMemo
 			,SalesBillFromId = @SalesBillFromId
 			,ChalanDateFrom = @ChalanDateFrom
 			,ChalanDateTo = @ChalanDateTo
@@ -250,7 +249,6 @@ BEGIN
 			,HeaderBox2 = @HeaderBox2
 			,HeaderBox3 = @HeaderBox3
 			,HeaderBox4 = @HeaderBox4
-			,HeaderBox5 = @HeaderBox5
 			,PaidAmount = @PaidAmount
 			,UnPaidAmount = @UnPaidAmount
 			,CreditNoteId = @CreditNoteId

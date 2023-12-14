@@ -6,6 +6,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_GetLRBookingListByCity]
 AS
 BEGIN
 	DECLARE @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 	   SELECT  
 	    ROW_NUMBER() over (ORDER BY [Z-LRBooking-Z].Id ASC) AS RowNum,
@@ -39,12 +40,13 @@ BEGIN
 			 LEFT JOIN [TransportPacking] ON [Z-LRBooking-Z].[PackingId] = [TransportPacking].[Id] AND [TransportPacking].[CustomerId] = @CustomerId AND [TransportPacking].Deleted = 0 AND [TransportPacking].Active = 1
 			 LEFT JOIN [CustomerAccountBranchMapping] AS CAB3 on CAB3.Id = [Z-LRBooking-Z].BillAccountBranchMappingId AND CAB3.Deleted = 0
 			 LEFT JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId AND CA3.Deleted = 0 AND CA3.Active = 1
-		WHERE [Z-LRBooking-Z].[BranchId] = @BranchId
-			  AND [Z-LRBooking-Z].Deleted = 0
-			  AND [CustomerAccountBranchMapping].Deleted = 0
-			  AND [CustomerAccount].Deleted = 0 AND [CustomerAccount].Active = 1
+		WHERE [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT [Z-PurchaseBillDetail-Z].LRBookingId FROM [Z-PurchaseBillDetail-Z] WHERE [Z-PurchaseBillDetail-Z].Deleted = 0 )
+			  AND [Z-LRBooking-Z].[BranchId] = @BranchId
+			  AND [Z-LRBooking-Z].YearId = @YearId
 			  AND [Z-LRBooking-Z].CityIdFrom = @FromCityId
 			  AND [Z-LRBooking-Z].CityIdTo = @ToCityId
-
+			  AND [CustomerAccountBranchMapping].Deleted = 0
+			  AND [CustomerAccount].Deleted = 0 AND [CustomerAccount].Active = 1
+			  AND [Z-LRBooking-Z].Deleted = 0
 END
 GO

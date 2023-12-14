@@ -1,4 +1,6 @@
 CREATE OR ALTER Procedure [dbo].[sp_ChalanList]
+  @LoginId INT,
+  @FirmId INT,
   @BranchId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
@@ -8,6 +10,9 @@ CREATE OR ALTER Procedure [dbo].[sp_ChalanList]
 As
 Set Nocount on;
 Begin
+	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
+	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
+
 	SELECT * FROM
 	(   
 		SELECT ROW_NUMBER() over 
@@ -53,10 +58,13 @@ Begin
 		INNER JOIN Vehilcle on Vehilcle.Id = [Z-PurchaseBillMaster-Z].VehicleId AND Vehilcle.Active = 1
 		INNER JOIN Driver on Driver.Id = [Z-PurchaseBillMaster-Z].DriverId AND Driver.Active = 1
 		LEFT JOIN [CustomerAccountBranchMapping] AS CAB on CAB.Id = [Z-PurchaseBillMaster-Z].AccountBranchMappingId AND CAB.Deleted = 0
-		LEFT JOIN [CustomerAccount] AS CA on CA.Id = CAB.AccountId AND CA.Deleted = 0 AND CA.Active = 1
+		LEFT JOIN [CustomerAccount] AS CA on CA.Id = CAB.AccountId AND CA.CustomerId = @CustomerId AND CA.Deleted = 0 AND CA.Active = 1
 		LEFT JOIN [City] AS CT1 on CT1.Id = [Z-PurchaseBillMaster-Z].CityIdFrom AND CT1.Active = 1
 		LEFT JOIN [City] AS CT2 on CT2.Id = [Z-PurchaseBillMaster-Z].CityIdTo AND CT2.Active = 1
 		WHERE [Z-PurchaseBillMaster-Z].Deleted = 0 
+			AND [Z-PurchaseBillMaster-Z].FirmId = @FirmId
+			AND [Z-PurchaseBillMaster-Z].BranchId = @BranchId
+			AND [Z-PurchaseBillMaster-Z].YearId = @YearId			  
 		AND [Z-PurchaseBillMaster-Z].BranchId = @BranchId
 		AND (Coalesce(@Search,'') = '' OR [Z-PurchaseBillMaster-Z].BillNumberBranch like '%'+ @Search + '%')
 	 ) AS T   

@@ -1,28 +1,14 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanGetLRBookingTableListByLRNumberId]
+CREATE OR ALTER PROCEDURE [dbo].[sp_LRBookingGetGridDetailsByLRNumber]
   @LoginId int,
   @BranchId int,
   @LRNumberId int
 AS
 BEGIN
 	DECLARE @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 	   SELECT  
-	    ROW_NUMBER() over (ORDER BY [Z-LRBooking-Z].Id ASC) AS RowNum,
-		Count(*) over () AS TotalCount, 
-		[Z-LRBooking-Z].Id,
-		[Z-LRBooking-Z].LRNumber,
-		[Z-LRBooking-Z].LRDate,
-		[Z-LRBooking-Z].PrivateMarka,
-		[Z-LRBooking-Z].ChargeWeight,
-		[Z-LRBooking-Z].InvoiceValue,
-		[Z-LRBooking-Z].Parcel,
-		[Z-LRBooking-Z].Charges1,
-		[Z-LRBooking-Z].Charges2,
-		[Z-LRBooking-Z].Charges3,
-		[Z-LRBooking-Z].Charges4,
-		[Z-LRBooking-Z].Charges5,
-		[Z-LRBooking-Z].Charges6,
-		[Z-LRBooking-Z].Freight,
+		[Z-LRBooking-Z].*,
 		[TransportPacking].[Title] AS Packing,
 		[TransportDesc].[Title] AS Description,
 		ToCity.[Title] AS CityTo,
@@ -32,7 +18,6 @@ BEGIN
 		CA2.Name As Consignee,
 		CA3.Name As BillParty,
 		[GSTRate].Rate As Rate,
-		[Z-LRBooking-Z].BillAccountBranchMappingId As BillAccountBranchMappingId,
 		[CustomerAccount].CreditDays As CreditDays,
 		(ISNULL([Freight],0)+ISNULL([Charges1],0)+ISNULL([Charges2],0)+ISNULL([Charges3],0)+ISNULL([Charges4],0)+ISNULL([Charges5],0)+ISNULL([Charges6],0)) AS ChargeAmount
 		FROM [Z-LRBooking-Z]
@@ -53,7 +38,10 @@ BEGIN
 			 LEFT JOIN [TransportPacking] ON [Z-LRBooking-Z].[PackingId] = [TransportPacking].[Id] AND [TransportPacking].[CustomerId] = @CustomerId AND [TransportPacking].Deleted = 0 AND [TransportPacking].Active = 1 
 			 LEFT JOIN [CustomerAccountBranchMapping] AS CAB3 on CAB3.Id = [Z-LRBooking-Z].BillAccountBranchMappingId AND CAB3.Deleted = 0
 			 LEFT JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId AND CA3.Deleted = 0 AND CA3.Active = 1
-		WHERE [Z-LRBooking-Z].[BranchId] = @BranchId
+		WHERE [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT [Z-PurchaseBillDetail-Z].LRBookingId FROM [Z-PurchaseBillDetail-Z] WHERE [Z-PurchaseBillDetail-Z].Deleted = 0 )
+			  AND [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT [Z-SalesBillDetail-Z].LRBookingId FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 )
+			  AND [Z-LRBooking-Z].YearId = @YearId
+			  AND [Z-LRBooking-Z].[BranchId] = @BranchId
 			  AND [Z-LRBooking-Z].Deleted = 0
 			  AND [CustomerAccountBranchMapping].Deleted = 0
 			  AND [CustomerAccount].Deleted = 0 AND [CustomerAccount].Active = 1
