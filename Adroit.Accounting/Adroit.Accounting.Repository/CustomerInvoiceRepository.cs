@@ -1,4 +1,5 @@
-﻿using Adroit.Accounting.Model.ViewModel;
+﻿using Adroit.Accounting.Model.GridViewModel;
+using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
@@ -18,7 +19,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@AccountBranchMappingId", value.AccountBranchMappingId);
             parameters.Add("@BillDate", value.BillDate);
             parameters.Add("@SerialNumberOfBranch", value.SerialNumberOfBranch);
-            parameters.Add("@InvoiceMemo", AppConstants.INVOICE_MEMO_CREDIT);
+            parameters.Add("@InvoiceMemo", value.InvoiceMemo);
             parameters.Add("@SalesBillFromId", value.SalesBillFromId);
             parameters.Add("@ChalanDateFrom", value.ChalanDateFrom);
             parameters.Add("@ChalanDateTo", value.ChalanDateTo);
@@ -73,33 +74,41 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.Save("sp_CustomerInvoiceSave", connectionString, parameters);
         }
 
-    public bool Delete(int id, string connectionString, int loginId)
-    {
-        var parameters = new DynamicParameters();
-        parameters.Add("@Id", id);
-        parameters.Add("@LoginId", loginId);
-        return QueryHelper.Delete("sp_CustomerInvoiceDelete", connectionString, parameters);
+        public bool Delete(int id, string connectionString, int loginId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            parameters.Add("@LoginId", loginId);
+            return QueryHelper.Delete("sp_CustomerInvoiceDelete", connectionString, parameters);
+        }
+        public SalesBillMasterViewModel Get(int id, string connectionString, int loginId, int branchId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
+            return QueryHelper.Get<SalesBillMasterViewModel>("sp_CustomerInvoiceGet", connectionString, parameters);
+        }
+        public List<SalesBillMasterGridViewModel> List(string connectionString, int loginId, int firmId, int branchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@Search", search);
+            parameters.Add("@PageStart", pageStart);
+            parameters.Add("@PageSize", pageSize);
+            parameters.Add("@SortColumn", sortColumn);
+            parameters.Add("@SortOrder", sortOrder);
+            return QueryHelper.GetList<SalesBillMasterGridViewModel>("sp_CustomerInvoiceList", connectionString, parameters);
+        }
+        public List<LRBookingGridViewModel> GetListByLRNumberId(string connectionString, int LRNumberId, int loginId, int branchId, int firmId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@LRNumberId", LRNumberId);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_InvoiceLRBookingGetGridDetailsByLRNumber", connectionString, parameters);
+        }
     }
-    public SalesBillMasterViewModel Get(int id, string connectionString, int loginId, int branchId)
-    {
-        var parameters = new DynamicParameters();
-        parameters.Add("@Id", id);
-        parameters.Add("@LoginId", loginId);
-        parameters.Add("@BranchId", branchId);
-        return QueryHelper.Get<SalesBillMasterViewModel>("sp_CustomerInvoiceGet", connectionString, parameters);
-    }
-    public List<SalesBillMasterGridViewModel> List(string connectionString, int loginId, int firmId, int branchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
-    {
-        var parameters = new DynamicParameters();
-        parameters.Add("@LoginId", loginId);
-        parameters.Add("@FirmId", firmId);
-        parameters.Add("@BranchId", branchId);
-        parameters.Add("@Search", search);
-        parameters.Add("@PageStart", pageStart);
-        parameters.Add("@PageSize", pageSize);
-        parameters.Add("@SortColumn", sortColumn);
-        parameters.Add("@SortOrder", sortOrder);
-        return QueryHelper.GetList<SalesBillMasterGridViewModel>("sp_CustomerInvoiceList", connectionString, parameters);
-    }
-}
 }

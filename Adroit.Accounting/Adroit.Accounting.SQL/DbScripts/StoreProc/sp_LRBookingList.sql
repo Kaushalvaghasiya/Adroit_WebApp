@@ -47,7 +47,7 @@ Begin
 		,CT2.Title As CityTo
 		,[TransportLRPayType].Title As LRPayType
 		,CA2.Name As Consignee
-		,CA3.Name As BillParty
+		,CA3.Name As BillPartyName
 		FROM [Z-LRBooking-Z]
 		INNER JOIN [CustomerAccountBranchMapping] AS CAB1 on CAB1.Id = [Z-LRBooking-Z].AccountBranchMappingId AND CAB1.BranchId = @BranchId AND CAB1.Deleted = 0
 		INNER JOIN [CustomerAccount] AS CA1 on CA1.Id = CAB1.AccountId AND CA1.CustomerId = @CustomerId AND CA1.Active = 1 AND CA1.Deleted = 0

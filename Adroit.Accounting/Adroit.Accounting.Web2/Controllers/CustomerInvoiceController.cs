@@ -158,13 +158,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetInvoiceListByLRNumberId/{LRNumberId}")]
-        public JsonResult GetInvoiceListByLRNumberId(int LRNumberId)
+        [Route("~/Customer/GetInvoiceListByLRNumberId/{lrNumberId}")]
+        public JsonResult GetInvoiceListByLRNumberId(int lrNumberId)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _lrBookingRepository.GetListByLRNumberId(_configurationData.DefaultConnection, LRNumberId, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                result.data = _customerInvoice.GetListByLRNumberId(_configurationData.DefaultConnection, lrNumberId, CurrentUserId, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

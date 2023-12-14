@@ -36,7 +36,7 @@ Begin
 		,[Z-SalesBillMaster-Z].Id
 		,[Z-SalesBillMaster-Z].SerialNumberOfBranch As SerialNumberOfBranch
 		,[Z-SalesBillMaster-Z].BillDate As BillDate
-		,CustomerAccount.Name As BillParty
+		,CustomerAccount.Name As BillPartyName
 		,[GSTRate].Rate As Rate
 		,[Z-SalesBillMaster-Z].BillNumber As BillNumber
 		,[Z-SalesBillMaster-Z].BillAmount	 

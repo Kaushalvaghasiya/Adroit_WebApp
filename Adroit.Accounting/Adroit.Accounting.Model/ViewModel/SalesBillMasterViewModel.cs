@@ -11,6 +11,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? LRDetailsArray { get; set; }
         public string? City { get; set; }
         public string? GSTNo { get; set; }
-        public string? BillParty { get; set; }
+        public string? BillPartyName { get; set; }
     }   
 }

@@ -49,7 +49,7 @@ Begin
 		,Vehilcle.VRN As Vehicle
 		,CT1.Title As CityFrom
 		,CT2.Title As CityTo
-		,CA.Name As BillParty
+		,CA.Name As BillPartyName
 		,Driver.Name As Driver
 		,ISNULL([Z-PurchaseBillMaster-Z].TaxableAmount,0) - 
 		(ISNULL([Z-PurchaseBillMaster-Z].TDSAmount,0) + ISNULL([Z-PurchaseBillMaster-Z].AdvanceCash,0) + ISNULL([Z-PurchaseBillMaster-Z].AdvanceNeft,0) + ISNULL([Z-PurchaseBillMaster-Z].OtherLess,0))

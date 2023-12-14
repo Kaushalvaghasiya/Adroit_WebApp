@@ -45,7 +45,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@ReceiveCash", value.ReceiveCash);
             parameters.Add("@OtherPlus", value.OtherPlus);
             parameters.Add("@OtherLess", value.OtherLess);
-            parameters.Add("@LRNumberId", value.LRNumberId);
+            parameters.Add("@LRNumberIds", value.LRNumberIds);
             parameters.Add("@IsAutoLedger", value.IsAutoLedger);
             return QueryHelper.Save("sp_ChalanSave", connectionString, parameters);
         }
@@ -85,13 +85,20 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BranchId", branchId);
             return QueryHelper.Get<CustomerFirmBranchTransportSettingViewModel>("sp_GetChalanLabelList", connectionString, parameters);
         }
-        public CustomerFirmBranchTransportSettingViewModel GetChalanToPayAccountValueList(string lrNumberId, string connectionString, int branchId)
+        public CustomerFirmBranchTransportSettingViewModel GetChalanToPayAccountValueList(string lrNumberIds, string connectionString, int branchId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@BranchId", branchId);
-            parameters.Add("@LRNumberId", lrNumberId);
+            parameters.Add("@LRNumberIds", lrNumberIds);
             return QueryHelper.Get<CustomerFirmBranchTransportSettingViewModel>("sp_GetChalanToPayAccountValue", connectionString, parameters);
         }
-
+        public List<LRBookingGridViewModel> GetListByLRNumberId(string connectionString, int LRNumberId, int loginId, int branchId, int firmId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@LRNumberId", LRNumberId);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_ChalanLRBookingGetGridDetailsByLRNumber", connectionString, parameters);
+        }
     }
 }

@@ -416,7 +416,7 @@
                         <div class="col-md-9 vertical-bottom">
                             <div class="form-horizontal">
                                 <div class="row mb-2">
-                                    <label for="PaymentDetail" class="col-md-1 form-label">
+                                    <label for="PaymentDetail" class="col-md-2 form-label">
                                         Payment Detail
                                     </label>
                                     <div class="col-md-5">
@@ -425,7 +425,7 @@
                                 </div>
                                 <div class="row mb-2">
                                     <label for="Notes"
-                                           class="col-md-1 form-label">Remarks</label>
+                                           class="col-md-2 form-label">Remarks</label>
                                     <div class="col-md-10">
                                         <textarea class="form-control" id="Notes" rows="3" placeholder="Write a large text here ..."></textarea>
                                     </div>
@@ -738,7 +738,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.billParty;
+                    return row.billPartyName;
                 },
                 "targets": colDef.length,
             });
@@ -782,7 +782,7 @@
 
             columns.push({ "data": "serialNumberOfBranch", "name": "serialNumberOfBranch" });
             columns.push({ "data": "billDate", "name": "billDate" });
-            columns.push({ "data": "billParty", "name": "billParty" });
+            columns.push({ "data": "billPartyName", "name": "billPartyName" });
             columns.push({ "data": "gstNo", "name": "gstNo" });
             columns.push({ "data": "billAmount", "name": "billAmount" });
             columns.push({ "data": "city", "name": "city" });
@@ -998,6 +998,7 @@
                 savedata.RoundOff = getFloatValueZero("RoundOff", 2);
                 savedata.BillAmount = getFloatValueZero("BillAmount", 2);
                 savedata.TCSAmount = getFloatValueZero("TCSAmount", 2);
+                savedata.HeaderBox5 = "0";
 
                 var lrDetailsArray = [];
                 $('#contentRow .content-rows').each(function () {
@@ -1022,6 +1023,7 @@
                 });
 
                 savedata.LRDetailsArray = JSON.stringify(lrDetailsArray);
+                savedata.InvoiceMemo = false;
                 
                 blockUI('container');
 
@@ -1256,10 +1258,10 @@
             }
         }
 
-        function getLRDetailListByLRNumber(LRNumberId) {
+        function getLRDetailListByLRNumber(lrNumberId) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetInvoiceListByLRNumberId"))" + "/" + LRNumberId, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetInvoiceListByLRNumberId"))" + "/" + lrNumberId, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -1284,7 +1286,7 @@
                                             description: LRBookingDetail.description,
                                             consignor: LRBookingDetail.consignor,
                                             consignee: LRBookingDetail.consignee,
-                                            billParty: LRBookingDetail.billParty,
+                                            billPartyName: LRBookingDetail.billPartyName,
                                             ewayBillNo: LRBookingDetail.ewayBillNo,
                                             parcel: LRBookingDetail.parcel,
                                             freight: parseFloat(LRBookingDetail.freight || 0).toFixed(2),
@@ -1459,7 +1461,7 @@
                                     description: row.description,
                                     consignor: row.consignor,
                                     consignee: row.consignee,
-                                    billParty: row.billParty,
+                                    billPartyName: row.billPartyName,
                                     parcel: row.parcel,
                                     freight: parseFloat(row.freight || 0).toFixed(2),
                                     charges1: parseFloat(row.charges1 || 0).toFixed(2),
@@ -1513,7 +1515,7 @@
                         description: row.description,
                         consignor: row.consignor,
                         consignee: row.consignee,
-                        billParty: row.billParty,
+                        billPartyName: row.billPartyName,
                         parcel: row.parcel,
                         freight: parseFloat(row.freight || 0).toFixed(2),
                         charges1: parseFloat(row.charges1 || 0).toFixed(2),
@@ -1558,7 +1560,7 @@
                                     description: row.data().description,
                                     consignor: row.data().consignor,
                                     consignee: row.data().consignee,
-                                    billParty: row.data().billParty,
+                                    billPartyName: row.data().billPartyName,
                                     parcel: row.parcel,
                                     freight: parseFloat(row.data().freight || 0).toFixed(2),
                                     charges1: parseFloat(row.data().charges1 || 0).toFixed(2),

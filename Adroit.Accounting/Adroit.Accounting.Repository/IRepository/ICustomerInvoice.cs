@@ -1,4 +1,5 @@
-﻿using Adroit.Accounting.Model.ViewModel;
+﻿using Adroit.Accounting.Model.GridViewModel;
+using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Repository.IRepository
 {
@@ -8,5 +9,6 @@ namespace Adroit.Accounting.Repository.IRepository
         public bool Delete(int id, string connectionString, int loginId);
         int Save(SalesBillMasterViewModel value, string connectionString, int firmId, int branchId, int loginId);
         public SalesBillMasterViewModel Get(int id, string connectionString, int loginId, int branchId);
+        public List<LRBookingGridViewModel> GetListByLRNumberId(string connectionString, int lrNumberId, int loginId, int branchId, int firmId = 0);
     }
 }

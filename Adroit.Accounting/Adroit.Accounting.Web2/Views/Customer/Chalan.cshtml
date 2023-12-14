@@ -855,7 +855,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.billParty;
+                    return row.billPartyName;
                 },
                 "targets": colDef.length,
             });
@@ -886,7 +886,7 @@
             columns.push({ "data": "cityFrom", "name": "cityFrom" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
             columns.push({ "data": "netAmount", "name": "netAmount" });
-            columns.push({ "data": "billParty", "name": "billParty" });
+            columns.push({ "data": "billPartyName", "name": "billPartyName" });
             columns.push({ "data": "driver", "name": "driver" });
 
             var table = $('#tblMain').DataTable({
@@ -1164,7 +1164,7 @@
                 savedata.ReceiveCash = getFloatValueNull("ReceiveCash", 2);
                 savedata.OtherPlus = getFloatValueNull("OtherPlus", 2);
                 savedata.OtherLess = getFloatValueNull("OtherLess", 2);
-                savedata.LRNumberId = $("#hdnSelectedLRNumberIds").val();
+                savedata.LRNumberIds = $("#hdnSelectedLRNumberIds").val();
                 savedata.IsAutoLedger = $('#IsAutoLedger').is(':checked');
 
                 blockUI('container');
@@ -1332,7 +1332,7 @@
                                         description: LRBookingDetail.description,
                                         consignor: LRBookingDetail.consignor,
                                         consignee: LRBookingDetail.consignee,
-                                        billParty: LRBookingDetail.billParty,
+                                        billPartyName: LRBookingDetail.billPartyName,
                                         ewayBillNo: LRBookingDetail.ewayBillNo
                                     });
                                 });
@@ -1385,7 +1385,7 @@
                                                 description: LRBookingDetail.description,
                                                 consignor: LRBookingDetail.consignor,
                                                 consignee: LRBookingDetail.consignee,
-                                                billParty: LRBookingDetail.billParty,
+                                                billPartyName: LRBookingDetail.billPartyName,
                                                 ewayBillNo: LRBookingDetail.ewayBillNo
                                             });
 
@@ -1515,7 +1515,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.billParty;
+                    return row.billPartyName;
                 },
                 "targets": colDef.length,
             });
@@ -1538,7 +1538,7 @@
             columns.push({ "data": "description", "name": "description" });
             columns.push({ "data": "consignor", "name": "consignor" });
             columns.push({ "data": "consignee", "name": "consignee" });
-            columns.push({ "data": "billParty", "name": "billParty" });
+            columns.push({ "data": "billPartyName", "name": "billPartyName" });
             columns.push({ "data": "ewayBillNo", "name": "ewayBillNo" });
 
             var table = $('#LRtblMain').DataTable({
@@ -1592,7 +1592,7 @@
                                     description: row.description,
                                     consignor: row.consignor,
                                     consignee: row.consignee,
-                                    billParty: row.billParty,
+                                    billPartyName: row.billPartyName,
                                     ewayBillNo: row.ewayBillNo
                                 });
                             }
@@ -1638,7 +1638,7 @@
                         description: row.description,
                         consignor: row.consignor,
                         consignee: row.consignee,
-                        billParty: row.billParty,
+                        billPartyName: row.billPartyName,
                         ewayBillNo: row.ewayBillNo
                     }));
                 } else {
@@ -1675,7 +1675,7 @@
                                     description: row.data().description,
                                     consignor: row.data().consignor,
                                     consignee: row.data().consignee,
-                                    billParty: row.data().billParty,
+                                    billPartyName: row.data().billPartyName,
                                     ewayBillNo: row.data().ewayBillNo
                                 });
                             }
@@ -1688,9 +1688,9 @@
             });
         }
 
-        function GetChalanToPayAmount(lrNumberId) {
+        function GetChalanToPayAmount(lrNumberIds) {
             try {
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanToPayAmount"))" + "/" + lrNumberId, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanToPayAmount"))" + "/" + lrNumberIds, "",
                     function (result) {
                         try {
                             if (result.result == RESULT_SUCCESS) {
@@ -1746,7 +1746,7 @@
                     '</div>' +
                     '</div>' +
                     '</div>' +
-                    '<div class="col-md-1">' +
+                    '<div class="col-md-1 p-0">' +
                     '<div class="row mb-0">' +
                     '<div class="col-md-6">' +
                     '<div class="form-group text-center mb-1">' +
@@ -1806,7 +1806,7 @@
                     '</div>' +
                     '<div class="col-md-1">' +
                     '<div class="form-group text-center mb-1">' +
-                    '<label for="billParty">' + (selectedLRDetails[i].billParty || '') + '</label>' +
+                    '<label for="billPartyName">' + (selectedLRDetails[i].billPartyName || '') + '</label>' +
                     '</div>' +
                     '</div>' +
                     '<div class="col-md-1">' +

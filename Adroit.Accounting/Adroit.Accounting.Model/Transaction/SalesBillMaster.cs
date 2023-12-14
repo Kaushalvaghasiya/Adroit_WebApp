@@ -22,7 +22,7 @@ namespace Adroit.Accounting.Model
         [JsonConverter(typeof(CustomDateTimeConverter))]
         public System.DateTime BillDate { get; set; }
         public int SerialNumberOfBranch { get; set; }
-        public string InvoiceMemo { get; set; }
+        public bool InvoiceMemo { get; set; }
         public string SalesBillFromId { get; set; }
         [JsonConverter(typeof(CustomDateTimeConverter))]
         public System.DateTime? ChalanDateFrom { get; set; }

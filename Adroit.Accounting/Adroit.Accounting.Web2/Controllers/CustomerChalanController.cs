@@ -142,13 +142,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetChalanToPayAmount/{lrNumberId}")]
-        public JsonResult GetChalanToPayAmount(string lrNumberId)
+        [Route("~/Customer/GetChalanToPayAmount/{lrNumberIds}")]
+        public JsonResult GetChalanToPayAmount(string lrNumberIds)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _chalanRepository.GetChalanToPayAccountValueList(lrNumberId, _configurationData.DefaultConnection, CurrentBranchId);
+                result.data = _chalanRepository.GetChalanToPayAccountValueList(lrNumberIds, _configurationData.DefaultConnection, CurrentBranchId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -176,13 +176,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetListByLRNumberId/{LRNumberId}")]
-        public JsonResult GetListByLRNumberId(int LRNumberId)
+        [Route("~/Customer/GetListByLRNumberId/{lrNumberId}")]
+        public JsonResult GetListByLRNumberId(int lrNumberId)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _lrBookingRepository.GetListByLRNumberId(_configurationData.DefaultConnection, LRNumberId, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                result.data = _chalanRepository.GetListByLRNumberId(_configurationData.DefaultConnection, lrNumberId, CurrentUserId, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

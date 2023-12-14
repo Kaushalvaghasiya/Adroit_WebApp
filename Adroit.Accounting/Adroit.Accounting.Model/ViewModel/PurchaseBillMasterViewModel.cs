@@ -18,8 +18,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? CityFrom { get; set; }
         public string? CityTo { get; set; }
         public string? Vehicle { get; set; }
-        public string? LRNumberId { get; set; }
-        public string? BillParty { get; set; }
+        public string? LRNumberIds { get; set; }
+        public string? BillPartyName { get; set; }
         public string? Driver { get; set; }
         public decimal? NetAmount { get; set; }
 

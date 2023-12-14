@@ -34,7 +34,7 @@ BEGIN
 		[TransportLRPayType].[Title] AS LRPayType,
 		CA1.Name As Consignor,
 		CA2.Name As Consignee,
-		CA3.Name As BillParty,
+		CA3.Name As BillPartyName,
 		[Vehilcle].VRN As VehilcleNo,
 		[GSTRate].Rate As Rate,
 		(ISNULL([Z-LRBooking-Z].[Freight],0)+ISNULL([Z-LRBooking-Z].[Charges1],0)+ISNULL([Z-LRBooking-Z].[Charges2],0)+ISNULL([Z-LRBooking-Z].[Charges3],0)+ISNULL([Z-LRBooking-Z].[Charges4],0)+ISNULL([Z-LRBooking-Z].[Charges5],0)+ISNULL([Z-LRBooking-Z].[Charges6],0)) AS ChargeAmount

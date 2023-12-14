@@ -22,7 +22,7 @@ BEGIN
 		[TransportLRPayType].[Title] AS LRPayType,
 		CA1.Name As Consignor,
 		CA2.Name As Consignee,
-		CA3.Name As BillParty,
+		CA3.Name As BillPartyName,
 		(ISNULL([Freight],0)+ISNULL([Charges1],0)+ISNULL([Charges2],0)+ISNULL([Charges3],0)+ISNULL([Charges4],0)+ISNULL([Charges5],0)+ISNULL([Charges6],0)) AS ChargeAmount
 		FROM [Z-PurchaseBillDetail-Z]
 			 INNER JOIN [Z-LRBooking-Z] ON [Z-LRBooking-Z].[Id] = [Z-PurchaseBillDetail-Z].[LRBookingId] AND [Z-LRBooking-Z].[BranchId] = @BranchId

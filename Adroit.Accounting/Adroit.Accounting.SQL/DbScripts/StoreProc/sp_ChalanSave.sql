@@ -33,7 +33,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanSave]
 	,@ReceiveCash DECIMAL(9,2)
 	,@OtherPlus DECIMAL(9,2)
 	,@OtherLess DECIMAL(9,2)
-	,@LRNumberId NVARCHAR(MAX)
+	,@LRNumberIds NVARCHAR(MAX)
 	,@IsAutoLedger BIT
 
 	,@BillNumberTable VARCHAR(30) = 'Static'
@@ -208,18 +208,18 @@ BEGIN
 					DeletedById = @LoginId,
 					DeletedOn = GETUTCDATE(),
 					Deleted = 1
-			WHERE PurchaseBillMasterId = @Id AND [LRBookingId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberId))
+			WHERE PurchaseBillMasterId = @Id AND [LRBookingId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
 
 			UPDATE  [Z-PurchaseBillDetail-Z] SET
 					DeletedById = NULL,
 					DeletedOn = NULL,
 					Deleted = 0
-			WHERE PurchaseBillMasterId = @Id AND [LRBookingId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberId))
+			WHERE PurchaseBillMasterId = @Id AND [LRBookingId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
 		END
 
 		INSERT INTO [Z-PurchaseBillDetail-Z] (PurchaseBillMasterId,ProductBranchMappingId,LRBookingId,AddedById,AddedOn)
 		SELECT @Id,PBM.ProductBranchMappingId,LRN.Id,@LoginId,GETUTCDATE()
-		FROM dbo.[fnStringToIntArray](@LRNumberId) AS LRN
+		FROM dbo.[fnStringToIntArray](@LRNumberIds) AS LRN
 		INNER JOIN [Z-LRBooking-Z] AS PBM ON PBM.Id = LRN.Id
 		EXCEPT
 		SELECT PurchaseBillMasterId,ProductBranchMappingId,LRBookingId,@LoginId,GETUTCDATE() 
