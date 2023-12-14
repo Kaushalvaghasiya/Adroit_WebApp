@@ -14,7 +14,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Id", value.Id);
             parameters.Add("@AccountBranchMappingId", value.AccountBranchMappingId);
             parameters.Add("@YearId", value.YearId);
-            parameters.Add("@Type", value.Type);
+            parameters.Add("@OpeningDate", value.OpeningDate);
+            parameters.Add("@Credit", value.Credit);
             parameters.Add("@Amount", value.Amount);
             parameters.Add("@AddedById", value.AddedById);
             parameters.Add("@ModifiedById", value.ModifiedById);
@@ -23,8 +24,6 @@ namespace Adroit.Accounting.Repository
         public CustomerAccountOpeningBalanceViewModel Get(int id, string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", loginId);
-            parameters.Add("@FirmId", firmId);
             parameters.Add("@Id", id);
             return QueryHelper.Get<CustomerAccountOpeningBalanceViewModel>("sp_CustomerAccountOpeningBalanceGet", connectionString, parameters);
         }

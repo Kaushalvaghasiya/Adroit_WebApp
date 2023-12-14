@@ -1,9 +1,10 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountOpeningBalanceSave]
 (
 	@Id INT
+	,@LoginId INT
 	,@AccountBranchMappingId INT
-	,@YearId	INT
-	,@Type	char(1)
+	,@OpeningDate	Datetime
+	,@Credit	bit
 	,@Amount decimal(18,2)
 	,@AddedById	int
 	,@ModifiedById int
@@ -12,12 +13,15 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+		Declare @YearId INT = dbo.fn_GetYearId(@LoginId);
+
 		IF EXISTS (SELECT 1 FROM CustomerAccountOpeningBalance WHERE Id = @Id)
 			BEGIN
 				UPDATE  CustomerAccountOpeningBalance SET
 						AccountBranchMappingId = @AccountBranchMappingId,
+						OpeningDate = @OpeningDate,
 						YearId = @YearId,
-						[Type] = @Type,
+						[Credit] = @Credit,
 						Amount = @Amount,
 						ModifiedById = @ModifiedById
 					WHERE ID = @Id
@@ -25,9 +29,9 @@ BEGIN
 		ELSE
 			BEGIN
 				INSERT INTO CustomerAccountOpeningBalance
-					(AccountBranchMappingId,YearId,[Type],Amount,AddedById)
+					(AccountBranchMappingId,YearId,Amount,AddedById, Credit, OpeningDate)
 				VALUES
-					(@AccountBranchMappingId,@YearId,@Type,@Amount,@AddedById)
+					(@AccountBranchMappingId,@YearId,@Amount,@AddedById, @Credit, @OpeningDate)
 
 				SET @Id = SCOPE_IDENTITY()
 			END

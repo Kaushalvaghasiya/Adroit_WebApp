@@ -1,7 +1,5 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountOpeningBalanceGet]
 (
-	@LoginId int = 0,
-	@FirmId int = 0,
 	@Id INT
 )
 AS
@@ -14,6 +12,6 @@ BEGIN
 		   
 		 --  YearId
 	FROM CustomerAccountOpeningBalance
-	--WHERE CustomerAccount.Id = @Id
+	WHERE CustomerAccountOpeningBalance.Id = @Id
 END
 GO

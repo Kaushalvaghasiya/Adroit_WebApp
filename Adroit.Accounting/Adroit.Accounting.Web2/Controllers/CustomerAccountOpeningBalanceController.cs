@@ -13,19 +13,9 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult CustomerAccountOpeningBalance()
         {
             CustomerAccountOpeningBalanceViewModel model = new();
-            //int loginId = LoginHandler.GetUserId(User);
-            //var Customer = _customerRepository.Get(loginId, _configurationData.DefaultConnection);
+
             model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.AccountGroupList = _customerAccountGroupRepo.GetCustomerAccountGroupList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
-            //model.AccountBranchMappingList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(_configurationData.DefaultConnection);
-            //model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
-
-            //model.AreaNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.AreaName);
-            //model.TransportNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.TransportName);
-            //model.NameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.Name);
-            //model.BrokerBranchMappingList = _customerBrokerBranchMappingRepo.GetCustomerBrokerBranchMappingList(_configurationData.DefaultConnection);
-            //model.BranchList = _customerFirmBranchRepository.SelectList(Customer.Id, true, _configurationData.DefaultConnection);
-
             return View(model);
         }
 
@@ -61,7 +51,6 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                model.loginId = CurrentUserId;
                 model.AddedById = CurrentUserId;
                 model.ModifiedById = CurrentUserId;
                 int id = _customerAccountOpeningBalanceRepo.Save(model, _configurationData.DefaultConnection);

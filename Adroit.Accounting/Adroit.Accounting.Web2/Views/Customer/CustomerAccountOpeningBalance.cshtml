@@ -119,14 +119,14 @@
                         </div>
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
-                                <label for="Date">Date</label>
+                                <label for="OpeningDate">Date</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
                                     </div>
-                                    <input class="form-control mode-ed fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="Date">
+                                    <input class="form-control mode-ed fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="OpeningDate">
                                 </div>
                             </div>
                         </div>
@@ -300,7 +300,7 @@
             $("#Id").val(0);
             $("#AccountBranchMappingId").val(null).trigger('change');
             $("#AccountGroupId").val(null).trigger('change');
-            $("#Date").val("");
+            $("#OpeningDate").val("");
             $("#Type").val(null).trigger('change');
             $("#Amount").val("");
             $("#activeTabName").text("Add");
@@ -416,8 +416,11 @@
                                 }
 
                                 $('#Id').val(result.data.id);
-                                $("#AccountBranchMappingId").val(result.data.title).trigger('change');
-                                //$("#OrderNumber").val(result.data.orderNumber).trigger('change');
+                                $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                //$("#AccountGroupId").val(result.data.accountGroupId).trigger('change');
+                                $("#OpeningDate").val(result.data.openingDate);
+                                $("#Type").val(result.data.type).trigger('change');
+                                $("#Amount").val(result.data.amount);
                                 $("#Active").prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
