@@ -28,6 +28,7 @@ Begin
 			CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN CustomerAccount.Name END DESC
 		) AS RowNum,
 		Count(*) over () AS TotalCount 
+		,[Z-SalesBillMaster-Z].Id
 		,[Z-SalesBillMaster-Z].SerialNumberOfBranch As SerialNumberOfBranch
 		,[Z-SalesBillMaster-Z].BillDate As BillDate
 		,CustomerAccount.Name As BillParty

@@ -588,7 +588,7 @@
 </div><!-- modal -->
 <!--LRListModal end-->
 @section Scripts
-{
+    {
     <script>
 
         var selectedLRDetails = [];
@@ -691,7 +691,6 @@
                 var amt = ($('#TaxableAmount').val() * $(this).val() / 100) || 0;
                 $("#TDSAmount").val(Math.round(amt));
             });
-
 
         });
 
@@ -1550,7 +1549,6 @@
                 var lrNumber = selectedLRDetails[i].id;
 
                 if (addedIds.indexOf(lrNumber) === -1) {
-
                     var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + contentRowId + '">' +
                         '<div class="col-md-1">' +
                         '<div class="row mb-0">' +
@@ -1606,32 +1604,32 @@
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right" id="Charges1' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges1 || 0) + '" min="' + (selectedLRDetails[i].charges1 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right charges-input" data-contentRowId="' + contentRowId + '" id="Charges1' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges1 || 0) + '" data-min="' + (selectedLRDetails[i].charges1 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right" id="Charges2' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges2 || 0) + '" min="' + (selectedLRDetails[i].charges2 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right charges-input" data-contentRowId="' + contentRowId + '" id="Charges2' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges2 || 0) + '" data-min="' + (selectedLRDetails[i].charges2 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right" id="Charges3' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges3 || 0) + '" min="' + (selectedLRDetails[i].charges3 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right charges-input" data-contentRowId="' + contentRowId + '" id="Charges3' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges3 || 0) + '" data-min="' + (selectedLRDetails[i].charges3 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right" id="Charges4' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges4 || 0) + '" min="' + (selectedLRDetails[i].charges4 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right charges-input" data-contentRowId="' + contentRowId + '" id="Charges4' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges4 || 0) + '" data-min="' + (selectedLRDetails[i].charges4 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right" id="Charges5' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges5 || 0) + '" min="' + (selectedLRDetails[i].charges5 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right charges-input" data-contentRowId="' + contentRowId + '" id="Charges5' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges5 || 0) + '" data-min="' + (selectedLRDetails[i].charges5 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right" id="Charges6' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges6 || 0) + '" min="' + (selectedLRDetails[i].charges6 || 0) + '">' +
+                        ' <input type="text" class="form-control text-right charges-input" data-contentRowId="' + contentRowId + '" id="Charges6' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges6 || 0) + '" min="' + (selectedLRDetails[i].charges6 || 0) + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
@@ -1641,10 +1639,12 @@
                         '</div>' +
                         '</div>';
 
+                    calculateAmount(contentRowId);
                     contentRowId++;
                     htmlContentArray.push(htmlContent);
 
                     addedIds.push(selectedLRDetails[i].id);
+
                 }
             }
 
@@ -1654,11 +1654,20 @@
                 minimumResultsForSearch: ''
             });
 
-            $('#Charges1' + contentRowId + ', #Charges2' + contentRowId + ', #Charges3' + contentRowId +
-                ', #Charges4' + contentRowId + ', #Charges5' + contentRowId + ', #Charges6' + contentRowId).on('keyup', function () {
-                    calculateAmount(contentRowId);
-                    calculateTotalTaxableAmount();
-                });
+            $('.charges-input').on('keyup', function () {
+                var inputField = $(this).attr('data-contentRowId');
+                calculateAmount(inputField);
+                calculateTotalTaxableAmount();
+            });
+
+            $('.charges-input').on('change', function () {                
+                var minValue = parseFloat($(this).attr('data-min'));
+                var inputValue = $(this).val();
+
+                if (isNaN(inputValue) || parseFloat(inputValue) < minValue) {
+                    $(this).val(minValue);
+                }
+            });
 
             var counter = 0;
             $('.content-row-srno').each(function () {
@@ -1669,7 +1678,6 @@
                 var index = $(this).data('index');
                 deleteRow(index);
             });
-            calculateAmount(contentRowId);
             calculateTotalTaxableAmount();
             updateSelectedIdsInput();
         }
@@ -1726,7 +1734,7 @@
         }
 
         function deleteRow(index) {
-            debugger;
+
             if (selectedLRDetails[index]) {
                 var deletedId = selectedLRDetails[index].id;
                 $('#row-' + index).remove();

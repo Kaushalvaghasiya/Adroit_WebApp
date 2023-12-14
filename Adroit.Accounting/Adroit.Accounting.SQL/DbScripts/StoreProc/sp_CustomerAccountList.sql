@@ -28,12 +28,22 @@ Begin
 		 CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN CustomerAccount.Mobile END ASC,  
 		 CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN CustomerAccount.Mobile END DESC
 		) AS RowNum,
-	   Count(*) over () AS TotalRows, CustomerAccount.*, [CustomerAccountGroup].Title as AccountGroup, [City].Title as [City]
+	   Count(*) over () AS TotalCount, 
+	   CustomerAccount.Id, 
+	   CustomerAccount.[Name], 
+	   [CustomerAccountGroup].Title as AccountGroup, 
+	   CustomerAccount.GSTNumber, 
+	   [City].Title as [City], 
+	   CustomerAccount.Mobile 
 	  FROM CustomerAccount
 	  INNER JOIN [CustomerAccountGroup] on CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id
-	  LEFT JOIN [City] on CustomerAccount.CityId = [City].Id
+	  LEFT JOIN [City] on CustomerAccount.CityId = [City].Id AND [City].Active = 1
 	  WHERE CustomerAccount.CustomerId = @CustomerId AND CustomerAccount.Deleted = 0 
-	  AND (Coalesce(@Search,'') = '' OR CustomerAccount.[Name] like '%'+ @Search + '%')
+	  AND (Coalesce(@Search,'') = '' OR CustomerAccount.[Name] like '%'+ @Search + '%'
+		   OR [CustomerAccountGroup].Title like '%'+ @Search + '%'
+		   OR CustomerAccount.GSTNumber like '%'+ @Search + '%'
+		   OR [City].Title like '%'+ @Search + '%'
+		   OR CustomerAccount.Mobile like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
 End
