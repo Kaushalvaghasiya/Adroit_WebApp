@@ -1,4 +1,4 @@
-ALTER   PROCEDURE [dbo].[sp_GetLoggedInBranchId]
+CREATE OR ALTER  PROCEDURE [dbo].[sp_GetLoggedInBranchId]
 (
 	@LoginId INT
 )
