@@ -25,13 +25,14 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IUserStore<IdentityUser> _userStore;
         private readonly ILogger<AuthenticationController> _logger;
-
+        protected readonly IAdminCustomerUser _customerUserRepository;
         public AuthenticationController(ICustomer customerRepo,
             IOptions<ConfigurationData> configurationData,
             IEmailService emailService,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
-            ILogger<AuthenticationController> logger)
+            ILogger<AuthenticationController> logger,
+            IAdminCustomerUser customerUserRepository)
         {
             _customerRepo = customerRepo;
             _configurationData = configurationData.Value;
@@ -39,6 +40,7 @@ namespace Adroit.Accounting.Web.Controllers
             _userManager = userManager;
             _userStore = userStore;
             _logger = logger;
+            _customerUserRepository = customerUserRepository;
         }
 
         [AllowAnonymous]
@@ -133,15 +135,15 @@ namespace Adroit.Accounting.Web.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null)
                 {
-                    var customer = _customerRepo.GetByUsername(user.Email, _configurationData.DefaultConnection);
+                    var userDetails = _customerUserRepository.Get(user.Email, _configurationData.DefaultConnection);
                     var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(await _userManager.GeneratePasswordResetTokenAsync(user).ConfigureAwait(false)));
                     string url = $"{_configurationData.SiteURL}/Authentication/ResetPassword?code={code}";
 
                     var msgBody = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"EmailTemplate\ResetPassword.html"));
-                    msgBody = msgBody.Replace("{Name}", !string.IsNullOrEmpty(customer.Name) ? customer.Name : customer.Email);
+                    msgBody = msgBody.Replace("{Name}", $"{userDetails.FullName}");
                     msgBody = msgBody.Replace("{ResetUrl}", HtmlEncoder.Default.Encode(url));
-                    var emailresult = _emailService.SendEmail(customer.Email, "Adroit Accounting System - Password Reset", msgBody);
-                    _logger.LogError($"AuthenticationController.ForgotPassword Send Email to {customer.Email} Result: {emailresult}");
+                    var emailresult = _emailService.SendEmail(model.Email, "Adroit Accounting System - Password Reset", msgBody);
+                    _logger.LogError($"AuthenticationController.ForgotPassword Send Email to {model.Email} Result: {emailresult}");
 
                     result.data = true;
                     result.result = Constant.API_RESULT_SUCCESS;
