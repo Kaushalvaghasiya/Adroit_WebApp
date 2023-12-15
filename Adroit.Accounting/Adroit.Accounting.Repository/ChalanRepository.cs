@@ -9,13 +9,13 @@ namespace Adroit.Accounting.Repository
 {
     public class ChalanRepository : IChalan
     {
-        public int Save(PurchaseBillMasterViewModel value, string connectionString, int firmId, int branchId, int loginId)
+        public int Save(PurchaseBillMasterViewModel value, string connectionString)
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", value.LoginId);
+            parameters.Add("@FirmId", value.FirmId);
+            parameters.Add("@BranchId", value.BranchId);
             parameters.Add("@Id", value.Id);
-            parameters.Add("@FirmId", firmId);
-            parameters.Add("@BranchId", branchId);
-            parameters.Add("@LoginId", loginId);
             parameters.Add("@BillNumberBranch", value.BillNumberBranch);
             parameters.Add("@BillNumberFirm", value.BillNumberFirm);
             parameters.Add("@BillDate", value.BillDate);
@@ -47,6 +47,31 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@OtherLess", value.OtherLess);
             parameters.Add("@LRNumberIds", value.LRNumberIds);
             parameters.Add("@IsAutoLedger", value.IsAutoLedger);
+            parameters.Add("@ValidDateFrom", value.ValidDateFrom);
+            parameters.Add("@ValidDateTo", value.ValidDateTo);
+            parameters.Add("@TDSPercent", value.TDSPercent);
+            parameters.Add("@SGSTTotal", value.SGSTTotal);
+            parameters.Add("@CGSTTotal", value.CGSTTotal);
+            parameters.Add("@IGSTTotal", value.IGSTTotal);
+            parameters.Add("@GSTStateCessTotal", value.GSTStateCessTotal);
+            parameters.Add("@GSTCentralCessTotal", value.GSTCentralCessTotal);
+            parameters.Add("@TCSPercent", value.TCSPercent);
+            parameters.Add("@TCSAmount", value.TCSAmount);
+            parameters.Add("@CreditDays", value.CreditDays);
+            parameters.Add("@RoundOff", value.RoundOff);
+            parameters.Add("@BillAmount", value.BillAmount);
+            parameters.Add("@SalesAccountBranchMappingId", value.SalesAccountBranchMappingId);
+            parameters.Add("@GenaralPurchaseAccountBranchMappingId", value.GenaralPurchaseAccountBranchMappingId);
+            parameters.Add("@SkipInGSTR", value.SkipInGSTR);
+            parameters.Add("@RCMId", value.RCMId);
+            parameters.Add("@RCMBillNumber", value.RCMBillNumber);
+            parameters.Add("@BillTypeID", value.BillTypeID);
+            parameters.Add("@ReturnBillNumber", value.ReturnBillNumber);
+            parameters.Add("@ReturnBillDate", value.ReturnBillDate);
+            parameters.Add("@ReturnReasonId", value.ReturnReasonId);
+            parameters.Add("@PurchaseOrderRefNo", value.PurchaseOrderRefNo);
+            parameters.Add("@EntryTypeName", value.EntryTypeName);
+            parameters.Add("@BranchIdTo", value.BranchIdTo);
             return QueryHelper.Save("sp_ChalanSave", connectionString, parameters);
         }
         public bool Delete(int id, string connectionString, int loginId)

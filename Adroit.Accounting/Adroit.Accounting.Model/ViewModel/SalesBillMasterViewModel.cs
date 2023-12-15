@@ -12,5 +12,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? City { get; set; }
         public string? GSTNo { get; set; }
         public string? BillPartyName { get; set; }
+        public string? SalesBillFromName { get; set; }
+        public string? EntryTypeName { get; set; }
     }   
 }

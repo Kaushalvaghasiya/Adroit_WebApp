@@ -1,4 +1,4 @@
-ALTER TABLE [dbo].[Z-SalesBillMaster-Z] DROP CONSTRAINT [CK_Z-SalesBillmaster-Z];
+ALTER TABLE [dbo].[Z-SalesBillMaster-Z] DROP CONSTRAINT [DF_Z-SalesBillmaster-Z_InvoiceMemo];
 
 ALTER TABLE [dbo].[Z-SalesBillMaster-Z] DROP COLUMN [InvoiceMemo];
 

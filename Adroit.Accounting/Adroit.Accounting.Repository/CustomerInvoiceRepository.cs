@@ -20,7 +20,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BillDate", value.BillDate);
             parameters.Add("@SerialNumberOfBranch", value.SerialNumberOfBranch);
             parameters.Add("@InvoiceMemo", value.InvoiceMemo);
-            parameters.Add("@SalesBillFromId", value.SalesBillFromId);
+            parameters.Add("@SalesBillFromName", value.SalesBillFromName);
+            parameters.Add("@EntryTypeName", value.EntryTypeName);
             parameters.Add("@ChalanDateFrom", value.ChalanDateFrom);
             parameters.Add("@ChalanDateTo", value.ChalanDateTo);
             parameters.Add("@ChalanNo", value.ChalanNo);

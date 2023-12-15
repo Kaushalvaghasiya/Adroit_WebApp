@@ -7,19 +7,20 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerInvoiceSave]
 	,@AccountBranchMappingId int
     ,@BillDate datetime
     ,@SerialNumberOfBranch int
-    ,@InvoiceMemo varchar(1) 
-    ,@SalesBillFromId char(1) = '0'
+    ,@InvoiceMemo bit 
+    ,@SalesBillFromName varchar(25) 
+    ,@EntryTypeName varchar(25) 
     ,@ChalanDateFrom date
     ,@ChalanDateTo date
-    ,@ChalanNo int = NULL
-    ,@SalesOrderNumber varchar(25) = NULL
-    ,@BillTypeId tinyint = 0
+    ,@ChalanNo int 
+    ,@SalesOrderNumber varchar(25) 
+    ,@BillTypeId tinyint 
     ,@DeliveryPartyAccountBranchMappingId int 
-    ,@ShippingAccountBranchMappingId int = NULL
-    ,@HastePartyAccountBranchMappingId int = NULL
-    ,@DeliveryLRBookingId int = NULL
-    ,@SalesPartyName1 nvarchar(100) = NULL
-    ,@SalesPartyName2 nvarchar(100) = NULL
+    ,@ShippingAccountBranchMappingId int 
+    ,@HastePartyAccountBranchMappingId int 
+    ,@DeliveryLRBookingId int 
+    ,@SalesPartyName1 nvarchar(100) 
+    ,@SalesPartyName2 nvarchar(100) 
     ,@CreditDays int
     ,@TaxableAmount decimal(10,2)
     ,@SGSTTotal decimal(10,2)
@@ -31,37 +32,37 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerInvoiceSave]
     ,@TCSAmount decimal(10,2)
     ,@TDSPercentage decimal(5,3)
     ,@TDSAmount decimal(10,2)
-    ,@ExtraAmount decimal(10,2) = 0
+    ,@ExtraAmount decimal(10,2) 
     ,@RoundOff decimal(4,2)
     ,@BillAmount decimal(10,2)
-    ,@BrokerBranchMappingId int = NULL
+    ,@BrokerBranchMappingId int 
     ,@Notes nvarchar(250)
-    ,@EwayBillNumber varchar(20) = NULL
-    ,@IRNNumber varchar(250) = NULL
-    ,@AcknowledgementNumber varchar(50) = NULL
-    ,@IRNDate datetime = NULL
-    ,@ReturnBillNumber varchar(50) = NULL
-    ,@ReturnBillDate date = NULL 
-    ,@ReturnReasonId tinyint = NULL
-    ,@VehicleNumber varchar(12) = NULL
-    ,@TransportGSTNumber varchar(15) = NULL
-    ,@TransportLRNumber varchar(15) = NULL
-    ,@TransportLRDate date = NULL
-    ,@TransportName nvarchar(50) = NULL
-    ,@TransportModeId tinyint = NULL
-    ,@ToStationCityId int = NULL
-    ,@HeaderBox1 nvarchar(20) = NULL
-    ,@HeaderBox2 nvarchar(20) = NULL
-    ,@HeaderBox3 nvarchar(20) = NULL
-    ,@HeaderBox4 nvarchar(20) = NULL
-    ,@HeaderBox5 nvarchar(20) = '0'
-    ,@PaidAmount decimal(10,2)  = 0
-    ,@UnPaidAmount decimal(10,2) = 0
-    ,@CreditNoteId int = null
-	,@BillNumber int
-	,@LRDetailsList NVARCHAR(MAX)
-	,@Prefix VARCHAR(15)  = null
-	,@Postfix VARCHAR(15)  = null 
+    ,@EwayBillNumber varchar(20) 
+    ,@IRNNumber varchar(250) 
+    ,@AcknowledgementNumber varchar(50) 
+    ,@IRNDate datetime 
+    ,@ReturnBillNumber varchar(50) 
+    ,@ReturnBillDate date 
+    ,@ReturnReasonId tinyint 
+    ,@VehicleNumber varchar(12) 
+    ,@TransportGSTNumber varchar(15) 
+    ,@TransportLRNumber varchar(15) 
+    ,@TransportLRDate date 
+    ,@TransportName nvarchar(50) 
+    ,@TransportModeId tinyint 
+    ,@ToStationCityId int 
+    ,@HeaderBox1 nvarchar(20) 
+    ,@HeaderBox2 nvarchar(20) 
+    ,@HeaderBox3 nvarchar(20) 
+    ,@HeaderBox4 nvarchar(20) 
+    ,@HeaderBox5 nvarchar(20) 
+    ,@PaidAmount decimal(10,2) 
+    ,@UnPaidAmount decimal(10,2) 
+    ,@CreditNoteId int 
+	,@BillNumber int 
+	,@LRDetailsList NVARCHAR(MAX) 
+	,@Prefix VARCHAR(15) 
+	,@Postfix VARCHAR(15) 
 
 )
 AS
@@ -130,10 +131,10 @@ BEGIN
 			WHERE CustomerFirmBranchTransportSetting.BranchId = @BranchId
 		);
 
-		SELECT @SalesBillFromId = (
+		DECLARE @SalesBillFromId INT = (
 			SELECT Id
 			FROM SalesBillFromAdmin
-			WHERE SalesBillFromAdmin.Title = 'Sales'
+			WHERE SalesBillFromAdmin.Title = @SalesBillFromName 
 			AND SalesBillFromAdmin.Active = 1 AND SalesBillFromAdmin.Deleted = 0
 		);
 
@@ -146,7 +147,7 @@ BEGIN
 		DECLARE @EntryTypeId INT = (
 			SELECT Id
 			FROM [BillEntryTypeAdmin]
-			WHERE [BillEntryTypeAdmin].Code = 'SAL'
+			WHERE [BillEntryTypeAdmin].Code = @EntryTypeName 
 			AND [BillEntryTypeAdmin].Active = 1
 		);
 

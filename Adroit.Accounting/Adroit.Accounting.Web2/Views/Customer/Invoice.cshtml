@@ -15,27 +15,9 @@
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <a href="#" class="btn btn-secondary text-white mr-2 btn-sm"
-                           data-toggle="tooltip" title="" data-placement="bottom"
-                           data-original-title="Bookmark this page">
-                            <span>
-                                <i class="fa fa-star"></i>
-                            </span>
-                        </a>
-                        <a href="lockscreen.html" class="btn btn-primary text-white mr-2 btn-sm"
-                           data-toggle="tooltip" title="" data-placement="bottom"
-                           data-original-title="lock">
-                            <span>
-                                <i class="fa fa-lock"></i>
-                            </span>
-                        </a>
-                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm"
-                           data-toggle="tooltip" title="" data-placement="bottom"
-                           data-original-title="Add New">
-                            <span>
-                                <i class="fa fa-plus"></i>
-                            </span>
-                        </a>
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew"><span><i class="fa fa-plus"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -82,52 +64,18 @@
                     <li><a href="#">Transaction</a></li>
                     <li><a href="#">Booking</a></li>
                     <li><a href="#">Invoice</a></li>
-                    <li class="active"><span>Invoice Add/Edit (ID# 100)</span></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search E-Way Bill...">
+                        <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
                         <span class="input-group-append mr-2">
-                            <button class="btn btn-primary" type="button">Go!</button>
+                            <button class="btn btn-primary EWayBill-search" type="button" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Popover top">Search</button>
                         </span>
-                        <a href="#" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip"
-                           title="" data-placement="bottom" data-original-title="Save">
-                            <span>
-                                <i class="fa fa-save"></i>
-                            </span>
-                        </a>
-                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip"
-                           title="" data-placement="bottom" data-original-title="Print">
-                            <span>
-                                <i class="fa fa-print"></i>
-                            </span>
-                        </a>
-                        <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip"
-                           title="" data-placement="bottom" data-original-title="Send">
-                            <span>
-                                <i class="fa fa-share-alt"></i>
-                            </span>
-                        </a>
-                        <a href="#" class="btn btn-danger text-white mr-2 btn-sm" data-toggle="tooltip"
-                           title="" data-placement="bottom" data-original-title="Delete">
-                            <span>
-                                <i class="fa fa-trash-o"></i>
-                            </span>
-                        </a>
-                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm"
-                           data-toggle="tooltip" title="" data-placement="bottom"
-                           data-original-title="New">
-                            <span>
-                                <i class="fa fa-plus"></i>
-                            </span>
-                        </a>
-                        <a href="#" class="btn-back btn btn-gray text-white btn-sm"
-                           data-toggle="tooltip" title="" data-placement="bottom"
-                           data-original-title="Cancel">
-                            <span>
-                                <i class="fa fa-arrow-left"></i>
-                            </span>
-                        </a>
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -505,9 +453,9 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    @*<a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
-                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a> *@
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" tabindex="30" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" tabindex="31" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
                     <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
@@ -588,7 +536,7 @@
 </div><!-- modal -->
 <!--LRListModal end-->
 @section Scripts
-    {
+{
     <script>
 
         var selectedLRDetails = [];
@@ -600,7 +548,6 @@
 
             $('.dv-list').show();
             $('.dv-detail').hide();
-            addClick();
 
             bindDatatableList();
 
@@ -696,6 +643,7 @@
                 GetLRNumberListByLRPayTypeId($(this).val());
             });
 
+            addClick();
         });
 
         function addClick() {
@@ -856,6 +804,7 @@
             $("#AccountBranchMappingId").val(null).trigger('change');
             $("#VehicleNumber").val(null).trigger('change');
             $("#contentRow").html('');
+
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
         }
@@ -999,6 +948,9 @@
                 savedata.BillAmount = getFloatValueZero("BillAmount", 2);
                 savedata.TCSAmount = getFloatValueZero("TCSAmount", 2);
                 savedata.HeaderBox5 = "0";
+                savedata.SalesBillFromName = "Sales";
+                savedata.EntryTypeName = "SAL";
+                savedata.InvoiceMemo = false;
 
                 var lrDetailsArray = [];
                 $('#contentRow .content-rows').each(function () {
@@ -1023,8 +975,7 @@
                 });
 
                 savedata.LRDetailsArray = JSON.stringify(lrDetailsArray);
-                savedata.InvoiceMemo = false;
-                
+
                 blockUI('container');
 
                 $.ajax({
@@ -1039,8 +990,7 @@
                             fromReset();
                             showWarning("", 'Invoice saved successfully.');
                             $("#Id").val(0);
-                            refreshDatatableList();
-                            addClick();
+                            history.go(0);
                         } else {
                             showError("", data.data);
                         }
@@ -1193,6 +1143,10 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
+
+                                selectedLRDetails = [];
+                                addedIds = [];
+                                $("#contentRow").html("");
 
                                 result.data.forEach(function (LRBookingDetail) {
                                     selectedLRDetails.push({
@@ -1581,13 +1535,8 @@
             });
         }
 
-        function updateHiddenInput(ids) {
-            var uniqueIds = [...new Set(ids)];
-            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
-        }
-
         function addRow() {
-            $('#contentRow').html('');
+            htmlContentArray = [];
             for (var i = 0; i < selectedLRDetails.length; i++) {
 
                 var lrNumber = selectedLRDetails[i].id;
@@ -1678,7 +1627,7 @@
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<a href="javascript:deleteRow(' + contentRowId + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
+                        '<a href="javascript:deleteRow(' + selectedLRDetails[i].id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
                         '</div>' +
                         '</div>' +
                         '</div>';
@@ -1692,7 +1641,7 @@
             }
 
             $('.content-rows-add-btn').remove();
-            $('#contentRow').html(htmlContentArray.join(''));
+            $('#contentRow').append(htmlContentArray.join(''));
             $('.select2-show-search-contentrows').select2({
                 minimumResultsForSearch: ''
             });
@@ -1780,15 +1729,15 @@
             return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
         }
 
-        function deleteRow(index) {
+        function deleteRow(deletedId) {
+            var index = selectedLRDetails.findIndex(item => item.id === deletedId);
 
-            if (selectedLRDetails[index]) {
-                var deletedId = selectedLRDetails[index].id;
+            if (index !== -1) {
                 $('#row-' + index).remove();
                 addedIds = addedIds.filter(id => id !== deletedId);
                 selectedLRDetails.splice(index, 1);
 
-                if (selectedLRDetails.length == 0) {
+                if (selectedLRDetails.length === 0) {
                     $('#TaxableAmount').val(0.00);
                 } else {
                     for (var i = 0; i < selectedLRDetails.length; i++) {
@@ -1797,6 +1746,11 @@
                     calculateBasicAmount();
                 }
                 updateSelectedIdsInput();
+
+                // Update the id attribute for each remaining row
+                $('.content-rows').each(function (newIndex) {
+                    $(this).attr('id', 'row-' + newIndex);
+                });
             }
         }
 
@@ -1806,5 +1760,9 @@
             $("#ToPayAmount, #Paid, #TBB, #Total").val('0.00');
         }
 
+        function updateHiddenInput(ids) {
+            var uniqueIds = [...new Set(ids)];
+            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
+        }
     </script>
 }

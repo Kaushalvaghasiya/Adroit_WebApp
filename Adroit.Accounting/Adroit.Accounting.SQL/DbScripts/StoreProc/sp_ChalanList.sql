@@ -46,17 +46,17 @@ Begin
 		) AS RowNum,
 		Count(*) over () AS TotalCount 
 		,[Z-PurchaseBillMaster-Z].*
-		,Vehilcle.VRN As Vehicle
+		,Vehilcle.VRN As VehicleVRN
 		,CT1.Title As CityFrom
 		,CT2.Title As CityTo
 		,CA.Name As BillPartyName
-		,Driver.Name As Driver
+		,Driver.Name As DriverName
 		,ISNULL([Z-PurchaseBillMaster-Z].TaxableAmount,0) - 
 		(ISNULL([Z-PurchaseBillMaster-Z].TDSAmount,0) + ISNULL([Z-PurchaseBillMaster-Z].AdvanceCash,0) + ISNULL([Z-PurchaseBillMaster-Z].AdvanceNeft,0) + ISNULL([Z-PurchaseBillMaster-Z].OtherLess,0))
 		+ (ISNULL([Z-PurchaseBillMaster-Z].ReceiveCash,0) + ISNULL([Z-PurchaseBillMaster-Z].OtherPlus,0)) AS NetAmount 
 		FROM [Z-PurchaseBillMaster-Z]
 		INNER JOIN Vehilcle on Vehilcle.Id = [Z-PurchaseBillMaster-Z].VehicleId AND Vehilcle.Active = 1
-		INNER JOIN Driver on Driver.Id = [Z-PurchaseBillMaster-Z].DriverId AND Driver.Active = 1
+		LEFT JOIN Driver on Driver.Id = [Z-PurchaseBillMaster-Z].DriverId AND Driver.Active = 1
 		LEFT JOIN [CustomerAccountBranchMapping] AS CAB on CAB.Id = [Z-PurchaseBillMaster-Z].AccountBranchMappingId AND CAB.Deleted = 0
 		LEFT JOIN [CustomerAccount] AS CA on CA.Id = CAB.AccountId AND CA.CustomerId = @CustomerId AND CA.Deleted = 0 AND CA.Active = 1
 		LEFT JOIN [City] AS CT1 on CT1.Id = [Z-PurchaseBillMaster-Z].CityIdFrom AND CT1.Active = 1

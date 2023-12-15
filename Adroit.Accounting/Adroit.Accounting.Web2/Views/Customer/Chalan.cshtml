@@ -40,6 +40,7 @@
                                     <th class="border-bottom-0">VEHICLE#</th>
                                     <th class="border-bottom-0">FREIGHT</th>
                                     <th class="border-bottom-0">FROM CITY</th>
+                                    <th class="border-bottom-0">TO CITY</th>
                                     <th class="border-bottom-0">NET AMOUNT</th>
                                     <th class="border-bottom-0">BILL PARTY</th>
                                     <th class="border-bottom-0">DRIVER</th>
@@ -137,7 +138,7 @@
                                         </select>
                                     </div>
                                     <label for="CityIdTo" class="col-md-1 form-label">To</label>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="display:flex;">
                                         <select class="form-control select2-show-search" id="CityIdTo">
                                             <option></option>
                                             @{
@@ -145,14 +146,36 @@
                                                 {
                                                     foreach (var o in Model.CityList)
                                                     {
+                                                        <option value="@o.Text">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                        <span class="input-group-append">
+                                            <a href="#" class="btn btn-primary" data-toggle="modal" id="LRNumberList" data-original-title="Select LR List">
+                                                <span>
+                                                    <i class="fa fa-list"></i>
+                                                </span>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BranchIdTo" class="col-md-1 form-label">To Branch</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search" id="BranchIdTo">
+                                            <option></option>
+                                            @{
+                                                if (Model.CustomerFirmBranchList != null)
+                                                {
+                                                    foreach (var o in Model.CustomerFirmBranchList)
+                                                    {
                                                         <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
                                         </select>
                                     </div>
-                                </div>
-                                <div class="row mb-1">
                                     <label for="VehicleId" class="col-md-1 form-label">Vehicle#</label>
                                     <div class="col-md-2">
                                         <select class="form-control select2-show-search" id="VehicleId">
@@ -197,6 +220,17 @@
                                                 }
                                             }
                                         </select>
+                                    </div>                                    
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="LRNumber" class="col-md-1 form-label">LR#</label>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Enter LR Number..." id="LRNumber">
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="SearchLRNumber">Go!</button>
+                                            </span>
+                                        </div>
                                     </div>
                                     <label for="EwayBillNumber" class="col-md-1 form-label">e-Way Bill Part-B</label>
                                     <div class="col-md-2" style="display:flex;">
@@ -221,17 +255,6 @@
                                             </button>
                                         </span>
                                     </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <label for="LRNumber" class="col-md-1 form-label">LR#</label>
-                                    <div class="col-md-2">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Enter LR Number..." id="LRNumber">
-                                            <span class="input-group-append">
-                                                <button class="btn btn-primary" type="button" id="SearchLRNumber">Go!</button>
-                                            </span>
-                                        </div>
-                                    </div>
                                     <label for="EwayBillNumber" class="col-md-1 form-label">e-Way Bill Part-A</label>
                                     <div class="col-md-2" style="display:flex;">
                                         <div class="input-group">
@@ -240,13 +263,6 @@
                                                 <button class="btn btn-primary EWayBill-search" type="button">Go!</button>
                                             </span>
                                         </div>
-                                    </div>
-                                    <div class="offset-1 col-md-2" style="display:flex;">
-                                        <a href="#" class="btn btn-primary" data-toggle="modal" id="LRNumberList" data-original-title="Select LR List">
-                                            <span>
-                                                <i class="fa fa-list"></i> &nbsp; Select LR List
-                                            </span>
-                                        </a>
                                     </div>
                                     <label for="BillNumberFirm" class="col-md-1 form-label">Firm Chalan#</label>
                                     <div class="col-md-2">
@@ -679,7 +695,7 @@
 
 
 @section Scripts
-    {
+{
     <script>
         var selectedLRDetails = [];
         var addedIds = [];
@@ -687,7 +703,6 @@
 
             $('.dv-list').show();
             $('.dv-detail').hide();
-            addClick();
 
             bindDatatableList();
 
@@ -782,6 +797,7 @@
                 deleteRow(index);
             });
 
+            addClick();
         });
 
         function addClick() {
@@ -825,7 +841,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.vehicle;
+                    return row.vehicleVRN;
                 },
                 "targets": colDef.length,
             });
@@ -861,7 +877,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.driver;
+                    return row.driverName;
                 },
                 "targets": colDef.length,
             });
@@ -881,13 +897,13 @@
 
             columns.push({ "data": "billNumberBranch", "name": "billNumberBranch" });
             columns.push({ "data": "billDate", "name": "billDate" });
-            columns.push({ "data": "vehicle", "name": "vehicle" });
+            columns.push({ "data": "vehicleVRN", "name": "vehicleVRN" });
             columns.push({ "data": "taxableAmount", "name": "freight" });
             columns.push({ "data": "cityFrom", "name": "cityFrom" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
             columns.push({ "data": "netAmount", "name": "netAmount" });
             columns.push({ "data": "billPartyName", "name": "billPartyName" });
-            columns.push({ "data": "driver", "name": "driver" });
+            columns.push({ "data": "driverName", "name": "driverName" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -974,6 +990,7 @@
             $("#CrossingCommissionAccountBranchMappingId").val(null).trigger('change');
             $("#CrossingHamaliAccountBranchMappingId").val(null).trigger('change');
             $("#CrossingDeliveryAccountBranchMappingId").val(null).trigger('change');
+            $("#BranchIdTo").val(null).trigger('change');
             $("#IsAutoLedger").prop('checked', true);
 
             selectedLRDetails = [];
@@ -1166,6 +1183,8 @@
                 savedata.OtherLess = getFloatValueNull("OtherLess", 2);
                 savedata.LRNumberIds = $("#hdnSelectedLRNumberIds").val();
                 savedata.IsAutoLedger = $('#IsAutoLedger').is(':checked');
+                savedata.EntryTypeName = "PUR";
+                savedata.BranchIdTo = parseInt($("#BranchIdTo").val());
 
                 blockUI('container');
 
@@ -1255,6 +1274,7 @@
                                 $('#contentRow').html('');
 
                                 $("#Id").val(result.data.id);
+                                $("#BranchIdTo").val(result.data.branchIdTo);
                                 $("#BillNumberBranch").val(result.data.billNumberBranch);
                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
                                 $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
@@ -1364,7 +1384,7 @@
                         try {
                             if (result.result == RESULT_SUCCESS) {
 
-                                if (result.data = []) {
+                                if (result.data == []) {
                                     showWarning("", 'No LR data found!.');
                                 }
                                 else {
@@ -1720,11 +1740,6 @@
             }
         }
 
-        function updateHiddenInput(ids) {
-            var uniqueIds = [...new Set(ids)];
-            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
-        }
-
         function addRow() {
 
             var htmlContentArray = [];
@@ -1816,7 +1831,7 @@
                     '</div>' +
                     '<div class="col-md-1">' +
                     '<div class="form-group text-center mb-1">' +
-                    '<a href="javascript:deleteRow(' + i + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
+                    '<a href="javascript:deleteRow(' + selectedLRDetails[i].id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
                     '</div>' +
                     '</div>' +
                     '</div>';
@@ -1845,14 +1860,22 @@
             updateSelectedIdsInput();
         }
 
-        function deleteRow(index) {
-            if (selectedLRDetails[index]) {
-                var deletedId = selectedLRDetails[index].id;
+        function deleteRow(deletedId) {
+
+            var index = selectedLRDetails.findIndex(item => item.id === deletedId);
+
+            if (index !== -1) {
                 $('#row-' + index).remove();
                 addedIds = addedIds.filter(id => id !== deletedId);
                 selectedLRDetails.splice(index, 1);
                 updateSelectedIdsInput();
+
+                // Update the id attribute for each remaining row
+                $('.content-rows').each(function (newIndex) {
+                    $(this).attr('id', 'row-' + newIndex);
+                });
             }
+
         }
 
         function updateSelectedIdsInput() {
@@ -1864,5 +1887,9 @@
             });
         }
 
+        function updateHiddenInput(ids) {
+            var uniqueIds = [...new Set(ids)];
+            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
+        }
     </script>
 }

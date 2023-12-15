@@ -7,7 +7,7 @@ namespace Adroit.Accounting.Repository.IRepository
     public interface IChalan
     {
         public bool Delete(int id, string connectionString, int loginId);
-        int Save(PurchaseBillMasterViewModel value, string connectionString, int firmId, int branchId, int loginId);
+        int Save(PurchaseBillMasterViewModel value, string connectionString);
         public PurchaseBillMasterViewModel Get(int id, string connectionString, int loginId, int branchId);
         public List<PurchaseBillMasterGridViewModel> List(string connectionString, int loginId, int firmId, int branchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
         public CustomerFirmBranchTransportSettingViewModel GetChalanLabelList(string connectionString, int loginId, int branchId);
