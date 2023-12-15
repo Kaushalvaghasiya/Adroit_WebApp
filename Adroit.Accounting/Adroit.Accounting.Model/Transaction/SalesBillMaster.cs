@@ -56,6 +56,8 @@ namespace Adroit.Accounting.Model
         public string EwayBillNumber { get; set; }
         public string IRNNumber { get; set; }
         public string AcknowledgementNumber { get; set; }
+        [JsonConverter(typeof(CustomNullableDateTimeConverter))]
+        public System.DateTime? IRNDate { get; set; }
         public string ReturnBillNumber { get; set; }
         [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? ReturnBillDate { get; set; }

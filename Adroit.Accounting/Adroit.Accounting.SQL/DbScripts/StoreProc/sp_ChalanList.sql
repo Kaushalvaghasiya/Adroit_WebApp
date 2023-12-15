@@ -66,7 +66,12 @@ Begin
 			AND [Z-PurchaseBillMaster-Z].BranchId = @BranchId
 			AND [Z-PurchaseBillMaster-Z].YearId = @YearId			  
 		AND [Z-PurchaseBillMaster-Z].BranchId = @BranchId
-		AND (Coalesce(@Search,'') = '' OR [Z-PurchaseBillMaster-Z].BillNumberBranch like '%'+ @Search + '%')
+		AND (Coalesce(@Search,'') = '' OR [Z-PurchaseBillMaster-Z].BillNumberBranch like '%'+ @Search + '%'
+									   OR [Z-PurchaseBillMaster-Z].BillDate like '%'+ @Search + '%'
+									   OR Vehilcle.VRN like '%'+ @Search + '%'
+									   OR [Z-PurchaseBillMaster-Z].TaxableAmount like '%'+ @Search + '%'
+									   OR CT1.Title like '%'+ @Search + '%'
+									   OR CT2.Title like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
 End

@@ -67,7 +67,10 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int id = _customerInvoice.Save(model, _configurationData.DefaultConnection, CurrentFirmId, CurrentBranchId, CurrentUserId);
+                model.FirmId = CurrentFirmId;
+                model.BranchId = CurrentBranchId;
+                model.LoginId = CurrentUserId;
+                int id = _customerInvoice.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;

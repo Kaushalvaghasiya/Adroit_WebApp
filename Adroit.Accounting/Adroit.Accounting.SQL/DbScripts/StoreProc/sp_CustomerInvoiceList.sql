@@ -23,14 +23,14 @@ Begin
 			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN [Z-SalesBillMaster-Z].BillDate END DESC,
 			CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN CustomerAccount.Name END ASC,  
 			CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN CustomerAccount.Name END DESC,
-			CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN [Z-SalesBillMaster-Z].SerialNumberOfBranch END ASC,  
-			CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN [Z-SalesBillMaster-Z].SerialNumberOfBranch END DESC,
-			CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN [Z-SalesBillMaster-Z].BillDate END ASC,  
-			CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN [Z-SalesBillMaster-Z].BillDate END DESC,
-			CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN CustomerAccount.Name END ASC,  
-			CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN CustomerAccount.Name END DESC,
-			CASE WHEN @SortColumn = 6 AND @SortOrder ='ASC' THEN CustomerAccount.Name END ASC,  
-			CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN CustomerAccount.Name END DESC
+			CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN CustomerAccount.GSTNumber END ASC,  
+			CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN CustomerAccount.GSTNumber END DESC,
+			CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN [Z-SalesBillMaster-Z].BillAmount END ASC,  
+			CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN [Z-SalesBillMaster-Z].BillAmount END DESC,
+			CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN CT1.Title END ASC,  
+			CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN CT1.Title END DESC,
+			CASE WHEN @SortColumn = 6 AND @SortOrder ='ASC' THEN [Z-SalesBillMaster-Z].BillNumber END ASC,  
+			CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN [Z-SalesBillMaster-Z].BillNumber END DESC
 		) AS RowNum,
 		Count(*) over () AS TotalCount 
 		,[Z-SalesBillMaster-Z].Id
@@ -54,7 +54,13 @@ Begin
 			  AND [Z-SalesBillMaster-Z].FirmId = @FirmId
 			  AND [Z-SalesBillMaster-Z].BranchId = @BranchId
 			  AND [Z-SalesBillMaster-Z].YearId = @YearId
-	  AND (Coalesce(@Search,'') = '' OR [Z-SalesBillMaster-Z].SerialNumberOfBranch like '%'+ @Search + '%')
+	  AND (Coalesce(@Search,'') = '' OR [Z-SalesBillMaster-Z].SerialNumberOfBranch like '%'+ @Search + '%'
+									 OR [Z-SalesBillMaster-Z].BillDate like '%'+ @Search + '%'
+									 OR CustomerAccount.Name like '%'+ @Search + '%'
+									 OR CustomerAccount.GSTNumber like '%'+ @Search + '%'
+									 OR [Z-SalesBillMaster-Z].BillAmount like '%'+ @Search + '%'
+									 OR CT1.Title like '%'+ @Search + '%'
+									 OR [Z-SalesBillMaster-Z].BillNumber like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
 End
