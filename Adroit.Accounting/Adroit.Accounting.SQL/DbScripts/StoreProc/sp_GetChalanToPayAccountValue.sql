@@ -1,20 +1,26 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_GetChalanToPayAccountValue]
 (
 	@BranchId INT,
-	@LRNumberId VARCHAR(MAX)
+	@LRNumberIds VARCHAR(MAX)
 )
 AS
 BEGIN
 	
-	SELECT [Z-LRBooking-Z].BranchId
-	,[Z-LRBooking-Z].AccountBranchMappingId
-	,SUM([Z-LRBooking-Z].InvoiceValue) As ToPayAccountValue
-	FROM [Z-LRBooking-Z]
-	LEFT JOIN CustomerAccountBranchMapping CABM ON [Z-LRBooking-Z].AccountBranchMappingId = CABM.Id AND CABM.Deleted = 0
-	WHERE [Z-LRBooking-Z].Deleted = 0
-	AND [Z-LRBooking-Z].Id IN (SELECT Id FROM [dbo].[fnStringToIntArray](@LRNumberId))
-	AND [Z-LRBooking-Z].BranchId = @BranchId
-	GROUP BY [Z-LRBooking-Z].BranchId,[Z-LRBooking-Z].AccountBranchMappingId
+	SELECT SUM(L1.val) As ToPayAccountValue
+	,SUM(L2.val) As TBBValue
+	,SUM(L3.val) As PaidValue
+	FROM (SELECT SUM(LB1.InvoiceValue) AS val FROM [Z-LRBooking-Z] AS LB1 
+	INNER JOIN TransportLRPayType AS TLRType1 ON LB1.LRPayTypeId = TLRType1.Id AND TLRType1.Title = 'To Pay' AND TLRType1.Deleted = 0 AND LB1.Deleted = 0 
+	AND LB1.Id IN (SELECT Id FROM [dbo].[fnStringToIntArray](@LRNumberIds))
+	AND LB1.BranchId = @BranchId) L1,
+	(SELECT SUM(LB2.InvoiceValue) AS val FROM [Z-LRBooking-Z] AS LB2 
+	INNER JOIN TransportLRPayType AS TLRType2 ON LB2.LRPayTypeId = TLRType2.Id AND TLRType2.Title = 'Paid' AND TLRType2.Deleted = 0 AND LB2.Deleted = 0
+	AND LB2.Id IN (SELECT Id FROM [dbo].[fnStringToIntArray](@LRNumberIds))
+	AND LB2.BranchId = @BranchId) L2,
+	(SELECT SUM(LB3.InvoiceValue) AS val FROM [Z-LRBooking-Z] AS LB3 
+	INNER JOIN TransportLRPayType AS TLRType3 ON LB3.LRPayTypeId = TLRType3.Id AND TLRType3.Title = 'TBB' AND TLRType3.Deleted = 0 AND LB3.Deleted = 0
+	AND LB3.Id IN (SELECT Id FROM [dbo].[fnStringToIntArray](@LRNumberIds))
+	AND LB3.BranchId = @BranchId) L3			
 
 END
 GO

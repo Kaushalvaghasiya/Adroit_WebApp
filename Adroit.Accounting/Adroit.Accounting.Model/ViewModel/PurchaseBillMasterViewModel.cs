@@ -14,10 +14,16 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> AccountBranchMappingList { get; set; }
         public List<DropdownViewModel> EwayBillList { get; set; }
         public List<DropdownViewModel> BrokerList { get; set; }
+        public List<DropdownViewModel> CustomerFirmBranchList { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
-        public string CityTo { get; set; }
-        public string LRNumberId { get; set; }
-        public decimal NetAmount { get; set; }
-
+        public string? CityFrom { get; set; }
+        public string? CityTo { get; set; }
+        public string? VehicleVRN { get; set; }
+        public string? LRNumberIds { get; set; }
+        public string? BillPartyName { get; set; }
+        public string? DriverName { get; set; }
+        public decimal? NetAmount { get; set; }
+        public int? LoginId { get; set; }
+        public string? EntryTypeName { get; set; }
     }
 }

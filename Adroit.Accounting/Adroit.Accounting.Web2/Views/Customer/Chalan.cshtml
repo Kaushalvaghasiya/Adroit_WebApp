@@ -37,8 +37,13 @@
                                 <tr>
                                     <th class="border-bottom-0">CHALLAN#</th>
                                     <th class="border-bottom-0">DATE</th>
-                                    <th class="border-bottom-0">AMOUNT</th>
+                                    <th class="border-bottom-0">VEHICLE#</th>
+                                    <th class="border-bottom-0">FREIGHT</th>
+                                    <th class="border-bottom-0">FROM CITY</th>
                                     <th class="border-bottom-0">TO CITY</th>
+                                    <th class="border-bottom-0">NET AMOUNT</th>
+                                    <th class="border-bottom-0">BILL PARTY</th>
+                                    <th class="border-bottom-0">DRIVER</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -133,7 +138,7 @@
                                         </select>
                                     </div>
                                     <label for="CityIdTo" class="col-md-1 form-label">To</label>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2" style="display:flex;">
                                         <select class="form-control select2-show-search" id="CityIdTo">
                                             <option></option>
                                             @{
@@ -141,14 +146,36 @@
                                                 {
                                                     foreach (var o in Model.CityList)
                                                     {
+                                                        <option value="@o.Text">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                        <span class="input-group-append">
+                                            <a href="#" class="btn btn-primary" data-toggle="modal" id="LRNumberList" data-original-title="Select LR List">
+                                                <span>
+                                                    <i class="fa fa-list"></i>
+                                                </span>
+                                            </a>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BranchIdTo" class="col-md-1 form-label">To Branch</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search" id="BranchIdTo">
+                                            <option></option>
+                                            @{
+                                                if (Model.CustomerFirmBranchList != null)
+                                                {
+                                                    foreach (var o in Model.CustomerFirmBranchList)
+                                                    {
                                                         <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
                                         </select>
                                     </div>
-                                </div>
-                                <div class="row mb-1">
                                     <label for="VehicleId" class="col-md-1 form-label">Vehicle#</label>
                                     <div class="col-md-2">
                                         <select class="form-control select2-show-search" id="VehicleId">
@@ -193,6 +220,17 @@
                                                 }
                                             }
                                         </select>
+                                    </div>                                    
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="LRNumber" class="col-md-1 form-label">LR#</label>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Enter LR Number..." id="LRNumber">
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="SearchLRNumber">Go!</button>
+                                            </span>
+                                        </div>
                                     </div>
                                     <label for="EwayBillNumber" class="col-md-1 form-label">e-Way Bill Part-B</label>
                                     <div class="col-md-2" style="display:flex;">
@@ -217,17 +255,6 @@
                                             </button>
                                         </span>
                                     </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <label for="LRNumber" class="col-md-1 form-label">LR#</label>
-                                    <div class="col-md-2">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Enter LR Number..." id="LRNumber">
-                                            <span class="input-group-append">
-                                                <button class="btn btn-primary" type="button" id="SearchLRNumber">Go!</button>
-                                            </span>
-                                        </div>
-                                    </div>
                                     <label for="EwayBillNumber" class="col-md-1 form-label">e-Way Bill Part-A</label>
                                     <div class="col-md-2" style="display:flex;">
                                         <div class="input-group">
@@ -236,13 +263,6 @@
                                                 <button class="btn btn-primary EWayBill-search" type="button">Go!</button>
                                             </span>
                                         </div>
-                                    </div>
-                                    <div class="offset-1 col-md-2" style="display:flex;">
-                                        <a href="#" class="btn btn-primary" data-toggle="modal" id="LRNumberList" data-original-title="Select LR List">
-                                            <span>
-                                                <i class="fa fa-list"></i> &nbsp; Select LR List
-                                            </span>
-                                        </a>
                                     </div>
                                     <label for="BillNumberFirm" class="col-md-1 form-label">Firm Chalan#</label>
                                     <div class="col-md-2">
@@ -284,7 +304,7 @@
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
-                                                        <label for="Package" class="font-weight-bold text-white"> Package </label>
+                                                        <label for="Parcel" class="font-weight-bold text-white"> Parcel </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
@@ -675,7 +695,7 @@
 
 
 @section Scripts
-    {
+{
     <script>
         var selectedLRDetails = [];
         var addedIds = [];
@@ -777,6 +797,7 @@
                 deleteRow(index);
             });
 
+            addClick();
         });
 
         function addClick() {
@@ -820,13 +841,43 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.netAmount;
+                    return row.vehicleVRN;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.taxableAmount;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.netAmount;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billPartyName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.driverName;
                 },
                 "targets": colDef.length,
             });
@@ -846,8 +897,13 @@
 
             columns.push({ "data": "billNumberBranch", "name": "billNumberBranch" });
             columns.push({ "data": "billDate", "name": "billDate" });
-            columns.push({ "data": "netAmount", "name": "netAmount" });
+            columns.push({ "data": "vehicleVRN", "name": "vehicleVRN" });
+            columns.push({ "data": "taxableAmount", "name": "freight" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "netAmount", "name": "netAmount" });
+            columns.push({ "data": "billPartyName", "name": "billPartyName" });
+            columns.push({ "data": "driverName", "name": "driverName" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -895,7 +951,10 @@
             $("#Id").val(0);
             $("#BillNumberBranch").val(0);
             $("#BillNumberFirm").val(0);
-            $("#BillDate").val('');
+
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
+            $("#BillDate").datepicker("setDate", formattedMinimumDate);
+
             $("#ToPayAmount, #Paid, #TBB, #Total").val('0.00');
             $("#CrossingAmount").val('');
             $("#CrossingAmountAccountBranchMappingId").val('');
@@ -931,6 +990,7 @@
             $("#CrossingCommissionAccountBranchMappingId").val(null).trigger('change');
             $("#CrossingHamaliAccountBranchMappingId").val(null).trigger('change');
             $("#CrossingDeliveryAccountBranchMappingId").val(null).trigger('change');
+            $("#BranchIdTo").val(null).trigger('change');
             $("#IsAutoLedger").prop('checked', true);
 
             selectedLRDetails = [];
@@ -1121,8 +1181,10 @@
                 savedata.ReceiveCash = getFloatValueNull("ReceiveCash", 2);
                 savedata.OtherPlus = getFloatValueNull("OtherPlus", 2);
                 savedata.OtherLess = getFloatValueNull("OtherLess", 2);
-                savedata.LRNumberId = $("#hdnSelectedLRNumberIds").val();
+                savedata.LRNumberIds = $("#hdnSelectedLRNumberIds").val();
                 savedata.IsAutoLedger = $('#IsAutoLedger').is(':checked');
+                savedata.EntryTypeName = "PUR";
+                savedata.BranchIdTo = parseInt($("#BranchIdTo").val());
 
                 blockUI('container');
 
@@ -1139,7 +1201,7 @@
                             showWarning("", 'Chalan saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
-                            $('.btn-back').click();
+                            addClick();
                         } else {
                             showError("", data.data);
                         }
@@ -1212,6 +1274,7 @@
                                 $('#contentRow').html('');
 
                                 $("#Id").val(result.data.id);
+                                $("#BranchIdTo").val(result.data.branchIdTo);
                                 $("#BillNumberBranch").val(result.data.billNumberBranch);
                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
                                 $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
@@ -1281,7 +1344,7 @@
                                         lrNumber: LRBookingDetail.lrNumber,
                                         lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
                                         privateMarka: LRBookingDetail.privateMarka,
-                                        packing: LRBookingDetail.packing,
+                                        parcel: LRBookingDetail.parcel,
                                         chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
                                         toCity: LRBookingDetail.cityTo,
                                         fromCity: LRBookingDetail.cityFrom,
@@ -1289,7 +1352,7 @@
                                         description: LRBookingDetail.description,
                                         consignor: LRBookingDetail.consignor,
                                         consignee: LRBookingDetail.consignee,
-                                        billParty: LRBookingDetail.billParty,
+                                        billPartyName: LRBookingDetail.billPartyName,
                                         ewayBillNo: LRBookingDetail.ewayBillNo
                                     });
                                 });
@@ -1320,32 +1383,36 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                result.data.forEach(function (LRBookingDetail) {
-                                    var isDuplicate = selectedLRDetails.some(item => item.id === LRBookingDetail.id);
 
-                                    if (!isDuplicate) {
-                                        selectedLRDetails.push({
-                                            id: LRBookingDetail.id,
-                                            lrNumber: LRBookingDetail.lrNumber,
-                                            lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
-                                            privateMarka: LRBookingDetail.privateMarka,
-                                            packing: LRBookingDetail.packing,
-                                            chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
-                                            toCity: LRBookingDetail.cityTo,
-                                            fromCity: LRBookingDetail.cityFrom,
-                                            invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
-                                            description: LRBookingDetail.description,
-                                            consignor: LRBookingDetail.consignor,
-                                            consignee: LRBookingDetail.consignee,
-                                            billParty: LRBookingDetail.billParty,
-                                            ewayBillNo: LRBookingDetail.ewayBillNo
-                                        });
+                                if (result.data == []) {
+                                    showWarning("", 'No LR data found!.');
+                                }
+                                else {
+                                    result.data.forEach(function (LRBookingDetail) {
+                                        var isDuplicate = selectedLRDetails.some(item => item.id === LRBookingDetail.id);
 
-                                    }
-                                });
+                                        if (!isDuplicate) {
+                                            selectedLRDetails.push({
+                                                id: LRBookingDetail.id,
+                                                lrNumber: LRBookingDetail.lrNumber,
+                                                lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                                privateMarka: LRBookingDetail.privateMarka,
+                                                parcel: LRBookingDetail.parcel,
+                                                chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
+                                                toCity: LRBookingDetail.cityTo,
+                                                fromCity: LRBookingDetail.cityFrom,
+                                                invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
+                                                description: LRBookingDetail.description,
+                                                consignor: LRBookingDetail.consignor,
+                                                consignee: LRBookingDetail.consignee,
+                                                billPartyName: LRBookingDetail.billPartyName,
+                                                ewayBillNo: LRBookingDetail.ewayBillNo
+                                            });
 
-                                addRow();
-
+                                        }
+                                    });
+                                    addRow();
+                                }
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -1420,7 +1487,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.packing;
+                    return row.parcel;
                 },
                 "targets": colDef.length,
             });
@@ -1468,7 +1535,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.billParty;
+                    return row.billPartyName;
                 },
                 "targets": colDef.length,
             });
@@ -1483,7 +1550,7 @@
             columns.push({ "data": "lrNumber", "name": "lrNumber" });
             columns.push({ "data": "lrDate", "name": "lrDate" });
             columns.push({ "data": "privateMarka", "name": "privateMarka" });
-            columns.push({ "data": "packing", "name": "packing" });
+            columns.push({ "data": "parcel", "name": "parcel" });
             columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
             columns.push({ "data": "cityFrom", "name": "cityFrom" });
@@ -1491,7 +1558,7 @@
             columns.push({ "data": "description", "name": "description" });
             columns.push({ "data": "consignor", "name": "consignor" });
             columns.push({ "data": "consignee", "name": "consignee" });
-            columns.push({ "data": "billParty", "name": "billParty" });
+            columns.push({ "data": "billPartyName", "name": "billPartyName" });
             columns.push({ "data": "ewayBillNo", "name": "ewayBillNo" });
 
             var table = $('#LRtblMain').DataTable({
@@ -1537,7 +1604,7 @@
                                     lrNumber: row.lrNumber,
                                     lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
                                     privateMarka: row.privateMarka,
-                                    packing: row.packing,
+                                    parcel: row.parcel,
                                     chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
                                     toCity: row.cityTo,
                                     fromCity: row.cityFrom,
@@ -1545,7 +1612,7 @@
                                     description: row.description,
                                     consignor: row.consignor,
                                     consignee: row.consignee,
-                                    billParty: row.billParty,
+                                    billPartyName: row.billPartyName,
                                     ewayBillNo: row.ewayBillNo
                                 });
                             }
@@ -1583,7 +1650,7 @@
                         lrNumber: row.lrNumber,
                         lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
                         privateMarka: row.privateMarka,
-                        packing: row.packing,
+                        parcel: row.parcel,
                         chargeWeight: row.chargeWeight,
                         toCity: row.toCity,
                         fromCity: row.fromCity,
@@ -1591,7 +1658,7 @@
                         description: row.description,
                         consignor: row.consignor,
                         consignee: row.consignee,
-                        billParty: row.billParty,
+                        billPartyName: row.billPartyName,
                         ewayBillNo: row.ewayBillNo
                     }));
                 } else {
@@ -1620,7 +1687,7 @@
                                     lrNumber: row.data().lrNumber,
                                     lrDate: moment(row.data().lrDate.split('T')[0]).format('DD/MM/YYYY'),
                                     privateMarka: row.data().privateMarka,
-                                    packing: row.data().packing,
+                                    parcel: row.data().parcel,
                                     chargeWeight: row.data().chargeWeight,
                                     toCity: row.data().toCity,
                                     fromCity: row.data().fromCity,
@@ -1628,7 +1695,7 @@
                                     description: row.data().description,
                                     consignor: row.data().consignor,
                                     consignee: row.data().consignee,
-                                    billParty: row.data().billParty,
+                                    billPartyName: row.data().billPartyName,
                                     ewayBillNo: row.data().ewayBillNo
                                 });
                             }
@@ -1641,16 +1708,15 @@
             });
         }
 
-        function GetChalanToPayAmount(lrNumberId) {
+        function GetChalanToPayAmount(lrNumberIds) {
             try {
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanToPayAmount"))" + "/" + lrNumberId, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanToPayAmount"))" + "/" + lrNumberIds, "",
                     function (result) {
                         try {
                             if (result.result == RESULT_SUCCESS) {
-
                                 $("#ToPayAmount").val((parseFloat($("#ToPayAmount").val() || 0) + parseFloat(result.data.toPayAccountValue || 0)).toFixed(2));
-                                $("#Paid").val((parseFloat($("#Paid").val() || 0) + parseFloat(result.data.toPayAccountValue || 0)).toFixed(2));
-                                $("#TBB").val((parseFloat($("#TBB").val() || 0) + parseFloat(result.data.toPayAccountValue || 0)).toFixed(2));
+                                $("#Paid").val((parseFloat($("#Paid").val() || 0) + parseFloat(result.data.paidValue || 0)).toFixed(2));
+                                $("#TBB").val((parseFloat($("#TBB").val() || 0) + parseFloat(result.data.tbbValue || 0)).toFixed(2));
 
                                 var totalValue = parseFloat($("#ToPayAmount").val() || 0) +
                                     parseFloat($("#Paid").val() || 0) +
@@ -1674,11 +1740,6 @@
             }
         }
 
-        function updateHiddenInput(ids) {
-            var uniqueIds = [...new Set(ids)];
-            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
-        }
-
         function addRow() {
 
             var htmlContentArray = [];
@@ -1700,7 +1761,7 @@
                     '</div>' +
                     '</div>' +
                     '</div>' +
-                    '<div class="col-md-1">' +
+                    '<div class="col-md-1 p-0">' +
                     '<div class="row mb-0">' +
                     '<div class="col-md-6">' +
                     '<div class="form-group text-center mb-1">' +
@@ -1716,7 +1777,7 @@
                     '</div>' +
                     '<div class="col-md-1">' +
                     '<div class="form-group text-center mb-1">' +
-                    '<label for="packing">' + (selectedLRDetails[i].packing || '') + '</label>' +
+                    '<label for="parcel">' + (selectedLRDetails[i].parcel || '') + '</label>' +
                     '</div>' +
                     '</div>' +
                     '<div class="col-md-1">' +
@@ -1760,7 +1821,7 @@
                     '</div>' +
                     '<div class="col-md-1">' +
                     '<div class="form-group text-center mb-1">' +
-                    '<label for="billParty">' + (selectedLRDetails[i].billParty || '') + '</label>' +
+                    '<label for="billPartyName">' + (selectedLRDetails[i].billPartyName || '') + '</label>' +
                     '</div>' +
                     '</div>' +
                     '<div class="col-md-1">' +
@@ -1770,7 +1831,7 @@
                     '</div>' +
                     '<div class="col-md-1">' +
                     '<div class="form-group text-center mb-1">' +
-                    '<a href="javascript:deleteRow(' + i + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
+                    '<a href="javascript:deleteRow(' + selectedLRDetails[i].id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
                     '</div>' +
                     '</div>' +
                     '</div>';
@@ -1799,14 +1860,22 @@
             updateSelectedIdsInput();
         }
 
-        function deleteRow(index) {
-            if (selectedLRDetails[index]) {
-                var deletedId = selectedLRDetails[index].id;
+        function deleteRow(deletedId) {
+
+            var index = selectedLRDetails.findIndex(item => item.id === deletedId);
+
+            if (index !== -1) {
                 $('#row-' + index).remove();
                 addedIds = addedIds.filter(id => id !== deletedId);
                 selectedLRDetails.splice(index, 1);
                 updateSelectedIdsInput();
+
+                // Update the id attribute for each remaining row
+                $('.content-rows').each(function (newIndex) {
+                    $(this).attr('id', 'row-' + newIndex);
+                });
             }
+
         }
 
         function updateSelectedIdsInput() {
@@ -1818,5 +1887,9 @@
             });
         }
 
+        function updateHiddenInput(ids) {
+            var uniqueIds = [...new Set(ids)];
+            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
+        }
     </script>
 }

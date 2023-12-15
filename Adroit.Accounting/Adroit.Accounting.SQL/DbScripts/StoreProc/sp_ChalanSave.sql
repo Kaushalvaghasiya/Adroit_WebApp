@@ -33,34 +33,35 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanSave]
 	,@ReceiveCash DECIMAL(9,2)
 	,@OtherPlus DECIMAL(9,2)
 	,@OtherLess DECIMAL(9,2)
-	,@LRNumberId NVARCHAR(MAX)
+	,@LRNumberIds NVARCHAR(MAX)
 	,@IsAutoLedger BIT
-
+	,@ValidDateFrom DATETIME 
+	,@ValidDateTo DATETIME 
+	,@TDSPercent DECIMAL(9,2) 
+	,@SGSTTotal DECIMAL(9,2) 
+	,@CGSTTotal DECIMAL(9,2) 
+	,@IGSTTotal DECIMAL(9,2) 
+	,@GSTStateCessTotal DECIMAL(9,2) 
+	,@GSTCentralCessTotal DECIMAL(9,2) 
+	,@TCSPercent DECIMAL(9,2) 
+	,@TCSAmount DECIMAL(9,2) 
+	,@CreditDays DECIMAL(9,2) 
+	,@RoundOff DECIMAL(9,2) 
+	,@BillAmount DECIMAL(9,2) 
+	,@SalesAccountBranchMappingId INT 
+	,@GenaralPurchaseAccountBranchMappingId INT 
+	,@SkipInGSTR BIT 
+	,@RCMId INT 
+	,@RCMBillNumber INT 
+	,@BillTypeID INT 
+	,@ReturnBillNumber VARCHAR(30) 
+	,@ReturnBillDate DATETIME 
+	,@ReturnReasonId INT 
+	,@PurchaseOrderRefNo VARCHAR(30) 
+	,@EntryTypeName VARCHAR(25) 
+	,@BranchIdTo INT 
 	,@BillNumberTable VARCHAR(30) = 'Static'
 	,@BillNumberBranchTable VARCHAR(30) = 'Static'
-	,@ValidDateFrom DATETIME = NULL
-	,@ValidDateTo DATETIME = NULL
-	,@TDSPercent DECIMAL(9,2) = NULL
-	,@SGSTTotal DECIMAL(9,2) = NULL
-	,@CGSTTotal DECIMAL(9,2) = NULL
-	,@IGSTTotal DECIMAL(9,2) = NULL
-	,@GSTStateCessTotal DECIMAL(9,2) = NULL
-	,@GSTCentralCessTotal DECIMAL(9,2) = NULL
-	,@TCSPercent DECIMAL(9,2) = NULL
-	,@TCSAmount DECIMAL(9,2) = NULL
-	,@CreditDays DECIMAL(9,2) = NULL
-	,@RoundOff DECIMAL(9,2) = NULL
-	,@BillAmount DECIMAL(9,2) = NULL
-	,@SalesAccountBranchMappingId INT = NULL
-	,@GenaralPurchaseAccountBranchMappingId INT = NULL
-	,@SkipInGSTR BIT = 0
-	,@RCMId INT = NULL
-	,@RCMBillNumber INT = NULL
-	,@BillTypeID INT = NULL
-	,@ReturnBillNumber VARCHAR(30) = 'Static'
-	,@ReturnBillDate DATETIME = NULL
-	,@ReturnReasonId INT = NULL
-	,@PurchaseOrderRefNo VARCHAR(30) = 'Static'
 )
 AS
 BEGIN
@@ -86,7 +87,7 @@ BEGIN
 		DECLARE @EntryTypeId INT = (
 			SELECT Id
 			FROM [BillEntryTypeAdmin]
-			WHERE [BillEntryTypeAdmin].Code = 'PUR'
+			WHERE [BillEntryTypeAdmin].Code = @EntryTypeName 
 			AND [BillEntryTypeAdmin].Active = 1
 		);
 
@@ -118,7 +119,7 @@ BEGIN
 				,GSTStateCessTotal,GSTCentralCessTotal,TCSPercent,TCSAmount,ToPayAmount,CrossingAmount,CrossingCommission,CrossingHamali,CrossingDeliveryCharge,CreditDays,RoundOff,BillAmount
 				,BrokerBranchMappingId,BrokerAmount,Notes,ToPayAccountBranchMappingId,CrossingAmountAccountBranchMappingId,CrossingCommissionAccountBranchMappingId,CrossingHamaliAccountBranchMappingId
 				,CrossingDeliveryAccountBranchMappingId,SalesAccountBranchMappingId,GenaralPurchaseAccountBranchMappingId,SkipInGSTR,RCMId,RCMBillNumber,BillTypeID,ReturnBillNumber,ReturnBillDate
-				,ReturnReasonId,PurchaseOrderRefNo,AddedOn,AddedById,BranchId,YearId,IsAutoLedger,FirmId)
+				,ReturnReasonId,PurchaseOrderRefNo,AddedOn,AddedById,BranchId,YearId,IsAutoLedger,FirmId,BranchIdTo)
 			VALUES 
 				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumberFirm,@BillNumberTable,@BillNumberBranch,@BillNumberBranchTable,@EntryTypeId,@BillDate,@VehicleId,@CityIdFrom
 				,@CityIdTo,@DriverId,@BranchId,@EwayBillNumber,@ValidDateFrom,@ValidDateTo,@TaxableAmount,@TDSPercent,@TDSAmount,@AdvanceCash,@AdvanceNeft,@OtherLess,@ReceiveCash
@@ -126,7 +127,7 @@ BEGIN
 				,@CrossingDeliveryCharge,@CreditDays,@RoundOff,@BillAmount,@BrokerBranchMappingId,@BrokerAmount,@Notes,@ToPayAccountBranchMappingId,@CrossingAmountAccountBranchMappingId
 				,@CrossingCommissionAccountBranchMappingId,@CrossingHamaliAccountBranchMappingId,@CrossingDeliveryAccountBranchMappingId,@SalesAccountBranchMappingId
 				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMId,@RCMBillNumber,@BillTypeID,@ReturnBillNumber,@ReturnBillDate,@ReturnReasonId,@PurchaseOrderRefNo,GETUTCDATE()
-				,@LoginId,@BranchId,@YearId,@IsAutoLedger,@FirmId)
+				,@LoginId,@BranchId,@YearId,@IsAutoLedger,@FirmId,@BranchIdTo)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -202,24 +203,25 @@ BEGIN
 			,FirmId = @FirmId 
 			,YearId = @YearId 
 			,IsAutoLedger = @IsAutoLedger 
+			,BranchIdTo = @BranchIdTo
 			WHERE Id = @Id
 
 			UPDATE  [Z-PurchaseBillDetail-Z] SET
 					DeletedById = @LoginId,
 					DeletedOn = GETUTCDATE(),
 					Deleted = 1
-			WHERE PurchaseBillMasterId = @Id AND [LRBookingId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberId))
+			WHERE PurchaseBillMasterId = @Id AND [LRBookingId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
 
 			UPDATE  [Z-PurchaseBillDetail-Z] SET
 					DeletedById = NULL,
 					DeletedOn = NULL,
 					Deleted = 0
-			WHERE PurchaseBillMasterId = @Id AND [LRBookingId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberId))
+			WHERE PurchaseBillMasterId = @Id AND [LRBookingId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
 		END
 
 		INSERT INTO [Z-PurchaseBillDetail-Z] (PurchaseBillMasterId,ProductBranchMappingId,LRBookingId,AddedById,AddedOn)
 		SELECT @Id,PBM.ProductBranchMappingId,LRN.Id,@LoginId,GETUTCDATE()
-		FROM dbo.[fnStringToIntArray](@LRNumberId) AS LRN
+		FROM dbo.[fnStringToIntArray](@LRNumberIds) AS LRN
 		INNER JOIN [Z-LRBooking-Z] AS PBM ON PBM.Id = LRN.Id
 		EXCEPT
 		SELECT PurchaseBillMasterId,ProductBranchMappingId,LRBookingId,@LoginId,GETUTCDATE() 

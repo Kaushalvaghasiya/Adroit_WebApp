@@ -9,13 +9,13 @@ namespace Adroit.Accounting.Repository
 {
     public class ChalanRepository : IChalan
     {
-        public int Save(PurchaseBillMasterViewModel value, string connectionString, int firmId, int branchId, int loginId)
+        public int Save(PurchaseBillMasterViewModel value, string connectionString)
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", value.LoginId);
+            parameters.Add("@FirmId", value.FirmId);
+            parameters.Add("@BranchId", value.BranchId);
             parameters.Add("@Id", value.Id);
-            parameters.Add("@FirmId", firmId);
-            parameters.Add("@BranchId", branchId);
-            parameters.Add("@LoginId", loginId);
             parameters.Add("@BillNumberBranch", value.BillNumberBranch);
             parameters.Add("@BillNumberFirm", value.BillNumberFirm);
             parameters.Add("@BillDate", value.BillDate);
@@ -45,8 +45,33 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@ReceiveCash", value.ReceiveCash);
             parameters.Add("@OtherPlus", value.OtherPlus);
             parameters.Add("@OtherLess", value.OtherLess);
-            parameters.Add("@LRNumberId", value.LRNumberId);
+            parameters.Add("@LRNumberIds", value.LRNumberIds);
             parameters.Add("@IsAutoLedger", value.IsAutoLedger);
+            parameters.Add("@ValidDateFrom", value.ValidDateFrom);
+            parameters.Add("@ValidDateTo", value.ValidDateTo);
+            parameters.Add("@TDSPercent", value.TDSPercent);
+            parameters.Add("@SGSTTotal", value.SGSTTotal);
+            parameters.Add("@CGSTTotal", value.CGSTTotal);
+            parameters.Add("@IGSTTotal", value.IGSTTotal);
+            parameters.Add("@GSTStateCessTotal", value.GSTStateCessTotal);
+            parameters.Add("@GSTCentralCessTotal", value.GSTCentralCessTotal);
+            parameters.Add("@TCSPercent", value.TCSPercent);
+            parameters.Add("@TCSAmount", value.TCSAmount);
+            parameters.Add("@CreditDays", value.CreditDays);
+            parameters.Add("@RoundOff", value.RoundOff);
+            parameters.Add("@BillAmount", value.BillAmount);
+            parameters.Add("@SalesAccountBranchMappingId", value.SalesAccountBranchMappingId);
+            parameters.Add("@GenaralPurchaseAccountBranchMappingId", value.GenaralPurchaseAccountBranchMappingId);
+            parameters.Add("@SkipInGSTR", value.SkipInGSTR);
+            parameters.Add("@RCMId", value.RCMId);
+            parameters.Add("@RCMBillNumber", value.RCMBillNumber);
+            parameters.Add("@BillTypeID", value.BillTypeID);
+            parameters.Add("@ReturnBillNumber", value.ReturnBillNumber);
+            parameters.Add("@ReturnBillDate", value.ReturnBillDate);
+            parameters.Add("@ReturnReasonId", value.ReturnReasonId);
+            parameters.Add("@PurchaseOrderRefNo", value.PurchaseOrderRefNo);
+            parameters.Add("@EntryTypeName", value.EntryTypeName);
+            parameters.Add("@BranchIdTo", value.BranchIdTo);
             return QueryHelper.Save("sp_ChalanSave", connectionString, parameters);
         }
         public bool Delete(int id, string connectionString, int loginId)
@@ -65,9 +90,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BranchId", branchId);
             return QueryHelper.Get<PurchaseBillMasterViewModel>("sp_ChalanGet", connectionString, parameters);
         }
-        public List<PurchaseBillMasterGridViewModel> List(string connectionString, int branchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<PurchaseBillMasterGridViewModel> List(string connectionString, int loginId, int firmId, int branchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", branchId);
             parameters.Add("@Search", search);
             parameters.Add("@PageStart", pageStart);
@@ -83,13 +110,20 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BranchId", branchId);
             return QueryHelper.Get<CustomerFirmBranchTransportSettingViewModel>("sp_GetChalanLabelList", connectionString, parameters);
         }
-        public CustomerFirmBranchTransportSettingViewModel GetChalanToPayAccountValueList(string lrNumberId, string connectionString, int branchId)
+        public CustomerFirmBranchTransportSettingViewModel GetChalanToPayAccountValueList(string lrNumberIds, string connectionString, int branchId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@BranchId", branchId);
-            parameters.Add("@LRNumberId", lrNumberId);
+            parameters.Add("@LRNumberIds", lrNumberIds);
             return QueryHelper.Get<CustomerFirmBranchTransportSettingViewModel>("sp_GetChalanToPayAccountValue", connectionString, parameters);
         }
-
+        public List<LRBookingGridViewModel> GetListByLRNumberId(string connectionString, int LRNumberId, int loginId, int branchId, int firmId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@LRNumberId", LRNumberId);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_ChalanLRBookingGetGridDetailsByLRNumber", connectionString, parameters);
+        }
     }
 }

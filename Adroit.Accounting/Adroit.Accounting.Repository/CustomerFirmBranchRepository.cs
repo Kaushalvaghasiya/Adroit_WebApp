@@ -84,5 +84,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             return QueryHelper.GetList<DropdownViewModel>("sp_LoginCustomerBranchListWithFirm_Select", connectionString, parameters);
         }
+        public List<DropdownViewModel> SelectListByFirmId(int firmId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@FirmId", firmId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmBranchListByFirmId_Select", connectionString, parameters);
+        }
     }
 }

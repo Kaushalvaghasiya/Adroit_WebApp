@@ -25,6 +25,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? CrossingHamaliLabel { get; set; }
         public string? CrossingDeliveryChargeLabel { get; set; }
         public decimal? ToPayAccountValue { get; set; }
+        public decimal? TBBValue { get; set; }
+        public decimal? PaidValue { get; set; }
 
     }
 }

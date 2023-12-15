@@ -77,6 +77,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRBranchCityMapping _transportLRBranchCityMappingRepository;
         private readonly ILRBooking _lrBookingRepository;
         private readonly ITransportLRDelivery _transportLRDeliveryRepository;
+        private readonly ICustomerInvoice _customerInvoice;
         private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
         private readonly IChalan _chalanRepository;
 
@@ -147,7 +148,9 @@ namespace Adroit.Accounting.Web.Controllers
             ILRBooking lrBookingRepository,
             ITransportLRDeliveryType transportLRDeliveryTypeRepository,
             ITransportLRDelivery transportLRDeliveryRepository,
-            IChalan chalanRepository)
+            IChalan chalanRepository,
+            ICustomerInvoice customerInvoice
+            )
             : base(loginHandler, userRepository, configurationData)
         {
             _vehicleRepo = vehicleRepo;
@@ -217,6 +220,7 @@ namespace Adroit.Accounting.Web.Controllers
             _transportLRDeliveryTypeRepository = transportLRDeliveryTypeRepository;
             _transportLRDeliveryRepository = transportLRDeliveryRepository;
             _chalanRepository = chalanRepository;
+            _customerInvoice = customerInvoice;
         }
 
         public JsonResult GetAccountGroups()
@@ -240,21 +244,6 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId, _configurationData.DefaultConnection, CurrentUserId).ToList(); ;
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-        public JsonResult GetAccounts()
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                result.data = _customerAccountRepo.GetCustomerAccountList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

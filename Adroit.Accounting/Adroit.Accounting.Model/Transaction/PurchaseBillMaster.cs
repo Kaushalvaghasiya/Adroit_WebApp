@@ -77,5 +77,6 @@ namespace Adroit.Accounting.Model
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
         public bool IsAutoLedger { get; set; }
+        public int? BranchIdTo { get; set; }
     }
 }

@@ -1,0 +1,378 @@
+﻿@* @model Adroit.Accounting.Model.ViewModel.PurchaseBillMasterViewModel *@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Purchase</a></li>
+                    <li class="active"><span>General Expence/ Purchase</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">Branch Bill#</th>
+                                    <th class="border-bottom-0">Bill Date</th>
+                                    <th class="border-bottom-0">Bill Party</th>
+                                    <th class="border-bottom-0">GST#</th>
+                                    <th class="border-bottom-0">Amount</th>
+                                    <th class="border-bottom-0">City</th>
+                                    <th class="border-bottom-0">E-Invoice Ack.#</th>
+                                    <th class="border-bottom-0">E-Invoice Date</th>
+                                    <th class="border-bottom-0">GSTR1 Filling Ack.#</th>
+                                    <th class="border-bottom-0">GSTR1 Filling Date</th>
+                                    <th class="border-bottom-0">GSTR3B Filling Ack.#</th>
+                                    <th class="border-bottom-0">GSTR3B Filling Date</th>
+                                    <th class="border-bottom-0">Firm Bill#</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Purchase</a></li>
+                    <li><a href="#" class="btn-back">General Expence/ Purchase</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
+                        <span class="input-group-append mr-2">
+                            <button class="btn btn-primary EWayBill-search" type="button">Search</button>
+                        </span>
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="AccountBranchMappingId" class="col-md-1 form-label">Pur. Party</label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search" id="AccountBranchMappingId">
+                                            <option></option>
+                                           @*  @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            } *@
+                                        </select>
+                                    </div>
+                                    <label for="CreditDays" class="col-md-1 form-label">Credit Days</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control numberonly" id="CreditDays" placeholder="">
+                                    </div>
+                                    <label for="BillTypeID" class="col-md-1 form-label text-right">Invoice Type</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search" id="BillTypeID">
+                                            <option></option>
+                                          @*   @{
+                                                if (Model.BillTypeList != null)
+                                                {
+                                                    foreach (var o in Model.BillTypeList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            } *@
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BillNumberFirm" class="col-md-1 form-label">Pur. Bill</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="BillNumberFirm" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="BillDate" class="col-md-1 form-label mb-1">Bill Date</label>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                </div>
+                                            </div>
+                                            <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="BillDate">
+                                        </div>
+                                    </div>
+                                    <label for="exampleInputname" class="col-md-1 form-label">Branch Entry Vou#</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="exampleInputname" placeholder="" tabindex="-1">
+                                    </div>
+                                    <label for="exampleInputname" class="col-md-1 form-label text-right">Firm Entry Vou#</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="exampleInputname" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="GenaralPurchaseAccountBranchMappingId" class="col-md-1 form-label">Exps. A/C</label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search" id="GenaralPurchaseAccountBranchMappingId">
+                                            <option></option>
+                                            @* @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            } *@
+                                        </select>
+                                    </div>
+                                    <label for="RCMBillNumber" class="col-md-1 form-label">RCM Bill#</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="RCMBillNumber" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="SkipInGSTR" class="col-md-1 form-label text-right">Skip In GSTR</label>
+                                    <div class="col-md-2">
+                                        <label class="custom-switch mt-2">
+                                            <input id="SkipInGSTR" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input">
+                                            <span class="custom-switch-indicator"></span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12  p-0">
+                                    <div class="card" style="max-height: 202px; overflow-x: auto; overflow-y: auto;">
+                                        <table style="width: 100vw;">
+                                            <thead class="bg-primary" style="height:50px;">
+                                                <tr>
+                                                    <th class="pl-2 pr-2 text-center" style="position:sticky; z-index: 1; left: 0; background-color: #467fcf !important;">Sr #</th>
+                                                    <th class="pl-2 pr-2 text-center" style="width: 180px">Group</th>
+                                                    <th class="pl-2 pr-2 text-center" style="width: 250px;">Description</th>
+                                                    <th class="pl-2 pr-2 text-center">BoxLabel1</th>
+                                                    <th class="pl-2 pr-2 text-center">BoxLabel2</th>
+                                                    <th class="pl-2 pr-2 text-center">BoxLabel3</th>
+                                                    <th class="pl-2 pr-2 text-center">BoxLabel4</th>
+                                                    <th class="pl-2 pr-2 text-center">BoxLabel5</th>
+                                                    <th class="pl-2 pr-2 text-center">BoxLabel6</th>
+                                                    <th class="pl-2 pr-2 text-center">Rate</th>
+                                                    <th class="pl-2 pr-2 text-center">Disc %</th>
+                                                    <th class="pl-2 pr-2 text-center">Disc Amt</th>
+                                                    <th class="pl-2 pr-2 text-center">Oth. Charges</th>
+                                                    <th class="pl-2 pr-2 text-center">Taxable Amt</th>
+                                                    <th class="pl-2 pr-2 text-center">GST %</th>
+                                                    <th class="pl-2 pr-2 text-center" style="position: sticky; z-index: 1; left: 0; right: 0; background-color: #467fcf !important;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="contentRow">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="totalRcmAmt" class="col-md-2 form-label">Total RCM Amt</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control" id="totalRcmAmt" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-md-6 mb-1">
+                                        <div class="row mb-1">
+                                            <label for="nonRcmAmt" class="col-md-4 form-label">Non RCM Amt</label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control" id="nonRcmAmt" placeholder="" readonly tabindex="-1">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <label for="ewayBill" class="col-md-4 form-label">E-Way Bill#</label>
+                                            <div class="col-md-6">
+                                                <input type="text" class="form-control numberonly" id="ewayBill" placeholder="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-1">
+                                        <div class="row">
+                                            <label for="Notes" class="col-md-4 form-label">Description</label>
+                                            <div class="col-md-8">
+                                                <textarea class="form-control" id="Notes" placeholder=""></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="TaxableAmount" class="col-md-6 form-label text-right">Basic Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="TaxableAmount" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="TDSPercent" class="col-md-6 form-label text-right">T.D.S.</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="TDSPercent" placeholder="%">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" id="TDSAmount" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="SGSTTotal" class="col-md-6 form-label text-right">SGST</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="SGSTTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="CGSTTotal" class="col-md-6 form-label text-right">CGST</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="CGSTTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="IGSTTotal" class="col-md-6 form-label text-right">IGST</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="IGSTTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="GSTStateCessTotal" class="col-md-6 form-label text-right">State Cess</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="GSTStateCessTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="GSTCentralCessTotal" class="col-md-6 form-label text-right">Central Cess</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="GSTCentralCessTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="TCSPercent" class="col-md-6 form-label text-right">T.C.S.</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="TCSPercent" placeholder="%">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" id="TCSAmount" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="RoundOff" class="col-md-6 form-label text-right">Other (+/-)</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="RoundOff" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BillAmount" class="col-md-6 form-label text-right">Bill Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control" id="BillAmount" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <dic class="row">
+                    <div class="col-md-6">
+                        <div class="form-horizontal">
+                            <div class="row">
+                                <label for="PaymentDetail" class="col-md-2 form-label">Payment Detail</label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="PaymentDetail" placeholder="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <a href="#" class="btn btn-primary mt-1" data-toggle="tooltip" title=""
+                           data-placement="top" data-original-title="Save">
+                            <i class="fa fa-save"></i>&nbsp;Save
+                        </a>
+                        <a href="#" class="btn btn-blue mt-1" data-toggle="tooltip" title=""
+                           data-placement="top" data-original-title="Print">
+                            <i class="fa fa-print"></i>&nbsp;Print
+                        </a>
+                        <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title=""
+                           data-placement="top" data-original-title="Send">
+                            <i class="fa fa-share-alt"></i>&nbsp;Send
+                        </a>
+                        <a href="#" class="btn btn-danger mt-1" data-toggle="tooltip" title=""
+                           data-placement="top" data-original-title="Delete">
+                            <i class="fa fa-trash-o"></i>&nbsp;Delete
+                        </a>
+                        <a href="#" class="btn-back btn btn-warning mt-1" data-toggle="tooltip" title=""
+                           data-placement="top" data-original-title="Cancel">
+                            <i class="fa fa-plus"></i>&nbsp;New
+                        </a>
+                        <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title=""
+                           data-placement="top" data-original-title="Cancel">
+                            <i class="fa fa-arrow-left"></i>&nbsp;Cancel
+                        </a>
+                    </div>
+                </dic>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+
+    <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="hdnSelectedLRNumberIds" value="" />
+    <input type="hidden" id="selectedLRDetails" value="[]" />
+
+</div>

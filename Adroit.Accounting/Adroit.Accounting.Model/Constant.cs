@@ -8,5 +8,9 @@
         public const string ERROR = "error";
         public const string DateFormat = "dd/MM/yyyy";
         public const string DateTimeFormat = "dd/MM/yyyy HH:mm";
+
+        public const bool INVOICE_MEMO_CREDIT = false;
+        public const bool INVOICE_MEMO_DEBIT = true;
+
     }
 }

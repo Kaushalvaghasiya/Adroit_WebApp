@@ -10,6 +10,7 @@ namespace Adroit.Accounting.Repository.IRepository
         List<CustomerFirmBranchGridViewModel> List(string connectionString, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
         void Delete(int id, int loginId, int firmId, string connectionString);
         List<DropdownViewModel> SelectListByLoginId(int firmId, string connectionString);
+        List<DropdownViewModel> SelectListByFirmId(int firmId, string connectionString);
         List<DropdownViewModel> LoginCustomerSelectList(string connectionString, int loginId);
     }
 }

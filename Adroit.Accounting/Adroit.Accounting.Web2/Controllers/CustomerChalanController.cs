@@ -32,6 +32,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.DriverList = _driverRepository.SelectList(_configurationData.DefaultConnection, CurrentUserId);
             model.BrokerList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId,_configurationData.DefaultConnection, CurrentUserId);
+            model.CustomerFirmBranchList = _customerFirmBranchesRepository.SelectListByFirmId(CurrentFirmId,_configurationData.DefaultConnection);
 
             return View(model);
         }
@@ -42,7 +43,10 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int id = _chalanRepository.Save(model, _configurationData.DefaultConnection, CurrentFirmId, CurrentBranchId, CurrentUserId);
+                model.LoginId = CurrentUserId;
+                model.BranchId = CurrentBranchId;
+                model.FirmId = CurrentFirmId;
+                int id = _chalanRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -87,7 +91,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _chalanRepository.List(_configurationData.DefaultConnection, CurrentBranchId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _chalanRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -142,13 +146,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetChalanToPayAmount/{lrNumberId}")]
-        public JsonResult GetChalanToPayAmount(string lrNumberId)
+        [Route("~/Customer/GetChalanToPayAmount/{lrNumberIds}")]
+        public JsonResult GetChalanToPayAmount(string lrNumberIds)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _chalanRepository.GetChalanToPayAccountValueList(lrNumberId, _configurationData.DefaultConnection, CurrentBranchId);
+                result.data = _chalanRepository.GetChalanToPayAccountValueList(lrNumberIds, _configurationData.DefaultConnection, CurrentBranchId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -176,13 +180,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetListByLRNumberId/{LRNumberId}")]
-        public JsonResult GetListByLRNumberId(int LRNumberId)
+        [Route("~/Customer/GetListByLRNumberId/{lrNumberId}")]
+        public JsonResult GetListByLRNumberId(int lrNumberId)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _lrBookingRepository.GetListByLRNumberId(_configurationData.DefaultConnection, LRNumberId, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                result.data = _chalanRepository.GetListByLRNumberId(_configurationData.DefaultConnection, lrNumberId, CurrentUserId, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

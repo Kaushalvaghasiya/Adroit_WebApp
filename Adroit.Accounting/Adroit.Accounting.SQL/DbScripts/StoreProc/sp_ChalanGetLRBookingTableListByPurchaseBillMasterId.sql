@@ -15,14 +15,14 @@ BEGIN
 		[Z-LRBooking-Z].PrivateMarka,
 		[Z-LRBooking-Z].ChargeWeight,
 		[Z-LRBooking-Z].InvoiceValue,
-		[TransportPacking].[Title] AS Packing,
+		[Z-LRBooking-Z].Parcel,
 		[TransportDesc].[Title] AS Description,
 		ToCity.[Title] AS CityTo,
 		FromCity.[Title] AS CityFrom,
 		[TransportLRPayType].[Title] AS LRPayType,
 		CA1.Name As Consignor,
 		CA2.Name As Consignee,
-		CA3.Name As BillParty,
+		CA3.Name As BillPartyName,
 		(ISNULL([Freight],0)+ISNULL([Charges1],0)+ISNULL([Charges2],0)+ISNULL([Charges3],0)+ISNULL([Charges4],0)+ISNULL([Charges5],0)+ISNULL([Charges6],0)) AS ChargeAmount
 		FROM [Z-PurchaseBillDetail-Z]
 			 INNER JOIN [Z-LRBooking-Z] ON [Z-LRBooking-Z].[Id] = [Z-PurchaseBillDetail-Z].[LRBookingId] AND [Z-LRBooking-Z].[BranchId] = @BranchId
@@ -36,7 +36,6 @@ BEGIN
 			 LEFT JOIN [City] FromCity ON [Z-LRBooking-Z].CityIdFrom = FromCity.[Id] AND FromCity.Active = 1
 			 LEFT JOIN [TransportDesc] ON [Z-LRBooking-Z].[DescriptionId] = [TransportDesc].[Id] AND [TransportDesc].[CustomerId] = @CustomerId AND [TransportDesc].Deleted = 0 AND [TransportDesc].Active = 1
 			 LEFT JOIN [TransportLRPayType] ON [Z-LRBooking-Z].[LRPayTypeId] = [TransportLRPayType].[Id] AND [TransportLRPayType].Deleted = 0 AND [TransportLRPayType].Active = 1
-			 LEFT JOIN [TransportPacking] ON [Z-LRBooking-Z].[PackingId] = [TransportPacking].[Id] AND [TransportPacking].[CustomerId] = @CustomerId AND [TransportPacking].Deleted = 0 AND [TransportPacking].Active = 1
 			 LEFT JOIN [CustomerAccountBranchMapping] AS CAB3 on CAB3.Id = [Z-LRBooking-Z].BillAccountBranchMappingId AND CAB3.Deleted = 0
 			 LEFT JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId AND CA3.Deleted = 0 AND CA3.Active = 1
 		WHERE [Z-LRBooking-Z].[BranchId] = @BranchId
