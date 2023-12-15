@@ -9,12 +9,12 @@ namespace Adroit.Accounting.Repository
 {
     public class CustomerInvoiceRepository : ICustomerInvoice
     {
-        public int Save(SalesBillMasterViewModel value, string connectionString, int firmId, int branchId, int loginId)
+        public int Save(SalesBillMasterViewModel value, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", loginId);
-            parameters.Add("@FirmId", firmId);
-            parameters.Add("@BranchId", branchId);
+            parameters.Add("@LoginId", value.LoginId);
+            parameters.Add("@FirmId", value.FirmId);
+            parameters.Add("@BranchId", value.BranchId);
             parameters.Add("@Id", value.Id);
             parameters.Add("@AccountBranchMappingId", value.AccountBranchMappingId);
             parameters.Add("@BillDate", value.BillDate);
@@ -26,6 +26,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@ChalanDateTo", value.ChalanDateTo);
             parameters.Add("@ChalanNo", value.ChalanNo);
             parameters.Add("@SalesOrderNumber", value.SalesOrderNumber);
+            parameters.Add("@BillTypeId", value.BillTypeID);
             parameters.Add("@DeliveryPartyAccountBranchMappingId", value.DeliveryPartyAccountBranchMappingId);
             parameters.Add("@ShippingAccountBranchMappingId", value.ShippingAccountBranchMappingId);
             parameters.Add("@HastePartyAccountBranchMappingId", value.HastePartyAccountBranchMappingId);
@@ -51,6 +52,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@EwayBillNumber", value.EwayBillNumber);
             parameters.Add("@IRNNumber", value.IRNNumber);
             parameters.Add("@AcknowledgementNumber", value.AcknowledgementNumber);
+            parameters.Add("@IRNDate", value.IRNDate);
             parameters.Add("@ReturnBillNumber", value.ReturnBillNumber);
             parameters.Add("@ReturnBillDate", value.ReturnBillDate);
             parameters.Add("@ReturnReasonId", value.ReturnReasonId);
@@ -71,6 +73,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@CreditNoteId", value.CreditNoteId);
             parameters.Add("@BillNumber", value.BillNumber);
             parameters.Add("@LRDetailsList", value.LRDetailsArray);
+            parameters.Add("@Prefix", value.Prefix);
+            parameters.Add("@Postfix", value.Postfix);
 
             return QueryHelper.Save("sp_CustomerInvoiceSave", connectionString, parameters);
         }

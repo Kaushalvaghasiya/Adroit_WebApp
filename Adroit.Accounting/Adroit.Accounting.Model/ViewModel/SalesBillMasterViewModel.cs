@@ -14,5 +14,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? BillPartyName { get; set; }
         public string? SalesBillFromName { get; set; }
         public string? EntryTypeName { get; set; }
+        public int? LoginId { get; set; }
     }   
 }
