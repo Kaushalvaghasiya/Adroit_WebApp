@@ -15,7 +15,156 @@ namespace Adroit.Accounting.Web.Controllers
     {
         public IActionResult Branch()
         {
-            return View();
+            var model = new PurchaseBillMasterReceiveViewModel();
+            var CustomerFirmBranchTransportSetting = _chalanRepository.GetChalanLabelList(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
+            if (CustomerFirmBranchTransportSetting == null)
+            {
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch" });
+            }
+            else
+            {
+                model.CustomerFirmBranchTransportSetting = CustomerFirmBranchTransportSetting;
+            }
+
+            model.CustomerFirmBranchList = _customerFirmBranchesRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
+            model.GoDownNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillMasterReceiveTable._TableName, PurchaseBillMasterReceiveTable.GoDownNumber);
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public JsonResult SaveChalanBranch([FromBody] PurchaseBillMasterReceiveViewModel model)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                model.UserId = CurrentUserId;
+                model.BranchId = CurrentBranchId;
+                model.FirmId = CurrentFirmId;
+                int id = _chalanBranchRepository.Save(model, _configurationData.DefaultConnection);
+                if (id > 0)
+                {
+                    result.data = true;
+                    result.result = Constant.API_RESULT_SUCCESS;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [HttpGet]
+        public JsonResult GetChalanBranch(int id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                var data = _chalanBranchRepository.Get(id, _configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
+                //data.LRBookingList = _lrBookingRepository.GetListByPurchaseBillMasterId(_configurationData.DefaultConnection, id, CurrentUserId, CurrentBranchId);
+                result.data = data;
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [HttpGet]
+        public JsonResult ChalanBranchList(int draw = 0, int start = 0, int length = 10)
+        {
+            var result = new DataTableListViewModel<PurchaseBillMasterReceiveGridViewModel>();
+            try
+            {
+                //// note: we only sort one column at a time
+                var search = Request.Query["search[value]"];
+                var sortColumn = int.Parse(Request.Query["order[0][column]"]);
+                var sortDirection = Request.Query["order[0][dir]"];
+
+                var records = _chalanBranchRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId, search, start, length, sortColumn, sortDirection).ToList();
+                result.data = records;
+                result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
+                result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
+            }
+            catch (Exception ex)
+            {
+                result.data = new List<PurchaseBillMasterReceiveGridViewModel>();
+                result.recordsTotal = 0;
+                result.recordsFiltered = 0;
+            }
+            return Json(result);
+        }
+
+        public JsonResult DeleteChalanBranch(int id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _chalanBranchRepository.Delete(id, _configurationData.DefaultConnection, CurrentUserId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Customer/GetChalanNumberListBySenderId/{senderId}")]
+        public JsonResult GetChalanNumberListBySenderId(int senderId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _chalanRepository.GetChalanNumberListBySenderId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, senderId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Customer/GetChalanDetailListByChalanNumber/{ChalanNumber}")]
+        public JsonResult GetChalanDetailListByChalanNumber(int ChalanNumber)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _chalanBranchRepository.GetChalanDetailListByChalanNumber(_configurationData.DefaultConnection, ChalanNumber, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Customer/GetChalanBranchToPayAmount/{lrNumberIds}")]
+        public JsonResult GetChalanBranchToPayAmount(string lrNumberIds)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _chalanRepository.GetChalanToPayAccountValueList(lrNumberIds, _configurationData.DefaultConnection, CurrentBranchId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
         }
     }
 }

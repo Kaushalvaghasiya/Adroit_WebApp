@@ -1,0 +1,66 @@
+﻿using Adroit.Accounting.Model;
+using Adroit.Accounting.Model.GridViewModel;
+using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.SQL;
+using Dapper;
+
+namespace Adroit.Accounting.Repository
+{
+    public class ChalanBranchRepository : IChalanBranch
+    {
+        public int Save(PurchaseBillMasterReceiveViewModel value, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", value.Id);
+            parameters.Add("@LoginId", value.UserId);
+            parameters.Add("@FirmId", value.FirmId);
+            parameters.Add("@BranchId", value.BranchId);
+            parameters.Add("@BillDate", value.BillDate);
+            parameters.Add("@GoDownNumber", value.GoDownNumber);
+            parameters.Add("@BillNumberBranch", value.BillNumberBranch);
+            parameters.Add("@BillNumberFirm", value.BillNumberFirm);
+            parameters.Add("@PurchaseBillMasterId", value.PurchaseBillMasterId);
+            parameters.Add("@ReceivedNote", value.ReceivedNote);
+            parameters.Add("@LRNumberIds", value.LRNumberIds);
+            return QueryHelper.Save("sp_ChalanBranchSave", connectionString, parameters);
+        }
+        public bool Delete(int id, string connectionString, int loginId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            parameters.Add("@LoginId", loginId);
+            return QueryHelper.Delete("sp_ChalanBranchDelete", connectionString, parameters);
+        }
+
+        public PurchaseBillMasterReceiveViewModel Get(int id, string connectionString, int loginId, int branchId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
+            return QueryHelper.Get<PurchaseBillMasterReceiveViewModel>("sp_ChalanBranchGet", connectionString, parameters);
+        }
+        public List<PurchaseBillMasterReceiveGridViewModel> List(string connectionString, int loginId, int firmId, int branchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@Search", search);
+            parameters.Add("@PageStart", pageStart);
+            parameters.Add("@PageSize", pageSize);
+            parameters.Add("@SortColumn", sortColumn);
+            parameters.Add("@SortOrder", sortOrder);
+            return QueryHelper.GetList<PurchaseBillMasterReceiveGridViewModel>("sp_ChalanBranchList", connectionString, parameters);
+        }
+        public List<PurchaseBillMasterReceiveGridViewModel> GetChalanDetailListByChalanNumber(string connectionString, int ChalanNumber, int loginId, int branchId, int firmId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@ChalanNumber", ChalanNumber);
+            return QueryHelper.GetList<PurchaseBillMasterReceiveGridViewModel>("sp_ChalanReceiveBranchGetGridDetailsByChalanNumber", connectionString, parameters);
+        }
+    }
+}

@@ -13,5 +13,6 @@ namespace Adroit.Accounting.Repository.IRepository
         public CustomerFirmBranchTransportSettingViewModel GetChalanLabelList(string connectionString, int loginId, int branchId);
         public CustomerFirmBranchTransportSettingViewModel GetChalanToPayAccountValueList(string lrNumberIds, string connectionString, int branchId);
         public List<LRBookingGridViewModel> GetListByLRNumberId(string connectionString, int lrNumberId, int loginId, int branchId, int firmId = 0);
+        List<DropdownViewModel> GetChalanNumberListBySenderId(string connectionString, int loginId, int firmId, int senderId);
     }
 }
