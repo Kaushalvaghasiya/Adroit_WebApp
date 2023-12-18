@@ -134,19 +134,17 @@
                         <div class="col-lg-4 col-md-12">
                             <div class="form-group">
                                 <label for="Type">Account Type</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="Credit">
-                                    <option value="D">Debit</option>
-                                    <option value="C">Credit</option>
-                                    @* @{
-                                    if (Model.TitleList != null)
-                                    {
-                                    foreach (var o in Model.TitleList)
-                                    {
-                                    <option value="@o.Value">@o.Text</option>
-                                    }
-                                    }
-                                    } *@
-                                </select>
+                                <div class="row">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" type="radio" id="Credit1" name="Credit" value="1" checked>
+                                        <label for="Credit1" class="custom-control-label">Credit</label>
+
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" type="radio" id="Credit2" name="Credit" value="0">
+                                        <label for="Credit2" class="custom-control-label">Debit</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="col-lg-4 col-md-12">
@@ -176,10 +174,15 @@
     <script>
 
         $(function (e) {
-            $('.dv-list').show();
-            $('.dv-detail').hide();
+            //$('.dv-list').show();
+            //$('.dv-detail').hide();
 
             bindDatatableList();
+
+            $('.dv-detail').show();
+            $('.dv-list').hide();
+
+            addClick();
         });
 
         function addClick() {
@@ -211,7 +214,6 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
-                    debugger;
                     return row.accountBranchMappingName;
                 },
                 "targets": colDef.length,
@@ -224,7 +226,6 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    debugger;
                     return moment(row.openingDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
@@ -262,7 +263,7 @@
             columns.push({ "data": "credit", "name": "credit" });
             columns.push({ "data": "amount", "name": "amount" });
             columns.push({ "data": "active", "name": "active" });
-            columns.push({ "data": "id", "name": "id" });
+            // columns.push({ "data": "id", "name": "id" });
 
 
             var table = $('#tblMain').DataTable({
@@ -301,7 +302,6 @@
                 "drawCallback": function (settings) {
                     gridDrawCallback(this);
                 }
-
             });
         }
 
@@ -310,8 +310,8 @@
             $("#AccountBranchMappingId").val(null).trigger('change');
             $("#AccountGroupId").val(null).trigger('change');
             $("#OpeningDate").val("");
-            $("#Type").val(null).trigger('change');
-            $("#Amount").val("");
+            $("input[name='Credit'][value='1']").prop("checked", true);
+            $("#Amount").val("0.00");
             $("#activeTabName").text("Add");
             setScreenMode(false);
             $(".btn-delete").hide();
@@ -340,12 +340,12 @@
                     $("#Amount").focus();
                     return false;
                 }
-                debugger;
+
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.AccountBranchMappingId = $("#AccountBranchMappingId").val();
                 savedata.OpeningDate = moment(getDate($("#OpeningDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
-                savedata.Credit = 1;
+                savedata.Credit = $("input[name='Credit']:checked").val() == "1" ? true : false;
                 savedata.Amount = parseFloat($("#Amount").val()).toFixed(2);
 
                 blockUI('container');
@@ -364,7 +364,8 @@
                             showWarning("", 'Account opening balance saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
-                            $('.btn-back').click();
+
+                            //$('.btn-back').click();
                         } else {
                             showError("", data.data);
                         }
@@ -432,8 +433,12 @@
                                 $('#Id').val(result.data.id);
                                 $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
                                 //$("#AccountGroupId").val(result.data.accountGroupId).trigger('change');
-                                $("#OpeningDate").val(result.data.openingDate);
-                                $("#Type").val(result.data.type).trigger('change');
+                                $("#OpeningDate").val(result.data.openingDateString);
+                                if(result.data.credit)
+                                    $("input[name='Credit'][value='1']").prop("checked", true);
+                                else
+                                    $("input[name='Credit'][value='0']").prop("checked", true);
+                                
                                 $("#Amount").val(result.data.amount);
                                 $("#Active").prop('checked', result.data.active);
                             } else {

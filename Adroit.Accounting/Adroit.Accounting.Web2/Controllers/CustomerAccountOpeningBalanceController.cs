@@ -51,6 +51,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
+                model.LoginId = CurrentUserId;
                 model.AddedById = CurrentUserId;
                 model.ModifiedById = CurrentUserId;
                 int id = _customerAccountOpeningBalanceRepo.Save(model, _configurationData.DefaultConnection);

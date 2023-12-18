@@ -12,8 +12,8 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
+            parameters.Add("@LoginId", value.LoginId);
             parameters.Add("@AccountBranchMappingId", value.AccountBranchMappingId);
-            parameters.Add("@YearId", value.YearId);
             parameters.Add("@OpeningDate", value.OpeningDate);
             parameters.Add("@Credit", value.Credit);
             parameters.Add("@Amount", value.Amount);
@@ -43,7 +43,6 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
-            parameters.Add("@FirmId", firmId);
             parameters.Add("@Id", id);
             return QueryHelper.Delete("sp_CustomerAccountOpeningBalanceDelete", connectionString, parameters);
         }

@@ -10,6 +10,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> AccountGroupList { get; set; } = new();
         public string? AccountBranchMappingName { get; set; }
         public string? AccountGroupName { get; set; }
+        public int LoginId { get; set; }
         public string OpeningDateString { get { return this.OpeningDate.ToString("dd/MM/yyyy"); } }
     }
 }
