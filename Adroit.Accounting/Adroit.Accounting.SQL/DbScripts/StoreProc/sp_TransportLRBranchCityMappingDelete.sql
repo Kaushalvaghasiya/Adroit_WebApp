@@ -1,8 +1,8 @@
 CREATE OR ALTER procedure [dbo].[sp_TransportLRBranchCityMappingDelete]
 (
 	@Id INT,
-	@loginId INT,
-	@firmId INT
+	@LoginId INT,
+	@FirmId INT
 )
 AS
 BEGIN
@@ -10,7 +10,7 @@ BEGIN
 	BEGIN TRY
 		UPDATE TransportLRBranchCityMapping SET 
 			Deleted = 1,
-			DeletedById = @loginId, 
+			DeletedById = @LoginId, 
 			DeletedOn = GETUTCDATE()
 		WHERE Id= @Id;
 	COMMIT TRAN
