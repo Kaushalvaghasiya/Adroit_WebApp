@@ -15,10 +15,14 @@ Begin
 	 (   
 	  SELECT  
 	   ROW_NUMBER() over (ORDER BY
-	   CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CustomerAccount.[Name] END ASC,  
+		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CustomerAccount.[Name] END ASC,  
 		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN CustomerAccount.[Name] END DESC,
-		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CustomerAccountOpeningBalance.[Amount] END DESC,
-		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN CustomerAccountOpeningBalance.[Amount] END DESC
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CustomerAccountOpeningBalance.[OpeningDate] END ASC,  
+		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CustomerAccountOpeningBalance.[OpeningDate] END DESC,
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN CustomerAccountOpeningBalance.[Credit] END ASC,  
+		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN CustomerAccountOpeningBalance.[Credit] END DESC,
+		 CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN CustomerAccountOpeningBalance.[Amount] END ASC,
+		 CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN CustomerAccountOpeningBalance.[Amount] END DESC
 		) AS RowNum,
 	   Count(*) over () AS TotalRows, 
 	   CustomerAccountOpeningBalance.*, 

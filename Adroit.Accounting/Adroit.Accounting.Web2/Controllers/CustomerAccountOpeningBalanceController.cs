@@ -13,9 +13,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult CustomerAccountOpeningBalance()
         {
             CustomerAccountOpeningBalanceViewModel model = new();
-
-            model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
-            model.AccountGroupList = _customerAccountGroupRepo.GetCustomerAccountGroupList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingListWithAccountGroup_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             return View(model);
         }
 

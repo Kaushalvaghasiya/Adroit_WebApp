@@ -36,7 +36,6 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">ACCOUNT NAME</th>
-                                    <th class="border-bottom-0">ACCOUNT GROUP</th>
                                     <th class="border-bottom-0">DATE</th>
                                     <th class="border-bottom-0">TYPE</th>
                                     <th class="border-bottom-0">AMOUNT</th>
@@ -103,36 +102,6 @@
                         </div>
                         <div class="col-lg-6 col-md-12">
                             <div class="form-group">
-                                <label for="AccountGroupId">Account Group</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="AccountGroupId">
-                                    <option></option>
-                                    @{
-                                        if (Model.AccountGroupList != null)
-                                        {
-                                            foreach (var o in Model.AccountGroupList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12">
-                            <div class="form-group">
-                                <label for="OpeningDate">Date</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
-                                        </div>
-                                    </div>
-                                    <input class="form-control mode-ed fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="OpeningDate">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 col-md-12">
-                            <div class="form-group">
                                 <label for="Type">Account Type</label>
                                 <div class="row">
                                     <div class="custom-control custom-radio">
@@ -147,7 +116,20 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-12">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="OpeningDate">Date</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control mode-ed fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="OpeningDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
                             <div class="form-group">
                                 <label for="Amount">Amount</label>
                                 <input type="text" class="form-control" id="Amount" placeholder="">
@@ -220,12 +202,6 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.accountGroupName;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
                     return moment(row.openingDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
@@ -258,13 +234,10 @@
             });
 
             columns.push({ "data": "accountBranchMappingName", "name": "accountBranchMappingName" });
-            columns.push({ "data": "accountGroupName", "name": "accountGroupName" });
             columns.push({ "data": "openingDate", "name": "openingDate" });
             columns.push({ "data": "credit", "name": "credit" });
             columns.push({ "data": "amount", "name": "amount" });
             columns.push({ "data": "active", "name": "active" });
-            // columns.push({ "data": "id", "name": "id" });
-
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -308,7 +281,6 @@
         function fromReset() {
             $("#Id").val(0);
             $("#AccountBranchMappingId").val(null).trigger('change');
-            $("#AccountGroupId").val(null).trigger('change');
             $("#OpeningDate").val("");
             $("input[name='Credit'][value='1']").prop("checked", true);
             $("#Amount").val("0.00");
@@ -323,11 +295,6 @@
                 if ($("#AccountBranchMappingId").val() == null || $("#AccountBranchMappingId").val() == "") {
                     showWarning("", "Please select account name");
                     $("#AccountBranchMappingId").focus();
-                    return false;
-                }
-                if ($("#AccountGroupId").val() == null || $("#AccountGroupId").val() == "") {
-                    showWarning("", "Please select account group");
-                    $("#AccountGroupId").focus();
                     return false;
                 }
                 if ($("#OpeningDate").val() == "") {
@@ -432,7 +399,6 @@
 
                                 $('#Id').val(result.data.id);
                                 $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
-                                //$("#AccountGroupId").val(result.data.accountGroupId).trigger('change');
                                 $("#OpeningDate").val(result.data.openingDateString);
                                 if(result.data.credit)
                                     $("input[name='Credit'][value='1']").prop("checked", true);
