@@ -1,16 +1,17 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmBranchListByLoginId_Select]
-  @FirmId int
+  @LoginId int
 As
 Begin
-	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
+	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
 
 	Select 
 		CustomerFirmBranch.Id AS Value, CustomerFirmBranch.Title AS Text
 	From Customer
-	Inner Join CustomerUser On Customer.Id = CustomerUser.CustomerId
-	Inner Join CustomerFirm On CustomerFirm.CustomerId = Customer.Id
-	Inner Join CustomerFirmBranch On CustomerFirmBranch.FirmId = CustomerFirm.Id
+	Inner Join CustomerFirm On Customer.Id = CustomerFirm.CustomerId
+	Inner Join CustomerFirmBranch On CustomerFirm.Id = CustomerFirmBranch.FirmId
 	Where Customer.Id = @CustomerId
+	AND CustomerFirm.Deleted = 0
+	AND CustomerFirmBranch.Deleted = 0 AND CustomerFirmBranch.Active = 1
 	Order By CustomerFirmBranch.Title Asc
 End
 GO

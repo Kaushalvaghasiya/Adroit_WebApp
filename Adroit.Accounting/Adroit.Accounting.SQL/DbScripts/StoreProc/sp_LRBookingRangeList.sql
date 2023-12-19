@@ -8,29 +8,31 @@ CREATE OR ALTER Procedure [dbo].[sp_LRBookingRangeList]
   @SortOrder NVARCHAR(10) = 'ASC'
 As
 Begin
+	DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
 	SELECT * FROM
 	(   
-	  SELECT  
-	   ROW_NUMBER() over (ORDER BY
-		 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CustomerFirmBranch.Title END ASC,
-		 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN CustomerFirmBranch.Title END DESC,
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN LRBookingRange.StartNumber END ASC,
-		 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN LRBookingRange.StartNumber END DESC,
-		 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN LRBookingRange.EndNumber END ASC,
-		 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN LRBookingRange.EndNumber END DESC,
-		 CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN [LRBookingRange].Active END ASC,
-		 CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN [LRBookingRange].Active END DESC
-		) AS RowNum,
-		Count(*) over () AS TotalCount, 
-		LRBookingRange.*,
-		CustomerFirmBranch.Title As Branch
-		FROM [LRBookingRange]
-		Left Join CustomerFirmBranch on CustomerFirmBranch.Id = LRBookingRange.BranchId
-		WHERE [LRBookingRange].Deleted = 0
+		  SELECT  
+		   ROW_NUMBER() over (ORDER BY
+			 CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CustomerFirmBranch.Title END ASC,
+			 CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN CustomerFirmBranch.Title END DESC,
+			 CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN LRBookingRange.StartNumber END ASC,
+			 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN LRBookingRange.StartNumber END DESC,
+			 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN LRBookingRange.EndNumber END ASC,
+			 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN LRBookingRange.EndNumber END DESC,
+			 CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN [LRBookingRange].Active END ASC,
+			 CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN [LRBookingRange].Active END DESC
+			) AS RowNum,
+			Count(*) over () AS TotalCount, 
+			LRBookingRange.*,
+			CustomerFirmBranch.Title As Branch
+		FROM CustomerFirm
+		INNER JOIN CustomerFirmBranch ON CustomerFirm.Id = CustomerFirmBranch.FirmId
+		INNER JOIN [LRBookingRange] ON CustomerFirmBranch.Id = [LRBookingRange].BranchId
+		WHERE CustomerFirm.CustomerId = @CustomerId
+		AND [LRBookingRange].Deleted = 0
 		AND (
-			Coalesce(@Search,'') = '' 
-			OR CustomerFirmBranch.Title like '%'+ @Search + '%'
+			CustomerFirmBranch.Title like '%'+ @Search + '%'
 			OR [LRBookingRange].[StartNumber] like '%'+ @Search + '%'
 			OR [LRBookingRange].[EndNumber] like '%'+ @Search + '%'
 		)
