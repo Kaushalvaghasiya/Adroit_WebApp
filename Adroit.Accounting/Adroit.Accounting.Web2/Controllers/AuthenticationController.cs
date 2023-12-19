@@ -180,33 +180,24 @@ namespace Adroit.Accounting.Web.Controllers
                 var user = await _userManager.FindByEmailAsync(model.Email);
                 if (user != null)
                 {
-                    Customer customer = _customerRepo.GetByUsername(user.Email, _configurationData.DefaultConnection);
-                    if (customer != null)
+                    model.TokenCode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.TokenCode));
+                    var res = await _userManager.ResetPasswordAsync(user, model.TokenCode, model.Password);
+                    if (res.Succeeded)
                     {
-                        model.TokenCode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.TokenCode));
-                        var res = await _userManager.ResetPasswordAsync(user, model.TokenCode, model.Password);
-                        if (res.Succeeded)
-                        {
-                            customer.StatusId = CustomerStatus.Verified;
-                            int id = _customerRepo.Save(customer, _configurationData.DefaultConnection);
+                        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                        var cres = await _userManager.ConfirmEmailAsync(user, code);
 
-                            result.data = true;
-                            result.result = Constant.API_RESULT_SUCCESS;
-                        }
-                        else
-                        {
-                            StringBuilder errors = new StringBuilder();
-                            foreach (var item in res.Errors)
-                            {
-                                errors.AppendLine(item.Description);
-                            }
-                            result.data = errors.ToString();
-                            result.result = Constant.API_RESULT_ERROR;
-                        }
+                        result.data = true;
+                        result.result = Constant.API_RESULT_SUCCESS;
                     }
                     else
                     {
-                        result.data = "User does not exists.";
+                        StringBuilder errors = new StringBuilder();
+                        foreach (var item in res.Errors)
+                        {
+                            errors.AppendLine(item.Description);
+                        }
+                        result.data = errors.ToString();
                         result.result = Constant.API_RESULT_ERROR;
                     }
                 }
