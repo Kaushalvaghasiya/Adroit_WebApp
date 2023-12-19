@@ -13,6 +13,14 @@ BEGIN
 	INNER JOIN CustomerUser ON CustomerFirmBranch.Id = CustomerUser.LoggedInBranchId
 	WHERE CustomerUser.Id = @LoginId
 
+	IF (@CustomerId IS NULL)
+	BEGIN
+		SELECT @CustomerId = Customer.Id
+		FROM Customer
+		INNER JOIN CustomerUser ON Customer.Id = CustomerUser.CustomerId
+		WHERE CustomerUser.Id = @LoginId
+	END
+
 	RETURN @CustomerId;
 END
 GO
