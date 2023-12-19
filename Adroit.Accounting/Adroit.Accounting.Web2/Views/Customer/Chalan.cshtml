@@ -809,6 +809,11 @@
             $("#BillNumberBranch").focus();
             $("#BillNumberBranch").val(0);
             $("#BillNumberFirm").val(0);
+            $("#ToPayAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingAmountAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingCommissionAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingHamaliAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingDeliveryAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
             $("#IsAutoLedger").prop('checked', true);
         }
 
@@ -1487,7 +1492,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.parcel;
+                    return row.packing;
                 },
                 "targets": colDef.length,
             });
@@ -1511,7 +1516,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return parseFloat(row.invoiceValue || 0).toFixed(2);
+                    return parseFloat(row.chargeAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
             });
@@ -1550,11 +1555,11 @@
             columns.push({ "data": "lrNumber", "name": "lrNumber" });
             columns.push({ "data": "lrDate", "name": "lrDate" });
             columns.push({ "data": "privateMarka", "name": "privateMarka" });
-            columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "packing", "name": "packing" });
             columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
             columns.push({ "data": "cityFrom", "name": "cityFrom" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
+            columns.push({ "data": "chargeAmount", "name": "chargeAmount" });
             columns.push({ "data": "description", "name": "description" });
             columns.push({ "data": "consignor", "name": "consignor" });
             columns.push({ "data": "consignee", "name": "consignee" });

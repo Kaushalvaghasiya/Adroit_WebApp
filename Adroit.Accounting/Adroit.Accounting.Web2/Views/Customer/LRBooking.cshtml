@@ -417,7 +417,7 @@
                                         <div class="row mb-1">
                                             <label for="GST" class="col-md-2 form-label">GST %</label>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control" id="GST" placeholder="" readonly tabindex="-1">
+                                                <input type="text" class="form-control text-right" id="GST" placeholder="" readonly tabindex="-1">
                                             </div>
                                             <label for="TruckLoadDate" class="col-md-2 form-label">Truck Load Date</label>
                                             <div class="col-md-4">
@@ -502,6 +502,8 @@
 
     <input type="hidden" id="Id" value="0" />
     <input type="hidden" id="hdnLRRateOn" value="" />
+    <input type="hidden" id="hdnMaxDate" value="" />
+    <input type="hidden" id="hdnMinDate" value="" />
 
 </div>
 
@@ -516,6 +518,40 @@
             $('.dv-detail').hide();
 
             bindDatatableList();
+
+            // Max Date Validation
+            $("#hdnMaxDate").val('@Model.LRBookingMaxDate');
+
+            var maxDateParts = $("#hdnMaxDate").val().split('/');
+            var maxDate = new Date(maxDateParts[2], maxDateParts[1] - 1, maxDateParts[0]);
+
+            $("#LRDate").on('change', function (e) {
+                var selectedDateStr = $(this).val();
+                var selectedDateParts = selectedDateStr.split('/');
+                var selectedDate = new Date(selectedDateParts[2], selectedDateParts[1] - 1, selectedDateParts[0]);
+
+                if ($("#hdnMinDate").val() != '') {
+                    var minDateParts = $("#hdnMinDate").val().split('/');
+                    var minDate = new Date(minDateParts[2], minDateParts[1] - 1, minDateParts[0]);
+                }
+                else{
+                    var minDate = ''
+                }
+
+                if (minDate != '') {
+                    if (selectedDate < maxDate || selectedDate > minDate) {
+                        alert('Please select a date between ' + maxDate.toLocaleDateString('en-IN') + ' and ' + minDate.toLocaleDateString('en-IN'));
+                        $(this).val('');
+                    }
+                }
+                else {
+                    if (selectedDate < maxDate) {
+                        alert('You can not select before date : ' + maxDate.toLocaleDateString('en-IN'));
+                        $(this).val('');
+                    }
+                }
+            });
+            // Max Date Validation
 
             $("#CityIdTo").on('change', function (e) {
                 $('#Rate').attr('disabled', false);
@@ -538,14 +574,10 @@
             });
 
             $("#LRRateOnId").on('change', function (e) {
-
                 $('#Rate').attr('disabled', false);
-
                 if ($("#LRRateOnId").val() != '' || $("#LRRateOnId").val() != null) {
-
                     var LRRateElement = document.getElementById("select2-LRRateOnId-container");
                     $("#hdnLRRateOn").val(LRRateElement.getAttribute("title"));
-
                     getLRRateDetail($("#CityIdTo").val(), $("#BillAccountBranchMappingId").val(), $(this).val());
                     CalcFreight($("#hdnLRRateOn").val());
                 }
@@ -553,7 +585,7 @@
 
             var roundOff = @((Model.CustomerFirmTransportSetting.IsWeightRoundOff ? "true" : "false").ToLower());
             if (roundOff == true) {
-                $("#ChargeWeight").on("change", function (e) {
+                $("#ChargeWeight").on("focusout", function (e) {
                     var chargeWeight = parseFloat($("#ChargeWeight").val());
 
                     if (chargeWeight >= 1 && chargeWeight <= 49) {
@@ -571,14 +603,38 @@
                     }
 
                 });
+
+                $("#ActualWeight").on("focusout", function (e) {
+                    var actualWeight = parseFloat($("#ActualWeight").val());
+                    $("#ActualWeight").val(actualWeight.toFixed(3));
+
+                    if ($("#ChargeWeight").val() == '') {
+                        var actualWeight = parseFloat($("#ActualWeight").val());
+
+                        if (actualWeight >= 1 && actualWeight <= 49) {
+                            var roundedWeight = Math.ceil(actualWeight / 50) * 50;
+                            $("#ChargeWeight").val(roundedWeight.toFixed(3));
+                        }
+
+                        if (actualWeight >= 51) {
+                            var roundedWeight = Math.ceil(actualWeight / 5) * 5;
+                            $("#ChargeWeight").val(roundedWeight.toFixed(3));
+                        }
+
+                        if (actualWeight == 50 || actualWeight == 0) {
+                            $("#ChargeWeight").val(actualWeight.toFixed(3));
+                        }
+                    }
+
+                });
             }
             else {
-                $("#ActualWeight").on("change", function (e) {
+                $("#ActualWeight").on("focusout", function (e) {
                     var actualWeight = parseFloat($("#ActualWeight").val());
                     $("#ActualWeight").val(actualWeight.toFixed(3));
                 });
 
-                $("#ChargeWeight").on("change", function (e) {
+                $("#ChargeWeight").on("focusout", function (e) {
                     var chargeWeight = parseFloat($("#ChargeWeight").val());
                     $("#ChargeWeight").val(chargeWeight.toFixed(3));
                 });
@@ -597,7 +653,11 @@
                 CalcNetAmount();
             });
 
-            $("#ChargeWeight").on('keyup', function (e) {
+            $("#ChargeWeight").on('change', function (e) {
+                CalcFreight($("#hdnLRRateOn").val());
+            });
+
+            $("#ActualWeight").on('change', function (e) {
                 CalcFreight($("#hdnLRRateOn").val());
             });
 
@@ -676,32 +736,32 @@
                     return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
-            });           
+            });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.consignor;
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.amount.toFixed(2);
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.cityTo;
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.lrPayType;
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.parcel;
                 },
@@ -713,13 +773,13 @@
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.chargeWeight;
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.consignee;
                 },
@@ -736,7 +796,9 @@
                     let btnAct = "<div class='btn-list'> ";
                     btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
-                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+
+                    if (row.deleted === false)
+                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
                     btnAct += "</div>";
                     return btnAct;
                 },
@@ -800,7 +862,8 @@
         function fromReset() {
 
             $("#Id").val(0);
-            $("#LRDate").val('');
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
+            $("#LRDate").datepicker("setDate", formattedMinimumDate);
             $("#Parcel").val('');
             $("#ActualWeight").val('');
             $("#ChargeWeight").val('');
@@ -817,7 +880,6 @@
             $("#InvoiceValue").val('');
             $("#PrivateMarka").val('');
             $("#Remarks").val('');
-            $("#GST").val('');
             $("#TruckLoadDate").val('');
             $("#Ch").val('');
             $("#Truck").val('');
@@ -831,34 +893,7 @@
             $("#PackingId").val(null).trigger('change');
             $("#DescriptionId").val(null).trigger('change');
             $("#VehicleId").val(null).trigger('change');
-            $("#GST").val('0.00');
-
-            // Max Date Validation
-            var minDateStr = '@Model.LRBookingMaxDate';
-
-            var minDateParts = minDateStr.split('/');
-            var minimumDate = new Date(minDateParts[2], minDateParts[1] - 1, minDateParts[0]);
-
-            $('#LRDate').datepicker({
-                dateFormat: "dd/mm/yy",
-                startDate: minimumDate,
-                autoclose: true,
-                minDate: minimumDate
-            });
-
-            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", minimumDate);
-            $("#LRDate").datepicker("setDate", formattedMinimumDate);
-
-            $('#LRDate').change(function () {
-                var selectedDateStr = $(this).val();
-                var selectedDateParts = selectedDateStr.split('/');
-                var selectedDate = new Date(selectedDateParts[2], selectedDateParts[1] - 1, selectedDateParts[0]);
-
-                if (selectedDate < minimumDate) {
-                    alert('You can not select before date : ' + minimumDate.toLocaleDateString('en-US'));
-                    $(this).val('');
-                }
-            });
+            $("#GST").val('0.000');
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -943,8 +978,8 @@
                 }
 
                 if ($("#InvoiceValue").val() != null && $("#InvoiceValue").val() != "") {
-                    if (!/^[-+]?(\d{1,18}(\.\d{0,0})?|\.\d{0,0})$/.test($("#InvoiceValue").val())) {
-                        showWarning("", "Invoice Value must be upto 18 characters before decimal point and 0 characters after decimal point long.");
+                    if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#InvoiceValue").val())) {
+                        showWarning("", "Invoice Value must be upto 15 characters before decimal point and 3 characters after decimal point long.");
                         $("#InvoiceValue").focus();
                         return false;
                     }
@@ -1030,7 +1065,7 @@
                 savedata.Freight = getFloatValueNull("Freight", 2);
                 savedata.InvoiceNo = $("#InvoiceNo").val();
                 savedata.VehicleId = getIntValueNull("VehicleId");
-                savedata.InvoiceValue = getFloatValueNull("InvoiceValue", 0);
+                savedata.InvoiceValue = getFloatValueNull("InvoiceValue", 3);
                 savedata.LRDeliveryId = getIntValueZero("LRDeliveryId");
                 savedata.PrivateMarka = $("#PrivateMarka").val();
                 savedata.LRDeliveryTypeId = getIntValueZero("LRDeliveryTypeId");
@@ -1142,8 +1177,8 @@
 
                                 $("#LRDate").val(moment(result.data.lrDate.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#Parcel").val(result.data.parcel);
-                                $("#ActualWeight").val(result.data.actualWeight ? result.data.actualWeight.toFixed(2) : '');
-                                $("#ChargeWeight").val(result.data.chargeWeight ? result.data.chargeWeight.toFixed(2) : '');
+                                $("#ActualWeight").val(result.data.actualWeight ? result.data.actualWeight.toFixed(3) : '');
+                                $("#ChargeWeight").val(result.data.chargeWeight ? result.data.chargeWeight.toFixed(3) : '');
                                 $("#Freight").val(result.data.freight ? result.data.freight.toFixed(2) : '');
                                 $("#Rate").val(result.data.rate ? result.data.rate.toFixed(2) : '');
                                 $("#Charges1").val(result.data.charges1 ? result.data.charges1.toFixed(2) : '');
@@ -1153,9 +1188,15 @@
                                 $("#Charges5").val(result.data.charges5 ? result.data.charges5.toFixed(2) : '');
                                 $("#Charges6").val(result.data.charges6 ? result.data.charges6.toFixed(2) : '');
                                 $("#InvoiceNo").val(result.data.invoiceNo);
-                                $("#InvoiceValue").val(result.data.invoiceValue);
+                                $("#InvoiceValue").val(result.data.invoiceValue ? result.data.invoiceValue.toFixed(3) : '');
                                 $("#PrivateMarka").val(result.data.privateMarka);
                                 $("#Remarks").val(result.data.remarks);
+
+                                if (result.data.lrBookingMinDate != '') {
+                                    var minDateStr = result.data.lrBookingMinDate;
+                                    // var minDateStr = '17/12/2023';
+                                    $("#hdnMinDate").val(minDateStr);
+                                }
 
                                 CalcNetAmount();
 
@@ -1211,8 +1252,11 @@
             if (selectedLRRate == 'Parcel') {
                 $("#Freight").val((rate * parcel).toFixed(2));
             }
-            if (selectedLRRate == 'Weight') {
+            else if (selectedLRRate == 'Weight') {
                 $("#Freight").val((rate * chargeWeight).toFixed(2));
+            }
+            else {
+                $("#Freight").val(0.00);
             }
 
         }
