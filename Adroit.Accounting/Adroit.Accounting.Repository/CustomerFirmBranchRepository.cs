@@ -72,10 +72,10 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerFirmBranchSave", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectListByLoginId(int firmId, string connectionString)
+        public List<DropdownViewModel> SelectListByLoginId(int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@FirmId", firmId);
+            parameters.Add("@LoginId", loginId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmBranchListByLoginId_Select", connectionString, parameters);
         }
         public List<DropdownViewModel> LoginCustomerSelectList(string connectionString, int loginId)
