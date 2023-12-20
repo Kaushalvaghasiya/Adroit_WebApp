@@ -608,7 +608,7 @@
                         $("#ChargeWeight").val(roundedWeight.toFixed(3));
                     }
 
-                    if (chargeWeight >= 51) {
+                    if (chargeWeight >= 50.001) {
                         var roundedWeight = Math.ceil(chargeWeight / 5) * 5;
                         $("#ChargeWeight").val(roundedWeight.toFixed(3));
                     }
@@ -637,7 +637,7 @@
                             $("#ChargeWeight").val(roundedWeight.toFixed(3));
                         }
 
-                        if (actualWeight >= 51) {
+                        if (actualWeight >= 50.001) {
                             var roundedWeight = Math.ceil(actualWeight / 5) * 5;
                             $("#ChargeWeight").val(roundedWeight.toFixed(3));
                         }
@@ -667,7 +667,7 @@
 
             $("#Charges1, #Charges2, #Charges3, #Charges4, #Charges5, #Charges6, #Freight").on('change', function (e) {
                 var fieldId = $(this).attr('id');
-                var currentValue = parseFloat($("#" + fieldId).val()); // Convert value to a number if it's not already
+                var currentValue = parseFloat($("#" + fieldId).val()); 
                 var formattedValue = currentValue.toFixed(2);
                 $("#" + fieldId).val(formattedValue);
 
@@ -684,7 +684,7 @@
 
             $("#Rate").on('change', function (e) {
                 var fieldId = $(this).attr('id');
-                var currentValue = parseFloat($("#" + fieldId).val()); // Convert value to a number if it's not already
+                var currentValue = parseFloat($("#" + fieldId).val()); 
                 var formattedValue = currentValue.toFixed(2);
                 $("#" + fieldId).val(formattedValue);
 
@@ -999,8 +999,8 @@
                 }
 
                 if ($("#InvoiceValue").val() != null && $("#InvoiceValue").val() != "") {
-                    if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#InvoiceValue").val())) {
-                        showWarning("", "Invoice Value must be upto 15 characters before decimal point and 3 characters after decimal point long.");
+                    if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#InvoiceValue").val())) {
+                        showWarning("", "Invoice Value must be upto 16 characters before decimal point and 2 characters after decimal point long.");
                         $("#InvoiceValue").focus();
                         return false;
                     }
@@ -1086,7 +1086,7 @@
                 savedata.Freight = getFloatValueNull("Freight", 2);
                 savedata.InvoiceNo = $("#InvoiceNo").val();
                 savedata.VehicleId = getIntValueNull("VehicleId");
-                savedata.InvoiceValue = getFloatValueNull("InvoiceValue", 3);
+                savedata.InvoiceValue = getFloatValueNull("InvoiceValue", 2);
                 savedata.LRDeliveryId = getIntValueZero("LRDeliveryId");
                 savedata.PrivateMarka = $("#PrivateMarka").val();
                 savedata.LRDeliveryTypeId = getIntValueZero("LRDeliveryTypeId");
@@ -1181,7 +1181,7 @@
                                 }
 
                                 $("#Id").val(result.data.id);
-                                debugger;
+                               
                                 $("#LRNumber").val(result.data.lrNumber);
                                 $("#EwayBillNo").val(result.data.ewayBillNo).trigger('change');
                                 $("#CityIdTo").val(result.data.cityIdTo).trigger('change');
@@ -1209,7 +1209,7 @@
                                 $("#Charges5").val(result.data.charges5 ? result.data.charges5.toFixed(2) : '');
                                 $("#Charges6").val(result.data.charges6 ? result.data.charges6.toFixed(2) : '');
                                 $("#InvoiceNo").val(result.data.invoiceNo);
-                                $("#InvoiceValue").val(result.data.invoiceValue ? result.data.invoiceValue.toFixed(3) : '');
+                                $("#InvoiceValue").val(result.data.invoiceValue ? result.data.invoiceValue.toFixed(2) : '');
                                 $("#PrivateMarka").val(result.data.privateMarka);
                                 $("#Remarks").val(result.data.remarks);
 
