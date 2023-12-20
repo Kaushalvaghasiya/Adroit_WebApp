@@ -34,6 +34,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.BrokerList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId,_configurationData.DefaultConnection, CurrentUserId);
             model.CustomerFirmBranchList = _customerFirmBranchesRepository.SelectListByFirmId(CurrentFirmId,_configurationData.DefaultConnection);
 
+            ViewBag.CurrentBranchId = CurrentBranchId;
             return View(model);
         }
 
@@ -187,6 +188,23 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _chalanRepository.GetListByLRNumberId(_configurationData.DefaultConnection, lrNumberId, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Customer/GetTDSPercentByCustomerAccountBranchMappingId/{CustomerAccountBranchMappingId}")]
+        public JsonResult GetTDSPercentByCustomerAccountBranchMappingId(int CustomerAccountBranchMappingId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerAccountRepo.GetListByCustomerAccountBranchMappingId(_configurationData.DefaultConnection, CustomerAccountBranchMappingId, CurrentBranchId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
