@@ -77,9 +77,10 @@
                             <button class="btn btn-primary EWayBill-search" type="button" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Popover top">Search</button>
                         </span>
                         <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
-                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-trash-o"></i></span></a>
                         <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
-                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                        <a href="#" class="btn-add-new-customer-account btn btn-info text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add Account"><span><i class="fa fa-user-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Back" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
                 </div>
             </div>
@@ -417,7 +418,7 @@
                                         <div class="row mb-1">
                                             <label for="GST" class="col-md-2 form-label">GST %</label>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control" id="GST" placeholder="" readonly tabindex="-1">
+                                                <input type="text" class="form-control text-right" id="GST" placeholder="" readonly tabindex="-1">
                                             </div>
                                             <label for="TruckLoadDate" class="col-md-2 form-label">Truck Load Date</label>
                                             <div class="col-md-4">
@@ -491,9 +492,9 @@
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" tabindex="30" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" tabindex="31" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
-                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
-                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-trash-o"></i>&nbsp;Cancel</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="New"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Back"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
                 </div>
             </div>
         </div>
@@ -502,6 +503,8 @@
 
     <input type="hidden" id="Id" value="0" />
     <input type="hidden" id="hdnLRRateOn" value="" />
+    <input type="hidden" id="hdnMaxDate" value="" />
+    <input type="hidden" id="hdnMinDate" value="" />
 
 </div>
 
@@ -516,6 +519,54 @@
             $('.dv-detail').hide();
 
             bindDatatableList();
+
+            // Max Date Validation
+            $("#hdnMaxDate").val('@Model.LRBookingMaxDate');
+
+            $("#LRDate").on('change', function (e) {
+                var selectedDateStr = $(this).val();
+                var selectedDateParts = selectedDateStr.split('/');
+                var selectedDate = new Date(selectedDateParts[2], selectedDateParts[1] - 1, selectedDateParts[0]);
+                var minDate = '';
+                var maxDate = '';
+
+                if ($("#hdnMinDate").val() != '' && $("#hdnMinDate").val() != null) {
+                    var minDateParts = $("#hdnMinDate").val().split('/');
+                    minDate = new Date(minDateParts[2], minDateParts[1] - 1, minDateParts[0]);
+                }
+                else {
+                    minDate = ''
+                }
+
+
+                if ($("#hdnMaxDate").val() != '' && $("#hdnMaxDate").val() != null) {
+                    var maxDateParts = $("#hdnMaxDate").val().split('/');
+                    maxDate = new Date(maxDateParts[2], maxDateParts[1] - 1, maxDateParts[0]);
+                }
+                else {
+                    $("#hdnMaxDate").val('@Model.LRBookingMaxDate');
+                    var maxDateParts = $("#hdnMaxDate").val().split('/');
+                    maxDate = new Date(maxDateParts[2], maxDateParts[1] - 1, maxDateParts[0]);
+                    if ($("#hdnMinDate").val() == '' || $("#hdnMinDate").val() == null) {
+                        minDate = new Date(maxDateParts[2], maxDateParts[1] - 1, maxDateParts[0]);
+                    }
+                }
+
+
+                if (minDate != '') {
+                    if (selectedDate < maxDate || selectedDate > minDate) {
+                        alert('Please select a date between ' + maxDate.toLocaleDateString('en-IN') + ' and ' + minDate.toLocaleDateString('en-IN'));
+                        $(this).val('');
+                    }
+                }
+                else {
+                    if (selectedDate < maxDate) {
+                        alert('You can not select before date : ' + maxDate.toLocaleDateString('en-IN'));
+                        $(this).val('');
+                    }
+                }
+            });
+            // Max Date Validation
 
             $("#CityIdTo").on('change', function (e) {
                 $('#Rate').attr('disabled', false);
@@ -538,14 +589,10 @@
             });
 
             $("#LRRateOnId").on('change', function (e) {
-
                 $('#Rate').attr('disabled', false);
-
                 if ($("#LRRateOnId").val() != '' || $("#LRRateOnId").val() != null) {
-
                     var LRRateElement = document.getElementById("select2-LRRateOnId-container");
                     $("#hdnLRRateOn").val(LRRateElement.getAttribute("title"));
-
                     getLRRateDetail($("#CityIdTo").val(), $("#BillAccountBranchMappingId").val(), $(this).val());
                     CalcFreight($("#hdnLRRateOn").val());
                 }
@@ -553,15 +600,15 @@
 
             var roundOff = @((Model.CustomerFirmTransportSetting.IsWeightRoundOff ? "true" : "false").ToLower());
             if (roundOff == true) {
-                $("#ChargeWeight").on("change", function (e) {
-                    var chargeWeight = parseFloat($("#ChargeWeight").val());
+                $("#ChargeWeight").on("focusout", function (e) {
+                    var chargeWeight = getFloatValueZero("ChargeWeight", 3);
 
-                    if (chargeWeight >= 1 && chargeWeight <= 49) {
+                    if (chargeWeight >= 1 && chargeWeight <= 49.999) {
                         var roundedWeight = Math.ceil(chargeWeight / 50) * 50;
                         $("#ChargeWeight").val(roundedWeight.toFixed(3));
                     }
 
-                    if (chargeWeight >= 51) {
+                    if (chargeWeight >= 50.001) {
                         var roundedWeight = Math.ceil(chargeWeight / 5) * 5;
                         $("#ChargeWeight").val(roundedWeight.toFixed(3));
                     }
@@ -571,15 +618,45 @@
                     }
 
                 });
+
+                $("#ChargeWeight").on("focus", function (e) {
+                    if ($("#ChargeWeight").val() == '' || $("#ChargeWeight").val() == null) {
+                        $("#ChargeWeight").val(50.000);
+                    }
+                });
+
+                $("#ActualWeight").on("focusout", function (e) {
+                    var actualWeight = getFloatValueZero("ActualWeight", 3);
+                    $("#ActualWeight").val(actualWeight.toFixed(3));
+
+                    if ($("#ChargeWeight").val() == '') {
+                        var actualWeight = parseFloat($("ActualWeight").val());
+
+                        if (actualWeight >= 1 && actualWeight <= 49.999) {
+                            var roundedWeight = Math.ceil(actualWeight / 50) * 50;
+                            $("#ChargeWeight").val(roundedWeight.toFixed(3));
+                        }
+
+                        if (actualWeight >= 50.001) {
+                            var roundedWeight = Math.ceil(actualWeight / 5) * 5;
+                            $("#ChargeWeight").val(roundedWeight.toFixed(3));
+                        }
+
+                        if (actualWeight == 50 || actualWeight == 0) {
+                            $("#ChargeWeight").val(actualWeight.toFixed(3));
+                        }
+                    }
+
+                });
             }
             else {
-                $("#ActualWeight").on("change", function (e) {
-                    var actualWeight = parseFloat($("#ActualWeight").val());
+                $("#ActualWeight").on("focusout", function (e) {
+                    var actualWeight = getFloatValueZero("ActualWeight", 3);
                     $("#ActualWeight").val(actualWeight.toFixed(3));
                 });
 
-                $("#ChargeWeight").on("change", function (e) {
-                    var chargeWeight = parseFloat($("#ChargeWeight").val());
+                $("#ChargeWeight").on("focusout", function (e) {
+                    var chargeWeight = getFloatValueZero("ChargeWeight", 3);
                     $("#ChargeWeight").val(chargeWeight.toFixed(3));
                 });
             }
@@ -590,20 +667,24 @@
 
             $("#Charges1, #Charges2, #Charges3, #Charges4, #Charges5, #Charges6, #Freight").on('change', function (e) {
                 var fieldId = $(this).attr('id');
-                var currentValue = parseFloat($("#" + fieldId).val()); // Convert value to a number if it's not already
+                var currentValue = parseFloat($("#" + fieldId).val()); 
                 var formattedValue = currentValue.toFixed(2);
                 $("#" + fieldId).val(formattedValue);
 
                 CalcNetAmount();
             });
 
-            $("#ChargeWeight").on('keyup', function (e) {
+            $("#ChargeWeight").on('change', function (e) {
+                CalcFreight($("#hdnLRRateOn").val());
+            });
+
+            $("#ActualWeight").on('change', function (e) {
                 CalcFreight($("#hdnLRRateOn").val());
             });
 
             $("#Rate").on('change', function (e) {
                 var fieldId = $(this).attr('id');
-                var currentValue = parseFloat($("#" + fieldId).val()); // Convert value to a number if it's not already
+                var currentValue = parseFloat($("#" + fieldId).val()); 
                 var formattedValue = currentValue.toFixed(2);
                 $("#" + fieldId).val(formattedValue);
 
@@ -676,32 +757,32 @@
                     return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
-            });           
+            });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.consignor;
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.amount.toFixed(2);
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.cityTo;
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.lrPayType;
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.parcel;
                 },
@@ -713,13 +794,13 @@
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.chargeWeight;
                 },
                 "targets": colDef.length,
             });
-             colDef.push({
+            colDef.push({
                 "render": function (data, type, row) {
                     return row.consignee;
                 },
@@ -736,7 +817,9 @@
                     let btnAct = "<div class='btn-list'> ";
                     btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
-                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+
+                    if (row.deleted === false)
+                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
                     btnAct += "</div>";
                     return btnAct;
                 },
@@ -800,7 +883,8 @@
         function fromReset() {
 
             $("#Id").val(0);
-            $("#LRDate").val('');
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
+            $("#LRDate").datepicker("setDate", formattedMinimumDate);
             $("#Parcel").val('');
             $("#ActualWeight").val('');
             $("#ChargeWeight").val('');
@@ -817,7 +901,6 @@
             $("#InvoiceValue").val('');
             $("#PrivateMarka").val('');
             $("#Remarks").val('');
-            $("#GST").val('');
             $("#TruckLoadDate").val('');
             $("#Ch").val('');
             $("#Truck").val('');
@@ -831,34 +914,7 @@
             $("#PackingId").val(null).trigger('change');
             $("#DescriptionId").val(null).trigger('change');
             $("#VehicleId").val(null).trigger('change');
-            $("#GST").val('0.00');
-
-            // Max Date Validation
-            var minDateStr = '@Model.LRBookingMaxDate';
-
-            var minDateParts = minDateStr.split('/');
-            var minimumDate = new Date(minDateParts[2], minDateParts[1] - 1, minDateParts[0]);
-
-            $('#LRDate').datepicker({
-                dateFormat: "dd/mm/yy",
-                startDate: minimumDate,
-                autoclose: true,
-                minDate: minimumDate
-            });
-
-            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", minimumDate);
-            $("#LRDate").datepicker("setDate", formattedMinimumDate);
-
-            $('#LRDate').change(function () {
-                var selectedDateStr = $(this).val();
-                var selectedDateParts = selectedDateStr.split('/');
-                var selectedDate = new Date(selectedDateParts[2], selectedDateParts[1] - 1, selectedDateParts[0]);
-
-                if (selectedDate < minimumDate) {
-                    alert('You can not select before date : ' + minimumDate.toLocaleDateString('en-US'));
-                    $(this).val('');
-                }
-            });
+            $("#GST").val('0.000');
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -943,8 +999,8 @@
                 }
 
                 if ($("#InvoiceValue").val() != null && $("#InvoiceValue").val() != "") {
-                    if (!/^[-+]?(\d{1,18}(\.\d{0,0})?|\.\d{0,0})$/.test($("#InvoiceValue").val())) {
-                        showWarning("", "Invoice Value must be upto 18 characters before decimal point and 0 characters after decimal point long.");
+                    if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#InvoiceValue").val())) {
+                        showWarning("", "Invoice Value must be upto 16 characters before decimal point and 2 characters after decimal point long.");
                         $("#InvoiceValue").focus();
                         return false;
                     }
@@ -1030,7 +1086,7 @@
                 savedata.Freight = getFloatValueNull("Freight", 2);
                 savedata.InvoiceNo = $("#InvoiceNo").val();
                 savedata.VehicleId = getIntValueNull("VehicleId");
-                savedata.InvoiceValue = getFloatValueNull("InvoiceValue", 0);
+                savedata.InvoiceValue = getFloatValueNull("InvoiceValue", 2);
                 savedata.LRDeliveryId = getIntValueZero("LRDeliveryId");
                 savedata.PrivateMarka = $("#PrivateMarka").val();
                 savedata.LRDeliveryTypeId = getIntValueZero("LRDeliveryTypeId");
@@ -1125,7 +1181,7 @@
                                 }
 
                                 $("#Id").val(result.data.id);
-
+                               
                                 $("#LRNumber").val(result.data.lrNumber);
                                 $("#EwayBillNo").val(result.data.ewayBillNo).trigger('change');
                                 $("#CityIdTo").val(result.data.cityIdTo).trigger('change');
@@ -1142,8 +1198,8 @@
 
                                 $("#LRDate").val(moment(result.data.lrDate.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#Parcel").val(result.data.parcel);
-                                $("#ActualWeight").val(result.data.actualWeight ? result.data.actualWeight.toFixed(2) : '');
-                                $("#ChargeWeight").val(result.data.chargeWeight ? result.data.chargeWeight.toFixed(2) : '');
+                                $("#ActualWeight").val(result.data.actualWeight ? result.data.actualWeight.toFixed(3) : '');
+                                $("#ChargeWeight").val(result.data.chargeWeight ? result.data.chargeWeight.toFixed(3) : '');
                                 $("#Freight").val(result.data.freight ? result.data.freight.toFixed(2) : '');
                                 $("#Rate").val(result.data.rate ? result.data.rate.toFixed(2) : '');
                                 $("#Charges1").val(result.data.charges1 ? result.data.charges1.toFixed(2) : '');
@@ -1153,9 +1209,19 @@
                                 $("#Charges5").val(result.data.charges5 ? result.data.charges5.toFixed(2) : '');
                                 $("#Charges6").val(result.data.charges6 ? result.data.charges6.toFixed(2) : '');
                                 $("#InvoiceNo").val(result.data.invoiceNo);
-                                $("#InvoiceValue").val(result.data.invoiceValue);
+                                $("#InvoiceValue").val(result.data.invoiceValue ? result.data.invoiceValue.toFixed(2) : '');
                                 $("#PrivateMarka").val(result.data.privateMarka);
                                 $("#Remarks").val(result.data.remarks);
+
+                                if (result.data.lrBookingMinDate != '' && result.data.lrBookingMinDate != null) {
+                                    var minDateStr = result.data.lrBookingMinDate;
+                                    $("#hdnMinDate").val(minDateStr);
+                                } else $("#hdnMinDate").val(null);
+
+                                if (result.data.lrBookingMaxDate != '' && result.data.lrBookingMaxDate != null) {
+                                    var maxDateStr = result.data.lrBookingMaxDate;
+                                    $("#hdnMaxDate").val(maxDateStr);
+                                } else $("#hdnMaxDate").val(null);
 
                                 CalcNetAmount();
 
@@ -1211,8 +1277,11 @@
             if (selectedLRRate == 'Parcel') {
                 $("#Freight").val((rate * parcel).toFixed(2));
             }
-            if (selectedLRRate == 'Weight') {
+            else if (selectedLRRate == 'Weight') {
                 $("#Freight").val((rate * chargeWeight).toFixed(2));
+            }
+            else {
+                $("#Freight").val(0.00);
             }
 
         }

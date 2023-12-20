@@ -17,6 +17,6 @@ BEGIN
 		AND [Z-LRBooking-Z].[BranchId] = @BranchId
 		AND [Z-LRBooking-Z].YearId = @YearId 
 		AND [Z-LRBooking-Z].Deleted = 0 
-		AND (@LRPayTypeId = '1' OR [Z-LRBooking-Z].LRPayTypeId = @LRPayTypeId)
+		AND (@LRPayTypeId = '2' OR [Z-LRBooking-Z].LRPayTypeId = @LRPayTypeId)
 END
 GO

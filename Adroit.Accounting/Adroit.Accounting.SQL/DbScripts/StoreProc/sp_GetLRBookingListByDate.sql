@@ -61,7 +61,7 @@ BEGIN
 		AND [Z-LRBooking-Z].[BranchId] = @BranchId
 		AND [Z-LRBooking-Z].YearId = @YearId
 		AND CAST([Z-LRBooking-Z].LRDate AS DATE) BETWEEN @FromDate AND @ToDate
-		AND (@PayTypeId = '1' OR [Z-LRBooking-Z].LRPayTypeId = @PayTypeId)
+		AND (@PayTypeId = '2' OR [Z-LRBooking-Z].LRPayTypeId = @PayTypeId)
 		AND [CustomerAccountBranchMapping].Deleted = 0
 		AND [CustomerAccount].Deleted = 0 AND [CustomerAccount].Active = 1 
 		AND [Z-LRBooking-Z].Deleted = 0
