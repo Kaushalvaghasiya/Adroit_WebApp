@@ -7,6 +7,13 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+
+		UPDATE ZBD SET 
+		 Received = 0
+		,ModifiedById = @LoginId 
+		,ModifiedOn = GETUTCDATE() 
+		FROM [Z-PurchaseBillDetail-Z] ZBD
+		LEFT JOIN [Z-ChalanReceive-Z] on [Z-ChalanReceive-Z].PurchaseBillMasterId = ZBD.PurchaseBillMasterId AND [Z-ChalanReceive-Z].Id = @Id;
 		
 		UPDATE [Z-ChalanReceive-Z] SET 
 		Deleted = 1, 

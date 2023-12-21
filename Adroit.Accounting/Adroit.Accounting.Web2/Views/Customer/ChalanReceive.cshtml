@@ -990,37 +990,42 @@
                                 $("#DeclinedPaid").val(0.00);
                                 $("#DeclinedTBB").val(0.00);
                                 $("#DeclinedTotal").val(0.00);
-
+                                
                                 result.data.forEach(function (ChalanDetail) {
-                                    var isDuplicate = selectedLRDetails.some(item => item.id === ChalanDetail.id);
 
-                                    if (!isDuplicate) {
-                                        selectedLRDetails.push({
-                                            id: ChalanDetail.lrBookingId,
-                                            lrNumber: ChalanDetail.lrNumber,
-                                            lrDate: moment(ChalanDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
-                                            privateMarka: ChalanDetail.privateMarka,
-                                            packing: ChalanDetail.packing,
-                                            chargeWeight: parseFloat(ChalanDetail.chargeWeight || 0).toFixed(3),
-                                            toCity: ChalanDetail.cityTo,
-                                            fromCity: ChalanDetail.cityFrom,
-                                            invoiceValue: parseFloat(ChalanDetail.chargeAmount || 0).toFixed(2),
-                                            description: ChalanDetail.description,
-                                            consignor: ChalanDetail.consignor,
-                                            consignee: ChalanDetail.consignee,
-                                            billPartyName: ChalanDetail.billPartyName,
-                                            toPayAmount: ChalanDetail.toPayAmount,
-                                            crossingAmount: ChalanDetail.crossingAmount,
-                                            crossingCommission: ChalanDetail.crossingCommission,
-                                            crossingHamali: ChalanDetail.crossingHamali,
-                                            crossingDeliveryCharge: ChalanDetail.crossingDeliveryCharge,
-                                            toPayAccount: ChalanDetail.toPayAccount,
-                                            crossingAmountAccount: ChalanDetail.crossingAmountAccount,
-                                            crossingCommissionAccount: ChalanDetail.crossingCommissionAccount,
-                                            crossingHamaliAccount: ChalanDetail.crossingHamaliAccount,
-                                            crossingDeliveryChargeAccount: ChalanDetail.crossingDeliveryChargeAccount
-                                        });
+                                    if (ChalanDetail.lrNumber != null && ChalanDetail.lrNumber != '') {
+
+                                        var isDuplicate = selectedLRDetails.some(item => item.id === ChalanDetail.id);
+
+                                        if (!isDuplicate) {
+                                            selectedLRDetails.push({
+                                                id: ChalanDetail.lrBookingId,
+                                                lrNumber: ChalanDetail.lrNumber,
+                                                lrDate: moment(ChalanDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                                privateMarka: ChalanDetail.privateMarka,
+                                                packing: ChalanDetail.packing,
+                                                chargeWeight: parseFloat(ChalanDetail.chargeWeight || 0).toFixed(3),
+                                                toCity: ChalanDetail.cityTo,
+                                                fromCity: ChalanDetail.cityFrom,
+                                                invoiceValue: parseFloat(ChalanDetail.chargeAmount || 0).toFixed(2),
+                                                description: ChalanDetail.description,
+                                                consignor: ChalanDetail.consignor,
+                                                consignee: ChalanDetail.consignee,
+                                                billPartyName: ChalanDetail.billPartyName,
+                                                toPayAmount: ChalanDetail.toPayAmount,
+                                                crossingAmount: ChalanDetail.crossingAmount,
+                                                crossingCommission: ChalanDetail.crossingCommission,
+                                                crossingHamali: ChalanDetail.crossingHamali,
+                                                crossingDeliveryCharge: ChalanDetail.crossingDeliveryCharge,
+                                                toPayAccount: ChalanDetail.toPayAccount,
+                                                crossingAmountAccount: ChalanDetail.crossingAmountAccount,
+                                                crossingCommissionAccount: ChalanDetail.crossingCommissionAccount,
+                                                crossingHamaliAccount: ChalanDetail.crossingHamaliAccount,
+                                                crossingDeliveryChargeAccount: ChalanDetail.crossingDeliveryChargeAccount
+                                            });
+                                        }
                                     }
+
                                 });
 
                                 addRow();
