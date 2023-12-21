@@ -990,7 +990,7 @@
                                 $("#DeclinedPaid").val(0.00);
                                 $("#DeclinedTBB").val(0.00);
                                 $("#DeclinedTotal").val(0.00);
-                                
+
                                 result.data.forEach(function (ChalanDetail) {
 
                                     if (ChalanDetail.lrNumber != null && ChalanDetail.lrNumber != '') {
@@ -1197,7 +1197,7 @@
             $('[id^="checkbox-"]').prop('checked', true);
             $('[id="selectAll"]').prop('checked', true);
 
-            $('[id^="checkbox-"]').on('change', function () {
+            $('[id^="checkbox-"],[id="selectAll"]').on('change', function () {
                 updateSelectedValues();
 
                 $("#SelectedToPay").val(0.00);
@@ -1210,6 +1210,9 @@
                 $("#DeclinedTotal").val(0.00);
 
                 updateSelectedIdsInput();
+
+                var anyUnchecked = $('[id^="checkbox-"]:not(:checked)').length > 0;
+                $('#selectAll').prop('checked', !anyUnchecked);
             });
 
             var counter = 0;
