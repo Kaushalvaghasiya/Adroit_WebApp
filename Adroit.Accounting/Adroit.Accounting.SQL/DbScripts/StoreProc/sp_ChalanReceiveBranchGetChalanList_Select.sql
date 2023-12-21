@@ -12,9 +12,9 @@ BEGIN
 
 	SELECT [Z-PurchaseBillMaster-Z].BillNumberBranch AS Text
 	FROM [Z-PurchaseBillMaster-Z]
-	WHERE [Z-PurchaseBillMaster-Z].BillNumberBranch NOT IN 
+	WHERE [Z-PurchaseBillMaster-Z].Id NOT IN 
 		(	
-			SELECT DISTINCT [Z-ChalanReceive-Z].BillNumberBranch 
+			SELECT DISTINCT [Z-ChalanReceive-Z].PurchaseBillMasterId 
 			FROM [Z-ChalanReceive-Z] 
 			WHERE [Z-ChalanReceive-Z].BranchId = @BranchId 
 			AND [Z-ChalanReceive-Z].FirmId = @FirmId
