@@ -5,7 +5,7 @@ using Adroit.Accounting.Model.GridViewModel;
 
 namespace Adroit.Accounting.Model.ViewModel
 {
-    public class PurchaseBillMasterReceiveViewModel : PurchaseBillMasterReceive
+    public class ChalanReceiveViewModel : ChalanReceive
     {
         public List<DropdownViewModel> GoDownNumberList { get; set; }
         public List<DropdownViewModel> CustomerFirmBranchList { get; set; }

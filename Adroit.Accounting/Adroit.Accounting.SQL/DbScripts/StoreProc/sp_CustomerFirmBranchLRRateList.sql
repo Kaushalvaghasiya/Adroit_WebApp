@@ -9,6 +9,8 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmBranchLRRateList]
 As
 Set Nocount on;
 Begin
+	DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
+
 	SELECT * FROM
 	(   
 		SELECT  
@@ -42,8 +44,10 @@ Begin
 			CustomerFirmBranchLRRate.*,
 			[CustomerFirmBranch].Title as Branch, 
 			[City].Title as City
-		FROM CustomerFirmBranchLRRate
-		LEFT JOIN CustomerFirmBranch ON CustomerFirmBranch.Id=CustomerFirmBranchLRRate.BranchId
+		FROM Customer
+		INNER JOIN CustomerFirm ON Customer.Id = CustomerFirm.CustomerId
+		INNER JOIN CustomerFirmBranch ON CustomerFirm.Id = CustomerFirmBranch.FirmId
+		INNER JOIN CustomerFirmBranchLRRate ON CustomerFirmBranch.Id = CustomerFirmBranchLRRate.BranchId
 		LEFT JOIN City ON CustomerFirmBranchLRRate.CityId = City.Id
 		WHERE 
 			(Coalesce(@Search,'') = '' 

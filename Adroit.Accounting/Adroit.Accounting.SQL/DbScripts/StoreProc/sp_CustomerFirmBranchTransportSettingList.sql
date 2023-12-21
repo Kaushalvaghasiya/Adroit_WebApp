@@ -10,7 +10,7 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmBranchTransportSettingList]
 As
 Set Nocount on;
 Begin
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	
 	SELECT * FROM
 	(   
@@ -39,7 +39,8 @@ Begin
 			BSBBA.[Name] AS BkSalesBookName,
 			DSBBA.[Name] AS DelSalesBookName
 		FROM [dbo].[CustomerFirmBranchTransportSetting] 		
-			 INNER JOIN CustomerFirmBranch ON CustomerFirmBranch.Id = [CustomerFirmBranchTransportSetting].[BranchId] 
+			 INNER JOIN CustomerUserBranchMapping ON CustomerUserBranchMapping.[BranchId] = [CustomerFirmBranchTransportSetting].[BranchId] AND CustomerUserBranchMapping.[UserId] = @LoginId
+			 INNER JOIN CustomerFirmBranch ON CustomerFirmBranch.Id = CustomerUserBranchMapping.[BranchId] 
 			 INNER JOIN [CustomerFirm] ON [CustomerFirm].Id = CustomerFirmBranch.[FirmId]
 			 INNER JOIN [CustomerBookBranchMapping] AS PBBM ON PBBM.[Id] = [CustomerFirmBranchTransportSetting].[PurcahseBookBranchMappingId] 
 			 INNER JOIN [CustomerBook] AS PBB ON PBB.[Id] = PBBM.[BookId] 
@@ -55,7 +56,7 @@ Begin
 			AND PBBA.Active = 1 AND PBBA.Deleted = 0 AND PBB.Active = 1 AND PBB.Deleted = 0 AND PBBM.Deleted = 0 
 			AND BSBBA.Active = 1 AND BSBBA.Deleted = 0 AND BSBB.Active = 1 AND BSBB.Deleted = 0 AND BSBBM.Deleted = 0 
 			AND DSBBA.Active = 1 AND DSBBA.Deleted = 0 AND DSBB.Active = 1 AND DSBB.Deleted = 0 AND DSBBM.Deleted = 0 
-			AND [CustomerFirmBranchTransportSetting].BranchId = @BranchId
+			AND [CustomerFirm].Id = @FirmId AND [CustomerFirm].CustomerId = @CustomerId 
 			AND (Coalesce(@Search,'') = '' 
 			OR CustomerFirmBranch.[Title] like '%'+ @Search + '%'
 			OR PBBA.[Name] like '%'+ @Search + '%'

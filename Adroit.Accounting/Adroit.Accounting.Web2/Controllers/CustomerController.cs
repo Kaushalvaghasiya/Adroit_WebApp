@@ -80,7 +80,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICustomerInvoice _customerInvoice;
         private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
         private readonly IChalan _chalanRepository;
-        private readonly IChalanBranch _chalanBranchRepository;
+        private readonly IChalanReceive _chalanReceiveRepository;
 
         public CustomerController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
@@ -151,7 +151,7 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportLRDelivery transportLRDeliveryRepository,
             IChalan chalanRepository,
             ICustomerInvoice customerInvoice,
-            IChalanBranch chalanBranchRepository
+            IChalanReceive chalanReceiveRepository
             )
             : base(loginHandler, userRepository, configurationData)
         {
@@ -223,7 +223,7 @@ namespace Adroit.Accounting.Web.Controllers
             _transportLRDeliveryRepository = transportLRDeliveryRepository;
             _chalanRepository = chalanRepository;
             _customerInvoice = customerInvoice;
-            _chalanBranchRepository = chalanBranchRepository;
+            _chalanReceiveRepository = chalanReceiveRepository;
         }
 
         public JsonResult GetAccountGroups()

@@ -1,4 +1,4 @@
-CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanBranchSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanReceiveSave]
 (
 	 @LoginId INT
 	,@FirmId INT
@@ -8,7 +8,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanBranchSave]
 	,@GoDownNumber INT  
 	,@PurchaseBillMasterId INT
 	,@BillNumberFirm INT
-	,@BillDate DATETIME  
+	,@ReceiveDate DATETIME  
 	,@ReceivedNote NVARCHAR(250)
 	,@LRNumberIds NVARCHAR(MAX)
 )
@@ -30,29 +30,29 @@ BEGIN
 		IF ISNULL(@BillNumberBranch, 0) = 0
 		BEGIN
 			SELECT @BillNumberBranch = ISNULL(MAX(BillNumberBranch),0) + 1
-			FROM [Z-PurchaseBillMasterReceive-Z]
-			WHERE [Z-PurchaseBillMasterReceive-Z].BranchId = @BranchId AND [Z-PurchaseBillMasterReceive-Z].YearId = @YearId 
+			FROM [Z-ChalanReceive-Z]
+			WHERE [Z-ChalanReceive-Z].BranchId = @BranchId AND [Z-ChalanReceive-Z].YearId = @YearId 
 		END
 
 		IF ISNULL(@BillNumberFirm, 0) = 0
 		BEGIN
 			SELECT @BillNumberFirm = ISNULL(MAX(BillNumberFirm),0) + 1
-			FROM [Z-PurchaseBillMasterReceive-Z]
-			WHERE [Z-PurchaseBillMasterReceive-Z].FirmId = @FirmId AND [Z-PurchaseBillMasterReceive-Z].YearId = @YearId 
+			FROM [Z-ChalanReceive-Z]
+			WHERE [Z-ChalanReceive-Z].FirmId = @FirmId AND [Z-ChalanReceive-Z].YearId = @YearId 
 		END
 
 		DECLARE @IdCheck INT
-		SELECT @IdCheck = ID FROM [Z-PurchaseBillMasterReceive-Z] 
+		SELECT @IdCheck = ID FROM [Z-ChalanReceive-Z] 
 							WHERE (Id = @Id) 
 							OR (BranchId = @BranchId AND PurchaseBillMasterId = @PurchaseBillMasterId AND Deleted = 1)
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
 
-			INSERT INTO [Z-PurchaseBillMasterReceive-Z]
-           (PurchaseBillMasterId,BillDate,BillNumberBranch,BillNumberFirm,BranchId,FirmId,YearId,UserId,GoDownNumber,ReceivedNote,AddedOn,AddedById,Deleted)
+			INSERT INTO [Z-ChalanReceive-Z]
+           (PurchaseBillMasterId,ReceiveDate,BillNumberBranch,BillNumberFirm,BranchId,FirmId,YearId,UserId,GoDownNumber,ReceivedNote,AddedOn,AddedById,Deleted)
 			VALUES
-           (@PurchaseBillMasterId,@BillDate,@BillNumberBranch,@BillNumberFirm,@BranchId,@FirmId,@YearId,@LoginId,@GoDownNumber,@ReceivedNote,GETUTCDATE(),@LoginId,0)
+           (@PurchaseBillMasterId,@ReceiveDate,@BillNumberBranch,@BillNumberFirm,@BranchId,@FirmId,@YearId,@LoginId,@GoDownNumber,@ReceivedNote,GETUTCDATE(),@LoginId,0)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -61,9 +61,9 @@ BEGIN
 		BEGIN
 			SET @Id = @IdCheck
 
-			UPDATE [Z-PurchaseBillMasterReceive-Z] SET
+			UPDATE [Z-ChalanReceive-Z] SET
 			 PurchaseBillMasterId = @PurchaseBillMasterId
-			,BillDate = @BillDate 
+			,ReceiveDate = @ReceiveDate 
 			,@BillNumberBranch = @BillNumberBranch 
 			,BillNumberFirm = @BillNumberFirm 
 			,GoDownNumber = @GoDownNumber 

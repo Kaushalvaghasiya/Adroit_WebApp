@@ -661,17 +661,16 @@
                                     <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">LR#</th>
                                     <th class="border-bottom-0">LR Date</th>
-                                    <th class="border-bottom-0">Pvt.Mark</th>
-                                    <th class="border-bottom-0">Package.</th>
-                                    <th class="border-bottom-0">Chg. Weight</th>
-                                    <th class="border-bottom-0">To City</th>
-                                    <th class="border-bottom-0">From City</th>
+                                    <th class="border-bottom-0">Total Parcel</th>
+                                    <th class="border-bottom-0">Total Act. Kg.</th>
+                                    <th class="border-bottom-0">Total Chrg. Kg.</th>
                                     <th class="border-bottom-0">Taxable Amount</th>
-                                    <th class="border-bottom-0">Description</th>
+                                    <th class="border-bottom-0">GST %</th>
+                                    <th class="border-bottom-0">From City</th>
+                                    <th class="border-bottom-0">To City</th>
+                                    <th class="border-bottom-0">Vehicle #</th>
                                     <th class="border-bottom-0">Consignor</th>
                                     <th class="border-bottom-0">Consignee</th>
-                                    <th class="border-bottom-0">Bill Party</th>
-                                    <th class="border-bottom-0">E-Way Bill Part-A</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -792,9 +791,16 @@
                 getLRDetailListByLRNumber($('#LRNumber').val());
             });
 
-            $(document).on('click', '.delete-row-btn', function () {
+            $(".delete-row-btn").on('click', function (e) {
                 var index = $(this).data('index');
                 deleteRow(index);
+            });
+
+            $("#TaxableAmount, #TDSAmount, #AdvanceCash, #AdvanceNeft, #ReceiveCash, #OtherPlus, #OtherLess").on('change', function (e) {
+                var fieldId = $(this).attr('id');
+                var currentValue = parseFloat($("#" + fieldId).val());
+                var formattedValue = currentValue.toFixed(2);
+                $("#" + fieldId).val(formattedValue);
             });
 
             addClick();
@@ -809,6 +815,11 @@
             $("#BillNumberBranch").focus();
             $("#BillNumberBranch").val(0);
             $("#BillNumberFirm").val(0);
+            $("#ToPayAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingAmountAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingCommissionAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingHamaliAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingDeliveryAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
             $("#IsAutoLedger").prop('checked', true);
         }
 
@@ -1294,23 +1305,20 @@
                                 $("#CrossingDeliveryAccountBranchMappingId").val(result.data.crossingDeliveryAccountBranchMappingId).trigger('change');
                                 $("#BrokerBranchMappingId").val(result.data.brokerBranchMappingId).trigger('change');
                                 $("#Notes").val(result.data.notes);
-                                $("#TaxableAmount").val((result.data.taxableAmount || 0).toFixed(2));
-                                $("#TDSAmount").val((result.data.tdsAmount || 0).toFixed(2));
-                                $("#AdvanceCash").val((result.data.advanceCash || 0).toFixed(2));
-                                $("#AdvanceNeft").val((result.data.advanceNeft || 0).toFixed(2));
-                                $("#ReceiveCash").val((result.data.receiveCash || 0).toFixed(2));
-                                $("#OtherPlus").val((result.data.otherPlus || 0).toFixed(2));
-                                $("#OtherLess").val((result.data.otherLess || 0).toFixed(2));
-                                $("#ToPayAmount").val((result.data.toPayAmount || 0).toFixed(2));
-                                $("#Paid").val((result.data.toPayAmount || 0).toFixed(2));
-                                $("#TBB").val((result.data.toPayAmount || 0).toFixed(2));
-                                $("#Total").val(((+$("#ToPayAmount").val() || 0) + (+$("#Paid").val() || 0) + (+$("#TBB").val() || 0)).toFixed(2));
-                                $("#CrossingAmount").val((result.data.crossingAmount || 0).toFixed(2));
-                                $("#CrossingCommission").val((result.data.crossingCommission || 0).toFixed(2));
-                                $("#CrossingHamali").val((result.data.crossingHamali || 0).toFixed(2));
-                                $("#CrossingDeliveryCharge").val((result.data.crossingDeliveryCharge || 0).toFixed(2));
-                                $("#BrokerAmount").val((result.data.brokerAmount || 0).toFixed(2));
+                                $("#TaxableAmount").val(result.data.taxableAmount ? result.data.taxableAmount.toFixed(2) : '');
+                                $("#TDSAmount").val(result.data.tdsAmount ? result.data.tdsAmount.toFixed(2) : '');
+                                $("#AdvanceCash").val(result.data.advanceCash ? result.data.advanceCash.toFixed(2) : '');
+                                $("#AdvanceNeft").val(result.data.advanceNeft ? result.data.advanceNeft.toFixed(2) : '');
+                                $("#ReceiveCash").val(result.data.receiveCash ? result.data.receiveCash.toFixed(2) : '');
+                                $("#OtherPlus").val(result.data.otherPlus ? result.data.otherPlus.toFixed(2) : '');
+                                $("#OtherLess").val(result.data.otherLess ? result.data.otherLess.toFixed(2) : '');
+                                $("#CrossingAmount").val(result.data.crossingAmount ? result.data.crossingAmount.toFixed(2) : '');
+                                $("#CrossingCommission").val(result.data.crossingCommission ? result.data.crossingCommission.toFixed(2) : '');
+                                $("#CrossingHamali").val(result.data.crossingHamali ? result.data.crossingHamali.toFixed(2) : '');
+                                $("#CrossingDeliveryCharge").val(result.data.crossingDeliveryCharge ? result.data.crossingDeliveryCharge.toFixed(2) : '');
+                                $("#BrokerAmount").val(result.data.brokerAmount ? result.data.brokerAmount.toFixed(2) : '');
                                 $("#IsAutoLedger").prop('checked', result.data.isAutoLedger);
+                                
                                 CalcNetAmount();
                                 getLRDetailListByPurchaseBillMas(result.data.id);
 
@@ -1481,13 +1489,13 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.privateMarka;
+                    return row.parcel;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.parcel;
+                    return parseFloat(row.actualWeight || 0).toFixed(3);
                 },
                 "targets": colDef.length,
             });
@@ -1499,7 +1507,13 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.cityTo;
+                    return parseFloat(row.chargeAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return parseFloat(row.rate || 0).toFixed(3);
                 },
                 "targets": colDef.length,
             });
@@ -1511,13 +1525,13 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return parseFloat(row.invoiceValue || 0).toFixed(2);
+                    return row.cityTo;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.description;
+                    return row.vehilcleNo;
                 },
                 "targets": colDef.length,
             });
@@ -1533,33 +1547,20 @@
                 },
                 "targets": colDef.length,
             });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.billPartyName;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.ewayBillNo;
-                },
-                "targets": colDef.length,
-            });
-
+            
             columns.push({ "data": "id", "name": "id" });
             columns.push({ "data": "lrNumber", "name": "lrNumber" });
             columns.push({ "data": "lrDate", "name": "lrDate" });
-            columns.push({ "data": "privateMarka", "name": "privateMarka" });
             columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "actualWeight", "name": "actualWeight" });
             columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
-            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "chargeAmount", "name": "chargeAmount" });
+            columns.push({ "data": "rate", "name": "rate" });
             columns.push({ "data": "cityFrom", "name": "cityFrom" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
-            columns.push({ "data": "description", "name": "description" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "vehilcleNo", "name": "vehilcleNo" });
             columns.push({ "data": "consignor", "name": "consignor" });
             columns.push({ "data": "consignee", "name": "consignee" });
-            columns.push({ "data": "billPartyName", "name": "billPartyName" });
-            columns.push({ "data": "ewayBillNo", "name": "ewayBillNo" });
 
             var table = $('#LRtblMain').DataTable({
                 "bAutoWidth": false,
@@ -1751,7 +1752,7 @@
                     '<div class="row mb-0">' +
                     '<div class="col-md-6">' +
                     '<div class="form-group text-center mb-1">' +
-                    '<label for="id">' + selectedLRDetails[i].id + '</label>' +
+                    '<label for="id">' + (i + 1) + '</label>' +
                     '</div>' +
                     '</div>' +
                     '<div class="col-md-6">' +

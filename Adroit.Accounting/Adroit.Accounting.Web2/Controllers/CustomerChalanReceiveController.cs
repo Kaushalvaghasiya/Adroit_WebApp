@@ -13,9 +13,9 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerController : MasterController
     {
-        public IActionResult Branch()
+        public IActionResult ChalanReceive()
         {
-            var model = new PurchaseBillMasterReceiveViewModel();
+            var model = new ChalanReceiveViewModel();
             var CustomerFirmBranchTransportSetting = _chalanRepository.GetChalanLabelList(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
             if (CustomerFirmBranchTransportSetting == null)
             {
@@ -27,13 +27,13 @@ namespace Adroit.Accounting.Web.Controllers
             }
 
             model.CustomerFirmBranchList = _customerFirmBranchesRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
-            model.GoDownNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillMasterReceiveTable._TableName, PurchaseBillMasterReceiveTable.GoDownNumber);
+            model.GoDownNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ChalanReceiveTable._TableName, ChalanReceiveTable.GoDownNumber);
 
             return View(model);
         }
 
         [HttpPost]
-        public JsonResult SaveChalanBranch([FromBody] PurchaseBillMasterReceiveViewModel model)
+        public JsonResult SaveChalanReceive([FromBody] ChalanReceiveViewModel model)
         {
             ApiResult result = new ApiResult();
             try
@@ -41,7 +41,7 @@ namespace Adroit.Accounting.Web.Controllers
                 model.UserId = CurrentUserId;
                 model.BranchId = CurrentBranchId;
                 model.FirmId = CurrentFirmId;
-                int id = _chalanBranchRepository.Save(model, _configurationData.DefaultConnection);
+                int id = _chalanReceiveRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -57,13 +57,12 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetChalanBranch(int id)
+        public JsonResult GetChalanReceive(int id)
         {
             ApiResult result = new ApiResult();
             try
             {
-                var data = _chalanBranchRepository.Get(id, _configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
-                //data.LRBookingList = _lrBookingRepository.GetListByPurchaseBillMasterId(_configurationData.DefaultConnection, id, CurrentUserId, CurrentBranchId);
+                var data = _chalanReceiveRepository.Get(id, _configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
                 result.data = data;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
@@ -76,9 +75,9 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult ChalanBranchList(int draw = 0, int start = 0, int length = 10)
+        public JsonResult ChalanReceiveList(int draw = 0, int start = 0, int length = 10)
         {
-            var result = new DataTableListViewModel<PurchaseBillMasterReceiveGridViewModel>();
+            var result = new DataTableListViewModel<ChalanReceiveGridViewModel>();
             try
             {
                 //// note: we only sort one column at a time
@@ -86,14 +85,14 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _chalanBranchRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _chalanReceiveRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
             }
             catch (Exception ex)
             {
-                result.data = new List<PurchaseBillMasterReceiveGridViewModel>();
+                result.data = new List<ChalanReceiveGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
             }
@@ -105,7 +104,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _chalanBranchRepository.Delete(id, _configurationData.DefaultConnection, CurrentUserId);
+                result.data = _chalanReceiveRepository.Delete(id, _configurationData.DefaultConnection, CurrentUserId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -139,7 +138,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _chalanBranchRepository.GetChalanDetailListByChalanNumber(_configurationData.DefaultConnection, ChalanNumber, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                result.data = _chalanReceiveRepository.GetChalanDetailListByChalanNumber(_configurationData.DefaultConnection, ChalanNumber, CurrentUserId, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -150,8 +149,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetChalanBranchToPayAmount/{lrNumberIds}")]
-        public JsonResult GetChalanBranchToPayAmount(string lrNumberIds)
+        [Route("~/Customer/GetChalanReceiveToPayAmount/{lrNumberIds}")]
+        public JsonResult GetChalanReceiveToPayAmount(string lrNumberIds)
         {
             ApiResult result = new ApiResult();
             try

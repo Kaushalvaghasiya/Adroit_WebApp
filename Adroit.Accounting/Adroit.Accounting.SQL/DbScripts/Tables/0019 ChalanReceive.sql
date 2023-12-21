@@ -1,7 +1,7 @@
-CREATE TABLE [Z-PurchaseBillMasterReceive-Z](
+CREATE TABLE [Z-ChalanReceive-Z](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[PurchaseBillMasterId] [int] NOT NULL,
-	[BillDate] [datetime] NOT NULL,
+	[ReceiveDate] [datetime] NOT NULL,
 	[BillNumberBranch] [int] NOT NULL,
 	[BillNumberFirm] [int] NOT NULL,
 	[BranchId] [int] NOT NULL,
@@ -17,17 +17,17 @@ CREATE TABLE [Z-PurchaseBillMasterReceive-Z](
 	[ModifiedById] [int] NULL,
 	[ModifiedOn] [datetime] NULL,
 	[Deleted] [bit] NOT NULL,
- CONSTRAINT [PK_Z-PurchaseBillMasterReceive-Z] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Z-ChalanReceive-Z] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
- CONSTRAINT [IX_PurchaseBillMasterReceive_Branch] UNIQUE NONCLUSTERED 
+ CONSTRAINT [IX_ChalanReceive_Branch] UNIQUE NONCLUSTERED 
 (
 	[BranchId] ASC,
 	[YearId] ASC,
 	[BillNumberBranch] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY],
- CONSTRAINT [IX_PurchaseBillMasterReceive_Firm] UNIQUE NONCLUSTERED 
+ CONSTRAINT [IX_ChalanReceive_Firm] UNIQUE NONCLUSTERED 
 (
 	[FirmId] ASC,
 	[YearId] ASC,
@@ -36,23 +36,23 @@ CREATE TABLE [Z-PurchaseBillMasterReceive-Z](
 ) ON [PRIMARY]
 GO
 
-ALTER TABLE [dbo].[Z-PurchaseBillMasterReceive-Z] WITH CHECK ADD CONSTRAINT [FK_PurchaseBillMasterReceiver_PurchaseBillMaster] FOREIGN KEY([PurchaseBillMasterId])
+ALTER TABLE [dbo].[Z-ChalanReceive-Z] WITH CHECK ADD CONSTRAINT [FK_ChalanReceive_PurchaseBillMaster] FOREIGN KEY([PurchaseBillMasterId])
 REFERENCES [dbo].[Z-PurchaseBillMaster-Z] ([Id])
 GO
 
-ALTER TABLE [dbo].[Z-PurchaseBillMasterReceive-Z] WITH CHECK ADD CONSTRAINT [FK_PurchaseBillMasterReceiver_CustomerFirm] FOREIGN KEY([FirmId])
+ALTER TABLE [dbo].[Z-ChalanReceive-Z] WITH CHECK ADD CONSTRAINT [FK_ChalanReceive_CustomerFirm] FOREIGN KEY([FirmId])
 REFERENCES [dbo].[CustomerFirm] ([Id])
 GO
 
-ALTER TABLE [dbo].[Z-PurchaseBillMasterReceive-Z] WITH CHECK ADD CONSTRAINT [FK_PurchaseBillMasterReceiver_CustomerFirmBranch] FOREIGN KEY([BranchId])
+ALTER TABLE [dbo].[Z-ChalanReceive-Z] WITH CHECK ADD CONSTRAINT [FK_ChalanReceive_CustomerFirmBranch] FOREIGN KEY([BranchId])
 REFERENCES [dbo].[CustomerFirmBranch] ([Id])
 GO
 
-ALTER TABLE [dbo].[Z-PurchaseBillMasterReceive-Z] WITH CHECK ADD CONSTRAINT [FK_PurchaseBillMasterReceiver_FinanceYear] FOREIGN KEY([YearId])
+ALTER TABLE [dbo].[Z-ChalanReceive-Z] WITH CHECK ADD CONSTRAINT [FK_ChalanReceive_FinanceYear] FOREIGN KEY([YearId])
 REFERENCES [dbo].[FinanceYear] ([Id])
 GO
 
-ALTER TABLE [dbo].[Z-PurchaseBillMasterReceive-Z] WITH CHECK ADD CONSTRAINT [FK_PurchaseBillMasterReceiver_CustomerUser] FOREIGN KEY([UserId])
+ALTER TABLE [dbo].[Z-ChalanReceive-Z] WITH CHECK ADD CONSTRAINT [FK_ChalanReceive_CustomerUser] FOREIGN KEY([UserId])
 REFERENCES [dbo].[CustomerUser] ([Id])
 GO
 

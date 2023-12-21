@@ -11,7 +11,7 @@ BEGIN
 
 	SELECT [Z-PurchaseBillMaster-Z].BillNumberBranch AS Text
 	FROM [Z-PurchaseBillMaster-Z]
-	WHERE [Z-PurchaseBillMaster-Z].BillNumberBranch NOT IN ( SELECT DISTINCT [Z-PurchaseBillMasterReceive-Z].BillNumberBranch FROM [Z-PurchaseBillMasterReceive-Z] WHERE [Z-PurchaseBillMasterReceive-Z].Deleted = 0 )
+	WHERE [Z-PurchaseBillMaster-Z].BillNumberBranch NOT IN ( SELECT DISTINCT [Z-ChalanReceive-Z].BillNumberBranch FROM [Z-ChalanReceive-Z] WHERE [Z-ChalanReceive-Z].Deleted = 0 )
 	AND [Z-PurchaseBillMaster-Z].[BranchId] = @SenderId
 	AND [Z-PurchaseBillMaster-Z].YearId = @YearId 
 	AND [Z-PurchaseBillMaster-Z].Deleted = 0 

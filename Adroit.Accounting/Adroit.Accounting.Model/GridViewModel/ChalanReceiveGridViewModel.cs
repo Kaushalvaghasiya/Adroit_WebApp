@@ -6,7 +6,7 @@ using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Model.GridViewModel
 {
-    public class PurchaseBillMasterReceiveGridViewModel : PurchaseBillMasterReceiveViewModel
+    public class ChalanReceiveGridViewModel : ChalanReceiveViewModel
     {
         public int RowNum { get; set; }
         public int TotalCount { get; set; }

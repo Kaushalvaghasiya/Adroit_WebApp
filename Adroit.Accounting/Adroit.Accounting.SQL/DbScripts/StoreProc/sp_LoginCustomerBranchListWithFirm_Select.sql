@@ -12,9 +12,10 @@ BEGIN
         ISNULL(CustomerFirm.Title, ''),
         NULLIF(' | ' + ISNULL(CustomerFirmBranch.Title, ''), ' | ')
     ) AS Text
-	FROM CustomerFirmBranch
-	INNER JOIN CustomerFirm on CustomerFirm.Id = CustomerFirmBranch.FirmId
-	WHERE CustomerFirm.Deleted = 0 AND CustomerFirm.CustomerId = @CustomerId
+	FROM CustomerFirm 
+	INNER JOIN CustomerFirmBranch on CustomerFirm.Id = CustomerFirmBranch.FirmId
+	WHERE CustomerFirm.CustomerId = @CustomerId
+	AND CustomerFirm.Deleted = 0 
 	AND CustomerFirmBranch.Deleted = 0 AND CustomerFirmBranch.Active = 1
 	ORDER BY CustomerFirm.Title,CustomerFirmBranch.Title
 

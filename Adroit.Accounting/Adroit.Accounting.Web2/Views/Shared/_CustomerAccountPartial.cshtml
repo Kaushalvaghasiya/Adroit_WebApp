@@ -1,0 +1,418 @@
+﻿<!-- row -->
+<div class="row">
+    <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <!--<h3 class="card-title">Add/Edit Product</h3>-->
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="Name">Account Name</label>
+                            <select class="form-control select2-show-search-add mode-ed" id="Name">
+                                <option></option>
+                                @{
+                                    if (Model.NameList != null)
+                                    {
+                                        foreach (var o in Model.NameList)
+                                        {
+                                            <option value="@o.Text">@o.Text</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="PrintName">Print Account Name</label>
+                            <input type="text" class="form-control" id="PrintName" placeholder="" maxlength="100">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="AccountGroupId">Account Group</label>
+                            <select class="form-control select2-show-search" id="AccountGroupId">
+                                <option></option>
+                                @{
+                                    if (Model.AccountGroupList != null)
+                                    {
+                                        foreach (var o in Model.AccountGroupList)
+                                        {
+                                            <option value="@o.Value">@o.Text</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Address1">Address Line 1</label>
+                            <input type="text" class="form-control" id="Address1" placeholder="" maxlength="100">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Address2">Address Line 2</label>
+                            <input type="text" class="form-control" id="Address2" placeholder="" maxlength="100">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="Address3">Address Line 3</label>
+                            <input type="text" class="form-control" id="Address3" placeholder="" maxlength="100">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="CountryId">Country</label>
+                            <select class="form-control select2-show-search" id="CountryId">
+                                <option></option>
+                                @{
+                                    if (Model.CountryList != null)
+                                    {
+                                        foreach (var o in Model.CountryList)
+                                        {
+                                            <option value="@o.Value">@o.Text</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="StateId">State</label>
+                            <select class="form-control select2-show-search-clear" id="StateId">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="District">District</label>
+                            <select class="form-control select2-show-search-add-clear mode-ed" id="District">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Taluka">Taluka</label>
+                            <select class="form-control select2-show-search-add-clear mode-ed" id="Taluka">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="CityId">City</label>
+                            <select class="form-control select2-show-search-add-clear mode-ed" id="CityId">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Pincode">Pincode</label>
+                            <input type="text" class="form-control numberonly" id="Pincode" placeholder="" maxlength="10">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="KM">KM</label>
+                            <input type="text" class="form-control" id="KM" placeholder="" maxlength="4">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="AreaName">Area</label>
+                            <select class="form-control select2-show-search-add-clear mode-ed" id="AreaName">
+                                <option></option>
+                                @{
+                                    if (Model.AreaNameList != null)
+                                    {
+                                        foreach (var o in Model.AreaNameList)
+                                        {
+                                            <option value="@o.Value">@o.Text</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="ContactPersonName">Contact Person</label>
+                            <input type="text" class="form-control numberonly" id="ContactPersonName" placeholder="" maxlength="30">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Mobile">Contact Mobile</label>
+                            <input type="text" class="form-control numberonly" id="Mobile" placeholder="" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="MobileAlternate">Alternate Mobile</label>
+                            <input type="text" class="form-control numberonly" id="MobileAlternate" placeholder="" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="Email">Email</label>
+                            <input type="text" class="form-control" id="Email" placeholder="" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="AdharUID">Aadhaar UID</label>
+                            <input type="text" class="form-control numberonly" id="AdharUID" placeholder="" maxlength="12">
+                        </div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="GSTNumber">GST Number</label>
+                            <input type="text" class="form-control" id="GSTNumber" placeholder="" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="PAN">PAN</label>
+                            <input type="text" class="form-control" id="PAN" placeholder="" maxlength="12">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="TAN">TAN</label>
+                            <input type="text" class="form-control" id="TAN" placeholder="" maxlength="10">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="EximCode">Exim Code</label>
+                            <input type="text" class="form-control" id="EximCode" placeholder="" maxlength="30">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="GSTInvoiceTypeId">GST Invoice Type</label>
+                            <select class="form-control select2-show-search" id="GSTInvoiceTypeId">
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="CreditDays">Credit Days</label>
+                            <input type="text" class="form-control" id="CreditDays" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="CreditLimit">Credit Limit</label>
+                            <input type="text" class="form-control" id="CreditLimit" placeholder="" maxlength="18">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="TransportName">Transporter Name</label>
+                            <select class="form-control select2-show-search-add-clear mode-ed" id="TransportName">
+                                <option></option>
+                                @{
+                                    if (Model.TransportNameList != null)
+                                    {
+                                        foreach (var o in Model.TransportNameList)
+                                        {
+                                            <option value="@o.Value">@o.Text</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="GSTNumberTransport">Transporter GST Number</label>
+                            <input type="text" class="form-control" id="GSTNumberTransport" placeholder="" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="VehicleNumber">Vehicle Number</label>
+                            <input type="text" class="form-control" id="VehicleNumber" placeholder="" maxlength="15">
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="ShippingAccountBranchMappingId">Shipping Party</label>
+                            <select class="form-control select2-show-search-clear" id="ShippingAccountBranchMappingId">
+                                <option></option>
+                                @{
+                                    if (Model.AccountBranchMappingList != null)
+                                    {
+                                        foreach (var o in Model.AccountBranchMappingList)
+                                        {
+                                            <option value="@o.Value">@o.Text</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="DeliveryAccountBranchMappingId">Delivery Party</label>
+                            <select class="form-control select2-show-search-clear" id="DeliveryAccountBranchMappingId">
+                                <option></option>
+                                @{
+                                    if (Model.AccountBranchMappingList != null)
+                                    {
+                                        foreach (var o in Model.AccountBranchMappingList)
+                                        {
+                                            <option value="@o.Value">@o.Text</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="BrokerMappingId">Broker</label>
+                            <select class="form-control select2-show-search-clear" id="BrokerMappingId">
+                                <option></option>
+                                @{
+                                    if (Model.BrokerBranchMappingList != null)
+                                    {
+                                        foreach (var o in Model.BrokerBranchMappingList)
+                                        {
+                                            <option value="@o.Value">@o.Text</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="TDS">TDS %</label>
+                            <input type="text" class="form-control" id="TDS" placeholder="" max="100.00">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="TCS">TCS %</label>
+                            <input type="text" class="form-control" id="TCS" placeholder="" max="100.00">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="Discount">Discount %</label>
+                            <input type="text" class="form-control" id="Discount" placeholder="" max="100.00">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="InterestRate">Interest %</label>
+                            <input type="text" class="form-control" id="InterestRate" placeholder="" max="100.00">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="Commission">Commission %</label>
+                            <input type="text" class="form-control" id="Commission" placeholder="" max="100.00">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label for="CapitalPercentage" id="CapitalPercentageTitle">Capital %</label>
+                            <input type="text" class="form-control" id="CapitalPercentage" placeholder="" max="100.00">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div><label for="IsIGST">IGST</label></div>
+                        <label class="custom-switch">
+                            <input type="checkbox" name="custom-switch-checkbox" id="IsIGST" class="custom-switch-input">
+                            <span class="custom-switch-indicator"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-2">
+                        <div><label for="RateWithGST">Rate With GST in Pur.</label></div>
+                        <label class="custom-switch">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="RateWithGST">
+                            <span class="custom-switch-indicator"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-2">
+                        <div><label for="RCMParty">RCM Party</label></div>
+                        <label class="custom-switch">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="RCMParty">
+                            <span class="custom-switch-indicator"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-2">
+                        <div><label for="CompositParty">Composite Party</label></div>
+                        <label class="custom-switch">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="CompositParty">
+                            <span class="custom-switch-indicator"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-2">
+                        <div><label for="IsEcommerce">E-Commerce Party</label></div>
+                        <label class="custom-switch">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="IsEcommerce">
+                            <span class="custom-switch-indicator"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-2">
+                        <div><label for="Active">Active</label></div>
+                        <label class="custom-switch">
+                            <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="Active">
+                            <span class="custom-switch-indicator"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="CustomerAccountBranchIds">Branch Permission</label>
+                            <select id="CustomerAccountBranchIds" multiple="multiple" class="filter-multi mode-ed-multi">
+                                @{
+                                    if (Model.BranchList != null)
+                                    {
+                                        foreach (var o in Model.BranchList)
+                                        {
+                                            <option value="@o.Value">@o.Text</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                            <label>Remarks </label>
+                            <textarea class="form-control" rows="2" id="Remarks"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-right">
+                <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                @* <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a> *@
+                <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- row end -->
+
+<input type="hidden" id="Id" value="0" />
+
+<input type="hidden" id="hdnCountryId" value="0" />
+<input type="hidden" id="hdnStateId" value="0" />
+<input type="hidden" id="hdnDistrictId" value="0" />
+<input type="hidden" id="hdnTalukaId" value="0" />
+<input type="hidden" id="hdnCityId" value="0" />
+<input type="hidden" id="hdnGSTInvoiceTypeId" value="0" />

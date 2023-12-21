@@ -8,6 +8,8 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmBranchTransportContractRateSetti
   @SortOrder NVARCHAR(10) = 'ASC'
 As
 Begin
+	DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
+
 	SELECT * FROM
 	 (   
 	  SELECT  
@@ -28,14 +30,14 @@ Begin
 			CustomerAccount.[Name] as CustomerName,
 			City.Title As City,
 			CustomerFirmBranch.Title AS BranchName
-		From CustomerFirmBranchTransportContractRateSetting
-		Left Join CustomerAccountBranchMapping on CustomerFirmBranchTransportContractRateSetting.AccountBranchMappingId=CustomerAccountBranchMapping.Id
-		Left Join CustomerAccount on CustomerAccountBranchMapping.AccountId = CustomerAccount.Id
-		Left Join CustomerFirmBranch On CustomerAccountBranchMapping.BranchId = CustomerFirmBranch.Id
-		Left Join City on City.Id = CustomerFirmBranchTransportContractRateSetting.CityId
-		WHERE 
-		(Coalesce(@Search,'') = '' 
-			OR CustomerAccount.[Name] like '%'+ @Search + '%'
+		From CustomerFirm 
+		INNER JOIN CustomerFirmBranch ON CustomerFirm.Id = CustomerFirmBranch.FirmId 
+		INNER JOIN CustomerAccountBranchMapping ON CustomerFirmBranch.Id = CustomerAccountBranchMapping.BranchId
+		INNER JOIN CustomerFirmBranchTransportContractRateSetting ON CustomerAccountBranchMapping.Id = CustomerFirmBranchTransportContractRateSetting.AccountBranchMappingId
+		INNER JOIN CustomerAccount ON CustomerAccountBranchMapping.AccountId = CustomerAccount.Id
+		LEFT JOIN City ON CustomerFirmBranchTransportContractRateSetting.CityId = City.Id 
+		WHERE CustomerFirm.CustomerId = @CustomerId
+			AND (CustomerAccount.[Name] like '%'+ @Search + '%'
 			OR CustomerFirmBranch.Title like '%'+ @Search + '%'
 			OR City.Title like '%'+ @Search + '%'
 			OR CustomerFirmBranchTransportContractRateSetting.RatePerKG like '%'+ @Search + '%'

@@ -248,9 +248,9 @@
         public const string _TableName = "[Z-PurchaseBillMaster-Z]";
         public const string EwayBillNumber = "EwayBillNumber";
     }
-    public sealed class PurchaseBillMasterReceiveTable
+    public sealed class ChalanReceiveTable
     {
-        public const string _TableName = "[Z-PurchaseBillMasterReceive-Z]";
+        public const string _TableName = "[Z-ChalanReceive-Z]";
         public const string GoDownNumber = "GoDownNumber";
     }
 

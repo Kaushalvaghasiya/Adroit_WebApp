@@ -4,14 +4,14 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class PurchaseBillMasterReceive
+    public partial class ChalanReceive
     {
-        public PurchaseBillMasterReceive()
+        public ChalanReceive()
         {
         }
         public int Id { get; set; }
         public int PurchaseBillMasterId { get; set; }
-        public System.DateTime BillDate { get; set; }
+        public System.DateTime ReceiveDate { get; set; }
         public int BillNumberBranch { get; set; }
         public int BillNumberFirm { get; set; }
         public int BranchId { get; set; }

@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.PurchaseBillMasterReceiveViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.ChalanReceiveViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -110,7 +110,7 @@
                                             }
                                         </select>
                                     </div>
-                                    <label for="BillDate" class="col-md-1 form-label mb-1">Arrival Date</label>
+                                    <label for="ReceiveDate" class="col-md-1 form-label mb-1">Arrival Date</label>
                                     <div class="col-md-2">
                                         <div class="input-group">
                                             <div class="input-group-prepend">
@@ -118,7 +118,7 @@
                                                     <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                                 </div>
                                             </div>
-                                            <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="BillDate">
+                                            <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="ReceiveDate">
                                         </div>
                                     </div>
                                     <label for="GoDownNumber" class="col-md-1 form-label">Godown No</label>
@@ -493,6 +493,27 @@
         </div>
     </div>
     <!-- row end -->
+    <!-- Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="confirmationModal">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Confirmation</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to change the previous entry?
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            <button type="button" class="btn btn-primary" id="btnYes">Yes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Modal -->
     <input type="hidden" id="Id" value="0" />
     <input type="hidden" id="hdnSelectedLRNumberIds" value="" />
     <input type="hidden" id="hdnPurchaseBillMasterId" value="0" />
@@ -521,11 +542,18 @@
             $("#btnChalanSearch").on('click', function (e) {
                 if ($('#Chalan').val() == null || $('#Chalan').val() == '') {
                     showWarning("", "Please select Chalan.");
-                } else {
+                } else if ($('#hdnSelectedLRNumberIds').val() == '') {
                     GetChalanDetailListByChalanNumber($('#Chalan').val());
+                }
+                else {
+                    $('#confirmationModal').modal('show');
                 }
             });
 
+            $("#btnYes").on('click', function (e) {
+                GetChalanDetailListByChalanNumber($('#Chalan').val());
+                $('#confirmationModal').modal('hide');
+            });
         });
 
         function addClick() {
@@ -565,7 +593,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
+                    return moment(row.receiveDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
             });
@@ -596,7 +624,7 @@
             });
 
             columns.push({ "data": "billNumberBranch", "name": "billNumberBranch" });
-            columns.push({ "data": "billDate", "name": "billDate" });
+            columns.push({ "data": "receiveDate", "name": "receiveDate" });
             columns.push({ "data": "netAmount", "name": "netAmount" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
 
@@ -627,7 +655,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/Customer/ChalanBranchList"))',
+                    url: '@(Url.Content("~/Customer/ChalanReceiveList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -648,7 +676,7 @@
             $("#BillNumberFirm").val(0);
 
             var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
-            $("#BillDate").datepicker("setDate", formattedMinimumDate);
+            $("#ReceiveDate").datepicker("setDate", formattedMinimumDate);
 
             $("#Date").val('');
             $("#CityFrom").val('');
@@ -698,7 +726,7 @@
 
             selectedLRDetails = [];
             addedIds = [];
-            $("#hdnSelectedLRNumberIds").val();
+            $("#hdnSelectedLRNumberIds").val('');
             $('#contentRow').html('');
 
             $("#activeTabName").text("Add");
@@ -709,9 +737,9 @@
         function saveItem() {
             try {
 
-                if ($("#BillDate").val() == "") {
+                if ($("#ReceiveDate").val() == "") {
                     showWarning("", "Please enter arrival date");
-                    $("#BillDate").focus();
+                    $("#ReceiveDate").focus();
                     return false;
                 }
 
@@ -736,7 +764,7 @@
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.PurchaseBillMasterId = parseInt($("#hdnPurchaseBillMasterId").val());
-                savedata.BillDate = moment(getDate($("#BillDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.ReceiveDate = moment(getDate($("#ReceiveDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
                 savedata.GoDownNumber = getIntValueZero("GoDownNumber");
                 savedata.BillNumberBranch = getIntValueZero("BillNumberBranch");
                 savedata.BillNumberFirm = getIntValueZero("BillNumberFirm");
@@ -747,7 +775,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveChalanBranch", "Customer"))",
+                    url: "@(Url.Action("SaveChalanReceive", "Customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -783,7 +811,7 @@
             }
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteChalanBranch"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteChalanReceive"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -811,7 +839,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanBranch"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanReceive"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -831,7 +859,7 @@
                                 $('#contentRow').html('');
 
                                 $("#Id").val(result.data.id);
-                                $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#ReceiveDate").val(moment(result.data.receiveDate.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#GoDownNumber").val(result.data.goDownNumber).trigger('change');
                                 $("#BillNumberBranch").val(result.data.billNumberBranch);
                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
@@ -903,7 +931,7 @@
                                     var isDuplicate = selectedLRDetails.some(item => item.id === ChalanDetail.id);
 
                                     $("#hdnPurchaseBillMasterId").val(ChalanDetail.id);
-                                    $("#Date").val(moment(ChalanDetail.billDate.split('T')[0]).format('DD/MM/YYYY'));
+                                    $("#Date").val(moment(ChalanDetail.receiveDate.split('T')[0]).format('DD/MM/YYYY'));
                                     $("#CityFrom").val(ChalanDetail.cityFrom);
                                     $("#CityTo").val(ChalanDetail.cityTo);
                                     $("#VehilcleNumber").val(ChalanDetail.vehilcleNumber);
@@ -978,9 +1006,9 @@
             }
         }
 
-        function GetChalanBranchToPayAmount(lrNumberIds, rowId) {
+        function GetChalanReceiveToPayAmount(lrNumberIds, rowId) {
             try {
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanBranchToPayAmount"))" + "/" + lrNumberIds, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanReceiveToPayAmount"))" + "/" + lrNumberIds, "",
                     function (result) {
                         try {
                             if (result.result == RESULT_SUCCESS) {
@@ -1193,7 +1221,7 @@
                     if (parseInt(currentLrNumber) === lrNumber) {
                         var rowId = $(this).closest('.content-rows').attr('id');
                         if (rowId !== null) {
-                            GetChalanBranchToPayAmount(lrNumber, rowId);
+                            GetChalanReceiveToPayAmount(lrNumber, rowId);
                         }
                     }
                 });

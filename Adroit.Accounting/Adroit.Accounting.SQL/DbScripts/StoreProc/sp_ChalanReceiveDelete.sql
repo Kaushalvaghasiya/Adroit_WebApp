@@ -1,4 +1,4 @@
-CREATE OR ALTER procedure [dbo].[sp_ChalanBranchDelete]
+CREATE OR ALTER procedure [dbo].[sp_ChalanReceiveDelete]
 (	
 	@Id INT,
 	@LoginId INT
@@ -13,9 +13,9 @@ BEGIN
 		DeletedById = @LoginId,
 		DeletedOn = GETUTCDATE()
 		FROM [Z-PurchaseBillDetail-Z] ZBD
-		INNER JOIN [Z-PurchaseBillMasterReceive-Z] on [Z-PurchaseBillMasterReceive-Z].PurchaseBillMasterId = ZBD.PurchaseBillMasterId AND [Z-PurchaseBillMasterReceive-Z].Id = @Id;
+		INNER JOIN [Z-ChalanReceive-Z] on [Z-ChalanReceive-Z].PurchaseBillMasterId = ZBD.PurchaseBillMasterId AND [Z-ChalanReceive-Z].Id = @Id;
 
-		UPDATE [Z-PurchaseBillMasterReceive-Z] SET 
+		UPDATE [Z-ChalanReceive-Z] SET 
 		Deleted = 1, 
 		DeletedById = @LoginId,
 		DeletedOn = GETUTCDATE()

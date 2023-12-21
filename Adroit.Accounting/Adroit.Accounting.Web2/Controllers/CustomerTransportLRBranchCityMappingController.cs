@@ -15,7 +15,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult TransportLRBranchCityMapping()
         {
             var model = new TransportLRBranchCityMappingViewModel();
-            model.BranchList = _customerFirmBranchRepository.SelectList(CurrentUserId, true, _configurationData.DefaultConnection);
+            model.BranchList = _customerFirmBranchesRepository.LoginCustomerSelectList(_configurationData.DefaultConnection, CurrentUserId);
             model.OrderNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, TransportLRBranchCityMappingTable._TableName, TransportLRBranchCityMappingTable.OrderNumber);
 
             return View(model);

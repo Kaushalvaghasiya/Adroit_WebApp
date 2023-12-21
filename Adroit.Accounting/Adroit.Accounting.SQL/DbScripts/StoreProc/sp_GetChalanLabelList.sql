@@ -14,6 +14,7 @@ BEGIN
 	,CA3.[Name] AS CrossingCommissionLabel
 	,CA4.[Name] AS CrossingHamaliLabel
 	,CA5.[Name] AS CrossingDeliveryChargeLabel
+	,CFBT.SalesAccountBranchMappingId AS SalesAccountBranchMappingId
 	FROM CustomerFirmBranchTransportSetting CFBT
 	
 	INNER JOIN CustomerAccountBranchMapping CABM1 ON CFBT.ToPayAccountBranchMappingId = CABM1.Id AND CABM1.Deleted = 0

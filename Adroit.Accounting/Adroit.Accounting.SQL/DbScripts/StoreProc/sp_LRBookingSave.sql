@@ -23,7 +23,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_LRBookingSave]
 	,@Freight DECIMAL(18,2)
 	,@InvoiceNo VARCHAR(20)
 	,@VehicleId INT
-	,@InvoiceValue DECIMAL(18,0)
+	,@InvoiceValue DECIMAL(18,2)
 	,@LRDeliveryId INT
 	,@PrivateMarka NVARCHAR(30)
 	,@LRDeliveryTypeId INT
