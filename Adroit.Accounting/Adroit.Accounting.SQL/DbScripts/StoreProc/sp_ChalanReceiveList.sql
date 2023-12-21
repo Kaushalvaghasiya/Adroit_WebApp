@@ -45,10 +45,10 @@ Begin
 		FROM [Z-ChalanReceive-Z]
 		INNER JOIN [Z-PurchaseBillMaster-Z] on [Z-PurchaseBillMaster-Z].Id = [Z-ChalanReceive-Z].PurchaseBillMasterId AND [Z-ChalanReceive-Z].Deleted = 0
 		LEFT JOIN [City] on [City].Id = [Z-PurchaseBillMaster-Z].CityIdTo AND [City].Active = 1
-		WHERE [Z-ChalanReceive-Z].Deleted = 0 
+		WHERE [Z-ChalanReceive-Z].BranchId = @BranchId 
 			AND [Z-ChalanReceive-Z].FirmId = @FirmId
-			AND [Z-ChalanReceive-Z].BranchId = @BranchId
-			AND [Z-ChalanReceive-Z].YearId = @YearId			  
+			AND [Z-ChalanReceive-Z].YearId = @YearId	
+			AND [Z-ChalanReceive-Z].Deleted = 0 
 		AND (Coalesce(@Search,'') = '' OR [Z-ChalanReceive-Z].BillNumberBranch like '%'+ @Search + '%'
 									   OR [Z-ChalanReceive-Z].ReceiveDate like '%'+ @Search + '%'
 									   OR [City].Title like '%'+ @Search + '%')

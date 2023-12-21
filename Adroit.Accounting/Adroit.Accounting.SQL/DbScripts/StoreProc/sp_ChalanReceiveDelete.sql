@@ -8,13 +8,6 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		
-		UPDATE ZBD SET 
-		Deleted = 1, 
-		DeletedById = @LoginId,
-		DeletedOn = GETUTCDATE()
-		FROM [Z-PurchaseBillDetail-Z] ZBD
-		INNER JOIN [Z-ChalanReceive-Z] on [Z-ChalanReceive-Z].PurchaseBillMasterId = ZBD.PurchaseBillMasterId AND [Z-ChalanReceive-Z].Id = @Id;
-
 		UPDATE [Z-ChalanReceive-Z] SET 
 		Deleted = 1, 
 		DeletedById = @LoginId,

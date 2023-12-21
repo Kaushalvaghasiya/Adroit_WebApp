@@ -91,17 +91,18 @@
     <None Remove="DbScripts\StoreProc\sp_BusinessList.sql" />
     <None Remove="DbScripts\StoreProc\sp_BusinessList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_BusinessSave.sql" />
-    <None Remove="DbScripts\StoreProc\sp_ChalanBranchDelete.sql" />
-    <None Remove="DbScripts\StoreProc\sp_ChalanBranchGet.sql" />
-    <None Remove="DbScripts\StoreProc\sp_ChalanBranchList.sql" />
-    <None Remove="DbScripts\StoreProc\sp_ChalanBranchSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanGetLRBookingTableListByPurchaseBillMasterId.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanLRBookingGetGridDetailsByLRNumber.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanReceiveBranchGetChalanList_Select.sql" />
-    <None Remove="DbScripts\StoreProc\sp_ChalanReceiveBranchGetGridDetailsByChalanNumber.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ChalanReceiveDelete.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ChalanReceiveGet.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ChalanReceiveGetGridDetailsByChalanNumber.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ChalanReceiveGetMasterDetailsByChalanNumber.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ChalanReceiveList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ChalanReceiveSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_CityGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_CityList.sql" />
@@ -413,7 +414,9 @@
     <None Remove="DbScripts\Tables\0016 SalesBillMaster.sql" />
     <None Remove="DbScripts\Tables\0017 SalesBillMaster.sql" />
     <None Remove="DbScripts\Tables\0018 PurchaseBillMaster.sql" />
+    <None Remove="DbScripts\Tables\0019 ChalanReceive.sql" />
     <None Remove="DbScripts\Tables\0020 LRBooking.sql" />
+    <None Remove="DbScripts\Tables\0021 PurchaseBillDetail.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -651,43 +654,40 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_BusinessSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanBranchDelete.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanDelete.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanBranchGet.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanGet.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanBranchList.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveBranchGetGridDetailsByChalanNumber.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanBranchSave.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchListByFirmId_Select.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUserGetByEmail.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_InvoiceLRBookingGetGridDetailsByLRNumber.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanLRBookingGetGridDetailsByLRNumber.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanGetLRBookingTableListByPurchaseBillMasterId.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanLRBookingGetGridDetailsByLRNumber.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveBranchGetChalanList_Select.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveDelete.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveGet.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveGetGridDetailsByChalanNumber.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveGetMasterDetailsByChalanNumber.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanSave.sql">
@@ -732,9 +732,6 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerAccounListWithGroup_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerAccountGetByBranchMappingId.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerAccountBranchMappingList_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -742,6 +739,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerAccountGet.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerAccountGetByBranchMappingId.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerAccountGroupByFirmIdList_Select.sql">
@@ -817,6 +817,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchListByFirmId_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchListByLoginId_Select.sql">
@@ -916,6 +919,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUserGet.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUserGetByEmail.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerUserList.sql">
@@ -1068,7 +1074,13 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_GSTUQCSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_InvoiceGetLRBookingList_Select.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_InvoiceGetLRBookingTableListBySalesBillMasterId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_InvoiceLRBookingGetGridDetailsByLRNumber.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_LicenceIssuePlaceList_Select.sql">
@@ -1084,9 +1096,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_LRBookingList.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_InvoiceGetLRBookingList_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_LRBookingRangeDelete.sql">
@@ -1605,16 +1614,22 @@
     <EmbeddedResource Include="DbScripts\Tables\0015 PurchaseBillMaster.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0020 LRBooking.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0018 PurchaseBillMaster.sql">
+    <EmbeddedResource Include="DbScripts\Tables\0016 SalesBillMaster.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\Tables\0017 SalesBillMaster.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\Tables\0016 SalesBillMaster.sql">
+    <EmbeddedResource Include="DbScripts\Tables\0018 PurchaseBillMaster.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\Tables\0019 ChalanReceive.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\Tables\0020 LRBooking.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\Tables\0021 PurchaseBillDetail.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

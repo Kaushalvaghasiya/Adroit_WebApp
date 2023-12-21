@@ -226,17 +226,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <div class="row mb-0">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group text-center mb-1">
-                                                                <label for="Package" class="font-weight-bold text-white"> Package </label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group text-center mb-1">
-                                                                <label for="ChargeWgt" class="font-weight-bold text-white"> Charge Wgt </label>
-                                                            </div>
-                                                        </div>
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Package" class="font-weight-bold text-white"> Package </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="ChargeWgt" class="font-weight-bold text-white"> Charge Wgt </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
@@ -272,11 +268,6 @@
                                                 <div class="col-md-1">
                                                     <div class="form-group text-center mb-1">
                                                         <label for="BillParty" class="font-weight-bold text-white"> Bill Party </label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <div class="form-group text-center mb-1">
-                                                        <label for="Action" class="font-weight-bold text-white">Action</label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -495,23 +486,23 @@
     <!-- row end -->
     <!-- Modal -->
     <div class="modal" tabindex="-1" role="dialog" id="confirmationModal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Confirmation</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Are you sure you want to change the previous entry?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-            <button type="button" class="btn btn-primary" id="btnYes">Yes</button>
-          </div>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to change the previous entry?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary" id="btnYes">Yes</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <!-- Modal -->
     <input type="hidden" id="Id" value="0" />
@@ -543,6 +534,7 @@
                 if ($('#Chalan').val() == null || $('#Chalan').val() == '') {
                     showWarning("", "Please select Chalan.");
                 } else if ($('#hdnSelectedLRNumberIds').val() == '') {
+                    GetChalanMasterListByChalanNumber($('#Chalan').val());
                     GetChalanDetailListByChalanNumber($('#Chalan').val());
                 }
                 else {
@@ -551,6 +543,7 @@
             });
 
             $("#btnYes").on('click', function (e) {
+                GetChalanMasterListByChalanNumber($('#Chalan').val());
                 GetChalanDetailListByChalanNumber($('#Chalan').val());
                 $('#confirmationModal').modal('hide');
             });
@@ -566,7 +559,8 @@
             $("#BillNumberBranch").val(0);
             $("#BillNumberFirm").val(0);
             //Set auto max value
-            var maxvalue = parseInt($('#GoDownNumber option:last-child').val()) + 1;
+            var lastOptionValue = $('#GoDownNumber option:last-child').val();
+            var maxvalue = isNaN(parseInt(lastOptionValue)) ? 1 : parseInt(lastOptionValue) + 1;
             $("#GoDownNumber").append(new Option(maxvalue, maxvalue, true, true)).trigger('change');
         }
 
@@ -692,13 +686,13 @@
             $("#TotalDeclinedPkg").val('');
             $("#TotalDeclinedWgt").val('');
             $("#SelectedToPay").val('');
-            $("#DeclinedToPay").val('');
+            $("#DeclinedToPay").val(0.00);
             $("#SelectedPaid").val('');
-            $("#DeclinedPaid").val('');
+            $("#DeclinedPaid").val(0.00);
             $("#SelectedTBB").val('');
-            $("#DeclinedTBB").val('');
+            $("#DeclinedTBB").val(0.00);
             $("#SelectedTotal").val('');
-            $("#DeclinedTotal").val('');
+            $("#DeclinedTotal").val(0.00);
             $("#ToPayChargedTo").val('');
             $("#Charge1").val('');
             $("#Charge2").val('');
@@ -783,7 +777,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Branch saved successfully.');
+                            showWarning("", 'Chalan Receive saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             addClick();
@@ -855,7 +849,7 @@
 
                                 selectedLRDetails = [];
                                 addedIds = [];
-                                $("#hdnSelectedLRNumberIds").val();
+                                $("#hdnSelectedLRNumberIds").val('');
                                 $('#contentRow').html('');
 
                                 $("#Id").val(result.data.id);
@@ -865,6 +859,7 @@
                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
                                 $("#hdnPurchaseBillMasterId").val(result.data.purchaseBillMasterId);
 
+                                GetChalanMasterListByChalanNumber(result.data.billNumberBranch);
                                 GetChalanDetailListByChalanNumber(result.data.billNumberBranch);
 
                             } else {
@@ -919,6 +914,60 @@
 
         }
 
+        function GetChalanMasterListByChalanNumber(Chalan) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanMasterListByChalanNumber"))" + "/" + Chalan, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#hdnPurchaseBillMasterId").val(result.data.id);
+                                $("#Date").val(moment(result.data.receiveDate.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#CityFrom").val(result.data.cityFrom);
+                                $("#CityTo").val(result.data.cityTo);
+                                $("#VehilcleNumber").val(result.data.vehilcleNumber);
+                                $("#BillParty").val(result.data.billParty);
+                                $("#DriverName").val(result.data.driverName);
+                                $("#EwayBillNumber").val(result.data.ewayBillNumber);
+                                $("#TaxableAmount").val((result.data.taxableAmount || 0).toFixed(2));
+                                $("#TDSAmount").val((result.data.tdsAmount || 0).toFixed(2));
+                                $("#AdvanceCash").val((result.data.advanceCash || 0).toFixed(2));
+                                $("#AdvanceNeft").val((result.data.advanceNeft || 0).toFixed(2));
+                                $("#ReceiveCash").val((result.data.receiveCash || 0).toFixed(2));
+                                $("#OtherPlus").val((result.data.otherPlus || 0).toFixed(2));
+                                $("#OtherLess").val((result.data.otherLess || 0).toFixed(2));
+                                $("#BrokerName").val(result.data.brokerName);
+                                $("#BrokerAmount").val((result.data.brokerAmount || 0).toFixed(2));
+                                $("#Remarks").val(result.data.remarks);
+                                $("#NetAmount").val((result.data.netAmount || 0).toFixed(2));
+                                $("#Charge1").val((result.data.crossingAmount || 0).toFixed(2));
+                                $("#Charge2").val((result.data.crossingCommission || 0).toFixed(2));
+                                $("#Charge3").val((result.data.crossingHamali || 0).toFixed(2));
+                                $("#Charge4").val((result.data.crossingDeliveryCharge || 0).toFixed(2));
+                                $("#ToPayChargedTo").val(result.data.toPayAccount);
+                                $("#Charge1ChargedTo").val(result.data.crossingAmountAccount);
+                                $("#Charge2ChargedTo").val(result.data.crossingCommissionAccount);
+                                $("#Charge3ChargedTo").val(result.data.crossingHamaliAccount);
+                                $("#Charge4ChargedTo").val(result.data.crossingDeliveryChargeAccount);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
         function GetChalanDetailListByChalanNumber(Chalan) {
             try {
                 blockUI('container');
@@ -927,37 +976,23 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
+
+                                selectedLRDetails = [];
+                                addedIds = [];
+                                $("#hdnSelectedLRNumberIds").val('');
+                                $('#contentRow').html('');
+
+                                $("#SelectedToPay").val(0.00);
+                                $("#SelectedPaid").val(0.00);
+                                $("#SelectedTBB").val(0.00);
+                                $("#SelectedTotal").val(0.00);
+                                $("#DeclinedToPay").val(0.00);
+                                $("#DeclinedPaid").val(0.00);
+                                $("#DeclinedTBB").val(0.00);
+                                $("#DeclinedTotal").val(0.00);
+
                                 result.data.forEach(function (ChalanDetail) {
                                     var isDuplicate = selectedLRDetails.some(item => item.id === ChalanDetail.id);
-
-                                    $("#hdnPurchaseBillMasterId").val(ChalanDetail.id);
-                                    $("#Date").val(moment(ChalanDetail.receiveDate.split('T')[0]).format('DD/MM/YYYY'));
-                                    $("#CityFrom").val(ChalanDetail.cityFrom);
-                                    $("#CityTo").val(ChalanDetail.cityTo);
-                                    $("#VehilcleNumber").val(ChalanDetail.vehilcleNumber);
-                                    $("#BillParty").val(ChalanDetail.billParty);
-                                    $("#DriverName").val(ChalanDetail.driverName);
-                                    $("#EwayBillNumber").val(ChalanDetail.ewayBillNumber);
-                                    $("#TaxableAmount").val((ChalanDetail.taxableAmount || 0).toFixed(2));
-                                    $("#TDSAmount").val((ChalanDetail.tdsAmount || 0).toFixed(2));
-                                    $("#AdvanceCash").val((ChalanDetail.advanceCash || 0).toFixed(2));
-                                    $("#AdvanceNeft").val((ChalanDetail.advanceNeft || 0).toFixed(2));
-                                    $("#ReceiveCash").val((ChalanDetail.receiveCash || 0).toFixed(2));
-                                    $("#OtherPlus").val((ChalanDetail.otherPlus || 0).toFixed(2));
-                                    $("#OtherLess").val((ChalanDetail.otherLess || 0).toFixed(2));
-                                    $("#BrokerName").val(ChalanDetail.brokerName);
-                                    $("#BrokerAmount").val((ChalanDetail.brokerAmount || 0).toFixed(2));
-                                    $("#Remarks").val(ChalanDetail.remarks);
-                                    $("#NetAmount").val((ChalanDetail.netAmount || 0).toFixed(2));
-                                    $("#Charge1").val((ChalanDetail.crossingAmount || 0).toFixed(2));
-                                    $("#Charge2").val((ChalanDetail.crossingCommission || 0).toFixed(2));
-                                    $("#Charge3").val((ChalanDetail.crossingHamali || 0).toFixed(2));
-                                    $("#Charge4").val((ChalanDetail.crossingDeliveryCharge || 0).toFixed(2));
-                                    $("#ToPayChargedTo").val(ChalanDetail.toPayAccount);
-                                    $("#Charge1ChargedTo").val(ChalanDetail.crossingAmountAccount);
-                                    $("#Charge2ChargedTo").val(ChalanDetail.crossingCommissionAccount);
-                                    $("#Charge3ChargedTo").val(ChalanDetail.crossingHamaliAccount);
-                                    $("#Charge4ChargedTo").val(ChalanDetail.crossingDeliveryChargeAccount);
 
                                     if (!isDuplicate) {
                                         selectedLRDetails.push({
@@ -1020,7 +1055,7 @@
                                     $("#SelectedPaid").val((parseFloat($("#SelectedPaid").val() || 0) + parseFloat(result.data.paidValue || 0)).toFixed(2));
                                     $("#SelectedTBB").val((parseFloat($("#SelectedTBB").val() || 0) + parseFloat(result.data.tbbValue || 0)).toFixed(2));
 
-                                    var totalValue = parseFloat($("#SelectedToPayAmount").val() || 0) +
+                                    var totalValue = parseFloat($("#SelectedToPay").val() || 0) +
                                         parseFloat($("#SelectedPaid").val() || 0) +
                                         parseFloat($("#SelectedTBB").val() || 0);
 
@@ -1071,7 +1106,7 @@
                     '</div>' +
                     '<div class="col-md-6">' +
                     '<div class="form-group text-center mb-1">' +
-                    '<label for="id">' + selectedLRDetails[i].id + '</label>' +
+                    '<label for="id">' + (i + 1) + '</label>' +
                     '</div>' +
                     '</div>' +
                     '</div>' +
@@ -1095,18 +1130,15 @@
                     '<label for="privateMarka">' + (selectedLRDetails[i].privateMarka || '') + '</label>' +
                     '</div>' +
                     '</div>' +
+
                     '<div class="col-md-1">' +
-                    '<div class="row mb-0">' +
-                    '<div class="col-md-6">' +
                     '<div class="form-group text-center mb-1">' +
                     '<label for="parcel">' + (selectedLRDetails[i].packing || '') + '</label>' +
                     '</div>' +
                     '</div>' +
-                    '<div class="col-md-6">' +
+                    '<div class="col-md-1">' +
                     '<div class="form-group text-center mb-1">' +
                     '<label for="chargeWeight">' + (selectedLRDetails[i].chargeWeight || '') + '</label>' +
-                    '</div>' +
-                    '</div>' +
                     '</div>' +
                     '</div>' +
                     '<div class="col-md-1">' +
@@ -1144,11 +1176,6 @@
                     '<label for="billPartyName">' + (selectedLRDetails[i].billPartyName || '') + '</label>' +
                     '</div>' +
                     '</div>' +
-                    '<div class="col-md-1">' +
-                    '<div class="form-group text-center mb-1">' +
-                    '<a href="javascript:deleteRow(' + selectedLRDetails[i].id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
-                    '</div>' +
-                    '</div>' +
                     '</div>';
 
                 htmlContentArray.push(htmlContent);
@@ -1167,17 +1194,22 @@
 
             $('[id^="checkbox-"]').on('change', function () {
                 updateSelectedValues();
+
+                $("#SelectedToPay").val(0.00);
+                $("#SelectedPaid").val(0.00);
+                $("#SelectedTBB").val(0.00);
+                $("#SelectedTotal").val(0.00);
+                $("#DeclinedToPay").val(0.00);
+                $("#DeclinedPaid").val(0.00);
+                $("#DeclinedTBB").val(0.00);
+                $("#DeclinedTotal").val(0.00);
+
                 updateSelectedIdsInput();
             });
 
             var counter = 0;
             $('.content-row-srno').each(function () {
                 $(this).val(++counter);
-            });
-
-            $('.delete-row-btn').on('click', function () {
-                var index = $(this).data('index');
-                deleteRow(index);
             });
 
             updateSelectedValues();
@@ -1191,23 +1223,6 @@
             }
         }
 
-        function deleteRow(deletedId) {
-
-            var index = selectedLRDetails.findIndex(item => item.lrNumber === deletedId);
-
-            if (index !== -1) {
-                $('#row-' + index).remove();
-                addedIds = addedIds.filter(lrNumber => lrNumber !== deletedId);
-                selectedLRDetails.splice(index, 1);
-                updateSelectedIdsInput();
-
-                $('.content-rows').each(function (newIndex) {
-                    $(this).attr('id', 'row-' + newIndex);
-                });
-            }
-
-        }
-
         function updateSelectedIdsInput() {
             var uniqueIds = [...new Set(selectedLRDetails.map(item => item.lrNumber))];
             updateHiddenInput(uniqueIds);
@@ -1217,7 +1232,7 @@
                 $('[id^="checkbox-"]').each(function () {
                     var checkboxId = $(this).attr('id');
                     var currentLrNumber = checkboxId.split('-')[1];
-                    
+
                     if (parseInt(currentLrNumber) === lrNumber) {
                         var rowId = $(this).closest('.content-rows').attr('id');
                         if (rowId !== null) {
@@ -1225,7 +1240,7 @@
                         }
                     }
                 });
-               
+
             });
         }
 
@@ -1236,7 +1251,6 @@
 
         function updateSelectedValues() {
             var selectedCheckboxIds = [];
-            var ToPayAmount = 0;
             var TotalSelectedLR = 0;
             var TotalSelectedPkg = 0;
             var TotalSelectedWgt = 0;
@@ -1253,7 +1267,6 @@
                     TotalSelectedLR += 1;
                     var selectedDetail = selectedLRDetails.find(item => item.lrNumber === selectedId);
                     if (selectedDetail) {
-                        ToPayAmount += (selectedDetail.toPayAmount || 0);
                         TotalSelectedPkg += (+selectedDetail.packing || 0);
                         TotalSelectedWgt += (+selectedDetail.chargeWeight || 0);
                     }
@@ -1273,15 +1286,6 @@
             $("#TotalDeclinedLR").val(TotalDeclinedLR);
             $("#TotalDeclinedPkg").val(TotalDeclinedPkg);
             $("#TotalDeclinedWgt").val(TotalDeclinedWgt);
-
-            $("#SelectedToPay").val(ToPayAmount.toFixed(2));
-            $("#DeclinedToPay").val(ToPayAmount.toFixed(2));
-            $("#SelectedPaid").val(ToPayAmount.toFixed(2));
-            $("#DeclinedPaid").val(ToPayAmount.toFixed(2));
-            $("#SelectedTBB").val(ToPayAmount.toFixed(2));
-            $("#DeclinedTBB").val(ToPayAmount.toFixed(2));
-            $("#SelectedTotal").val(ToPayAmount.toFixed(2));
-            $("#DeclinedTotal").val(ToPayAmount.toFixed(2));
 
         }
 

@@ -99,7 +99,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        public JsonResult DeleteChalanBranch(int id)
+        public JsonResult DeleteChalanReceive(int id)
         {
             ApiResult result = new ApiResult();
             try
@@ -121,7 +121,24 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _chalanRepository.GetChalanNumberListBySenderId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, senderId);
+                result.data = _chalanRepository.GetChalanNumberListBySenderId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId, senderId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Customer/GetChalanMasterListByChalanNumber/{ChalanNumber}")]
+        public JsonResult GetChalanMasterListByChalanNumber(int ChalanNumber)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _chalanReceiveRepository.GetChalanMasterListByChalanNumber(_configurationData.DefaultConnection, ChalanNumber, CurrentUserId, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

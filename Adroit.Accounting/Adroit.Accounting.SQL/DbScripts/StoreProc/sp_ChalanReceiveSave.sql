@@ -79,19 +79,19 @@ BEGIN
 			,YearId = @YearId 
 			WHERE Id = @Id
 
-			UPDATE  [Z-PurchaseBillDetail-Z] SET
-					DeletedById = @LoginId,
-					DeletedOn = GETUTCDATE(),
-					Deleted = 1
-			WHERE PurchaseBillMasterId = @PurchaseBillMasterId AND [Id] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
-
-			UPDATE  [Z-PurchaseBillDetail-Z] SET
-					DeletedById = NULL,
-					DeletedOn = NULL,
-					Deleted = 0
-			WHERE PurchaseBillMasterId = @PurchaseBillMasterId AND [Id] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
-
 		END
+
+		UPDATE  [Z-PurchaseBillDetail-Z] SET
+				 Received = 0
+				,ModifiedById = @LoginId 
+				,ModifiedOn = GETUTCDATE() 
+		WHERE PurchaseBillMasterId = @PurchaseBillMasterId AND [LRBookingId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
+
+		UPDATE  [Z-PurchaseBillDetail-Z] SET
+				 Received = 1
+				,ModifiedById = @LoginId 
+				,ModifiedOn = GETUTCDATE() 
+		WHERE PurchaseBillMasterId = @PurchaseBillMasterId AND [LRBookingId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
 
 		COMMIT TRAN
 		SELECT @Id
