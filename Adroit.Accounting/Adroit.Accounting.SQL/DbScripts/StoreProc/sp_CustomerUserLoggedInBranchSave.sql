@@ -8,17 +8,15 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 
-		DECLARE @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
-
-		IF EXISTS (SELECT 1 FROM CustomerUser WHERE Id = @CustomerId)
+		IF EXISTS (SELECT 1 FROM CustomerUser WHERE Id = @LoginId)
 		BEGIN
 			UPDATE  CustomerUser SET
 					LoggedInBranchId = @BranchId
-			WHERE Id = @CustomerId
+			WHERE Id = @LoginId
 		END
 
 		COMMIT TRAN
-		SELECT @CustomerId
+		SELECT @LoginId
 	END TRY
 	BEGIN CATCH
 		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;

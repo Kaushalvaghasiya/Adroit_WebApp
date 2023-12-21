@@ -18,24 +18,24 @@ namespace Adroit.Accounting.Web.Controllers
             var model = new LRBookingViewModel();
 
             model.EwayBillList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, LRBookingTable._TableName, LRBookingTable.EwayBillNo);
-            var CustomerFirmTransportSetting = _customerFirmTransportSettingRepository.Get(CurrentFirmId, _configurationData.DefaultConnection);
-            if (CustomerFirmTransportSetting == null)
+            var customerFirmTransportSetting = _customerFirmTransportSettingRepository.Get(CurrentFirmId, _configurationData.DefaultConnection);
+            if (customerFirmTransportSetting == null)
             {
                 return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Firm" });
             }
             else
             {
-                model.CustomerFirmTransportSetting = CustomerFirmTransportSetting;
+                model.CustomerFirmTransportSetting = customerFirmTransportSetting;
             }
 
-            var CustomerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.Get(CurrentBranchId, _configurationData.DefaultConnection);
-            if (CustomerFirmBranchTransportSetting == null)
+            var customerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.Get(CurrentBranchId, _configurationData.DefaultConnection);
+            if (customerFirmBranchTransportSetting == null)
             {
                 return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch." });
             }
             else
             {
-                model.CustomerFirmBranchTransportSetting = CustomerFirmBranchTransportSetting;
+                model.CustomerFirmBranchTransportSetting = customerFirmBranchTransportSetting;
             }
 
             model.CityList = _transportLRBranchCityMappingRepository.SelectList(_configurationData.DefaultConnection, CurrentBranchId);

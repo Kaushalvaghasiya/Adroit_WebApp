@@ -4,7 +4,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_GetLRBookingListByDate]
   @BranchId INT,
   @FromDate NVARCHAR(20),
   @ToDate NVARCHAR(20),
-  @PayTypeId NVARCHAR(20)
+  @PayTypeId NVARCHAR(20),
+  @AccountBranchMappingId NVARCHAR(20)
 AS
 BEGIN
 	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
@@ -60,9 +61,13 @@ BEGIN
 		WHERE [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT [Z-SalesBillDetail-Z].LRBookingId FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 ) 
 		AND [Z-LRBooking-Z].[BranchId] = @BranchId
 		AND [Z-LRBooking-Z].YearId = @YearId
+		AND [Z-LRBooking-Z].BillAccountBranchMappingId = @AccountBranchMappingId
 		AND CAST([Z-LRBooking-Z].LRDate AS DATE) BETWEEN @FromDate AND @ToDate
-		AND (@PayTypeId = '2' OR [Z-LRBooking-Z].LRPayTypeId = @PayTypeId)
-		AND [CustomerAccountBranchMapping].Deleted = 0
+		AND (
+		        (@PayTypeId = '1' AND [Z-LRBooking-Z].LRPayTypeId IN ('2', '3'))
+		        OR
+		        (@PayTypeId <> '1' AND [Z-LRBooking-Z].LRPayTypeId = @PayTypeId)
+		    )		AND [CustomerAccountBranchMapping].Deleted = 0
 		AND [CustomerAccount].Deleted = 0 AND [CustomerAccount].Active = 1 
 		AND [Z-LRBooking-Z].Deleted = 0
 

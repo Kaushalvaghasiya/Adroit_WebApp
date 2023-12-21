@@ -1884,6 +1884,39 @@
             $(".go-search").on("click", function () {
                 goSearch($('#GoSearchQuery').val());
             });
+
+            // $(".decimalonly").blur(function () {
+            //     var fixedNo = (isNaN(parseInt($(this).attr("data-tofixed"))) ? 0 : parseInt($(this).attr("data-tofixed")));
+            //     var value = (isNaN(parseFloat($(this).val())) ? 0.00 : parseFloat($(this).val()).toFixed(fixedNo));
+            //     $(this).val(value);
+            // });
+            $(".decimalonly").on("input", function (evt) {
+                var self = $(this);
+                self.val(self.val().replace(/[^0-9.]/g, ''));
+                if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+                    evt.preventDefault();
+                }
+            });
+
+            $(".decimalonly").blur(function () {
+                // Get the desired number of decimal places from the data-tofixed attribute
+                var fixedNo = isNaN(parseInt($(this).attr("data-tofixed"))) ? 0 : parseInt($(this).attr("data-tofixed"));
+
+                // Get the current value and remove any leading zeros before the decimal point
+                var currentValue = $(this).val().replace(/^0+(?=\d)/, '');
+
+                // If the input is empty or starts with a ".", add a "0" before it
+                if (currentValue === '' || currentValue === '.') {
+                    currentValue = '0' + currentValue;
+                }
+
+                // Validate and format the input value
+                var value = isNaN(parseFloat(currentValue)) ? '0.00' : parseFloat(currentValue).toFixed(fixedNo);
+
+                // Update the input value
+                $(this).val(value);
+            });
+
         });
 
         function logout() {
@@ -1922,6 +1955,7 @@
         }
 
         $(".demo-accordion").accordionjs();
+
     </script>
 
     <script>
@@ -1975,18 +2009,18 @@
             try {
                 blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetUserBranches"))", "",
-                function (data) {
-                    unblockUI('container');
-                    if (data.result == RESULT_SUCCESS) {
-                        loginOrignalFirmBranchList = data.data;
-                        filterFirmBranchList("");
-                    } else {
-                        showError("", data.data);
-                    }
-                },
-                function (error) {
-                    showError("", error.statusText);
-                });
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            loginOrignalFirmBranchList = data.data;
+                            filterFirmBranchList("");
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
             } catch (err) {
                 showError("", e.message);
             }
@@ -2017,29 +2051,12 @@
         function selectBranch(branchId) {
             $("#hdnLoggedInFirmBranchId").val(branchId);
             var retrundata = AjaxCall("POST", "@(Url.Action("UpdateUserLoggedInBranch", "Customer"))" + "/" + branchId, "",
-            function (data) {
-                unblockUI('container');
-                if (data.result == RESULT_SUCCESS) {
-                    $('#LoginFirmModal').modal('hide');
-                    $('#LoginYearModal').modal('show');
-                    bindFinanceYear(branchId);
-                } else {
-                    showError("", data.data);
-                }
-            },
-            function (error) {
-                showError("", error.statusText);
-            });
-        }
-
-        function bindFinanceYear(branchId) {
-            try {
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetFinanceYearId"))" + "/" + branchId, "",
                 function (data) {
                     unblockUI('container');
                     if (data.result == RESULT_SUCCESS) {
-                        loginOrignalYearList = data.data;
-                        filterYearList("");
+                        $('#LoginFirmModal').modal('hide');
+                        $('#LoginYearModal').modal('show');
+                        bindFinanceYear(branchId);
                     } else {
                         showError("", data.data);
                     }
@@ -2047,6 +2064,23 @@
                 function (error) {
                     showError("", error.statusText);
                 });
+        }
+
+        function bindFinanceYear(branchId) {
+            try {
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetFinanceYearId"))" + "/" + branchId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            loginOrignalYearList = data.data;
+                            filterYearList("");
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
             } catch (err) {
                 showError("", e.message);
             }
@@ -2067,7 +2101,7 @@
                     linkList.append(listItem);
                 }
             } else {
-                var listItem = $("<a href='#' class='list-group-item'>No branch found</a>");
+                var listItem = $("<a href='#' class='list-group-item'>No year found</a>");
                 linkList.append(listItem);
             }
 
@@ -2079,18 +2113,18 @@
 
             try {
                 var retrundata = AjaxCall("POST", "@(Url.Action("UpdateUserLoggedInYear", "Customer"))" + "/" + year, "",
-                function (data) {
-                    unblockUI('container');
-                    if (data.result == RESULT_SUCCESS) {
-                        $('#LoginYearModal').modal('hide');
-                        window.location.replace("@(Url.Action("Index", "Home"))");
-                    } else {
-                        showError("", data.data);
-                    }
-                },
-                function (error) {
-                    showError("", error.statusText);
-                });
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            $('#LoginYearModal').modal('hide');
+                            window.location.replace("@(Url.Action("Index", "Home"))");
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
             } catch (err) {
                 showError("", e.message);
             }
