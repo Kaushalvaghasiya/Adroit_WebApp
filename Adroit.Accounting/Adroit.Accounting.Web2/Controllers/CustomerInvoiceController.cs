@@ -119,8 +119,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetLRBookingListByDate/{fromDate}/{toDate}/{PayTypeId}")]
-        public JsonResult GetLRBookingListByDate(string fromDate, string toDate, string PayTypeId, int draw = 0, int start = 0, int length = 10)
+        [Route("~/Customer/GetLRBookingListByDate/{fromDate}/{toDate}/{PayTypeId}/{AccountBranchMappingId}")]
+        public JsonResult GetLRBookingListByDate(string fromDate, string toDate, string PayTypeId, string AccountBranchMappingId, int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<LRBookingGridViewModel>();
             try
@@ -130,7 +130,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _lrBookingRepository.GetLRBookingListByDate(_configurationData.DefaultConnection, fromDate, toDate, PayTypeId, CurrentBranchId, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _lrBookingRepository.GetLRBookingListByDate(_configurationData.DefaultConnection, fromDate, toDate, PayTypeId, AccountBranchMappingId, CurrentBranchId, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -140,23 +140,6 @@ namespace Adroit.Accounting.Web.Controllers
                 result.data = new List<LRBookingGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
-            }
-            return Json(result);
-        }
-
-        [Route("~/Customer/GetLRNumberListByLRPayTypeId/{lrPayTypeId}")]
-        public JsonResult GetLRNumberListByLRPayTypeId(int lrPayTypeId)
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                result.data = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId, lrPayTypeId);
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
             }
             return Json(result);
         }
