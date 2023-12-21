@@ -16,14 +16,14 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Chalan()
         {
             var model = new PurchaseBillMasterViewModel();
-            var CustomerFirmBranchTransportSetting = _chalanRepository.GetChalanLabelList(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
-            if (CustomerFirmBranchTransportSetting == null)
+            var customerFirmBranchTransportSetting = _chalanRepository.GetChalanLabelList(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
+            if (customerFirmBranchTransportSetting == null)
             {
                 return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch" });
             }
             else
             {
-                model.CustomerFirmBranchTransportSetting = CustomerFirmBranchTransportSetting;
+                model.CustomerFirmBranchTransportSetting = customerFirmBranchTransportSetting;
             }
 
             model.EwayBillList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillMasterTable._TableName, PurchaseBillMasterTable.EwayBillNumber);
@@ -198,13 +198,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetTDSPercentByCustomerAccountBranchMappingId/{CustomerAccountBranchMappingId}")]
-        public JsonResult GetTDSPercentByCustomerAccountBranchMappingId(int CustomerAccountBranchMappingId)
+        [Route("~/Customer/GetTDSPercentByCustomerAccountBranchMappingId/{customerAccountBranchMappingId}")]
+        public JsonResult GetTDSPercentByCustomerAccountBranchMappingId(int customerAccountBranchMappingId)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerAccountRepo.GetListByCustomerAccountBranchMappingId(_configurationData.DefaultConnection, CustomerAccountBranchMappingId, CurrentBranchId);
+                result.data = _customerAccountRepo.GetListByCustomerAccountBranchMappingId(_configurationData.DefaultConnection, customerAccountBranchMappingId, CurrentBranchId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
