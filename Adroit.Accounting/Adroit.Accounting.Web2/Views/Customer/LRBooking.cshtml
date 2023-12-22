@@ -1,6 +1,7 @@
 ﻿@model Adroit.Accounting.Model.ViewModel.LRBookingViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var lastLrToCityCookieName = ViewBag.LastLrToCityCookieName;
 }
 
 <div class="dv-list side-app">
@@ -108,7 +109,10 @@
                                                 {
                                                     foreach (var o in Model.CityList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                        if (@o.Value != ViewBag.CurrentUserCity.ToString())
+                                                        {
+                                                            <option value="@o.Value">@o.Text</option>
+                                                        }
                                                     }
                                                 }
                                             }
@@ -299,7 +303,7 @@
                         <div class="col-md-1">
                             <div class="form-group text-center">
                                 <label for="Freight" class="form-label" tabindex="16">Freight</label>
-                                <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="Freight" placeholder="">
+                                <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="Freight" placeholder="" disabled>
                             </div>
                         </div>
                     </div>
@@ -426,13 +430,23 @@
                                             </div>
                                         </div>
                                         <div class="row mb-1">
-                                            <label for="Ch" class="col-md-2 form-label">Ch#</label>
+                                            <label for="Ch" class="col-md-2 form-label">Branch Ch#</label>
                                             <div class="col-md-4">
                                                 <input type="text" class="form-control" id="Ch" placeholder="" readonly tabindex="-1">
                                             </div>
-                                            <label for="Truck" class="col-md-2 form-label">Truck#</label>
+                                            <label for="Truck" class="col-md-2 form-label">Vehicle#</label>
                                             <div class="col-md-4">
                                                 <input type="text" class="form-control" id="Truck" placeholder="" readonly tabindex="-1">
+                                            </div>
+                                        </div>
+                                        <div class="row mb-1">
+                                            <label for="Ch" class="col-md-2 form-label">Invoice#</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" id="InvoiceNo" placeholder="" readonly tabindex="-1">
+                                            </div>
+                                            <label for="Truck" class="col-md-2 form-label">Invoice Date</label>
+                                            <div class="col-md-4">
+                                                <input type="text" class="form-control" id="InvoiceDate" placeholder="" readonly tabindex="-1">
                                             </div>
                                         </div>
                                     </div>
@@ -695,6 +709,8 @@
             });
 
             addClick();
+            var cookieValue = getCookie('@Html.Raw(lastLrToCityCookieName)');
+            $("#CityIdTo").val(cookieValue).trigger('change');
         });
 
         function BindBillParty(isForceFullyChangeBillParty = false) {
@@ -728,6 +744,8 @@
             $("#LRNumber").val(0);
             $("#LRRateOnId").val(@Model.CustomerFirmBranchTransportSetting.LRRateOnId).trigger('change');
             $("#LRPayTypeId").val(@Model.CustomerFirmBranchTransportSetting.LRPayTypeId).trigger('change');
+            var cookieValue = getCookie('@Html.Raw(lastLrToCityCookieName)');
+            $("#CityIdTo").val(cookieValue).trigger('change');
         }
 
         function viewMode(id) {
@@ -814,10 +832,11 @@
             colDef.push({
                 "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
-                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    if (row.isLRBookingPurchased === false)
+                        btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
 
-                    if (row.deleted === false)
+                    if (row.deleted === false && row.isLRBookingPurchased === false)
                         btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
                     btnAct += "</div>";
                     return btnAct;
@@ -904,7 +923,6 @@
             $("#Ch").val('');
             $("#Truck").val('');
             $("#LRNumber").val(0);
-            $("#CityIdTo").val(null).trigger('change');
             $("#EwayBillNo").val(null).trigger('change');
             $("#AccountBranchMappingId").val(null).trigger('change');
             $("#DeliveryAccountBranchMappingId").val(null).trigger('change');
@@ -1108,6 +1126,7 @@
                     success: function (data) {
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
+                            setCookie('@Html.Raw(lastLrToCityCookieName)', getIntValueZero("CityIdTo"));
                             fromReset();
                             showWarning("", 'LR Book saved successfully.');
                             $("#Id").val(0);
@@ -1211,6 +1230,9 @@
                                 $("#InvoiceValue").val(result.data.invoiceValue ? result.data.invoiceValue.toFixed(2) : '');
                                 $("#PrivateMarka").val(result.data.privateMarka);
                                 $("#Remarks").val(result.data.remarks);
+                                $("#Ch").val(result.data.branchChalanNo);
+                                $("#Truck").val(result.data.vehilcleNo);
+                                $("#TruckLoadDate").val(result.data.chalanDate !== '' ? moment(result.data.chalanDate.split('T')[0]).format('DD/MM/YYYY') : '');
 
                                 if (result.data.lrBookingMinDate != '' && result.data.lrBookingMinDate != null) {
                                     var minDateStr = result.data.lrBookingMinDate;
@@ -1254,7 +1276,7 @@
                                 $('#Rate').val(data.data.rate);
                                 $('#Rate').attr('disabled', data.data.isRateDisable == 1 ? true : false);
                                 CalcFreight($("#hdnLRRateOn").val());
-                            } else $('#Rate').attr('disabled',  false);
+                            } else $('#Rate').attr('disabled', false);
                         } else {
                             showError("", data.data);
                         }
@@ -1281,7 +1303,7 @@
                 $("#Freight").val((rate * chargeWeight).toFixed(2));
             }
             else {
-                $("#Freight").val(0.00);
+                $("#Freight").val(rate);
             }
 
         }

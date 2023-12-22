@@ -28,6 +28,9 @@ namespace Adroit.Accounting.Model.ViewModel
         public decimal? ChargeAmount { get; set; }
         public string? BillPartyName { get; set; }
         public string? VehilcleNo { get; set; }
+        public string? BranchChalanNo { get; set; }
+        public string? ChalanDate { get; set; }
+        public bool? IsLRBookingPurchased { get; set; }
         public short? CreditDays { get; set; }
         public string LRBookingMaxDate { get; set; }
         public string LRBookingMinDate { get; set; }
