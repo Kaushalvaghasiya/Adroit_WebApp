@@ -114,7 +114,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@branchId", branchId);
             return QueryHelper.Get<string> ("sp_GetLRBookingMaxDate", connectionString, parameters);
         }
-        public List<LRBookingGridViewModel> GetLRBookingListByDate(string connectionString, string fromDate, string toDate, string PayTypeId, int branchId, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<LRBookingGridViewModel> GetLRBookingListByDate(string connectionString, string fromDate, string toDate, string PayTypeId, string AccountBranchMappingId, int branchId, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
@@ -123,15 +123,15 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@FromDate", fromDate);
             parameters.Add("@ToDate", toDate);
             parameters.Add("@PayTypeId", PayTypeId);
+            parameters.Add("@AccountBranchMappingId", AccountBranchMappingId);
             return QueryHelper.GetList<LRBookingGridViewModel>("sp_GetLRBookingListByDate", connectionString, parameters);
         }
-        public List<DropdownViewModel> GetLRNumberListByLRPayTypeId(string connectionString, int loginId, int firmId, int branchId, int lrPayTypeId = 1)
+        public List<DropdownViewModel> GetLRNumberListByLRPayTypeId(string connectionString, int loginId, int firmId, int branchId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", branchId);
-            parameters.Add("@LRPayTypeId", lrPayTypeId);
             return QueryHelper.GetList<DropdownViewModel>("sp_InvoiceGetLRBookingList_Select", connectionString, parameters);
         }
         public List<LRBookingGridViewModel> GetListBySalesBillMasterId(string connectionString, int salesBillMasterId, int loginId, int branchId, int firmId)

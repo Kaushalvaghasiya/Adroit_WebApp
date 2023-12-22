@@ -170,7 +170,10 @@
                                                 {
                                                     foreach (var o in Model.CustomerFirmBranchList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                        if (o.Value != ViewBag.CurrentBranchId.ToString())
+                                                        {
+                                                            <option value="@o.Value">@o.Text</option>
+                                                        }
                                                     }
                                                 }
                                             }
@@ -220,7 +223,7 @@
                                                 }
                                             }
                                         </select>
-                                    </div>                                    
+                                    </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="LRNumber" class="col-md-1 form-label">LR#</label>
@@ -379,7 +382,7 @@
                                 <div class="row mb-1">
                                     <label for="ToPayAmount" class="col-md-3 form-label">To Pay @Model.CustomerFirmBranchTransportSetting.ToPayAccountLabel</label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control text-right" id="ToPayAmount" placeholder="" readonly tabindex="-1">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="ToPayAmount" placeholder="" readonly tabindex="-1">
                                     </div>
                                     <label for="ToPayAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
                                     <div class="col-md-4">
@@ -400,25 +403,25 @@
                                 <div class="row mb-1">
                                     <label for="Paid" class="col-md-3 form-label">Paid</label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control text-right" id="Paid" placeholder="" readonly tabindex="-1">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="Paid" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="TBB" class="col-md-3 form-label">TBB</label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control text-right" id="TBB" placeholder="" readonly tabindex="-1">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TBB" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="Total" class="col-md-3 form-label">Total</label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control text-right" id="Total" placeholder="" readonly tabindex="-1">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="Total" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="CrossingAmount" class="col-md-3 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingAmountLabel</label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control text-right" id="CrossingAmount" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="CrossingAmount" placeholder="">
                                     </div>
                                     <label for="CrossingAmountAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
                                     <div class="col-md-4">
@@ -439,7 +442,7 @@
                                 <div class="row mb-1">
                                     <label for="CrossingCommission" class="col-md-3 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingCommissionLabel</label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control text-right" id="CrossingCommission" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="CrossingCommission" placeholder="">
                                     </div>
                                     <label for="CrossingCommissionAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
                                     <div class="col-md-4">
@@ -460,7 +463,7 @@
                                 <div class="row mb-1">
                                     <label for="CrossingHamali" class="col-md-3 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingHamaliLabel</label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control text-right" id="CrossingHamali" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="CrossingHamali" placeholder="">
                                     </div>
                                     <label for="CrossingHamaliAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
                                     <div class="col-md-4">
@@ -481,7 +484,7 @@
                                 <div class="row mb-1">
                                     <label for="CrossingDeliveryCharge" class="col-md-3 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingDeliveryChargeLabel</label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control text-right" id="CrossingDeliveryCharge" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="CrossingDeliveryCharge" placeholder="">
                                     </div>
                                     <label for="CrossingDeliveryAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
                                     <div class="col-md-4">
@@ -502,7 +505,7 @@
                                 <div class="row mb-1">
                                     <label for="BrokerAmount" class="col-md-3 form-label">Brokerage</label>
                                     <div class="col-md-3">
-                                        <input type="text" class="form-control text-right" id="BrokerAmount" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="BrokerAmount" placeholder="">
                                     </div>
                                     <label for="BrokerBranchMappingId" class="col-md-2 form-label mb-1">Broker</label>
                                     <div class="col-md-4">
@@ -525,51 +528,54 @@
                         <div class="col-md-4">
                             <div class="form-horizontal">
                                 <div class="row mb-1">
-                                    <label for="TaxableAmount" class="col-md-6 form-label">Lorry Hire/ Freight</label>
+                                    <label for="TaxableAmount" class="col-md-6 form-label text-right">Lorry Hire/ Freight</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right" id="TaxableAmount" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TaxableAmount" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="TDSAmount" class="col-md-6 form-label">Less TDS</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control text-right" id="TDSAmount" placeholder="">
+                                    <label for="TDSPercent" class="col-md-6 form-label text-right">Less TDS</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="3" id="TDSPercent" placeholder="%">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TDSAmount" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="AdvanceCash" class="col-md-6 form-label">Cash To Lorry Trip</label>
+                                    <label for="AdvanceCash" class="col-md-6 form-label text-right">Cash To Lorry Trip</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right" id="AdvanceCash" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="AdvanceCash" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="AdvanceNeft" class="col-md-6 form-label">Bank Transfer To Lorry Trip</label>
+                                    <label for="AdvanceNeft" class="col-md-6 form-label text-right">Bank Transfer To Lorry Trip</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right" id="AdvanceNeft" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="AdvanceNeft" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="ReceiveCash" class="col-md-6 form-label">Received Cash By Driver</label>
+                                    <label for="ReceiveCash" class="col-md-6 form-label text-right">Received Cash By Driver</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right" id="ReceiveCash" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="ReceiveCash" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="OtherPlus" class="col-md-6 form-label">Other Exp of Trip</label>
+                                    <label for="OtherPlus" class="col-md-6 form-label text-right">Other Exp of Trip</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right" id="OtherPlus" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="OtherPlus" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="OtherLess" class="col-md-6 form-label">Other Less</label>
+                                    <label for="OtherLess" class="col-md-6 form-label text-right">Other Less</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right" id="OtherLess" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="OtherLess" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="NetAmount" class="col-md-6 form-label">NET AMOUNT</label>
+                                    <label for="NetAmount" class="col-md-6 form-label text-right">NET AMOUNT</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right" id="NetAmount" placeholder="" readonly>
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="NetAmount" placeholder="" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -601,7 +607,7 @@
     </div>
     <!-- row end -->
     <!--LRChalanListModal start-->
-    <div id="lrChalanListModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div id="lrChalanListModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
         <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
             <div class="modal-content ">
                 <div class="form-horizontal modal-header pd-x-20">
@@ -717,6 +723,10 @@
                 }
             });
 
+            $("#AccountBranchMappingId").on('change', function (e) {
+                GetTDSPercentByCustomerAccountBranchMappingId($(this).val());
+            });
+
             $("#ToPayAccountBranchMappingId").on('change', function (e) {
 
                 $("#CrossingAmountAccountBranchMappingId").val($(this).val()).trigger('change');
@@ -794,6 +804,11 @@
             $(".delete-row-btn").on('click', function (e) {
                 var index = $(this).data('index');
                 deleteRow(index);
+            });
+
+            $("#TDSPercent").on('keyup', function (e) {
+                var amt = ($('#TaxableAmount').val() * $(this).val() / 100) || 0;
+                $("#TDSAmount").val(Math.round(amt));
             });
 
             $("#TaxableAmount, #TDSAmount, #AdvanceCash, #AdvanceNeft, #ReceiveCash, #OtherPlus, #OtherLess").on('change', function (e) {
@@ -977,6 +992,7 @@
             $("#CrossingDeliveryAccountBranchMappingId").val('');
             $("#BrokerAmount").val('');
             $("#TaxableAmount").val('');
+            $("#TDSPercent").val('');
             $("#TDSAmount").val('');
             $("#AdvanceCash").val('');
             $("#AdvanceNeft").val('');
@@ -1006,7 +1022,7 @@
 
             selectedLRDetails = [];
             addedIds = [];
-            $("#hdnSelectedLRNumberIds").val();
+            $("#hdnSelectedLRNumberIds").val('');
             $('#contentRow').html('');
 
             $("#activeTabName").text("Add");
@@ -1112,6 +1128,14 @@
                     }
                 }
 
+                if ($("#TDSPercent").val() != null && $("#TDSPercent").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSPercent").val())) {
+                        showWarning("", "Less tds must be up to 7 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#TDSPercent").focus();
+                        return false;
+                    }
+                }
+
                 if ($("#TDSAmount").val() != null && $("#TDSAmount").val() != "") {
                     if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSAmount").val())) {
                         showWarning("", "Less tds must be upto 7 characters before decimal point and 2 characters after decimal point long.");
@@ -1186,6 +1210,7 @@
                 savedata.BrokerBranchMappingId = getIntValueNull("BrokerBranchMappingId");
                 savedata.Notes = $("#Notes").val();
                 savedata.TaxableAmount = getFloatValueNull("TaxableAmount", 2);
+                savedata.TDSPercent = getFloatValueZero("TDSPercent", 2);
                 savedata.TDSAmount = getFloatValueNull("TDSAmount", 2);
                 savedata.AdvanceCash = getFloatValueNull("AdvanceCash", 2);
                 savedata.AdvanceNeft = getFloatValueNull("AdvanceNeft", 2);
@@ -1281,11 +1306,11 @@
 
                                 selectedLRDetails = [];
                                 addedIds = [];
-                                $("#hdnSelectedLRNumberIds").val();
+                                $("#hdnSelectedLRNumberIds").val('');
                                 $('#contentRow').html('');
 
                                 $("#Id").val(result.data.id);
-                                $("#BranchIdTo").val(result.data.branchIdTo);
+                                $("#BranchIdTo").val(result.data.branchIdTo).trigger('change');
                                 $("#BillNumberBranch").val(result.data.billNumberBranch);
                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
                                 $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
@@ -1306,6 +1331,7 @@
                                 $("#BrokerBranchMappingId").val(result.data.brokerBranchMappingId).trigger('change');
                                 $("#Notes").val(result.data.notes);
                                 $("#TaxableAmount").val(result.data.taxableAmount ? result.data.taxableAmount.toFixed(2) : '');
+                                $("#TDSPercent").val(result.data.tdsPercent ? result.data.tdsPercent.toFixed(2) : '');
                                 $("#TDSAmount").val(result.data.tdsAmount ? result.data.tdsAmount.toFixed(2) : '');
                                 $("#AdvanceCash").val(result.data.advanceCash ? result.data.advanceCash.toFixed(2) : '');
                                 $("#AdvanceNeft").val(result.data.advanceNeft ? result.data.advanceNeft.toFixed(2) : '');
@@ -1318,7 +1344,7 @@
                                 $("#CrossingDeliveryCharge").val(result.data.crossingDeliveryCharge ? result.data.crossingDeliveryCharge.toFixed(2) : '');
                                 $("#BrokerAmount").val(result.data.brokerAmount ? result.data.brokerAmount.toFixed(2) : '');
                                 $("#IsAutoLedger").prop('checked', result.data.isAutoLedger);
-                                
+
                                 CalcNetAmount();
                                 getLRDetailListByPurchaseBillMas(result.data.id);
 
@@ -1426,6 +1452,31 @@
                             }
                         } catch (e) {
                             unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetTDSPercentByCustomerAccountBranchMappingId(CustomerAccountBranchMappingId, contentRowId) {
+            try {
+                if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetTDSPercentByCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#TDSPercent").val(result.data.tds);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
                             showError('Error', e); //warning,  success, error, info
                         }
                     },
@@ -1547,7 +1598,7 @@
                 },
                 "targets": colDef.length,
             });
-            
+
             columns.push({ "data": "id", "name": "id" });
             columns.push({ "data": "lrNumber", "name": "lrNumber" });
             columns.push({ "data": "lrDate", "name": "lrDate" });
