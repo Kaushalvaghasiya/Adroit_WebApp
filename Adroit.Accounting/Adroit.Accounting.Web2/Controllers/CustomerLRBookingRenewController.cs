@@ -11,17 +11,16 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerController : MasterController
     {
-        public IActionResult LRBookingRange()
+        public IActionResult LRBookingRenew()
         {
             var model = new LRBookingRangeViewModel();
             model.BranchList = _customerFirmBranchesRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
-            model.StartNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, LRBookingRangeTable._TableName, LRBookingRangeTable.StartNumber);
-            model.EndNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, LRBookingRangeTable._TableName, LRBookingRangeTable.EndNumber);
+            ViewBag.CurrentBranchId = CurrentBranchId;
             return View(model);
         }
 
         [HttpGet]
-        public JsonResult LRBookingRangeList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
+        public JsonResult LRBookingRenewList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
         {
             var result = new DataTableListViewModel<LRBookingRangeGridViewModel>();
             try
@@ -29,7 +28,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _lrBookingRangeRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _lrBookingRenewRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -44,7 +43,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveLRBookingRange([FromBody] LRBookingRangeViewModel model)
+        public JsonResult SaveLRBookingRenew([FromBody] LRBookingRangeViewModel model)
         {
             ApiResult result = new ApiResult();
             try
@@ -53,7 +52,7 @@ namespace Adroit.Accounting.Web.Controllers
                 model.BranchId = CurrentBranchId;
                 model.FirmId = CurrentFirmId;
 
-                int id = _lrBookingRangeRepository.Save(model, _configurationData.DefaultConnection);
+                int id = _lrBookingRenewRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -69,12 +68,12 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult DeleteLRBookingRange(int id)
+        public JsonResult DeleteLRBookingRenew(int id)
         {
             ApiResult result = new ApiResult();
             try
             {
-                _lrBookingRangeRepository.Delete(id, CurrentUserId, _configurationData.DefaultConnection);
+                _lrBookingRenewRepository.Delete(id, CurrentUserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -86,12 +85,12 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetLRBookingRange(int id)
+        public JsonResult GetLRBookingRenew(int id)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _lrBookingRangeRepository.Get(id, CurrentFirmId, _configurationData.DefaultConnection);
+                result.data = _lrBookingRenewRepository.Get(id, CurrentFirmId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

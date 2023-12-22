@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_LRBookingRangeGet]
+CREATE OR ALTER PROCEDURE [dbo].[sp_LRBookingRenewGet]
 (
 	@Id INT,
 	@FirmId INT
