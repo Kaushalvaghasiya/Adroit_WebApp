@@ -122,42 +122,23 @@
                                             <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="BillDate">
                                         </div>
                                     </div>
-                                    <label for="CityIdFrom" class="col-md-1 form-label">From</label>
+                                    <label for="LRNumber" class="col-md-1 form-label">LR#</label>
                                     <div class="col-md-2">
-                                        <select class="form-control select2-show-search" id="CityIdFrom">
-                                            <option></option>
-                                            @{
-                                                if (Model.CityList != null)
-                                                {
-                                                    foreach (var o in Model.CityList)
-                                                    {
-                                                        <option value="@o.Value">@o.Text</option>
-                                                    }
-                                                }
-                                            }
-                                        </select>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Enter LR Number..." id="LRNumber">
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="SearchLRNumber">Go!</button>
+                                            </span>
+                                        </div>
                                     </div>
-                                    <label for="CityIdTo" class="col-md-1 form-label">To</label>
+                                    <label for="EwayBillNumber" class="col-md-1 form-label">e-Way Bill Part-A</label>
                                     <div class="col-md-2" style="display:flex;">
-                                        <select class="form-control select2-show-search" id="CityIdTo">
-                                            <option></option>
-                                            @{
-                                                if (Model.CityList != null)
-                                                {
-                                                    foreach (var o in Model.CityList)
-                                                    {
-                                                        <option value="@o.Value">@o.Text</option>
-                                                    }
-                                                }
-                                            }
-                                        </select>
-                                        <span class="input-group-append">
-                                            <a href="#" class="btn btn-primary" data-toggle="modal" id="LRNumberList" data-original-title="Select LR List">
-                                                <span>
-                                                    <i class="fa fa-list"></i>
-                                                </span>
-                                            </a>
-                                        </span>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="EwayBillNumber">
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary EWayBill-search" type="button">Go!</button>
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
@@ -195,46 +176,13 @@
                                         </select>
                                     </div>
                                     <label for="AccountBranchMappingId" class="col-md-1 form-label">Bill Party</label>
-                                    <div class="col-md-2">
+                                    <div class="col-md-5">
                                         <select class="form-control select2-show-search" id="AccountBranchMappingId">
                                             <option></option>
-                                            @{
-                                                if (Model.AccountBranchMappingList != null)
-                                                {
-                                                    foreach (var o in Model.AccountBranchMappingList)
-                                                    {
-                                                        <option value="@o.Value">@o.Text</option>
-                                                    }
-                                                }
-                                            }
-                                        </select>
-                                    </div>
-                                    <label for="DriverId" class="col-md-1 form-label">Driver</label>
-                                    <div class="col-md-2">
-                                        <select class="form-control select2-show-search" id="DriverId">
-                                            <option></option>
-                                            @{
-                                                if (Model.DriverList != null)
-                                                {
-                                                    foreach (var o in Model.DriverList)
-                                                    {
-                                                        <option value="@o.Value">@o.Text</option>
-                                                    }
-                                                }
-                                            }
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="LRNumber" class="col-md-1 form-label">LR#</label>
-                                    <div class="col-md-2">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Enter LR Number..." id="LRNumber">
-                                            <span class="input-group-append">
-                                                <button class="btn btn-primary" type="button" id="SearchLRNumber">Go!</button>
-                                            </span>
-                                        </div>
-                                    </div>
                                     <label for="EwayBillNumber" class="col-md-1 form-label">e-Way Bill Part-B</label>
                                     <div class="col-md-2" style="display:flex;">
                                         <select class="form-control select2-show-search-add-clear mode-ed" id="EwayBillNumber">
@@ -258,18 +206,24 @@
                                             </button>
                                         </span>
                                     </div>
-                                    <label for="EwayBillNumber" class="col-md-1 form-label">e-Way Bill Part-A</label>
-                                    <div class="col-md-2" style="display:flex;">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="EwayBillNumber">
-                                            <span class="input-group-append">
-                                                <button class="btn btn-primary EWayBill-search" type="button">Go!</button>
-                                            </span>
-                                        </div>
-                                    </div>
                                     <label for="BillNumberFirm" class="col-md-1 form-label">Firm Chalan#</label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control numberonly" id="BillNumberFirm" placeholder="">
+                                    </div>
+                                    <label for="DriverId" class="col-md-1 form-label">Driver</label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search" id="DriverId">
+                                            <option></option>
+                                            @{
+                                                if (Model.DriverList != null)
+                                                {
+                                                    foreach (var o in Model.DriverList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 p-0">
@@ -536,7 +490,7 @@
                                 <div class="row mb-1">
                                     <label for="TDSPercent" class="col-md-6 form-label text-right">Less TDS</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="3" id="TDSPercent" placeholder="%">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TDSPercent" placeholder="%">
                                     </div>
                                     <div class="col-md-4">
                                         <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TDSAmount" placeholder="">
@@ -614,8 +568,7 @@
                     <h5 class="modal-title col-md-1" style="align-self:center;">LR List</h5>
                     <label for="LRFromCity" class="col-md-1 form-label">From City</label>
                     <div class="col-md-2">
-                        <select class="form-control select2-show-search" id="LRFromCity">
-                            <option></option>
+                        <select multiple="multiple" class="filter-multi mode-ed-multi" id="LRFromCity">
                             @{
                                 if (Model.CityList != null)
                                 {
@@ -629,8 +582,7 @@
                     </div>
                     <label for="LRToCity" class="col-md-1 form-label">To City</label>
                     <div class="col-md-2">
-                        <select class="form-control select2-show-search" id="LRToCity">
-                            <option></option>
+                        <select multiple="multiple" class="filter-multi mode-ed-multi" id="LRToCity">
                             @{
                                 if (Model.CityList != null)
                                 {
@@ -664,17 +616,16 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0"><input type="checkbox" /></th>
-                                    <th class="border-bottom-0">#</th>
                                     <th class="border-bottom-0">LR#</th>
                                     <th class="border-bottom-0">LR Date</th>
-                                    <th class="border-bottom-0">Total Parcel</th>
-                                    <th class="border-bottom-0">Total Act. Kg.</th>
-                                    <th class="border-bottom-0">Total Chrg. Kg.</th>
-                                    <th class="border-bottom-0">Taxable Amount</th>
+                                    <th class="border-bottom-0">Tot. Parcel</th>
+                                    <th class="border-bottom-0">Tot. Act. Kg.</th>
+                                    <th class="border-bottom-0">Tot. Chrg. Kg.</th>
+                                    <th class="border-bottom-0">Tax. Amt.</th>
                                     <th class="border-bottom-0">GST %</th>
                                     <th class="border-bottom-0">From City</th>
                                     <th class="border-bottom-0">To City</th>
-                                    <th class="border-bottom-0">Vehicle #</th>
+                                    <th class="border-bottom-0">Vehicle#</th>
                                     <th class="border-bottom-0">Consignor</th>
                                     <th class="border-bottom-0">Consignee</th>
                                 </tr>
@@ -695,6 +646,7 @@
     <input type="hidden" id="Id" value="0" />
     <input type="hidden" id="hdnSelectedLRNumberIds" value="" />
     <input type="hidden" id="selectedLRDetails" value="[]" />
+    <input type="hidden" id="hdnAccountBranchMappingId" value="" />
 
 </div>
 
@@ -711,20 +663,12 @@
 
             bindDatatableList();
 
-            $("#CityIdFrom").on('change', function (e) {
-                if ($(this).val() != '' || $(this).val() != null) {
-                    $("#LRFromCity").val($(this).val()).trigger('change');
-                }
-            });
-
-            $("#CityIdTo").on('change', function (e) {
-                if ($(this).val() != '' || $(this).val() != null) {
-                    $("#LRToCity").val($(this).val()).trigger('change');
-                }
-            });
-
             $("#AccountBranchMappingId").on('change', function (e) {
                 GetTDSPercentByCustomerAccountBranchMappingId($(this).val());
+            });
+
+            $("#VehicleId").on('change', function (e) {
+                binBillParty();
             });
 
             $("#ToPayAccountBranchMappingId").on('change', function (e) {
@@ -774,31 +718,29 @@
                 addRow();
             });
 
-            $("#LRNumberList").on('click', function (e) {
-
-                if ($("#CityIdFrom").val() == "") {
-                    showWarning("", "Please select city from.");
-                    $("#CityIdFrom").focus();
-                    return false;
-                }
-                else if ($("#CityIdTo").val() == "") {
-                    showWarning("", "Please select city to.");
-                    $("#CityIdTo").focus();
-                    return false;
-                }
-                else {
-                    $("#lrChalanListModal").modal("show");
-                    bindLRList();
-                }
-
-            });
-
             $("#SearchLRNumberList").on('click', function (e) {
+
+                if ($("#LRFromCity").val() == null || $("#LRFromCity").val() == "") {
+                    showWarning("", "Please select from city");
+                    $("#LRFromCity").focus();
+                    return false;
+                }
+
+                if ($("#LRToCity").val() == null || $("#LRToCity").val() == "") {
+                    showWarning("", "Please select to city");
+                    $("#LRToCity").focus();
+                    return false;
+                }
+
                 bindLRList();
             });
 
             $("#SearchLRNumber").on('click', function (e) {
-                getLRDetailListByLRNumber($('#LRNumber').val());
+                if ($("#LRNumber").val() == '' || $("#LRNumber").val() == null) {
+                    $("#lrChalanListModal").modal("show");
+                    bindLRList();
+                } else
+                    getLRDetailListByLRNumber($('#LRNumber').val());
             });
 
             $(".delete-row-btn").on('click', function (e) {
@@ -818,13 +760,13 @@
                 $("#" + fieldId).val(formattedValue);
             });
 
-            addClick();
+            addClick(true);
         });
 
-        function addClick() {
+        function addClick(isClickAtPgLoad = false) {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
-            fromReset();
+            fromReset(isClickAtPgLoad);
             setScreenMode(false);
             $(".btn-delete").hide();
             $("#BillNumberBranch").focus();
@@ -972,7 +914,7 @@
             });
         }
 
-        function fromReset() {
+        function fromReset(isClickAtPgLoad = false) {
 
             $("#Id").val(0);
             $("#BillNumberBranch").val(0);
@@ -1002,11 +944,10 @@
             $("#NetAmount").val('');
             $("#Notes").val('');
 
-            $("#CityIdFrom").val(null).trigger('change');
-            $("#CityIdTo").val(null).trigger('change');
             $("#LRFromCity").val(null).trigger('change');
             $("#LRToCity").val(null).trigger('change');
-            $("#VehicleId").val(null).trigger('change');
+            if (isClickAtPgLoad === false)
+                $("#VehicleId").val(null).trigger('change');
             $("#DriverId").val(null).trigger('change');
             $("#EwayBillNumber").val(null).trigger('change');
             $("#LRNumber").val(null).trigger('change');
@@ -1190,8 +1131,6 @@
                 savedata.BillNumberBranch = getIntValueZero("BillNumberBranch");
                 savedata.BillNumberFirm = $("#BillNumberFirm").val();
                 savedata.BillDate = moment(getDate($("#BillDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-                savedata.CityIdFrom = getIntValueNull("CityIdFrom");
-                savedata.CityIdTo = getIntValueNull("CityIdTo");
                 savedata.VehicleId = getIntValueZero("VehicleId");
                 savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
                 savedata.DriverId = getIntValueNull("DriverId");
@@ -1314,12 +1253,8 @@
                                 $("#BillNumberBranch").val(result.data.billNumberBranch);
                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
                                 $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
-                                $("#CityIdFrom").val(result.data.cityIdFrom).trigger('change');
-                                $("#CityIdTo").val(result.data.cityIdTo).trigger('change');
-                                $("#LRFromCity").val(result.data.cityIdFrom).trigger('change');
-                                $("#LRToCity").val(result.data.cityIdTo).trigger('change');
                                 $("#VehicleId").val(result.data.vehicleId).trigger('change');
-                                $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                $("#hdnAccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
                                 $("#DriverId").val(result.data.driverId).trigger('change');
                                 $("#EwayBillNumber").val(result.data.ewayBillNumber).trigger('change');
                                 $("#ToPayAccountBranchMappingId").val(result.data.toPayAccountBranchMappingId).trigger('change');
@@ -1418,8 +1353,8 @@
                         try {
                             if (result.result == RESULT_SUCCESS) {
 
-                                if (result.data == []) {
-                                    showWarning("", 'No LR data found!.');
+                                if (result.data.length == 0) {
+                                    showWarning("", 'LR(' + LRNumberId + ') detail not found!.');
                                 }
                                 else {
                                     result.data.forEach(function (LRBookingDetail) {
@@ -1504,8 +1439,8 @@
         }
 
         function bindLRList() {
-
-            if (($("#LRFromCity").val() == '' || $("#LRFromCity").val() == null) || ($("#LRToCity").val() == '' || $("#LRToCity").val() == null)) return;
+            let fromCity = $('#LRFromCity').val().length === 0 ? '0' : $('#LRFromCity').val().join(",");
+            let toCity = $('#LRFromCity').val().length === 0 ? '0' : $('#LRToCity').val().join(",");
 
             let columns = [];
             let colDef = [];
@@ -1518,85 +1453,92 @@
                 "orderable": false,
                 'checkboxes': {
                     'selectRow': true
-                }
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.id;
                 },
-                "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.lrNumber;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.lrDate;
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.parcel;
                 },
                 "targets": colDef.length,
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return parseFloat(row.actualWeight || 0).toFixed(3);
                 },
                 "targets": colDef.length,
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return parseFloat(row.chargeWeight || 0).toFixed(3);
                 },
                 "targets": colDef.length,
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return parseFloat(row.chargeAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return parseFloat(row.rate || 0).toFixed(3);
                 },
                 "targets": colDef.length,
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.cityFrom;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.cityTo;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.vehilcleNo;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.consignor;
                 },
                 "targets": colDef.length,
+                "className": "text-left",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.consignee;
                 },
                 "targets": colDef.length,
+                "className": "text-left",
             });
 
             columns.push({ "data": "id", "name": "id" });
@@ -1635,7 +1577,7 @@
                     'style': 'multi'
                 },
                 ajax: {
-                    url: '@(Url.Content("~/Customer/GetLRBookingListByCity"))' + "/" + $('#LRFromCity').val() + "/" + $('#LRToCity').val(),
+                    url: '@(Url.Content("~/Customer/GetLRBookingListByCity"))' + "/" + fromCity + "/" + toCity,
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -1942,6 +1884,41 @@
         function updateHiddenInput(ids) {
             var uniqueIds = [...new Set(ids)];
             $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
+        }
+
+        function binBillParty() {
+            try {
+                $("#AccountBranchMappingId").empty();
+                if ($('#VehicleId').val() == '' || $('#VehicleId').val() == null) {
+                    showWarning("", "Please select vehicle.");
+                    return;
+                }
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetChalanCustomerAccountBranchMappingList_Select"))" + "/" + $('#VehicleId').val(), "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            $("#AccountBranchMappingId").empty();
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#AccountBranchMappingId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#AccountBranchMappingId').val($("#hdnAccountBranchMappingId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
         }
     </script>
 }
