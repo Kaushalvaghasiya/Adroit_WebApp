@@ -7,7 +7,12 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_LRBookingGet]
 )
 AS
 BEGIN
-	DECLARE @CustomerId INT = dbo.fn_GetCustomerId(@LoginId), @VehilcleNo VARCHAR(25)='', @BranchChalanNo VARCHAR(20)='', @ChalanDate VARCHAR(20)='';
+	DECLARE @CustomerId INT = dbo.fn_GetCustomerId(@LoginId), 
+		    @VehilcleNo VARCHAR(25)='', 
+			@BranchChalanNo VARCHAR(20)='', 
+			@ChalanDate VARCHAR(20)='', 
+			@LRBookingMaxDate VARCHAR(20)='', 
+			@LRBookingMinDate VARCHAR(20)='';
 
 	SELECT TOP 1 @BranchChalanNo = [Z-PurchaseBillMaster-Z].BillNumberBranch, 
 			     @ChalanDate = [Z-PurchaseBillMaster-Z].BillDate, 
@@ -17,20 +22,24 @@ BEGIN
 		 INNER JOIN Vehilcle ON Vehilcle.Id = [Z-PurchaseBillMaster-Z].VehicleId AND Vehilcle.Active = 1
 	ORDER BY [Z-PurchaseBillDetail-Z].Id DESC 
 
+	SELECT TOP 1 @LRBookingMaxDate = LRDate
+	FROM [Z-LRBooking-Z]
+	WHERE [Z-LRBooking-Z].Id < @Id AND [Z-LRBooking-Z].BranchId = @BranchId 
+	ORDER BY [Z-LRBooking-Z].Id DESC
+
+	SELECT TOP 1 @LRBookingMinDate = LRDate
+	FROM [Z-LRBooking-Z]
+	WHERE [Z-LRBooking-Z].Id > @Id AND [Z-LRBooking-Z].BranchId = @BranchId 
+	ORDER BY [Z-LRBooking-Z].Id ASC
+
 	SELECT [Z-LRBooking-Z].*
 	,[TransportDesc].Title As Description
 	,[TransportPacking].Title As Packing
-	,(SELECT TOP 1 LRDate
-	  FROM [Z-LRBooking-Z]
-	  WHERE [Z-LRBooking-Z].Id < @Id AND [Z-LRBooking-Z].BranchId = @BranchId 
-	  ORDER BY [Z-LRBooking-Z].Id DESC) AS LRBookingMaxDate,
-	 (SELECT TOP 1 LRDate
-	  FROM [Z-LRBooking-Z]
-	  WHERE [Z-LRBooking-Z].Id > @Id AND [Z-LRBooking-Z].BranchId = @BranchId 
-	  ORDER BY [Z-LRBooking-Z].Id ASC) AS LRBookingMinDate,
-	  ISNULL(@BranchChalanNo,'') AS BranchChalanNo,
-	  ISNULL(@ChalanDate,'') AS ChalanDate,
-	  ISNULL(@VehilcleNo,'') AS VehilcleNo
+	,@LRBookingMaxDate AS LRBookingMaxDate
+	,@LRBookingMinDate AS LRBookingMinDate
+	,ISNULL(@BranchChalanNo,'') AS BranchChalanNo
+	,ISNULL(@ChalanDate,'') AS ChalanDate
+	,ISNULL(@VehilcleNo,'') AS VehilcleNo
 	FROM [Z-LRBooking-Z]
 	LEFT JOIN [TransportDesc] on [TransportDesc].Id = [Z-LRBooking-Z].DescriptionId AND [TransportDesc].CustomerId = @CustomerId AND [TransportDesc].Deleted = 0 AND [TransportDesc].Active = 1
 	LEFT JOIN [TransportPacking] on [TransportPacking].Id = [Z-LRBooking-Z].PackingId AND [TransportPacking].CustomerId = @CustomerId AND [TransportPacking].Deleted = 0 AND [TransportPacking].Active = 1

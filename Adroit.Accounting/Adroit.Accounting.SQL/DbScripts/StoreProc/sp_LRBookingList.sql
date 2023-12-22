@@ -48,7 +48,7 @@ Begin
 		,[TransportLRPayType].Title As LRPayType
 		,CA2.Name As Consignee
 		,CA3.Name As BillPartyName
-		,CASE WHEN [Z-PurchaseBillDetail-Z].LRBookingId = [Z-LRBooking-Z].id THEN 1 ELSE 0 END AS IsLRBookingPurchased
+		,CASE WHEN [Z-PurchaseBillDetail-Z].LRBookingId IS NULL THEN 0 ELSE 1 END AS IsLRBookingPurchased
 		FROM [Z-LRBooking-Z]
 		INNER JOIN [CustomerAccountBranchMapping] AS CAB1 on CAB1.Id = [Z-LRBooking-Z].AccountBranchMappingId AND CAB1.BranchId = @BranchId AND CAB1.Deleted = 0
 		INNER JOIN [CustomerAccount] AS CA1 on CA1.Id = CAB1.AccountId AND CA1.CustomerId = @CustomerId AND CA1.Active = 1 AND CA1.Deleted = 0
