@@ -42,6 +42,10 @@ BEGIN
 		DECLARE @error INT, @message VARCHAR(4000), @xstate INT;
 		SELECT @error = ERROR_NUMBER(), @message = ERROR_MESSAGE(), @xstate = XACT_STATE();
 		ROLLBACK TRAN
+		IF (@message LIKE '%IX_CustomerAccountOpeningBalance%')
+		BEGIN
+			SET @message = 'Account opening already exist!';
+		END
 
 		RAISERROR ('%s', 16, 1, @message);
 	END CATCH
