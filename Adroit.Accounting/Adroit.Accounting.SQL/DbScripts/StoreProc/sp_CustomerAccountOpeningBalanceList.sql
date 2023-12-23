@@ -35,7 +35,7 @@ Begin
 	  INNER JOIN CustomerAccount On CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 	  WHERE CustomerAccountOpeningBalance.Deleted = 0
 	  AND CustomerAccount.CustomerId = @CustomerId
-	  AND CustomerAccountBranchMapping.Id = @BranchId
+	  AND CustomerAccountBranchMapping.BranchId = @BranchId
 	  AND (Coalesce(@Search,'') = '' 
 			OR CustomerAccount.[Name] like '%'+ @Search + '%'
 		    OR CustomerAccountOpeningBalance.[Amount] like '%'+ @Search + '%')
