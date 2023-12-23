@@ -32,7 +32,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.DriverList = _driverRepository.SelectList(_configurationData.DefaultConnection, CurrentUserId);
             model.BrokerList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId,_configurationData.DefaultConnection, CurrentUserId);
-            model.CustomerFirmBranchList = _customerFirmBranchesRepository.SelectListByFirmId(CurrentFirmId,_configurationData.DefaultConnection);
+            model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId,_configurationData.DefaultConnection);
 
             ViewBag.CurrentBranchId = CurrentBranchId;
             return View(model);
