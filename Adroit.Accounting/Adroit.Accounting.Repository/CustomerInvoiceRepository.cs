@@ -124,6 +124,5 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             return QueryHelper.GetList<DropdownViewModel>("sp_InvoiceCustomerAccounListWithGroup_Select", connectionString, parameters);
         }
-
     }
 }

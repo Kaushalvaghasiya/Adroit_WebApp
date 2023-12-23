@@ -8,26 +8,28 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanCustomerAccounListWithGroup_Select]
 AS
 BEGIN
 	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
-	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
+	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId) , @VehicleOwnerId INT = 0;
+
+	SELECT TOP 1 @VehicleOwnerId = OwnerId FROM Vehilcle WHERE Id = @VehicleId;
 
 	SELECT CustomerAccountBranchMapping.Id As [Value], 		
 		CASE ISNULL(CustomerAccount.[PrintName], '') WHEN '' THEN CustomerAccount.[Name] ELSE CustomerAccount.[PrintName] 
 		END + ' (' + [CustomerAccountGroup].Title + ' - ' + [CustomerAccountGroup].Code + ')' As Text 
-	From CustomerAccount
-	INNER JOIN VehicleOwner on VehicleOwner.AccountId = CustomerAccount.Id AND VehicleOwner.CustomerId = @CustomerId AND VehicleOwner.Active = 0
-	INNER JOIN Vehilcle on Vehilcle.OwnerId = VehicleOwner.Id AND Vehilcle.CustomerId = @CustomerId AND Vehilcle.Active = 0
-	INNER JOIN CustomerAccountBranchMapping on VehicleOwner.AccountId = CustomerAccountBranchMapping.AccountId
-	INNER JOIN [CustomerAccountGroup] on CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id 
-	LEFT JOIN [Z-LRBooking-Z] on CustomerAccount.Id = [Z-LRBooking-Z].BillAccountBranchMappingId 
-	WHERE [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT [Z-PurchaseBillDetail-Z].LRBookingId FROM [Z-PurchaseBillDetail-Z] WHERE [Z-PurchaseBillDetail-Z].Deleted = 0 ) 
-		AND [Z-LRBooking-Z].[BranchId] = @BranchId
-		AND [Z-LRBooking-Z].YearId = @YearId 
+	FROM CustomerAccount
+	INNER JOIN [CustomerAccountGroup] ON CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id 	
+	INNER JOIN CustomerAccountBranchMapping ON CustomerAccountBranchMapping.AccountId = CustomerAccount.Id
+	INNER JOIN VehicleOwner ON VehicleOwner.AccountId = CustomerAccountBranchMapping.AccountId AND VehicleOwner.CustomerId = CustomerAccount.CustomerId
+	LEFT JOIN [Z-LRBooking-Z] ON [Z-LRBooking-Z].BillAccountBranchMappingId = CustomerAccount.Id
+	LEFT JOIN [Z-PurchaseBillDetail-Z] ON [Z-LRBooking-Z].Id = [Z-PurchaseBillDetail-Z].LRBookingId
+	WHERE VehicleOwner.Id = @VehicleOwnerId 
+		AND VehicleOwner.AccountId = CustomerAccount.Id
+		AND CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id  
+		AND CustomerAccountBranchMapping.AccountId = CustomerAccount.Id
+		AND ([Z-LRBooking-Z].Id IS NULL OR [Z-LRBooking-Z].Id NOT IN (SELECT LRBookingId FROM [Z-PurchaseBillDetail-Z]))
+		AND CustomerAccountBranchMapping.BranchId = @BranchId 		
 		AND CustomerAccount.CustomerId = @CustomerId 
-		AND CustomerAccountBranchMapping.BranchId = @BranchId 
-		AND Vehilcle.Id = @VehicleId 
 		AND CustomerAccount.Active = 1 
 		AND CustomerAccount.Deleted = 0
-		AND [Z-LRBooking-Z].Deleted = 0 
-	Order by CustomerAccount.[Name];
+	ORDER BY CustomerAccount.[Name];
 END
 GO

@@ -134,6 +134,5 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             return QueryHelper.GetList<DropdownViewModel>("sp_ChalanCustomerAccounListWithGroup_Select", connectionString, parameters);
         }
-
     }
 }
