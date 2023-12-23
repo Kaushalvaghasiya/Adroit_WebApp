@@ -82,7 +82,7 @@ BEGIN
 
 		SELECT @LRNumberStartRange = StartNumber,@LRNumberEndRange = EndNumber
 		FROM LRBookingRange 
-		WHERE BranchId = @BranchId
+		WHERE BranchId = @BranchId AND FirmId = @FirmId AND YearId = @YearId AND Active = 1 AND Deleted = 0
 
 		IF (@LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange) 
 		BEGIN

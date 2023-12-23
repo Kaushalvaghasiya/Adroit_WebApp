@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_LRBookingRenewSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_LRBookingRangeRenewSave]
 (
 	@Id INT,
 	@BranchId INT,
@@ -38,6 +38,14 @@ BEGIN
 			AND [LRBookingRange].Active = 1 
 			AND [LRBookingRange].Deleted = 0
 		)
+
+		UPDATE [LRBookingRange]
+		SET Active = 0
+		WHERE YearId = @YearId
+			AND FirmId = @FirmId
+			AND BranchId = @BranchId
+			AND Active = 1
+			AND Deleted = 0;
 
 		INSERT INTO [LRBookingRange] (BranchId,FirmId,YearId,NumberOfLR,StartNumber,EndNumber,AddedById,AddedOn,Active)
 		VALUES (@BranchId,@FirmId,@YearId,@NumberOfLR,@StartNumber,@EndNumber,@LoginId,GETUTCDATE(),1)

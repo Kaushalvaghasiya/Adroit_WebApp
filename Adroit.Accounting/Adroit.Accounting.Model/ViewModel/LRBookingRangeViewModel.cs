@@ -8,6 +8,7 @@ namespace Adroit.Accounting.Model.ViewModel
     {
         public string Branch { get; set; }
         public int? LoginId { get; set; }
+        public bool? IsUsedInLRBooking { get; set; }
         public List<DropdownViewModel> BranchList { get; set; }
         public List<DropdownViewModel> StartNumberList { get; set; }
         public List<DropdownViewModel> EndNumberList { get; set; }

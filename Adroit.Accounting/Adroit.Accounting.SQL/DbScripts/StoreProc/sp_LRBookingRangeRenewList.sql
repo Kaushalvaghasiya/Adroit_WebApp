@@ -1,4 +1,4 @@
-CREATE OR ALTER Procedure [dbo].[sp_LRBookingRenewList]
+CREATE OR ALTER Procedure [dbo].[sp_LRBookingRangeRenewList]
   @LoginId int,
   @FirmId int,  
   @Search VARCHAR(100) = '',

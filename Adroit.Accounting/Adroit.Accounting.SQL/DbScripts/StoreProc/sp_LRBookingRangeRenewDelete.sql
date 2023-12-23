@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_LRBookingRenewDelete]
+CREATE OR ALTER PROCEDURE [dbo].[sp_LRBookingRangeRenewDelete]
 (	
 	@Id INT,
 	@LoginId INT

@@ -137,7 +137,7 @@ try
     builder.Services.AddSingleton<IFinanceYear, FinanceYearRepository>();
     builder.Services.AddSingleton<ICustomerInvoice, CustomerInvoiceRepository>();
     builder.Services.AddSingleton<IChalanReceive, ChalanReceiveRepository>();
-    builder.Services.AddSingleton<ILRBookingRenew, LRBookingRenewRepository>();
+    builder.Services.AddSingleton<ILRBookingRangeRenew, LRBookingRangeRenewRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {
