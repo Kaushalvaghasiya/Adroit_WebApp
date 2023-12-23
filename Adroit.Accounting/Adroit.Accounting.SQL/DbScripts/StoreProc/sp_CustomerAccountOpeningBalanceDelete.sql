@@ -7,11 +7,9 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		UPDATE CustomerAccountOpeningBalance SET 
-		DeletedById = @LoginId,
-		DeletedOn = GETUTCDATE(),
-		Deleted = 1
-		WHERE Id= @Id;
+
+		Delete From CustomerAccountOpeningBalance WHERE Id= @Id;
+
 	COMMIT TRAN
 	END TRY
 	BEGIN CATCH
