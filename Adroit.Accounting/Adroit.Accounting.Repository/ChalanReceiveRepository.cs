@@ -54,19 +54,19 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<ChalanReceiveGridViewModel>("sp_ChalanReceiveList", connectionString, parameters);
         }
-        public ChalanReceiveViewModel GetChalanMasterListByChalanNumber(string connectionString, int ChalanNumber, int loginId, int branchId, int firmId)
+        public ChalanReceiveViewModel GetChalanMasterListByChalanNumber(string connectionString, int ChalanNumber, int loginId, int firmId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
-            parameters.Add("@BranchId", branchId);
+            parameters.Add("@FirmId", firmId);
             parameters.Add("@ChalanNumber", ChalanNumber);
             return QueryHelper.Get<ChalanReceiveViewModel>("sp_ChalanReceiveGetMasterDetailsByChalanNumber", connectionString, parameters);
         }
-        public List<ChalanReceiveGridViewModel> GetChalanDetailListByChalanNumber(string connectionString, int ChalanNumber, int loginId, int branchId, int firmId)
+        public List<ChalanReceiveGridViewModel> GetChalanDetailListByChalanNumber(string connectionString, int ChalanNumber, int loginId, int firmId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
-            parameters.Add("@BranchId", branchId);
+            parameters.Add("@FirmId", firmId);
             parameters.Add("@ChalanNumber", ChalanNumber);
             return QueryHelper.GetList<ChalanReceiveGridViewModel>("sp_ChalanReceiveGetGridDetailsByChalanNumber", connectionString, parameters);
         }
