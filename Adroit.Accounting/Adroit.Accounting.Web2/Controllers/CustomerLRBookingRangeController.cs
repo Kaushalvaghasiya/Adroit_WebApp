@@ -14,7 +14,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult LRBookingRange()
         {
             var model = new LRBookingRangeViewModel();
-            model.BranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
+            model.BranchList = _customerFirmBranchesRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
             model.StartNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, LRBookingRangeTable._TableName, LRBookingRangeTable.StartNumber);
             model.EndNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, LRBookingRangeTable._TableName, LRBookingRangeTable.EndNumber);
             return View(model);

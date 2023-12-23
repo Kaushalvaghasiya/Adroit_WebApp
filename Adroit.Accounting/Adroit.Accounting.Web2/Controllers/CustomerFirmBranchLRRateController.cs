@@ -13,7 +13,7 @@ namespace Adroit.Accounting.Web.Controllers
         {
             CustomerFirmBranchLRRateViewModel model = new();
             model.CityList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);
-            model.BranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
+            model.BranchList = _customerFirmBranchesRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
             model.LrRatePerKgList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchLRRateTable._TableName, CustomerFirmBranchLRRateTable.RatePerKg);
             model.LrRatePerParcelList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchLRRateTable._TableName, CustomerFirmBranchLRRateTable.RatePerParcel);
             model.CrossingChargePerFreightList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerFirmBranchLRRateTable._TableName, CustomerFirmBranchLRRateTable.CrossingChargePercentOnFreight);

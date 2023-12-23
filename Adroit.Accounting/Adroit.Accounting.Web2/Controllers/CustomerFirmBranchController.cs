@@ -48,7 +48,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _customerFirmBranchRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerFirmBranchesRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -68,7 +68,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int id = _customerFirmBranchRepository.Save(model, CurrentUserId, _configurationData.DefaultConnection);
+                int id = _customerFirmBranchesRepository.Save(model, CurrentUserId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -89,7 +89,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                _customerFirmBranchRepository.Delete(id, CurrentUserId, CurrentFirmId, _configurationData.DefaultConnection);
+                _customerFirmBranchesRepository.Delete(id, CurrentUserId, CurrentFirmId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -106,7 +106,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerFirmBranchRepository.Get(id, CurrentFirmId, _configurationData.DefaultConnection);
+                result.data = _customerFirmBranchesRepository.Get(id, CurrentFirmId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
