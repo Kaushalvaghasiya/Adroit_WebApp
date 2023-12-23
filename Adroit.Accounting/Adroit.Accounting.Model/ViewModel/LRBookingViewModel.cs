@@ -17,13 +17,23 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> VehicleList { get; set; }
         public CustomerFirmTransportSettingViewModel CustomerFirmTransportSetting { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
-        public string Consignor { get; set; }
-        public string Consignee { get; set; }
-        public string CityFrom { get; set; }
-        public string CityTo { get; set; }
-        public string Description { get; set; }
-        public string Packing { get; set; }
+        public string? Consignor { get; set; }
+        public string? Consignee { get; set; }
+        public string? CityFrom { get; set; }
+        public string? CityTo { get; set; }
+        public string? Packing { get; set; }
+        public string? Description { get; set; }
+        public string? LRPayType { get; set; }
+        public decimal? Amount { get; set; }
+        public decimal? ChargeAmount { get; set; }
+        public string? BillPartyName { get; set; }
+        public string? VehilcleNo { get; set; }
+        public string? BranchChalanNo { get; set; }
+        public string? ChalanDate { get; set; }
+        public bool? IsLRBookingPurchased { get; set; }
+        public short? CreditDays { get; set; }
         public string LRBookingMaxDate { get; set; }
-        
+        public string LRBookingMinDate { get; set; }
+        public bool? Deleted { get; set; }
     }
 }

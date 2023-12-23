@@ -13,20 +13,20 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            parameters.Add("@loginId", loginId);
-            parameters.Add("@firmId", firmId);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", value.BranchId);
             parameters.Add("@CityId", value.CityId);
-            parameters.Add("@OrderNumber", value.OrderNumber);
             parameters.Add("@Active", value.Active);
+            parameters.Add("@OrderNumber", value.OrderNumber);
             return QueryHelper.Save("sp_TransportLRBranchCityMappingSave", connectionString, parameters);
         }
         public void Delete(int id, string connectionString, int loginId, int firmId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@loginId", loginId);
-            parameters.Add("@firmId", firmId);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
             QueryHelper.Save("sp_TransportLRBranchCityMappingDelete", connectionString, parameters);
         }
 
@@ -34,18 +34,18 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", id);
-            parameters.Add("@loginId", loginId);
-            parameters.Add("@branchId", branchId);
-            parameters.Add("@firmId", firmId);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@FirmId", firmId);
             return QueryHelper.Get<TransportLRBranchCityMappingViewModel>("sp_TransportLRBranchCityMappingGet", connectionString, parameters);
         }
 
         public List<TransportLRBranchCityMappingGridViewModel> List(string connectionString, int loginId, int branchId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();
-            param.Add("@loginId", loginId);
-            param.Add("@firmId", firmId);
-            param.Add("@branchId", branchId);
+            param.Add("@LoginId", loginId);
+            param.Add("@FirmId", firmId);
+            param.Add("@BranchId", branchId);
             param.Add("@Search", search);
             param.Add("@PageStart", pageStart);
             param.Add("@PageSize", pageSize);
@@ -56,7 +56,7 @@ namespace Adroit.Accounting.Repository
         public List<DropdownViewModel> SelectList(string connectionString, int branchId)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@branchId", branchId);
+            parameters.Add("@BranchId", branchId);
             return QueryHelper.GetList<DropdownViewModel>("sp_TransportLRBranchCityMappingList_Select", connectionString, parameters);
         }
     }

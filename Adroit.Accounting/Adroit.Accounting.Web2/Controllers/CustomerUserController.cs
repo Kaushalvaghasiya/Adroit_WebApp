@@ -2,7 +2,6 @@
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Utility;
-using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -200,6 +199,50 @@ namespace Adroit.Accounting.Web.Controllers
                 throw new NotSupportedException("The default UI requires a user store with email support.");
             }
             return (IUserEmailStore<IdentityUser>)_userStore;
+        }
+
+        [HttpPost]
+        public JsonResult UpdateUserLoggedInBranch(int id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                id = _customerUsersRepository.UpdateUserLoggedInBranch(CurrentUserId, id, _configurationData.DefaultConnection);
+                if (id > 0)
+                {
+                    ClearCurrentFirmId();
+                    ClearLoggedInBranchId();
+                    result.data = true;
+                    result.result = Constant.API_RESULT_SUCCESS;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        public JsonResult UpdateUserLoggedInYear(int id)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                id = _customerUsersRepository.UpdateUserLoggedInYear(CurrentUserId, id, _configurationData.DefaultConnection);
+                if (id > 0)
+                {
+                    ClearLoggedInYearId();
+                    result.data = true;
+                    result.result = Constant.API_RESULT_SUCCESS;
+                }
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
         }
     }
 }

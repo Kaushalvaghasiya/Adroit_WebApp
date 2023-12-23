@@ -243,6 +243,12 @@
         public const string EwayBillNo = "EwayBillNo";
     }
 
+    public sealed class PurchaseBillMasterTable
+    {
+        public const string _TableName = "[Z-PurchaseBillMaster-Z]";
+        public const string EwayBillNumber = "EwayBillNumber";
+    }
+
     #region Adroit - Account
     public sealed class AccountAdminTable
     {

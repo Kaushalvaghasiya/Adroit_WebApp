@@ -21,6 +21,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@userId", id);
             return QueryHelper.Get<CustomerUserViewModel>("sp_AdminCustomerUserGet", connectionString, parameters);
         }
+        public CustomerUserViewModel Get(string username, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Username", username);
+            return QueryHelper.Get<CustomerUserViewModel>("sp_CustomerUserGetByEmail", connectionString, parameters);
+        }
         public List<CustomerUserGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC", int CustomerId = 0)
         {
             var param = new DynamicParameters();

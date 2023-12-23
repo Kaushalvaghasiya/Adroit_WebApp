@@ -1,20 +1,23 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_DriverList_Select]
 (
-	@UserId INT
+	@LoginId INT
 )
 AS
 BEGIN
-	Declare @CustomerId int = dbo.[fn_GetCustomerId](@UserId);
+	DECLARE @CustomerId INT = dbo.[fn_GetCustomerId](@loginId);
 
-	SELECT 
-		Driver.Id As Value,
-		ISNULL(Driver.Name , '')  As Text
-	FROM [Customer]
-	INNER JOIN Driver on [Customer].Id = Driver.CustomerId
-	WHERE [Customer].Id = @CustomerId
-	AND [Customer].Deleted = 0
-	AND Driver.Deleted = 0
-	ORDER BY Driver.Name
+	SELECT Driver.Id As Value, 
+	CONCAT(
+        ISNULL(Driver.Name, ''),
+        NULLIF(' | ' + ISNULL(City.Title, ''), ' | '),
+        NULLIF(' | ' + ISNULL(Driver.Mobile, ''), ' | ') 
+    ) AS Text
+	FROM Driver
+	LEFT JOIN City on City.Id = Driver.CityId AND City.Active = 1
+	WHERE Driver.CustomerId = @CustomerId 
+	AND Driver.Deleted = 0 
+	AND Driver.Active = 1 
+	ORDER BY [Text];
 END
 
 

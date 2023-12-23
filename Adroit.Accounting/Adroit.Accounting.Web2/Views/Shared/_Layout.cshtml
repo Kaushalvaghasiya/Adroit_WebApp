@@ -84,6 +84,9 @@
     <link id="theme" rel="stylesheet" type="text/css" media="all" href="@Url.Content("~/assets/colors/color-skins/color.css")" />
     <link rel="stylesheet" href="@Url.Content("~/assets/css/custom.css")" type="text/css" />
 
+    <!-- Accordion Css -->
+    <link href="@Url.Content("~/assets/plugins/accordion/accordion.css")" rel="stylesheet" />
+
     <style>
         .anchordisabled {
             pointer-events: none;
@@ -665,14 +668,21 @@
                                         <a href="#">Booking</a>
                                         <ul class="sub-menu">
                                             <li aria-haspopup="true"><a href="@Url.Action("LRBooking", "customer")">LR</a></li>
-                                            <li aria-haspopup="true"><a href="#">Chalan</a></li>
-                                            <li aria-haspopup="true"><a href="#">Invoice</a></li>
+                                            <li aria-haspopup="true"><a href="@Url.Action("Chalan", "customer")">Chalan</a></li>
+                                            <li aria-haspopup="true"><a href="@Url.Action("Invoice", "customer")">Invoice</a></li>
                                         </ul>
                                     </li>
                                     <li aria-haspopup="true" class="sub-menu-sub">
                                         <a href="#">Delivery</a>
                                         <ul class="sub-menu">
-                                            <li aria-haspopup="true"><a href="#">Chalan Receive</a></li>
+                                            <li aria-haspopup="true" class="sub-menu-sub">
+                                                <a href="#">Chalan Receive</a>
+                                                <ul class="sub-menu">
+                                                    <li aria-haspopup="true"><a href="@Url.Action("Branch", "customer")">Branch</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("Agency", "customer")">Agency</a></li>
+                                                </ul>
+                                            </li>
+
                                             <li aria-haspopup="true"><a href="#">Delivery Invoice</a></li>
                                         </ul>
                                     </li>
@@ -683,7 +693,7 @@
                                             <li aria-haspopup="true"><a href="#">Praforma Invoice</a></li>
                                             <li aria-haspopup="true"><a href="#">Sales Order</a></li>
                                             <li aria-haspopup="true"><a href="#">Chalan / Packing Slip</a></li>
-                                            <li aria-haspopup="true"><a href="#">Sales</a></li>
+                                            <li aria-haspopup="true"><a href="@Url.Action("SalesInvoice", "customer")">Sales</a></li>
                                             <li aria-haspopup="true"><a href="#">Sales Return</a></li>
                                         </ul>
                                     </li>
@@ -696,7 +706,7 @@
                                             <li aria-haspopup="true"><a href="#">Jobwork Purchase</a></li>
                                             <li aria-haspopup="true"><a href="#">Purchase Return</a></li>
                                             <li aria-haspopup="true"><a href="#">General Expenses</a></li>
-                                            <li aria-haspopup="true"><a href="#">General Expenses Multi</a></li>
+                                            <li aria-haspopup="true"><a href="@Url.Action("CustomerGeneralExpensesMulti", "customer")">General Expenses Multi</a></li>
                                         </ul>
                                     </li>
                                     <li aria-haspopup="true"><a href="#">Credit Note</a></li>
@@ -1835,6 +1845,9 @@
     <script src="@Url.Content("~/assets/js/custom.js")"></script>
     <script src="@Url.Content("~/assets/js/DevScript.js")"></script>
 
+    <!---Accordion js-->
+    <script src="@Url.Content("~/assets/plugins/accordion/accordion.min.js")"></script>
+
     <script>
         var RESULT_SUCCESS = "@Adroit.Accounting.Model.Constant.API_RESULT_SUCCESS";
 
@@ -1871,6 +1884,39 @@
             $(".go-search").on("click", function () {
                 goSearch($('#GoSearchQuery').val());
             });
+
+            // $(".decimalonly").blur(function () {
+            //     var fixedNo = (isNaN(parseInt($(this).attr("data-tofixed"))) ? 0 : parseInt($(this).attr("data-tofixed")));
+            //     var value = (isNaN(parseFloat($(this).val())) ? 0.00 : parseFloat($(this).val()).toFixed(fixedNo));
+            //     $(this).val(value);
+            // });
+            $(".decimalonly").on("input", function (evt) {
+                var self = $(this);
+                self.val(self.val().replace(/[^0-9.]/g, ''));
+                if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
+                    evt.preventDefault();
+                }
+            });
+
+            $(".decimalonly").blur(function () {
+                // Get the desired number of decimal places from the data-tofixed attribute
+                var fixedNo = isNaN(parseInt($(this).attr("data-tofixed"))) ? 0 : parseInt($(this).attr("data-tofixed"));
+
+                // Get the current value and remove any leading zeros before the decimal point
+                var currentValue = $(this).val().replace(/^0+(?=\d)/, '');
+
+                // If the input is empty or starts with a ".", add a "0" before it
+                if (currentValue === '' || currentValue === '.') {
+                    currentValue = '0' + currentValue;
+                }
+
+                // Validate and format the input value
+                var value = isNaN(parseFloat(currentValue)) ? '0.00' : parseFloat(currentValue).toFixed(fixedNo);
+
+                // Update the input value
+                $(this).val(value);
+            });
+
         });
 
         function logout() {
@@ -1903,9 +1949,202 @@
                 showError("", e.message);
             }
         }
+
         function showUnderDevMsg() {
             showInfo("", "Under Development");
         }
+
+        $(".demo-accordion").accordionjs();
+
+    </script>
+
+    <script>
+        var loginOrignalFirmBranchList = [];
+        var loginFilteredFirmBranchList = [];
+
+        var loginOrignalYearList = [];
+        var loginFilteredYearList = [];
+
+        $(function (e) {
+            $('#searchFirmInput').focus();
+
+            $("#searchFirmInput").on('input', function () {
+                var searchTerm = $(this).val().toLowerCase();
+                filterFirmBranchList(searchTerm);
+            });
+
+            $("#searchFirmInput").on("keypress", function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+
+                    if (loginFilteredFirmBranchList == null || loginFilteredFirmBranchList.length <= 0) {
+                        showWarning("", "There is no firm in list.");
+                        return false;
+                    }
+
+                    selectBranch(loginFilteredFirmBranchList[0].value);
+                }
+            });
+
+            $("#searchYearInput").on('input', function () {
+                var searchTerm = $(this).val().toLowerCase();
+                filterYearList(searchTerm);
+            });
+
+            $("#searchYearInput").on("keypress", function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+
+                    if (loginFilteredYearList == null || loginFilteredYearList.length <= 0) {
+                        showWarning("", "There is no year to select.");
+                        return false;
+                    }
+
+                    selectYear(loginFilteredYearList[0].value);
+                }
+            });
+        });
+
+        function bindFirmBranch() {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetUserBranches"))", "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            loginOrignalFirmBranchList = data.data;
+                            filterFirmBranchList("");
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
+            } catch (err) {
+                showError("", e.message);
+            }
+        }
+
+        function filterFirmBranchList(searchTerm) {
+            var linkList = $("#loginfirmBranchList");
+            linkList.empty();
+
+            loginFilteredFirmBranchList = loginOrignalFirmBranchList.filter(function (item) {
+                return item.text.toLowerCase().includes(searchTerm);
+            });
+
+            if (loginFilteredFirmBranchList.length > 0) {
+                for (var i = 0; i < loginFilteredFirmBranchList.length; i++) {
+                    var o = loginFilteredFirmBranchList[i];
+                    var listItem = $("<a href='javascript:selectBranch(" + o.value + ")' class='list-group-item " + ($("#hdnLoggedInFirmBranchId").val() == o.value ? "active" : "") + "' data-id='" + o.value + "'>" + o.text + "</a>");
+                    linkList.append(listItem);
+                }
+            } else {
+                var listItem = $("<a href='#' class='list-group-item'>No branch found</a>");
+                linkList.append(listItem);
+            }
+
+            $('#searchFirmInput').focus();
+        }
+
+        function selectBranch(branchId) {
+            $("#hdnLoggedInFirmBranchId").val(branchId);
+            var retrundata = AjaxCall("POST", "@(Url.Action("UpdateUserLoggedInBranch", "Customer"))" + "/" + branchId, "",
+                function (data) {
+                    unblockUI('container');
+                    if (data.result == RESULT_SUCCESS) {
+                        $('#LoginFirmModal').modal('hide');
+                        $('#LoginYearModal').modal('show');
+                        bindFinanceYear(branchId);
+                    } else {
+                        showError("", data.data);
+                    }
+                },
+                function (error) {
+                    showError("", error.statusText);
+                });
+        }
+
+        function bindFinanceYear(branchId) {
+            try {
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetFinanceYearId"))" + "/" + branchId, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            loginOrignalYearList = data.data;
+                            filterYearList("");
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
+            } catch (err) {
+                showError("", e.message);
+            }
+        }
+
+        function filterYearList(searchTerm) {
+            var linkList = $("#loginyearList");
+            linkList.empty();
+
+            loginFilteredYearList = loginOrignalYearList.filter(function (item) {
+                return item.text.toLowerCase().includes(searchTerm);
+            });
+
+            if (loginFilteredYearList.length > 0) {
+                for (var i = 0; i < loginFilteredYearList.length; i++) {
+                    var o = loginFilteredYearList[i];
+                    var listItem = $("<a href='javascript:selectYear(" + o.value + ")' class='list-group-item " + ($("#hdnLoggedInYearId").val() == o.value ? "active" : "") + "' data-id='" + o.value + "'>" + o.text + "</a>");
+                    linkList.append(listItem);
+                }
+            } else {
+                var listItem = $("<a href='#' class='list-group-item'>No year found</a>");
+                linkList.append(listItem);
+            }
+
+            $('#searchYearInput').focus();
+        }
+
+        function selectYear(year) {
+            $("#hdnLoggedInYearId").val(year);
+
+            try {
+                var retrundata = AjaxCall("POST", "@(Url.Action("UpdateUserLoggedInYear", "Customer"))" + "/" + year, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            $('#LoginYearModal').modal('hide');
+                            window.location.replace("@(Url.Action("Index", "Home"))");
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
+            } catch (err) {
+                showError("", e.message);
+            }
+        }
+
+        function setCookie(name, value) {
+            document.cookie = `${name}=${value}; path=/`;
+        }
+
+        function getCookie(name) {
+            const cookieArray = document.cookie.split(';');
+            for (let i = 0; i < cookieArray.length; i++) {
+                const cookiePair = cookieArray[i].split('=');
+                if (cookiePair[0].trim() === name) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+
     </script>
 
     @if (IsSectionDefined("Scripts"))

@@ -110,13 +110,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<string>("sp_GetAllGSTNoByTransportName", connectionString, parameters);
         }
-        public List<DropdownViewModel> GetCustomerAccountListByBranchMapping(int firmId, int branchId, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@FirmId", firmId);
-            parameters.Add("@BranchId", branchId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountListByBranchiMapping_Select", connectionString, parameters);
-        }
         public List<DropdownViewModel> GetCustomerAccountListWithAccountGroup(string connectionString, int loginId = 0, int firmId = 0)
         {
             var parameters = new DynamicParameters();
@@ -129,7 +122,14 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", branchId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccounBranchMappingList_Select", connectionString, parameters);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccounListWithGroup_Select", connectionString, parameters);
+        }
+        public CustomerAccountViewModel GetListByCustomerAccountBranchMappingId(string connectionString, int CustomerAccountBranchMappingId, int branchId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@CustomerAccountBranchMappingId", CustomerAccountBranchMappingId);
+            parameters.Add("@BranchId", branchId);
+            return QueryHelper.Get<CustomerAccountViewModel>("sp_CustomerAccountGetByBranchMappingId", connectionString, parameters);
         }
         public List<DropdownViewModel> GetCustomerAccountBranchMappingListWithAccountGroup_Select(int firmId, int branchId, string connectionString)
         {
@@ -137,13 +137,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", branchId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccounBranchMappingListWithAccountGroup_Select", connectionString, parameters);
-        }
-        public List<DropdownViewModel> GetCustomerAccountListWithGSTNo_MobileNo(int firmId, int branchId, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@FirmId", firmId);
-            parameters.Add("@BranchId", branchId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountListByBranchMappingWithGSTNo_MobileNo_Select", connectionString, parameters);
         }
     }
 }

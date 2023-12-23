@@ -1,0 +1,1924 @@
+﻿@model Adroit.Accounting.Model.ViewModel.PurchaseBillMasterViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Booking</a></li>
+                    <li class="active"><span>Chalan</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">CHALLAN#</th>
+                                    <th class="border-bottom-0">DATE</th>
+                                    <th class="border-bottom-0">VEHICLE#</th>
+                                    <th class="border-bottom-0">FREIGHT</th>
+                                    <th class="border-bottom-0">FROM CITY</th>
+                                    <th class="border-bottom-0">TO CITY</th>
+                                    <th class="border-bottom-0">NET AMOUNT</th>
+                                    <th class="border-bottom-0">BILL PARTY</th>
+                                    <th class="border-bottom-0">DRIVER</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Booking</a></li>
+                    <li><a href="#" class="btn-back">Chalan</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="row">
+                        <div class="col-md-4" style="display:flex;">
+                            <label for="IsAutoLedger" style="padding:10px 20px 0 0;">Is Auto Ledger</label>
+                            <label class="custom-switch">
+                                <input id="IsAutoLedger" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                <span class="custom-switch-indicator"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
+                                <span class="input-group-append mr-2">
+                                    <button class="btn btn-primary EWayBill-search" type="button">Search</button>
+                                </span>
+                                <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                                <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                                <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                                <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="BillNumberBranch" class="col-md-1 form-label">Branch Chalan#</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control numberonly" id="BillNumberBranch" placeholder="">
+                                    </div>
+                                    <label for="BillDate" class="col-md-1 form-label mb-1">Date</label>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                </div>
+                                            </div>
+                                            <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="BillDate">
+                                        </div>
+                                    </div>
+                                    <label for="LRNumber" class="col-md-1 form-label">LR#</label>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Enter LR Number..." id="LRNumber">
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="SearchLRNumber">Go!</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label for="EwayBillNumber" class="col-md-1 form-label">e-Way Bill Part-A</label>
+                                    <div class="col-md-2" style="display:flex;">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="EwayBillNumber">
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary EWayBill-search" type="button">Go!</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BranchIdTo" class="col-md-1 form-label">To Branch</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search" id="BranchIdTo">
+                                            <option></option>
+                                            @{
+                                                if (Model.CustomerFirmBranchList != null)
+                                                {
+                                                    foreach (var o in Model.CustomerFirmBranchList)
+                                                    {
+                                                        if (o.Value != ViewBag.CurrentBranchId.ToString())
+                                                        {
+                                                            <option value="@o.Value">@o.Text</option>
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="VehicleId" class="col-md-1 form-label">Vehicle#</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search" id="VehicleId">
+                                            <option></option>
+                                            @{
+                                                if (Model.VehicleList != null)
+                                                {
+                                                    foreach (var o in Model.VehicleList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="AccountBranchMappingId" class="col-md-1 form-label">Bill Party</label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search" id="AccountBranchMappingId">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="EwayBillNumber" class="col-md-1 form-label">e-Way Bill Part-B</label>
+                                    <div class="col-md-2" style="display:flex;">
+                                        <select class="form-control select2-show-search-add-clear mode-ed" id="EwayBillNumber">
+                                            <option></option>
+                                            @{
+                                                if (Model.EwayBillList != null)
+                                                {
+                                                    foreach (var o in Model.EwayBillList)
+                                                    {
+                                                        <option value="@o.Text">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                        <span class="input-group-append">
+                                            <button class="btn btn-primary" type="button" id="EWayBill-search"
+                                                    data-container="body" data-toggle="popover" data-popover-color="default"
+                                                    data-placement="bottom" title="Popover bottom">
+                                                <i class="side-menu__icon typcn typcn-clipboard">
+                                                </i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <label for="BillNumberFirm" class="col-md-1 form-label">Firm Chalan#</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control numberonly" id="BillNumberFirm" placeholder="">
+                                    </div>
+                                    <label for="DriverId" class="col-md-1 form-label">Driver</label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search" id="DriverId">
+                                            <option></option>
+                                            @{
+                                                if (Model.DriverList != null)
+                                                {
+                                                    foreach (var o in Model.DriverList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 p-0">
+                                    <div class="card">
+                                        <div class="card-header bg-primary" style="display:block">
+                                            <!--header-->
+                                            <div class="row mb-0">
+                                                <div class="col-md-1">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="LRNumberId" class="font-weight-bold text-white">#</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="LRNumber" class="font-weight-bold text-white">LR#</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="LRDate" class="font-weight-bold text-white"> LR Date </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="PvtMark" class="font-weight-bold text-white"> Pvt.Mark </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Parcel" class="font-weight-bold text-white"> Parcel </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="ChargeWgt" class="font-weight-bold text-white"> Charge Wgt </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="ToCity" class="font-weight-bold text-white"> To City </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="FromCity" class="font-weight-bold text-white"> From City </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="TaxableAmt" class="font-weight-bold text-white"> Taxable Amt </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Description" class="font-weight-bold text-white"> Description </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Consignor" class="font-weight-bold text-white"> Consignor </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Consignee" class="font-weight-bold text-white"> Consignee </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="BillParty" class="font-weight-bold text-white"> Bill Party </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="ewayBillNo" class="font-weight-bold text-white"> E-Way Bill Part-A </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Action" class="font-weight-bold text-white">Action</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body" style="max-height: 202px; overflow-x: auto; overflow-y: auto;">
+                                            <div class="row">
+                                                <div class="col-md-12" id="contentRow"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="ToPayAmount" class="col-md-3 form-label">To Pay @Model.CustomerFirmBranchTransportSetting.ToPayAccountLabel</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="ToPayAmount" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="ToPayAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control select2-show-search" id="ToPayAccountBranchMappingId">
+                                            <option></option>
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Paid" class="col-md-3 form-label">Paid</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="Paid" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="TBB" class="col-md-3 form-label">TBB</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TBB" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Total" class="col-md-3 form-label">Total</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="Total" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="CrossingAmount" class="col-md-3 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingAmountLabel</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="CrossingAmount" placeholder="">
+                                    </div>
+                                    <label for="CrossingAmountAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control select2-show-search" id="CrossingAmountAccountBranchMappingId">
+                                            <option></option>
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="CrossingCommission" class="col-md-3 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingCommissionLabel</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="CrossingCommission" placeholder="">
+                                    </div>
+                                    <label for="CrossingCommissionAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control select2-show-search" id="CrossingCommissionAccountBranchMappingId">
+                                            <option></option>
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="CrossingHamali" class="col-md-3 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingHamaliLabel</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="CrossingHamali" placeholder="">
+                                    </div>
+                                    <label for="CrossingHamaliAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control select2-show-search" id="CrossingHamaliAccountBranchMappingId">
+                                            <option></option>
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="CrossingDeliveryCharge" class="col-md-3 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingDeliveryChargeLabel</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="CrossingDeliveryCharge" placeholder="">
+                                    </div>
+                                    <label for="CrossingDeliveryAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control select2-show-search" id="CrossingDeliveryAccountBranchMappingId">
+                                            <option></option>
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BrokerAmount" class="col-md-3 form-label">Brokerage</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="BrokerAmount" placeholder="">
+                                    </div>
+                                    <label for="BrokerBranchMappingId" class="col-md-2 form-label mb-1">Broker</label>
+                                    <div class="col-md-4">
+                                        <select class="form-control select2-show-search" id="BrokerBranchMappingId">
+                                            <option></option>
+                                            @{
+                                                if (Model.BrokerList != null)
+                                                {
+                                                    foreach (var o in Model.BrokerList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="TaxableAmount" class="col-md-6 form-label text-right">Lorry Hire/ Freight</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TaxableAmount" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="TDSPercent" class="col-md-6 form-label text-right">Less TDS</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TDSPercent" placeholder="%">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TDSAmount" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="AdvanceCash" class="col-md-6 form-label text-right">Cash To Lorry Trip</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="AdvanceCash" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="AdvanceNeft" class="col-md-6 form-label text-right">Bank Transfer To Lorry Trip</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="AdvanceNeft" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="ReceiveCash" class="col-md-6 form-label text-right">Received Cash By Driver</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="ReceiveCash" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="OtherPlus" class="col-md-6 form-label text-right">Other Exp of Trip</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="OtherPlus" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="OtherLess" class="col-md-6 form-label text-right">Other Less</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="OtherLess" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="NetAmount" class="col-md-6 form-label text-right">NET AMOUNT</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="NetAmount" placeholder="" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="Notes" class="col-md-2 form-label">Remarks</label>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="Notes" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <!--LRChalanListModal start-->
+    <div id="lrChalanListModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
+            <div class="modal-content ">
+                <div class="form-horizontal modal-header pd-x-20">
+                    <h5 class="modal-title col-md-1" style="align-self:center;">LR List</h5>
+                    <label for="LRFromCity" class="col-md-1 form-label">From City</label>
+                    <div class="col-md-2">
+                        <select multiple="multiple" class="filter-multi mode-ed-multi" id="LRFromCity">
+                            @{
+                                if (Model.CityList != null)
+                                {
+                                    foreach (var o in Model.CityList)
+                                    {
+                                        <option value="@o.Value">@o.Text</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    <label for="LRToCity" class="col-md-1 form-label">To City</label>
+                    <div class="col-md-2">
+                        <select multiple="multiple" class="filter-multi mode-ed-multi" id="LRToCity">
+                            @{
+                                if (Model.CityList != null)
+                                {
+                                    foreach (var o in Model.CityList)
+                                    {
+                                        <option value="@o.Value">@o.Text</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    <a href="#" class="btn btn-primary" data-toggle="modal" id="SearchLRNumberList" data-original-title="Select LR List">
+                        Search
+                    </a>
+                    <label for="EwayBillNumber" class="col-md-1 form-label ml-4">e-Way Bill Part-A</label>
+                    <div class="col-md-2" style="display:flex;">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="EwayBillNumber">
+                            <span class="input-group-append mr-2">
+                                <button class="btn btn-primary EWayBill-search" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                    <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body pd-20" style="max-height: 700px; overflow-x: auto; overflow-y: auto;">
+                    <div class="table-responsive">
+                        <table id="LRtblMain" class="table table-bordered key-buttons text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0"><input type="checkbox" /></th>
+                                    <th class="border-bottom-0">LR#</th>
+                                    <th class="border-bottom-0">LR Date</th>
+                                    <th class="border-bottom-0">Tot. Parcel</th>
+                                    <th class="border-bottom-0">Tot. Act. Kg.</th>
+                                    <th class="border-bottom-0">Tot. Chrg. Kg.</th>
+                                    <th class="border-bottom-0">Tax. Amt.</th>
+                                    <th class="border-bottom-0">GST %</th>
+                                    <th class="border-bottom-0">From City</th>
+                                    <th class="border-bottom-0">To City</th>
+                                    <th class="border-bottom-0">Vehicle#</th>
+                                    <th class="border-bottom-0">Consignor</th>
+                                    <th class="border-bottom-0">Consignee</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!-- modal-body -->
+                <div class="modal-footer">
+                    <a href="#" type="button" class="btn btn-primary" id="AddData">Add</a>
+                    <a href="#" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+        </div><!-- modal-dialog -->
+    </div><!-- modal -->
+    <!--LRChalanListModal end-->
+    <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="hdnSelectedLRNumberIds" value="" />
+    <input type="hidden" id="selectedLRDetails" value="[]" />
+    <input type="hidden" id="hdnAccountBranchMappingId" value="" />
+
+</div>
+
+
+@section Scripts
+{
+    <script>
+        var selectedLRDetails = [];
+        var addedIds = [];
+        $(function (e) {
+
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+            bindDatatableList();
+
+            $("#AccountBranchMappingId").on('change', function (e) {
+                GetTDSPercentByCustomerAccountBranchMappingId($(this).val());
+            });
+
+            $("#VehicleId").on('change', function (e) {
+                binBillParty();
+            });
+
+            $("#ToPayAccountBranchMappingId").on('change', function (e) {
+
+                $("#CrossingAmountAccountBranchMappingId").val($(this).val()).trigger('change');
+                $("#CrossingCommissionAccountBranchMappingId").val($(this).val()).trigger('change');
+                $("#CrossingHamaliAccountBranchMappingId").val($(this).val()).trigger('change');
+                $("#CrossingDeliveryAccountBranchMappingId").val($(this).val()).trigger('change');
+
+            });
+
+            $('#EWayBill-search').on('click', function () {
+                var Data = "Your dynamically generated content goes here.";
+                $(this).attr('data-content', Data);
+            });
+
+            $("#TaxableAmount").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#TDSAmount").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#AdvanceCash").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#AdvanceNeft").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#ReceiveCash").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#OtherPlus").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#OtherLess").on('keyup', function (e) {
+                CalcNetAmount();
+            });
+
+            $("#AddData").on('click', function (e) {
+                $("#lrChalanListModal").modal("hide");
+                addRow();
+            });
+
+            $("#SearchLRNumberList").on('click', function (e) {
+
+                if ($("#LRFromCity").val() == null || $("#LRFromCity").val() == "") {
+                    showWarning("", "Please select from city");
+                    $("#LRFromCity").focus();
+                    return false;
+                }
+
+                if ($("#LRToCity").val() == null || $("#LRToCity").val() == "") {
+                    showWarning("", "Please select to city");
+                    $("#LRToCity").focus();
+                    return false;
+                }
+
+                bindLRList();
+            });
+
+            $("#SearchLRNumber").on('click', function (e) {
+                if ($("#LRNumber").val() == '' || $("#LRNumber").val() == null) {
+                    $("#lrChalanListModal").modal("show");
+                    bindLRList();
+                } else
+                    getLRDetailListByLRNumber($('#LRNumber').val());
+            });
+
+            $(".delete-row-btn").on('click', function (e) {
+                var index = $(this).data('index');
+                deleteRow(index);
+            });
+
+            $("#TDSPercent").on('keyup', function (e) {
+                var amt = ($('#TaxableAmount').val() * $(this).val() / 100) || 0;
+                $("#TDSAmount").val(Math.round(amt));
+            });
+
+            $("#TaxableAmount, #TDSAmount, #AdvanceCash, #AdvanceNeft, #ReceiveCash, #OtherPlus, #OtherLess").on('change', function (e) {
+                var fieldId = $(this).attr('id');
+                var currentValue = parseFloat($("#" + fieldId).val());
+                var formattedValue = currentValue.toFixed(2);
+                $("#" + fieldId).val(formattedValue);
+            });
+
+            addClick(true);
+        });
+
+        function addClick(isClickAtPgLoad = false) {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset(isClickAtPgLoad);
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#BillNumberBranch").focus();
+            $("#BillNumberBranch").val(0);
+            $("#BillNumberFirm").val(0);
+            $("#ToPayAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingAmountAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingCommissionAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingHamaliAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#CrossingDeliveryAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $("#IsAutoLedger").prop('checked', true);
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billNumberBranch;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.vehicleVRN;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.taxableAmount;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.netAmount;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billPartyName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.driverName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "billNumberBranch", "name": "billNumberBranch" });
+            columns.push({ "data": "billDate", "name": "billDate" });
+            columns.push({ "data": "vehicleVRN", "name": "vehicleVRN" });
+            columns.push({ "data": "taxableAmount", "name": "freight" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "netAmount", "name": "netAmount" });
+            columns.push({ "data": "billPartyName", "name": "billPartyName" });
+            columns.push({ "data": "driverName", "name": "driverName" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                destroy: true,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/ChalanList"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function fromReset(isClickAtPgLoad = false) {
+
+            $("#Id").val(0);
+            $("#BillNumberBranch").val(0);
+            $("#BillNumberFirm").val(0);
+
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
+            $("#BillDate").datepicker("setDate", formattedMinimumDate);
+
+            $("#ToPayAmount, #Paid, #TBB, #Total").val('0.00');
+            $("#CrossingAmount").val('');
+            $("#CrossingAmountAccountBranchMappingId").val('');
+            $("#CrossingCommission").val('');
+            $("#CrossingCommissionAccountBranchMappingId").val('');
+            $("#CrossingHamali").val('');
+            $("#CrossingHamaliAccountBranchMappingId").val('');
+            $("#CrossingDeliveryCharge").val('');
+            $("#CrossingDeliveryAccountBranchMappingId").val('');
+            $("#BrokerAmount").val('');
+            $("#TaxableAmount").val('');
+            $("#TDSPercent").val('');
+            $("#TDSAmount").val('');
+            $("#AdvanceCash").val('');
+            $("#AdvanceNeft").val('');
+            $("#ReceiveCash").val('');
+            $("#OtherPlus").val('');
+            $("#OtherLess").val('');
+            $("#NetAmount").val('');
+            $("#Notes").val('');
+
+            $("#LRFromCity").val(null).trigger('change');
+            $("#LRToCity").val(null).trigger('change');
+            if (isClickAtPgLoad === false)
+                $("#VehicleId").val(null).trigger('change');
+            $("#DriverId").val(null).trigger('change');
+            $("#EwayBillNumber").val(null).trigger('change');
+            $("#LRNumber").val(null).trigger('change');
+            $("#ToPayAccountBranchMappingId").val(null).trigger('change');
+            $("#BrokerBranchMappingId").val(null).trigger('change');
+            $("#AccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingAmountAccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingCommissionAccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingHamaliAccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingDeliveryAccountBranchMappingId").val(null).trigger('change');
+            $("#BranchIdTo").val(null).trigger('change');
+            $("#IsAutoLedger").prop('checked', true);
+
+            selectedLRDetails = [];
+            addedIds = [];
+            $("#hdnSelectedLRNumberIds").val('');
+            $('#contentRow').html('');
+
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+
+        }
+
+        function saveItem() {
+            try {
+                var ewayBillNumber = $("#EwayBillNumber").val();
+
+                if ($("#BillNumberBranch").val() == "") {
+                    showWarning("", "Please enter branch chalan");
+                    $("#BillNumberBranch").focus();
+                    return false;
+                }
+
+                if ($("#BillDate").val() == "") {
+                    showWarning("", "Please enter Date");
+                    $("#BillDate").focus();
+                    return false;
+                }
+
+                if ($("#VehicleId").val() == null || $("#VehicleId").val() == "") {
+                    showWarning("", "Please select vehicle");
+                    $("#VehicleId").focus();
+                    return false;
+                }
+
+                if ($("#AccountBranchMappingId").val() == null || $("#AccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select bill party");
+                    $("#AccountBranchMappingId").focus();
+                    return false;
+                }
+
+                if ($("#EwayBillNumber").val() != null && $("#EwayBillNumber").val() != "") {
+                    if (ewayBillNumber.length < 12) {
+                        showWarning("", "Eway Bill Number should be at least 12 characters long.");
+                        $("#EwayBillNumber").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#BillNumberFirm").val() == "") {
+                    showWarning("", "Please enter firm chalan");
+                    $("#BillNumberFirm").focus();
+                    return false;
+                }
+
+                if ($("#ToPayAmount").val() != null && $("#ToPayAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#ToPayAmount").val())) {
+                        showWarning("", "@Model.CustomerFirmBranchTransportSetting.ToPayAccountLabel" + " Amount must be up to 7 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#ToPayAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CrossingAmount").val() != null && $("#CrossingAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CrossingAmount").val())) {
+                        showWarning("", "@Model.CustomerFirmBranchTransportSetting.CrossingAmountLabel" + " Amount must be up to 7 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#CrossingAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CrossingCommission").val() != null && $("#CrossingCommission").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CrossingCommission").val())) {
+                        showWarning("", "@Model.CustomerFirmBranchTransportSetting.CrossingCommissionLabel" + " Amount must be up to 7 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#CrossingCommission").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CrossingHamali").val() != null && $("#CrossingHamali").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CrossingHamali").val())) {
+                        showWarning("", "@Model.CustomerFirmBranchTransportSetting.CrossingHamaliLabel" + " Amount must be up to 7 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#CrossingHamali").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CrossingDeliveryCharge").val() != null && $("#CrossingDeliveryCharge").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CrossingDeliveryCharge").val())) {
+                        showWarning("", "@Model.CustomerFirmBranchTransportSetting.CrossingDeliveryChargeLabel" + " Amount must be up to 7 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#CrossingDeliveryCharge").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#BrokerAmount").val() != null && $("#BrokerAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#BrokerAmount").val())) {
+                        showWarning("", "Broker amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#BrokerAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TaxableAmount").val() != null && $("#TaxableAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TaxableAmount").val())) {
+                        showWarning("", "Lorry hire must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TaxableAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TDSPercent").val() != null && $("#TDSPercent").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSPercent").val())) {
+                        showWarning("", "Less tds must be up to 7 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#TDSPercent").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TDSAmount").val() != null && $("#TDSAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSAmount").val())) {
+                        showWarning("", "Less tds must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TDSAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#AdvanceCash").val() != null && $("#AdvanceCash").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#AdvanceCash").val())) {
+                        showWarning("", "Cash to lorry trip must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#AdvanceCash").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#AdvanceNeft").val() != null && $("#AdvanceNeft").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#AdvanceNeft").val())) {
+                        showWarning("", "Bank transfer to lorry trip must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#AdvanceNeft").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#ReceiveCash").val() != null && $("#ReceiveCash").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#ReceiveCash").val())) {
+                        showWarning("", "Received Cash By Driver must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#ReceiveCash").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#OtherPlus").val() != null && $("#OtherPlus").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#OtherPlus").val())) {
+                        showWarning("", "Other exp of trip must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#OtherPlus").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#OtherLess").val() != null && $("#OtherLess").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#OtherLess").val())) {
+                        showWarning("", "Other Less must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#OtherLess").focus();
+                        return false;
+                    }
+                }
+
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+
+                savedata.BillNumberBranch = getIntValueZero("BillNumberBranch");
+                savedata.BillNumberFirm = $("#BillNumberFirm").val();
+                savedata.BillDate = moment(getDate($("#BillDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.VehicleId = getIntValueZero("VehicleId");
+                savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
+                savedata.DriverId = getIntValueNull("DriverId");
+                savedata.EwayBillNumber = $("#EwayBillNumber").val();
+                savedata.ToPayAmount = getFloatValueNull("ToPayAmount", 2);
+                savedata.ToPayAccountBranchMappingId = getIntValueNull("ToPayAccountBranchMappingId");
+                savedata.CrossingAmount = getFloatValueNull("CrossingAmount", 2);
+                savedata.CrossingCommission = getFloatValueNull("CrossingCommission", 2);
+                savedata.CrossingHamali = getFloatValueNull("CrossingHamali", 2);
+                savedata.CrossingDeliveryCharge = getFloatValueNull("CrossingDeliveryCharge", 2);
+                savedata.CrossingAmountAccountBranchMappingId = getIntValueNull("CrossingAmountAccountBranchMappingId");
+                savedata.CrossingCommissionAccountBranchMappingId = getIntValueNull("CrossingCommissionAccountBranchMappingId");
+                savedata.CrossingHamaliAccountBranchMappingId = getIntValueNull("CrossingHamaliAccountBranchMappingId");
+                savedata.CrossingDeliveryAccountBranchMappingId = getIntValueNull("CrossingDeliveryAccountBranchMappingId");
+                savedata.BrokerAmount = getFloatValueNull("BrokerAmount", 2);
+                savedata.BrokerBranchMappingId = getIntValueNull("BrokerBranchMappingId");
+                savedata.Notes = $("#Notes").val();
+                savedata.TaxableAmount = getFloatValueNull("TaxableAmount", 2);
+                savedata.TDSPercent = getFloatValueZero("TDSPercent", 2);
+                savedata.TDSAmount = getFloatValueNull("TDSAmount", 2);
+                savedata.AdvanceCash = getFloatValueNull("AdvanceCash", 2);
+                savedata.AdvanceNeft = getFloatValueNull("AdvanceNeft", 2);
+                savedata.ReceiveCash = getFloatValueNull("ReceiveCash", 2);
+                savedata.OtherPlus = getFloatValueNull("OtherPlus", 2);
+                savedata.OtherLess = getFloatValueNull("OtherLess", 2);
+                savedata.LRNumberIds = $("#hdnSelectedLRNumberIds").val();
+                savedata.IsAutoLedger = $('#IsAutoLedger').is(':checked');
+                savedata.EntryTypeName = "PUR";
+                savedata.BranchIdTo = parseInt($("#BranchIdTo").val());
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveChalan", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Chalan saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            addClick();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteChalan"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalan"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+
+                                selectedLRDetails = [];
+                                addedIds = [];
+                                $("#hdnSelectedLRNumberIds").val('');
+                                $('#contentRow').html('');
+
+                                $("#Id").val(result.data.id);
+                                $("#BranchIdTo").val(result.data.branchIdTo).trigger('change');
+                                $("#BillNumberBranch").val(result.data.billNumberBranch);
+                                $("#BillNumberFirm").val(result.data.billNumberFirm);
+                                $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#VehicleId").val(result.data.vehicleId).trigger('change');
+                                $("#hdnAccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                $("#DriverId").val(result.data.driverId).trigger('change');
+                                $("#EwayBillNumber").val(result.data.ewayBillNumber).trigger('change');
+                                $("#ToPayAccountBranchMappingId").val(result.data.toPayAccountBranchMappingId).trigger('change');
+                                $("#CrossingDeliveryCharge").val(result.data.crossingDeliveryCharge);
+                                $("#CrossingAmountAccountBranchMappingId").val(result.data.crossingAmountAccountBranchMappingId).trigger('change');
+                                $("#CrossingCommissionAccountBranchMappingId").val(result.data.crossingCommissionAccountBranchMappingId).trigger('change');
+                                $("#CrossingHamaliAccountBranchMappingId").val(result.data.crossingHamaliAccountBranchMappingId).trigger('change');
+                                $("#CrossingDeliveryAccountBranchMappingId").val(result.data.crossingDeliveryAccountBranchMappingId).trigger('change');
+                                $("#BrokerBranchMappingId").val(result.data.brokerBranchMappingId).trigger('change');
+                                $("#Notes").val(result.data.notes);
+                                $("#TaxableAmount").val(result.data.taxableAmount ? result.data.taxableAmount.toFixed(2) : '');
+                                $("#TDSPercent").val(result.data.tdsPercent ? result.data.tdsPercent.toFixed(2) : '');
+                                $("#TDSAmount").val(result.data.tdsAmount ? result.data.tdsAmount.toFixed(2) : '');
+                                $("#AdvanceCash").val(result.data.advanceCash ? result.data.advanceCash.toFixed(2) : '');
+                                $("#AdvanceNeft").val(result.data.advanceNeft ? result.data.advanceNeft.toFixed(2) : '');
+                                $("#ReceiveCash").val(result.data.receiveCash ? result.data.receiveCash.toFixed(2) : '');
+                                $("#OtherPlus").val(result.data.otherPlus ? result.data.otherPlus.toFixed(2) : '');
+                                $("#OtherLess").val(result.data.otherLess ? result.data.otherLess.toFixed(2) : '');
+                                $("#CrossingAmount").val(result.data.crossingAmount ? result.data.crossingAmount.toFixed(2) : '');
+                                $("#CrossingCommission").val(result.data.crossingCommission ? result.data.crossingCommission.toFixed(2) : '');
+                                $("#CrossingHamali").val(result.data.crossingHamali ? result.data.crossingHamali.toFixed(2) : '');
+                                $("#CrossingDeliveryCharge").val(result.data.crossingDeliveryCharge ? result.data.crossingDeliveryCharge.toFixed(2) : '');
+                                $("#BrokerAmount").val(result.data.brokerAmount ? result.data.brokerAmount.toFixed(2) : '');
+                                $("#IsAutoLedger").prop('checked', result.data.isAutoLedger);
+
+                                CalcNetAmount();
+                                getLRDetailListByPurchaseBillMas(result.data.id);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getLRDetailListByPurchaseBillMas(purchaseBillMasterId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByPurchaseBillMasterId"))" + "/" + purchaseBillMasterId, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                result.data.forEach(function (LRBookingDetail) {
+                                    selectedLRDetails.push({
+                                        id: LRBookingDetail.id,
+                                        lrNumber: LRBookingDetail.lrNumber,
+                                        lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                        privateMarka: LRBookingDetail.privateMarka,
+                                        parcel: LRBookingDetail.parcel,
+                                        chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
+                                        toCity: LRBookingDetail.cityTo,
+                                        fromCity: LRBookingDetail.cityFrom,
+                                        invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
+                                        description: LRBookingDetail.description,
+                                        consignor: LRBookingDetail.consignor,
+                                        consignee: LRBookingDetail.consignee,
+                                        billPartyName: LRBookingDetail.billPartyName,
+                                        ewayBillNo: LRBookingDetail.ewayBillNo
+                                    });
+                                });
+
+                                addRow();
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getLRDetailListByLRNumber(LRNumberId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByLRNumberId"))" + "/" + LRNumberId, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                if (result.data.length == 0) {
+                                    showWarning("", 'LR(' + LRNumberId + ') detail not found!.');
+                                }
+                                else {
+                                    result.data.forEach(function (LRBookingDetail) {
+                                        var isDuplicate = selectedLRDetails.some(item => item.id === LRBookingDetail.id);
+
+                                        if (!isDuplicate) {
+                                            selectedLRDetails.push({
+                                                id: LRBookingDetail.id,
+                                                lrNumber: LRBookingDetail.lrNumber,
+                                                lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                                privateMarka: LRBookingDetail.privateMarka,
+                                                parcel: LRBookingDetail.parcel,
+                                                chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
+                                                toCity: LRBookingDetail.cityTo,
+                                                fromCity: LRBookingDetail.cityFrom,
+                                                invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
+                                                description: LRBookingDetail.description,
+                                                consignor: LRBookingDetail.consignor,
+                                                consignee: LRBookingDetail.consignee,
+                                                billPartyName: LRBookingDetail.billPartyName,
+                                                ewayBillNo: LRBookingDetail.ewayBillNo
+                                            });
+
+                                        }
+                                    });
+                                    addRow();
+                                }
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetTDSPercentByCustomerAccountBranchMappingId(CustomerAccountBranchMappingId, contentRowId) {
+            try {
+                if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetTDSPercentByCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#TDSPercent").val(result.data.tds);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function CalcNetAmount() {
+
+            var TaxableAmount = +getFloatValueZero("TaxableAmount", 2);
+            var TDSAmount = +getFloatValueZero("TDSAmount", 2);
+            var AdvanceCash = +getFloatValueZero("AdvanceCash", 2);
+            var AdvanceNeft = +getFloatValueZero("AdvanceNeft", 2);
+            var ReceiveCash = +getFloatValueZero("ReceiveCash", 2);
+            var OtherPlus = +getFloatValueZero("OtherPlus", 2);
+            var OtherLess = +getFloatValueZero("OtherLess", 2);
+            var NetAmount = +getFloatValueZero("NetAmount", 2);
+
+            $("#NetAmount").val((isNaN(TaxableAmount - (TDSAmount + AdvanceCash + AdvanceNeft + OtherLess) + (ReceiveCash + OtherPlus)) ? 0 : (TaxableAmount - (TDSAmount + AdvanceCash + AdvanceNeft + OtherLess) + (ReceiveCash + OtherPlus)).toFixed(2)));
+
+        }
+
+        function bindLRList() {
+            let fromCity = $('#LRFromCity').val().length === 0 ? '0' : $('#LRFromCity').val().join(",");
+            let toCity = $('#LRFromCity').val().length === 0 ? '0' : $('#LRToCity').val().join(",");
+
+            let columns = [];
+            let colDef = [];
+
+            colDef.push({
+                "render": function (data, type, row) {
+                    return '<input type="checkbox"/>';
+                },
+                "targets": 0,
+                "orderable": false,
+                'checkboxes': {
+                    'selectRow': true
+                },
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return parseFloat(row.actualWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return parseFloat(row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return parseFloat(row.chargeAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return parseFloat(row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.vehilcleNo;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+                "className": "text-left",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+                "className": "text-left",
+            });
+
+            columns.push({ "data": "id", "name": "id" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "lrDate", "name": "lrDate" });
+            columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "actualWeight", "name": "actualWeight" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
+            columns.push({ "data": "chargeAmount", "name": "chargeAmount" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "vehilcleNo", "name": "vehilcleNo" });
+            columns.push({ "data": "consignor", "name": "consignor" });
+            columns.push({ "data": "consignee", "name": "consignee" });
+
+            var table = $('#LRtblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: false,
+                paging: false,
+                pageLength: 1,
+                order: [[0, 'asc']],
+                "destroy": true,
+                // pagingType: 'full_numbers',
+                orderClasses: false,
+                scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                'select': {
+                    'style': 'multi'
+                },
+                ajax: {
+                    url: '@(Url.Content("~/Customer/GetLRBookingListByCity"))' + "/" + fromCity + "/" + toCity,
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                    if (selectedLRDetails.length == 0) {
+                        $('#LRtblMain input[type="checkbox"]').prop('checked', true);
+
+                        selectedIds = table.rows({ selected: true }).data().toArray().map(row => row.id);
+
+                        table.rows({ selected: true }).data().each(function (row) {
+
+                            var isDuplicate = selectedLRDetails.some(item => item.id === row.id);
+
+                            if (!isDuplicate) {
+                                selectedLRDetails.push({
+                                    id: row.id,
+                                    lrNumber: row.lrNumber,
+                                    lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                    privateMarka: row.privateMarka,
+                                    parcel: row.parcel,
+                                    chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
+                                    toCity: row.cityTo,
+                                    fromCity: row.cityFrom,
+                                    invoiceValue: parseFloat(row.invoiceValue || 0).toFixed(2),
+                                    description: row.description,
+                                    consignor: row.consignor,
+                                    consignee: row.consignee,
+                                    billPartyName: row.billPartyName,
+                                    ewayBillNo: row.ewayBillNo
+                                });
+                            }
+                        });
+
+                        updateHiddenInput(selectedIds);
+                    }
+
+                    selectedLRDetails.forEach(function (item) {
+                        var row = table.row(function (idx, data, node) {
+                            return data.id === item.id;
+                        });
+
+                        if (row && row.length > 0) {
+                            $(row.node()).find('input[type="checkbox"]').prop('checked', true);
+                            $(row.node()).addClass('selected');
+                        }
+                    });
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+            });
+
+            $('#LRtblMain thead input[type="checkbox"]').on('click', function () {
+                var isChecked = this.checked;
+
+                $('#LRtblMain tbody input[type="checkbox"]').prop('checked', isChecked);
+
+                if (isChecked) {
+                    var selectedRowsData = table.rows({ selected: true }).data().toArray();
+                    selectedIds = selectedRowsData.map(row => row.id);
+                    selectedLRDetails = selectedRowsData.map(row => ({
+                        id: row.id,
+                        lrNumber: row.lrNumber,
+                        lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                        privateMarka: row.privateMarka,
+                        parcel: row.parcel,
+                        chargeWeight: row.chargeWeight,
+                        toCity: row.toCity,
+                        fromCity: row.fromCity,
+                        invoiceValue: row.invoiceValue,
+                        description: row.description,
+                        consignor: row.consignor,
+                        consignee: row.consignee,
+                        billPartyName: row.billPartyName,
+                        ewayBillNo: row.ewayBillNo
+                    }));
+                } else {
+                    selectedIds = [];
+                    selectedLRDetails = [];
+                }
+
+                updateHiddenInput(selectedIds);
+            });
+
+            var selectedIds = [];
+            $('#LRtblMain tbody').on('click', 'input[type="checkbox"]', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row && row.data() && row.data().id) {
+                    if ($(this).prop('checked')) {
+                        if (!selectedIds.includes(row.data().id)) {
+                            selectedIds.push(row.data().id);
+
+                            var isDuplicate = selectedLRDetails.some(item => item.id === row.data().id);
+
+                            if (!isDuplicate) {
+                                selectedLRDetails.push({
+                                    id: row.data().id,
+                                    lrNumber: row.data().lrNumber,
+                                    lrDate: moment(row.data().lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                    privateMarka: row.data().privateMarka,
+                                    parcel: row.data().parcel,
+                                    chargeWeight: row.data().chargeWeight,
+                                    toCity: row.data().toCity,
+                                    fromCity: row.data().fromCity,
+                                    invoiceValue: row.data().invoiceValue,
+                                    description: row.data().description,
+                                    consignor: row.data().consignor,
+                                    consignee: row.data().consignee,
+                                    billPartyName: row.data().billPartyName,
+                                    ewayBillNo: row.data().ewayBillNo
+                                });
+                            }
+                        }
+                    } else {
+                        selectedIds = selectedIds.filter(item => item !== row.data().id);
+                        selectedLRDetails = selectedLRDetails.filter(item => item.id !== row.data().id);
+                    }
+                }
+            });
+        }
+
+        function GetChalanToPayAmount(lrNumberIds) {
+            try {
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanToPayAmount"))" + "/" + lrNumberIds, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                $("#ToPayAmount").val((parseFloat($("#ToPayAmount").val() || 0) + parseFloat(result.data.toPayAccountValue || 0)).toFixed(2));
+                                $("#Paid").val((parseFloat($("#Paid").val() || 0) + parseFloat(result.data.paidValue || 0)).toFixed(2));
+                                $("#TBB").val((parseFloat($("#TBB").val() || 0) + parseFloat(result.data.tbbValue || 0)).toFixed(2));
+
+                                var totalValue = parseFloat($("#ToPayAmount").val() || 0) +
+                                    parseFloat($("#Paid").val() || 0) +
+                                    parseFloat($("#TBB").val() || 0);
+
+                                $("#Total").val(totalValue.toFixed(2));
+
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function addRow() {
+
+            var htmlContentArray = [];
+            $('#contentRow').html('');
+            for (var i = 0; i < selectedLRDetails.length; i++) {
+
+                var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + i + '">' +
+                    '<div class="col-md-1">' +
+                    '<div class="row mb-0">' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="id">' + (i + 1) + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="lrNumber">' + selectedLRDetails[i].lrNumber + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1 p-0">' +
+                    '<div class="row mb-0">' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="lrDate">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="privateMarka">' + (selectedLRDetails[i].privateMarka || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="parcel">' + (selectedLRDetails[i].parcel || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="chargeWeight">' + (selectedLRDetails[i].chargeWeight || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="row mb-0">' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="toCity">' + (selectedLRDetails[i].toCity || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="fromCity">' + (selectedLRDetails[i].fromCity || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="invoiceValue">' + (selectedLRDetails[i].invoiceValue || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="description">' + (selectedLRDetails[i].description || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="consignor">' + (selectedLRDetails[i].consignor || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="consignee">' + (selectedLRDetails[i].consignee || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="billPartyName">' + (selectedLRDetails[i].billPartyName || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="ewayBillNo">' + (selectedLRDetails[i].ewayBillNo || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<a href="javascript:deleteRow(' + selectedLRDetails[i].id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+
+                htmlContentArray.push(htmlContent);
+
+                addedIds.push(selectedLRDetails[i].id);
+            }
+
+            $('.content-rows-add-btn').remove();
+            $('#contentRow').append(htmlContentArray.join(''));
+            $('.select2-show-search-contentrows').select2({
+                minimumResultsForSearch: ''
+            });
+
+            var counter = 0;
+            $('.content-row-srno').each(function () {
+                $(this).val(++counter);
+            });
+
+            $('.delete-row-btn').on('click', function () {
+                var index = $(this).data('index');
+                deleteRow(index);
+            });
+
+            updateSelectedIdsInput();
+        }
+
+        function deleteRow(deletedId) {
+
+            var index = selectedLRDetails.findIndex(item => item.id === deletedId);
+
+            if (index !== -1) {
+                $('#row-' + index).remove();
+                addedIds = addedIds.filter(id => id !== deletedId);
+                selectedLRDetails.splice(index, 1);
+                updateSelectedIdsInput();
+
+                // Update the id attribute for each remaining row
+                $('.content-rows').each(function (newIndex) {
+                    $(this).attr('id', 'row-' + newIndex);
+                });
+            }
+
+        }
+
+        function updateSelectedIdsInput() {
+            var uniqueIds = [...new Set(selectedLRDetails.map(item => item.id))];
+            updateHiddenInput(uniqueIds);
+            $("#ToPayAmount, #Paid, #TBB, #Total").val('0.00');
+            uniqueIds.forEach(function (id) {
+                GetChalanToPayAmount(id);
+            });
+        }
+
+        function updateHiddenInput(ids) {
+            var uniqueIds = [...new Set(ids)];
+            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
+        }
+
+        function binBillParty() {
+            try {
+                $("#AccountBranchMappingId").empty();
+                if ($('#VehicleId').val() == '' || $('#VehicleId').val() == null) {
+                    showWarning("", "Please select vehicle.");
+                    return;
+                }
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetChalanCustomerAccountBranchMappingList_Select"))" + "/" + $('#VehicleId').val(), "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            $("#AccountBranchMappingId").empty();
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#AccountBranchMappingId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#AccountBranchMappingId').val($("#hdnAccountBranchMappingId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+    </script>
+}

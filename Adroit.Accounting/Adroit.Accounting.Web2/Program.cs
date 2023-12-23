@@ -7,6 +7,7 @@ using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using NLog;
 using NLog.Web;
@@ -18,7 +19,8 @@ logger.Debug("init main");
 
 try
 {
-    Thread.CurrentThread.CurrentCulture = new CultureInfo("en-GB");
+    var defaultCulture = new CultureInfo("en-GB");
+    Thread.CurrentThread.CurrentCulture = defaultCulture;
 
     var builder = WebApplication.CreateBuilder(args);
 
@@ -117,22 +119,25 @@ try
     builder.Services.AddSingleton<ICustomerUser, CustomerUserRepository>();
     builder.Services.AddSingleton<ICustomerFirmBranch, CustomerFirmBranchRepository>();
     builder.Services.AddSingleton<ICustomerFirmBranchLRRate, CustomerFirmBranchLRRateRepository>();
-	builder.Services.AddSingleton<IProduct, ProductRepository>();
+    builder.Services.AddSingleton<IProduct, ProductRepository>();
     builder.Services.AddSingleton<IProductCategory, ProductCategoryRepository>();
     builder.Services.AddSingleton<IGSTUQC, GSTUQCRepository>();
     builder.Services.AddSingleton<IGSTCalculation, GSTCalculationRepository>();
     builder.Services.AddSingleton<ICustomerAccountBranchMapping, CustomerAccountBranchMappingRepository>();
-	builder.Services.AddSingleton<ICustomerBook, CustomerBookRepository>();
-	builder.Services.AddSingleton<ICustomerFirmTransportSetting, CustomerFirmTransportSettingRepository>();
-	builder.Services.AddSingleton<ICustomerFirmBranchTransportSetting, CustomerFirmBranchTransportSettingRepository>();
-	builder.Services.AddSingleton<ITransportLRRateOn, TransportLRRateOnRepository>();
-	builder.Services.AddSingleton<ITransportLRPayType, TransportLRPayTypeRepository>();
-	builder.Services.AddSingleton<ITransportLRBranchCityMapping, TransportLRBranchCityMappingRepository>();
+    builder.Services.AddSingleton<ICustomerBook, CustomerBookRepository>();
+    builder.Services.AddSingleton<ICustomerFirmTransportSetting, CustomerFirmTransportSettingRepository>();
+    builder.Services.AddSingleton<ICustomerFirmBranchTransportSetting, CustomerFirmBranchTransportSettingRepository>();
+    builder.Services.AddSingleton<ITransportLRRateOn, TransportLRRateOnRepository>();
+    builder.Services.AddSingleton<ITransportLRPayType, TransportLRPayTypeRepository>();
+    builder.Services.AddSingleton<ITransportLRBranchCityMapping, TransportLRBranchCityMappingRepository>();
     builder.Services.AddSingleton<ILRBooking, LRBookingRepository>();
     builder.Services.AddSingleton<ITransportLRDelivery, TransportLRDeliveryRepository>();
     builder.Services.AddSingleton<ITransportLRDeliveryType, TransportLRDeliveryTypeRepository>();
-    builder.Services.AddSingleton<ILoginHandler, LoginHandler>();
-    
+    builder.Services.AddSingleton<ILoginHandler, LoginHandler>();    
+    builder.Services.AddSingleton<IChalan, ChalanRepository>();
+    builder.Services.AddSingleton<IFinanceYear, FinanceYearRepository>();
+    builder.Services.AddSingleton<ICustomerInvoice, CustomerInvoiceRepository>();
+
     if (!builder.Environment.IsDevelopment())
     {
         builder.Services.AddHttpsRedirection(options =>
@@ -156,7 +161,12 @@ try
 
     var app = builder.Build();
     app.ConfigureExceptionHandler(logger);
-
+    app.UseRequestLocalization(new RequestLocalizationOptions
+    {
+        DefaultRequestCulture = new RequestCulture(defaultCulture),
+        SupportedCultures = new List<CultureInfo> { defaultCulture },
+        SupportedUICultures = new List<CultureInfo> { defaultCulture }
+    });
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {

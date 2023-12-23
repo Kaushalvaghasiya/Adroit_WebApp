@@ -11,7 +11,7 @@ using System.Security.Principal;
 
 namespace Adroit.Accounting.Web.Utility
 {
-    public class LoginHandler: ILoginHandler
+    public class LoginHandler : ILoginHandler
     {
         private readonly IMemoryCache? _memoryCache = null;
         public LoginHandler(IMemoryCache memoryCache)
@@ -55,10 +55,12 @@ namespace Adroit.Accounting.Web.Utility
             int userid = GetUserId(user);
             var key = $"CacheFirmId-{userid}";
             int firmId;
-            if (!_memoryCache.TryGetValue(key, out firmId))
+            _memoryCache.TryGetValue(key, out firmId);
+
+            if (firmId == 0)
             {
                 firmId = userRepository.GetLoggedInFirmId(userid, connectionString);
-                
+
                 //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
                 _memoryCache.Set(key, firmId);
             }
@@ -70,14 +72,16 @@ namespace Adroit.Accounting.Web.Utility
             int userid = GetUserId(user);
             var key = $"CacheBrachId-{userid}";
             int branchId;
-            if (!_memoryCache.TryGetValue(key, out branchId))
+            _memoryCache.TryGetValue(key, out branchId);
+
+            if (branchId == 0)
             {
                 branchId = userRepository.GetLoggedInBranchId(userid, connectionString);
 
                 //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
                 _memoryCache.Set(key, branchId);
             }
-            
+
             return branchId;
         }
         public int GetLoggedInYearId(IPrincipal user, IUser userRepository, string connectionString)
@@ -85,7 +89,9 @@ namespace Adroit.Accounting.Web.Utility
             int userid = GetUserId(user);
             var key = $"CacheYearId-{userid}";
             int yearId;
-            if (!_memoryCache.TryGetValue(key, out yearId))
+            _memoryCache.TryGetValue(key, out yearId);
+
+            if (yearId == 0)
             {
                 yearId = userRepository.GetLoggedInYearId(userid, connectionString);
 
@@ -95,6 +101,26 @@ namespace Adroit.Accounting.Web.Utility
 
             return yearId;
         }
+
+        public void ClearLoggedInFirmId(IPrincipal user)
+        {
+            int userid = GetUserId(user);
+            var key = $"CacheFirmId-{userid}";
+            _memoryCache?.Remove(key);
+        }
+        public void ClearLoggedInBranchId(IPrincipal user)
+        {
+            int userid = GetUserId(user);
+            var key = $"CacheBrachId-{userid}";
+            _memoryCache?.Remove(key);
+        }
+        public void ClearLoggedInYearId(IPrincipal user)
+        {
+            int userid = GetUserId(user);
+            var key = $"CacheYearId-{userid}";
+            _memoryCache?.Remove(key);
+        }
+
         public string GetUserFullName(IPrincipal user)
         {
             var claim = (user.Identity as ClaimsIdentity)?.Claims.ToList().FirstOrDefault(p => p.Type == ClaimTypes.GivenName);
@@ -145,6 +171,6 @@ namespace Adroit.Accounting.Web.Utility
         {
             return (UserType)Convert.ToInt32(GetRole(user)) == UserType.BackOffice;
         }
-        
+
     }
 }

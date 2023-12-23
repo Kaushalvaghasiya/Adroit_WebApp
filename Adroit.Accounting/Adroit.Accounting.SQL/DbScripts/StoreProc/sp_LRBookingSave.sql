@@ -23,7 +23,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_LRBookingSave]
 	,@Freight DECIMAL(18,2)
 	,@InvoiceNo VARCHAR(20)
 	,@VehicleId INT
-	,@InvoiceValue DECIMAL(18,0)
+	,@InvoiceValue DECIMAL(18,2)
 	,@LRDeliveryId INT
 	,@PrivateMarka NVARCHAR(30)
 	,@LRDeliveryTypeId INT
@@ -67,6 +67,12 @@ BEGIN
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
+		IF EXISTS ( SELECT 1 FROM [Z-LRBooking-Z] WHERE LRNumber = @LRNumber AND BranchId = @BranchId AND (Id <> ISNULL(@Id, 0) OR ISNULL(@Id, 0) = 0)) AND ISNULL(@LRNumber, 0) > 0
+		BEGIN
+			SET @message = 'This LR Number is already exist.';
+			RAISERROR ('%s', 16, 1, @message);
+		END
+
 		IF ISNULL(@LRNumber, 0) = 0
 		BEGIN
 			SELECT @LRNumber = ISNULL(MAX(LRNumber),0) + 1
@@ -78,23 +84,39 @@ BEGIN
 		FROM LRBookingRange 
 		WHERE BranchId = @BranchId
 
-		IF @LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange
+		IF (@LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange) 
 		BEGIN
-			SET @message = 'LR Number Range OverFlow!';
+			SET @message = 'Please renew LR Range';
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
 		IF ISNULL(@DescriptionId, 0) <= 0 AND ISNULL(@Description,'') != '' AND @Description NOT IN ( SELECT Title From TransportDesc WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
 		BEGIN
 			EXEC @DescriptionId = dbo.sp_TransportDescSave 0, @LoginId, @Description , 0, @LoginId, @LoginId, 1
+			SELECT @DescriptionId = Id FROM TransportDesc WHERE Title = @Description AND Active = 1
 		END
-		SELECT @DescriptionId = Id FROM TransportDesc WHERE Title = @Description AND Active = 1
+		ELSE IF ISNULL(@DescriptionId, 0) <= 0 AND ISNULL(@Description,'') != ''
+		BEGIN
+			SELECT @DescriptionId = Id FROM TransportDesc WHERE Title = @Description AND Active = 1
+		END
+		ELSE
+		BEGIN
+			SELECT @DescriptionId = NULL
+		END
 
 		IF ISNULL(@PackingId, 0) <= 0 AND ISNULL(@Packing,'') != '' AND @Packing NOT IN ( SELECT Title From TransportPacking WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
 		BEGIN
 			EXEC @PackingId = dbo.sp_TransportPackingSave 0, @LoginId, @Packing , 1, 0, @LoginId, @LoginId
+			SELECT @PackingId = Id FROM TransportPacking WHERE Title = @Packing AND Active = 1
 		END
-		SELECT @PackingId = Id FROM TransportPacking WHERE Title = @Packing AND Active = 1
+		ELSE IF ISNULL(@PackingId, 0) <= 0 AND ISNULL(@Packing,'') != ''
+		BEGIN
+			SELECT @PackingId = Id FROM TransportPacking WHERE Title = @Packing AND Active = 1
+		END
+		ELSE
+		BEGIN
+			SELECT @PackingId = NULL
+		END
 
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM [Z-LRBooking-Z] 

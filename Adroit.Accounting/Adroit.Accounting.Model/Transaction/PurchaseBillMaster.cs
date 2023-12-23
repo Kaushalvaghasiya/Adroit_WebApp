@@ -4,12 +4,15 @@
 
 namespace Adroit.Accounting.Model
 {
-    public partial class Z_PurchaseBillMaster_Z
+    public partial class PurchaseBillMaster
     {
-        public Z_PurchaseBillMaster_Z()
+        public PurchaseBillMaster()
         {
         }
         public int Id { get; set; }
+        public int BranchId { get; set; }
+        public int FirmId { get; set; }
+        public int YearId { get; set; }
         public int AccountBranchMappingId { get; set; }
         public int BookBranchMappingId { get; set; }
         public string BillNumberFirm { get; set; }
@@ -73,5 +76,7 @@ namespace Adroit.Accounting.Model
         public System.DateTime? DeletedOn { get; set; }
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
+        public bool IsAutoLedger { get; set; }
+        public int? BranchIdTo { get; set; }
     }
 }

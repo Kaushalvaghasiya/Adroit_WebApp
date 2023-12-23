@@ -1,11 +1,8 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.Repository;
-using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL.Tables;
 using Adroit.Accounting.Utility;
-using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 

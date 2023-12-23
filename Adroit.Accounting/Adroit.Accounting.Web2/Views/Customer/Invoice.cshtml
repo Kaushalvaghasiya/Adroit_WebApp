@@ -1,0 +1,1799 @@
+﻿@model Adroit.Accounting.Model.ViewModel.SalesBillMasterViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Booking</a></li>
+                    <li class="active"><span>Invoice</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">Branch Bill #</th>
+                                    <th class="border-bottom-0">Bill Date</th>
+                                    <th class="border-bottom-0">Bill Party</th>
+                                    <th class="border-bottom-0">GST #</th>
+                                    <th class="border-bottom-0">Amount</th>
+                                    <th class="border-bottom-0">City</th>
+                                    <th class="border-bottom-0">Firm Bill #</th>
+                                    <th class="border-bottom-0 text-center" style="width:80px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Booking</a></li>
+                    <li><a href="#">Invoice</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
+                        <span class="input-group-append mr-2">
+                            <button class="btn btn-primary EWayBill-search" type="button" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Popover top">Search</button>
+                        </span>
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="SerialNumberOfBranch" class="col-md-1 form-label">
+                                        Branch Bill#
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="SerialNumberOfBranch" placeholder="" tabindex="1">
+                                    </div>
+                                    <label for="BillDate" class="col-md-1 form-label mb-1">
+                                        Bill Date
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                </div>
+                                            </div>
+                                            <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="BillDate" tabindex="2">
+                                        </div>
+                                    </div>
+                                    <label for="LRNumber" class="col-md-1 form-label">
+                                        LR#
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div class="input-group" style="flex-wrap:nowrap;">
+                                            <select class="form-control select2-show-search" id="LRNumber">
+                                                <option></option>
+                                                @{
+                                                    if (Model.LRNumberList != null)
+                                                    {
+                                                        foreach (var o in Model.LRNumberList)
+                                                        {
+                                                            <option value="@o.Text">@o.Text</option>
+                                                        }
+                                                    }
+                                                }
+                                            </select>
+                                            <span class="input-group-append">
+                                                <button class="btn btn-primary" type="button" id="SearchLRNumber" style="height:38px;">Go!</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <label for="PayTypeId" class="col-md-1 form-label">
+                                        Pay Type
+                                    </label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search" id="PayTypeId">
+                                            <option value="1">All</option>
+                                            <option value="2">Paid</option>
+                                            <option value="3">TBB</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="AccountBranchMappingId" class="col-md-1 form-label">
+                                        Bill Party
+                                    </label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search" id="AccountBranchMappingId">
+                                            <option></option>
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="CreditDays" class="col-md-1 form-label">
+                                        Credit Days
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="CreditDays" placeholder="" tabindex="3">
+                                    </div>
+                                    <label for="LedgerAmount" class="col-md-1 form-label">
+                                        Ledger Amount
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control decimalonly" data-tofixed="2" id="LedgerAmount" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="ChalanDateFrom" class="col-md-1 form-label mb-1">
+                                        From Date
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                </div>
+                                            </div>
+                                            <input class="form-control fc-datepicker"
+                                                   placeholder="MM/DD/YYYY" type="text" id="ChalanDateFrom">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 p-0">
+                                        <div class="row">
+                                            <label for="ChalanDateTo" class="col-md-4 form-label mb-1">
+                                                To Date
+                                            </label>
+                                            <div class="col-md-6">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                        </div>
+                                                    </div>
+                                                    <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="ChalanDateTo">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2" style="display:flex;">
+                                                <a href="#" class="btn btn-primary" data-toggle="modal" id="LRNumberList" data-original-title="Select LR List">
+                                                    <span>
+                                                        <i class="fa fa-list"></i>
+                                                    </span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label for="VehicleNumber" class="col-md-1 form-label">
+                                        Vehicle#
+                                    </label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search" id="VehicleNumber">
+                                            <option></option>
+                                            @{
+                                                if (Model.VehicleList != null)
+                                                {
+                                                    foreach (var o in Model.VehicleList)
+                                                    {
+                                                        <option value="@o.Text">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="BillNumber" class="col-md-1 form-label">
+                                        Firm Bill#
+                                    </label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="BillNumber" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12  p-0">
+                                    <div class="card">
+                                        <div class="card-header bg-primary" style="display:block">
+                                            <!--header-->
+                                            <div class="row mb-0">
+                                                <div class="col-md-1">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="LR#" class="font-weight-bold text-white">#</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="LRBookingId" class="font-weight-bold text-white">LR#</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="LRDate" class="font-weight-bold text-white">
+                                                                    LR Dt.
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="Packing" class="font-weight-bold text-white">Pkg</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="ChargeWeight" class="font-weight-bold text-white">Ch.Wt.</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="TaxableAmount" class="font-weight-bold text-white">Taxable Amt</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="GST" class="font-weight-bold text-white">GST%</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Freight" class="font-weight-bold text-white">Freight</label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable1
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable2
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable3
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable4
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable5
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="exampleInputname" class="font-weight-bold text-white">
+                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable6
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Action" class="font-weight-bold text-white">Action</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body" style="max-height: 202px; overflow-x: hidden;">
+                                            <div class="row">
+                                                <div class="col-md-12" id="contentRow">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9 vertical-bottom">
+                            <div class="form-horizontal">
+                                <div class="row mb-2">
+                                    <label for="PaymentDetail" class="col-md-2 form-label">
+                                        Payment Detail
+                                    </label>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" id="PaymentDetail" placeholder=" Under Developement" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="Notes"
+                                           class="col-md-2 form-label">Remarks</label>
+                                    <div class="col-md-10">
+                                        <textarea class="form-control" id="Notes" rows="3" placeholder="Write a large text here ..." tabindex="6"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="TaxableAmount" class="col-md-6 form-label text-right">Basic Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TaxableAmount" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="TDSPercentage" class="col-md-6 form-label text-right">T.D.S.</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="3" id="TDSPercentage" placeholder="%" tabindex="4">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TDSAmount" placeholder="" tabindex="5">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="SGSTTotal" class="col-md-6 form-label text-right">SGST</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="SGSTTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="CGSTTotal" class="col-md-6 form-label text-right">CGST</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="CGSTTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="IGSTTotal" class="col-md-6 form-label text-right">IGST</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="IGSTTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="GSTStateCessTotal" class="col-md-6 form-label text-right">State Cess</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="GSTStateCessTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="GSTCentralCessTotal" class="col-md-6 form-label text-right">Central Cess</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="GSTCentralCessTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="TCSPercentage" class="col-md-6 form-label text-right">T.C.S.</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="3" id="TCSPercentage" placeholder="%" tabindex="6">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TCSAmount" placeholder="" tabindex="7">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="RoundOff" class="col-md-6 form-label text-right">Other (+/-)</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="RoundOff" placeholder="" tabindex="8">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BillAmount" class="col-md-6 form-label text-right">Bill Amount</label>
+                                    <div class="col-md-6">
+                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="BillAmount" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" tabindex="9" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" tabindex="10" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" tabindex="11" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" tabindex="12" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="hdnAccountBranchMappingId" value="0" />
+
+</div>
+<!--LRListModal start-->
+<div id="LRListModal" class="modal fade" data-backdrop="static" tabindex="-1" role="dialog"
+     aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
+        <div class="modal-content ">
+            <div class="modal-header" style="justify-content: left !important;">
+                <h5 class="modal-title col-md-1" style="align-self:center;">LR List</h5>
+                <label for="LRFromDate" class="col-md-auto form-label mb-1 pt-2">
+                    From Date
+                </label>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                            </div>
+                        </div>
+                        <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="LRFromDate">
+                    </div>
+                </div>
+                <label for="LRToDate" class="col-md-auto form-label mb-1 pt-2">
+                    To Date
+                </label>
+                <div class="col-md-2">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">
+                                <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                            </div>
+                        </div>
+                        <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="LRToDate">
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary" data-toggle="modal" id="SearchLRNumberList" data-original-title="Select LR List">
+                    Search
+                </a>
+            </div>
+            <div class="modal-body pd-20">
+                <div class="table-responsive">
+                    <table id="LRtblMain" class="table table-bordered key-buttons text-nowrap">
+                        <thead>
+                            <tr>
+                                <th class="border-bottom-0"><input type="checkbox" /></th>
+                                <th class="border-bottom-0">LR#</th>
+                                <th class="border-bottom-0">LR Date</th>
+                                <th class="border-bottom-0">Pvt. Mark</th>
+                                <th class="border-bottom-0">Consignor</th>
+                                <th class="border-bottom-0">From City</th>
+                                <th class="border-bottom-0">To City</th>
+                                <th class="border-bottom-0">Net Amount</th>
+                                <th class="border-bottom-0">GST%</th>
+                                <th class="border-bottom-0">Vehicle No</th>
+                                <th class="border-bottom-0">Consignee</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div><!-- modal-body -->
+            <div class="modal-footer">
+                <a href="#" type="button" class="btn btn-primary" id="AddData">Add</a>
+                <a href="#" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+            </div>
+        </div>
+    </div><!-- modal-dialog -->
+</div><!-- modal -->
+<!--LRListModal end-->
+@section Scripts
+{
+    <script>
+
+        var selectedLRDetails = [];
+        var addedIds = [];
+        var htmlContentArray = [];
+        var contentRowId = 0;
+
+        $(function (e) {
+
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+            bindDatatableList();
+
+            $("#ChalanDateFrom").on('change', function (e) {
+                if ($(this).val() != '' || $(this).val() != null) {
+                    $("#LRFromDate").val($(this).val());
+                }
+            });
+
+            $("#ChalanDateTo").on('change', function (e) {
+                if ($(this).val() != '' || $(this).val() != null) {
+                    $("#LRToDate").val($(this).val());
+                }
+            });
+
+            $("#LRNumberList").on('click', function (e) {
+
+                if ($("#ChalanDateFrom").val() == "") {
+                    showWarning("", "Please enter from date.");
+                    $("#ChalanDateFrom").focus();
+                    return false;
+                }
+                else if ($("#ChalanDateTo").val() == "") {
+                    showWarning("", "Please enter to date.");
+                    $("#ChalanDateTo").focus();
+                    return false;
+                }
+                else {
+                    $("#LRListModal").modal("show");
+                    bindLRList();
+                }
+
+            });
+
+            $("#SearchLRNumberList").on('click', function (e) {
+                bindLRList();
+            });
+
+            $("#AddData").on('click', function (e) {
+                $("#LRListModal").modal("hide");
+                addRow();
+            });
+
+            $("#SearchLRNumber").on('click', function (e) {
+                if ($('#LRNumber').val() == null || $('#LRNumber').val() == '') {
+                    showWarning("", "Please select LR Number.");
+                } else {
+                    getLRDetailListByLRNumber($('#LRNumber').val());
+                }
+
+            });
+
+            $("#PayTypeId").on('change', function (e) {
+                bindBillParty();
+            });
+
+            $("#AccountBranchMappingId").on('change', function (e) {
+                GetListByCustomerAccountBranchMappingId($(this).val());
+                calculateBasicAmount();
+            });
+
+            $("#TaxableAmount").on('keyup', function (e) {
+                calculateBasicAmount();
+            });
+            $("#SGSTTotal").on('keyup', function (e) {
+                calculateBasicAmount();
+            });
+            $("#CGSTTotal").on('keyup', function (e) {
+                calculateBasicAmount();
+            });
+            $("#IGSTTotal").on('keyup', function (e) {
+                calculateBasicAmount();
+            });
+            $("#GSTStateCessTotal").on('keyup', function (e) {
+                calculateBasicAmount();
+            });
+            $("#GSTCentralCessTotal").on('keyup', function (e) {
+                calculateBasicAmount();
+            });
+            $("#TCSPercentage").on('keyup', function (e) {
+                calculateBasicAmount();
+            });
+            $("#TCSAmount").on('keyup', function (e) {
+                calculateBasicAmount();
+            });
+
+            $("#RoundOff").on('keyup', function (e) {
+                calculateBasicAmount();
+            });
+
+            $("#TDSPercentage").on('keyup', function (e) {
+                var amt = ($('#TaxableAmount').val() * $(this).val() / 100) || 0;
+                $("#TDSAmount").val(Math.round(amt));
+            });
+
+            addClick();
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#SerialNumberOfBranch").focus();
+            $("#SerialNumberOfBranch").val(0);
+            $("#BillNumber").val(0);
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.serialNumberOfBranch;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billPartyName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.gstNo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billAmount;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.city;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "serialNumberOfBranch", "name": "serialNumberOfBranch" });
+            columns.push({ "data": "billDate", "name": "billDate" });
+            columns.push({ "data": "billPartyName", "name": "billPartyName" });
+            columns.push({ "data": "gstNo", "name": "gstNo" });
+            columns.push({ "data": "billAmount", "name": "billAmount" });
+            columns.push({ "data": "city", "name": "city" });
+            columns.push({ "data": "billNumber", "name": "billNumber" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/InvoiceList"))',
+                    type: 'GET',
+                    data: function (d) {
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function fromReset() {
+            $("#Id").val(0);
+            $("#SerialNumberOfBranch").val(0);
+
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
+            $("#BillDate").datepicker("setDate", formattedMinimumDate);
+
+            var firstDate = new Date();
+            firstDate.setDate(1);
+            $("#ChalanDateFrom").datepicker("setDate", firstDate);
+            $("#LRFromDate").datepicker("setDate", firstDate);
+
+            var lastDate = new Date();
+            lastDate.setMonth(lastDate.getMonth() + 1);
+            lastDate.setDate(0);
+            $("#ChalanDateTo").datepicker("setDate", lastDate);
+            $("#LRToDate").datepicker("setDate", lastDate);
+
+            $("#CreditDays").val('');
+            $("#BillNumber").val(0);
+            $("#Notes").val('');
+            $("#TaxableAmount").val('');
+            $("#TDSPercentage").val('');
+            $("#TDSAmount").val('');
+            $("#SGSTTotal").val('');
+            $("#CGSTTotal").val('');
+            $("#IGSTTotal").val('');
+            $("#GSTStateCessTotal").val('');
+            $("#GSTCentralCessTotal").val('');
+            $("#RoundOff").val('');
+            $("#BillAmount").val('');
+            $("#TCSPercentage").val('');
+            $("#TCSAmount").val('');
+            $("#LRNumber").val(null).trigger('change');
+            $("#PayTypeId").val(1).trigger('change');
+            $("#AccountBranchMappingId").val(null).trigger('change');
+            $("#VehicleNumber").val(null).trigger('change');
+            $("#contentRow").html('');
+
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+
+            bindBillParty();
+        }
+
+        function saveItem() {
+            try {
+
+                if ($("#BillDate").val() == "") {
+                    showWarning("", "Please select bill date");
+                    $("#BillDate").focus();
+                    return false;
+                }
+
+                if ($("#AccountBranchMappingId").val() == null || $("#AccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select bill party");
+                    $("#AccountBranchMappingId").focus();
+                    return false;
+                }
+
+                if ($("#TaxableAmount").val() != null && $("#TaxableAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TaxableAmount").val())) {
+                        showWarning("", "Taxable amount must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#TaxableAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TDSPercentage").val() != null && $("#TDSPercentage").val() != "") {
+                    if (!/^[-+]?(\d{1,2}(\.\d{0,3})?|\.\d{1,3})$/.test($("#TDSPercentage").val())) {
+                        showWarning("", "TDS percentage must be up to 2 characters before the decimal point and 3 characters after the decimal point.");
+                        $("#TDSPercentage").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TDSAmount").val() != null && $("#TDSAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSAmount").val())) {
+                        showWarning("", "TDS amount must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#TDSAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#SGSTTotal").val() != null && $("#SGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#SGSTTotal").val())) {
+                        showWarning("", "SGST must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#SGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CGSTTotal").val() != null && $("#CGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CGSTTotal").val())) {
+                        showWarning("", "CGST must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#CGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#IGSTTotal").val() != null && $("#IGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#IGSTTotal").val())) {
+                        showWarning("", "IGST must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#IGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#GSTStateCessTotal").val() != null && $("#GSTStateCessTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#GSTStateCessTotal").val())) {
+                        showWarning("", "GSTStateCess must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#GSTStateCessTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#GSTCentralCessTotal").val() != null && $("#GSTCentralCessTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#GSTCentralCessTotal").val())) {
+                        showWarning("", "GSTCentralCess must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#GSTCentralCessTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TCSPercentage").val() != null && $("#TCSPercentage").val() != "") {
+                    if (!/^[-+]?(\d{1,2}(\.\d{0,3})?|\.\d{1,3})$/.test($("#TCSPercentage").val())) {
+                        showWarning("", "TCS percentage must be up to 2 characters before the decimal point and 3 characters after the decimal point.");
+                        $("#TCSPercentage").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TCSAmount").val() != null && $("#TCSAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TCSAmount").val())) {
+                        showWarning("", "TCS amount must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#TCSAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#RoundOff").val() != null && $("#RoundOff").val() != "") {
+                    if (!/^[-+]?(\d{1,2}(\.\d{0,2})?|\.\d{1,2})$/.test($("#RoundOff").val())) {
+                        showWarning("", "RoundOff must be up to 2 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#RoundOff").focus();
+                        return false;
+                    }
+                }
+
+
+                if ($("#BillAmount").val() != null && $("#BillAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#BillAmount").val())) {
+                        showWarning("", "Bill amount must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
+                        $("#BillAmount").focus();
+                        return false;
+                    }
+                }
+
+                var savedata = new Object();
+
+                savedata.Id = parseInt($("#Id").val());
+
+                savedata.SerialNumberOfBranch = getIntValueZero("SerialNumberOfBranch");
+                savedata.BillDate = moment(getDate($("#BillDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.ChalanDateFrom = getDate($("#ChalanDateFrom").val());
+                savedata.ChalanDateTo = getDate($("#ChalanDateTo").val());
+                savedata.CreditDays = getIntValueZero("CreditDays");
+                savedata.BillNumber = getIntValueZero("BillNumber");
+                savedata.Notes = $("#Notes").val();
+                savedata.VehicleNumber = $("#VehicleNumber").val();
+                savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
+                savedata.DeliveryPartyAccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
+                savedata.TDSPercentage = getFloatValueZero("TDSPercentage", 3);
+                savedata.TCSPercentage = getFloatValueZero("TCSPercentage", 3);
+                savedata.TaxableAmount = getFloatValueZero("TaxableAmount", 2);
+                savedata.TDSAmount = getFloatValueZero("TDSAmount", 2);
+                savedata.SGSTTotal = getFloatValueZero("SGSTTotal", 2);
+                savedata.CGSTTotal = getFloatValueZero("CGSTTotal", 2);
+                savedata.IGSTTotal = getFloatValueZero("IGSTTotal", 2);
+                savedata.GSTStateCessTotal = getFloatValueZero("GSTStateCessTotal", 2);
+                savedata.GSTCentralCessTotal = getFloatValueZero("GSTCentralCessTotal", 2);
+                savedata.RoundOff = getFloatValueZero("RoundOff", 2);
+                savedata.BillAmount = getFloatValueZero("BillAmount", 2);
+                savedata.TCSAmount = getFloatValueZero("TCSAmount", 2);
+                savedata.HeaderBox5 = "0";
+                savedata.SalesBillFromName = "Sales";
+                savedata.EntryTypeName = "SAL";
+                savedata.InvoiceMemo = false;
+
+                var lrDetailsArray = [];
+                $('#contentRow .content-rows').each(function () {
+                    var contentRowId = $(this).attr('id').replace(/\D/g, '');
+                    var lrDetails = {};
+
+                    lrDetails.LRNumber = $('#hdnLRId' + contentRowId).text();
+                    lrDetails.LRDate = getDate($('#LRDate' + contentRowId).text()) || '';
+                    lrDetails.Parcel = $('#Packing' + contentRowId).text() || '';
+                    lrDetails.ChargeWeight = parseFloat($('#ChargeWeight' + contentRowId).text()) || 0;
+                    lrDetails.TaxableAmount = parseFloat($('#TaxableAmount' + contentRowId).text()) || 0;
+                    lrDetails.Rate = parseFloat($('#GSTRate' + contentRowId).text()) || 0;
+                    lrDetails.Freight = parseFloat($('#Freight' + contentRowId).text()) || 0;
+                    lrDetails.Charges1 = parseFloat($('#Charges1' + contentRowId).val()) || 0;
+                    lrDetails.Charges2 = parseFloat($('#Charges2' + contentRowId).val()) || 0;
+                    lrDetails.Charges3 = parseFloat($('#Charges3' + contentRowId).val()) || 0;
+                    lrDetails.Charges4 = parseFloat($('#Charges4' + contentRowId).val()) || 0;
+                    lrDetails.Charges5 = parseFloat($('#Charges5' + contentRowId).val()) || 0;
+                    lrDetails.Charges6 = parseFloat($('#Charges6' + contentRowId).val()) || 0;
+
+                    lrDetailsArray.push(lrDetails);
+                });
+
+                savedata.LRDetailsArray = JSON.stringify(lrDetailsArray);
+
+                blockUI('container');
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveInvoice", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Invoice saved successfully.');
+                            $("#Id").val(0);
+                            history.go(0);
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteInvoice"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetInvoice"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+                                getLRDetailListBySalesBillMas(result.data.id);
+
+                                $("#Id").val(result.data.id);
+                                $("#SerialNumberOfBranch").val(result.data.serialNumberOfBranch);
+                                $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#CreditDays").val(result.data.creditDays);
+                                $("#ChalanDateFrom").val(moment(result.data.chalanDateFrom.split('T')[0], 'YYYY-MM-DD').add(1, 'days').format('DD/MM/YYYY'));
+                                $("#ChalanDateTo").val(moment(result.data.chalanDateTo.split('T')[0], 'YYYY-MM-DD').add(1, 'days').format('DD/MM/YYYY'));
+                                $("#LRFromDate").val(moment(result.data.chalanDateFrom.split('T')[0], 'YYYY-MM-DD').add(1, 'days').format('DD/MM/YYYY'));
+                                $("#LRToDate").val(moment(result.data.chalanDateTo.split('T')[0], 'YYYY-MM-DD').add(1, 'days').format('DD/MM/YYYY')); $("#BillNumber").val(result.data.billNumber);
+                                $("#Notes").val(result.data.notes);
+                                $("#TaxableAmount").val(result.data.taxableAmount ? result.data.taxableAmount.toFixed(2) : '');
+                                $("#TDSPercentage").val(result.data.tdsPercentage ? result.data.tdsPercentage.toFixed(3) : '');
+                                $("#TDSAmount").val(result.data.tdsAmount ? result.data.tdsAmount.toFixed(2) : '');
+                                $("#SGSTTotal").val(result.data.sgstTotal ? result.data.sgstTotal.toFixed(2) : '');
+                                $("#CGSTTotal").val(result.data.cgstTotal ? result.data.cgstTotal.toFixed(2) : '');
+                                $("#IGSTTotal").val(result.data.igstTotal ? result.data.igstTotal.toFixed(2) : '');
+                                $("#GSTStateCessTotal").val(result.data.gstStateCessTotal ? result.data.gstStateCessTotal.toFixed(2) : '');
+                                $("#GSTCentralCessTotal").val(result.data.gstCentralCessTotal ? result.data.gstCentralCessTotal.toFixed(2) : '');
+                                $("#RoundOff").val(result.data.roundOff ? result.data.roundOff.toFixed(2) : '');
+                                $("#BillAmount").val(result.data.billAmount ? result.data.billAmount.toFixed(2) : '');
+                                $("#TCSPercentage").val(result.data.tcsPercentage ? result.data.tcsPercentage.toFixed(3) : '');
+                                $("#TCSAmount").val(result.data.tcsAmount ? result.data.tcsAmount.toFixed(2) : '');
+                                $("#hdnAccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                $("#VehicleNumber").val(result.data.vehicleNumber).trigger('change');
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getLRDetailListBySalesBillMas(salesBillMasterId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListBySalesBillMasterId"))" + "/" + salesBillMasterId, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                selectedLRDetails = [];
+                                addedIds = [];
+                                $("#contentRow").html("");
+                                contentRowId = 0;
+
+                                result.data.forEach(function (LRBookingDetail) {
+                                    selectedLRDetails.push({
+                                        id: LRBookingDetail.id,
+                                        lrNumber: LRBookingDetail.lrNumber,
+                                        lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                        parcel: LRBookingDetail.parcel,
+                                        chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
+                                        taxableAmount: parseFloat(LRBookingDetail.taxableAmount || 0).toFixed(2),
+                                        freight: parseFloat(LRBookingDetail.freight || 0).toFixed(2),
+                                        charges1: parseFloat(LRBookingDetail.charges1 || 0).toFixed(2),
+                                        charges2: parseFloat(LRBookingDetail.charges2 || 0).toFixed(2),
+                                        charges3: parseFloat(LRBookingDetail.charges3 || 0).toFixed(2),
+                                        charges4: parseFloat(LRBookingDetail.charges4 || 0).toFixed(2),
+                                        charges5: parseFloat(LRBookingDetail.charges5 || 0).toFixed(2),
+                                        charges6: parseFloat(LRBookingDetail.charges6 || 0).toFixed(2),
+                                        rate: parseFloat(LRBookingDetail.rate || 0).toFixed(2),
+                                    });
+                                });
+
+                                addRow();
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetListByCustomerAccountBranchMappingId(CustomerAccountBranchMappingId, contentRowId) {
+            try {
+                if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#CreditDays").val(result.data.creditDays);
+                                $("#TDSPercentage").val(result.data.tds);
+                                $("#TCSPercentage").val(result.data.tcs);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getLRDetailListByLRNumber(lrNumberId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetInvoiceListByLRNumberId"))" + "/" + lrNumberId, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                result.data.forEach(function (LRBookingDetail) {
+                                    var isDuplicate = selectedLRDetails.some(item => item.id === LRBookingDetail.id);
+
+                                    $("#AccountBranchMappingId").val(LRBookingDetail.billAccountBranchMappingId).trigger('change');
+                                    $("#CreditDays").val(LRBookingDetail.creditDays);
+
+                                    if (!isDuplicate) {
+                                        selectedLRDetails.push({
+                                            id: LRBookingDetail.id,
+                                            lrNumber: LRBookingDetail.lrNumber,
+                                            lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                            privateMarka: LRBookingDetail.privateMarka,
+                                            packing: LRBookingDetail.packing,
+                                            chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
+                                            toCity: LRBookingDetail.cityTo,
+                                            fromCity: LRBookingDetail.cityFrom,
+                                            invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
+                                            description: LRBookingDetail.description,
+                                            consignor: LRBookingDetail.consignor,
+                                            consignee: LRBookingDetail.consignee,
+                                            billPartyName: LRBookingDetail.billPartyName,
+                                            ewayBillNo: LRBookingDetail.ewayBillNo,
+                                            parcel: LRBookingDetail.parcel,
+                                            freight: parseFloat(LRBookingDetail.freight || 0).toFixed(2),
+                                            charges1: parseFloat(LRBookingDetail.charges1 || 0).toFixed(2),
+                                            charges2: parseFloat(LRBookingDetail.charges2 || 0).toFixed(2),
+                                            charges3: parseFloat(LRBookingDetail.charges3 || 0).toFixed(2),
+                                            charges4: parseFloat(LRBookingDetail.charges4 || 0).toFixed(2),
+                                            charges5: parseFloat(LRBookingDetail.charges5 || 0).toFixed(2),
+                                            charges6: parseFloat(LRBookingDetail.charges6 || 0).toFixed(2),
+                                            rate: parseFloat(LRBookingDetail.rate || 0).toFixed(2),
+                                            billAccountBranchMappingId: LRBookingDetail.billAccountBranchMappingId,
+                                            creditDays: LRBookingDetail.creditDays,
+                                        });
+
+                                    }
+                                });
+
+                                addRow();
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function bindLRList() {
+            if ($('#LRFromDate').val() == '' || $('#LRFromDate').val() == null) {
+                showWarning("", "Please select fromdate.");
+                return;
+            }
+            if ($('#LRToDate').val() == '' || $('#LRToDate').val() == null) {
+                showWarning("", "Please select todate.");
+                return;
+            }
+            if ($('#PayTypeId').val() == '' || $('#PayTypeId').val() == null) {
+                showWarning("", "Please select pay type.");
+                return;
+            }
+            if ($('#AccountBranchMappingId').val() == '' || $('#AccountBranchMappingId').val() == null) {
+                showWarning("", "Please select bill party.");
+                return;
+            }
+
+            let columns = [];
+            let colDef = [];
+
+            colDef.push({
+                "render": function (data, type, row) {
+                    return '<input type="checkbox"/>';
+                },
+                "targets": 0,
+                "orderable": false,
+                'checkboxes': {
+                    'selectRow': true
+                }
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.privateMarka;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return parseFloat(row.chargeAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.rate;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.vehilcleNo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });
+            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "lrDate", "name": "lrDate" });
+            columns.push({ "data": "privateMarka", "name": "privateMarka" });
+            columns.push({ "data": "consignor", "name": "consignor" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "chargeAmount", "name": "chargeAmount" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "vehilcleNo", "name": "vehilcleNo" });
+            columns.push({ "data": "consignee", "name": "consignee" });
+
+            var table = $('#LRtblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: false,
+                paging: false,
+                pageLength: 1,
+                order: [[0, 'asc']],
+                "destroy": true,
+                // pagingType: 'full_numbers',
+                orderClasses: false,
+                scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                'select': {
+                    'style': 'multi'
+                },
+                ajax: {
+                    url: '@(Url.Content("~/Customer/GetLRBookingListByDate"))' + "/" + $('#LRFromDate').val().split('/').reverse().join('-') + "/" + $('#LRToDate').val().split('/').reverse().join('-') + "/" + $('#PayTypeId').val() + "/" + $('#AccountBranchMappingId').val(),
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                    if (selectedLRDetails.length == 0) {
+                        $('#LRtblMain input[type="checkbox"]').prop('checked', true);
+
+                        selectedIds = table.rows({ selected: true }).data().toArray().map(row => row.id);
+
+                        table.rows({ selected: true }).data().each(function (row) {
+
+                            var isDuplicate = selectedLRDetails.some(item => item.id === row.id);
+
+                            if (!isDuplicate) {
+                                selectedLRDetails.push({
+                                    id: row.id,
+                                    lrNumber: row.lrNumber,
+                                    lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                    privateMarka: row.privateMarka,
+                                    packing: row.packing,
+                                    chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
+                                    toCity: row.cityTo,
+                                    fromCity: row.cityFrom,
+                                    taxableAmount: parseFloat(row.chargeAmount || 0).toFixed(2),
+                                    description: row.description,
+                                    consignor: row.consignor,
+                                    consignee: row.consignee,
+                                    billPartyName: row.billPartyName,
+                                    parcel: row.parcel,
+                                    freight: parseFloat(row.freight || 0).toFixed(2),
+                                    charges1: parseFloat(row.charges1 || 0).toFixed(2),
+                                    charges2: parseFloat(row.charges2 || 0).toFixed(2),
+                                    charges3: parseFloat(row.charges3 || 0).toFixed(2),
+                                    charges4: parseFloat(row.charges4 || 0).toFixed(2),
+                                    charges5: parseFloat(row.charges5 || 0).toFixed(2),
+                                    charges6: parseFloat(row.charges6 || 0).toFixed(2),
+                                    rate: parseFloat(row.rate || 0).toFixed(2),
+                                });
+                            }
+                        });
+
+                        updateHiddenInput(selectedIds);
+                    }
+
+                    selectedLRDetails.forEach(function (item) {
+                        var row = table.row(function (idx, data, node) {
+                            return data.id === item.id;
+                        });
+
+                        if (row && row.length > 0) {
+                            $(row.node()).find('input[type="checkbox"]').prop('checked', true);
+                            $(row.node()).addClass('selected');
+                        }
+                    });
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+            });
+
+            $('#LRtblMain thead input[type="checkbox"]').on('click', function () {
+                var isChecked = this.checked;
+
+                $('#LRtblMain tbody input[type="checkbox"]').prop('checked', isChecked);
+
+                if (isChecked) {
+                    var selectedRowsData = table.rows({ selected: true }).data().toArray();
+                    selectedIds = selectedRowsData.map(row => row.id);
+                    selectedLRDetails = selectedRowsData.map(row => ({
+                        id: row.id,
+                        lrNumber: row.lrNumber,
+                        lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                        privateMarka: row.privateMarka,
+                        packing: row.packing,
+                        chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
+                        toCity: row.cityTo,
+                        fromCity: row.cityFrom,
+                        taxableAmount: parseFloat(row.chargeAmount || 0).toFixed(2),
+                        description: row.description,
+                        consignor: row.consignor,
+                        consignee: row.consignee,
+                        billPartyName: row.billPartyName,
+                        parcel: row.parcel,
+                        freight: parseFloat(row.freight || 0).toFixed(2),
+                        charges1: parseFloat(row.charges1 || 0).toFixed(2),
+                        charges2: parseFloat(row.charges2 || 0).toFixed(2),
+                        charges3: parseFloat(row.charges3 || 0).toFixed(2),
+                        charges4: parseFloat(row.charges4 || 0).toFixed(2),
+                        charges5: parseFloat(row.charges5 || 0).toFixed(2),
+                        charges6: parseFloat(row.charges6 || 0).toFixed(2),
+                        rate: parseFloat(row.rate || 0).toFixed(2),
+                    }));
+                } else {
+                    selectedIds = [];
+                    selectedLRDetails = [];
+                }
+
+                updateHiddenInput(selectedIds);
+            });
+
+            var selectedIds = [];
+            $('#LRtblMain tbody').on('click', 'input[type="checkbox"]', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row && row.data() && row.data().id) {
+                    if ($(this).prop('checked')) {
+                        if (!selectedIds.includes(row.data().id)) {
+                            selectedIds.push(row.data().id);
+
+                            var isDuplicate = selectedLRDetails.some(item => item.id === row.data().id);
+
+                            if (!isDuplicate) {
+                                selectedLRDetails.push({
+                                    id: row.data().id,
+                                    lrNumber: row.data().lrNumber,
+                                    lrDate: moment(row.data().lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                    privateMarka: row.data().privateMarka,
+                                    packing: row.data().packing,
+                                    chargeWeight: parseFloat(row.data().chargeWeight || 0).toFixed(3),
+                                    toCity: row.cityTo,
+                                    fromCity: row.cityFrom,
+                                    taxableAmount: parseFloat(row.data().chargeAmount || 0).toFixed(2),
+                                    description: row.data().description,
+                                    consignor: row.data().consignor,
+                                    consignee: row.data().consignee,
+                                    billPartyName: row.data().billPartyName,
+                                    parcel: row.parcel,
+                                    freight: parseFloat(row.data().freight || 0).toFixed(2),
+                                    charges1: parseFloat(row.data().charges1 || 0).toFixed(2),
+                                    charges2: parseFloat(row.data().charges2 || 0).toFixed(2),
+                                    charges3: parseFloat(row.data().charges3 || 0).toFixed(2),
+                                    charges4: parseFloat(row.data().charges4 || 0).toFixed(2),
+                                    charges5: parseFloat(row.data().charges5 || 0).toFixed(2),
+                                    charges6: parseFloat(row.data().charges6 || 0).toFixed(2),
+                                    rate: parseFloat(row.data().rate || 0).toFixed(2),
+                                });
+                            }
+                        }
+                    } else {
+                        selectedIds = selectedIds.filter(item => item !== row.data().id);
+                        selectedLRDetails = selectedLRDetails.filter(item => item.id !== row.data().id);
+                    }
+                }
+            });
+        }
+
+        function addRow() {
+            htmlContentArray = [];
+            for (var i = 0; i < selectedLRDetails.length; i++) {
+
+                var lrNumber = selectedLRDetails[i].id;
+
+                if (addedIds.indexOf(lrNumber) === -1) {
+                    var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + contentRowId + '">' +
+                        '<div class="col-md-1" style="display:none;">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="hdnLRId" id="hdnLRId' + contentRowId + '">' + selectedLRDetails[i].id + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="row mb-0">' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="LRId" id="LRId' + contentRowId + '">' + (i + 1) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="LRNumber" id="LRNumber' + contentRowId + '">' + selectedLRDetails[i].lrNumber + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="row mb-0">' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="LRDate" id="LRDate' + contentRowId + '">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="Packing" id="Packing' + contentRowId + '">' + (selectedLRDetails[i].parcel || '') + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="row mb-0">' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="ChargeWeight" id="ChargeWeight' + contentRowId + '">' + (selectedLRDetails[i].chargeWeight || 0) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-6">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="TaxableAmount" id="TaxableAmount' + contentRowId + '">' + (selectedLRDetails[i].taxableAmount || 0) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="GSTRate" id="GSTRate' + contentRowId + '">' + (selectedLRDetails[i].rate || 0) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<label for="Freight" id="Freight' + contentRowId + '">' + (selectedLRDetails[i].freight || 0) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges1' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges1 || 0) + '" data-min="' + (selectedLRDetails[i].charges1 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges2' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges2 || 0) + '" data-min="' + (selectedLRDetails[i].charges2 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges3' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges3 || 0) + '" data-min="' + (selectedLRDetails[i].charges3 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges4' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges4 || 0) + '" data-min="' + (selectedLRDetails[i].charges4 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges5' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges5 || 0) + '" data-min="' + (selectedLRDetails[i].charges5 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges6' + contentRowId + '" placeholder="" value="' + (selectedLRDetails[i].charges6 || 0) + '" min="' + (selectedLRDetails[i].charges6 || 0) + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-center mb-1">' +
+                        '<a href="javascript:deleteRow(' + selectedLRDetails[i].id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</div>';
+
+                    htmlContentArray.push(htmlContent);
+
+                    addedIds.push(selectedLRDetails[i].id);
+                    contentRowId++;
+
+                }
+            }
+
+            $('.content-rows-add-btn').remove();
+            $('#contentRow').append(htmlContentArray.join(''));
+            $('.select2-show-search-contentrows').select2({
+                minimumResultsForSearch: ''
+            });
+
+            $('.charges-input').on('keyup', function () {
+                var inputField = $(this).attr('data-contentRowId');
+                calculateTaxableAmount(inputField);
+                calculateBasicAmount();
+            });
+
+            $('.charges-input').on('change', function () {
+                var minValue = parseFloat($(this).attr('data-min'));
+                var inputValue = $(this).val();
+
+                if (isNaN(inputValue) || parseFloat(inputValue) < minValue) {
+                    $(this).val(minValue);
+                }
+            });
+
+            var counter = 0;
+            $('.content-row-srno').each(function () {
+                $(this).val(++counter);
+            });
+
+            $('.delete-row-btn').on('click', function () {
+                var index = $(this).data('index');
+                deleteRow(index);
+            });
+            calculateTaxableAmount();
+            calculateBasicAmount();
+            updateSelectedIdsInput();
+        }
+
+        function calculateTaxableAmount() {
+
+            $('.content-rows').each(function () {
+                var contentRowId = $(this).attr('id').replace('row-', '');
+                var Freight = parseFloat($('#Freight' + contentRowId).text()) || 0;
+                var Freight = parseFloat($('#Freight' + contentRowId).text()) || 0;
+                var Charges1 = parseFloat($('#Charges1' + contentRowId).val()) || 0;
+                var Charges2 = parseFloat($('#Charges2' + contentRowId).val()) || 0;
+                var Charges3 = parseFloat($('#Charges3' + contentRowId).val()) || 0;
+                var Charges4 = parseFloat($('#Charges4' + contentRowId).val()) || 0;
+                var Charges5 = parseFloat($('#Charges5' + contentRowId).val()) || 0;
+                var Charges6 = parseFloat($('#Charges6' + contentRowId).val()) || 0;
+
+                var sumOfLabels = Freight + Charges1 + Charges2 + Charges3 + Charges4 + Charges5 + Charges6;
+                parseFloat($('#TaxableAmount' + contentRowId).text(sumOfLabels.toFixed(2))) || 0;
+            });
+
+        }
+
+        function calculateBasicAmount() {
+            var totalTaxableAmount = 0;
+
+            $('.content-rows').each(function () {
+                var contentRowId = $(this).attr('id').replace('row-', '');
+                var taxableAmount = parseFloat($('#TaxableAmount' + contentRowId).text()) || 0;
+                totalTaxableAmount += taxableAmount;
+                $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
+            });
+
+            var BasicAmount = parseFloat($('#TaxableAmount').val()) || 0;
+            var CGSTTotal = parseFloat($('#CGSTTotal').val()) || 0;
+            var SGSTTotal = parseFloat($('#SGSTTotal').val()) || 0;
+            var IGSTTotal = parseFloat($('#IGSTTotal').val()) || 0;
+            var GSTStateCessTotal = parseFloat($('#GSTStateCessTotal').val()) || 0;
+            var GSTCentralCessTotal = parseFloat($('#GSTCentralCessTotal').val()) || 0;
+            var TCSPercentage = parseFloat($('#TCSPercentage').val()) || 0;
+
+            $('#TCSAmount').val(((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal) * (TCSPercentage) / 100).toFixed(2));
+            var TCSAmount = parseFloat($('#TCSAmount').val()) || 0;
+
+            var totalAmount = BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount;
+
+            var RoundOff = customRound(totalAmount) - totalAmount;
+
+            $('#RoundOff').val(RoundOff.toFixed(2));
+            $('#BillAmount').val((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount + RoundOff).toFixed(2));
+
+        }
+
+        function customRound(number) {
+            var decimalPart = number % 1;
+            return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
+        }
+
+        function deleteRow(deletedId) {
+            var index = selectedLRDetails.findIndex(item => item.id === deletedId);
+
+            if (index !== -1) {
+                $('#row-' + index).remove();
+                addedIds = addedIds.filter(id => id !== deletedId);
+                selectedLRDetails.splice(index, 1);
+
+                if (selectedLRDetails.length === 0) {
+                    $('#TaxableAmount').val(0.00);
+                } else {
+                    for (var i = 0; i < selectedLRDetails.length; i++) {
+                        calculateTaxableAmount(i);
+                    }
+                    calculateBasicAmount();
+                }
+                updateSelectedIdsInput();
+
+                // Update the id attribute for each remaining row
+                $('.content-rows').each(function (newIndex) {
+                    $(this).attr('id', 'row-' + newIndex);
+                });
+            }
+
+        }
+
+        function updateSelectedIdsInput() {
+            var uniqueIds = [...new Set(selectedLRDetails.map(item => item.id))];
+            updateHiddenInput(uniqueIds);
+            $("#ToPayAmount, #Paid, #TBB, #Total").val('0.00');
+        }
+
+        function updateHiddenInput(ids) {
+            var uniqueIds = [...new Set(ids)];
+            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
+        }
+
+        function bindBillParty() {
+            try {
+                $("#AccountBranchMappingId").empty();
+                if ($('#PayTypeId').val() == '' || $('#PayTypeId').val() == null) {
+                    showWarning("", "Please select pay type.");
+                    return;
+                }
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetInvoiceCustomerAccountBranchMappingList_Select"))" + "/" + $('#PayTypeId').val(), "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            $("#AccountBranchMappingId").empty();
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#AccountBranchMappingId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#AccountBranchMappingId').val($("#hdnAccountBranchMappingId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+    </script>
+}
