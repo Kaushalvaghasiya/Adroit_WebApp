@@ -18,20 +18,19 @@ namespace Adroit.Accounting.Web.Controllers
         {
             var model = new SalesBillMasterViewModel();
 
-            var CustomerFirmTransportSetting = _customerFirmTransportSettingRepository.Get(CurrentFirmId, _configurationData.DefaultConnection);
-            if (CustomerFirmTransportSetting == null)
+            var customerFirmTransportSetting = _customerFirmTransportSettingRepository.Get(CurrentFirmId, _configurationData.DefaultConnection);
+            if (customerFirmTransportSetting == null)
             {
                 return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Firm" });
             }
             else
             {
-                model.CustomerFirmTransportSetting = CustomerFirmTransportSetting;
+                model.CustomerFirmTransportSetting = customerFirmTransportSetting;
             }
 
             model.LRNumberList = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId);
             model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
-            model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
-
+            
             return View(model);
         }
 
@@ -119,8 +118,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetLRBookingListByDate/{fromDate}/{toDate}/{PayTypeId}")]
-        public JsonResult GetLRBookingListByDate(string fromDate, string toDate, string PayTypeId, int draw = 0, int start = 0, int length = 10)
+        [Route("~/Customer/GetLRBookingListByDate/{fromDate}/{toDate}/{payTypeId}/{accountBranchMappingId}")]
+        public JsonResult GetLRBookingListByDate(string fromDate, string toDate, string payTypeId, string accountBranchMappingId, int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<LRBookingGridViewModel>();
             try
@@ -130,7 +129,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _lrBookingRepository.GetLRBookingListByDate(_configurationData.DefaultConnection, fromDate, toDate, PayTypeId, CurrentBranchId, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _lrBookingRepository.GetLRBookingListByDate(_configurationData.DefaultConnection, fromDate, toDate, payTypeId, accountBranchMappingId, CurrentBranchId, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -140,23 +139,6 @@ namespace Adroit.Accounting.Web.Controllers
                 result.data = new List<LRBookingGridViewModel>();
                 result.recordsTotal = 0;
                 result.recordsFiltered = 0;
-            }
-            return Json(result);
-        }
-
-        [Route("~/Customer/GetLRNumberListByLRPayTypeId/{lrPayTypeId}")]
-        public JsonResult GetLRNumberListByLRPayTypeId(int lrPayTypeId)
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                result.data = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId, lrPayTypeId);
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
             }
             return Json(result);
         }
@@ -178,13 +160,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetListByCustomerAccountBranchMappingId/{CustomerAccountBranchMappingId}")]
-        public JsonResult GetListByCustomerAccountBranchMappingId(int CustomerAccountBranchMappingId)
+        [Route("~/Customer/GetListByCustomerAccountBranchMappingId/{customerAccountBranchMappingId}")]
+        public JsonResult GetListByCustomerAccountBranchMappingId(int customerAccountBranchMappingId)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerAccountRepo.GetListByCustomerAccountBranchMappingId(_configurationData.DefaultConnection, CustomerAccountBranchMappingId, CurrentBranchId);
+                result.data = _customerAccountRepo.GetListByCustomerAccountBranchMappingId(_configurationData.DefaultConnection, customerAccountBranchMappingId, CurrentBranchId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -202,6 +184,23 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _lrBookingRepository.GetListBySalesBillMasterId(_configurationData.DefaultConnection, salesBillMasterId, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Customer/GetInvoiceCustomerAccountBranchMappingList_Select/{payTypeId}")]
+        public JsonResult GetInvoiceCustomerAccountBranchMappingList_Select(int payTypeId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerInvoice.GetCustomerAccountBranchMappingList_Select(CurrentUserId, CurrentFirmId, CurrentBranchId, payTypeId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

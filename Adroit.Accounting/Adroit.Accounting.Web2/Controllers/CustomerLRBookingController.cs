@@ -18,24 +18,24 @@ namespace Adroit.Accounting.Web.Controllers
             var model = new LRBookingViewModel();
 
             model.EwayBillList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, LRBookingTable._TableName, LRBookingTable.EwayBillNo);
-            var CustomerFirmTransportSetting = _customerFirmTransportSettingRepository.Get(CurrentFirmId, _configurationData.DefaultConnection);
-            if (CustomerFirmTransportSetting == null)
+            var customerFirmTransportSetting = _customerFirmTransportSettingRepository.Get(CurrentFirmId, _configurationData.DefaultConnection);
+            if (customerFirmTransportSetting == null)
             {
                 return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Firm" });
             }
             else
             {
-                model.CustomerFirmTransportSetting = CustomerFirmTransportSetting;
+                model.CustomerFirmTransportSetting = customerFirmTransportSetting;
             }
 
-            var CustomerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.Get(CurrentBranchId, _configurationData.DefaultConnection);
-            if (CustomerFirmBranchTransportSetting == null)
+            var customerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.Get(CurrentBranchId, _configurationData.DefaultConnection);
+            if (customerFirmBranchTransportSetting == null)
             {
                 return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch." });
             }
             else
             {
-                model.CustomerFirmBranchTransportSetting = CustomerFirmBranchTransportSetting;
+                model.CustomerFirmBranchTransportSetting = customerFirmBranchTransportSetting;
             }
 
             model.CityList = _transportLRBranchCityMappingRepository.SelectList(_configurationData.DefaultConnection, CurrentBranchId);
@@ -48,7 +48,10 @@ namespace Adroit.Accounting.Web.Controllers
             model.LRDeliveryTypeList = _transportLRDeliveryTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
             model.LRBookingMaxDate = _lrBookingRepository.GetLRBookingMaxDate(_configurationData.DefaultConnection, CurrentBranchId);
+            var currentUserBranch = _customerFirmBranchesRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
 
+            ViewBag.LastLrToCityCookieName = "LastLrToCityCookie" + CurrentUserId + "-" + CurrentFirmId + "-" + CurrentBranchId;
+            ViewBag.CurrentUserCity = currentUserBranch.CityId;
             return View(model);
         }
 
