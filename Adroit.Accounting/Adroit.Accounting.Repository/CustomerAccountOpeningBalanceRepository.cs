@@ -27,11 +27,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Id", id);
             return QueryHelper.Get<CustomerAccountOpeningBalanceViewModel>("sp_CustomerAccountOpeningBalanceGet", connectionString, parameters);
         }
-        public List<CustomerAccountOpeningBalanceGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<CustomerAccountOpeningBalanceGridViewModel> List(string connectionString, int loginId = 0, int branchId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
-            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
             parameters.Add("@Search", search);
             parameters.Add("@PageStart", pageStart);
             parameters.Add("@PageSize", pageSize);
@@ -45,13 +45,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             parameters.Add("@Id", id);
             return QueryHelper.Delete("sp_CustomerAccountOpeningBalanceDelete", connectionString, parameters);
-        }
-        public List<DropdownViewModel> GetCustomerAccountOpeningBalanceList(string connectionString, int loginId = 0, int firmId = 0)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", loginId);
-            parameters.Add("@FirmId", firmId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountOpeningBalanceList_Select", connectionString, parameters);
         }
     }
 }

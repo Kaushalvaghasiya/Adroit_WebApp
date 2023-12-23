@@ -1,7 +1,7 @@
 CREATE OR ALTER Procedure [dbo].[sp_CustomerAccountOpeningBalanceList]
 (
-  @LoginId int,
-  @FirmId int,
+  @LoginId INT,
+  @BranchId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -11,6 +11,9 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerAccountOpeningBalanceList]
 As
 Set Nocount on;
 Begin
+	DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId) 
+	Declare @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
+
 	SELECT * FROM
 	 (   
 	  SELECT  
@@ -31,6 +34,8 @@ Begin
 	  INNER JOIN CustomerAccountBranchMapping On CustomerAccountOpeningBalance.AccountBranchMappingId = CustomerAccountBranchMapping.Id
 	  INNER JOIN CustomerAccount On CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 	  WHERE CustomerAccountOpeningBalance.Deleted = 0
+	  AND CustomerAccount.CustomerId = @CustomerId
+	  AND CustomerAccountBranchMapping.Id = @BranchId
 	  AND (Coalesce(@Search,'') = '' 
 			OR CustomerAccount.[Name] like '%'+ @Search + '%'
 		    OR CustomerAccountOpeningBalance.[Amount] like '%'+ @Search + '%')
