@@ -42,7 +42,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IBusiness _businessRepository;
         private readonly IGSTFirmType _gSTFirmTypeRepository;
         private readonly IFirmType _firmTypeRepository;
-        protected readonly IAdminCustomerFirmBranch _customerFirmBranchRepository;
+        protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
         protected readonly ICustomerUser _customerUsersRepository;
         private readonly IEmailService _emailService;
         private readonly UserManager<IdentityUser> _userManager;
@@ -50,7 +50,6 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<CustomerController> _logger;
         private readonly ICity _cityRepository;
-        private readonly ICustomerFirmBranch _customerFirmBranchesRepository;
         private readonly ILRBookingRange _lrBookingRangeRepository;
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
@@ -113,14 +112,13 @@ namespace Adroit.Accounting.Web.Controllers
             IBusiness businessRepository,
             IGSTFirmType gSTFirmTypeRepository,
             IFirmType firmTypeRepository,
-            IAdminCustomerFirmBranch customerFirmBranchRepository,
+            ICustomerFirmBranch customerFirmBranchRepository,
             ICustomerUser customerUsersRepository,
             IEmailService emailService,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             ILogger<CustomerController> logger,
             ICity cityRepository,
-            ICustomerFirmBranch customerFirmBranchesRepository,
             ILRBookingRange lrBookingRangeRepository,
             IAdminCustomerFirm customerFirmRepository,
             ISoftwarePlan softwarePlanRepository,
@@ -192,7 +190,6 @@ namespace Adroit.Accounting.Web.Controllers
             _emailStore = GetEmailStore();
             _logger = logger;
             _cityRepository = cityRepository;
-            _customerFirmBranchesRepository = customerFirmBranchesRepository;
             _lrBookingRangeRepository = lrBookingRangeRepository;
             _adminCustomerFirmRepository = customerFirmRepository;
             _softwarePlanRepository = softwarePlanRepository;

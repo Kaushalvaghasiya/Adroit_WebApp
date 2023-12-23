@@ -23,7 +23,7 @@ namespace Adroit.Accounting.Web.Controllers
             {
                 model.Customer = Customer;
             }
-            model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectList(model.Customer.Id, true, _configurationData.DefaultConnection);
+            model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
             model.CustomerAccountList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.CustomerBookList = _customerBookRepository.SelectList(CurrentBranchId, _configurationData.DefaultConnection);
             model.TransportLRRateOnList = _transportLRRateOnRepository.SelectList(_configurationData.DefaultConnection);
