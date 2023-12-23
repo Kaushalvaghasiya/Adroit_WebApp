@@ -131,5 +131,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BranchId", branchId);
             return QueryHelper.Get<CustomerAccountViewModel>("sp_CustomerAccountGetByBranchMappingId", connectionString, parameters);
         }
+        public List<DropdownViewModel> GetCustomerAccountBranchMappingListWithAccountGroup_Select(int firmId, int branchId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccounBranchMappingListWithAccountGroup_Select", connectionString, parameters);
+        }
     }
 }
