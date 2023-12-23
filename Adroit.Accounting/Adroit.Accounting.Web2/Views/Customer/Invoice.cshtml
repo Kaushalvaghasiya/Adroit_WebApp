@@ -464,6 +464,7 @@
     </div>
     <!-- row end -->
     <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="hdnAccountBranchMappingId" value="0" />
 
 </div>
 <!--LRListModal start-->
@@ -597,6 +598,10 @@
                     getLRDetailListByLRNumber($('#LRNumber').val());
                 }
 
+            });
+
+            $("#PayTypeId").on('change', function (e) {
+                bindBillParty();
             });
 
             $("#AccountBranchMappingId").on('change', function (e) {
@@ -813,6 +818,8 @@
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
+
+            bindBillParty();
         }
 
         function saveItem() {
@@ -1084,7 +1091,7 @@
                                 $("#BillAmount").val(result.data.billAmount ? result.data.billAmount.toFixed(2) : '');
                                 $("#TCSPercentage").val(result.data.tcsPercentage ? result.data.tcsPercentage.toFixed(3) : '');
                                 $("#TCSAmount").val(result.data.tcsAmount ? result.data.tcsAmount.toFixed(2) : '');
-                                $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                $("#hdnAccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
                                 $("#VehicleNumber").val(result.data.vehicleNumber).trigger('change');
 
                             } else {
@@ -1246,8 +1253,22 @@
         }
 
         function bindLRList() {
-
-            if ($("#ChalanDateFrom").val() == '' || $("#ChalanDateTo").val() == '') return;
+            if ($('#LRFromDate').val() == '' || $('#LRFromDate').val() == null) {
+                showWarning("", "Please select fromdate.");
+                return;
+            }
+            if ($('#LRToDate').val() == '' || $('#LRToDate').val() == null) {
+                showWarning("", "Please select todate.");
+                return;
+            }
+            if ($('#PayTypeId').val() == '' || $('#PayTypeId').val() == null) {
+                showWarning("", "Please select pay type.");
+                return;
+            }
+            if ($('#AccountBranchMappingId').val() == '' || $('#AccountBranchMappingId').val() == null) {
+                showWarning("", "Please select bill party.");
+                return;
+            }
 
             let columns = [];
             let colDef = [];
@@ -1738,6 +1759,41 @@
         function updateHiddenInput(ids) {
             var uniqueIds = [...new Set(ids)];
             $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
+        }
+
+        function bindBillParty() {
+            try {
+                $("#AccountBranchMappingId").empty();
+                if ($('#PayTypeId').val() == '' || $('#PayTypeId').val() == null) {
+                    showWarning("", "Please select pay type.");
+                    return;
+                }
+
+                blockUI('container');
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetInvoiceCustomerAccountBranchMappingList_Select"))" + "/" + $('#PayTypeId').val(), "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            $("#AccountBranchMappingId").empty();
+                            if (data.data.length > 0) {
+                                for (var i = 0; i < data.data.length; i++) {
+                                    $('#AccountBranchMappingId').append(new Option(data.data[i].text, data.data[i].value, false, false));
+                                }
+                            }
+                            $('#AccountBranchMappingId').val($("#hdnAccountBranchMappingId").val()).trigger('change');
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
         }
     </script>
 }

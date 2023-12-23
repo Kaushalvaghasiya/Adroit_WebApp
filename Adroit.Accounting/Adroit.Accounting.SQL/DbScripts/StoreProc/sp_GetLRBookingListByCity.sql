@@ -1,8 +1,8 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_GetLRBookingListByCity]
   @LoginId int,
   @BranchId int,
-  @FromCityId int,
-  @ToCityId int
+  @FromCityIds VARCHAR(MAX),
+  @ToCityIds VARCHAR(MAX)
 AS
 BEGIN
 	DECLARE @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
@@ -52,8 +52,9 @@ BEGIN
 		WHERE [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT [Z-PurchaseBillDetail-Z].LRBookingId FROM [Z-PurchaseBillDetail-Z] WHERE [Z-PurchaseBillDetail-Z].Deleted = 0 )
 			  AND [Z-LRBooking-Z].[BranchId] = @BranchId
 			  AND [Z-LRBooking-Z].YearId = @YearId
-			  AND [Z-LRBooking-Z].CityIdFrom = @FromCityId
-			  AND [Z-LRBooking-Z].CityIdTo = @ToCityId
+			  AND ((@FromCityIds = '0' OR [Z-LRBooking-Z].CityIdFrom IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@FromCityIds)))
+				    AND 
+				   (@ToCityIds = '0' OR [Z-LRBooking-Z].CityIdTo IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@ToCityIds))))
 			  AND [CustomerAccountBranchMapping].Deleted = 0
 			  AND [CustomerAccount].Deleted = 0 AND [CustomerAccount].Active = 1
 			  AND [Z-LRBooking-Z].Deleted = 0
