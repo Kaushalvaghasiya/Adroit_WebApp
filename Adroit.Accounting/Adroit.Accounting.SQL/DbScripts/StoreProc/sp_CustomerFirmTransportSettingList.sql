@@ -34,11 +34,10 @@ Begin
 		[CustomerFirm].Title as Firm,
 		[Product].Title as Service
 		FROM CustomerFirmTransportSetting
-		INNER JOIN [CustomerFirm] on CustomerFirm.Id = [CustomerFirmTransportSetting].FirmId AND [CustomerFirm].CustomerId = @CustomerId
+		INNER JOIN [CustomerFirm] ON CustomerFirm.Id = [CustomerFirmTransportSetting].FirmId AND [CustomerFirm].CustomerId = @CustomerId
 		INNER JOIN [Product] on Product.Id = [CustomerFirmTransportSetting].ProductIdForSales AND [Product].CustomerId = @CustomerId
 		WHERE [CustomerFirm].Deleted = 0 AND [CustomerFirm].Active = 1
 		AND [Product].Deleted = 0 AND [Product].Active = 1
-		AND CustomerFirmTransportSetting.FirmId = @FirmId
 		AND (Coalesce(@Search,'') = '' OR CustomerFirm.[Title] like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
