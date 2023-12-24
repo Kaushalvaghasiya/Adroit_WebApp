@@ -509,7 +509,8 @@
     </div>
     <!-- Modal -->
     <input type="hidden" id="Id" value="0" />
-    <input type="hidden" id="hdnSelectedLRNumberIds" value="" />
+    <input type="hidden" id="hdnCheckedLRNumberIds" value="" />
+    <input type="hidden" id="hdnUnCheckedLRNumberIds" value="" />
     <input type="hidden" id="hdnPurchaseBillMasterId" value="0" />
 </div>
 
@@ -536,7 +537,7 @@
             $("#btnChalanSearch").on('click', function (e) {
                 if ($('#Chalan').val() == null || $('#Chalan').val() == '') {
                     showWarning("", "Please select Chalan.");
-                } else if ($('#hdnSelectedLRNumberIds').val() == '') {
+                } else if ($('#hdnCheckedLRNumberIds').val() == '') {
                     GetChalanMasterListByChalanNumber($('#Chalan').val());
                     GetChalanDetailListByChalanNumber($('#Chalan').val());
                 }
@@ -723,7 +724,8 @@
 
             selectedLRDetails = [];
             addedIds = [];
-            $("#hdnSelectedLRNumberIds").val('');
+            $("#hdnCheckedLRNumberIds").val('');
+            $("#hdnUnCheckedLRNumberIds").val('');
             $('#contentRow').html('');
 
             $("#activeTabName").text("Add");
@@ -766,7 +768,8 @@
                 savedata.BillNumberBranch = getIntValueZero("BillNumberBranch");
                 savedata.BillNumberFirm = getIntValueZero("BillNumberFirm");
                 savedata.ReceivedNote = $("#ReceivedNote").val();
-                savedata.LRNumberIds = $("#hdnSelectedLRNumberIds").val();
+                savedata.CheckedLRNumberIds = $("#hdnCheckedLRNumberIds").val();
+                savedata.UnCheckedLRNumberIds = $("#hdnUnCheckedLRNumberIds").val();
 
                 blockUI('container');
 
@@ -852,7 +855,8 @@
 
                                 selectedLRDetails = [];
                                 addedIds = [];
-                                $("#hdnSelectedLRNumberIds").val('');
+                                $("#hdnCheckedLRNumberIds").val('');
+                                $("#hdnUnCheckedLRNumberIds").val('');
                                 $('#contentRow').html('');
 
                                 $("#Id").val(result.data.id);
@@ -985,7 +989,8 @@
 
                                 selectedLRDetails = [];
                                 addedIds = [];
-                                $("#hdnSelectedLRNumberIds").val('');
+                                $("#hdnCheckedLRNumberIds").val('');
+                                $("#hdnUnCheckedLRNumberIds").val('');
                                 $('#contentRow').html('');
 
                                 $("#SelectedToPay").val(0.00);
@@ -1277,7 +1282,13 @@
                 return checkbox.length > 0 && checkbox.is(':checked');
             });
 
-            $('#hdnSelectedLRNumberIds').val(checkedIds.join(','));
+            var uncheckedIds = ids.filter(id => {
+                var checkbox = $('[id^="checkbox-' + id + '"]');
+                return checkbox.length > 0 && !checkbox.is(':checked');
+            });
+
+            $('#hdnCheckedLRNumberIds').val(checkedIds.join(','));
+            $('#hdnUnCheckedLRNumberIds').val(uncheckedIds.join(','));
         }
 
         function updateSelectedValues() {

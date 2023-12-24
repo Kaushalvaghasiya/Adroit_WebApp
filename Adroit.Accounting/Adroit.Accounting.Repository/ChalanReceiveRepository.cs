@@ -22,7 +22,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BillNumberFirm", value.BillNumberFirm);
             parameters.Add("@PurchaseBillMasterId", value.PurchaseBillMasterId);
             parameters.Add("@ReceivedNote", value.ReceivedNote);
-            parameters.Add("@LRNumberIds", value.LRNumberIds);
+            parameters.Add("@CheckedLRNumberIds", value.CheckedLRNumberIds);
+            parameters.Add("@UnCheckedLRNumberIds", value.UnCheckedLRNumberIds);
             return QueryHelper.Save("sp_ChalanReceiveSave", connectionString, parameters);
         }
         public bool Delete(int id, string connectionString, int loginId)
