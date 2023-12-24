@@ -71,7 +71,7 @@ BEGIN
 		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 		DECLARE @message VARCHAR(4000);
-		DECLARE @ChalanMaxDate VARCHAR(20)=NULL, @ChalanMinDate VARCHAR(20)=NULL;
+		DECLARE @ChalanMaxDate DATETIME=NULL, @ChalanMinDate DATETIME=NULL;
 
 		IF @YearId IS NULL
 		BEGIN
@@ -87,10 +87,11 @@ BEGIN
 		
 		IF (ISNULL(@BillNumberBranch,0) = 0 AND ISNULL(@BillNumberFirm,0) = 0)
 		BEGIN
-		    SELECT @ChalanMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+		    SELECT @ChalanMaxDate = CAST(MAX(BillDate) AS DATE)
 			FROM [Z-PurchaseBillMaster-Z]
 			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].BranchId = @BranchId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
-			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , CONVERT(DATETIME, GETDATE()))
+			
+			SET @ChalanMaxDate = ISNULL(@ChalanMaxDate, CAST(GETDATE() AS DATE))
 		
 		    IF (@BillDate < @ChalanMaxDate)
 		    BEGIN
@@ -100,10 +101,11 @@ BEGIN
 		END
 		ELSE IF (ISNULL(@BillNumberBranch,0) = 0)
 		BEGIN
-		    SELECT @ChalanMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+		    SELECT @ChalanMaxDate = CAST(MAX(BillDate) AS DATE)
 			FROM [Z-PurchaseBillMaster-Z]
 			WHERE [Z-PurchaseBillMaster-Z].BranchId = @BranchId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
-			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , CONVERT(DATETIME, GETDATE()))
+			
+			SET @ChalanMaxDate = ISNULL(@ChalanMaxDate, CAST(GETDATE() AS DATE))
 		
 		    IF (@BillDate < @ChalanMaxDate)
 		    BEGIN
@@ -113,10 +115,11 @@ BEGIN
 		END
 		ELSE IF (ISNULL(@BillNumberFirm,0) = 0)
 		BEGIN
-		    SELECT @ChalanMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+		    SELECT @ChalanMaxDate = CAST(MAX(BillDate) AS DATE)
 			FROM [Z-PurchaseBillMaster-Z]
 			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
-			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , CONVERT(DATETIME, GETDATE()))
+			
+			SET @ChalanMaxDate = ISNULL(@ChalanMaxDate, CAST(GETDATE() AS DATE))
 		
 		    IF (@BillDate < @ChalanMaxDate)
 		    BEGIN
