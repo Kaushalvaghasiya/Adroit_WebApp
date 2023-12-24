@@ -248,6 +248,11 @@
         public const string _TableName = "[Z-PurchaseBillMaster-Z]";
         public const string EwayBillNumber = "EwayBillNumber";
     }
+    public sealed class ChalanReceiveTable
+    {
+        public const string _TableName = "[Z-ChalanReceive-Z]";
+        public const string GoDownNumber = "GoDownNumber";
+    }
 
     #region Adroit - Account
     public sealed class AccountAdminTable

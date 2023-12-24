@@ -134,5 +134,15 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             return QueryHelper.GetList<DropdownViewModel>("sp_ChalanCustomerAccounListWithGroup_Select", connectionString, parameters);
         }
+
+        public List<DropdownViewModel> GetChalanNumberListBySenderId(string connectionString, int loginId, int firmId, int branchId, int senderId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@SenderId", senderId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_ChalanReceiveBranchGetChalanList_Select", connectionString, parameters);
+        }
     }
 }

@@ -1173,11 +1173,10 @@
                             showWarning("", 'Chalan saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
-                            addClick();
+                            addClick(true);
                             $(".confirm").click(function () {
                                 $('#LRNumber').focus();
                             });
-                            
                         } else {
                             showError("", data.data);
                         }
@@ -1235,7 +1234,7 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                addClick();
+                                addClick(true);
                                 if (isViewMode) {
                                     setScreenMode(true);
                                     $("#activeTabName").text("VIEW ID# " + result.data.id);
