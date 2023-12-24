@@ -668,7 +668,7 @@
             });
 
             $("#VehicleId").on('change', function (e) {
-                binBillParty();
+                getBillParty();
             });
 
             $("#ToPayAccountBranchMappingId").on('change', function (e) {
@@ -1174,6 +1174,9 @@
                             $("#Id").val(0);
                             refreshDatatableList();
                             addClick(true);
+                            $(".confirm").click(function () {
+                                $('#LRNumber').focus();
+                            });
                         } else {
                             showError("", data.data);
                         }
@@ -1883,13 +1886,10 @@
             $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
         }
 
-        function binBillParty() {
+        function getBillParty() {
             try {
                 $("#AccountBranchMappingId").empty();
-                if ($('#VehicleId').val() == '' || $('#VehicleId').val() == null) {
-                    showWarning("", "Please select vehicle.");
-                    return;
-                }
+                if ($('#VehicleId').val() == '') return;
 
                 blockUI('container');
                 var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetChalanCustomerAccountBranchMappingList_Select"))" + "/" + $('#VehicleId').val(), "",
