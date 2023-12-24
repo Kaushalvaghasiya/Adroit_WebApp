@@ -108,12 +108,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PurchaseBillMasterId", purchaseBillMasterId);
             return QueryHelper.GetList<LRBookingGridViewModel>("sp_ChalanGetLRBookingTableListByPurchaseBillMasterId", connectionString, parameters);
         }
-        public string GetLRBookingMaxDate(string connectionString, int branchId)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@branchId", branchId);
-            return QueryHelper.Get<string> ("sp_GetLRBookingMaxDate", connectionString, parameters);
-        }
         public List<LRBookingGridViewModel> GetLRBookingListByDate(string connectionString, string fromDate, string toDate, string PayTypeId, string AccountBranchMappingId, int branchId, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
