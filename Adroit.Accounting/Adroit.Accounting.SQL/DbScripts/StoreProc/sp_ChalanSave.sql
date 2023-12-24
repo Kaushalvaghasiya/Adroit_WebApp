@@ -71,6 +71,7 @@ BEGIN
 		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 		DECLARE @message VARCHAR(4000);
+		DECLARE @ChalanMaxDate VARCHAR(20)=NULL, @ChalanMinDate VARCHAR(20)=NULL;
 
 		IF @YearId IS NULL
 		BEGIN
@@ -83,6 +84,66 @@ BEGIN
 			FROM CustomerFirmBranchTransportSetting
 			WHERE CustomerFirmBranchTransportSetting.BranchId = @BranchId
 		);
+		
+		IF (ISNULL(@BillNumberBranch,0) = 0 AND ISNULL(@BillNumberFirm,0) = 0)
+		BEGIN
+		    SELECT @ChalanMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+			FROM [Z-PurchaseBillMaster-Z]
+			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].BranchId = @BranchId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , CONVERT(DATETIME, GETDATE()))
+		
+		    IF (@BillDate < @ChalanMaxDate)
+		    BEGIN
+		        SET @message = 'Please select a date on or after ' + @ChalanMaxDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
+		END
+		ELSE IF (ISNULL(@BillNumberBranch,0) = 0)
+		BEGIN
+		    SELECT @ChalanMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+			FROM [Z-PurchaseBillMaster-Z]
+			WHERE [Z-PurchaseBillMaster-Z].BranchId = @BranchId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , CONVERT(DATETIME, GETDATE()))
+		
+		    IF (@BillDate < @ChalanMaxDate)
+		    BEGIN
+		        SET @message = 'Please select a date on or after ' + @ChalanMaxDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
+		END
+		ELSE IF (ISNULL(@BillNumberFirm,0) = 0)
+		BEGIN
+		    SELECT @ChalanMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+			FROM [Z-PurchaseBillMaster-Z]
+			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , CONVERT(DATETIME, GETDATE()))
+		
+		    IF (@BillDate < @ChalanMaxDate)
+		    BEGIN
+		        SET @message = 'Please select a date on or after ' + @ChalanMaxDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
+		END
+		ELSE
+		BEGIN
+		    SELECT TOP 1 @ChalanMaxDate = ISNULL(CONVERT(VARCHAR(10), BillDate, 103), CONVERT(VARCHAR(10), GETDATE(), 103))
+		    FROM [Z-PurchaseBillMaster-Z]
+		    WHERE BranchId = @BranchId AND BillNumberBranch < @BillNumberBranch AND BillNumberFirm < @BillNumberFirm AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+		    ORDER BY BillNumberBranch, BillNumberFirm DESC;
+			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , DATEADD(DAY, -1, @ChalanMaxDate))
+		
+		    SELECT TOP 1 @ChalanMinDate = ISNULL(CONVERT(VARCHAR(10), BillDate, 103), DATEADD(DAY, 1, @ChalanMaxDate))
+		    FROM [Z-PurchaseBillMaster-Z]
+		    WHERE BranchId = @BranchId AND BillNumberBranch > @BillNumberBranch AND BillNumberFirm > @BillNumberFirm AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+		    ORDER BY BillNumberBranch, BillNumberFirm DESC;
+			SET @ChalanMinDate  = ISNULL(@ChalanMinDate , DATEADD(DAY, 365, @ChalanMaxDate))
+				
+		    IF NOT (@BillDate BETWEEN @ChalanMaxDate AND @ChalanMinDate)
+		    BEGIN
+		        SET @message = 'Please select a date between ' + @ChalanMaxDate + ' and ' + @ChalanMinDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
+		END
 
 		DECLARE @EntryTypeId INT = (
 			SELECT Id

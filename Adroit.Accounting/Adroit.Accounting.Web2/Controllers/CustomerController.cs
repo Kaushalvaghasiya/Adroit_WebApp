@@ -18,6 +18,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICountry _countryRepository;
         protected readonly IVehicleOwner _vehicleOwnerRepo;
         protected readonly ICustomerAccount _customerAccountRepo;
+        protected readonly ICustomerAccountOpeningBalance _customerAccountOpeningBalanceRepo;
         protected readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
         protected readonly ICustomerAccountGroup _customerAccountGroupRepo;
         protected readonly ICustomer _customerRepository;
@@ -90,6 +91,7 @@ namespace Adroit.Accounting.Web.Controllers
             ICountry countryRepository,
             IVehicleOwner vehicleOwnerRepo,
             ICustomerAccount customerAccountRepo,
+            ICustomerAccountOpeningBalance customerAccountOpeningBalanceRepo,
             ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
             ICustomerAccountGroup customerAccountGroupRepo,
             ICommon commonRepository,
@@ -160,6 +162,7 @@ namespace Adroit.Accounting.Web.Controllers
             _countryRepository = countryRepository;
             _vehicleOwnerRepo = vehicleOwnerRepo;
             _customerAccountRepo = customerAccountRepo;
+            _customerAccountOpeningBalanceRepo = customerAccountOpeningBalanceRepo;
             _customerBrokerBranchMappingRepo = customerBrokerBranchMappingRepo;
             _customerAccountGroupRepo = customerAccountGroupRepo;
             _commonRepository = commonRepository;

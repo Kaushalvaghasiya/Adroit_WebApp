@@ -13,6 +13,7 @@ namespace Adroit.Accounting.Repository.IRepository
         public List<string> GetTransporterGSTNumberList(string transporterName, int firmId, string connectionString);
         List<DropdownViewModel> GetCustomerAccountListWithAccountGroup(string connectionString, int loginId = 0, int firmId = 0);
         List<DropdownViewModel> GetCustomerAccountBranchMappingList_Select(int firmId, int branchId, string connectionString);
+        List<DropdownViewModel> GetCustomerAccountBranchMappingListWithAccountGroup_Select(int firmId, int branchId, string connectionString);
         public CustomerAccountViewModel GetListByCustomerAccountBranchMappingId(string connectionString, int CustomerAccountBranchMappingId, int branchId);
 
     }

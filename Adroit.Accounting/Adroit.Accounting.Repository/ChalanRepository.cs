@@ -125,7 +125,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LRNumberId", LRNumberId);
             return QueryHelper.GetList<LRBookingGridViewModel>("sp_ChalanLRBookingGetGridDetailsByLRNumber", connectionString, parameters);
         }
-
         public List<DropdownViewModel> GetCustomerAccountBranchMappingList_Select(int loginId, int firmId, int branchId, int vehicleId, string connectionString)
         {
             var parameters = new DynamicParameters();

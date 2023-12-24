@@ -60,6 +60,7 @@ BEGIN
 		DECLARE @message VARCHAR(4000);
 		DECLARE @LRNumberStartRange INT;
 		DECLARE @LRNumberEndRange INT;
+		DECLARE @LRBookingMaxDate VARCHAR(20)=NULL, @LRBookingMinDate VARCHAR(20)=NULL;
 
 		IF @YearId IS NULL
 		BEGIN
@@ -71,6 +72,43 @@ BEGIN
 		BEGIN
 			SET @message = 'This LR Number is already exist.';
 			RAISERROR ('%s', 16, 1, @message);
+		END
+
+		IF (ISNULL(@LRNumber,0) = 0)
+		BEGIN
+		    SELECT @LRBookingMaxDate = ISNULL(CONVERT(DATETIME, MAX(LRDate)), CONVERT(DATETIME, GETDATE())) 
+			FROM [Z-LRBooking-Z]
+			WHERE Deleted = 0 AND BranchId = @BranchId
+		
+			SET @LRBookingMaxDate  = ISNULL(@LRBookingMaxDate , CONVERT(DATETIME, GETDATE()))
+
+		    IF (@LRDate < @LRBookingMaxDate)
+		    BEGIN
+		        SET @message = 'Please select a date on or after ' + @LRBookingMaxDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
+		END
+		ELSE
+		BEGIN
+		    SELECT TOP 1 @LRBookingMaxDate = ISNULL(CONVERT(DATETIME, LRDate), CONVERT(DATETIME, GETDATE()))
+		    FROM [Z-LRBooking-Z]
+		    WHERE [Z-LRBooking-Z].LRNumber < @LRNumber AND [Z-LRBooking-Z].BranchId = @BranchId
+		    ORDER BY [Z-LRBooking-Z].LRNumber DESC;
+
+			SET @LRBookingMaxDate  = ISNULL(@LRBookingMaxDate , DATEADD(DAY, -1, @LRBookingMaxDate))
+
+		    SELECT TOP 1 @LRBookingMinDate = ISNULL(CONVERT(DATETIME, LRDate), DATEADD(DAY, 1, @LRBookingMaxDate))
+		    FROM [Z-LRBooking-Z]
+		    WHERE [Z-LRBooking-Z].LRNumber > @LRNumber AND [Z-LRBooking-Z].BranchId = @BranchId
+		    ORDER BY [Z-LRBooking-Z].LRNumber ASC;
+			
+			SET @LRBookingMinDate  = ISNULL(@LRBookingMinDate , DATEADD(DAY, 365, @LRBookingMaxDate))
+
+		    IF NOT (@LRDate BETWEEN @LRBookingMaxDate AND @LRBookingMinDate)
+		    BEGIN
+		        SET @message = 'Please select a date between ' + @LRBookingMaxDate + ' and ' + @LRBookingMinDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
 		END
 
 		IF ISNULL(@LRNumber, 0) = 0
