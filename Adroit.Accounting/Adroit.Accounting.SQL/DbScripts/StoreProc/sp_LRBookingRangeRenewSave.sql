@@ -21,23 +21,16 @@ BEGIN
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
-		DECLARE @StartNumber INT = (
-			SELECT ISNULL(MAX(EndNumber),0) + 1 As StratNumber
+		DECLARE @MaxNumber INT = (
+			SELECT ISNULL(MAX(EndNumber),0) As StratNumber
 			FROM [LRBookingRange]
 			WHERE [LRBookingRange].YearId = @YearId
 			AND [LRBookingRange].FirmId = @FirmId
-			AND [LRBookingRange].Active = 1 
 			AND [LRBookingRange].Deleted = 0
 		)
 
-		DECLARE @EndNumber INT = (
-			SELECT ISNULL(MAX(EndNumber),0) + @NumberOfLR As EndNumber
-			FROM [LRBookingRange]
-			WHERE [LRBookingRange].YearId = @YearId
-			AND [LRBookingRange].FirmId = @FirmId
-			AND [LRBookingRange].Active = 1 
-			AND [LRBookingRange].Deleted = 0
-		)
+		DECLARE @StartNumber INT = @MaxNumber + 1
+		DECLARE @EndNumber INT = @MaxNumber + @NumberOfLR 
 
 		UPDATE [LRBookingRange]
 		SET Active = 0
