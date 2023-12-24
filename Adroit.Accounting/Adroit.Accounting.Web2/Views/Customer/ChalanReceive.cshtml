@@ -1,0 +1,1335 @@
+﻿@model Adroit.Accounting.Model.ViewModel.ChalanReceiveViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Delivery</a></li>
+                    <li><a href="#">Chalan Receive</a></li>
+                    <li class="active"><span>Branch</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New" id="AddNew"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">CHALLAN#</th>
+                                    <th class="border-bottom-0">DATE</th>
+                                    <th class="border-bottom-0">AMOUNT</th>
+                                    <th class="border-bottom-0">TO CITY</th>
+                                    <th class="border-bottom-0 text-center" style="width:80px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Delivery</a></li>
+                    <li><a href="#">Chalan Receive</a></li>
+                    <li><a href="#" class="btn-back">Branch</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
+                                <span class="input-group-append mr-2">
+                                    <button class="btn btn-primary EWayBill-search" type="button">Search</button>
+                                </span>
+                                <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                                <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                                <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                                <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="SenderNameId" class="col-md-1 form-label">Sender Name</label>
+                                    <div class="col-md-5">
+                                        <select class="form-control select2-show-search" id="SenderNameId">
+                                            <option></option>
+                                            @{
+                                                if (Model.CustomerFirmBranchList != null)
+                                                {
+                                                    foreach (var o in Model.CustomerFirmBranchList)
+                                                    {
+                                                        if (o.Value != ViewBag.CurrentBranchId.ToString())
+                                                        {
+                                                            <option value="@o.Value">@o.Text</option>
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="ReceiveDate" class="col-md-1 form-label mb-1">Arrival Date</label>
+                                    <div class="col-md-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                </div>
+                                            </div>
+                                            <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="ReceiveDate">
+                                        </div>
+                                    </div>
+                                    <label for="GoDownNumber" class="col-md-1 form-label">Godown No</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search-add mode-ed" id="GoDownNumber">
+                                            <option></option>
+                                            @{
+                                                if (Model.GoDownNumberList != null)
+                                                {
+                                                    foreach (var o in Model.GoDownNumberList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BillNumberBranch" class="col-md-1 form-label">Branch Rec.No.</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="BillNumberBranch" placeholder="">
+                                    </div>
+                                    <label for="BillNumberFirm" class="col-md-1 form-label mb-1">Firm Rec.No</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="BillNumberFirm" placeholder="">
+                                    </div>
+                                    <label for="Chalan" class="col-md-1 form-label">Chalan</label>
+                                    <div class="col-md-2" style="display:flex;">
+                                        <select class="form-control select2-show-search mode-ed" id="Chalan"></select>
+                                        <span class="input-group-append">
+                                            <button class="btn btn-primary" type="button" id="btnChalanSearch" style="height:38px;">
+                                                Go!
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <label for="Date" class="col-md-1 form-label mb-1">Date</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="Date" placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="CityFrom" class="col-md-1 form-label">From</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="CityFrom" placeholder="" readonly>
+                                    </div>
+                                    <label for="CityTo" class="col-md-1 form-label">To</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="CityTo" placeholder="" readonly>
+                                    </div>
+                                    <label for="DriverName" class="col-md-1 form-label">Driver</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="DriverName" placeholder="" readonly>
+                                    </div>
+                                    <label for="VehilcleNumber" class="col-md-1 form-label">Vehicle#</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="VehilcleNumber" placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BillParty" class="col-md-1 form-label">Bill Party</label>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" id="BillParty" placeholder="" readonly>
+                                    </div>
+                                    <label for="EwayBillNumber" class="col-md-1 form-label">E-Way Bill</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="EwayBillNumber" placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12 p-0">
+                                    <div class="card">
+                                        <div class="card-header bg-primary" style="display:block">
+                                            <div class="row mb-0">
+                                                <div class="col-md-1">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1 ml-6">
+                                                                <input type="checkbox" id="selectAll" onclick="selectAllRows(this)" class="form-check-input">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="LRNumberId" class="font-weight-bold text-white">#</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="row mb-0">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="LRNumber" class="font-weight-bold text-white">LR#</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="form-group text-center mb-1">
+                                                                <label for="LRDate" class="font-weight-bold text-white"> LR Date </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="PvtMark" class="font-weight-bold text-white"> Pvt.Mark </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Package" class="font-weight-bold text-white"> Package </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="ChargeWgt" class="font-weight-bold text-white"> Charge Wgt </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="ToCity" class="font-weight-bold text-white"> To City </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="FromCity" class="font-weight-bold text-white"> From City </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="TaxableAmt" class="font-weight-bold text-white"> Taxable Amt </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Description" class="font-weight-bold text-white"> Description </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Consignor" class="font-weight-bold text-white"> Consignor </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="Consignee" class="font-weight-bold text-white"> Consignee </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <div class="form-group text-center mb-1">
+                                                        <label for="BillParty" class="font-weight-bold text-white"> Bill Party </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card-body" style="max-height: 202px; overflow-x: auto; overflow-y: auto;">
+                                            <div class="row">
+                                                <div class="col-md-12" id="contentRow"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="TotalSelectedLR" class="col-md-2 form-label">Total LR(Selected)</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="TotalSelectedLR" placeholder="" tabindex="-1">
+                                    </div>
+                                    <label for="TotalSelectedPkg" class="col-md-2 form-label mb-1">Total Pkg(Selected)</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="TotalSelectedPkg" placeholder="">
+                                    </div>
+                                    <label for="TotalSelectedWgt" class="col-md-2 form-label">Total Weight(Selected)</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="TotalSelectedWgt" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="TotalDeclinedLR" class="col-md-2 form-label">Total LR(Declined)</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="TotalDeclinedLR" placeholder="" tabindex="-1">
+                                    </div>
+                                    <label for="TotalDeclinedPkg" class="col-md-2 form-label mb-1">Total Pkg(Declined)</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="TotalDeclinedPkg" placeholder="">
+                                    </div>
+                                    <label for="TotalDeclinedWgt" class="col-md-2 form-label">Total Weight(Declined)</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="TotalDeclinedWgt" placeholder="">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mb-1">
+                                    <label for="" class="col-md-2 form-label"></label>
+                                    <label for="Selected" class="col-md-1 form-label text-center">Selected</label>
+                                    <label for="Declined" class="col-md-1 form-label text-center">Declined</label>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="ToPayAccount" id="ToPayAccountLabel" class="col-md-2 form-label"></label>
+                                    <div class="col-md-1">
+                                        <input type="text" class="form-control text-right" id="SelectedToPay" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="text" class="form-control text-right" id="DeclinedToPay" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="ToPayChargedTo" class="col-md-2 form-label mb-1">Charged To</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="ToPayChargedTo" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="TaxableAmount" class="col-md-2 form-label">Lorry Hire/ Freight</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="TaxableAmount" placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Paid" class="col-md-2 form-label">Paid</label>
+                                    <div class="col-md-1">
+                                        <input type="text" class="form-control text-right" id="SelectedPaid" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="text" class="form-control text-right" id="DeclinedPaid" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="" class="col-md-4 form-label"></label>
+                                    <label for="TDSAmount" class="col-md-2 form-label">Less TDS</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="TDSAmount" placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="TBB" class="col-md-2 form-label">TBB</label>
+                                    <div class="col-md-1">
+                                        <input type="text" class="form-control text-right" id="SelectedTBB" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="text" class="form-control text-right" id="DeclinedTBB" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="" class="col-md-4 form-label"></label>
+                                    <label for="AdvanceCash" class="col-md-2 form-label">Cash To Lorry Trip</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="AdvanceCash" placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Total" class="col-md-2 form-label">Total</label>
+                                    <div class="col-md-1">
+                                        <input type="text" class="form-control text-right" id="SelectedTotal" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <input type="text" class="form-control text-right" id="DeclinedTotal" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="" class="col-md-4 form-label"></label>
+                                    <label for="AdvanceNeft" class="col-md-2 form-label">Bank Transfer To Lorry Trip</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="AdvanceNeft" placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Charge1" id="CrossingAmountAccountLabel" class="col-md-2 form-label"></label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="Charge1" placeholder="" readonly>
+                                    </div>
+                                    <label for="Charge1ChargedTo" class="col-md-2 form-label mb-1">Charged To</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="Charge1ChargedTo" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="ReceiveCash" class="col-md-2 form-label">Received Cash By Driver</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="ReceiveCash" placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Charge2" id="CrossingCommissionAccountLabel" class="col-md-2 form-label"></label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="Charge2" placeholder="" readonly>
+                                    </div>
+                                    <label for="Charge2ChargedTo" class="col-md-2 form-label mb-1">Charged To</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="Charge2ChargedTo" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="OtherPlus" class="col-md-2 form-label">Other Exp of Trip</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="OtherPlus" placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Charge3" id="CrossingHamaliAccountLabel" class="col-md-2 form-label"></label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="Charge3" placeholder="" readonly>
+                                    </div>
+                                    <label for="Charge3ChargedTo" class="col-md-2 form-label mb-1">Charged To</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="Charge3ChargedTo" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="OtherLess" class="col-md-2 form-label">Other Less</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="OtherLess" placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Charge4" id="CrossingDeliveryChargeAccountLabel" class="col-md-2 form-label"></label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="Charge4" placeholder="" readonly>
+                                    </div>
+                                    <label for="Charge4ChargedTo" class="col-md-2 form-label mb-1">Charged To</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="Charge4ChargedTo" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                    <label for="NetAmount" class="col-md-2 form-label">NET AMOUNT</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="NetAmount" placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-2">
+                                    <label for="BrokerName" class="col-md-2 form-label">Brokerage</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="BrokerName" placeholder="" readonly>
+                                    </div>
+                                    <label for="BrokerAmount" class="col-md-2 form-label mb-1">Broker</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control text-right" id="BrokerAmount" placeholder="" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="Remarks" class="col-md-2 form-label">Remarks</label>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="Remarks" placeholder="" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="ReceivedNote" class="col-md-2 form-label">Note</label>
+                                    <div class="col-md-10">
+                                        <input type="text" class="form-control" id="ReceivedNote" placeholder="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <!-- Modal -->
+    <div class="modal" tabindex="-1" role="dialog" id="confirmationModal">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to change the previous entry?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button type="button" class="btn btn-primary" id="btnYes">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="hdnCheckedLRNumberIds" value="" />
+    <input type="hidden" id="hdnUnCheckedLRNumberIds" value="" />
+    <input type="hidden" id="hdnPurchaseBillMasterId" value="0" />
+</div>
+
+
+@section Scripts
+{
+    <script>
+
+        var selectedLRDetails = [];
+        var addedIds = [];
+
+        $(function (e) {
+
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+            bindDatatableList();
+            addClick();
+
+            $("#SenderNameId").on('change', function (e) {
+                GetChalanNumberListBySenderId($(this).val());
+            });
+
+            $("#btnChalanSearch").on('click', function (e) {
+                if ($('#Chalan').val() == null || $('#Chalan').val() == '') {
+                    showWarning("", "Please select Chalan.");
+                } else if ($('#hdnCheckedLRNumberIds').val() == '') {
+                    GetChalanMasterListByChalanNumber($('#Chalan').val());
+                    GetChalanDetailListByChalanNumber($('#Chalan').val());
+                }
+                else {
+                    $('#confirmationModal').modal('show');
+                }
+            });
+
+            $("#btnYes").on('click', function (e) {
+                GetChalanMasterListByChalanNumber($('#Chalan').val());
+                GetChalanDetailListByChalanNumber($('#Chalan').val());
+                $('#confirmationModal').modal('hide');
+            });
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#SenderNameId").focus();
+            $("#BillNumberBranch").val(0);
+            $("#BillNumberFirm").val(0);
+            //Set auto max value
+            var lastOptionValue = $('#GoDownNumber option:last-child').val();
+            var maxvalue = isNaN(parseInt(lastOptionValue)) ? 1 : parseInt(lastOptionValue) + 1;
+            $("#GoDownNumber").append(new Option(maxvalue, maxvalue, true, true)).trigger('change');
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billNumberBranch;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.receiveDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.netAmount;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "billNumberBranch", "name": "billNumberBranch" });
+            columns.push({ "data": "receiveDate", "name": "receiveDate" });
+            columns.push({ "data": "netAmount", "name": "netAmount" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                destroy: true,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/ChalanReceiveList"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function fromReset() {
+
+            $("#Id").val(0);
+            $("#BillNumberBranch").val(0);
+            $("#BillNumberFirm").val(0);
+
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
+            $("#ReceiveDate").datepicker("setDate", formattedMinimumDate);
+
+            $("#Date").val('');
+            $("#CityFrom").val('');
+            $("#CityTo").val('');
+            $("#VehilcleNumber").val('');
+            $("#BillParty").val('');
+            $("#DriverName").val('');
+            $("#EwayBillNumber").val('');
+            $("#TotalSelectedLR").val('');
+            $("#TotalSelectedPkg").val('');
+            $("#TotalSelectedWgt").val('');
+            $("#TotalDeclinedLR").val('');
+            $("#TotalDeclinedPkg").val('');
+            $("#TotalDeclinedWgt").val('');
+            $("#SelectedToPay").val('');
+            $("#DeclinedToPay").val(0.00);
+            $("#SelectedPaid").val('');
+            $("#DeclinedPaid").val(0.00);
+            $("#SelectedTBB").val('');
+            $("#DeclinedTBB").val(0.00);
+            $("#SelectedTotal").val('');
+            $("#DeclinedTotal").val(0.00);
+            $("#ToPayChargedTo").val('');
+            $("#Charge1").val('');
+            $("#Charge2").val('');
+            $("#Charge3").val('');
+            $("#Charge4").val('');
+            $("#Charge1ChargedTo").val('');
+            $("#Charge2ChargedTo").val('');
+            $("#Charge3ChargedTo").val('');
+            $("#Charge4ChargedTo").val('');
+            $("#BrokerName").val('');
+            $("#BrokerAmount").val('');
+            $("#Remarks").val('');
+            $("#ReceivedNote").val('');
+            $("#TaxableAmount").val('');
+            $("#TDSAmount").val('');
+            $("#AdvanceCash").val('');
+            $("#AdvanceNeft").val('');
+            $("#ReceiveCash").val('');
+            $("#OtherPlus").val('');
+            $("#OtherLess").val('');
+            $("#NetAmount").val('');
+            $("#SenderNameId").val(null).trigger('change');
+            $("#GoDownNumber").val(null).trigger('change');
+            $("#Chalan").val(null).trigger('change');
+
+            selectedLRDetails = [];
+            addedIds = [];
+            $("#hdnCheckedLRNumberIds").val('');
+            $("#hdnUnCheckedLRNumberIds").val('');
+            $('#contentRow').html('');
+
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+
+        }
+
+        function saveItem() {
+            try {
+
+                if ($("#ReceiveDate").val() == "") {
+                    showWarning("", "Please enter arrival date");
+                    $("#ReceiveDate").focus();
+                    return false;
+                }
+
+                if ($("#GoDownNumber").val() == null || $("#GoDownNumber").val() == "") {
+                    showWarning("", "Please select godown no");
+                    $("#GoDownNumber").focus();
+                    return false;
+                }
+
+                if ($("#BillNumberBranch").val() == "") {
+                    showWarning("", "Please enter branch no");
+                    $("#BillNumberBranch").focus();
+                    return false;
+                }
+
+                if ($("#BillNumberFirm").val() == "") {
+                    showWarning("", "Please enter firm no");
+                    $("#BillNumberFirm").focus();
+                    return false;
+                }
+
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.PurchaseBillMasterId = parseInt($("#hdnPurchaseBillMasterId").val());
+                savedata.ReceiveDate = moment(getDate($("#ReceiveDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.GoDownNumber = getIntValueZero("GoDownNumber");
+                savedata.BillNumberBranch = getIntValueZero("BillNumberBranch");
+                savedata.BillNumberFirm = getIntValueZero("BillNumberFirm");
+                savedata.ReceivedNote = $("#ReceivedNote").val();
+                savedata.CheckedLRNumberIds = $("#hdnCheckedLRNumberIds").val();
+                savedata.UnCheckedLRNumberIds = $("#hdnUnCheckedLRNumberIds").val();
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveChalanReceive", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Chalan Receive saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            addClick();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteChalanReceive"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanReceive"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+
+                                selectedLRDetails = [];
+                                addedIds = [];
+                                $("#hdnCheckedLRNumberIds").val('');
+                                $("#hdnUnCheckedLRNumberIds").val('');
+                                $('#contentRow').html('');
+
+                                $("#Id").val(result.data.id);
+                                $("#ReceiveDate").val(moment(result.data.receiveDate.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#GoDownNumber").val(result.data.goDownNumber).trigger('change');
+                                $("#BillNumberBranch").val(result.data.billNumberBranch);
+                                $("#BillNumberFirm").val(result.data.billNumberFirm);
+                                $("#hdnPurchaseBillMasterId").val(result.data.purchaseBillMasterId);
+
+                                GetChalanMasterListByChalanNumber(result.data.chalanNumber);
+                                GetChalanDetailListByChalanNumber(result.data.chalanNumber);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetChalanNumberListBySenderId(senderId) {
+
+            if ($("#SenderNameId").val() == '' || $("#SenderNameId").val() == null) return;
+
+            try {
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanNumberListBySenderId"))" + "/" + senderId, "",
+                    function (result) {
+                        try {
+                            var str = "";
+                            $("#Chalan").html('');
+                            if (result.result == RESULT_SUCCESS) {
+                                if (result.data.length > 0) {
+                                    str = ("<option></option>");
+                                    for (var i = 0; i < result.data.length; i++) {
+                                        str += ("<option value='" + result.data[i].text + "'>" + result.data[i].text + "</option>");
+                                    }
+                                }
+                                $("#Chalan").html(str);
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+
+        }
+
+        function GetChalanMasterListByChalanNumber(Chalan) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanMasterListByChalanNumber"))" + "/" + Chalan, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#hdnPurchaseBillMasterId").val(result.data.id);
+                                $("#Date").val(moment(result.data.receiveDate.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#CityFrom").val(result.data.cityFrom);
+                                $("#CityTo").val(result.data.cityTo);
+                                $("#VehilcleNumber").val(result.data.vehilcleNumber);
+                                $("#BillParty").val(result.data.billParty);
+                                $("#DriverName").val(result.data.driverName);
+                                $("#EwayBillNumber").val(result.data.ewayBillNumber);
+                                $("#TaxableAmount").val((result.data.taxableAmount || 0).toFixed(2));
+                                $("#TDSAmount").val((result.data.tdsAmount || 0).toFixed(2));
+                                $("#AdvanceCash").val((result.data.advanceCash || 0).toFixed(2));
+                                $("#AdvanceNeft").val((result.data.advanceNeft || 0).toFixed(2));
+                                $("#ReceiveCash").val((result.data.receiveCash || 0).toFixed(2));
+                                $("#OtherPlus").val((result.data.otherPlus || 0).toFixed(2));
+                                $("#OtherLess").val((result.data.otherLess || 0).toFixed(2));
+                                $("#BrokerName").val(result.data.brokerName);
+                                $("#BrokerAmount").val((result.data.brokerAmount || 0).toFixed(2));
+                                $("#Remarks").val(result.data.remarks);
+                                $("#NetAmount").val((result.data.netAmount || 0).toFixed(2));
+                                $("#Charge1").val((result.data.crossingAmount || 0).toFixed(2));
+                                $("#Charge2").val((result.data.crossingCommission || 0).toFixed(2));
+                                $("#Charge3").val((result.data.crossingHamali || 0).toFixed(2));
+                                $("#Charge4").val((result.data.crossingDeliveryCharge || 0).toFixed(2));
+                                $("#ToPayChargedTo").val(result.data.toPayAccount);
+                                $("#Charge1ChargedTo").val(result.data.crossingAmountAccount);
+                                $("#Charge2ChargedTo").val(result.data.crossingCommissionAccount);
+                                $("#Charge3ChargedTo").val(result.data.crossingHamaliAccount);
+                                $("#Charge4ChargedTo").val(result.data.crossingDeliveryChargeAccount);
+                                $("#ToPayAccountLabel").html("To Pay " + result.data.toPayAccountLabel);
+                                $("#CrossingAmountAccountLabel").html(result.data.crossingAmountAccountLabel);
+                                $("#CrossingCommissionAccountLabel").html(result.data.crossingCommissionAccountLabel);
+                                $("#CrossingHamaliAccountLabel").html(result.data.crossingHamaliAccountLabel);
+                                $("#CrossingDeliveryChargeAccountLabel").html(result.data.crossingDeliveryChargeAccountLabel);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetChalanDetailListByChalanNumber(Chalan) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/getChalanDetailListByChalanNumber"))" + "/" + Chalan, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                selectedLRDetails = [];
+                                addedIds = [];
+                                $("#hdnCheckedLRNumberIds").val('');
+                                $("#hdnUnCheckedLRNumberIds").val('');
+                                $('#contentRow').html('');
+
+                                $("#SelectedToPay").val(0.00);
+                                $("#SelectedPaid").val(0.00);
+                                $("#SelectedTBB").val(0.00);
+                                $("#SelectedTotal").val(0.00);
+                                $("#DeclinedToPay").val(0.00);
+                                $("#DeclinedPaid").val(0.00);
+                                $("#DeclinedTBB").val(0.00);
+                                $("#DeclinedTotal").val(0.00);
+
+                                result.data.forEach(function (ChalanDetail) {
+
+                                    if (ChalanDetail.lrNumber != null && ChalanDetail.lrNumber != '') {
+
+                                        var isDuplicate = selectedLRDetails.some(item => item.id === ChalanDetail.id);
+
+                                        if (!isDuplicate) {
+                                            selectedLRDetails.push({
+                                                id: ChalanDetail.lrBookingId,
+                                                lrNumber: ChalanDetail.lrNumber,
+                                                received: ChalanDetail.received,
+                                                lrDate: moment(ChalanDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                                privateMarka: ChalanDetail.privateMarka,
+                                                packing: ChalanDetail.packing,
+                                                chargeWeight: parseFloat(ChalanDetail.chargeWeight || 0).toFixed(3),
+                                                toCity: ChalanDetail.cityTo,
+                                                fromCity: ChalanDetail.cityFrom,
+                                                invoiceValue: parseFloat(ChalanDetail.chargeAmount || 0).toFixed(2),
+                                                description: ChalanDetail.description,
+                                                consignor: ChalanDetail.consignor,
+                                                consignee: ChalanDetail.consignee,
+                                                billPartyName: ChalanDetail.billPartyName,
+                                                toPayAmount: ChalanDetail.toPayAmount,
+                                                crossingAmount: ChalanDetail.crossingAmount,
+                                                crossingCommission: ChalanDetail.crossingCommission,
+                                                crossingHamali: ChalanDetail.crossingHamali,
+                                                crossingDeliveryCharge: ChalanDetail.crossingDeliveryCharge,
+                                                toPayAccount: ChalanDetail.toPayAccount,
+                                                crossingAmountAccount: ChalanDetail.crossingAmountAccount,
+                                                crossingCommissionAccount: ChalanDetail.crossingCommissionAccount,
+                                                crossingHamaliAccount: ChalanDetail.crossingHamaliAccount,
+                                                crossingDeliveryChargeAccount: ChalanDetail.crossingDeliveryChargeAccount
+                                            });
+                                        }
+                                    }
+
+                                });
+
+                                addRow();
+
+                                $('[id^="checkbox-"]').each(function () {
+                                    if (parseInt($("#Id").val()) > 0) {
+                                        var checkboxName = $(this).attr('name');
+                                        var selectedName = (checkboxName.split('-')[1]);
+
+                                        if (selectedName == 'false') {
+                                            $('[name="' + checkboxName + '"]').prop('checked', false);
+                                            $('[id="selectAll"]').prop('checked', false);
+                                        }
+                                    }
+                                });
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetChalanReceiveToPayAmount(lrNumberIds, rowId) {
+            try {
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanReceiveToPayAmount"))" + "/" + lrNumberIds, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                var checkbox = $('#' + rowId + ' input[type="checkbox"]');
+                                if (checkbox.is(':checked')) {
+
+                                    $("#SelectedToPay").val((parseFloat($("#SelectedToPay").val() || 0) + parseFloat(result.data.toPayAccountValue || 0)).toFixed(2));
+                                    $("#SelectedPaid").val((parseFloat($("#SelectedPaid").val() || 0) + parseFloat(result.data.paidValue || 0)).toFixed(2));
+                                    $("#SelectedTBB").val((parseFloat($("#SelectedTBB").val() || 0) + parseFloat(result.data.tbbValue || 0)).toFixed(2));
+
+                                    var totalValue = parseFloat($("#SelectedToPay").val() || 0) +
+                                        parseFloat($("#SelectedPaid").val() || 0) +
+                                        parseFloat($("#SelectedTBB").val() || 0);
+
+                                    $("#SelectedTotal").val(totalValue.toFixed(2));
+
+                                }
+                                else {
+                                    $("#DeclinedToPay").val((parseFloat($("#DeclinedToPay").val() || 0) + parseFloat(result.data.toPayAccountValue || 0)).toFixed(2));
+                                    $("#DeclinedPaid").val((parseFloat($("#DeclinedPaid").val() || 0) + parseFloat(result.data.paidValue || 0)).toFixed(2));
+                                    $("#DeclinedTBB").val((parseFloat($("#DeclinedTBB").val() || 0) + parseFloat(result.data.tbbValue || 0)).toFixed(2));
+
+                                    var totalValue = parseFloat($("#DeclinedToPay").val() || 0) +
+                                        parseFloat($("#DeclinedPaid").val() || 0) +
+                                        parseFloat($("#DeclinedTBB").val() || 0);
+
+                                    $("#DeclinedTotal").val(totalValue.toFixed(2));
+                                }
+
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function addRow() {
+
+            var htmlContentArray = [];
+            $('#contentRow').html('');
+
+            for (var i = 0; i < selectedLRDetails.length; i++) {
+
+                var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + i + '">' +
+                    '<div class="col-md-1">' +
+                    '<div class="row mb-0">' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<input type="checkbox" id="checkbox-' + selectedLRDetails[i].lrNumber + '" name="checkbox-' + selectedLRDetails[i].received + '">' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="id">' + (i + 1) + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="row mb-0">' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="lrNumber">' + selectedLRDetails[i].lrNumber + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-6">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="lrDate">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="privateMarka">' + (selectedLRDetails[i].privateMarka || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="parcel">' + (selectedLRDetails[i].packing || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="chargeWeight">' + (selectedLRDetails[i].chargeWeight || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="toCity">' + (selectedLRDetails[i].toCity || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="fromCity">' + (selectedLRDetails[i].fromCity || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="invoiceValue">' + (selectedLRDetails[i].invoiceValue || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="description">' + (selectedLRDetails[i].description || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="consignor">' + (selectedLRDetails[i].consignor || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="consignee">' + (selectedLRDetails[i].consignee || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '<div class="col-md-1">' +
+                    '<div class="form-group text-center mb-1">' +
+                    '<label for="billPartyName">' + (selectedLRDetails[i].billPartyName || '') + '</label>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+
+                htmlContentArray.push(htmlContent);
+
+                addedIds.push(selectedLRDetails[i].lrNumber);
+            }
+
+            $('.content-rows-add-btn').remove();
+            $('#contentRow').append(htmlContentArray.join(''));
+            $('.select2-show-search-contentrows').select2({
+                minimumResultsForSearch: ''
+            });
+
+            $('[id^="checkbox-"]').prop('checked', true);
+            $('[id="selectAll"]').prop('checked', true);
+
+            $('[id^="checkbox-"],[id="selectAll"]').on('change', function () {
+                updateSelectedValues();
+
+                $("#SelectedToPay").val(0.00);
+                $("#SelectedPaid").val(0.00);
+                $("#SelectedTBB").val(0.00);
+                $("#SelectedTotal").val(0.00);
+                $("#DeclinedToPay").val(0.00);
+                $("#DeclinedPaid").val(0.00);
+                $("#DeclinedTBB").val(0.00);
+                $("#DeclinedTotal").val(0.00);
+
+                updateSelectedIdsInput();
+
+                var anyUnchecked = $('[id^="checkbox-"]:not(:checked)').length > 0;
+                $('#selectAll').prop('checked', !anyUnchecked);
+            });
+
+            var counter = 0;
+            $('.content-row-srno').each(function () {
+                $(this).val(++counter);
+            });
+
+            updateSelectedValues();
+            updateSelectedIdsInput();
+        }
+
+        function selectAllRows(checkbox) {
+            var rowCheckboxes = document.querySelectorAll('[id^="checkbox-"]');
+            for (var i = 0; i < rowCheckboxes.length; i++) {
+                rowCheckboxes[i].checked = checkbox.checked;
+            }
+        }
+
+        function updateSelectedIdsInput() {
+            var uniqueIds = [...new Set(selectedLRDetails.map(item => item.lrNumber))];
+            updateHiddenInput(uniqueIds);
+
+            uniqueIds.forEach(function (lrNumber) {
+
+                $('[id^="checkbox-"]').each(function () {
+                    var checkboxId = $(this).attr('id');
+                    var currentLrNumber = checkboxId.split('-')[1];
+
+                    if (parseInt(currentLrNumber) === lrNumber) {
+                        var rowId = $(this).closest('.content-rows').attr('id');
+                        if (rowId !== null) {
+                            GetChalanReceiveToPayAmount(lrNumber, rowId);
+                        }
+                    }
+                });
+
+            });
+        }
+
+        function updateHiddenInput(ids) {
+            var checkedIds = ids.filter(id => {
+                var checkbox = $('[id^="checkbox-' + id + '"]');
+                return checkbox.length > 0 && checkbox.is(':checked');
+            });
+
+            var uncheckedIds = ids.filter(id => {
+                var checkbox = $('[id^="checkbox-' + id + '"]');
+                return checkbox.length > 0 && !checkbox.is(':checked');
+            });
+
+            $('#hdnCheckedLRNumberIds').val(checkedIds.join(','));
+            $('#hdnUnCheckedLRNumberIds').val(uncheckedIds.join(','));
+        }
+
+        function updateSelectedValues() {
+            var selectedCheckboxIds = [];
+            var TotalSelectedLR = 0;
+            var TotalSelectedPkg = 0;
+            var TotalSelectedWgt = 0;
+            var TotalDeclinedLR = 0;
+            var TotalDeclinedPkg = 0;
+            var TotalDeclinedWgt = 0;
+
+            $('[id^="checkbox-"]').each(function () {
+                var checkboxId = $(this).attr('id');
+                var selectedId = parseInt(checkboxId.split('-')[1]);
+
+                if ($(this).is(':checked')) {
+                    selectedCheckboxIds.push(selectedId);
+                    TotalSelectedLR += 1;
+                    var selectedDetail = selectedLRDetails.find(item => item.lrNumber === selectedId);
+                    if (selectedDetail) {
+                        TotalSelectedPkg += (+selectedDetail.packing || 0);
+                        TotalSelectedWgt += (+selectedDetail.chargeWeight || 0);
+                    }
+                } else {
+                    TotalDeclinedLR += 1;
+                    var unselectedDetail = selectedLRDetails.find(item => item.lrNumber === selectedId);
+                    if (unselectedDetail) {
+                        TotalDeclinedPkg += (+unselectedDetail.packing || 0);
+                        TotalDeclinedWgt += (+unselectedDetail.chargeWeight || 0);
+                    }
+                }
+            });
+
+            $("#TotalSelectedLR").val(TotalSelectedLR);
+            $("#TotalSelectedPkg").val(TotalSelectedPkg);
+            $("#TotalSelectedWgt").val(TotalSelectedWgt);
+            $("#TotalDeclinedLR").val(TotalDeclinedLR);
+            $("#TotalDeclinedPkg").val(TotalDeclinedPkg);
+            $("#TotalDeclinedWgt").val(TotalDeclinedWgt);
+
+        }
+
+    </script>
+}

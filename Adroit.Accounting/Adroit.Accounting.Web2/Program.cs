@@ -137,6 +137,7 @@ try
     builder.Services.AddSingleton<IChalan, ChalanRepository>();
     builder.Services.AddSingleton<IFinanceYear, FinanceYearRepository>();
     builder.Services.AddSingleton<ICustomerInvoice, CustomerInvoiceRepository>();
+    builder.Services.AddSingleton<IChalanReceive, ChalanReceiveRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {
