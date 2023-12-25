@@ -241,6 +241,7 @@
     {
         public const string _TableName = "[Z-LRBooking-Z]";
         public const string EwayBillNo = "EwayBillNo";
+        public const string PrivateMarka = "PrivateMarka";
     }
 
     public sealed class PurchaseBillMasterTable
