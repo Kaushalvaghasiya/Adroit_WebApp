@@ -1,4 +1,4 @@
-CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmBranchList_Select]
+CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmBranchListWithFirmName_Select]
   @FirmId int
 As
 Begin
