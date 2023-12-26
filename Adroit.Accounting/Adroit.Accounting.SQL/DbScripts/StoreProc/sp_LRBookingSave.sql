@@ -4,6 +4,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_LRBookingSave]
 	,@BranchId INT
 	,@LoginId INT
 	,@CityIdTo INT
+	,@CityIdFrom INT
 	,@LRNumber INT
 	,@LRDate DATETIME
 	,@EwayBillNo VARCHAR(25)
@@ -47,7 +48,7 @@ BEGIN
 		DECLARE @CustomerId int = dbo.[fn_GetCustomerId](@LoginId);
 
 		DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId);
-		DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId AND Id = @BranchId);
+		--DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId AND Id = @BranchId);
 		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @BranchId);
 		DECLARE @ProductBranchMappingId INT = (
 			SELECT ProductBranchMapping.Id 
