@@ -21,7 +21,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRPayType _transportLRPayTypeRepository;
         private readonly ICustomerAccountBranchMapping _customerAccountBranchMapping;
         private readonly ITransportLRBranchCityMapping _transportLRBranchCityMappingRepository;
-
+        private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
         public CustomerReportController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
             ICommon commonRepository,
@@ -30,7 +30,8 @@ namespace Adroit.Accounting.Web.Controllers
             IVehicle vehicleRepo,
             ITransportLRPayType transportLRPayTypeRepository,
             ICustomerAccountBranchMapping customerAccountBranchMapping,
-            ITransportLRBranchCityMapping transportLRBranchCityMappingRepository
+            ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
+            ITransportLRDeliveryType transportLRDeliveryTypeRepository
 
             )
             : base(loginHandler, userRepository, configurationData)
@@ -42,6 +43,7 @@ namespace Adroit.Accounting.Web.Controllers
             _transportLRPayTypeRepository = transportLRPayTypeRepository;
             _customerAccountBranchMapping = customerAccountBranchMapping;
             _transportLRBranchCityMappingRepository = transportLRBranchCityMappingRepository;
-    }
+            _transportLRDeliveryTypeRepository = transportLRDeliveryTypeRepository;
+        }
     }
 }
