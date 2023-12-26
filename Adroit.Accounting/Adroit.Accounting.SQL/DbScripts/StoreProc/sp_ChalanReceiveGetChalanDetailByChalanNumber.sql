@@ -1,4 +1,4 @@
-CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanReceiveGetGridDetailsByChalanNumber]
+CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanReceiveGetChalanDetailByChalanNumber]
   @LoginId int,
   @FirmId int,
   @ChalanNumber int
@@ -16,8 +16,8 @@ BEGIN
 	,LBZ.ChargeWeight AS ChargeWeight
 	,LBZ.CityIdTo AS CityIdTo
 	,LBZ.CityIdFrom AS CityIdFrom
-	,(SELECT Title FROM City WHERE Id = PBM.CityIdFrom) AS CityFrom
-    ,(SELECT Title FROM City WHERE Id = PBM.CityIdTo) AS CityTo
+	,(SELECT Title FROM City WHERE Id = LBZ.CityIdFrom) AS CityFrom
+    ,(SELECT Title FROM City WHERE Id = LBZ.CityIdTo) AS CityTo
 	,(SELECT Title FROM TransportDesc WHERE Id = LBZ.DescriptionId AND CustomerId = @CustomerId) AS Description
 	,(SELECT CA3.Name FROM [CustomerAccountBranchMapping] AS CAB3 INNER JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId AND CA3.[CustomerId] = @CustomerId WHERE CAB3.Id = LBZ.AccountBranchMappingId) AS Consignor
 	,(SELECT CA4.Name FROM [CustomerAccountBranchMapping] AS CAB4 INNER JOIN [CustomerAccount] AS CA4 on CA4.Id = CAB4.AccountId AND CA4.[CustomerId] = @CustomerId WHERE CAB4.Id = LBZ.DeliveryAccountBranchMappingId) AS Consignee
