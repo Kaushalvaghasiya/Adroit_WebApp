@@ -1,6 +1,6 @@
-﻿@model Adroit.Accounting.Model.ReportViewModel.LRRegisterViewModel
-@using Adroit.Accounting.Model;
+﻿@using Adroit.Accounting.Model;
 @using Adroit.Accounting.Model.Enums;
+@model Adroit.Accounting.Model.ReportViewModel.LRDeliveryLRRegisterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -12,7 +12,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Book & Register</a></li>
-                    <li><a href="#">LR Booking Register</a></li>
+                    <li><a href="#">LR Delivery Register</a></li>
                     <li class="active"><span>LR Register</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -47,14 +47,19 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="BranchId">Branch Name</label>
-                                <select id="BranchId" multiple="multiple" class="filter-multi mode-ed-multi">
+                                <label for="Branch">Branch</label>
+                                <select class="group-filter mode-ed" id="Branch" multiple="multiple">
                                     @{
                                         if (Model.BranchList != null)
                                         {
-                                            foreach (var o in Model.BranchList)
+                                            foreach (var y in Model.BranchList.GroupBy(o => o.Other).ToList())
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                <optgroup label="@y.First().Other">
+                                                    @foreach (var o in y)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                </optgroup>
                                             }
                                         }
                                     }
@@ -63,37 +68,43 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="LRRegisterView">View</label>
-                                <select class="form-control select2-show-search" id="LRRegisterView">
-                                    <option value="1">Date Wise</option>
-                                    <option value="2">LR Wise</option>
-                                    <option value="3">Party Wise</option>
+                                <label for="View">View</label>
+                                <select class="form-control select2-show-search" id="View">
+                                    @{
+                                        if (Model.ViewList != null)
+                                        {
+                                            foreach (var o in Model.ViewList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="FromDate">Date From</label>
+                                <label for="DateFrom">Date From</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
                                     </div>
-                                    <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="FromDate">
+                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="ToDate">Date To</label>
+                                <label for="DateTo">Date To</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
                                     </div>
-                                    <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="ToDate">
+                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateTo">
                                 </div>
                             </div>
                         </div>
@@ -112,7 +123,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="CityFrom">City From</label>
-                                <select class="filter-multi mode-ed-multi" id="CityFrom" multiple="multiple">
+                                <select class="filter-multi" id="CityFrom" multiple="multiple">
                                     @{
                                         if (Model.CityList != null)
                                         {
@@ -128,7 +139,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="CityTo">City To</label>
-                                <select class="filter-multi mode-ed-multi" id="CityTo" multiple="multiple">
+                                <select class="filter-multi" id="CityTo" multiple="multiple">
                                     @{
                                         if (Model.CityList != null)
                                         {
@@ -143,13 +154,12 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Consignor">Consignor</label> 
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="Consignor">
-                                    <option></option>
+                                <label for="Consignor">Consignor</label>
+                                <select class="filter-multi" id="Consignor" multiple="multiple">
                                     @{
-                                        if (Model.AccountBranchMappingList != null)
+                                        if (Model.ConsignorList != null)
                                         {
-                                            foreach (var o in Model.AccountBranchMappingList)
+                                            foreach (var o in Model.ConsignorList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -161,12 +171,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="Consignee">Consignee</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="Consignee">
-                                    <option></option>
+                                <select class="filter-multi" id="Consignee" multiple="multiple">
                                     @{
-                                        if (Model.AccountBranchMappingList != null)
+                                        if (Model.ConsigneeList != null)
                                         {
-                                            foreach (var o in Model.AccountBranchMappingList)
+                                            foreach (var o in Model.ConsigneeList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -178,12 +187,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="BillParty">Bill Party</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BillParty">
-                                    <option></option>
+                                <select class="filter-multi" id="BillParty" multiple="multiple">
                                     @{
-                                        if (Model.AccountBranchMappingList != null)
+                                        if (Model.BillPartyList != null)
                                         {
-                                            foreach (var o in Model.AccountBranchMappingList)
+                                            foreach (var o in Model.BillPartyList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -194,64 +202,118 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="PrivateMarka">Pvt Mark</label>
-                                <select class="filter-multi mode-ed-multi" id="PrivateMarka" multiple="multiple">
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
+                                <label for="PvtMark">Pvt Mark</label>
+                                <select class="filter-multi" id="PvtMark" multiple="multiple">
+                                    @{
+                                        if (Model.PvtMarkList != null)
+                                        {
+                                            foreach (var o in Model.PvtMarkList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="PayType">Pay Type</label>
-                                <select class="filter-multi mode-ed-multi" id="PayType" multiple="multiple">
-                                    <option value="1">Paid</option>
-                                    <option value="2">To Pay</option>
-                                    <option value="3">To Be Bill</option>
-                                    <option value="4">FOC</option>
+                                <label for="PvtType">Pay Type</label>
+                                <select class="filter-multi" id="PvtType" multiple="multiple">
+                                    @{
+                                        if (Model.PayTypeList != null)
+                                        {
+                                            foreach (var o in Model.PayTypeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="ChalanStatus">Chalan Status</label>
-                                <select class="form-control select2-show-search" id="ChalanStatus">
-                                    <option value="1">All</option>
-                                    <option value="2">Chalan Done</option>
-                                    <option value="3">Pending Chalan</option>
+                                <label for="InvStatus">Inv. Status</label>
+                                <select class="form-control select2-show-search" id="InvStatus">
+                                    @{
+                                        if (Model.InvStatusList != null)
+                                        {
+                                            foreach (var o in Model.InvStatusList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="InvoiceStatus">Inv. Status</label>
-                                <select class="form-control select2-show-search" id="InvoiceStatus">
-                                    <option value="1">All</option>
-                                    <option value="2">Invoice Done</option>
-                                    <option value="3">Pending Invoice</option>
+                                <label for="VehicleNumber">Vehicle Number</label>
+                                <select class="filter-multi" id="VehicleNumber" multiple="multiple">
+                                    @{
+                                        if (Model.VehicleNumberList != null)
+                                        {
+                                            foreach (var o in Model.VehicleNumberList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-group"><label for="form-group SubTotal">Sub Total</label></div>
+                            <div class="form-group">
+                                <label for="LRView">LR View</label>
+                                <select class="form-control select2-show-search" id="LRView">
+                                    @{
+                                        if (Model.LRViewList != null)
+                                        {
+                                            foreach (var o in Model.LRViewList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="Chalan">Chalan</label>
+                                <select class="filter-multi" id="Chalan" multiple="multiple">
+                                    @{
+                                        if (Model.ChalanList != null)
+                                        {
+                                            foreach (var o in Model.ChalanList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group"><label for="SubTotal">Sub Total</label></div>
                             <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="SubTotal">
+                                <input type="checkbox" name="custom-switch-checkbox" id="SubTotal" class="custom-switch-input">
                                 <span class="custom-switch-indicator"></span>
                             </label>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-group"><label for="form-group Summary">Summary</label></div>
+                            <div class="form-group"><label for="Summary">Summary</label></div>
                             <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="Summary">
+                                <input type="checkbox" name="custom-switch-checkbox" id="Summary" class="custom-switch-input">
                                 <span class="custom-switch-indicator"></span>
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn btn-warning mt-1 show-report" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-spinner"></i>&nbsp;Generate Report</a>
+                    <a href="#" class="btn btn-warning mt-1 show-report" data-toggle="tooltip" title="" data-placement="top" data-original-title="Generate Report"><i class="fa fa-spinner"></i>&nbsp;Generate Report</a>
                     <a href="#" class="btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
                 </div>
             </div>
@@ -266,7 +328,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Book & Register</a></li>
-                    <li><a href="#">LR Booking Register</a></li>
+                    <li><a href="#">LR Delivery Register</a></li>
                     <li class="active"><span>LR Register</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -290,24 +352,262 @@
                         <table id="tblMain" class="table table-bordered key-buttons">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0 text-center">LR DATE</th>
-                                    <th class="border-bottom-0 text-center">LR NUMBER</th>
-                                    <th class="border-bottom-0 text-center">FROM CITY</th>
-                                    <th class="border-bottom-0 text-center">TO CITY</th>
-                                    <th class="border-bottom-0 text-center">GOODS DESCRIPTION</th>
-                                    <th class="border-bottom-0 text-center">PARCEL</th>
-                                    <th class="border-bottom-0 text-center">CHARGE WT.</th>
-                                    <th class="border-bottom-0 text-center">PACKING</th>
-                                    <th class="border-bottom-0 text-center">PVT. MARK</th>
-                                    <th class="border-bottom-0 text-center">LR AMOUNT</th>
-                                    <th class="border-bottom-0 text-center">GST%</th>
-                                    <th class="border-bottom-0 text-center">GST AMOUNT</th>
-                                    <th class="border-bottom-0 text-center">PAY TYPE</th>
-                                    <th class="border-bottom-0 text-center">INV VALUE</th>
-                                    <th class="border-bottom-0 text-center">BRANCH</th>
+                                    <th class="border-bottom-0">LR DATE</th>
+                                    <th class="border-bottom-0">LR NUMBER</th>
+                                    <th class="border-bottom-0">FROM CITY</th>
+                                    <th class="border-bottom-0">TO CITY</th>
+                                    <th class="border-bottom-0">GOODS DESCRIPTION</th>
+                                    <th class="border-bottom-0">PARCEL</th>
+                                    <th class="border-bottom-0">CHARGE WT.</th>
+                                    <th class="border-bottom-0">PACKING</th>
+                                    <th class="border-bottom-0">PVT. MARK</th>
+                                    <th class="border-bottom-0">LR AMOUNT</th>
+                                    <th class="border-bottom-0">GST%</th>
+                                    <th class="border-bottom-0">GST AMOUNT</th>
+                                    <th class="border-bottom-0">INV VALUE</th>
+                                    <th class="border-bottom-0">Arrival Chalan Numbar & Date</th>
+                                    <th class="border-bottom-0">BRANCH</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -323,7 +623,7 @@
 </div>
 
 @section Scripts
-{
+    {
 
     <script>
 
@@ -471,10 +771,8 @@
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
-                //scrollCollapse: true,
-                //stateSave: false,
-                columnDefs: colDef,
-                columns: columns,
+                // columnDefs: colDef,
+                // columns: columns,
                 language: {
                     paginate: {
                         next: '<i class="fa fa-angle-right"></i>', // or '→'
@@ -483,22 +781,40 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                buttons: ['copy', 'excel', 'colvis'],
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: '@(Url.Content("~/CustomerReport/LRRegisterReportList"))',
-                    type: 'GET',
-                    data: function (d) { }
-                },
-                "initComplete": function (settings, json) {
-                    gridInitComplete(table);
-                },
-                "drawCallback": function (settings) {
-                    gridDrawCallback(this);
-                }
+                buttons: ['copy', 'excel', 'pdf', 'colvis'],
+                //processing: true,
+                //serverSide: true,
+                // ajax: {
+                //     url: '@(Url.Content("~/CustomerReport/LRRegister"))',
+                //     type: 'GET',
+                //     data: function (d) {
 
+                //     }
+                // },
+                // "initComplete": function (settings, json) {
+                //     gridInitComplete(table);
+                // },
+                // "drawCallback": function (settings) {
+                //     gridDrawCallback(this);
+                // }
             });
+
+            table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
+
+            $(".show-report").on("click", function () {
+                $('.dv-parameters').slideUp();
+                $('.dv-report').slideDown();
+            });
+
+            $(".btn-back").on("click", function () {
+                $('.dv-report').slideUp();
+                $('.dv-parameters').slideDown();
+            });
+
+        });
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
         }
 
     </script>

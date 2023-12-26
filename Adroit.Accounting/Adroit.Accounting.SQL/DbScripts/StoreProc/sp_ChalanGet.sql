@@ -6,7 +6,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanGet]
 )
 AS
 BEGIN
-	
+
 	SELECT 
 		PBM.*,
 		CA1.Name AS ToPayAccount,

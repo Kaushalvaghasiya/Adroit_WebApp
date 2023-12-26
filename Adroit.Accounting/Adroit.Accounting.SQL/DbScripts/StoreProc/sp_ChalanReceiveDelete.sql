@@ -9,18 +9,14 @@ BEGIN
 	BEGIN TRY
 
 		UPDATE ZBD SET 
-		 Received = 0
-		,ModifiedById = @LoginId 
-		,ModifiedOn = GETUTCDATE() 
+		 ZBD.Received = 0
+		,ZBD.ModifiedById = @LoginId 
+		,ZBD.ModifiedOn = GETUTCDATE() 
 		FROM [Z-PurchaseBillDetail-Z] ZBD
-		LEFT JOIN [Z-ChalanReceive-Z] on [Z-ChalanReceive-Z].PurchaseBillMasterId = ZBD.PurchaseBillMasterId AND [Z-ChalanReceive-Z].Id = @Id;
+		INNER JOIN [Z-ChalanReceive-Z] on [Z-ChalanReceive-Z].PurchaseBillMasterId = ZBD.PurchaseBillMasterId AND [Z-ChalanReceive-Z].Id = @Id;
 		
-		UPDATE [Z-ChalanReceive-Z] SET 
-		Deleted = 1, 
-		DeletedById = @LoginId,
-		DeletedOn = GETUTCDATE()
-		WHERE Id= @Id;
-			
+		DELETE FROM [Z-ChalanReceive-Z] WHERE Id= @Id;
+
 	COMMIT TRAN
 	END TRY
 	BEGIN CATCH

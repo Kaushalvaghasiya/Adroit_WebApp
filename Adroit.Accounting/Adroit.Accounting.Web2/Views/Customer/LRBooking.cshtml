@@ -72,16 +72,25 @@
                     <li class="active"><span id="activeTabName">Add</span></li>
                 </ol>
                 <div class="ml-auto">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
-                        <span class="input-group-append mr-2">
-                            <button class="btn btn-primary EWayBill-search" type="button" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Popover top">Search</button>
-                        </span>
-                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
-                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-trash-o"></i></span></a>
-                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
-                        <a href="#" class="btn-add-new-customer-account btn btn-info text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add Account"><span><i class="fa fa-user-plus"></i></span></a>
-                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Back" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                    <div class="row">
+                        <label for="CityIdFrom" class="col-lg-1 col-xl-1 col-md-1 col-sm-1" style="padding:10px 20px 0 0;">From City</label>
+                        <div class="col-lg-5 col-xl-5 col-md-5 col-sm-5" style="display:flex;">
+                            <select class="form-control select2-show-search-api" id="CityIdFrom">
+                                <option value=""></option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
+                                <span class="input-group-append mr-2">
+                                    <button class="btn btn-primary EWayBill-search" type="button">Search</button>
+                                </span>
+                                <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                                <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                                <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                                <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -517,8 +526,6 @@
 
     <input type="hidden" id="Id" value="0" />
     <input type="hidden" id="hdnLRRateOn" value="" />
-    <input type="hidden" id="hdnMaxDate" value="" />
-    <input type="hidden" id="hdnMinDate" value="" />
 
 </div>
 
@@ -534,53 +541,32 @@
 
             bindDatatableList();
 
-            // Max Date Validation
-            $("#hdnMaxDate").val('@Model.LRBookingMaxDate');
-
-            $("#LRDate").on('change', function (e) {
-                var selectedDateStr = $(this).val();
-                var selectedDateParts = selectedDateStr.split('/');
-                var selectedDate = new Date(selectedDateParts[2], selectedDateParts[1] - 1, selectedDateParts[0]);
-                var minDate = '';
-                var maxDate = '';
-
-                if ($("#hdnMinDate").val() != '' && $("#hdnMinDate").val() != null) {
-                    var minDateParts = $("#hdnMinDate").val().split('/');
-                    minDate = new Date(minDateParts[2], minDateParts[1] - 1, minDateParts[0]);
-                }
-                else {
-                    minDate = ''
-                }
-
-
-                if ($("#hdnMaxDate").val() != '' && $("#hdnMaxDate").val() != null) {
-                    var maxDateParts = $("#hdnMaxDate").val().split('/');
-                    maxDate = new Date(maxDateParts[2], maxDateParts[1] - 1, maxDateParts[0]);
-                }
-                else {
-                    $("#hdnMaxDate").val('@Model.LRBookingMaxDate');
-                    var maxDateParts = $("#hdnMaxDate").val().split('/');
-                    maxDate = new Date(maxDateParts[2], maxDateParts[1] - 1, maxDateParts[0]);
-                    if ($("#hdnMinDate").val() == '' || $("#hdnMinDate").val() == null) {
-                        minDate = new Date(maxDateParts[2], maxDateParts[1] - 1, maxDateParts[0]);
+            $('.select2-show-search-api').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                ajax: {
+                    minimumInputLength: 2,
+                    url: '@(Url.Content("~/common/searchcity"))',
+                    dataType: "json",
+                    type: "GET",
+                    data: function (params) {
+                        return {
+                            city: params.term// search term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data.data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.value
+                                }
+                            })
+                        };
                     }
-                }
-
-
-                if (minDate != '') {
-                    if (selectedDate < maxDate || selectedDate > minDate) {
-                        alert('Please select a date between ' + maxDate.toLocaleDateString('en-IN') + ' and ' + minDate.toLocaleDateString('en-IN'));
-                        $(this).val('');
-                    }
-                }
-                else {
-                    if (selectedDate < maxDate) {
-                        alert('You can not select before date : ' + maxDate.toLocaleDateString('en-IN'));
-                        $(this).val('');
-                    }
-                }
+                },
             });
-            // Max Date Validation
 
             $("#CityIdTo").on('change', function (e) {
                 $('#Rate').attr('disabled', false);
@@ -746,6 +732,10 @@
             $("#LRPayTypeId").val(@Model.CustomerFirmBranchTransportSetting.LRPayTypeId).trigger('change');
             var cookieValue = getCookie('@Html.Raw(lastLrToCityCookieName)');
             $("#CityIdTo").val(cookieValue).trigger('change');
+
+            var cityFromStr = "<option value='" + @Model.CityIdFrom + "'>" + "@Model.CityFrom" + "</option>";
+            $("#CityIdFrom").html(cityFromStr);
+            $("#CityIdFrom").val(@Model.CityIdFrom).trigger("change");
         }
 
         function viewMode(id) {
@@ -946,6 +936,11 @@
                     $("#CityIdTo").focus();
                     return false;
                 }
+                if ($("#CityIdFrom").val() == null || $("#CityIdFrom").val() == "") {
+                    showWarning("", "Please select to from city");
+                    $("#CityIdFrom").focus();
+                    return false;
+                }
 
                 if ($("#LRNumber").val() == "") {
                     showWarning("", "Please enter lr number");
@@ -1086,6 +1081,7 @@
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.CityIdTo = getIntValueZero("CityIdTo");
+                savedata.CityIdFrom = getIntValueZero("CityIdFrom");
                 savedata.LRNumber = getIntValueZero("LRNumber");
                 savedata.LRDate = moment(getDate($("#LRDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
                 savedata.EwayBillNo = $("#EwayBillNo").val();
@@ -1234,15 +1230,9 @@
                                 $("#Truck").val(result.data.vehilcleNo);
                                 $("#TruckLoadDate").val(result.data.chalanDate !== '' ? moment(result.data.chalanDate.split('T')[0]).format('DD/MM/YYYY') : '');
 
-                                if (result.data.lrBookingMinDate != '' && result.data.lrBookingMinDate != null) {
-                                    var minDateStr = result.data.lrBookingMinDate;
-                                    $("#hdnMinDate").val(minDateStr);
-                                } else $("#hdnMinDate").val(null);
-
-                                if (result.data.lrBookingMaxDate != '' && result.data.lrBookingMaxDate != null) {
-                                    var maxDateStr = result.data.lrBookingMaxDate;
-                                    $("#hdnMaxDate").val(maxDateStr);
-                                } else $("#hdnMaxDate").val(null);
+                                var cityFromStr = "<option value='" + result.data.cityIdFrom + "'>" + result.data.cityFrom + "</option>";
+                                $("#CityIdFrom").html(cityFromStr);
+                                $("#CityIdFrom").val(result.data.cityIdFrom).trigger("change");
 
                                 CalcNetAmount();
 

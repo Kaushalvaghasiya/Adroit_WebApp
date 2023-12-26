@@ -62,6 +62,7 @@ try
     builder.Services.AddSingleton<ITaluka, TalukaRepository>();
     builder.Services.AddSingleton<ICustomer, CustomerRepository>();
     builder.Services.AddSingleton<ICustomerAccount, CustomerAccountRepository>();
+    builder.Services.AddSingleton<ICustomerAccountOpeningBalance, CustomerAccountOpeningBalanceRepository>();
     builder.Services.AddSingleton<ICustomerAccountGroup, CustomerAccountGroupRepository>();
     builder.Services.AddSingleton<ICustomerBrokerBranchMapping, CustomerBrokerBranchMappingRepository>();
     builder.Services.AddSingleton<IBusiness, BusinessRepository>();
@@ -137,7 +138,7 @@ try
     builder.Services.AddSingleton<IFinanceYear, FinanceYearRepository>();
     builder.Services.AddSingleton<ICustomerInvoice, CustomerInvoiceRepository>();
     builder.Services.AddSingleton<IChalanReceive, ChalanReceiveRepository>();
-    builder.Services.AddSingleton<ILRBookingRenew, LRBookingRenewRepository>();
+    builder.Services.AddSingleton<ILRBookingRangeRenew, LRBookingRangeRenewRepository>();
     builder.Services.AddSingleton<ILRRegister, LRRegisterRepository>();
 
     if (!builder.Environment.IsDevelopment())

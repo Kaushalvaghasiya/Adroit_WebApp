@@ -26,13 +26,21 @@ Begin
 			) AS RowNum,
 			Count(*) over () AS TotalCount, 
 			LRBookingRange.*,
-			CustomerFirmBranch.Title As Branch
+			CustomerFirmBranch.Title As Branch,
+			CASE 
+				WHEN EXISTS (
+					SELECT 1
+					FROM [Z-LRBooking-Z]
+					WHERE LRNumber BETWEEN LRBookingRange.StartNumber AND LRBookingRange.EndNumber
+				) THEN 0
+				ELSE 1
+			END AS IsUsedInLRBooking
 		FROM [LRBookingRange]
 		INNER JOIN CustomerFirmBranch ON CustomerFirmBranch.Id = [LRBookingRange].BranchId AND CustomerFirmBranch.FirmId = @FirmId 
 		AND CustomerFirmBranch.Active = 1 AND CustomerFirmBranch.Deleted = 0
 		WHERE [LRBookingRange].FirmId = @FirmId
 		AND [LRBookingRange].YearId = @YearId
-		AND [LRBookingRange].Active = 1 AND [LRBookingRange].Deleted = 0
+		AND [LRBookingRange].Deleted = 0
 		AND (
 			CustomerFirmBranch.Title like '%'+ @Search + '%'
 			OR [LRBookingRange].[StartNumber] like '%'+ @Search + '%'
