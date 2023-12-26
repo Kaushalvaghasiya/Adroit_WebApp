@@ -14,7 +14,6 @@ namespace Adroit.Accounting.Model
         public int BranchId { get; set; }
         public int YearId { get; set; }
         public int FirmId { get; set; }
-        public int NumberOfLR { get; set; }
         public int StartNumber { get; set; }
         public int EndNumber { get; set; }
         public int AddedById { get; set; }

@@ -40,8 +40,8 @@ BEGIN
 			AND Active = 1
 			AND Deleted = 0;
 
-		INSERT INTO [LRBookingRange] (BranchId,FirmId,YearId,NumberOfLR,StartNumber,EndNumber,AddedById,AddedOn,Active)
-		VALUES (@BranchId,@FirmId,@YearId,@NumberOfLR,@StartNumber,@EndNumber,@LoginId,GETUTCDATE(),1)
+		INSERT INTO [LRBookingRange] (BranchId,FirmId,YearId,StartNumber,EndNumber,AddedById,AddedOn,Active)
+		VALUES (@BranchId,@FirmId,@YearId,@StartNumber,@EndNumber,@LoginId,GETUTCDATE(),1)
 			
 		SET @Id = SCOPE_IDENTITY();
 

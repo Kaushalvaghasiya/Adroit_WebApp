@@ -35,7 +35,6 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">BRANCH NAME</th>
-                                    <th class="border-bottom-0">NUMBER OF LR</th>
                                     <th class="border-bottom-0">START NUMBER</th>
                                     <th class="border-bottom-0">END NUMBER</th>
                                     <th class="border-bottom-0">ACTIVE</th>
@@ -168,13 +167,6 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.numberOfLR;
-                },
-                "targets": colDef.length,
-                "className": "text-center"
-            });
-            colDef.push({
-                "render": function (data, type, row) {
                     return row.startNumber;
                 },
                 "targets": colDef.length,
@@ -208,7 +200,6 @@
             });
 
             columns.push({ "data": "branch", "name": "branch" });
-            columns.push({ "data": "numberOfLR", "name": "numberOfLR" });
             columns.push({ "data": "startNumber", "name": "startNumber" });
             columns.push({ "data": "endNumber", "name": "endNumber" });
             columns.push({ "data": "active", "name": "active" });
@@ -280,7 +271,7 @@
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.BranchId = getIntValueZero("BranchId");
-                savedata.NumberOfLR = parseInt($("#NumberOfLR").val());
+                savedata.NumberOfLR = getIntValueZero("NumberOfLR");
 
                 blockUI('container');
 
