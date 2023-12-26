@@ -3,7 +3,7 @@ using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Repository.IRepository
 {
-    public interface ILRBookingRange
+    public interface ILRBookingRangeRenew
     {
         int Save(LRBookingRangeViewModel value, string connectionString);
         LRBookingRangeViewModel Get(int id, int firmId, string connectionString);

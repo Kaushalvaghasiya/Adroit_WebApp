@@ -10,7 +10,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Settings</a></li>
                     <li><a href="#">Transport Setting</a></li>
-                    <li class="active"><span>LR Booking Range</span></li>
+                    <li class="active"><span>LR Booking Range Renew</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -35,9 +35,10 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">BRANCH NAME</th>
-                                    <th class="border-bottom-0">LR START NUMBER</th>
-                                    <th class="border-bottom-0">LR END NUMBER</th>
-                                    <th class="border-bottom-0" style="width:100px">ACTIVE</th>
+                                    <th class="border-bottom-0">NUMBER OF LR</th>
+                                    <th class="border-bottom-0">START NUMBER</th>
+                                    <th class="border-bottom-0">END NUMBER</th>
+                                    <th class="border-bottom-0">ACTIVE</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -59,7 +60,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Settings</a></li>
                     <li><a href="#">Transport Setting</a></li>
-                    <li><a href="#" class="btn-back">LR Booking Range</a></li>
+                    <li><a href="#" class="btn-back">LR Booking Range Renew</a></li>
                     <li class="active"><span id="activeTabName"></span></li>
                 </ol>
                 <div class="ml-auto">
@@ -100,47 +101,12 @@
                                 </select>
                             </div>
                         </div>
+                    </div>
+                    <div class="row">
                         <div class="col-lg-12 col-md-12">
                             <div class="form-group">
-                                <label for="StartNumber">LR Start Number</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="StartNumber">
-                                    <option></option>
-                                    @{
-                                        if (Model.StartNumberList != null)
-                                        {
-                                            foreach (var o in Model.StartNumberList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                            <div class="form-group">
-                                <label for="EndNumber">LR End Number</label>
-                                <select class="form-control select2-show-search-add mode-ed" id="EndNumber">
-                                    <option></option>
-                                    @{
-                                        if (Model.EndNumberList != null)
-                                        {
-                                            foreach (var o in Model.EndNumberList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-12 col-md-12">
-                            <div class="form-group">
-                                <div><label for="Active">Active</label></div>
-                                <label class="custom-switch">
-                                    <input id="Active" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
-                                    <span class="custom-switch-indicator"></span>
-                                </label>
+                                <label for="NumberOfLR">Number Of LR</label>
+                                <input type="text" class="form-control numberonly" id="NumberOfLR" placeholder="">
                             </div>
                         </div>
                     </div>
@@ -177,8 +143,6 @@
             setScreenMode(false);
             $(".btn-delete").hide();
             $("#BranchId").focus();
-
-            $("#Active").prop('checked', true);
         }
 
         function viewMode(id) {
@@ -204,6 +168,13 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
+                    return row.numberOfLR;
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
                     return row.startNumber;
                 },
                 "targets": colDef.length,
@@ -218,7 +189,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.active ? "Yes" : "No";
+                    return row.active;
                 },
                 "targets": colDef.length,
                 "className": "text-center"
@@ -226,11 +197,8 @@
             colDef.push({
                 "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
-                    if (row.isUsedInLRBooking == true)
-                        btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
-                    if (row.isUsedInLRBooking == true)
-                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
                     btnAct += "</div>";
                     return btnAct;
                 },
@@ -240,10 +208,10 @@
             });
 
             columns.push({ "data": "branch", "name": "branch" });
+            columns.push({ "data": "numberOfLR", "name": "numberOfLR" });
             columns.push({ "data": "startNumber", "name": "startNumber" });
             columns.push({ "data": "endNumber", "name": "endNumber" });
             columns.push({ "data": "active", "name": "active" });
-            columns.push({ "data": "id", "name": "id" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -271,8 +239,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/customer/lrbookingrangelist"))',
-                    url: '@(Url.Content("~/customer/lrbookingrangelist"))',
+                    url: '@(Url.Content("~/customer/LRBookingRangeRenewList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -289,10 +256,7 @@
         function fromReset() {
             $("#Id").val(0);
             $("#BranchId").val(null).trigger('change');
-            $("#StartNumber").val(null).trigger('change');
-            $("#EndNumber").val(null).trigger('change');
-            $("#Active").prop('checked', false);
-
+            $("#NumberOfLR").val('');
             $("#activeTabName").text("Add");
             setScreenMode(false);
             $(".btn-delete").hide();
@@ -300,58 +264,29 @@
 
         function saveItem() {
             try {
+
                 if ($("#BranchId").val() == "") {
                     showWarning("", "Please enter valid branch name.");
                     $("#Title").focus();
                     return false;
                 }
-                if ($("#StartNumber").val() == null || $("#StartNumber").val() == "") {
-                    showWarning("", "Please enter valid lr start number");
-                    $("#StartNumber").focus();
-                    return false;
-                }
-                if (!/^[0-9\s]*$/.test($("#StartNumber").val())) {
-                    showWarning("", "Please enter valid lr start number");
-                    $("#StartNumber").focus();
-                    return false;
-                }
-                if ($("#EndNumber").val() == null || $("#EndNumber").val() == "") {
-                    showWarning("", "Please enter valid lr end number");
-                    $("#EndNumber").focus();
-                    return false;
-                }
-                if (!/^[0-9\s]*$/.test($("#EndNumber").val())) {
-                    showWarning("", "Please enter valid lr end number");
-                    $("#EndNumber").focus();
+
+                if ($("#NumberOfLR").val() == "0" || $("#NumberOfLR").val() == "") {
+                    showWarning("", "Please enter value graeter than 0.");
+                    $("#NumberOfLR").focus();
                     return false;
                 }
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
-                savedata.BranchId = parseInt($("#BranchId").val());
-                savedata.StartNumber = parseInt($("#StartNumber").val());
-                savedata.EndNumber = parseInt($("#EndNumber").val());
-
-                if (savedata.StartNumber > 25000) {
-                    $('#StartNumber option[value="' + $('#StartNumber').val() + '"]').detach();
-                    showWarning("", "Please provide valid lr start number less than or equal to 25000.");
-                    $("#StartNumber").focus();
-                    return false;
-                }
-                if (savedata.EndNumber > 25000) {
-                    $('#EndNumber option[value="' + $('#EndNumber').val() + '"]').detach();
-                    showWarning("", "Please provide valid lr end number less than or equal to 25000.");
-                    $("#EndNumber").focus();
-                    return false;
-                }
-
-                savedata.Active = $("#Active").prop('checked');
+                savedata.BranchId = getIntValueZero("BranchId");
+                savedata.NumberOfLR = parseInt($("#NumberOfLR").val());
 
                 blockUI('container');
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("savelrbookingrange", "customer"))",
+                    url: "@(Url.Action("SaveLRBookingRangeRenew", "customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -360,7 +295,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'LR booking range saved successfully.');
+                            showWarning("", 'LR booking renew saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -383,14 +318,17 @@
         }
 
         function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/customer/DeleteLRBookingRange"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteLRBookingRangeRenew"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
+                        var str = "";
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                $('#Title option[value="' + $('#Title').val() + '"]').detach();
                                 refreshDatatableList();
                                 fromReset();
                                 $('.btn-back').click();
@@ -413,7 +351,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/customer/GetLRBookingRange"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/customer/GetLRBookingRangeRenew"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -430,9 +368,8 @@
 
                                 $('#Id').val(result.data.id);
                                 $("#BranchId").val(result.data.branchId).trigger('change');
-                                $("#StartNumber").val(result.data.startNumber).trigger('change');
-                                $("#EndNumber").val(result.data.endNumber).trigger('change');
-                                $("#Active").prop('checked', result.data.active);
+                                $("#NumberOfLR").val(result.data.numberOfLR);
+
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
