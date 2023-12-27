@@ -20,6 +20,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRPayType _transportLRPayTypeRepository;
         private readonly ICustomerAccountBranchMapping _customerAccountBranchMapping;
         private readonly ITransportLRBranchCityMapping _transportLRBranchCityMappingRepository;
+        private readonly IChalan _chalanRepository;
         private readonly IReportLRBookingLRRegister _reportLRBookingLRRegisterRepository;
         private readonly IReportLRBookingStockRegister _reportLRBookingStockRegisterRepository;
         private readonly IReportLRBookingBookingRegister _reportLRBookingBookingRegisterRepository;
@@ -33,9 +34,10 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportLRPayType transportLRPayTypeRepository,
             ICustomerAccountBranchMapping customerAccountBranchMapping,
             ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
+            IChalan chalanRepository,
             IReportLRBookingLRRegister reportLRBookingLRRegisterRepository,
-            IReportLRBookingStockRegister reportLRBookingStockRegisterRepository, 
-            IReportLRBookingBookingRegister reportLRBookingBookingRegisterRepository)
+            IReportLRBookingStockRegister reportLRBookingStockRegisterRepository,
+            IReportLRBookingBookingRegister reportLRBookingBookingRegisterRepository) 
             : base(loginHandler, userRepository, configurationData)
         {
             _commonRepository = commonRepository;
@@ -45,11 +47,10 @@ namespace Adroit.Accounting.Web.Controllers
             _transportLRPayTypeRepository = transportLRPayTypeRepository;
             _customerAccountBranchMapping = customerAccountBranchMapping;
             _transportLRBranchCityMappingRepository = transportLRBranchCityMappingRepository;
+            _chalanRepository = chalanRepository;
             _reportLRBookingLRRegisterRepository = reportLRBookingLRRegisterRepository;
             _reportLRBookingStockRegisterRepository = reportLRBookingStockRegisterRepository;
             _reportLRBookingBookingRegisterRepository = reportLRBookingBookingRegisterRepository;
         }
-
-
     }
 }
