@@ -36,11 +36,11 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerAccountBranchMapping customerAccountBranchMapping,
             ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
             ITransportLRDeliveryType transportLRDeliveryTypeRepository,
-            IChalan chalanRepository,            
-           IReportLRBookingLRRegister reportLRBookingLRRegisterRepository,
+            IChalan chalanRepository,
+            IReportLRBookingLRRegister reportLRBookingLRRegisterRepository,
             IReportLRBookingStockRegister reportLRBookingStockRegisterRepository,
-            IReportLRBookingBookingRegister reportLRBookingBookingRegisterRepository) 
-            : base(loginHandler, userRepository, configurationData)
+            IReportLRBookingBookingRegister reportLRBookingBookingRegisterRepository
+            ) : base(loginHandler, userRepository, configurationData)
         {
             _commonRepository = commonRepository;
             _customerFirmBranchRepository = customerFirmBranchRepository;
