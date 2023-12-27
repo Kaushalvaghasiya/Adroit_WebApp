@@ -20,8 +20,8 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public List<DropdownViewModel> ConsigneeList { get; set; }
         public int[] PayTypeId { get; set; }
         public List<DropdownViewModel> PayTypeList { get; set; }
-        public int[] ChalanId { get; set; }
-        public List<DropdownViewModel> ChalanList { get; set; }
+        public int[] ChalanStatusId { get; set; }
+        public List<DropdownViewModel> ChalanStatusList { get; set; }
         public int InvStatus { get; set; }
         public List<DropdownViewModel> InvStatusList { get; set; }
         public bool Summary { get; set; }

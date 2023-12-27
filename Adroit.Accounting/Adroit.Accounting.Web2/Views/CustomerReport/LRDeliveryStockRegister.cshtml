@@ -132,8 +132,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="PvtType">Pay Type</label>
-                                <select class="filter-multi" id="PvtType" multiple="multiple">
+                                <label for="PayType">Pay Type</label>
+                                <select class="filter-multi" id="PayType" multiple="multiple">
                                     @{
                                         if (Model.PayTypeList != null)
                                         {
@@ -148,12 +148,12 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="Chalan">Chalan Status</label>
-                                <select class="filter-multi" id="Chalan" multiple="multiple">
+                                <label for="ChalanStatus">Chalan Status</label>
+                                <select class="filter-multi" id="ChalanStatus" multiple="multiple">
                                     @{
-                                        if (Model.ChalanList != null)
+                                        if (Model.ChalanStatusList != null)
                                         {
-                                            foreach (var o in Model.ChalanList)
+                                            foreach (var o in Model.ChalanStatusList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -165,7 +165,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="InvStatus">Inv. Status</label>
-                                <select class="form-control select2-show-search" id="InvStatus">
+                                <select class="form-control select2-show-search-report" id="InvStatus">
                                     @{
                                         if (Model.InvStatusList != null)
                                         {
@@ -485,6 +485,31 @@
             });
 
             table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
+
+            $(".buttons-copy").removeClass("btn-primary");
+            $(".buttons-copy").addClass("btn-outline-primary");
+
+            $(".buttons-excel").removeClass("btn-primary");
+            $(".buttons-excel").addClass("btn-outline-primary");
+
+            $(".buttons-pdf").removeClass("btn-primary");
+            $(".buttons-pdf").addClass("btn-outline-primary");
+
+            $(".buttons-colvis").removeClass("btn-primary");
+            $(".buttons-colvis").removeClass("dropdown-toggle");
+            $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
+
+            $(".buttons-copy").empty();
+            $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
+
+            $(".buttons-excel").empty();
+            $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
+
+            $(".buttons-pdf").empty();
+            $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
+
+            $(".buttons-colvis").empty();
+            $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
 
             $(".show-report").on("click", function () {
                 $('.dv-parameters').slideUp();
