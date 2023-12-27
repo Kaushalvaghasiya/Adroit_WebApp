@@ -35,6 +35,7 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportLRPayType transportLRPayTypeRepository,
             ICustomerAccountBranchMapping customerAccountBranchMapping,
             ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
+            ITransportLRDeliveryType transportLRDeliveryTypeRepository,
             IChalan chalanRepository,            
             IReportLRBookingLRRegister lrReportBookingLRRegisterRepository,
             IReportLRBookingLRRegister reportLRBookingLRRegisterRepository,
