@@ -13,7 +13,6 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerReportController : MasterController
     {
-        //protected readonly IVehicle _vehicleRepo;
         private readonly ICommon _commonRepository;
         protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
         private readonly ICity _cityRepository;
@@ -22,6 +21,9 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICustomerAccountBranchMapping _customerAccountBranchMapping;
         private readonly ITransportLRBranchCityMapping _transportLRBranchCityMappingRepository;
         private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
+        private readonly IReportLRBookingLRRegister _reportLRBookingLRRegisterRepository;
+        private readonly IReportLRBookingStockRegister _reportLRBookingStockRegisterRepository;
+
         public CustomerReportController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
             ICommon commonRepository,
@@ -32,9 +34,9 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerAccountBranchMapping customerAccountBranchMapping,
             ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
             ITransportLRDeliveryType transportLRDeliveryTypeRepository
-
-            )
-            : base(loginHandler, userRepository, configurationData)
+            IReportLRBookingLRRegister reportLRBookingLRRegisterRepository,
+            IReportLRBookingStockRegister reportLRBookingStockRegisterRepository
+        ) : base(loginHandler, userRepository, configurationData)
         {
             _commonRepository = commonRepository;
             _customerFirmBranchRepository = customerFirmBranchRepository;
@@ -44,6 +46,10 @@ namespace Adroit.Accounting.Web.Controllers
             _customerAccountBranchMapping = customerAccountBranchMapping;
             _transportLRBranchCityMappingRepository = transportLRBranchCityMappingRepository;
             _transportLRDeliveryTypeRepository = transportLRDeliveryTypeRepository;
+            _reportLRBookingLRRegisterRepository = reportLRBookingLRRegisterRepository;
+            _reportLRBookingStockRegisterRepository = reportLRBookingStockRegisterRepository;
         }
+
+
     }
 }
