@@ -129,14 +129,18 @@ BEGIN
 		END
 		ELSE
 		BEGIN	
-			SELECT TOP 1 @ChalanMaxDate = CAST(MAX(BillDate) AS DATE)
+			SELECT TOP 1 @ChalanMaxDate = CAST(BillDate AS DATE)
 		    FROM [Z-PurchaseBillMaster-Z]
-		    WHERE BranchId = @BranchId AND BillNumberBranch < @BillNumberBranch AND BillNumberFirm < @BillNumberFirm AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+		    WHERE BranchId = @BranchId 
+			AND BillNumberBranch < @BillNumberBranch 
+			AND BillNumberFirm < @BillNumberFirm 
+			AND [Z-PurchaseBillMaster-Z].YearId = @YearId 
+			AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		    ORDER BY BillNumberBranch, BillNumberFirm DESC;
 			
 			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , DATEADD(DAY, -1, @ChalanMaxDate))
 		
-			SELECT TOP 1 @ChalanMinDate = CAST(MAX(BillDate) AS DATE)
+			SELECT TOP 1 @ChalanMinDate = CAST(BillDate AS DATE)
 		    FROM [Z-PurchaseBillMaster-Z]
 		    WHERE BranchId = @BranchId AND BillNumberBranch > @BillNumberBranch AND BillNumberFirm > @BillNumberFirm AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		    ORDER BY BillNumberBranch, BillNumberFirm DESC;
