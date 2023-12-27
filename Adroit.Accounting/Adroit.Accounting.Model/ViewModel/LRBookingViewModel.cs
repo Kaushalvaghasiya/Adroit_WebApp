@@ -35,5 +35,9 @@ namespace Adroit.Accounting.Model.ViewModel
         public string LRBookingMaxDate { get; set; }
         public string LRBookingMinDate { get; set; }
         public bool? Deleted { get; set; }
+
+        // Booking Register
+        public string BranchName { get; set; }
+        public string LoadingChalanNo { get; set; }
     }
 }
