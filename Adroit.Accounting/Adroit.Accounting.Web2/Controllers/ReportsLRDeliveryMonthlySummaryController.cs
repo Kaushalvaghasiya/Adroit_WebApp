@@ -12,7 +12,7 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerReportController : MasterController
     {
-        public IActionResult MonthlySummary()
+        public IActionResult LRDeliveryMonthlySummary()
         {
             LRDeliveryMonthlySummaryViewModel model = new LRDeliveryMonthlySummaryViewModel();
             model.BranchList = _customerFirmBranchRepository.SelectListWithFirmByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
