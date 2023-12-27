@@ -1,4 +1,4 @@
-CREATE OR ALTER Procedure [dbo].[sp_DailySummaryReportList]
+CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingDailySummaryList]
   @LoginId INT,
   @BranchId INT,
   @FirmId INT,

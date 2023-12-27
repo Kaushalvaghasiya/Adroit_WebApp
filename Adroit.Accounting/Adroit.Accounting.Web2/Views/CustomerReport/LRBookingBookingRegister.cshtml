@@ -1,10 +1,9 @@
 ﻿@using Adroit.Accounting.Model;
 @using Adroit.Accounting.Model.Enums;
-@model Adroit.Accounting.Model.ReportViewModel.LRBookingLRRegisterViewModel
+@model Adroit.Accounting.Model.ReportViewModel.LRBookingBookingRegisterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="dv-parameters side-app">
     <div class="row">
         <div class="col-md-12 col-lg-12">
@@ -13,7 +12,7 @@
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Book & Register</a></li>
                     <li><a href="#">LR Booking Register</a></li>
-                    <li class="active"><span>LR Register</span></li>
+                    <li class="active"><span>Booking Register</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -47,7 +46,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="BranchId">Branch</label>
+                                <label for="BranchId">Branch Name</label>
                                 <select class="group-filter mode-ed" id="BranchId" multiple="multiple">
                                     @{
                                         if (Model.BranchList != null)
@@ -203,22 +202,6 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="PvtMarkId">Pvt Mark</label>
-                                <select class="filter-multi mode-ed-multi" id="PvtMarkId" multiple="multiple">
-                                    @{
-                                        if (Model.PvtMarkList != null)
-                                        {
-                                            foreach (var o in Model.PvtMarkList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
                                 <label for="PayTypeId">Pay Type</label>
                                 <select class="filter-multi mode-ed-multi" id="PayTypeId" multiple="multiple">
                                     @{
@@ -298,7 +281,7 @@
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Book & Register</a></li>
                     <li><a href="#">LR Booking Register</a></li>
-                    <li class="active"><span>LR Register</span></li>
+                    <li class="active"><span>Booking Register</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -321,20 +304,20 @@
                         <table id="tblMain" class="table table-bordered key-buttons">
                             <thead>
                                 <tr>
+                                    <th class="border-bottom-0 text-center">LR Number</th>
                                     <th class="border-bottom-0 text-center">LR DATE</th>
-                                    <th class="border-bottom-0 text-center">LR NUMBER</th>
-                                    <th class="border-bottom-0 text-center">FROM CITY</th>
                                     <th class="border-bottom-0 text-center">TO CITY</th>
+                                    <th class="border-bottom-0 text-center">PARCLE</th>
                                     <th class="border-bottom-0 text-center">GOODS DESCRIPTION</th>
-                                    <th class="border-bottom-0 text-center">PARCEL</th>
-                                    <th class="border-bottom-0 text-center">CHARGE WT.</th>
-                                    <th class="border-bottom-0 text-center">PACKING</th>
-                                    <th class="border-bottom-0 text-center">PVT. MARK</th>
-                                    <th class="border-bottom-0 text-center">LR AMOUNT</th>
+                                    <th class="border-bottom-0 text-center">Consignor & GST No</th>
+                                    <th class="border-bottom-0 text-center">Consignee & GST No</th>
+                                    <th class="border-bottom-0 text-center">Charge Wt.</th>
+                                    <th class="border-bottom-0 text-center">LR Amount</th>
                                     <th class="border-bottom-0 text-center">GST%</th>
-                                    <th class="border-bottom-0 text-center">GST AMOUNT</th>
-                                    <th class="border-bottom-0 text-center">PAY TYPE</th>
-                                    <th class="border-bottom-0 text-center">INV VALUE</th>
+                                    <th class="border-bottom-0 text-center">GST Amount</th>
+                                    <th class="border-bottom-0 text-center">Inv Value</th>
+                                    <th class="border-bottom-0 text-center">Pay Type</th>
+                                    <th class="border-bottom-0 text-center">Loading Chalan No</th>
                                     <th class="border-bottom-0 text-center">BRANCH</th>
                                 </tr>
                             </thead>
@@ -593,7 +576,6 @@
 
 @section Scripts
 {
-
     <script>
 
         $(function (e) {
@@ -664,19 +646,13 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
-                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
                     return row.lrNumber;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.cityFrom;
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
             });
@@ -688,13 +664,25 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
                     return row.description;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.parcel;
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
                 },
                 "targets": colDef.length,
             });
@@ -703,40 +691,35 @@
                     return (row.chargeWeight || 0).toFixed(3);
                 },
                 "targets": colDef.length,
-                "className": "text-right",
+                "class": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.packing;
+                    return (row.amount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.privateMarka;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.amount.toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
+                "class": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return (row.rate || 0).toFixed(3);
                 },
                 "targets": colDef.length,
-                "className": "text-right",
+                "class": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return (row.rate || 0).toFixed(3);
                 },
                 "targets": colDef.length,
-                "className": "text-right",
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -746,10 +729,9 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return row.loadingChalanNo;
                 },
                 "targets": colDef.length,
-                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -758,20 +740,20 @@
                 "targets": colDef.length,
             });
 
-            columns.push({ "data": "lrDate", "name": "lrDate" });
             columns.push({ "data": "lrNumber", "name": "lrNumber" });
-            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "lrDate", "name": "lrDate" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
-            columns.push({ "data": "description", "name": "description" });
             columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "description", "name": "description" });
+            columns.push({ "data": "consignor", "name": "consignor" });
+            columns.push({ "data": "consignee", "name": "consignee" });
             columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
-            columns.push({ "data": "packing", "name": "packing" });
-            columns.push({ "data": "privateMarka", "name": "privateMarka" });
-            columns.push({ "data": "chargeAmount", "name": "chargeAmount" });
+            columns.push({ "data": "amount", "name": "amount" });
             columns.push({ "data": "rate", "name": "rate" });
             columns.push({ "data": "rate", "name": "rate" });
-            columns.push({ "data": "lrPayType", "name": "lrPayType" });
             columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
+            columns.push({ "data": "lrPayType", "name": "lrPayType" });
+            columns.push({ "data": "loadingChalanNumber", "name": "loadingChalanNumber" });
             columns.push({ "data": "branchName", "name": "branchName" });
 
             var table = $('#tblMain').DataTable({
@@ -800,7 +782,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))',
+                    url: '@(Url.Content("~/CustomerReport/BookingRegisterReportList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -815,5 +797,4 @@
         }
 
     </script>
-
 }
