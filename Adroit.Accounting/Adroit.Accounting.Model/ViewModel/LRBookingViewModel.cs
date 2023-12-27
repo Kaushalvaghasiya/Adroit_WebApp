@@ -33,8 +33,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public bool? IsLRBookingPurchased { get; set; }
         public short? CreditDays { get; set; }
         public bool? Deleted { get; set; }
-
-        // Stock Register
-        public string BranchName { get; set; }
+        public string branchName { get; set; }
     }
 }
