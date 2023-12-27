@@ -69,7 +69,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="View">View</label>
-                                <select class="form-control select2-show-search" id="View">
+                                <select class="form-control select2-show-search-report" id="View">
                                     @{
                                         if (Model.ViewList != null)
                                         {
@@ -127,13 +127,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="ChalanFrom">Chalan From</label>
-                                <input type="text" class="form-control" id="ChalanFrom" placeholder="">
+                                <input type="text" class="form-control numberonly" id="ChalanFrom" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="ChalanTo">Chalan To</label>
-                                <input type="text" class="form-control" id="ChalanTo" placeholder="">
+                                <input type="text" class="form-control numberonly" id="ChalanTo" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -186,8 +186,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="exampleInputname">Vehicle Owner</label>
-                                <input type="text" class="form-control" id="exampleInputname" placeholder="">
+                                <label for="VehicleOwner">Vehicle Owner</label>
+                                <input type="text" class="form-control" id="VehicleOwner" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -607,6 +607,31 @@
             });
 
             table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
+
+            $(".buttons-copy").removeClass("btn-primary");
+            $(".buttons-copy").addClass("btn-outline-primary");
+
+            $(".buttons-excel").removeClass("btn-primary");
+            $(".buttons-excel").addClass("btn-outline-primary");
+
+            $(".buttons-pdf").removeClass("btn-primary");
+            $(".buttons-pdf").addClass("btn-outline-primary");
+
+            $(".buttons-colvis").removeClass("btn-primary");
+            $(".buttons-colvis").removeClass("dropdown-toggle");
+            $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
+
+            $(".buttons-copy").empty();
+            $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
+
+            $(".buttons-excel").empty();
+            $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
+
+            $(".buttons-pdf").empty();
+            $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
+
+            $(".buttons-colvis").empty();
+            $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
 
             $(".show-report").on("click", function () {
                 $('.dv-parameters').slideUp();

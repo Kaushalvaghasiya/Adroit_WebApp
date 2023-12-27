@@ -26,8 +26,9 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public List<DropdownViewModel> CityList { get; set; }
         public int[] VehicleNumber { get; set; }
         public List<DropdownViewModel> VehicleNumberList { get; set; }
-        public int[] VehicleOwner { get; set; }
-        public List<DropdownViewModel> VehicleOwnerList { get; set; }
+        public string VehicleOwner { get; set; }
+        //public int[] VehicleOwner { get; set; }
+        //public List<DropdownViewModel> VehicleOwnerList { get; set; }
         public bool SubTotal { get; set; }
         public bool Summary { get; set; }
     }
