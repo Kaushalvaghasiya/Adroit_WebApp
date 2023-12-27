@@ -35,5 +35,12 @@ namespace Adroit.Accounting.Model.ViewModel
         public string LRBookingMaxDate { get; set; }
         public string LRBookingMinDate { get; set; }
         public bool? Deleted { get; set; }
+
+        // Daily Summary
+        public string BranchName { get; set; }
+        public int? TotalLR { get; set; }
+        public decimal? ToPayAmount { get; set; }
+        public decimal? PaidAmount { get; set; }
+        public decimal? TBBAmount { get; set; }
     }
 }
