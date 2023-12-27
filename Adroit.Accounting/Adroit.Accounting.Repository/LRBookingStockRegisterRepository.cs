@@ -7,7 +7,7 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class StockRegisterRepository : IStockRegister
+    public class LRBookingStockRegisterRepository : ILRBookingStockRegister
     {
         public List<LRBookingGridViewModel> SelectList(string connectionString, int loginId, int branchId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
@@ -20,7 +20,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<LRBookingGridViewModel>("sp_StockRegisterReportList", connectionString, parameters);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_LRBookingStockRegisterReportList", connectionString, parameters);
         }
     }
 }

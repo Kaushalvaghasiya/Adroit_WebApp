@@ -140,7 +140,7 @@ try
     builder.Services.AddSingleton<IChalanReceive, ChalanReceiveRepository>();
     builder.Services.AddSingleton<ILRBookingRangeRenew, LRBookingRangeRenewRepository>();
     builder.Services.AddSingleton<ILRBookingLRRegister, LRBookingLRRegisterRepository>();
-    builder.Services.AddSingleton<IStockRegister, StockRegisterRepository>();
+    builder.Services.AddSingleton<ILRBookingStockRegister, LRBookingStockRegisterRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

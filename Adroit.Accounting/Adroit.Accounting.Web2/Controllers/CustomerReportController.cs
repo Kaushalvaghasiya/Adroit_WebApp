@@ -21,6 +21,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICustomerAccountBranchMapping _customerAccountBranchMapping;
         private readonly ITransportLRBranchCityMapping _transportLRBranchCityMappingRepository;
         private readonly ILRBookingLRRegister _lrBookingLRRegisterRepository;
+        private readonly ILRBookingStockRegister _lrBookingStockRegisterRepository;
 
         public CustomerReportController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
@@ -31,7 +32,8 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportLRPayType transportLRPayTypeRepository,
             ICustomerAccountBranchMapping customerAccountBranchMapping,
             ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
-            ILRBookingLRRegister lrBookingLRRegisterRepository)
+            ILRBookingLRRegister lrBookingLRRegisterRepository, 
+            ILRBookingStockRegister lrBookingStockRegisterRepository)
             : base(loginHandler, userRepository, configurationData)
         {
             _commonRepository = commonRepository;
@@ -42,6 +44,7 @@ namespace Adroit.Accounting.Web.Controllers
             _customerAccountBranchMapping = customerAccountBranchMapping;
             _transportLRBranchCityMappingRepository = transportLRBranchCityMappingRepository;
             _lrBookingLRRegisterRepository = lrBookingLRRegisterRepository;
+            _lrBookingStockRegisterRepository = lrBookingStockRegisterRepository;
         }
 
 
