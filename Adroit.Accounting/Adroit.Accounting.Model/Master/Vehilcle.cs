@@ -15,17 +15,17 @@ namespace Adroit.Accounting.Model
         public int CustomerId { get; set; }
         public string VRN { get; set; }
         public short ModelId { get; set; }
-        public string ChasisNumber { get; set; }
-        public string EngineNumber { get; set; }
+        public string? ChasisNumber { get; set; }
+        public string? EngineNumber { get; set; }
         [JsonConverter(typeof(CustomDateTimeConverter))]
-        public System.DateTime RegistrationDate { get; set; }
-        public int StateId { get; set; }
-        public string StatePermitNumber { get; set; }
+        public System.DateTime? RegistrationDate { get; set; }
+        public int? StateId { get; set; }
+        public string? StatePermitNumber { get; set; }
         [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? StatePermitIssueOn { get; set; }
         [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? StatePermitExpiry { get; set; }
-        public string NationalPermitNumber { get; set; }
+        public string? NationalPermitNumber { get; set; }
         [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? NationalPermitIssueOn { get; set; }
         [JsonConverter(typeof(CustomNullableDateTimeConverter))]
@@ -35,10 +35,10 @@ namespace Adroit.Accounting.Model
         public System.DateTime? InsuranceIssueOn { get; set; }
         [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? InsuranceExpiry { get; set; }
-        public int OwnerId { get; set; }
-        public int AddedById { get; set; }
+        public int OwnerId { get; set; } = 0;
+        public int AddedById { get; set; } = 0;
         [JsonConverter(typeof(CustomDateTimeConverter))]
-        public System.DateTime AddedOn { get; set; }
+        public System.DateTime AddedOn { get; set; } = DateTime.UtcNow;
         public int? DeletedById { get; set; }
         [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? DeletedOn { get; set; }

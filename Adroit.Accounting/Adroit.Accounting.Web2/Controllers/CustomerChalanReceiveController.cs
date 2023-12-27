@@ -26,9 +26,10 @@ namespace Adroit.Accounting.Web.Controllers
                 model.CustomerFirmBranchTransportSetting = CustomerFirmBranchTransportSetting;
             }
 
-            model.CustomerFirmBranchList = _customerFirmBranchesRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
+            model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
             model.GoDownNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ChalanReceiveTable._TableName, ChalanReceiveTable.GoDownNumber);
-
+            
+            ViewBag.CurrentBranchId = CurrentBranchId;
             return View(model);
         }
 
@@ -132,13 +133,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetChalanMasterListByChalanNumber/{ChalanNumber}")]
-        public JsonResult GetChalanMasterListByChalanNumber(int ChalanNumber)
+        [Route("~/Customer/GetChalanMasterListByChalanNumber/{chalanNumber}")]
+        public JsonResult GetChalanMasterListByChalanNumber(int chalanNumber)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _chalanReceiveRepository.GetChalanMasterListByChalanNumber(_configurationData.DefaultConnection, ChalanNumber, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                result.data = _chalanReceiveRepository.GetChalanMasterListByChalanNumber(_configurationData.DefaultConnection, chalanNumber, CurrentUserId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -149,13 +150,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetChalanDetailListByChalanNumber/{ChalanNumber}")]
-        public JsonResult GetChalanDetailListByChalanNumber(int ChalanNumber)
+        [Route("~/Customer/GetChalanDetailListByChalanNumber/{chalanNumber}")]
+        public JsonResult GetChalanDetailListByChalanNumber(int chalanNumber)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _chalanReceiveRepository.GetChalanDetailListByChalanNumber(_configurationData.DefaultConnection, ChalanNumber, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                result.data = _chalanReceiveRepository.GetChalanDetailListByChalanNumber(_configurationData.DefaultConnection, chalanNumber, CurrentUserId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

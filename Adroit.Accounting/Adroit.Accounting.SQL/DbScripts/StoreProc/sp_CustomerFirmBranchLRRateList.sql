@@ -49,8 +49,8 @@ Begin
 		INNER JOIN CustomerFirmBranch ON CustomerFirm.Id = CustomerFirmBranch.FirmId
 		INNER JOIN CustomerFirmBranchLRRate ON CustomerFirmBranch.Id = CustomerFirmBranchLRRate.BranchId
 		LEFT JOIN City ON CustomerFirmBranchLRRate.CityId = City.Id
-		WHERE 
-			(Coalesce(@Search,'') = '' 
+		WHERE CustomerFirm.Id = @FirmId
+			AND ((Coalesce(@Search,'') = '' 
 			OR CustomerFirmBranch.[Title] like '%'+ @Search + '%'
 			OR City.[Title] like '%'+ @Search + '%'
 			OR CustomerFirmBranchLRRate.RatePerKg like '%'+ @Search + '%'
@@ -61,7 +61,7 @@ Begin
 			OR CustomerFirmBranchLRRate.CommissionPercentOnFreight like '%'+ @Search + '%'
 			OR CustomerFirmBranchLRRate.CommissionPerKg like '%'+ @Search + '%'
 			OR CustomerFirmBranchLRRate.CommissionPerParcel like '%'+ @Search + '%'
-			)
+			))
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
 End

@@ -10,7 +10,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanReceiveSave]
 	,@BillNumberFirm INT
 	,@ReceiveDate DATETIME  
 	,@ReceivedNote NVARCHAR(250)
-	,@LRNumberIds NVARCHAR(MAX)
+	,@CheckedLRNumberIds NVARCHAR(MAX)
+	,@UnCheckedLRNumberIds NVARCHAR(MAX)
 )
 AS
 BEGIN
@@ -85,13 +86,13 @@ BEGIN
 				 Received = 0
 				,ModifiedById = @LoginId 
 				,ModifiedOn = GETUTCDATE() 
-		WHERE PurchaseBillMasterId = @PurchaseBillMasterId AND [LRBookingId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
+		WHERE PurchaseBillMasterId = @PurchaseBillMasterId AND [LRBookingId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@UnCheckedLRNumberIds))
 
 		UPDATE  [Z-PurchaseBillDetail-Z] SET
 				 Received = 1
 				,ModifiedById = @LoginId 
 				,ModifiedOn = GETUTCDATE() 
-		WHERE PurchaseBillMasterId = @PurchaseBillMasterId AND [LRBookingId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
+		WHERE PurchaseBillMasterId = @PurchaseBillMasterId AND [LRBookingId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@CheckedLRNumberIds))
 
 		COMMIT TRAN
 		SELECT @Id

@@ -1,18 +1,14 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_LRBookingRenewDelete]
-(	
-	@Id INT,
-	@LoginId INT
+CREATE OR ALTER procedure [dbo].[sp_CustomerAccountOpeningBalanceDelete]
+(
+	@LoginId int,
+	@Id INT
 )
 AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		
-		UPDATE [LRBookingRange] SET 
-		Deleted = 1, 
-		DeletedById = @LoginId,
-		DeletedOn = GETUTCDATE()
-		WHERE Id= @Id
+
+		Delete From CustomerAccountOpeningBalance WHERE Id= @Id;
 
 	COMMIT TRAN
 	END TRY

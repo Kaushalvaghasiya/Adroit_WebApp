@@ -30,8 +30,8 @@ Begin
 			VehicleModel.Title AS ModelName,
 			VehicleOwner.[Name] As OwnerName
 		FROM Vehilcle
-		LEFT JOIN VehicleModel on VehicleModel.Id = Vehilcle.ModelId
-		LEFT JOIN VehicleOwner on VehicleOwner.Id = Vehilcle.OwnerId
+		INNER JOIN VehicleModel on VehicleModel.Id = Vehilcle.ModelId
+		INNER JOIN VehicleOwner on VehicleOwner.Id = Vehilcle.OwnerId
 		WHERE Vehilcle.Deleted = 0 And Vehilcle.CustomerId = @CustomerId
 		AND (Coalesce(@Search,'') = '' 
 				OR Vehilcle.[VRN] like '%'+ @Search + '%'

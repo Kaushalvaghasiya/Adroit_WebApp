@@ -6,7 +6,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_CustomerInvoiceGet]
 )
 AS
 BEGIN
-	
+
 	SELECT 
 		SBM.*,
 		(SELECT STUFF((SELECT ',' + CAST(t1.LRBookingId AS VARCHAR) FROM [Z-SalesBillDetail-Z] t1

@@ -4,6 +4,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_LRBookingSave]
 	,@BranchId INT
 	,@LoginId INT
 	,@CityIdTo INT
+	,@CityIdFrom INT
 	,@LRNumber INT
 	,@LRDate DATETIME
 	,@EwayBillNo VARCHAR(25)
@@ -47,7 +48,7 @@ BEGIN
 		DECLARE @CustomerId int = dbo.[fn_GetCustomerId](@LoginId);
 
 		DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId);
-		DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId AND Id = @BranchId);
+		--DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId AND Id = @BranchId);
 		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @BranchId);
 		DECLARE @ProductBranchMappingId INT = (
 			SELECT ProductBranchMapping.Id 
@@ -60,6 +61,7 @@ BEGIN
 		DECLARE @message VARCHAR(4000);
 		DECLARE @LRNumberStartRange INT;
 		DECLARE @LRNumberEndRange INT;
+		DECLARE @LRBookingMaxDate VARCHAR(20)=NULL, @LRBookingMinDate VARCHAR(20)=NULL;
 
 		IF @YearId IS NULL
 		BEGIN
@@ -73,6 +75,43 @@ BEGIN
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
+		IF (ISNULL(@LRNumber,0) = 0)
+		BEGIN
+		    SELECT @LRBookingMaxDate = ISNULL(CONVERT(DATETIME, MAX(LRDate)), CONVERT(DATETIME, GETDATE())) 
+			FROM [Z-LRBooking-Z]
+			WHERE Deleted = 0 AND BranchId = @BranchId
+		
+			SET @LRBookingMaxDate  = ISNULL(@LRBookingMaxDate , CONVERT(DATETIME, GETDATE()))
+
+		    IF (@LRDate < @LRBookingMaxDate)
+		    BEGIN
+		        SET @message = 'Please select a date on or after ' + @LRBookingMaxDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
+		END
+		ELSE
+		BEGIN
+		    SELECT TOP 1 @LRBookingMaxDate = ISNULL(CONVERT(DATETIME, LRDate), CONVERT(DATETIME, GETDATE()))
+		    FROM [Z-LRBooking-Z]
+		    WHERE [Z-LRBooking-Z].LRNumber < @LRNumber AND [Z-LRBooking-Z].BranchId = @BranchId
+		    ORDER BY [Z-LRBooking-Z].LRNumber DESC;
+
+			SET @LRBookingMaxDate  = ISNULL(@LRBookingMaxDate , DATEADD(DAY, -1, @LRBookingMaxDate))
+
+		    SELECT TOP 1 @LRBookingMinDate = ISNULL(CONVERT(DATETIME, LRDate), DATEADD(DAY, 1, @LRBookingMaxDate))
+		    FROM [Z-LRBooking-Z]
+		    WHERE [Z-LRBooking-Z].LRNumber > @LRNumber AND [Z-LRBooking-Z].BranchId = @BranchId
+		    ORDER BY [Z-LRBooking-Z].LRNumber ASC;
+			
+			SET @LRBookingMinDate  = ISNULL(@LRBookingMinDate , DATEADD(DAY, 365, @LRBookingMaxDate))
+
+		    IF NOT (@LRDate BETWEEN @LRBookingMaxDate AND @LRBookingMinDate)
+		    BEGIN
+		        SET @message = 'Please select a date between ' + @LRBookingMaxDate + ' and ' + @LRBookingMinDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
+		END
+
 		IF ISNULL(@LRNumber, 0) = 0
 		BEGIN
 			SELECT @LRNumber = ISNULL(MAX(LRNumber),0) + 1
@@ -82,7 +121,7 @@ BEGIN
 
 		SELECT @LRNumberStartRange = StartNumber,@LRNumberEndRange = EndNumber
 		FROM LRBookingRange 
-		WHERE BranchId = @BranchId
+		WHERE BranchId = @BranchId AND FirmId = @FirmId AND YearId = @YearId AND Active = 1 AND Deleted = 0
 
 		IF (@LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange) 
 		BEGIN

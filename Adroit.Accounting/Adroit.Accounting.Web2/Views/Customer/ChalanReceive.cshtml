@@ -104,7 +104,10 @@
                                                 {
                                                     foreach (var o in Model.CustomerFirmBranchList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                        if (o.Value != ViewBag.CurrentBranchId.ToString())
+                                                        {
+                                                            <option value="@o.Value">@o.Text</option>
+                                                        }
                                                     }
                                                 }
                                             }
@@ -196,7 +199,7 @@
                                                     <div class="row mb-0">
                                                         <div class="col-md-6">
                                                             <div class="form-group text-center mb-1 ml-6">
-                                                                <input type="checkbox" id="selectAll" onchange="selectAllRows(this)" class="form-check-input">
+                                                                <input type="checkbox" id="selectAll" onclick="selectAllRows(this)" class="form-check-input">
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
@@ -320,7 +323,7 @@
                                     <label for="Declined" class="col-md-1 form-label text-center">Declined</label>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="ToPayAccount" class="col-md-2 form-label">To Pay @Model.CustomerFirmBranchTransportSetting.ToPayAccountLabel</label>
+                                    <label for="ToPayAccount" id="ToPayAccountLabel" class="col-md-2 form-label"></label>
                                     <div class="col-md-1">
                                         <input type="text" class="form-control text-right" id="SelectedToPay" placeholder="" readonly tabindex="-1">
                                     </div>
@@ -379,7 +382,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="Charge1" class="col-md-2 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingAmountLabel</label>
+                                    <label for="Charge1" id="CrossingAmountAccountLabel" class="col-md-2 form-label"></label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control text-right" id="Charge1" placeholder="" readonly>
                                     </div>
@@ -393,7 +396,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="Charge2" class="col-md-2 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingCommissionLabel</label>
+                                    <label for="Charge2" id="CrossingCommissionAccountLabel" class="col-md-2 form-label"></label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control text-right" id="Charge2" placeholder="" readonly>
                                     </div>
@@ -407,7 +410,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="Charge3" class="col-md-2 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingHamaliLabel</label>
+                                    <label for="Charge3" id="CrossingHamaliAccountLabel" class="col-md-2 form-label"></label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control text-right" id="Charge3" placeholder="" readonly>
                                     </div>
@@ -421,7 +424,7 @@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="Charge4" class="col-md-2 form-label">@Model.CustomerFirmBranchTransportSetting.CrossingDeliveryChargeLabel</label>
+                                    <label for="Charge4" id="CrossingDeliveryChargeAccountLabel" class="col-md-2 form-label"></label>
                                     <div class="col-md-2">
                                         <input type="text" class="form-control text-right" id="Charge4" placeholder="" readonly>
                                     </div>
@@ -506,7 +509,8 @@
     </div>
     <!-- Modal -->
     <input type="hidden" id="Id" value="0" />
-    <input type="hidden" id="hdnSelectedLRNumberIds" value="" />
+    <input type="hidden" id="hdnCheckedLRNumberIds" value="" />
+    <input type="hidden" id="hdnUnCheckedLRNumberIds" value="" />
     <input type="hidden" id="hdnPurchaseBillMasterId" value="0" />
 </div>
 
@@ -533,7 +537,7 @@
             $("#btnChalanSearch").on('click', function (e) {
                 if ($('#Chalan').val() == null || $('#Chalan').val() == '') {
                     showWarning("", "Please select Chalan.");
-                } else if ($('#hdnSelectedLRNumberIds').val() == '') {
+                } else if ($('#hdnCheckedLRNumberIds').val() == '') {
                     GetChalanMasterListByChalanNumber($('#Chalan').val());
                     GetChalanDetailListByChalanNumber($('#Chalan').val());
                 }
@@ -720,7 +724,8 @@
 
             selectedLRDetails = [];
             addedIds = [];
-            $("#hdnSelectedLRNumberIds").val('');
+            $("#hdnCheckedLRNumberIds").val('');
+            $("#hdnUnCheckedLRNumberIds").val('');
             $('#contentRow').html('');
 
             $("#activeTabName").text("Add");
@@ -763,7 +768,8 @@
                 savedata.BillNumberBranch = getIntValueZero("BillNumberBranch");
                 savedata.BillNumberFirm = getIntValueZero("BillNumberFirm");
                 savedata.ReceivedNote = $("#ReceivedNote").val();
-                savedata.LRNumberIds = $("#hdnSelectedLRNumberIds").val();
+                savedata.CheckedLRNumberIds = $("#hdnCheckedLRNumberIds").val();
+                savedata.UnCheckedLRNumberIds = $("#hdnUnCheckedLRNumberIds").val();
 
                 blockUI('container');
 
@@ -849,7 +855,8 @@
 
                                 selectedLRDetails = [];
                                 addedIds = [];
-                                $("#hdnSelectedLRNumberIds").val('');
+                                $("#hdnCheckedLRNumberIds").val('');
+                                $("#hdnUnCheckedLRNumberIds").val('');
                                 $('#contentRow').html('');
 
                                 $("#Id").val(result.data.id);
@@ -859,8 +866,8 @@
                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
                                 $("#hdnPurchaseBillMasterId").val(result.data.purchaseBillMasterId);
 
-                                GetChalanMasterListByChalanNumber(result.data.billNumberBranch);
-                                GetChalanDetailListByChalanNumber(result.data.billNumberBranch);
+                                GetChalanMasterListByChalanNumber(result.data.chalanNumber);
+                                GetChalanDetailListByChalanNumber(result.data.chalanNumber);
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -889,7 +896,6 @@
                             var str = "";
                             $("#Chalan").html('');
                             if (result.result == RESULT_SUCCESS) {
-
                                 if (result.data.length > 0) {
                                     str = ("<option></option>");
                                     for (var i = 0; i < result.data.length; i++) {
@@ -897,7 +903,6 @@
                                     }
                                 }
                                 $("#Chalan").html(str);
-
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -951,6 +956,11 @@
                                 $("#Charge2ChargedTo").val(result.data.crossingCommissionAccount);
                                 $("#Charge3ChargedTo").val(result.data.crossingHamaliAccount);
                                 $("#Charge4ChargedTo").val(result.data.crossingDeliveryChargeAccount);
+                                $("#ToPayAccountLabel").html("To Pay " + result.data.toPayAccountLabel);
+                                $("#CrossingAmountAccountLabel").html(result.data.crossingAmountAccountLabel);
+                                $("#CrossingCommissionAccountLabel").html(result.data.crossingCommissionAccountLabel);
+                                $("#CrossingHamaliAccountLabel").html(result.data.crossingHamaliAccountLabel);
+                                $("#CrossingDeliveryChargeAccountLabel").html(result.data.crossingDeliveryChargeAccountLabel);
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -979,7 +989,8 @@
 
                                 selectedLRDetails = [];
                                 addedIds = [];
-                                $("#hdnSelectedLRNumberIds").val('');
+                                $("#hdnCheckedLRNumberIds").val('');
+                                $("#hdnUnCheckedLRNumberIds").val('');
                                 $('#contentRow').html('');
 
                                 $("#SelectedToPay").val(0.00);
@@ -1001,6 +1012,7 @@
                                             selectedLRDetails.push({
                                                 id: ChalanDetail.lrBookingId,
                                                 lrNumber: ChalanDetail.lrNumber,
+                                                received: ChalanDetail.received,
                                                 lrDate: moment(ChalanDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
                                                 privateMarka: ChalanDetail.privateMarka,
                                                 packing: ChalanDetail.packing,
@@ -1029,6 +1041,18 @@
                                 });
 
                                 addRow();
+
+                                $('[id^="checkbox-"]').each(function () {
+                                    if (parseInt($("#Id").val()) > 0) {
+                                        var checkboxName = $(this).attr('name');
+                                        var selectedName = (checkboxName.split('-')[1]);
+
+                                        if (selectedName == 'false') {
+                                            $('[name="' + checkboxName + '"]').prop('checked', false);
+                                            $('[id="selectAll"]').prop('checked', false);
+                                        }
+                                    }
+                                });
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -1099,6 +1123,7 @@
 
             var htmlContentArray = [];
             $('#contentRow').html('');
+
             for (var i = 0; i < selectedLRDetails.length; i++) {
 
                 var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + i + '">' +
@@ -1106,7 +1131,7 @@
                     '<div class="row mb-0">' +
                     '<div class="col-md-6">' +
                     '<div class="form-group text-center mb-1">' +
-                    '<input type="checkbox" id="checkbox-' + selectedLRDetails[i].lrNumber + '">' +
+                    '<input type="checkbox" id="checkbox-' + selectedLRDetails[i].lrNumber + '" name="checkbox-' + selectedLRDetails[i].received + '">' +
                     '</div>' +
                     '</div>' +
                     '<div class="col-md-6">' +
@@ -1135,7 +1160,6 @@
                     '<label for="privateMarka">' + (selectedLRDetails[i].privateMarka || '') + '</label>' +
                     '</div>' +
                     '</div>' +
-
                     '<div class="col-md-1">' +
                     '<div class="form-group text-center mb-1">' +
                     '<label for="parcel">' + (selectedLRDetails[i].packing || '') + '</label>' +
@@ -1253,8 +1277,18 @@
         }
 
         function updateHiddenInput(ids) {
-            var uniqueIds = [...new Set(ids)];
-            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
+            var checkedIds = ids.filter(id => {
+                var checkbox = $('[id^="checkbox-' + id + '"]');
+                return checkbox.length > 0 && checkbox.is(':checked');
+            });
+
+            var uncheckedIds = ids.filter(id => {
+                var checkbox = $('[id^="checkbox-' + id + '"]');
+                return checkbox.length > 0 && !checkbox.is(':checked');
+            });
+
+            $('#hdnCheckedLRNumberIds').val(checkedIds.join(','));
+            $('#hdnUnCheckedLRNumberIds').val(uncheckedIds.join(','));
         }
 
         function updateSelectedValues() {

@@ -1,0 +1,426 @@
+﻿@using Adroit.Accounting.Model;
+@model Adroit.Accounting.Model.ViewModel.CustomerAccountOpeningBalanceViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Account</a></li>
+                    <li class="active"><span>Opening Balance</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-underdevelopment btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page"><span><i class="fa fa-star"></i></span></a>
+                        <a href="#" class="btn-underdevelopment btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock"><span><i class="fa fa-lock"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add New"><span><i class="fa fa-plus"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-wrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">ACCOUNT NAME</th>
+                                    <th class="border-bottom-0">DATE</th>
+                                    <th class="border-bottom-0">TYPE</th>
+                                    <th class="border-bottom-0">AMOUNT</th>
+                                    <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Account</a></li>
+                    <li><a href="#" class="btn-back">Opening Balance</a></li>
+                    <li class="active"><span id="activeTabName">Add</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="AccountBranchMappingId">Account Name</label>
+                                <select class="form-control select2-show-search-add mode-ed" id="AccountBranchMappingId">
+                                    <option></option>
+                                    @{
+                                        if (Model.AccountBranchMappingList != null)
+                                        {
+                                            foreach (var o in Model.AccountBranchMappingList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="Type">Account Type</label>
+                                <div class="row">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" type="radio" id="Credit1" name="Credit" value="1" checked>
+                                        <label for="Credit1" class="custom-control-label">Credit</label>
+
+                                    </div>
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input" type="radio" id="Credit2" name="Credit" value="0">
+                                        <label for="Credit2" class="custom-control-label">Debit</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="OpeningDate">Date</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control mode-ed fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="OpeningDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                            <div class="form-group">
+                                <label for="Amount">Amount</label>
+                                <input type="text" class="form-control" id="Amount" placeholder="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="new"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+    <input type="hidden" id="Id" value="0" />
+</div>
+
+@section Scripts
+    {
+
+    <script>
+
+        $(function (e) {
+            //$('.dv-list').show();
+            //$('.dv-detail').hide();
+
+            bindDatatableList();
+
+            $('.dv-detail').show();
+            $('.dv-list').hide();
+
+            addClick();
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#AccountBranchMappingId").focus();
+
+            $("#Amount").val("0.00");
+            $("#Active").prop('checked', true);
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.accountBranchMappingName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.openingDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.credit ? "Credit" : "Debit";
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.amount;
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "accountBranchMappingName", "name": "accountBranchMappingName" });
+            columns.push({ "data": "openingDate", "name": "openingDate" });
+            columns.push({ "data": "credit", "name": "credit" });
+            columns.push({ "data": "amount", "name": "amount" });
+            columns.push({ "data": "active", "name": "active" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 20,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/customer/customeraccountopeningbalancelist"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+            });
+        }
+
+        function fromReset() {
+            $("#Id").val(0);
+            $("#AccountBranchMappingId").val(null).trigger('change');
+            $("#OpeningDate").val("");
+            $("input[name='Credit'][value='1']").prop("checked", true);
+            $("#Amount").val("0.00");
+            $("#activeTabName").text("Add");
+            setScreenMode(false);
+            $(".btn-delete").hide();
+        }
+
+        function saveItem() {
+            try {
+
+                if ($("#AccountBranchMappingId").val() == null || $("#AccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select account name");
+                    $("#AccountBranchMappingId").focus();
+                    return false;
+                }
+                if ($("#OpeningDate").val() == "") {
+                    showWarning("", "Please enter Date");
+                    $("#OpeningDate").focus();
+                    return false;
+                }
+                if (!/^[-+]?(\d{1,15}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Amount").val())) {
+                    showWarning("", "Amount must be upto 15 characters before decimal point and 2 characters after decimal point long.");
+                    $("#Amount").focus();
+                    return false;
+                }
+
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.AccountBranchMappingId = $("#AccountBranchMappingId").val();
+                savedata.OpeningDate = moment(getDate($("#OpeningDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+                savedata.Credit = $("input[name='Credit']:checked").val() == "1" ? true : false;
+                savedata.Amount = parseFloat($("#Amount").val()).toFixed(2);
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveAccountOpeningBalance", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    async: true,
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Account opening balance saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+
+                            //$('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function deleteItem(id) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/customer/DeleteAccountOpeningBalance"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                $('#AccountBranchMappingId option[value="' + $('#AccountBranchMappingId').val() + '"]').detach();
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetAccountOpeningBalance"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+
+                                $('#Id').val(result.data.id);
+                                $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                $("#OpeningDate").val(result.data.openingDateString);
+                                if(result.data.credit)
+                                    $("input[name='Credit'][value='1']").prop("checked", true);
+                                else
+                                    $("input[name='Credit'][value='0']").prop("checked", true);
+                                
+                                $("#Amount").val(result.data.amount);
+                                $("#Active").prop('checked', result.data.active);
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+    </script>
+}

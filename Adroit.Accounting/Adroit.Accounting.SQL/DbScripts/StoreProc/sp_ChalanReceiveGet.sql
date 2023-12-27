@@ -8,7 +8,7 @@ AS
 BEGIN
 	
 	SELECT PBMR.*
-		,PBM.BillNumberBranch AS BillNumberBranch
+		,PBM.BillNumberBranch AS ChalanNumber
 	FROM [Z-PurchaseBillMaster-Z] PBM
 	LEFT JOIN [Z-ChalanReceive-Z] PBMR on PBMR.PurchaseBillMasterId = PBM.Id AND PBMR.Deleted = 0 AND PBMR.BranchId = @BranchId
 	WHERE PBMR.Id = @Id
