@@ -320,7 +320,6 @@
         </div>
     </div>
 </div>
-
 <div class="dv-report side-app">
     <div class="row">
         <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
@@ -623,143 +622,13 @@
 </div>
 
 @section Scripts
-    {
+{
 
     <script>
-
         $(function (e) {
 
             $('.dv-parameters').show();
             $('.dv-report').hide();
-
-            $(".show-report").on("click", function () {
-                $('.dv-parameters').slideUp();
-                $('.dv-report').slideDown(); 
-            });
-
-            $(".btn-back").on("click", function () {
-                $('.dv-parameters').slideDown();
-                $('.dv-report').slideUp();
-            });
-
-            bindDatatableList();
-
-        });
-
-        function bindDatatableList() {
-            let columns = [];
-            let colDef = [];
-            colDef.push({
-                "render": function (data, type, row) {
-                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.lrNumber;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.cityFrom;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.cityTo;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.description;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.parcel;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.chargeWeight || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.packing;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.privateMarka;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.amount.toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.lrPayType;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.branchName;
-                },
-                "targets": colDef.length,
-            });
-
-            columns.push({ "data": "lrDate", "name": "lrDate" });
-            columns.push({ "data": "lrNumber", "name": "lrNumber" });
-            columns.push({ "data": "cityFrom", "name": "cityFrom" });
-            columns.push({ "data": "cityTo", "name": "cityTo" });
-            columns.push({ "data": "description", "name": "description" });
-            columns.push({ "data": "parcel", "name": "parcel" });
-            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
-            columns.push({ "data": "packing", "name": "packing" });
-            columns.push({ "data": "privateMarka", "name": "privateMarka" });
-            columns.push({ "data": "chargeAmount", "name": "chargeAmount" });
-            columns.push({ "data": "rate", "name": "rate" });
-            columns.push({ "data": "rate", "name": "rate" });
-            columns.push({ "data": "lrPayType", "name": "lrPayType" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
-            columns.push({ "data": "branchName", "name": "branchName" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -818,5 +687,4 @@
         }
 
     </script>
-
 }
