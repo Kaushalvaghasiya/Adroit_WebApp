@@ -1,7 +1,6 @@
 using Adroit.Accounting.Model;
 using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
-using Adroit.Accounting.Repository.Report;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Data;
 using Adroit.Accounting.Web.Models;
@@ -142,6 +141,7 @@ try
     builder.Services.AddSingleton<ILRBookingRangeRenew, LRBookingRangeRenewRepository>();
     builder.Services.AddSingleton<IReportLRBookingLRRegister, ReportLRBookingLRRegisterRepository>();
     builder.Services.AddSingleton<IReportLRBookingStockRegister, ReportLRBookingStockRegisterRepository>();
+    builder.Services.AddSingleton<IReportLRBookingBookingRegister, ReportLRBookingBookingRegisterRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {
