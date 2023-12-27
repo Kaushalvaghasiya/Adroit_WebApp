@@ -48,6 +48,10 @@ namespace Adroit.Accounting.Web.Controllers
             model.LRDeliveryTypeList = _transportLRDeliveryTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);            
             var currentUserBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
+            var currentCity = _cityRepository.Get((int)currentUserBranch.CityId!, _configurationData.DefaultConnection);
+
+            model.CityIdFrom = currentCity.Id;
+            model.CityFrom = currentCity.Title;
 
             ViewBag.LastLrToCityCookieName = "LastLrToCityCookie" + CurrentUserId + "-" + CurrentFirmId + "-" + CurrentBranchId;
             ViewBag.CurrentUserCity = currentUserBranch.CityId;

@@ -66,23 +66,6 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult DeleteLRBookingRangeRenew(int id)
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                _lrBookingRangeRenewRepository.Delete(id, CurrentUserId, _configurationData.DefaultConnection);
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
-        [HttpGet]
         public JsonResult GetLRBookingRangeRenew(int id)
         {
             ApiResult result = new ApiResult();
