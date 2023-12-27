@@ -10,6 +10,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> GoDownNumberList { get; set; }
         public List<DropdownViewModel> CustomerFirmBranchList { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
+        public int LoginId { get; set; }
         public string? CheckedLRNumberIds { get; set; }
         public string? UnCheckedLRNumberIds { get; set; }
         public bool? Received { get; set; }

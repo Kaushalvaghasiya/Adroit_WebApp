@@ -39,7 +39,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                model.UserId = CurrentUserId;
+                model.LoginId = CurrentUserId;
                 model.BranchId = CurrentBranchId;
                 model.FirmId = CurrentFirmId;
                 int id = _chalanReceiveRepository.Save(model, _configurationData.DefaultConnection);
