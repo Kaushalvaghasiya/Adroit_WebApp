@@ -164,7 +164,7 @@ BEGIN
 
 		IF ISNULL(@BillNumberFirm, 0) = 0
 		BEGIN
-			SELECT @BillNumberFirm = ISNULL(MAX(BillNumberFirm),0) + 1
+			SELECT @BillNumberFirm = ISNULL(MAX(ISNULL(TRY_CAST(BillNumberFirm AS INT), 0)), 0) + 1
 			FROM [Z-PurchaseBillMaster-Z]
 			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		END
