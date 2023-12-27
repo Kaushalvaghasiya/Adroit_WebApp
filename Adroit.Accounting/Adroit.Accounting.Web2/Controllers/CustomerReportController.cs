@@ -13,7 +13,6 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerReportController : MasterController
     {
-        //protected readonly IVehicle _vehicleRepo;
         private readonly ICommon _commonRepository;
         protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
         private readonly ICity _cityRepository;
@@ -21,6 +20,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRPayType _transportLRPayTypeRepository;
         private readonly ICustomerAccountBranchMapping _customerAccountBranchMapping;
         private readonly ITransportLRBranchCityMapping _transportLRBranchCityMappingRepository;
+        private readonly IReportLRBookingLRRegister _lrReportBookingLRRegisterRepository;
 
         public CustomerReportController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
@@ -30,9 +30,8 @@ namespace Adroit.Accounting.Web.Controllers
             IVehicle vehicleRepo,
             ITransportLRPayType transportLRPayTypeRepository,
             ICustomerAccountBranchMapping customerAccountBranchMapping,
-            ITransportLRBranchCityMapping transportLRBranchCityMappingRepository
-
-            )
+            ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
+            IReportLRBookingLRRegister lrReportBookingLRRegisterRepository)
             : base(loginHandler, userRepository, configurationData)
         {
             _commonRepository = commonRepository;
@@ -42,6 +41,9 @@ namespace Adroit.Accounting.Web.Controllers
             _transportLRPayTypeRepository = transportLRPayTypeRepository;
             _customerAccountBranchMapping = customerAccountBranchMapping;
             _transportLRBranchCityMappingRepository = transportLRBranchCityMappingRepository;
-    }
+            _lrReportBookingLRRegisterRepository = lrReportBookingLRRegisterRepository;
+        }
+
+
     }
 }
