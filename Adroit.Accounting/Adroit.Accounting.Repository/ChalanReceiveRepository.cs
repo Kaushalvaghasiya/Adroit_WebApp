@@ -69,7 +69,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             parameters.Add("@ChalanNumber", chalanNumber);
-            return QueryHelper.GetList<ChalanReceiveGridViewModel>("sp_ChalanReceiveGetGridDetailsByChalanNumber", connectionString, parameters);
+            return QueryHelper.GetList<ChalanReceiveGridViewModel>("sp_ChalanReceiveGetChalanDetailByChalanNumber", connectionString, parameters);
         }
     }
 }

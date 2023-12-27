@@ -58,8 +58,8 @@ Begin
 		INNER JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId AND CA3.CustomerId = @CustomerId AND CA3.Active = 1 AND CA3.Deleted = 0
 		INNER JOIN [City] AS CT2 on CT2.Id = [Z-LRBooking-Z].CityIdTo
 		INNER JOIN [TransportLRPayType] on TransportLRPayType.Id = [Z-LRBooking-Z].LRPayTypeId
-		LEFT JOIN [Z-PurchaseBillDetail-Z] ON [Z-PurchaseBillDetail-Z].LRBookingId = [Z-LRBooking-Z].id
-		LEFT JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillDetail-Z].LRBookingId = [Z-LRBooking-Z].id
+		LEFT JOIN [Z-PurchaseBillDetail-Z] ON [Z-PurchaseBillDetail-Z].LRBookingId = [Z-LRBooking-Z].id AND [Z-PurchaseBillDetail-Z].Deleted = 0
+		LEFT JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillDetail-Z].LRBookingId = [Z-LRBooking-Z].id AND [Z-SalesBillDetail-Z].Deleted = 0
 		WHERE [Z-LRBooking-Z].BranchId = @BranchId 
 			AND [Z-LRBooking-Z].YearId = @YearId
 		AND (Coalesce(@Search,'') = '' OR [Z-LRBooking-Z].LRNumber like '%'+ @Search + '%'
