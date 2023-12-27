@@ -1,6 +1,6 @@
 ﻿@using Adroit.Accounting.Model;
 @using Adroit.Accounting.Model.Enums;
-@model Adroit.Accounting.Model.ReportViewModel.LRBookingBookingRegisterViewModel
+@model Adroit.Accounting.Model.ReportViewModel.LRBookingStockRegisterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -12,7 +12,7 @@
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Book & Register</a></li>
                     <li><a href="#">LR Booking Register</a></li>
-                    <li class="active"><span>Booking Register</span></li>
+                    <li class="active"><span>Stock Register</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -63,60 +63,6 @@
                                         }
                                     }
                                 </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="ViewId">View</label>
-                                <select class="form-control select2-show-search" id="ViewId">
-                                    @{
-                                        if (Model.ViewList != null)
-                                        {
-                                            foreach (var o in Model.ViewList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="DateFrom">Date From</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
-                                        </div>
-                                    </div>
-                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="DateTo">Date To</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
-                                        </div>
-                                    </div>
-                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateTo">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="LRFrom">LR From</label>
-                                <input type="text" class="form-control numberonly" id="LRFrom" placeholder="">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="LRTo">LR To</label>
-                                <input type="text" class="form-control numberonly" id="LRTo" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -186,22 +132,6 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="BillPartyId">Bill Party</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BillPartyId">
-                                    @{
-                                        if (Model.AccountBranchMappingList != null)
-                                        {
-                                            foreach (var o in Model.AccountBranchMappingList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
                                 <label for="PayTypeId">Pay Type</label>
                                 <select class="filter-multi mode-ed-multi" id="PayTypeId" multiple="multiple">
                                     @{
@@ -249,13 +179,6 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-group"><label for="form-group SubTotal">Sub Total</label></div>
-                            <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="SubTotal">
-                                <span class="custom-switch-indicator"></span>
-                            </label>
-                        </div>
-                        <div class="col-md-2">
                             <div class="form-group"><label for="form-group Summary">Summary</label></div>
                             <label class="custom-switch">
                                 <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="Summary">
@@ -281,7 +204,7 @@
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Book & Register</a></li>
                     <li><a href="#">LR Booking Register</a></li>
-                    <li class="active"><span>Booking Register</span></li>
+                    <li class="active"><span>Stock Register</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -304,20 +227,18 @@
                         <table id="tblMain" class="table table-bordered key-buttons">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0 text-center">LR Number</th>
+                                    <th class="border-bottom-0 text-center">LR NUMBER</th>
                                     <th class="border-bottom-0 text-center">LR DATE</th>
-                                    <th class="border-bottom-0 text-center">TO CITY</th>
-                                    <th class="border-bottom-0 text-center">PARCLE</th>
-                                    <th class="border-bottom-0 text-center">GOODS DESCRIPTION</th>
-                                    <th class="border-bottom-0 text-center">Consignor & GST No</th>
-                                    <th class="border-bottom-0 text-center">Consignee & GST No</th>
-                                    <th class="border-bottom-0 text-center">Charge Wt.</th>
-                                    <th class="border-bottom-0 text-center">LR Amount</th>
+                                    <th class="border-bottom-0 text-center">PARCEL</th>
+                                    <th class="border-bottom-0 text-center">CHARGE WT.</th>
+                                    <th class="border-bottom-0 text-center">LR AMOUNT</th>
                                     <th class="border-bottom-0 text-center">GST%</th>
-                                    <th class="border-bottom-0 text-center">GST Amount</th>
-                                    <th class="border-bottom-0 text-center">Inv Value</th>
-                                    <th class="border-bottom-0 text-center">Pay Type</th>
-                                    <th class="border-bottom-0 text-center">Loading Chalan No</th>
+                                    <th class="border-bottom-0 text-center">GST AMOUNT</th>
+                                    <th class="border-bottom-0 text-center">INV VALUE</th>
+                                    <th class="border-bottom-0 text-center">TO CITY</th>
+                                    <th class="border-bottom-0 text-center">PVT. MARK</th>
+                                    <th class="border-bottom-0 text-center">CONSIGNOR PARTY</th>
+                                    <th class="border-bottom-0 text-center">CONSIGNEE PARTY</th>
                                     <th class="border-bottom-0 text-center">BRANCH</th>
                                 </tr>
                             </thead>
@@ -336,29 +257,8 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
                                 </tr>
                                 <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -387,29 +287,8 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
                                 </tr>
                                 <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -438,29 +317,8 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
                                 </tr>
                                 <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -489,29 +347,8 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
                                 </tr>
                                 <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -540,12 +377,68 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                 </tr>
                                 <tr>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -576,6 +469,7 @@
 
 @section Scripts
 {
+
     <script>
 
         $(function (e) {
@@ -658,19 +552,54 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.cityTo;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
                     return row.parcel;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.description;
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.amount.toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);;
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.privateMarka;
                 },
                 "targets": colDef.length,
             });
@@ -688,53 +617,6 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.chargeWeight || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "class": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.amount || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "class": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "class": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "class": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "class": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.lrPayType;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.loadingChalanNo;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
                     return row.branchName;
                 },
                 "targets": colDef.length,
@@ -742,18 +624,16 @@
 
             columns.push({ "data": "lrNumber", "name": "lrNumber" });
             columns.push({ "data": "lrDate", "name": "lrDate" });
-            columns.push({ "data": "cityTo", "name": "cityTo" });
             columns.push({ "data": "parcel", "name": "parcel" });
-            columns.push({ "data": "description", "name": "description" });
-            columns.push({ "data": "consignor", "name": "consignor" });
-            columns.push({ "data": "consignee", "name": "consignee" });
             columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
             columns.push({ "data": "amount", "name": "amount" });
             columns.push({ "data": "rate", "name": "rate" });
             columns.push({ "data": "rate", "name": "rate" });
             columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
-            columns.push({ "data": "lrPayType", "name": "lrPayType" });
-            columns.push({ "data": "loadingChalanNumber", "name": "loadingChalanNumber" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "privateMarka", "name": "privateMarka" });
+            columns.push({ "data": "consigner", "name": "consigner" });
+            columns.push({ "data": "consignee", "name": "consignee" });
             columns.push({ "data": "branchName", "name": "branchName" });
 
             var table = $('#tblMain').DataTable({
@@ -782,7 +662,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerReport/BookingRegisterReportList"))',
+                    url: '@(Url.Content("~/CustomerReport/LRBookingStockRegisterReportList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -797,4 +677,5 @@
         }
 
     </script>
+
 }
