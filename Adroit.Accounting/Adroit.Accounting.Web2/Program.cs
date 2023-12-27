@@ -1,6 +1,7 @@
 using Adroit.Accounting.Model;
 using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
+using Adroit.Accounting.Repository.Report;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Data;
 using Adroit.Accounting.Web.Models;
@@ -62,6 +63,7 @@ try
     builder.Services.AddSingleton<ITaluka, TalukaRepository>();
     builder.Services.AddSingleton<ICustomer, CustomerRepository>();
     builder.Services.AddSingleton<ICustomerAccount, CustomerAccountRepository>();
+    builder.Services.AddSingleton<ICustomerAccountOpeningBalance, CustomerAccountOpeningBalanceRepository>();
     builder.Services.AddSingleton<ICustomerAccountGroup, CustomerAccountGroupRepository>();
     builder.Services.AddSingleton<ICustomerBrokerBranchMapping, CustomerBrokerBranchMappingRepository>();
     builder.Services.AddSingleton<IBusiness, BusinessRepository>();
@@ -137,8 +139,9 @@ try
     builder.Services.AddSingleton<IFinanceYear, FinanceYearRepository>();
     builder.Services.AddSingleton<ICustomerInvoice, CustomerInvoiceRepository>();
     builder.Services.AddSingleton<IChalanReceive, ChalanReceiveRepository>();
-    builder.Services.AddSingleton<ILRBookingRenew, LRBookingRenewRepository>();
-    builder.Services.AddSingleton<IDailySummary, DailySummaryRepository>();
+    builder.Services.AddSingleton<ILRBookingRangeRenew, LRBookingRangeRenewRepository>();
+    builder.Services.AddSingleton<IReportLRBookingLRRegister, ReportLRBookingLRRegisterRepository>();
+    builder.Services.AddSingleton<IReportLRBookingStockRegister, ReportLRBookingStockRegisterRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {

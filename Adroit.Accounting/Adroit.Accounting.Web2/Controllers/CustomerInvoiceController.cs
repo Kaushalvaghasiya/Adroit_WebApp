@@ -30,8 +30,7 @@ namespace Adroit.Accounting.Web.Controllers
 
             model.LRNumberList = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId);
             model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
-            model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
-
+            
             return View(model);
         }
 
@@ -185,6 +184,23 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _lrBookingRepository.GetListBySalesBillMasterId(_configurationData.DefaultConnection, salesBillMasterId, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Customer/GetInvoiceCustomerAccountBranchMappingList_Select/{payTypeId}")]
+        public JsonResult GetInvoiceCustomerAccountBranchMappingList_Select(int payTypeId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerInvoice.GetCustomerAccountBranchMappingList_Select(CurrentUserId, CurrentFirmId, CurrentBranchId, payTypeId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
