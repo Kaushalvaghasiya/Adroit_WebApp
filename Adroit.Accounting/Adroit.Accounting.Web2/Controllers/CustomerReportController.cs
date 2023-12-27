@@ -35,7 +35,7 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerAccountBranchMapping customerAccountBranchMapping,
             ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
             IChalan chalanRepository,            
-            IReportLRBookingLRRegister lrReportBookingLRRegisterRepository
+            IReportLRBookingLRRegister lrReportBookingLRRegisterRepository,
             IReportLRBookingLRRegister reportLRBookingLRRegisterRepository,
             IReportLRBookingStockRegister reportLRBookingStockRegisterRepository
         ) : base(loginHandler, userRepository, configurationData)
