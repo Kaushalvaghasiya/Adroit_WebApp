@@ -10,8 +10,6 @@ namespace Adroit.Accounting.Model.ReportViewModel
     public class LRBookingStockRegisterViewModel : LRBookingViewModel
     {
         public List<DropdownViewModel> BranchList { get; set; }
-        public List<DropdownViewModel> CityList { get; set; }
-        public List<DropdownViewModel> AccountBranchMappingList { get; set; }
         public List<DropdownViewModel> PayTypeList { get; set; }
         public List<DropdownViewModel> InvStatusList { get; set; }
         public List<DropdownViewModel> ChalanList { get; set; }
