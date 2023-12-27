@@ -179,6 +179,15 @@
                                     <div class="col-md-5">
                                         <select class="form-control select2-show-search" id="AccountBranchMappingId">
                                             <option></option>
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -255,7 +264,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="contentRow">
-
                                             </tbody>
                                         </table>
                                     </div>
@@ -1226,7 +1234,8 @@
                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
                                 $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#VehicleId").val(result.data.vehicleId).trigger('change');
-                                $("#hdnAccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                $("#hdnAccountBranchMappingId").val(result.data.accountBranchMappingId);
+                                $('#AccountBranchMappingId').val(result.data.accountBranchMappingId).trigger('change');
                                 $("#DriverId").val(result.data.driverId).trigger('change');
                                 $("#EwayBillNumber").val(result.data.ewayBillNumber).trigger('change');
                                 $("#ToPayAccountBranchMappingId").val(result.data.toPayAccountBranchMappingId).trigger('change');
@@ -1717,51 +1726,51 @@
             for (var i = 0; i < selectedLRDetails.length; i++) {
 
                 var htmlContent = '<tr class="rounded content-rows" id="row-' + i + '">' +
-                        '<td class="text-center">' +
-                        '<label for="id" style="color: #212529;">' + (i + 1) + '</label>' +
-                        '</td>' +
-                        '<td class="text-center">' +
-                        '<label for="lrNumber" style="color: #212529;">' + selectedLRDetails[i].lrNumber + '</label>' +
-                        '</td>' +
-                        '<td class="text-center">' +
-                            '<label for="lrDate" style="color: #212529;">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-center">' +
-                            '<label for="privateMarka" style="color: #212529;">' + (selectedLRDetails[i].privateMarka || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-center">' +
-                            '<label for="parcel" style="color: #212529;">' + (selectedLRDetails[i].parcel || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-right">' +
-                            '<label for="chargeWeight" style="color: #212529;">' + (selectedLRDetails[i].chargeWeight || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-center">' +
-                            '<label for="toCity" style="color: #212529;">' + (selectedLRDetails[i].toCity || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-center">' +
-                            '<label for="fromCity" style="color: #212529;">' + (selectedLRDetails[i].fromCity || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-right">' +
-                            '<label for="invoiceValue" style="color: #212529;">' + (selectedLRDetails[i].invoiceValue || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-left">' +
-                            '<label for="description" style="color: #212529;">' + (selectedLRDetails[i].description || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-left">' +
-                            '<label for="consignor" style="color: #212529;">' + (selectedLRDetails[i].consignor || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-left">' +
-                            '<label for="consignee" style="color: #212529;">' + (selectedLRDetails[i].consignee || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-left">' +
-                            '<label for="billPartyName" style="color: #212529;">' + (selectedLRDetails[i].billPartyName || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-left">' +
-                            '<label for="ewayBillNo" style="color: #212529;">' + (selectedLRDetails[i].ewayBillNo || '') + '</label>' +
-                        '</td>' +
-                        '<td class="text-center">' +
-                            '<a href="javascript:deleteRow(' + selectedLRDetails[i].id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
-                        '</td>' +
+                    '<td class="text-center">' +
+                    '<label for="id" style="color: #212529;">' + (i + 1) + '</label>' +
+                    '</td>' +
+                    '<td class="text-center">' +
+                    '<label for="lrNumber" style="color: #212529;">' + selectedLRDetails[i].lrNumber + '</label>' +
+                    '</td>' +
+                    '<td class="text-center">' +
+                    '<label for="lrDate" style="color: #212529;">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-center">' +
+                    '<label for="privateMarka" style="color: #212529;">' + (selectedLRDetails[i].privateMarka || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-center">' +
+                    '<label for="parcel" style="color: #212529;">' + (selectedLRDetails[i].parcel || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-right">' +
+                    '<label for="chargeWeight" style="color: #212529;">' + (selectedLRDetails[i].chargeWeight || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-center">' +
+                    '<label for="toCity" style="color: #212529;">' + (selectedLRDetails[i].toCity || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-center">' +
+                    '<label for="fromCity" style="color: #212529;">' + (selectedLRDetails[i].fromCity || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-right">' +
+                    '<label for="invoiceValue" style="color: #212529;">' + (selectedLRDetails[i].invoiceValue || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-left">' +
+                    '<label for="description" style="color: #212529;">' + (selectedLRDetails[i].description || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-left">' +
+                    '<label for="consignor" style="color: #212529;">' + (selectedLRDetails[i].consignor || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-left">' +
+                    '<label for="consignee" style="color: #212529;">' + (selectedLRDetails[i].consignee || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-left">' +
+                    '<label for="billPartyName" style="color: #212529;">' + (selectedLRDetails[i].billPartyName || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-left">' +
+                    '<label for="ewayBillNo" style="color: #212529;">' + (selectedLRDetails[i].ewayBillNo || '') + '</label>' +
+                    '</td>' +
+                    '<td class="text-center">' +
+                    '<a href="javascript:deleteRow(' + selectedLRDetails[i].id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
+                    '</td>' +
                     '</tr>';
 
                 htmlContentArray.push(htmlContent);
@@ -1822,21 +1831,16 @@
 
         function getBillParty() {
             try {
-                $("#AccountBranchMappingId").empty();
                 if ($('#VehicleId').val() == '') return;
 
                 blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetChalanCustomerAccountBranchMappingList_Select"))" + "/" + $('#VehicleId').val(), "",
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCustomerAccountBranchMappingByVehicle"))" + "/" + $('#VehicleId').val(), "",
                     function (data) {
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
-                            $("#AccountBranchMappingId").empty();
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#AccountBranchMappingId').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
+                            if (data.data != null && data.data != undefined) {
+                                $('#AccountBranchMappingId').val(data.data.id).trigger('change');
                             }
-                            $('#AccountBranchMappingId').val($("#hdnAccountBranchMappingId").val()).trigger('change');
                         } else {
                             showError("", data.data);
                         }
