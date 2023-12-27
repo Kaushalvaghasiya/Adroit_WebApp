@@ -22,9 +22,9 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRBranchCityMapping _transportLRBranchCityMappingRepository;
         private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
         private readonly IChalan _chalanRepository;
-        private readonly IReportLRBookingLRRegister _lrReportBookingLRRegisterRepository;
         private readonly IReportLRBookingLRRegister _reportLRBookingLRRegisterRepository;
         private readonly IReportLRBookingStockRegister _reportLRBookingStockRegisterRepository;
+        private readonly IReportLRBookingBookingRegister _reportLRBookingBookingRegisterRepository;
 
         public CustomerReportController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
@@ -37,10 +37,10 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
             ITransportLRDeliveryType transportLRDeliveryTypeRepository,
             IChalan chalanRepository,            
-            IReportLRBookingLRRegister lrReportBookingLRRegisterRepository,
-            IReportLRBookingLRRegister reportLRBookingLRRegisterRepository,
-            IReportLRBookingStockRegister reportLRBookingStockRegisterRepository
-        ) : base(loginHandler, userRepository, configurationData)
+           IReportLRBookingLRRegister reportLRBookingLRRegisterRepository,
+            IReportLRBookingStockRegister reportLRBookingStockRegisterRepository,
+            IReportLRBookingBookingRegister reportLRBookingBookingRegisterRepository) 
+            : base(loginHandler, userRepository, configurationData)
         {
             _commonRepository = commonRepository;
             _customerFirmBranchRepository = customerFirmBranchRepository;
@@ -51,9 +51,9 @@ namespace Adroit.Accounting.Web.Controllers
             _transportLRBranchCityMappingRepository = transportLRBranchCityMappingRepository;
             _transportLRDeliveryTypeRepository = transportLRDeliveryTypeRepository;
             _chalanRepository = chalanRepository;
-            _lrReportBookingLRRegisterRepository = lrReportBookingLRRegisterRepository;
             _reportLRBookingLRRegisterRepository = reportLRBookingLRRegisterRepository;
             _reportLRBookingStockRegisterRepository = reportLRBookingStockRegisterRepository;
+            _reportLRBookingBookingRegisterRepository = reportLRBookingBookingRegisterRepository;
         }
     }
 }
