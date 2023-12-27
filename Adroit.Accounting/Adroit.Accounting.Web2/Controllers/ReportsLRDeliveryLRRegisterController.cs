@@ -26,7 +26,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.InvStatusList = GenericHelper.GetInvoiceStatusList();
             model.VehicleNumberList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
             model.LRViewList = GenericHelper.GetLRViewList();
-            model.ChalanList = new List<Model.ViewModel.DropdownViewModel>();
+            model.ChalanList = _chalanRepository.GetChalanListByBranchId_Select(_configurationData.DefaultConnection, CurrentBranchId);
             return View(model);
         }
     }
