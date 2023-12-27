@@ -8,8 +8,11 @@ namespace Adroit.Accounting.Web.Utility
     {
         public Task SetupLogin(HttpContext context, int userId, string userName, string fullName, UserType userType = UserType.Customer);
         public int GetUserId(IPrincipal user);
-        public int GetLoggedInFirmId(IPrincipal user, IUser userRepository, string connectionString);
-        public int GetLoggedInBranchId(IPrincipal user, IUser userRepository, string connectionString);
+        public int GetLoggedInFirmId(IPrincipal user);
+        public int GetLoggedInBranchId(IPrincipal user);
+        public int GetLoggedInYearId(IPrincipal user);
+        public string GetLoggedInBranchName(int branchId, int firmId);
+        public string GetLoggedInYear(int yearId, int firmId);
         public string GetUserFullName(IPrincipal user);
         public string GetUserName(IPrincipal user);
         public string GetRole(IPrincipal user);

@@ -1,6 +1,20 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Options
+<!DOCTYPE html>
+@inject Adroit.Accounting.Web.Utility.ILoginHandler loginHandler
 @{
     var userName = Adroit.Accounting.Web.Utility.LoginHandler.GetDisplayName(User);
+
+    if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        var firmId = loginHandler.GetLoggedInFirmId(User);
+        ViewBag.BranchName = loginHandler.GetLoggedInBranchName(loginHandler.GetLoggedInBranchId(User), firmId);
+        ViewBag.Year = loginHandler.GetLoggedInYear(loginHandler.GetLoggedInYearId(User), firmId);
+    }
+    else
+    {
+        ViewBag.BranchName = string.Empty;
+        ViewBag.Year = string.Empty;
+    }
 }
 
 <html lang="en" dir="ltr">
@@ -17,7 +31,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/assets/images/brand/favicon.ico")" />
 
     <!-- Title -->
-    <title>Adroit Accounting Software</title>
+    <title>@(ViewBag.BranchName)/@(ViewBag.Year) - Adroit Accounting Software</title>
 
     <!--Bootstrap.min css-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/plugins/bootstrap/css/bootstrap.min.css")">
