@@ -35,7 +35,6 @@
                             <thead>
                                 <tr>
                                     <th class="border-bottom-0">BRANCH NAME</th>
-                                    <th class="border-bottom-0">NUMBER OF LR</th>
                                     <th class="border-bottom-0">START NUMBER</th>
                                     <th class="border-bottom-0">END NUMBER</th>
                                     <th class="border-bottom-0">ACTIVE</th>
@@ -113,7 +112,6 @@
                 </div>
                 <div class="card-footer text-right">
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-value="0" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
                     <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="new"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
@@ -168,13 +166,6 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.numberOfLR;
-                },
-                "targets": colDef.length,
-                "className": "text-center"
-            });
-            colDef.push({
-                "render": function (data, type, row) {
                     return row.startNumber;
                 },
                 "targets": colDef.length,
@@ -198,7 +189,6 @@
                 "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
-                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
                     btnAct += "</div>";
                     return btnAct;
                 },
@@ -208,7 +198,6 @@
             });
 
             columns.push({ "data": "branch", "name": "branch" });
-            columns.push({ "data": "numberOfLR", "name": "numberOfLR" });
             columns.push({ "data": "startNumber", "name": "startNumber" });
             columns.push({ "data": "endNumber", "name": "endNumber" });
             columns.push({ "data": "active", "name": "active" });
@@ -280,7 +269,7 @@
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.BranchId = getIntValueZero("BranchId");
-                savedata.NumberOfLR = parseInt($("#NumberOfLR").val());
+                savedata.NumberOfLR = getIntValueZero("NumberOfLR");
 
                 blockUI('container');
 
@@ -315,37 +304,6 @@
                 showError("", e.message);
             }
 
-        }
-
-        function deleteItem(id) {
-            if (id == 0) {
-                id = $('#Id').val();
-            }
-            try {
-                blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteLRBookingRangeRenew"))" + "/" + id, "",
-                    function (result) {
-                        unblockUI('container');
-                        var str = "";
-                        try {
-                            if (result.result == RESULT_SUCCESS) {
-                                refreshDatatableList();
-                                fromReset();
-                                $('.btn-back').click();
-                            } else {
-                                showError('Error', result.data); //warning,  success, error, info
-                            }
-                        } catch (e) {
-                            showError('Error', e); //warning,  success, error, info
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-            }
         }
 
         function getDetail(id, isViewMode) {
