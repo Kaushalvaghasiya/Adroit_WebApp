@@ -12,7 +12,7 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerReportController : MasterController
     {
-        public IActionResult StockRegister()
+        public IActionResult LRDeliveryStockRegister()
         {
             LRDeliveryStockRegisterViewModel model = new LRDeliveryStockRegisterViewModel();
             model.BranchList = _customerFirmBranchRepository.SelectListWithFirmByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
