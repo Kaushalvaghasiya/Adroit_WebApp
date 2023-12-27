@@ -22,7 +22,7 @@ BEGIN
 			AND [Z-ChalanReceive-Z].UserId = @CustomerId
 			AND [Z-ChalanReceive-Z].Deleted = 0
 		)
-	AND [Z-PurchaseBillMaster-Z].[BranchId] = @SenderId
+	AND [Z-PurchaseBillMaster-Z].BranchIdTo = @SenderId
 	AND [Z-PurchaseBillMaster-Z].YearId = @YearId 
 	AND [Z-PurchaseBillMaster-Z].Deleted = 0 
 

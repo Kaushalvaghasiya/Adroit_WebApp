@@ -11,8 +11,7 @@ BEGIN
 
 	SELECT [Z-LRBooking-Z].LRNumber AS Text
 	FROM [Z-LRBooking-Z]
-	WHERE [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT [Z-PurchaseBillDetail-Z].LRBookingId FROM [Z-PurchaseBillDetail-Z] WHERE [Z-PurchaseBillDetail-Z].Deleted = 0 )
-		AND [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT [Z-SalesBillDetail-Z].LRBookingId FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 ) 
+	WHERE [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT [Z-SalesBillDetail-Z].LRBookingId FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 ) 
 		AND [Z-LRBooking-Z].[BranchId] = @BranchId
 		AND [Z-LRBooking-Z].YearId = @YearId 
 		AND [Z-LRBooking-Z].Deleted = 0 

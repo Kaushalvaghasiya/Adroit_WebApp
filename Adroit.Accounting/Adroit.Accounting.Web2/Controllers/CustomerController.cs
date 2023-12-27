@@ -1,5 +1,6 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
+using Adroit.Accounting.Repository;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Models;
@@ -17,6 +18,7 @@ namespace Adroit.Accounting.Web.Controllers
         protected readonly ICountry _countryRepository;
         protected readonly IVehicleOwner _vehicleOwnerRepo;
         protected readonly ICustomerAccount _customerAccountRepo;
+        protected readonly ICustomerAccountOpeningBalance _customerAccountOpeningBalanceRepo;
         protected readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
         protected readonly ICustomerAccountGroup _customerAccountGroupRepo;
         protected readonly ICustomer _customerRepository;
@@ -42,7 +44,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IBusiness _businessRepository;
         private readonly IGSTFirmType _gSTFirmTypeRepository;
         private readonly IFirmType _firmTypeRepository;
-        protected readonly IAdminCustomerFirmBranch _customerFirmBranchRepository;
+        protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
         protected readonly ICustomerUser _customerUsersRepository;
         private readonly IEmailService _emailService;
         private readonly UserManager<IdentityUser> _userManager;
@@ -50,7 +52,6 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<CustomerController> _logger;
         private readonly ICity _cityRepository;
-        private readonly ICustomerFirmBranch _customerFirmBranchesRepository;
         private readonly ILRBookingRange _lrBookingRangeRepository;
         private readonly ISoftwarePlan _softwarePlanRepository;
         private readonly IBranchTypeAdmin _branchTypeRepository;
@@ -81,7 +82,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
         private readonly IChalan _chalanRepository;
         private readonly IChalanReceive _chalanReceiveRepository;
-        private readonly ILRBookingRenew _lrBookingRenewRepository;
+        private readonly ILRBookingRangeRenew _lrBookingRangeRenewRepository;
 
         public CustomerController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
@@ -90,6 +91,7 @@ namespace Adroit.Accounting.Web.Controllers
             ICountry countryRepository,
             IVehicleOwner vehicleOwnerRepo,
             ICustomerAccount customerAccountRepo,
+            ICustomerAccountOpeningBalance customerAccountOpeningBalanceRepo,
             ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
             ICustomerAccountGroup customerAccountGroupRepo,
             ICommon commonRepository,
@@ -114,14 +116,13 @@ namespace Adroit.Accounting.Web.Controllers
             IBusiness businessRepository,
             IGSTFirmType gSTFirmTypeRepository,
             IFirmType firmTypeRepository,
-            IAdminCustomerFirmBranch customerFirmBranchRepository,
+            ICustomerFirmBranch customerFirmBranchRepository,
             ICustomerUser customerUsersRepository,
             IEmailService emailService,
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             ILogger<CustomerController> logger,
             ICity cityRepository,
-            ICustomerFirmBranch customerFirmBranchesRepository,
             ILRBookingRange lrBookingRangeRepository,
             IAdminCustomerFirm customerFirmRepository,
             ISoftwarePlan softwarePlanRepository,
@@ -153,7 +154,7 @@ namespace Adroit.Accounting.Web.Controllers
             IChalan chalanRepository,
             ICustomerInvoice customerInvoice,
             IChalanReceive chalanReceiveRepository,
-            ILRBookingRenew lrBookingRenewRepository)
+            ILRBookingRangeRenew lrBookingRangeRenewRepository)
             : base(loginHandler, userRepository, configurationData)
         {
             _vehicleRepo = vehicleRepo;
@@ -161,6 +162,7 @@ namespace Adroit.Accounting.Web.Controllers
             _countryRepository = countryRepository;
             _vehicleOwnerRepo = vehicleOwnerRepo;
             _customerAccountRepo = customerAccountRepo;
+            _customerAccountOpeningBalanceRepo = customerAccountOpeningBalanceRepo;
             _customerBrokerBranchMappingRepo = customerBrokerBranchMappingRepo;
             _customerAccountGroupRepo = customerAccountGroupRepo;
             _commonRepository = commonRepository;
@@ -193,7 +195,6 @@ namespace Adroit.Accounting.Web.Controllers
             _emailStore = GetEmailStore();
             _logger = logger;
             _cityRepository = cityRepository;
-            _customerFirmBranchesRepository = customerFirmBranchesRepository;
             _lrBookingRangeRepository = lrBookingRangeRepository;
             _adminCustomerFirmRepository = customerFirmRepository;
             _softwarePlanRepository = softwarePlanRepository;
@@ -225,7 +226,7 @@ namespace Adroit.Accounting.Web.Controllers
             _chalanRepository = chalanRepository;
             _customerInvoice = customerInvoice;
             _chalanReceiveRepository = chalanReceiveRepository;
-            _lrBookingRenewRepository = lrBookingRenewRepository;
+            _lrBookingRangeRenewRepository = lrBookingRangeRenewRepository;
         }
 
         public JsonResult GetAccountGroups()

@@ -1,4 +1,4 @@
-CREATE OR ALTER Procedure [dbo].[sp_LRBookingRenewList]
+CREATE OR ALTER Procedure [dbo].[sp_LRBookingRangeRenewList]
   @LoginId int,
   @FirmId int,  
   @Search VARCHAR(100) = '',
@@ -21,10 +21,8 @@ Begin
 			 CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN LRBookingRange.StartNumber END DESC,
 			 CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN LRBookingRange.EndNumber END ASC,
 			 CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN LRBookingRange.EndNumber END DESC,
-			 CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN LRBookingRange.NumberOfLR END ASC,
-			 CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN LRBookingRange.NumberOfLR END DESC,
-			 CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN LRBookingRange.Active END ASC,
-			 CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN LRBookingRange.Active END DESC
+			 CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN LRBookingRange.Active END ASC,
+			 CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN LRBookingRange.Active END DESC
 			) AS RowNum,
 			Count(*) over () AS TotalCount, 
 			LRBookingRange.*,
@@ -39,7 +37,6 @@ Begin
 			CustomerFirmBranch.Title like '%'+ @Search + '%'
 			OR [LRBookingRange].StartNumber like '%'+ @Search + '%'
 			OR [LRBookingRange].EndNumber like '%'+ @Search + '%'
-			OR [LRBookingRange].NumberOfLR like '%'+ @Search + '%'
 		)
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))

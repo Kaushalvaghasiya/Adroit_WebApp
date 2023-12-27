@@ -32,8 +32,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? ChalanDate { get; set; }
         public bool? IsLRBookingPurchased { get; set; }
         public short? CreditDays { get; set; }
-        public string LRBookingMaxDate { get; set; }
-        public string LRBookingMinDate { get; set; }
         public bool? Deleted { get; set; }
 
         // Booking Register
