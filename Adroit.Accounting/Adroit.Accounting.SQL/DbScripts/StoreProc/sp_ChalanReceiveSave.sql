@@ -17,7 +17,6 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 		DECLARE @message VARCHAR(4000);
@@ -51,9 +50,9 @@ BEGIN
 		BEGIN
 
 			INSERT INTO [Z-ChalanReceive-Z]
-           (PurchaseBillMasterId,ReceiveDate,BillNumberBranch,BillNumberFirm,BranchId,FirmId,YearId,UserId,GoDownNumber,ReceivedNote,AddedOn,AddedById,Deleted)
+           (PurchaseBillMasterId,ReceiveDate,BillNumberBranch,BillNumberFirm,BranchId,FirmId,YearId,GoDownNumber,ReceivedNote,AddedOn,AddedById,Deleted)
 			VALUES
-           (@PurchaseBillMasterId,@ReceiveDate,@BillNumberBranch,@BillNumberFirm,@BranchId,@FirmId,@YearId,@CustomerId,@GoDownNumber,@ReceivedNote,GETUTCDATE(),@LoginId,0)
+           (@PurchaseBillMasterId,@ReceiveDate,@BillNumberBranch,@BillNumberFirm,@BranchId,@FirmId,@YearId,@GoDownNumber,@ReceivedNote,GETUTCDATE(),@LoginId,0)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -68,7 +67,6 @@ BEGIN
 			,@BillNumberBranch = @BillNumberBranch 
 			,BillNumberFirm = @BillNumberFirm 
 			,GoDownNumber = @GoDownNumber 
-			,UserId = @CustomerId
 			,ReceivedNote = @ReceivedNote 
 			,DeletedById = NULL 
 			,DeletedOn = NULL 
