@@ -7,7 +7,7 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class LRRegisterRepository : ILRRegister
+    public class LRBookingLRRegisterRepository : ILRBookingLRRegister
     {
         public List<LRBookingGridViewModel> SelectList(string connectionString, int loginId, int branchId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {

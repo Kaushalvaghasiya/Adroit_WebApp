@@ -35,7 +35,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
         private readonly IChalan _chalanRepository;
         private readonly IChalanReceive _chalanReceiveRepository;
-        private readonly ILRRegister _lrRegisterRepository;
+        private readonly ILRBookingLRRegister _lrBookingLRRegisterRepository;
 
         public CustomerReportController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
@@ -66,8 +66,7 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportLRDeliveryType transportLRDeliveryTypeRepository,
             IChalan chalanRepository,
             IChalanReceive chalanReceiveRepository,
-            ILRRegister lrRegisterRepository
-            )
+            ILRBookingLRRegister lrBookingLRRegisterRepository)
             : base(loginHandler, userRepository, configurationData)
         {
             _vehicleRepo = vehicleRepo;
@@ -84,7 +83,6 @@ namespace Adroit.Accounting.Web.Controllers
             _chalanRepository = chalanRepository;
             _customerInvoice = customerInvoice;
             _chalanReceiveRepository = chalanReceiveRepository;
-            _lrRegisterRepository = lrRegisterRepository;
             _customerBookRepository = customerBookRepository;
             _bookTypeRepository = bookTypeRepository;
             _billTypeAdminRepository = billTypeAdminRepository;
@@ -99,7 +97,7 @@ namespace Adroit.Accounting.Web.Controllers
             _transportLRDeliveryTypeRepository = transportLRDeliveryTypeRepository;
             _chalanRepository = chalanRepository;
             _chalanReceiveRepository = chalanReceiveRepository;
-            _lrRegisterRepository = lrRegisterRepository;
+            _lrBookingLRRegisterRepository = lrBookingLRRegisterRepository;
         }
 
 
