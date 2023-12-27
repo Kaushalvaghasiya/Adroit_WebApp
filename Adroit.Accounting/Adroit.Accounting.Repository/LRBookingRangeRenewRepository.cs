@@ -37,12 +37,5 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<LRBookingRangeGridViewModel>("sp_LRBookingRangeRenewList", connectionString, param);
         }
-        public void Delete(int id, int loginId, string connectionString)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@Id", id);
-            parameters.Add("@LoginId", loginId);
-            QueryHelper.Save("sp_LRBookingRangeRenewDelete", connectionString, parameters);
-        }
     }
 }

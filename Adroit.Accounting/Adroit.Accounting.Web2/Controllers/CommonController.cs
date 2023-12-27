@@ -34,6 +34,7 @@ namespace Adroit.Accounting.Web.Controllers
         private IBranchTypeAdmin _branchTypeAdminRepository;
         private IFinanceYear _financeYearRepository;
         private ICustomerFirmBranch _customerCustomerFirmBranchRepository;
+        private ICustomerAccount _customerAccountRepository;
         public CommonController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
             IState stateRepository,
@@ -55,7 +56,7 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTCollection gstCollection,
             IBranchTypeAdmin branchTypeAdminRepository,
             IFinanceYear financeYearRepository,
-            ICustomerFirmBranch customerCustomerFirmBranchRepository)
+            ICustomerFirmBranch customerCustomerFirmBranchRepository, ICustomerAccount customerAccountRepository)
             : base(loginHandler, userRepository, configurationData)
         {
             _stateRepository = stateRepository;
@@ -78,6 +79,7 @@ namespace Adroit.Accounting.Web.Controllers
             _branchTypeAdminRepository = branchTypeAdminRepository;
             _financeYearRepository = financeYearRepository;
             _customerCustomerFirmBranchRepository = customerCustomerFirmBranchRepository;
+            _customerAccountRepository = customerAccountRepository;
         }
         public IActionResult Index()
         {
@@ -474,6 +476,23 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _adminCustomerUserRepository.Get(CurrentUserId, _configurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Common/GetCustomerAccountBranchMappingByVehicle/{vehicleId}")]
+        public JsonResult GetCustomerAccountBranchMappingByVehicle(int vehicleId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerAccountRepository.GetByVehicle(vehicleId, CurrentUserId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

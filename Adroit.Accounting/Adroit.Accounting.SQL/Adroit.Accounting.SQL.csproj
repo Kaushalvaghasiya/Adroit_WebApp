@@ -21,6 +21,7 @@
     <None Remove="DbScripts\StoreProc\fn_GetCustomerIdByFirm.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetCustomerStatus.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetCustomerType.sql" />
+    <None Remove="DbScripts\StoreProc\fn_GetLoggedInBranchId.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetUserBranches.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetYearId.sql" />
     <None Remove="DbScripts\StoreProc\sp_AccountAdminDelete.sql" />
@@ -100,7 +101,7 @@
     <None Remove="DbScripts\StoreProc\sp_ChalanReceiveBranchGetChalanList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanReceiveDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanReceiveGet.sql" />
-    <None Remove="DbScripts\StoreProc\sp_ChalanReceiveGetGridDetailsByChalanNumber.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ChalanReceiveGetChalanDetailByChalanNumber.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanReceiveGetMasterDetailsByChalanNumber.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanReceiveList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ChalanReceiveSave.sql" />
@@ -119,6 +120,7 @@
     <None Remove="DbScripts\StoreProc\sp_CountrySave.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerAccounBranchMappingListWithAccountGroup_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerAccounListWithGroup_Select.sql" />
+    <None Remove="DbScripts\StoreProc\sp_CustomerAccountBranchMappingGetByVehicle.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerAccountBranchMappingList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerAccountDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerAccountGet.sql" />
@@ -249,7 +251,6 @@
     <None Remove="DbScripts\StoreProc\sp_LRBookingRangeDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_LRBookingRangeGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_LRBookingRangeList.sql" />
-    <None Remove="DbScripts\StoreProc\sp_LRBookingRangeRenewDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_LRBookingRangeRenewGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_LRBookingRangeRenewList.sql" />
     <None Remove="DbScripts\StoreProc\sp_LRBookingRangeRenewSave.sql" />
@@ -332,6 +333,7 @@
     <None Remove="DbScripts\StoreProc\sp_ProductSubGroupList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ProductSubGroupList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_ProductSubGroupSave.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ReportLRBookingLRRegisterList.sql" />
     <None Remove="DbScripts\StoreProc\sp_SalesBillFromAdminDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_SalesBillFromAdminGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_SalesBillFromAdminList.sql" />
@@ -430,9 +432,16 @@
     <None Remove="DbScripts\Tables\0021 CustomerAccountOpeningBalance.sql" />
     <None Remove="DbScripts\Tables\0022 PurchaseBillDetail.sql" />
     <None Remove="DbScripts\Tables\0022 Vehicle.sql" />
+    <None Remove="DbScripts\Tables\0023 LRBookingRange.sql" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="DbScripts\StoreProc\fn_GetLoggedInBranchId.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerAccountBranchMappingGetByVehicle.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\fn_fnStringToIntArray.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -694,7 +703,7 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveGet.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveGetGridDetailsByChalanNumber.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveGetChalanDetailByChalanNumber.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ChalanReceiveGetMasterDetailsByChalanNumber.sql">
@@ -850,13 +859,13 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchListWithFirmName_Select.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchListByFirmId_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchListByLoginId_Select.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchListWithFirmName_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchLRRateGet.sql">
@@ -1129,6 +1138,9 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_LRBookingGet.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ReportLRBookingLRRegisterList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_LRBookingList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -1139,9 +1151,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_LRBookingRangeList.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_LRBookingRangeRenewDelete.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_LRBookingRangeRenewGet.sql">
@@ -1684,8 +1693,11 @@
     <EmbeddedResource Include="DbScripts\Tables\0022 Vehicle.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\Tables\0023 LRBookingRange.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
-	
+
   <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="dbup-core" Version="5.0.10" />
@@ -1697,12 +1709,6 @@
     <Reference Include="Dapper">
       <HintPath>..\packages\Dapper.2.1.24\lib\net5.0\Dapper.dll</HintPath>
     </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="DbScripts\Tables\0022 LRBookingRange.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
