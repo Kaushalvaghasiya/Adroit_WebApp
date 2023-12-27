@@ -12,21 +12,16 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerReportController : MasterController
     {
-        public IActionResult LRDeliveryLRRegister()
+        public IActionResult LRDeliveryStockRegister()
         {
-            LRDeliveryLRRegisterViewModel model = new LRDeliveryLRRegisterViewModel();
+            LRDeliveryStockRegisterViewModel model = new LRDeliveryStockRegisterViewModel();
             model.BranchList = _customerFirmBranchRepository.SelectListWithFirmByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
-            model.ViewList = GenericHelper.GetViewList();
             model.CityList = _transportLRBranchCityMappingRepository.SelectList(_configurationData.DefaultConnection, CurrentBranchId);
             model.ConsignorList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.ConsigneeList = model.ConsignorList;
-            model.BillPartyList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
-            model.PvtMarkList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, LRBookingTable._TableName, LRBookingTable.PrivateMarka);
             model.PayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.InvStatusList = GenericHelper.GetInvoiceStatusList();
-            model.VehicleNumberList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
-            model.LRViewList = GenericHelper.GetLRViewList();
-            model.ChalanList = _chalanRepository.GetChalanListByBranchId_Select(_configurationData.DefaultConnection, CurrentBranchId);
+            model.ChalanStatusList = GenericHelper.GetChalanList();
             return View(model);
         }
     }

@@ -12,21 +12,19 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerReportController : MasterController
     {
-        public IActionResult LRDeliveryLRRegister()
+        public IActionResult LRDeliveryDeliveryRegister()
         {
-            LRDeliveryLRRegisterViewModel model = new LRDeliveryLRRegisterViewModel();
+            LRDeliveryDeliveryRegisterViewModel model = new LRDeliveryDeliveryRegisterViewModel();
             model.BranchList = _customerFirmBranchRepository.SelectListWithFirmByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
             model.ViewList = GenericHelper.GetViewList();
+            model.VehicleNumberList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
+            model.DeliveryBoyList = _transportLRDeliveryTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.CityList = _transportLRBranchCityMappingRepository.SelectList(_configurationData.DefaultConnection, CurrentBranchId);
             model.ConsignorList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.ConsigneeList = model.ConsignorList;
             model.BillPartyList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
-            model.PvtMarkList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, LRBookingTable._TableName, LRBookingTable.PrivateMarka);
             model.PayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
-            model.InvStatusList = GenericHelper.GetInvoiceStatusList();
-            model.VehicleNumberList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
-            model.LRViewList = GenericHelper.GetLRViewList();
-            model.ChalanList = _chalanRepository.GetChalanListByBranchId_Select(_configurationData.DefaultConnection, CurrentBranchId);
+             
             return View(model);
         }
     }

@@ -1,0 +1,17 @@
+IF EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.TABLE_CONSTRAINTS WHERE CONSTRAINT_NAME = 'FK_ChalanReceive_CustomerUser')
+BEGIN
+    ALTER TABLE dbo.[Z-ChalanReceive-Z]
+    DROP CONSTRAINT FK_ChalanReceive_CustomerUser;
+END
+
+IF EXISTS (SELECT COLUMN_NAME
+               FROM INFORMATION_SCHEMA.COLUMNS
+               WHERE TABLE_NAME = 'Z-ChalanReceive-Z'
+                 AND COLUMN_NAME = 'UserId')
+BEGIN
+    ALTER TABLE dbo.[Z-ChalanReceive-Z]
+    DROP COLUMN [UserId]
+END
+GO 
+
+
