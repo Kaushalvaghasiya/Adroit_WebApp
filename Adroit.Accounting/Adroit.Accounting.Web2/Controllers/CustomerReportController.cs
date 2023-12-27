@@ -19,18 +19,10 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IVehicle _vehicleRepo;
         private readonly ITransportLRPayType _transportLRPayTypeRepository;
         private readonly ICustomerAccountBranchMapping _customerAccountBranchMapping;
-        private readonly ICustomerBook _customerBookRepository;
-        private readonly IBookTypeAdmin _bookTypeRepository;
-        protected readonly IBillTypeAdmin _billTypeAdminRepository;
-        protected readonly ISalesBillFromAdmin _salesBillFromAdminRepository;
-        protected readonly ICustomerFirmBranchTransportSetting _customerFirmBranchTransportSettingRepository;
-        protected readonly ITransportLRRateOn _transportLRRateOnRepository;
-        protected readonly ITransportLRPayType _transportLRPayTypeRepository;
-        private readonly ICustomerFirmTransportSetting _customerFirmTransportSettingRepository;
-        private readonly ITransportLRCharges _transportLRChargesRepository;
         private readonly ITransportLRBranchCityMapping _transportLRBranchCityMappingRepository;
         private readonly IReportLRBookingLRRegister _reportLRBookingLRRegisterRepository;
         private readonly IReportLRBookingStockRegister _reportLRBookingStockRegisterRepository;
+        private readonly IReportLRBookingBookingRegister _reportLRBookingBookingRegisterRepository;
 
         public CustomerReportController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
@@ -42,7 +34,8 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerAccountBranchMapping customerAccountBranchMapping,
             ITransportLRBranchCityMapping transportLRBranchCityMappingRepository,
             IReportLRBookingLRRegister reportLRBookingLRRegisterRepository,
-            IReportLRBookingStockRegister reportLRBookingStockRegisterRepository)
+            IReportLRBookingStockRegister reportLRBookingStockRegisterRepository, 
+            IReportLRBookingBookingRegister reportLRBookingBookingRegisterRepository)
             : base(loginHandler, userRepository, configurationData)
         {
             _commonRepository = commonRepository;
@@ -54,6 +47,7 @@ namespace Adroit.Accounting.Web.Controllers
             _transportLRBranchCityMappingRepository = transportLRBranchCityMappingRepository;
             _reportLRBookingLRRegisterRepository = reportLRBookingLRRegisterRepository;
             _reportLRBookingStockRegisterRepository = reportLRBookingStockRegisterRepository;
+            _reportLRBookingBookingRegisterRepository = reportLRBookingBookingRegisterRepository;
         }
 
 

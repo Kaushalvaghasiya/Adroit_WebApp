@@ -5,7 +5,7 @@ using Adroit.Accounting.Repository;
 using Adroit.Accounting.SQL;
 using Dapper;
 
-namespace Adroit.Accounting.Repository.Report
+namespace Adroit.Accounting.Repository
 {
     public class ReportLRBookingStockRegisterRepository : IReportLRBookingStockRegister
     {
