@@ -13,7 +13,7 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
-            parameters.Add("@LoginId", value.UserId);
+            parameters.Add("@LoginId", value.LoginId);
             parameters.Add("@FirmId", value.FirmId);
             parameters.Add("@BranchId", value.BranchId);
             parameters.Add("@ReceiveDate", value.ReceiveDate);

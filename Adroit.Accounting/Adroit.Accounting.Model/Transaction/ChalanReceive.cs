@@ -17,7 +17,6 @@ namespace Adroit.Accounting.Model
         public int BranchId { get; set; }
         public int FirmId { get; set; }
         public int YearId { get; set; }
-        public int UserId { get; set; }
         public int GoDownNumber { get; set; }
         public string ReceivedNote { get; set; }
         public System.DateTime AddedOn { get; set; }
