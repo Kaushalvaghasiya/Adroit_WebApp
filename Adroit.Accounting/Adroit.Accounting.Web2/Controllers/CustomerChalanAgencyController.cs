@@ -13,7 +13,7 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerController : MasterController
     {
-        public IActionResult Agency()
+        public IActionResult ChalanReceiveAgency()
         {
             return View();
         }

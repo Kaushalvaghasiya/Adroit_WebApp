@@ -86,9 +86,9 @@
                                     <button class="btn btn-primary EWayBill-search" type="button">Search</button>
                                 </span>
                                 <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
-                                <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                                <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-trash-o"></i></span></a>
                                 <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
-                                <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                                <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Back" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
                             </div>
                         </div>
                     </div>
@@ -827,7 +827,7 @@
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
 
                     if (row.deleted === false && row.isLRBookingPurchased === false)
-                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Cancel' data-placement='bottom' data-original-title='Cancel'><i class='fa fa-trash-o'></i></a>";
                     btnAct += "</div>";
                     return btnAct;
                 },
@@ -1324,5 +1324,19 @@
             }
         }
 
+        function deleteItemConfirmation(id) {
+            swal({
+                title: "Alert",
+                text: "Are you really want to cancel?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No'
+            }, function (isconfirmed) {
+                if (isconfirmed) {
+                    deleteItem(id == 0 ? $('#Id').val() : id);
+                }
+            });
+        }
     </script>
 }
