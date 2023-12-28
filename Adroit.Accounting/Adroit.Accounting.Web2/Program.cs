@@ -138,6 +138,7 @@ try
     builder.Services.AddSingleton<ICustomerInvoice, CustomerInvoiceRepository>();
     builder.Services.AddSingleton<IChalanReceive, ChalanReceiveRepository>();
     builder.Services.AddSingleton<ILRBookingRenew, LRBookingRenewRepository>();
+    builder.Services.AddSingleton<IChalanLoadingReport, ChalanLoadingReportRepository>();
 
     if (!builder.Environment.IsDevelopment())
     {
