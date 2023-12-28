@@ -2,6 +2,7 @@
 $(function () {
     'use strict';
 
+    
 
     $('.select2').select2({
         placeholder: 'Choose one',
@@ -14,6 +15,14 @@ $(function () {
         placeholder: 'Choose one',
         searchInputPlaceholder: 'Search',
         width: '100%'
+    });
+
+    $(".select2-show-search-report").select2({
+        placeholder: 'Choose one',
+        searchInputPlaceholder: 'Search',
+        width: '100%',
+        containerCssClass: "select2-custom-color",
+        dropdownCssClass: "select2-custom-color",
     });
 
     $('.select2-show-search-add').select2({

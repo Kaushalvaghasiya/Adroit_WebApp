@@ -22,10 +22,6 @@ BEGIN
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
-		DECLARE @NumberOfLR INT = (
-			SELECT (@EndNumber - @StartNumber) + 1
-		)
-
 		IF EXISTS (
 			SELECT 1
 			FROM [LRBookingRange]
@@ -49,7 +45,6 @@ BEGIN
 				FirmId = @FirmId,
 				StartNumber = @StartNumber,
 				EndNumber = @EndNumber,
-				NumberOfLR = @NumberOfLR,
 				Active = @Active, 
 				ModifiedById = @LoginId, 
 				ModifiedOn = GETUTCDATE()
@@ -65,8 +60,7 @@ BEGIN
 				DeletedOn = NULL,
 				Deleted = 0,
 				StartNumber = @StartNumber,
-				EndNumber = @EndNumber,
-				NumberOfLR = @NumberOfLR
+				EndNumber = @EndNumber
 				WHERE BranchId = @BranchId
 
 			SELECT @Id=Id FROM [LRBookingRange] WHERE BranchId = @BranchId
@@ -74,10 +68,10 @@ BEGIN
 		ELSE
 		BEGIN
 			INSERT INTO [LRBookingRange] (
-				BranchId,YearId,FirmId,StartNumber,EndNumber,NumberOfLR,AddedById,AddedOn,Active
+				BranchId,YearId,FirmId,StartNumber,EndNumber,AddedById,AddedOn,Active
 			)
 			VALUES (
-				@BranchId,@YearId,@FirmId,@StartNumber,@EndNumber,@NumberOfLR,@LoginId,GETUTCDATE(),@Active
+				@BranchId,@YearId,@FirmId,@StartNumber,@EndNumber,@LoginId,GETUTCDATE(),@Active
 			)
 
 			SET @Id = SCOPE_IDENTITY();

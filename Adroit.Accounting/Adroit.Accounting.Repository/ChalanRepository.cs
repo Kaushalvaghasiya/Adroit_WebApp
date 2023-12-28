@@ -125,6 +125,16 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LRNumberId", LRNumberId);
             return QueryHelper.GetList<LRBookingGridViewModel>("sp_ChalanLRBookingGetGridDetailsByLRNumber", connectionString, parameters);
         }
+        public List<DropdownViewModel> GetCustomerAccountBranchMappingList_Select(int loginId, int firmId, int branchId, int vehicleId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@VehicleId", vehicleId);
+            parameters.Add("@LoginId", loginId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_ChalanCustomerAccounListWithGroup_Select", connectionString, parameters);
+        }
+
         public List<DropdownViewModel> GetChalanNumberListBySenderId(string connectionString, int loginId, int firmId, int branchId, int senderId)
         {
             var parameters = new DynamicParameters();
@@ -133,6 +143,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BranchId", branchId);
             parameters.Add("@SenderId", senderId);
             return QueryHelper.GetList<DropdownViewModel>("sp_ChalanReceiveBranchGetChalanList_Select", connectionString, parameters);
+        }
+        public List<DropdownViewModel> GetChalanListByBranchId_Select(string connectionString, int branchId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@BranchId", branchId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_ChalanListByBranchId_Select", connectionString, parameters);
         }
     }
 }

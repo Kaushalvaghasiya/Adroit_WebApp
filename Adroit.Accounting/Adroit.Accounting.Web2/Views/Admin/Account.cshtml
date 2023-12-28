@@ -226,7 +226,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="ContactPersonName">Contact Person</label>
-                                <input type="text" class="form-control numberonly" id="ContactPersonName" placeholder="" maxlength="30">
+                                <input type="text" class="form-control" id="ContactPersonName" placeholder="" maxlength="30">
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -288,13 +288,13 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CreditDays">Credit Days</label>
-                                <input type="text" class="form-control" id="CreditDays" placeholder="">
+                                <input type="text" class="form-control numberonly" id="CreditDays" placeholder="" maxlength="3">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CreditLimit">Credit Limit</label>
-                                <input type="text" class="form-control" id="CreditLimit" placeholder="" maxlength="18">
+                                <input type="text" class="form-control numberonly" id="CreditLimit" placeholder="" maxlength="18">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -500,6 +500,15 @@
             });
 
             $('#Discount').on('input', function () {
+                var inputValue = $(this).val();
+                var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
+                if (parseFloat(sanitizedValue) > 100) {
+                    sanitizedValue = '100';
+                }
+                $(this).val(sanitizedValue);
+            });
+
+            $('#InterestRate').on('input', function () {
                 var inputValue = $(this).val();
                 var sanitizedValue = inputValue.replace(/[^0-9.]/g, '');
                 if (parseFloat(sanitizedValue) > 100) {
@@ -983,81 +992,72 @@
                     return false;
                 }
 
-                if ($("#CreditDays").val() == "" || parseInt($("#CreditDays").val()) < 0) {
-                    showWarning("", "Please enter credit days");
+                if ($("#CreditDays").val() == "") {
+                    $("#CreditDays").val("0");
+                }
+
+                if (parseInt($("#CreditDays").val()) < 0 || parseInt($("#CreditDays").val()) > 180) {
+                    showWarning("", "Credit days are out of rules. Must be between 0 to 180");
                     $("#CreditDays").focus();
                     return false;
                 }
 
                 if ($("#TDS").val() == "") {
-                    showWarning("", "Please enter valid TDS.");
+                    $("#TDS").val("0");
+                }
+
+                if (!validatePercentage($("#TDS").val())) {
+                    showWarning("", "TDS must be between 0 to 100 (0.00)");
                     $("#TDS").focus();
                     return false;
                 }
-
-                if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#TDS").val())) {
-                    showWarning("", "TDS must be upto 15 characters before decimal point and 3 characters after decimal point long.");
-                    $("#TDS").focus();
-                    return false;
-                }
-
+            
                 if ($("#TCS").val() == "") {
-                    showWarning("", "Please enter valid TCS.");
+                    $("#TCS").val("0");
+                }
+
+                if (!validatePercentage($("#TCS").val())) {
+                    showWarning("", "TCS must be between 0 to 100 (0.00).");
                     $("#TCS").focus();
                     return false;
                 }
-
-                if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#TCS").val())) {
-                    showWarning("", "TCS must be upto 15 characters before decimal point and 0 characters after decimal point long.");
-                    $("#TCS").focus();
-                    return false;
-                }
-
+               
                 if ($("#Discount").val() == "") {
-                    showWarning("", "Please enter valid discount.");
-                    $("#Discount").focus();
-                    return false;
+                    $("#Discount").val("0");
                 }
-
-                if (!/^[-+]?(\d{1,15}(\.\d{0,3})?|\.\d{1,3})$/.test($("#Discount").val())) {
-                    showWarning("", "Discount must be upto 15 characters before decimal point and 3 characters after decimal point long.");
+                if (!validatePercentage($("#Discount").val())) {
+                    showWarning("", "Discount must be between 0 to 100 (0.00).");
                     $("#Discount").focus();
                     return false;
                 }
 
                 if ($("#InterestRate").val() == "") {
-                    showWarning("", "Please enter valid interest rate.");
+                    $("#InterestRate").val("0");
+                }
+
+                if (!validatePercentage($("#InterestRate").val())) {
+                    showWarning("", "Interest rate must be between 0 to 100 (0.00).");
                     $("#InterestRate").focus();
                     return false;
                 }
-
-                if (!/^[-+]?([0](\.\d{0,2})?|\.\d{1,2})$/.test($("#InterestRate").val())) {
-                    showWarning("", "Interest rate must be upto 0 characters before decimal point and 2 characters after decimal point long.");
-                    $("#InterestRate").focus();
-                    return false;
-                }
-
+                
                 if ($("#Commission").val() == "") {
-                    showWarning("", "Please enter valid commission.");
-                    $("#Commission").focus();
-                    return false;
+                    $("#Commission").val("0");
                 }
 
-                if (!/^[-+]?(\d{1,5}(\.\d{0,3})?|\.\d{1,3})$/.test($("#Commission").val())) {
-                    showWarning("", "Commission must be upto 5 characters before decimal point and 3 characters after decimal point long.");
+                if (!validatePercentage($("#Commission").val())) {
+                    showWarning("", "Commission must be between 0 to 100 (0.00).");
                     $("#Commission").focus();
                     return false;
                 }
 
                 if (!$('#CapitalPercentage').is(":hidden")) {
                     if ($("#CapitalPercentage").val() == "") {
-                        showWarning("", "Please enter valid capital percentage.");
-                        $("#CapitalPercentage").focus();
-                        return false;
+                        $("#CapitalPercentage").val("0");
                     }
 
-                    if (!/^[-+]?(\d{1,3}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CapitalPercentage").val())) {
-                        showWarning("", "Capital percentage must be upto 3 characters before decimal point and 2 characters after decimal point long.");
+                    if (!validatePercentage($("#CapitalPercentage").val())) {
+                        showWarning("", "Capital percentage must be between 0 to 100 (0.00).");
                         $("#CapitalPercentage").focus();
                         return false;
                     }
