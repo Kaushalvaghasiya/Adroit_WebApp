@@ -22,7 +22,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? DriverName { get; set; }
         public string? EwayBillNumber { get; set; }
         public decimal? TaxableAmount { get; set; }
-        public decimal? TdsAmount { get; set; }
+        public decimal? TDSPercent { get; set; }
+        public decimal? TDSAmount { get; set; }
         public decimal? AdvanceCash { get; set; }
         public decimal? AdvanceNeft { get; set; }
         public decimal? ReceiveCash { get; set; }
