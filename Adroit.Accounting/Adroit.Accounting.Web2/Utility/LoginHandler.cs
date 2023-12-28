@@ -18,8 +18,8 @@ namespace Adroit.Accounting.Web.Utility
         private readonly IMemoryCache? _memoryCache = null;
         public readonly ConfigurationData _configurationData;
         public readonly IUser _userRepository;
-        public LoginHandler(IMemoryCache memoryCache, 
-            ICustomerFirm customerFirmRepository, 
+        public LoginHandler(IMemoryCache memoryCache,
+            ICustomerFirm customerFirmRepository,
             ICustomerFirmBranch customerFirmBranchRepository,
             IUser userRepository,
             IOptions<ConfigurationData> configurationData)
@@ -105,7 +105,7 @@ namespace Adroit.Accounting.Web.Utility
 
             if (yearId == 0)
             {
-                yearId = _userRepository.GetLoggedInYearId(userid, _configurationData.DefaultConnection);
+                yearId = _userRepository.GetLoggedInYearId(userid, _configurationData.DefaultConnection) ?? 0;
 
                 //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
                 _memoryCache.Set(key, yearId);

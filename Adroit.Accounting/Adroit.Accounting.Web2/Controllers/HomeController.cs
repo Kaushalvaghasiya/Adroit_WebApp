@@ -29,8 +29,8 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult BranchSelection()
         {
             var data = _adminCustomerUserRepository.Get(CurrentUserId, _configurationData.DefaultConnection);
-            ViewBag.BranchID = data.LoggedInBranchId;
-            ViewBag.YearID = data.LoggedInYear;
+            ViewBag.BranchID = data.LoggedInBranchId??0;
+            ViewBag.YearID = data.LoggedInYear??0;
 
             return View();
         }
