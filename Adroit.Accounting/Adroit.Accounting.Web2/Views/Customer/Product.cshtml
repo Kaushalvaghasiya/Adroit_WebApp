@@ -422,7 +422,14 @@
                                         {
                                             foreach (var o in Model.GSTCalculationList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                if (o.Value.Equals("Rate Without Tax"))
+                                                {
+                                                    <option value="@o.Value" selected>@o.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@o.Value">@o.Text</option>
+                                                }
                                             }
                                         }
                                     }
@@ -547,20 +554,20 @@
                             <div class="form-group">
                                 <div class="form-group">
                                     <label for="FIFORate">FIFO Rate</label>
-                                    <input type="text" class="form-control" id="FIFORate" placeholder="">
+                                    <input type="text" class="form-control" id="FIFORate" placeholder="" readonly>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-12">
                             <div class="form-group">
                                 <label for="OpStkQty">Op Stock Qty</label>
-                                <input type="text" class="form-control" id="OpStkQty" placeholder="">
+                                <input type="text" class="form-control" id="OpStkQty" placeholder="" readonly>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-12">
                             <div class="form-group">
                                 <label for="PurchaseRate">Purchase Rate</label>
-                                <input type="text" class="form-control" id="PurchaseRate" placeholder="">
+                                <input type="text" class="form-control" id="PurchaseRate" placeholder="" readonly>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-12">
@@ -634,13 +641,13 @@
                         <div class="col-lg-2 col-md-12">
                             <div class="form-group">
                                 <label for="OpStkNos">Op Stock Nos</label>
-                                <input type="text" class="form-control" id="OpStkNos" placeholder="">
+                                <input type="text" class="form-control" id="OpStkNos" placeholder="" readonly>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-12">
                             <div class="form-group">
                                 <label for="OpLossQty">Op Loose Qty</label>
-                                <input type="text" class="form-control" id="OpLossQty" placeholder="">
+                                <input type="text" class="form-control" id="OpLossQty" placeholder="" readonly>
                             </div>
                         </div>
                         <div class="col-lg-2 col-md-12">
@@ -776,7 +783,7 @@
 
 
 @section Scripts
-    {
+{
     <script>
 
         $(function (e) {

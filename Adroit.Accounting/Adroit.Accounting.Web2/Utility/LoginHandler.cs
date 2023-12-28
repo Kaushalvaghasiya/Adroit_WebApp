@@ -13,10 +13,22 @@ namespace Adroit.Accounting.Web.Utility
 {
     public class LoginHandler : ILoginHandler
     {
+        public readonly ICustomerFirm _customerFirmRepository;
+        public readonly ICustomerFirmBranch _customerFirmBranchRepository;
         private readonly IMemoryCache? _memoryCache = null;
-        public LoginHandler(IMemoryCache memoryCache)
+        public readonly ConfigurationData _configurationData;
+        public readonly IUser _userRepository;
+        public LoginHandler(IMemoryCache memoryCache,
+            ICustomerFirm customerFirmRepository,
+            ICustomerFirmBranch customerFirmBranchRepository,
+            IUser userRepository,
+            IOptions<ConfigurationData> configurationData)
         {
             _memoryCache = memoryCache;
+            _customerFirmRepository = customerFirmRepository;
+            _customerFirmBranchRepository = customerFirmBranchRepository;
+            _userRepository = userRepository;
+            _configurationData = configurationData.Value;
         }
         public async Task SetupLogin(HttpContext context, int userId, string userName, string fullName, UserType userType = UserType.Customer)
         {
@@ -50,7 +62,7 @@ namespace Adroit.Accounting.Web.Utility
 
             return 0;
         }
-        public int GetLoggedInFirmId(IPrincipal user, IUser userRepository, string connectionString)
+        public int GetLoggedInFirmId(IPrincipal user)
         {
             int userid = GetUserId(user);
             var key = $"CacheFirmId-{userid}";
@@ -59,7 +71,7 @@ namespace Adroit.Accounting.Web.Utility
 
             if (firmId == 0)
             {
-                firmId = userRepository.GetLoggedInFirmId(userid, connectionString);
+                firmId = _userRepository.GetLoggedInFirmId(userid, _configurationData.DefaultConnection);
 
                 //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
                 _memoryCache.Set(key, firmId);
@@ -67,7 +79,7 @@ namespace Adroit.Accounting.Web.Utility
 
             return firmId;
         }
-        public int GetLoggedInBranchId(IPrincipal user, IUser userRepository, string connectionString)
+        public int GetLoggedInBranchId(IPrincipal user)
         {
             int userid = GetUserId(user);
             var key = $"CacheBrachId-{userid}";
@@ -76,7 +88,7 @@ namespace Adroit.Accounting.Web.Utility
 
             if (branchId == 0)
             {
-                branchId = userRepository.GetLoggedInBranchId(userid, connectionString);
+                branchId = _userRepository.GetLoggedInBranchId(userid, _configurationData.DefaultConnection);
 
                 //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
                 _memoryCache.Set(key, branchId);
@@ -84,7 +96,7 @@ namespace Adroit.Accounting.Web.Utility
 
             return branchId;
         }
-        public int GetLoggedInYearId(IPrincipal user, IUser userRepository, string connectionString)
+        public int GetLoggedInYearId(IPrincipal user)
         {
             int userid = GetUserId(user);
             var key = $"CacheYearId-{userid}";
@@ -93,7 +105,7 @@ namespace Adroit.Accounting.Web.Utility
 
             if (yearId == 0)
             {
-                yearId = userRepository.GetLoggedInYearId(userid, connectionString);
+                yearId = _userRepository.GetLoggedInYearId(userid, _configurationData.DefaultConnection) ?? 0;
 
                 //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
                 _memoryCache.Set(key, yearId);
@@ -101,7 +113,38 @@ namespace Adroit.Accounting.Web.Utility
 
             return yearId;
         }
+        public string GetLoggedInBranchName(int branchId, int firmId)
+        {
+            var key = $"CacheBrachName-{branchId}";
+            string branchName;
+            _memoryCache.TryGetValue(key, out branchName);
 
+            if (string.IsNullOrWhiteSpace(branchName))
+            {
+                branchName = _customerFirmBranchRepository.Get(branchId, firmId, _configurationData.DefaultConnection)?.Title ?? "";
+
+                //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
+                _memoryCache.Set(key, branchName);
+            }
+
+            return branchName;
+        }
+        public string GetLoggedInYear(int yearId, int firmId)
+        {
+            var key = $"CacheYear-{yearId}-{firmId}";
+            string year;
+            _memoryCache.TryGetValue(key, out year);
+
+            if (string.IsNullOrWhiteSpace(year))
+            {
+                year = _customerFirmRepository.GetYear(yearId, firmId, _configurationData.DefaultConnection)?.Title ?? "";
+
+                //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
+                _memoryCache.Set(key, year);
+            }
+
+            return year;
+        }
         public void ClearLoggedInFirmId(IPrincipal user)
         {
             int userid = GetUserId(user);

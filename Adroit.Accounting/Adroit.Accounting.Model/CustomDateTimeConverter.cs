@@ -31,8 +31,6 @@ namespace Adroit.Accounting.Model
     {
         public override DateTime? Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
-            Debug.Assert(typeToConvert == typeof(DateTime));
-
             var str = reader.GetString();
             if (string.IsNullOrWhiteSpace(str))
             {

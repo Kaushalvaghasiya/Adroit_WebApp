@@ -17,15 +17,15 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> VehicleRegistrationStateList { get; set; }
         public List<DropdownViewModel> VehicleOwnerList { get; set; }
 
-        public string RegistrationDateString { get { return this.RegistrationDate.ToString(Constant.DateFormat); } }
-        
-        public string StatePermitIssueOnString { get { return this.StatePermitIssueOn?.ToString(Constant.DateFormat); } }
-        public string StatePermitExpiryString { get { return this.StatePermitExpiry?.ToString(Constant.DateFormat); } }
+        public string RegistrationDateString { get { return this.RegistrationDate?.ToString(Constant.DateFormat) ?? ""; } }
 
-        public string NationalPermitIssueOnString { get { return this.NationalPermitIssueOn?.ToString(Constant.DateFormat); } }
-        public string NationalPermitExpiryString { get { return this.NationalPermitExpiry?.ToString(Constant.DateFormat); } }
+        public string StatePermitIssueOnString { get { return this.StatePermitIssueOn?.ToString(Constant.DateFormat) ?? ""; } }
+        public string StatePermitExpiryString { get { return this.StatePermitExpiry?.ToString(Constant.DateFormat) ?? ""; } }
 
-        public string InsuranceIssueOnString { get { return this.InsuranceIssueOn?.ToString(Constant.DateFormat); } }
-        public string InsuranceExpiryString { get { return this.InsuranceExpiry?.ToString(Constant.DateFormat); } }
+        public string NationalPermitIssueOnString { get { return this.NationalPermitIssueOn?.ToString(Constant.DateFormat) ?? ""; } }
+        public string NationalPermitExpiryString { get { return this.NationalPermitExpiry?.ToString(Constant.DateFormat) ?? ""; } }
+
+        public string InsuranceIssueOnString { get { return this.InsuranceIssueOn?.ToString(Constant.DateFormat) ?? ""; } }
+        public string InsuranceExpiryString { get { return this.InsuranceExpiry?.ToString(Constant.DateFormat) ?? ""; } }
     }
 }

@@ -432,7 +432,6 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    debugger;
                     return row.modelName;
                 },
                 "targets": colDef.length,
@@ -593,72 +592,6 @@
                     $("#OwnerId").focus();
                     return false;
                 }
-                if ($("#Country").val() == null || $("#Country").val() == "") {
-                    showWarning("", "Please select country.");
-                    $("#Country").focus();
-                    return false;
-                }
-                if ($("#StateId").val() == null || $("#StateId").val() == "") {
-                    showWarning("", "Please select state.");
-                    $("#StateId").focus();
-                    return false;
-                }
-
-                if ($("#ChasisNumber").val() == "") {
-                    showWarning("", "Please enter chasis number.");
-                    $("#ChasisNumber").focus();
-                    return false;
-                }
-                if ($("#EngineNumber").val() == "") {
-                    showWarning("", "Please enter engine number.");
-                    $("#EngineNumber").focus();
-                    return false;
-                }
-                if ($("#RegistrationDate").val() == "") {
-                    showWarning("", "Please enter registration date.");
-                    $("#RegistrationDate").focus();
-                    return false;
-                }
-                if ($("#StatePermitIssueOn").val() == "") {
-                    showWarning("", "Please enter state permit issue on.");
-                    $("#StatePermitIssueOn").focus();
-                    return false;
-                }
-                if ($("#StatePermitExpiry").val() == "") {
-                    showWarning("", "Please enter state permit expiry.");
-                    $("#StatePermitExpiry").focus();
-                    return false;
-                }
-                if ($("#NationalPermitNumber").val() == "") {
-                    showWarning("", "Please enter national permit number.");
-                    $("#NationalPermitNumber").focus();
-                    return false;
-                }
-                if ($("#NationalPermitIssueOn").val() == "") {
-                    showWarning("", "Please enter national permit issue on.");
-                    $("#NationalPermitIssueOn").focus();
-                    return false;
-                }
-                if ($("#NationalPermitExpiry").val() == "") {
-                    showWarning("", "Please enter national permit expiry.");
-                    $("#NationalPermitExpiry").focus();
-                    return false;
-                }
-                if ($("#InsuranceNumber").val() == "") {
-                    showWarning("", "Please enter insurance number.");
-                    $("#InsuranceNumber").focus();
-                    return false;
-                }
-                if ($("#InsuranceIssueOn").val() == "") {
-                    showWarning("", "Please enter insurance issue on.");
-                    $("#InsuranceIssueOn").focus();
-                    return false;
-                }
-                if ($("#InsuranceExpiry").val() == "") {
-                    showWarning("", "Please enter insurance expiry.");
-                    $("#InsuranceExpiry").focus();
-                    return false;
-                }
                 
                 var savedata = new Object();
 
@@ -669,7 +602,7 @@
                 savedata.StateId = $("#StateId").val();
                 savedata.ChasisNumber = $("#ChasisNumber").val();
                 savedata.EngineNumber = $("#EngineNumber").val();
-                savedata.RegistrationDate = getDate($("#RegistrationDate").val());
+                savedata.RegistrationDate = $("#RegistrationDate").val().length > 0 ? getDate($("#RegistrationDate").val()) : "";
                 savedata.StatePermitNumber = $("#StatePermitNumber").val();
                 savedata.StatePermitIssueOn = $("#StatePermitIssueOn").val().length > 0 ? getDate($("#StatePermitIssueOn").val()) : "";
                 savedata.StatePermitExpiry = $("#StatePermitExpiry").val().length > 0 ? getDate($("#StatePermitExpiry").val()) : "";

@@ -252,3 +252,19 @@ function getFloatValueNull(elementId, decimalPoints) {
 function getFloatValueZero(elementId, decimalPoints) {
     return (isNaN(parseFloat($("#" + elementId).val())) ? 0.00 : parseFloat($("#" + elementId).val()).toFixed(decimalPoints));
 }
+
+function validatePercentage(x) {
+    var parts = x.split(".");
+    if (parts[1] == "") {
+        parts[1] = "00"
+    }
+    if (typeof parts[1] == "string" && (parts[1].length == 0 || parts[1].length > 2))
+        return false;
+    var n = parseFloat(x);
+    if (isNaN(n))
+        return false;
+    if (n < 0 || n > 100)
+        return false;
+
+    return true;
+}
