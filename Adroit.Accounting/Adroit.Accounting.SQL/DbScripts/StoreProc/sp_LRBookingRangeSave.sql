@@ -37,6 +37,14 @@ BEGIN
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
+		UPDATE [LRBookingRange]
+		SET Active = 0
+		WHERE YearId = @YearId
+			AND FirmId = @FirmId
+			AND BranchId = @BranchId
+			AND Active = 1
+			AND Deleted = 0;
+
 		IF EXISTS (SELECT 1 FROM [LRBookingRange] WHERE Id = @Id)
 		BEGIN
 				UPDATE [LRBookingRange] SET
