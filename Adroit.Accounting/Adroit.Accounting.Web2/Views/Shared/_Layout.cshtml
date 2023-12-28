@@ -1,6 +1,20 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Options
+<!DOCTYPE html>
+@inject Adroit.Accounting.Web.Utility.ILoginHandler loginHandler
 @{
     var userName = Adroit.Accounting.Web.Utility.LoginHandler.GetDisplayName(User);
+
+    if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        var firmId = loginHandler.GetLoggedInFirmId(User);
+        ViewBag.BranchName = loginHandler.GetLoggedInBranchName(loginHandler.GetLoggedInBranchId(User), firmId);
+        ViewBag.Year = loginHandler.GetLoggedInYear(loginHandler.GetLoggedInYearId(User), firmId);
+    }
+    else
+    {
+        ViewBag.BranchName = string.Empty;
+        ViewBag.Year = string.Empty;
+    }
 }
 
 <html lang="en" dir="ltr">
@@ -17,7 +31,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="@Url.Content("~/assets/images/brand/favicon.ico")" />
 
     <!-- Title -->
-    <title>Adroit Accounting Software</title>
+    <title>@(ViewBag.BranchName)/@(ViewBag.Year) - Adroit Accounting Software</title>
 
     <!--Bootstrap.min css-->
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/assets/plugins/bootstrap/css/bootstrap.min.css")">
@@ -155,6 +169,15 @@
         .form-horizontal .form-label {
             font-weight: 400;
             margin-top: 8px !important;
+        }
+
+        .select2-custom-color .select2-results, .select2-custom-color .select2-selection__rendered {
+            color: #467fcf !important;
+            font-size: 14px !important;
+            font-weight: normal;
+        }
+        .mode-ed-multi ul {
+            max-height: 90px !important;
         }
 
     </style>
@@ -730,7 +753,7 @@
                                             <li aria-haspopup="true"><a href="#">Cash Receive</a></li>
                                         </ul>
                                     </li>
-                                    <li aria-haspopup="true"><a href="#">Account Opening Balance</a></li>
+                                    <li aria-haspopup="true"><a href="@Url.Action("customeraccountopeningbalance", "customer")">Account Opening Balance</a></li>
                                     <li aria-haspopup="true"><a href="#">Product Opening Stock</a></li>
                                     <li aria-haspopup="true" class="sub-menu-sub">
                                         <a href="#">Journal J.V.</a>
@@ -803,9 +826,9 @@
                                             <li aria-haspopup="true" class="sub-menu-sub">
                                                 <a href="#">LR Booking Register</a>
                                                 <ul class="sub-menu">
-                                                    <li aria-haspopup="true"><a href="#">LR Register</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Stock Register</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Booking Register</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("LRBookingLRRegister", "CustomerReport")">LR Register</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("LRBookingStockRegister", "CustomerReport")">Stock Register</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("LRBookingBookingRegister", "CustomerReport")">Booking Register</a></li>
                                                     <li aria-haspopup="true"><a href="#">Daily Summary</a></li>
                                                     <li aria-haspopup="true"><a href="@Url.Action("MonthlySummary", "CustomerReport")">Monthly Summary</a></li>
                                                     <li aria-haspopup="true"><a href="#">Chalan Loading Report</a></li>
@@ -815,13 +838,13 @@
                                             <li aria-haspopup="true" class="sub-menu-sub">
                                                 <a href="#">LR Delivery Register</a>
                                                 <ul class="sub-menu">
-                                                    <li aria-haspopup="true"><a href="#">LR Register</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Stock Register</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Delivery Register</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Daily Summary</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Monthly Summary</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Chalan Loading Report</a></li>
-                                                    <li aria-haspopup="true"><a href="#">Chalan Monthly Report</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("lrdeliverylrregister", "customerreport")">LR Register</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("lrdeliverystockregister", "customerreport")">Stock Register</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("lrdeliverydeliveryregister", "customerreport")">Delivery Register</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("lrdeliverydeliveryregister", "customerreport")">Delivery Register</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("lrdeliverymonthlysummary", "customerreport")">Monthly Summary</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("lrdeliverychalanloading", "customerreport")">Chalan Loading Report</a></li>
+                                                    <li aria-haspopup="true"><a href="@Url.Action("lrdeliverychalanmonthly", "customerreport" )">Chalan Monthly Report</a></li>
                                                 </ul>
                                             </li>
                                             <li aria-haspopup="true"><a href="#">Bank Book</a></li>
@@ -1073,7 +1096,7 @@
                                             <li aria-haspopup="true"><a href="@Url.Action("customerfirmbranchlrrate", "customer")">LR Rate</a></li>
                                             <li aria-haspopup="true"><a href="@Url.Action("customerfirmbranchtransportcontractratesetting", "customer")">Contract Rate</a></li>
                                             <li aria-haspopup="true"><a href="@Url.Action("lrbookingrange", "customer")">LR Booking Range</a></li>
-                                            <li aria-haspopup="true"><a href="@Url.Action("LRBookingRenew", "customer")">LR Booking Renew</a></li>
+                                            <li aria-haspopup="true"><a href="@Url.Action("LRBookingRangeRenew", "customer")">LR Booking Range Renew</a></li>
                                         </ul>
                                     </li>
                                 </ul>

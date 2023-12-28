@@ -11,16 +11,15 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerController : MasterController
     {
-        public IActionResult LRBookingRenew()
+        public IActionResult LRBookingRangeRenew()
         {
             var model = new LRBookingRangeViewModel();
-            model.BranchList = _customerFirmBranchesRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
-            ViewBag.CurrentBranchId = CurrentBranchId;
+            model.BranchList = _customerFirmBranchRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
             return View(model);
         }
 
         [HttpGet]
-        public JsonResult LRBookingRenewList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
+        public JsonResult LRBookingRangeRenewList(int draw = 0, int start = 0, int length = 10, int customerId = 0)
         {
             var result = new DataTableListViewModel<LRBookingRangeGridViewModel>();
             try
@@ -28,7 +27,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
-                var records = _lrBookingRenewRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _lrBookingRangeRenewRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -43,16 +42,15 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveLRBookingRenew([FromBody] LRBookingRangeViewModel model)
+        public JsonResult SaveLRBookingRangeRenew([FromBody] LRBookingRangeViewModel model)
         {
             ApiResult result = new ApiResult();
             try
             {
                 model.LoginId = CurrentUserId;
-                model.BranchId = CurrentBranchId;
                 model.FirmId = CurrentFirmId;
 
-                int id = _lrBookingRenewRepository.Save(model, _configurationData.DefaultConnection);
+                int id = _lrBookingRangeRenewRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -68,29 +66,12 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult DeleteLRBookingRenew(int id)
+        public JsonResult GetLRBookingRangeRenew(int id)
         {
             ApiResult result = new ApiResult();
             try
             {
-                _lrBookingRenewRepository.Delete(id, CurrentUserId, _configurationData.DefaultConnection);
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
-        [HttpGet]
-        public JsonResult GetLRBookingRenew(int id)
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                result.data = _lrBookingRenewRepository.Get(id, CurrentFirmId, _configurationData.DefaultConnection);
+                result.data = _lrBookingRangeRenewRepository.Get(id, CurrentFirmId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

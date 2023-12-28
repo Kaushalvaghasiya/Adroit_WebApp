@@ -32,7 +32,13 @@ namespace Adroit.Accounting.Web.Controllers
             model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.DriverList = _driverRepository.SelectList(_configurationData.DefaultConnection, CurrentUserId);
             model.BrokerList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId,_configurationData.DefaultConnection, CurrentUserId);
-            model.CustomerFirmBranchList = _customerFirmBranchesRepository.SelectListByFirmId(CurrentFirmId,_configurationData.DefaultConnection);
+            model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId,_configurationData.DefaultConnection);
+           
+            var currentUserBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
+            var currentCity = _cityRepository.Get((int)currentUserBranch.CityId!, _configurationData.DefaultConnection);
+
+            model.CityIdFrom = currentCity.Id;
+            model.CityFrom = currentCity.Title;
 
             ViewBag.CurrentBranchId = CurrentBranchId;
             return View(model);
@@ -122,8 +128,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetLRBookingListByCity/{fromCityId}/{toCityId}")]
-        public JsonResult GetLRBookingListByCity(int fromCityId, int toCityId, int draw = 0, int start = 0, int length = 10)
+        [Route("~/Customer/GetLRBookingListByCity/{fromCityIds}/{toCityIds}")]
+        public JsonResult GetLRBookingListByCity(string fromCityIds, string toCityIds, int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<LRBookingGridViewModel>();
             try
@@ -133,7 +139,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _lrBookingRepository.GetLRBookingListByCity(_configurationData.DefaultConnection, fromCityId, toCityId, CurrentBranchId, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _lrBookingRepository.GetLRBookingListByCity(_configurationData.DefaultConnection, fromCityIds, toCityIds, CurrentBranchId, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -215,5 +221,21 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        [Route("~/Customer/GetChalanCustomerAccountBranchMappingList_Select/{vehicleId}")]
+        public JsonResult GetChalanCustomerAccountBranchMappingList_Select(int vehicleId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _chalanRepository.GetCustomerAccountBranchMappingList_Select(CurrentUserId, CurrentFirmId, CurrentBranchId, vehicleId, _configurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
     }
 }

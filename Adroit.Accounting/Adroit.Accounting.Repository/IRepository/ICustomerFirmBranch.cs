@@ -12,5 +12,6 @@ namespace Adroit.Accounting.Repository.IRepository
         List<DropdownViewModel> SelectListByLoginId(int userId, string connectionString);
         List<DropdownViewModel> SelectListByFirmId(int firmId, string connectionString);
         List<DropdownViewModel> LoginCustomerSelectList(string connectionString, int loginId);
+        List<DropdownViewModel> SelectListWithFirmByFirmId(int firmId, string connectionString);
     }
 }

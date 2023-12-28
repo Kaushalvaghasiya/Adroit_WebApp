@@ -71,6 +71,7 @@ BEGIN
 	BEGIN TRY
 		DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
+		DECLARE @InvoiceMaxDate VARCHAR(20)=NULL, @InvoiceMinDate VARCHAR(20)=NULL;
 
 		DECLARE @message VARCHAR(4000);
 
@@ -78,6 +79,73 @@ BEGIN
 		BEGIN
 			SET @message = 'Year Not Found!';
 			RAISERROR ('%s', 16, 1, @message);
+		END
+		
+		DECLARE @BookBranchMappingId INT = (
+			SELECT BookingSalesBookBranchMappingId
+			FROM CustomerFirmBranchTransportSetting
+			WHERE CustomerFirmBranchTransportSetting.BranchId = @BranchId
+		);
+
+		IF (ISNULL(@SerialNumberOfBranch,0) = 0 AND ISNULL(@BillNumber,0) = 0)
+		BEGIN
+		    SELECT @InvoiceMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+			FROM [Z-SalesBillMaster-Z]
+			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 			
+			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CONVERT(DATETIME, GETDATE()))
+
+		    IF (@BillDate < @InvoiceMaxDate)
+		    BEGIN
+		        SET @message = 'Please select a date on or after ' + @InvoiceMaxDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
+		END
+		ELSE IF (ISNULL(@SerialNumberOfBranch,0) = 0)
+		BEGIN
+		    SELECT @InvoiceMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+			FROM [Z-SalesBillMaster-Z]
+			WHERE [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CONVERT(DATETIME, GETDATE()))
+
+		    IF (@BillDate < @InvoiceMaxDate)
+		    BEGIN
+		        SET @message = 'Please select a date on or after ' + @InvoiceMaxDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
+		END
+		ELSE IF (ISNULL(@BillNumber,0) = 0)
+		BEGIN
+		    SELECT @InvoiceMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+			FROM [Z-SalesBillMaster-Z]
+			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CONVERT(DATETIME, GETDATE()))
+			
+		    IF (@BillDate < @InvoiceMaxDate)
+		    BEGIN
+		        SET @message = 'Please select a date on or after ' + @InvoiceMaxDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
+		END
+		ELSE
+		BEGIN
+		    SELECT TOP 1 @InvoiceMaxDate = ISNULL(CONVERT(VARCHAR(10), BillDate, 103), CONVERT(VARCHAR(10), GETDATE(), 103))
+		    FROM [Z-SalesBillMaster-Z]
+		    WHERE BranchId = @BranchId AND SerialNumberOfBranch < @SerialNumberOfBranch AND BillNumber < @BillNumber AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+		    ORDER BY SerialNumberOfBranch, BillNumber DESC;
+			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , DATEADD(DAY, -1, @InvoiceMaxDate))
+			
+		    SELECT TOP 1 @InvoiceMinDate = ISNULL(CONVERT(VARCHAR(10), BillDate, 103), DATEADD(DAY, 1, @InvoiceMaxDate))
+		    FROM [Z-SalesBillMaster-Z]
+		    WHERE BranchId = @BranchId AND SerialNumberOfBranch > @SerialNumberOfBranch AND BillNumber > @BillNumber AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+		    ORDER BY SerialNumberOfBranch, BillNumber DESC;
+			
+			SET @InvoiceMinDate  = ISNULL(@InvoiceMinDate , DATEADD(DAY, 365, @InvoiceMaxDate))
+			
+		    IF NOT (@BillDate BETWEEN @InvoiceMaxDate AND @InvoiceMinDate)
+		    BEGIN
+		        SET @message = 'Please select a date between ' + @InvoiceMaxDate + ' and ' + @InvoiceMinDate;
+		        RAISERROR ('%s', 16, 1, @message);
+		    END
 		END
 
 		    DECLARE @LRDetails TABLE
@@ -123,12 +191,6 @@ BEGIN
 				INNER JOIN ProductBranchMapping on ProductBranchMapping.ProductId = CustomerFirmTransportSetting.ProductIdForSales 
 				AND ProductBranchMapping.BranchId = @BranchId
 			WHERE CustomerFirmTransportSetting.FirmId = @FirmId
-		);
-
-		DECLARE @BookBranchMappingId INT = (
-			SELECT BookingSalesBookBranchMappingId
-			FROM CustomerFirmBranchTransportSetting
-			WHERE CustomerFirmBranchTransportSetting.BranchId = @BranchId
 		);
 
 		DECLARE @SalesBillFromId INT = (
