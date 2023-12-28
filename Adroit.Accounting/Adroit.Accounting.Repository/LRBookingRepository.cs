@@ -142,5 +142,18 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SalesBillMasterId", salesBillMasterId);
             return QueryHelper.GetList<LRBookingGridViewModel>("sp_InvoiceGetLRBookingTableListBySalesBillMasterId", connectionString, parameters);
         }
+        public List<LRBookingGridViewModel> ChalanMonthlyReportList(string connectionString, int loginId, int branchId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@Search", search);
+            parameters.Add("@PageStart", pageStart);
+            parameters.Add("@PageSize", pageSize);
+            parameters.Add("@SortColumn", sortColumn);
+            parameters.Add("@SortOrder", sortOrder);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_ChalanMonthlyReportList", connectionString, parameters);
+        }
     }
 }
