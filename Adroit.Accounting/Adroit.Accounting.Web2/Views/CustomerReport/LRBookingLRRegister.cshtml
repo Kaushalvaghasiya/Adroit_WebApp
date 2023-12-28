@@ -1,6 +1,6 @@
 ﻿@using Adroit.Accounting.Model;
 @using Adroit.Accounting.Model.Enums;
-@model Adroit.Accounting.Model.ReportViewModel.LRDeliveryLRRegisterViewModel
+@model Adroit.Accounting.Model.ReportViewModel.LRBookingLRRegisterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -12,7 +12,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Book & Register</a></li>
-                    <li><a href="#">LR Delivery Register</a></li>
+                    <li><a href="#">LR Booking Register</a></li>
                     <li class="active"><span>LR Register</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -47,8 +47,8 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="Branch">Branch</label>
-                                <select class="group-filter mode-ed" id="Branch" multiple="multiple">
+                                <label for="BranchId">Branch Name</label>
+                                <select class="group-filter mode-ed" id="BranchId" multiple="multiple">
                                     @{
                                         if (Model.BranchList != null)
                                         {
@@ -68,8 +68,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="View">View</label>
-                                <select class="form-control select2-show-search" id="View">
+                                <label for="ViewId">View</label>
+                                <select class="form-control select2-show-search" id="ViewId">
                                     @{
                                         if (Model.ViewList != null)
                                         {
@@ -111,19 +111,19 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="LRFrom">LR From</label>
-                                <input type="text" class="form-control" id="LRFrom" placeholder="">
+                                <input type="text" class="form-control numberonly" id="LRFrom" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="LRTo">LR To</label>
-                                <input type="text" class="form-control" id="LRTo" placeholder="">
+                                <input type="text" class="form-control numberonly" id="LRTo" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="CityFrom">City From</label>
-                                <select class="filter-multi" id="CityFrom" multiple="multiple">
+                                <label for="CityFromId">City From</label>
+                                <select class="filter-multi mode-ed-multi" id="CityFromId" multiple="multiple">
                                     @{
                                         if (Model.CityList != null)
                                         {
@@ -138,8 +138,8 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="CityTo">City To</label>
-                                <select class="filter-multi" id="CityTo" multiple="multiple">
+                                <label for="CityToId">City To</label>
+                                <select class="filter-multi mode-ed-multi" id="CityToId" multiple="multiple">
                                     @{
                                         if (Model.CityList != null)
                                         {
@@ -154,12 +154,29 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Consignor">Consignor</label>
-                                <select class="filter-multi" id="Consignor" multiple="multiple">
+                                <label for="ConsignorId">Consignor</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsignorId">
                                     @{
-                                        if (Model.ConsignorList != null)
+                                        if (Model.AccountBranchMappingList != null)
                                         {
-                                            foreach (var o in Model.ConsignorList)
+                                            foreach (var o in Model.AccountBranchMappingList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ConsigneeId">Consignee</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsigneeId">
+                                    @{
+                                        if (Model.AccountBranchMappingList != null)
+                                        {
+                                            foreach (var o in Model.AccountBranchMappingList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -170,28 +187,12 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Consignee">Consignee</label>
-                                <select class="filter-multi" id="Consignee" multiple="multiple">
+                                <label for="BillPartyId">Bill Party</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BillPartyId">
                                     @{
-                                        if (Model.ConsigneeList != null)
+                                        if (Model.AccountBranchMappingList != null)
                                         {
-                                            foreach (var o in Model.ConsigneeList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="BillParty">Bill Party</label>
-                                <select class="filter-multi" id="BillParty" multiple="multiple">
-                                    @{
-                                        if (Model.BillPartyList != null)
-                                        {
-                                            foreach (var o in Model.BillPartyList)
+                                            foreach (var o in Model.AccountBranchMappingList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -202,8 +203,8 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="PvtMark">Pvt Mark</label>
-                                <select class="filter-multi" id="PvtMark" multiple="multiple">
+                                <label for="PvtMarkId">Pvt Mark</label>
+                                <select class="filter-multi mode-ed-multi" id="PvtMarkId" multiple="multiple">
                                     @{
                                         if (Model.PvtMarkList != null)
                                         {
@@ -218,12 +219,28 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="PvtType">Pay Type</label>
-                                <select class="filter-multi" id="PvtType" multiple="multiple">
+                                <label for="PayTypeId">Pay Type</label>
+                                <select class="filter-multi mode-ed-multi" id="PayTypeId" multiple="multiple">
                                     @{
                                         if (Model.PayTypeList != null)
                                         {
                                             foreach (var o in Model.PayTypeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="ChalanId">Chalan Status</label>
+                                <select class="form-control select2-show-search" id="ChalanId">
+                                    @{
+                                        if (Model.ChalanList != null)
+                                        {
+                                            foreach (var o in Model.ChalanList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -249,77 +266,30 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="VehicleNumber">Vehicle Number</label>
-                                <select class="filter-multi" id="VehicleNumber" multiple="multiple">
-                                    @{
-                                        if (Model.VehicleNumberList != null)
-                                        {
-                                            foreach (var o in Model.VehicleNumberList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="LRView">LR View</label>
-                                <select class="form-control select2-show-search" id="LRView">
-                                    @{
-                                        if (Model.LRViewList != null)
-                                        {
-                                            foreach (var o in Model.LRViewList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="Chalan">Chalan</label>
-                                <select class="filter-multi" id="Chalan" multiple="multiple">
-                                    @{
-                                        if (Model.ChalanList != null)
-                                        {
-                                            foreach (var o in Model.ChalanList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group"><label for="SubTotal">Sub Total</label></div>
+                            <div class="form-group"><label for="form-group SubTotal">Sub Total</label></div>
                             <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" id="SubTotal" class="custom-switch-input">
+                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="SubTotal">
                                 <span class="custom-switch-indicator"></span>
                             </label>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-group"><label for="Summary">Summary</label></div>
+                            <div class="form-group"><label for="form-group Summary">Summary</label></div>
                             <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" id="Summary" class="custom-switch-input">
+                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="Summary">
                                 <span class="custom-switch-indicator"></span>
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn btn-warning mt-1 show-report" data-toggle="tooltip" title="" data-placement="top" data-original-title="Generate Report"><i class="fa fa-spinner"></i>&nbsp;Generate Report</a>
+                    <a href="#" class="btn btn-warning mt-1 show-report" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-spinner"></i>&nbsp;Generate Report</a>
                     <a href="#" class="btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <div class="dv-report side-app">
     <div class="row">
         <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
@@ -327,7 +297,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Book & Register</a></li>
-                    <li><a href="#">LR Delivery Register</a></li>
+                    <li><a href="#">LR Booking Register</a></li>
                     <li class="active"><span>LR Register</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -351,21 +321,21 @@
                         <table id="tblMain" class="table table-bordered key-buttons">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">LR DATE</th>
-                                    <th class="border-bottom-0">LR NUMBER</th>
-                                    <th class="border-bottom-0">FROM CITY</th>
-                                    <th class="border-bottom-0">TO CITY</th>
-                                    <th class="border-bottom-0">GOODS DESCRIPTION</th>
-                                    <th class="border-bottom-0">PARCEL</th>
-                                    <th class="border-bottom-0">CHARGE WT.</th>
-                                    <th class="border-bottom-0">PACKING</th>
-                                    <th class="border-bottom-0">PVT. MARK</th>
-                                    <th class="border-bottom-0">LR AMOUNT</th>
-                                    <th class="border-bottom-0">GST%</th>
-                                    <th class="border-bottom-0">GST AMOUNT</th>
-                                    <th class="border-bottom-0">INV VALUE</th>
-                                    <th class="border-bottom-0">Arrival Chalan Numbar & Date</th>
-                                    <th class="border-bottom-0">BRANCH</th>
+                                    <th class="border-bottom-0 text-center">LR DATE</th>
+                                    <th class="border-bottom-0 text-center">LR NUMBER</th>
+                                    <th class="border-bottom-0 text-center">FROM CITY</th>
+                                    <th class="border-bottom-0 text-center">TO CITY</th>
+                                    <th class="border-bottom-0 text-center">GOODS DESCRIPTION</th>
+                                    <th class="border-bottom-0 text-center">PARCEL</th>
+                                    <th class="border-bottom-0 text-center">CHARGE WT.</th>
+                                    <th class="border-bottom-0 text-center">PACKING</th>
+                                    <th class="border-bottom-0 text-center">PVT. MARK</th>
+                                    <th class="border-bottom-0 text-center">LR AMOUNT</th>
+                                    <th class="border-bottom-0 text-center">GST%</th>
+                                    <th class="border-bottom-0 text-center">GST AMOUNT</th>
+                                    <th class="border-bottom-0 text-center">PAY TYPE</th>
+                                    <th class="border-bottom-0 text-center">INV VALUE</th>
+                                    <th class="border-bottom-0 text-center">BRANCH</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -622,13 +592,24 @@
 </div>
 
 @section Scripts
-    {
+{
 
     <script>
+
         $(function (e) {
 
-            $('.dv-parameters').show();
             $('.dv-report').hide();
+            $('.dv-parameters').show();
+
+            $(".show-report").on("click", function () {
+                $('.dv-parameters').slideUp();
+                $('.dv-report').slideDown();
+            });
+
+            $(".btn-back").on("click", function () {
+                $('.dv-parameters').slideDown();
+                $('.dv-report').slideUp();
+            });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -650,7 +631,7 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                buttons: ['copy', 'excel', 'pdf', 'colvis'],
+                // buttons: ['copy', 'excel', 'pdf', 'colvis'],
                 //processing: true,
                 //serverSide: true,
                 // ajax: {
@@ -670,15 +651,7 @@
 
             table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
 
-            $(".show-report").on("click", function () {
-                $('.dv-parameters').slideUp();
-                $('.dv-report').slideDown();
-            });
-
-            $(".btn-back").on("click", function () {
-                $('.dv-report').slideUp();
-                $('.dv-parameters').slideDown();
-            });
+            // bindDatatableList();
 
         });
 
@@ -686,5 +659,161 @@
             $('#tblMain').DataTable().ajax.reload();
         }
 
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.description;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.packing;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.privateMarka;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.amount.toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrPayType;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "lrDate", "name": "lrDate" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "description", "name": "description" });
+            columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
+            columns.push({ "data": "packing", "name": "packing" });
+            columns.push({ "data": "privateMarka", "name": "privateMarka" });
+            columns.push({ "data": "chargeAmount", "name": "chargeAmount" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "lrPayType", "name": "lrPayType" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
+            columns.push({ "data": "branchName", "name": "branchName" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
     </script>
+
 }

@@ -23,14 +23,14 @@ namespace Adroit.Accounting.Web.Controllers
         {
             get
             {
-                return _loginHandler.GetLoggedInFirmId(User, _userRepository, _configurationData.DefaultConnection);
+                return _loginHandler.GetLoggedInFirmId(User);
             }
         }
         public int CurrentBranchId
         {
             get
             {
-                return _loginHandler.GetLoggedInBranchId(User, _userRepository, _configurationData.DefaultConnection);
+                return _loginHandler.GetLoggedInBranchId(User);
             }
         }
         public int CurrentUserId
@@ -40,7 +40,13 @@ namespace Adroit.Accounting.Web.Controllers
                 return _loginHandler.GetUserId(User);
             }
         }
-
+        public int CurrentYearId
+        {
+            get
+            {
+                return _loginHandler.GetLoggedInYearId(User);
+            }
+        }
         public void ClearCurrentFirmId()
         {
             _loginHandler.ClearLoggedInFirmId(User);

@@ -62,6 +62,12 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerFirmSave", connectionString, parameters);
         }
-
+        public Year GetYear(int id, int firmId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            parameters.Add("@FirmId", firmId);
+            return QueryHelper.Get<Year>("sp_GetYear", connectionString, parameters);
+        }
     }
 }
