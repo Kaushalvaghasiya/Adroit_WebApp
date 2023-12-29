@@ -1,4 +1,4 @@
-CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingBookingRegisterReportList]
+CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingBookingRegisterList]
   @LoginId INT,
   @BranchId INT,
   @FirmId INT,

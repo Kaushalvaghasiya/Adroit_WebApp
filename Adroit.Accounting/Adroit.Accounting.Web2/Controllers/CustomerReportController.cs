@@ -27,6 +27,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IReportLRBookingBookingRegister _reportLRBookingBookingRegisterRepository;
         private readonly IReportLRBookingChalanLoadingReport _reportLRBookingChalanLoadingReportRepository;
         private readonly IReportLRBookingMonthlySummary _reportLRBookingMonthlySummaryRepository;
+        private readonly IReportLRBookingDailySummary _reportLRBookingDailySummaryRepository;
         private readonly ICustomerBook _customerBookRepository;
         private readonly ICustomerAccount _customerAccountRepo;
 
@@ -47,10 +48,12 @@ namespace Adroit.Accounting.Web.Controllers
             IReportLRBookingBookingRegister reportLRBookingBookingRegisterRepository,
             IReportLRBookingChalanLoadingReport reportLRBookingChalanLoadingReportRepository,
             IReportLRBookingMonthlySummary reportLRBookingMonthlySummaryRepository,
+            IReportLRBookingDailySummary reportLRBookingDailySummaryRepository, 
             ICustomerBook customerBookRepository,
             ICustomerAccount customerAccountRepo
             ) : base(loginHandler, userRepository, configurationData)
         {
+            _vehicleRepo = vehicleRepo;
             _commonRepository = commonRepository;
             _customerFirmBranchRepository = customerFirmBranchRepository;
             _cityRepository = cityRepository;
@@ -65,6 +68,7 @@ namespace Adroit.Accounting.Web.Controllers
             _reportLRBookingBookingRegisterRepository = reportLRBookingBookingRegisterRepository;
             _reportLRBookingChalanLoadingReportRepository = reportLRBookingChalanLoadingReportRepository;
             _reportLRBookingMonthlySummaryRepository = reportLRBookingMonthlySummaryRepository;
+            _reportLRBookingDailySummaryRepository = reportLRBookingDailySummaryRepository;
             _customerBookRepository = customerBookRepository;
             _customerAccountRepo = customerAccountRepo;
         }

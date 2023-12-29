@@ -4,13 +4,14 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanReceiveGetMasterDetailsByChalanNumbe
   @ChalanNumber int
 AS
 BEGIN
-	DECLARE @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
+	DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 	SELECT PBM.Id 
 	,PBM.BillDate As ReceiveDate
 	,PBM.EwayBillNumber 
 	,PBM.TaxableAmount 
+	,PBM.TDSPercent 
 	,PBM.TDSAmount 
 	,PBM.AdvanceCash 
 	,PBM.AdvanceNeft 
@@ -29,31 +30,31 @@ BEGIN
 		SELECT CCA1.Name FROM CustomerFirmBranchTransportSetting CFT1
 		INNER JOIN CustomerAccountBranchMapping As CAMP1 on CAMP1.Id = CFT1.ToPayAccountBranchMappingId
 		INNER JOIN [CustomerAccount] AS CCA1 on CCA1.Id = CAMP1.AccountId AND CCA1.[CustomerId] = @CustomerId 
-		WHERE CFT1.BranchId = PBM.BranchIdTo
+		WHERE CFT1.BranchId = PBM.BranchId
 	) AS ToPayAccountLabel
 	,(	
 		SELECT CCA2.Name FROM CustomerFirmBranchTransportSetting CFT2
 		LEFT JOIN CustomerAccountBranchMapping As CAMP2 on CAMP2.Id = CFT2.CrossingAmountAccountBranchMappingId
 		LEFT JOIN [CustomerAccount] AS CCA2 on CCA2.Id = CAMP2.AccountId AND CCA2.[CustomerId] = @CustomerId 
-		WHERE CFT2.BranchId = PBM.BranchIdTo
+		WHERE CFT2.BranchId = PBM.BranchId
 	) AS CrossingAmountAccountLabel
 	,(	
 		SELECT CCA3.Name FROM CustomerFirmBranchTransportSetting CFT3
 		LEFT JOIN CustomerAccountBranchMapping As CAMP3 on CAMP3.Id = CFT3.CrossingCommissionAccountBranchMappingId
 		LEFT JOIN [CustomerAccount] AS CCA3 on CCA3.Id = CAMP3.AccountId AND CCA3.[CustomerId] = @CustomerId 
-		WHERE CFT3.BranchId = PBM.BranchIdTo
+		WHERE CFT3.BranchId = PBM.BranchId
 	) AS CrossingCommissionAccountLabel
 	,(	
 		SELECT CCA4.Name FROM CustomerFirmBranchTransportSetting CFT4
 		LEFT JOIN CustomerAccountBranchMapping As CAMP4 on CAMP4.Id = CFT4.CrossingHamaliAccountBranchMappingId
 		LEFT JOIN [CustomerAccount] AS CCA4 on CCA4.Id = CAMP4.AccountId AND CCA4.[CustomerId] = @CustomerId 
-		WHERE CFT4.BranchId = PBM.BranchIdTo
+		WHERE CFT4.BranchId = PBM.BranchId
 	) AS CrossingHamaliAccountLabel
 	,(	
 		SELECT CCA5.Name FROM CustomerFirmBranchTransportSetting CFT5
 		LEFT JOIN CustomerAccountBranchMapping As CAMP5 on CAMP5.Id = CFT5.CrossingDeliveryChargeAccountBranchMappingId
 		LEFT JOIN [CustomerAccount] AS CCA5 on CCA5.Id = CAMP5.AccountId AND CCA5.[CustomerId] = @CustomerId 
-		WHERE CFT5.BranchId = PBM.BranchIdTo
+		WHERE CFT5.BranchId = PBM.BranchId
 	) AS CrossingDeliveryChargeAccountLabel
 
 	,(SELECT Title FROM City WHERE Id = PBM.CityIdFrom) AS CityFrom

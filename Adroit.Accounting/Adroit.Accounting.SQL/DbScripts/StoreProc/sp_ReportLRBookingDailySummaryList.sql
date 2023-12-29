@@ -1,4 +1,4 @@
-CREATE OR ALTER Procedure [dbo].[sp_MonthlySummaryReportList]
+CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingDailySummaryList]
   @LoginId INT,
   @BranchId INT,
   @FirmId INT,
@@ -17,8 +17,8 @@ Begin
 	(   
 		SELECT ROW_NUMBER() over 
 		(ORDER BY
-			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN DATENAME(MONTH, MIN(LRB.LRDate)) END ASC,  
-			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN DATENAME(MONTH, MIN(LRB.LRDate)) END DESC,
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN LRB.LRDate END ASC,  
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN LRB.LRDate END DESC,
 			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN COUNT(*) END ASC,  
 			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN COUNT(*) END DESC,
 			CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN SUM(LRB.Parcel) END ASC,  
@@ -41,7 +41,7 @@ Begin
 			CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' THEN MAX([CustomerFirmBranch].Title) END DESC
 		) AS RowNum
 		,Count(*) over () AS TotalCount 
-		,DATENAME(MONTH, MIN(LRB.LRDate)) AS LRMonth
+		,LRB.LRDate
 		,COUNT(*) As TotalLR
 		,SUM(LRB.Parcel) As Parcel
 		,SUM(LRB.ChargeWeight) As ChargeWeight
@@ -61,13 +61,13 @@ Begin
 		LEFT JOIN TransportLRPayType AS TLRType2 ON LRB.LRPayTypeId = TLRType2.Id AND TLRType2.Title = 'Paid'
 		LEFT JOIN TransportLRPayType AS TLRType3 ON LRB.LRPayTypeId = TLRType3.Id AND TLRType3.Title = 'TBB'
 		WHERE LRB.BranchId = @BranchId AND LRB.YearId = @YearId
-		AND (Coalesce(@Search,'') = '' OR DATENAME(MONTH, MIN(LRB.LRDate)) like '%'+ @Search + '%'
+		AND (Coalesce(@Search,'') = '' OR LRB.LRDate like '%'+ @Search + '%'
 									   OR LRB.Parcel like '%'+ @Search + '%'
 									   OR LRB.ChargeWeight like '%'+ @Search + '%'
 									   OR [GSTRate].Rate like '%'+ @Search + '%'
 									   OR LRB.InvoiceValue like '%'+ @Search + '%'
 									   OR [CustomerFirmBranch].Title like '%'+ @Search + '%')
-		GROUP BY MONTH(LRB.LRDate)
+		GROUP BY LRB.LRDate
 	 ) AS T   
 	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
 End
