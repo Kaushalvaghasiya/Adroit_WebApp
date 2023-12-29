@@ -142,6 +142,8 @@ try
     builder.Services.AddSingleton<IReportLRBookingLRRegister, ReportLRBookingLRRegisterRepository>();
     builder.Services.AddSingleton<IReportLRBookingStockRegister, ReportLRBookingStockRegisterRepository>();
     builder.Services.AddSingleton<IReportLRBookingBookingRegister, ReportLRBookingBookingRegisterRepository>();
+    builder.Services.AddSingleton<IReportLRBookingChalanLoadingReport, ReportLRBookingChalanLoadingReportRepository>();
+    builder.Services.AddSingleton<IReportLRBookingMonthlySummary, ReportLRBookingMonthlySummaryRepository>();
     builder.Services.AddSingleton<IReportLRBookingDailySummary, ReportLRBookingDailySummaryRepository>();
 
     if (!builder.Environment.IsDevelopment())

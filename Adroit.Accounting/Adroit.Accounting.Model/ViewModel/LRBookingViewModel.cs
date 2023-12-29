@@ -33,10 +33,12 @@ namespace Adroit.Accounting.Model.ViewModel
         public bool? IsLRBookingPurchased { get; set; }
         public short? CreditDays { get; set; }
         public bool? Deleted { get; set; }
+
         public string BranchName { get; set; }
         public int? TotalLR { get; set; }
         public decimal? ToPayAmount { get; set; }
         public decimal? PaidAmount { get; set; }
         public decimal? TBBAmount { get; set; }
+        public string LRMonth { get; set; }
     }
 }

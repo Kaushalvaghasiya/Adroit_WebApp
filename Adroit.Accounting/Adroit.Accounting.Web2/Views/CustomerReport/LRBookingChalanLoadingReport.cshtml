@@ -1,6 +1,6 @@
 ﻿@using Adroit.Accounting.Model;
 @using Adroit.Accounting.Model.Enums;
-@model Adroit.Accounting.Model.ReportViewModel.LRBookingBookingRegisterViewModel
+@model Adroit.Accounting.Model.ReportViewModel.LRBookingChalanLoadingReportViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -12,7 +12,7 @@
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Book & Register</a></li>
                     <li><a href="#">LR Booking Register</a></li>
-                    <li class="active"><span>Booking Register</span></li>
+                    <li class="active"><span>Chalan Loading Report</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -109,14 +109,14 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="LRFrom">LR From</label>
-                                <input type="text" class="form-control numberonly" id="LRFrom" placeholder="">
+                                <label for="ChalanFrom">Chalan From</label>
+                                <input type="text" class="form-control numberonly" id="ChalanFrom" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="LRTo">LR To</label>
-                                <input type="text" class="form-control numberonly" id="LRTo" placeholder="">
+                                <label for="ChalanTo">Chalan To</label>
+                                <input type="text" class="form-control numberonly" id="ChalanTo" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-2">
@@ -153,101 +153,23 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="ConsignorId">Consignor</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsignorId">
-                                    @{
-                                        if (Model.AccountBranchMappingList != null)
-                                        {
-                                            foreach (var o in Model.AccountBranchMappingList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
+                                <label for="VehicleNumber">Vehicle Number</label>
+                                <input type="text" class="form-control" id="VehicleNumber" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="VehicleOwner">Vehicle Owner</label>
+                                <input type="text" class="form-control" id="VehicleOwner" placeholder="">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="Agent">Agent</label>
+                                <input type="text" class="form-control" id="Agent" placeholder="">
+                            </div>
+                        </div>
 
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="ConsigneeId">Consignee</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsigneeId">
-                                    @{
-                                        if (Model.AccountBranchMappingList != null)
-                                        {
-                                            foreach (var o in Model.AccountBranchMappingList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="BillPartyId">Bill Party</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BillPartyId">
-                                    @{
-                                        if (Model.AccountBranchMappingList != null)
-                                        {
-                                            foreach (var o in Model.AccountBranchMappingList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="PayTypeId">Pay Type</label>
-                                <select class="filter-multi mode-ed-multi" id="PayTypeId" multiple="multiple">
-                                    @{
-                                        if (Model.PayTypeList != null)
-                                        {
-                                            foreach (var o in Model.PayTypeList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="ChalanId">Chalan Status</label>
-                                <select class="form-control select2-show-search-report" id="ChalanId">
-                                    @{
-                                        if (Model.ChalanList != null)
-                                        {
-                                            foreach (var o in Model.ChalanList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="InvStatus">Inv. Status</label>
-                                <select class="form-control select2-show-search-report" id="InvStatus">
-                                    @{
-                                        if (Model.InvStatusList != null)
-                                        {
-                                            foreach (var o in Model.InvStatusList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
                         <div class="col-md-2">
                             <div class="form-group"><label for="form-group SubTotal">Sub Total</label></div>
                             <label class="custom-switch">
@@ -281,7 +203,7 @@
                     <li><a href="#">Reports</a></li>
                     <li><a href="#">Book & Register</a></li>
                     <li><a href="#">LR Booking Register</a></li>
-                    <li class="active"><span>Booking Register</span></li>
+                    <li class="active"><span>Chalan Loading Report</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -304,21 +226,27 @@
                         <table id="tblMain" class="table table-bordered key-buttons">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0 text-center">LR Number</th>
-                                    <th class="border-bottom-0 text-center">LR DATE</th>
-                                    <th class="border-bottom-0 text-center">TO CITY</th>
-                                    <th class="border-bottom-0 text-center">PARCLE</th>
-                                    <th class="border-bottom-0 text-center">GOODS DESCRIPTION</th>
-                                    <th class="border-bottom-0 text-center">Consignor & GST No</th>
-                                    <th class="border-bottom-0 text-center">Consignee & GST No</th>
+                                    <th class="border-bottom-0 text-center">Loading Date</th>
+                                    <th class="border-bottom-0 text-center">Chalan Number</th>
+                                    <th class="border-bottom-0 text-center">Truck Number</th>
+                                    <th class="border-bottom-0 text-center">Total LR</th>
+                                    <th class="border-bottom-0 text-center">Total Parcle</th>
                                     <th class="border-bottom-0 text-center">Charge Wt.</th>
-                                    <th class="border-bottom-0 text-center">LR Amount</th>
+                                    <th class="border-bottom-0 text-center">Total To Pay Amount</th>
+                                    <th class="border-bottom-0 text-center">Total Paid Amount</th>
+                                    <th class="border-bottom-0 text-center">Total To Be Billed Amount</th>
+                                    <th class="border-bottom-0 text-center">Lorry Hire Charge</th>
+                                    <th class="border-bottom-0 text-center">Less TDS</th>
+                                    <th class="border-bottom-0 text-center">TDS(-)</th>
                                     <th class="border-bottom-0 text-center">GST%</th>
                                     <th class="border-bottom-0 text-center">GST Amount</th>
-                                    <th class="border-bottom-0 text-center">Inv Value</th>
-                                    <th class="border-bottom-0 text-center">Pay Type</th>
-                                    <th class="border-bottom-0 text-center">Loading Chalan No</th>
-                                    <th class="border-bottom-0 text-center">BRANCH</th>
+                                    <th class="border-bottom-0 text-center">Cash To Lorry Trip</th>
+                                    <th class="border-bottom-0 text-center">Bank Payment  To Lorry Trip</th>
+                                    <th class="border-bottom-0 text-center">Received Cash By Driver</th>
+                                    <th class="border-bottom-0 text-center">Other Exps. of Trip</th>
+                                    <th class="border-bottom-0 text-center">Balance Lorry Hire Charge</th>
+                                    <th class="border-bottom-0 text-center">Total Freight</th>
+                                    <th class="border-bottom-0 text-center">Branch</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -338,17 +266,6 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -363,17 +280,6 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -406,17 +312,6 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -431,17 +326,6 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -474,17 +358,6 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -499,17 +372,6 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -542,8 +404,112 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
                                 </tr>
                                 <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -576,6 +542,7 @@
 
 @section Scripts
 {
+
     <script>
 
         $(function (e) {
@@ -634,7 +601,6 @@
             table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
 
             // bindDatatableList();
-
         });
 
         function refreshDatatableList() {
@@ -646,43 +612,31 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.lrNumber;
+                    return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                    return row.id;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.cityTo;
+                    return row.vehicleVRN;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.totalLR;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.parcel;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.description;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.consignor;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.consignee;
                 },
                 "targets": colDef.length,
             });
@@ -695,7 +649,42 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.amount || 0).toFixed(2);
+                    return (row.toPayAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.paidAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.tbbAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.taxableAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.tdsPercent || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.tdsAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "class": "text-right",
@@ -716,22 +705,45 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.advanceCash || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "class": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.lrPayType;
+                    return (row.advanceNeft || 0).toFixed(2);
                 },
                 "targets": colDef.length,
+                "class": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.loadingChalanNo;
+                    return (row.receiveCash || 0).toFixed(2);
                 },
                 "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.otherPlus || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.taxableAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.freight || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -740,20 +752,26 @@
                 "targets": colDef.length,
             });
 
-            columns.push({ "data": "lrNumber", "name": "lrNumber" });
-            columns.push({ "data": "lrDate", "name": "lrDate" });
-            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "billDate", "name": "billDate" });
+            columns.push({ "data": "chalanNumber", "name": "chalanNumber" });
+            columns.push({ "data": "vehilcleNumber", "name": "vehilcleNumber" });
+            columns.push({ "data": "totalLR", "name": "totalLR" });
             columns.push({ "data": "parcel", "name": "parcel" });
-            columns.push({ "data": "description", "name": "description" });
-            columns.push({ "data": "consignor", "name": "consignor" });
-            columns.push({ "data": "consignee", "name": "consignee" });
             columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
-            columns.push({ "data": "amount", "name": "amount" });
+            columns.push({ "data": "toPayAmount", "name": "toPayAmount" });
+            columns.push({ "data": "paidAmount", "name": "paidAmount" });
+            columns.push({ "data": "tbbAmount", "name": "tbbAmount" });
+            columns.push({ "data": "taxableAmount", "name": "taxableAmount" });
+            columns.push({ "data": "tdsPercent", "name": "tdsPercent" });
+            columns.push({ "data": "tdsAmount", "name": "tdsAmount" });
             columns.push({ "data": "rate", "name": "rate" });
             columns.push({ "data": "rate", "name": "rate" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
-            columns.push({ "data": "lrPayType", "name": "lrPayType" });
-            columns.push({ "data": "loadingChalanNumber", "name": "loadingChalanNumber" });
+            columns.push({ "data": "advanceCash", "name": "advanceCash" });
+            columns.push({ "data": "advanceNeft", "name": "advanceNeft" });
+            columns.push({ "data": "receivedCash", "name": "receivedCash" });
+            columns.push({ "data": "otherExpOfTrip", "name": "otherExpOfTrip" });
+            columns.push({ "data": "taxableAmount", "name": "taxableAmount" });
+            columns.push({ "data": "freight", "name": "freight" });
             columns.push({ "data": "branchName", "name": "branchName" });
 
             var table = $('#tblMain').DataTable({
@@ -782,7 +800,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerReport/BookingRegisterReportList"))',
+                    url: '@(Url.Content("~/CustomerReport/ChalanLoadingReportList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -797,4 +815,5 @@
         }
 
     </script>
+
 }
