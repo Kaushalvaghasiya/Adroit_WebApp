@@ -4,6 +4,8 @@ using Adroit.Accounting.Web.Models;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.Extensions.Options;
+using System.Data.SqlClient;
+using System.Data;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -45,5 +47,58 @@ namespace Adroit.Accounting.Web.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        [Route("~/DataTesting")]
+        public IActionResult DataTesting()
+        {
+            //return Content($"<script>window.open('{redirectUrl}', '_blank');</script>");
+            return View();
+        }
+
+        [Route("~/Home/ExecuteQuery/{query}")]
+        public ActionResult ExecuteQuery(string query)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(query))
+                {
+                    return Content("Error: Query is empty or null.");
+                }
+
+                string connectionString = _configurationData.DefaultConnection;
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+
+                    string[] queries = query.Split(';');
+
+                    DataSet dataSet = new DataSet();
+
+                    foreach (var individualQuery in queries)
+                    {
+                        if (!string.IsNullOrWhiteSpace(individualQuery))
+                        {
+                            using (SqlCommand command = new SqlCommand(individualQuery, connection))
+                            {
+                                using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+                                {
+                                    DataTable dataTable = new DataTable();
+                                    adapter.Fill(dataTable);
+
+                                    dataSet.Tables.Add(dataTable);
+                                }
+                            }
+                        }
+                    }
+
+                    return PartialView("_ResultTablePartial", dataSet);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Content($"Error: {ex.Message}");
+            }
+        }
+
     }
 }
