@@ -74,7 +74,7 @@ BEGIN
 			DECLARE @LastLRDate DATE
 		    SELECT @LastLRDate = CAST(MAX(LRDate) AS DATE) FROM [Z-LRBooking-Z] WHERE BranchId = @BranchId AND Deleted = 0 
 		
-		    IF (@LastLRDate IS NOT NULL AND @LRDate < @LastLRDate)
+		    IF (@LastLRDate IS NOT NULL AND CAST(@LRDate AS DATE) < @LastLRDate)
 		    BEGIN
 		        SET @message = 'Please select a date on or after ' + CONVERT(VARCHAR, @LastLRDate, 103)
 		        RAISERROR ('%s', 16, 1, @message)
@@ -118,7 +118,7 @@ BEGIN
 		    WHERE [Z-LRBooking-Z].BranchId = @BranchId AND [Z-LRBooking-Z].LRNumber > @LRNumber
 		    ORDER BY [Z-LRBooking-Z].LRNumber;
 
-		    IF NOT (@LRDate BETWEEN @PrevLRBookingDate AND @NextLRBookingDate)
+		    IF NOT (CAST(@LRDate AS DATE) BETWEEN @PrevLRBookingDate AND @NextLRBookingDate)
 		    BEGIN
 		        SET @message = 'Please select a date between ' + CONVERT(VARCHAR, @PrevLRBookingDate, 103) + ' and ' + CONVERT(VARCHAR, @NextLRBookingDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);

@@ -211,6 +211,10 @@ function gridDrawCallback(row) {
         //deleteItemConfirmation(parseInt($(row).attr("data-value")));
         deleteItemConfirmation(parseInt($(this).attr("data-value")));
     });
+    $(".btn-cancel-grid").on("click", function () {
+        //deleteItemConfirmation(parseInt($(row).attr("data-value")));
+        cancelItemConfirmation(parseInt($(this).attr("data-value")));
+    });
 }
 
 function deleteItemConfirmation(id) {
@@ -228,6 +232,20 @@ function deleteItemConfirmation(id) {
     });
 }
 
+function cancelItemConfirmation(id) {
+    swal({
+        title: "Alert",
+        text: "Are you sure you want to cancel?",
+        type: "warning",
+        showCancelButton: true,
+        confirmButtonText: 'Yes, Cancel It',
+        cancelButtonText: 'No'
+    }, function (isconfirmed) {
+        if (isconfirmed) {
+            deleteItem(id == 0 ? $('#Id').val() : id);
+        }
+    });
+}
 function getDate(value) {
     var data = value.split('/');
     return data[2] + '/' + data[1] + '/' + data[0];
