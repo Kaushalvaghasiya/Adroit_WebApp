@@ -8,7 +8,8 @@ BEGIN
 	DECLARE @BranchId INT
 	SET @BranchId = DBO.fn_GetLoggedInBranchId(@LoginId)
 
-	Select CustomerAccountBranchMapping.Id, CustomerAccount.Name
+	Select CustomerAccountBranchMapping.Id
+	,COALESCE(NULLIF([CustomerAccount].PrintName, ''), [CustomerAccount].[Name])
 	from CustomerAccount
 	INNER JOIN CustomerAccountBranchMapping ON CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 	INNER JOIN VehicleOwner ON VehicleOwner.AccountId = CustomerAccount.Id
