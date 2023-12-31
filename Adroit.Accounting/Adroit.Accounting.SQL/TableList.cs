@@ -254,6 +254,19 @@
         public const string _TableName = "[Z-ChalanReceive-Z]";
         public const string GoDownNumber = "GoDownNumber";
     }
+    
+    public sealed class ChalanReceiveAgencyMasterTable
+    {
+        public const string _TableName = "[Z-ChalanReceiveAgencyMaster-Z]";
+        public const string GoDownNumber = "GoDownNumber";
+        public const string EwayBillNumber = "EwayBillNo";
+    }
+
+    public sealed class ChalanReceiveAgencyDetailTable
+    {
+        public const string _TableName = "[Z-ChalanReceiveAgencyDetail-Z]";
+        public const string EwayBillNumber = "EwayBillNo";
+    }
 
     #region Adroit - Account
     public sealed class AccountAdminTable

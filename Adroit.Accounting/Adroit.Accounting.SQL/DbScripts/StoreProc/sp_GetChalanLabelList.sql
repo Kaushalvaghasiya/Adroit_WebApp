@@ -15,7 +15,7 @@ BEGIN
 		WHERE CustomerAccountBranchMapping.Id = [ToPayAccountBranchMappingId]) ToPayAccountLabel,
 	(SELECT Name From CustomerAccount 
 		INNER JOIN CustomerAccountBranchMapping ON CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
-		WHERE CustomerAccountBranchMapping.Id = [ToPayAccountBranchMappingId]) CrossingAmountLabel,
+		WHERE CustomerAccountBranchMapping.Id = [CrossingAmountAccountBranchMappingId]) CrossingAmountLabel,
 	(SELECT Name From CustomerAccount 
 		INNER JOIN CustomerAccountBranchMapping ON CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 		WHERE CustomerAccountBranchMapping.Id = [CrossingCommissionAccountBranchMappingId]) CrossingCommissionLabel,
@@ -25,7 +25,8 @@ BEGIN
 	(SELECT Name From CustomerAccount 
 		INNER JOIN CustomerAccountBranchMapping ON CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 		WHERE CustomerAccountBranchMapping.Id = [CrossingDeliveryChargeAccountBranchMappingId]) AS CrossingDeliveryChargeLabel,
-	SalesAccountBranchMappingId AS SalesAccountBranchMappingId
+	SalesAccountBranchMappingId AS SalesAccountBranchMappingId,
+	ToPayAccountBranchMappingId AS ToPayAccountBranchMappingId
 	FROM CustomerFirmBranchTransportSetting
 	WHERE BranchId = @BranchId
 

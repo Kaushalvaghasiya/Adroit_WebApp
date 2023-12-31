@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanReceiveSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanReceiveAgencySave]
 (
 	 @LoginId INT
 	,@FirmId INT

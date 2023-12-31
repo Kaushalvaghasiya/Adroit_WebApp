@@ -17,6 +17,7 @@ CREATE TABLE [Z-ChalanReceiveAgencyMaster-Z](
 	[EwayBillNo] [varchar](25) NULL,
 	[GoDownNumber] [int] NOT NULL,
 	[ToPayAmount] [decimal](9, 2) NULL,
+	[SalesAccountBranchMappingId] [int] NULL,
 	[ToPayAccountBranchMappingId] [int] NULL,
 	[CrossingAmount] [decimal](9, 2) NULL,
 	[CrossingAmountAccountBranchMappingId] [int] NULL,
@@ -36,7 +37,9 @@ CREATE TABLE [Z-ChalanReceiveAgencyMaster-Z](
 	[OtherLess] [decimal](9, 2) NULL,
 	[ReceiveCash] [decimal](9, 2) NULL,
 	[OtherPlus] [decimal](9, 2) NULL,
+	[NetAmount] [decimal](18, 3) NULL,
 	[Notes] [nvarchar](250) NULL,
+	[IsAutoLR] [bit] NOT NULL,
 	[AddedOn] [datetime] NOT NULL,
 	[AddedById] [int] NOT NULL,
 	[ModifiedById] [int] NULL,
@@ -158,6 +161,13 @@ REFERENCES [dbo].[CustomerAccountBranchMapping] ([Id])
 GO
 
 ALTER TABLE [dbo].[Z-ChalanReceiveAgencyMaster-Z] CHECK CONSTRAINT [FK_Z-ChalanReceiveAgencyMaster-Z_CustomerAccountBranchMapping1]
+GO
+
+ALTER TABLE [dbo].[Z-ChalanReceiveAgencyMaster-Z]  WITH CHECK ADD  CONSTRAINT [FK_Z-ChalanReceiveAgencyMaster-Z_CustomerAccountBranchMapping6] FOREIGN KEY([SalesAccountBranchMappingId])
+REFERENCES [dbo].[CustomerAccountBranchMapping] ([Id])
+GO
+
+ALTER TABLE [dbo].[Z-ChalanReceiveAgencyMaster-Z] CHECK CONSTRAINT [FK_Z-ChalanReceiveAgencyMaster-Z_CustomerAccountBranchMapping6]
 GO
 
 ALTER TABLE [dbo].[Z-ChalanReceiveAgencyMaster-Z]  WITH CHECK ADD  CONSTRAINT [FK_Z-ChalanReceiveAgencyMaster-Z_CustomerAccountBranchMapping2] FOREIGN KEY([CrossingAmountAccountBranchMappingId])

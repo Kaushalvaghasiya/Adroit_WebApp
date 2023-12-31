@@ -25,5 +25,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public decimal? NetAmount { get; set; }
         public int? LoginId { get; set; }
         public string? EntryTypeName { get; set; }
+        public string? ToPayAccountBranchMappingLbl { get; set; }
     }
 }

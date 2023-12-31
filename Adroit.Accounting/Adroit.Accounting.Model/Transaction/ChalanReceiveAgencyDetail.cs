@@ -19,8 +19,8 @@ namespace Adroit.Accounting.Model.Transaction
         [JsonConverter(typeof(CustomDateTimeConverter))]
         public System.DateTime LRDate { get; set; }
         public string? PrivateMarka { get; set; }
-        public int CityIDFrom { get; set; }
-        public int ToCityId { get; set; }
+        public int CityIdFrom { get; set; }
+        public int CityIdTo { get; set; }
         public int AccountBranchMappingId { get; set; }
         public int DeliveryAccountBranchMappingId { get; set; }
         public int LRPayTypeId { get; set; }

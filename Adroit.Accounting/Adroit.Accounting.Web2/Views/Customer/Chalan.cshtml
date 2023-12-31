@@ -275,13 +275,13 @@
                         <div class="col-md-8">
                             <div class="form-horizontal">
                                 <div class="row mb-1">
-                                    <label for="ToPayAmount" class="col-md-3 form-label">To Pay @Model.CustomerFirmBranchTransportSetting.ToPayAccountLabel</label>
+                                    <label for="ToPayAmount" id="ToPayAccountBranchMappingLbl" class="col-md-3 form-label">To Pay </label>
                                     <div class="col-md-3">
                                         <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="ToPayAmount" placeholder="" readonly tabindex="-1">
                                     </div>
-                                    <label for="ToPayAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
+                                    <label for="SalesAccountBranchMappingId" class="col-md-2 form-label mb-1">Charged To</label>
                                     <div class="col-md-4">
-                                        <select class="form-control select2-show-search" id="ToPayAccountBranchMappingId">
+                                        <select class="form-control select2-show-search" id="SalesAccountBranchMappingId">
                                             <option></option>
                                             @{
                                                 if (Model.AccountBranchMappingList != null)
@@ -588,6 +588,7 @@
     <input type="hidden" id="hdnSelectedLRNumberIds" value="" />
     <input type="hidden" id="selectedLRDetails" value="[]" />
     <input type="hidden" id="hdnAccountBranchMappingId" value="" />
+    <input type="hidden" id="hdnToPayAccountBranchMappingId" value="" />
 
 </div>
 
@@ -639,7 +640,7 @@
                 getBillParty();
             });
 
-            $("#ToPayAccountBranchMappingId").on('change', function (e) {
+            $("#SalesAccountBranchMappingId").on('change', function (e) {
 
                 $("#CrossingAmountAccountBranchMappingId").val($(this).val()).trigger('change');
                 $("#CrossingCommissionAccountBranchMappingId").val($(this).val()).trigger('change');
@@ -737,7 +738,9 @@
             $("#BillNumberBranch").focus();
             $("#BillNumberBranch").val(0);
             $("#BillNumberFirm").val(0);
-            $("#ToPayAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
+            $('#ToPayAccountBranchMappingLbl').text('To Pay @Model.CustomerFirmBranchTransportSetting.ToPayAccountLabel');
+            $("#hdnToPayAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.ToPayAccountBranchMappingId);
+            $("#SalesAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
             $("#CrossingAmountAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
             $("#CrossingCommissionAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
             $("#CrossingHamaliAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
@@ -918,10 +921,11 @@
             $("#LRToCity").val(null).trigger('change');
             if (isClickAtPgLoad === false)
                 $("#VehicleId").val(null).trigger('change');
+
             $("#DriverId").val(null).trigger('change');
             $("#EwayBillNumber").val(null).trigger('change');
             $("#LRNumber").val(null).trigger('change');
-            $("#ToPayAccountBranchMappingId").val(null).trigger('change');
+            $("#SalesAccountBranchMappingId").val(null).trigger('change');
             $("#BrokerBranchMappingId").val(null).trigger('change');
             $("#AccountBranchMappingId").val(null).trigger('change');
             $("#CrossingAmountAccountBranchMappingId").val(null).trigger('change');
@@ -991,7 +995,8 @@
 
                 if ($("#ToPayAmount").val() != null && $("#ToPayAmount").val() != "") {
                     if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#ToPayAmount").val())) {
-                        showWarning("", "@Model.CustomerFirmBranchTransportSetting.ToPayAccountLabel" + " Amount must be up to 7 characters before the decimal point and 2 characters after the decimal point.");
+                        var toPayLbl = $("#ToPayAccountBranchMappingLbl").text();
+                        showWarning("", toPayLbl + " Amount must be up to 7 characters before the decimal point and 2 characters after the decimal point.");
                         $("#ToPayAmount").focus();
                         return false;
                     }
@@ -1112,7 +1117,8 @@
                 savedata.DriverId = getIntValueNull("DriverId");
                 savedata.EwayBillNumber = $("#EwayBillNumber").val();
                 savedata.ToPayAmount = getFloatValueNull("ToPayAmount", 2);
-                savedata.ToPayAccountBranchMappingId = getIntValueNull("ToPayAccountBranchMappingId");
+                savedata.ToPayAccountBranchMappingId = getIntValueNull("hdnToPayAccountBranchMappingId");
+                savedata.SalesAccountBranchMappingId = getIntValueNull("SalesAccountBranchMappingId");
                 savedata.CrossingAmount = getFloatValueNull("CrossingAmount", 2);
                 savedata.CrossingCommission = getFloatValueNull("CrossingCommission", 2);
                 savedata.CrossingHamali = getFloatValueNull("CrossingHamali", 2);
@@ -1238,7 +1244,9 @@
                                 $('#AccountBranchMappingId').val(result.data.accountBranchMappingId).trigger('change');
                                 $("#DriverId").val(result.data.driverId).trigger('change');
                                 $("#EwayBillNumber").val(result.data.ewayBillNumber).trigger('change');
-                                $("#ToPayAccountBranchMappingId").val(result.data.toPayAccountBranchMappingId).trigger('change');
+                                $("#hdnToPayAccountBranchMappingId").val(result.data.toPayAccountBranchMappingId);
+                                $('#ToPayAccountBranchMappingLbl').text('To Pay ' + result.data.toPayAccountBranchMappingLbl);
+                                $("#SalesAccountBranchMappingId").val(result.data.salesAccountBranchMappingId).trigger('change');
                                 $("#CrossingDeliveryCharge").val(result.data.crossingDeliveryCharge);
                                 $("#CrossingAmountAccountBranchMappingId").val(result.data.crossingAmountAccountBranchMappingId).trigger('change');
                                 $("#CrossingCommissionAccountBranchMappingId").val(result.data.crossingCommissionAccountBranchMappingId).trigger('change');

@@ -1,5 +1,6 @@
 CREATE TABLE [Z-ChalanReceiveAgencyDetail-Z](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[YearId] [int] NOT NULL,
 	[ChalanReceiveAgencyMasterId] [int] NOT NULL,
 	[SenderBranchAccountMappingid] [int] NOT NULL,
 	[SrNumber] [int] NOT NULL,
@@ -30,6 +31,7 @@ CREATE TABLE [Z-ChalanReceiveAgencyDetail-Z](
  CONSTRAINT [IX_ChalanReceiveAgencyDetail_LRNumber] UNIQUE NONCLUSTERED 
 (
 	[SenderBranchAccountMappingid] ASC,
+	[YearId] ASC,
 	[LRNumber] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]

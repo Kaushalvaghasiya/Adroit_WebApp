@@ -23,9 +23,9 @@ namespace Adroit.Accounting.Model.Transaction
 
         [JsonConverter(typeof(CustomDateTimeConverter))]
         public System.DateTime FirmChalanDate { get; set; }
-        public int CityIDFrom { get; set; }
-        public int ToCityId { get; set; }
-        public int? VehicaleID { get; set; }
+        public int CityIdFrom { get; set; }
+        public int CityIdTo { get; set; }
+        public int? VehicleId { get; set; }
         public int? BillAccountBranchMappingId { get; set; }
         public int? DriverId { get; set; }
         public string? EwayBillNo { get; set; }
@@ -37,6 +37,7 @@ namespace Adroit.Accounting.Model.Transaction
         public decimal? CrossingDeliveryCharge { get; set; }
         public decimal? BrokerAmount { get; set; }
         public int? ToPayAccountBranchMappingId { get; set; }
+        public int? SalesAccountBranchMappingId { get; set; }
         public int? CrossingAmountAccountBranchMappingId { get; set; }
         public int? CrossingCommissionAccountBranchMappingId { get; set; }
         public int? CrossingHamaliAccountBranchMappingId { get; set; }
