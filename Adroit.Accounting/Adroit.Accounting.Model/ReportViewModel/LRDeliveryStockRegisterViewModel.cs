@@ -11,6 +11,10 @@ namespace Adroit.Accounting.Model.ReportViewModel
     {
         public int[] BranchId { get; set; }
         public List<DropdownViewModel> BranchList { get; set; }
+        public DateTime DateFrom { get; set; } = DateTime.Now;
+        public DateTime DateTo { get; set; } = DateTime.Now;
+        public string DateFromString { get { return this.DateFrom.ToString("dd/MM/yyyy"); } }
+        public string DateToString { get { return this.DateTo.ToString("dd/MM/yyyy"); } }
         public int[] CityFromId { get; set; }
         public int[] CityToId { get; set; }
         public List<DropdownViewModel> CityList { get; set; }
@@ -18,6 +22,8 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public List<DropdownViewModel> ConsignorList { get; set; }
         public int[] ConsigneeId { get; set; }
         public List<DropdownViewModel> ConsigneeList { get; set; }
+        public int[] BillPartyId { get; set; }
+        public List<DropdownViewModel> BillPartyList { get; set; }
         public int[] PayTypeId { get; set; }
         public List<DropdownViewModel> PayTypeList { get; set; }
         public int[] ChalanStatusId { get; set; }
