@@ -19,6 +19,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.CityList = _transportLRBranchCityMappingRepository.SelectList(_configurationData.DefaultConnection, CurrentBranchId);
             model.ConsignorList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.ConsigneeList = model.ConsignorList;
+            model.BillPartyList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.PayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.InvStatusList = GenericHelper.GetInvoiceStatusList();
             model.ChalanStatusList = GenericHelper.GetChalanList();

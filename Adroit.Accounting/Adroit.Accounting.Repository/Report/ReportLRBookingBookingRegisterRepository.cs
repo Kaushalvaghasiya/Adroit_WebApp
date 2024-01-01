@@ -20,7 +20,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<LRBookingGridViewModel>("sp_ReportLRBookingBookingRegisterReportList", connectionString, parameters);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_ReportLRBookingBookingRegisterList", connectionString, parameters);
         }
     }
 }

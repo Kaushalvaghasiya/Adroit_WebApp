@@ -40,7 +40,7 @@ Begin
 			CASE WHEN @SortColumn = 10 AND @SortOrder ='ASC' THEN Vehilcle.VRN END ASC,  
 			CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' THEN Vehilcle.VRN END DESC,
 			CASE WHEN @SortColumn = 11 AND @SortOrder ='ASC' THEN [Z-ChalanReceiveAgencyMaster-Z].FirmChalanDate END ASC,  
-			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' THEN [Z-ChalanReceiveAgencyMaster-Z].FirmChalanDate END DESC,
+			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' THEN [Z-ChalanReceiveAgencyMaster-Z].FirmChalanDate END DESC
 		)AS RowNum,
 		Count(*) over () AS TotalCount 
 		,[Z-ChalanReceiveAgencyMaster-Z].Id
@@ -84,8 +84,8 @@ Begin
 		INNER JOIN [City] as City1 on City1.Id = [Z-ChalanReceiveAgencyMaster-Z].CityIdFrom AND City1.Active = 1
 		INNER JOIN [City] as City2 on City2.Id = [Z-ChalanReceiveAgencyMaster-Z].CityIdTo AND City2.Active = 1
 		INNER JOIN [CustomerAccountBranchMapping] AS CAB1 on CAB1.Id = [Z-ChalanReceiveAgencyMaster-Z].SenderBranchAccountMappingid AND CAB1.Deleted = 0
-		INNER JOIN [CustomerAccount] AS CA1 on CA1.Id = CAB1.AccountId AND CA1.CustomerId = @CustomerId AND CA1.Deleted = 0 AND CA.Active = 1
-		LEFT JOIN Vehilcle on Vehilcle.Id = [Z-PurchaseBillMaster-Z].VehicleId AND Vehilcle.Active = 1
+		INNER JOIN [CustomerAccount] AS CA1 on CA1.Id = CAB1.AccountId AND CA1.CustomerId = @CustomerId AND CA1.Deleted = 0 AND CA1.Active = 1
+		LEFT JOIN Vehilcle on Vehilcle.Id = [Z-ChalanReceiveAgencyMaster-Z].VehicleId AND Vehilcle.Active = 1
 		LEFT JOIN [CustomerAccountBranchMapping] AS CAB2 on CAB2.Id = [Z-ChalanReceiveAgencyMaster-Z].BillAccountBranchMappingId AND CAB2.Deleted = 0
 		LEFT JOIN [CustomerAccount] AS CA2 on CA2.Id = CAB2.AccountId AND CA2.CustomerId = @CustomerId AND CA2.Deleted = 0 AND CA2.Active = 1
 		WHERE [Z-ChalanReceiveAgencyMaster-Z].BranchId = @BranchId 

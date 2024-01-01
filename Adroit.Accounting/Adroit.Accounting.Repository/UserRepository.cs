@@ -80,11 +80,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             return QueryHelper.Get<int>("sp_GetLoggedInFirmId", connectionString, parameters);
         }
-        public int GetLoggedInYearId(int loginId, string connectionString)
+        public int? GetLoggedInYearId(int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
-            return QueryHelper.Get<int>("sp_GetLoggedInYearId", connectionString, parameters);
+            return QueryHelper.Get<int?>("sp_GetLoggedInYearId", connectionString, parameters);
         }
     }
 }

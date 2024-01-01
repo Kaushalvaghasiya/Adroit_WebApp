@@ -35,13 +35,13 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">Branch Bill #</th>
-                                    <th class="border-bottom-0">Bill Date</th>
-                                    <th class="border-bottom-0">Bill Party</th>
-                                    <th class="border-bottom-0">GST #</th>
-                                    <th class="border-bottom-0">Amount</th>
-                                    <th class="border-bottom-0">City</th>
-                                    <th class="border-bottom-0">Firm Bill #</th>
+                                    <th class="border-bottom-0 text-center">Branch Bill #</th>
+                                    <th class="border-bottom-0 text-center">Bill Date</th>
+                                    <th class="border-bottom-0 text-center">Bill Party</th>
+                                    <th class="border-bottom-0 text-center">GST #</th>
+                                    <th class="border-bottom-0 text-right">Amount</th>
+                                    <th class="border-bottom-0 text-center">City</th>
+                                    <th class="border-bottom-0 text-center">Firm Bill #</th>
                                     <th class="border-bottom-0 text-center" style="width:80px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -678,12 +678,14 @@
                     return row.serialNumberOfBranch;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -696,10 +698,11 @@
                     return row.gstNo;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.billAmount;
+                    return row.billAmount.toFixed(2);
                 },
                 "targets": colDef.length,
             });
@@ -708,12 +711,14 @@
                     return row.city;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.billNumber;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -1436,6 +1441,11 @@
                 },
                 "drawCallback": function (settings) {
                     gridDrawCallback(this);
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
             });
 

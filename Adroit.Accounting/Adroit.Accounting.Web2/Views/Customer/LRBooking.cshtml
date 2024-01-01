@@ -36,17 +36,17 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">LR#</th>
-                                    <th class="border-bottom-0">DATE</th>
-                                    <th class="border-bottom-0">CONSIGNOR</th>
-                                    <th class="border-bottom-0">AMOUNT</th>
-                                    <th class="border-bottom-0">TO CITY</th>
-                                    <th class="border-bottom-0">TYPE </th>
-                                    <th class="border-bottom-0">PARCLE</th>
-                                    <th class="border-bottom-0">ACT. KG.</th>
-                                    <th class="border-bottom-0">CHRG. KG.</th>
-                                    <th class="border-bottom-0">CONSIGNEE</th>
-                                    <th class="border-bottom-0">BILL PARTY</th>
+                                    <th class="border-bottom-0 text-center">LR#</th>
+                                    <th class="border-bottom-0 text-center">DATE</th>
+                                    <th class="border-bottom-0 text-center">CONSIGNOR</th>
+                                    <th class="border-bottom-0 text-right">AMOUNT</th>
+                                    <th class="border-bottom-0 text-center">TO CITY</th>
+                                    <th class="border-bottom-0 text-center">TYPE </th>
+                                    <th class="border-bottom-0 text-center">PARCLE</th>
+                                    <th class="border-bottom-0 text-right">ACT. KG.</th>
+                                    <th class="border-bottom-0 text-right">CHRG. KG.</th>
+                                    <th class="border-bottom-0 text-center">CONSIGNEE</th>
+                                    <th class="border-bottom-0 text-center">BILL PARTY</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -758,12 +758,14 @@
                     return row.lrNumber;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -776,36 +778,42 @@
                     return row.amount.toFixed(2);
                 },
                 "targets": colDef.length,
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.cityTo;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.lrPayType;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.parcel;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.actualWeight;
+                    return row.actualWeight.toFixed(3);
                 },
                 "targets": colDef.length,
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.chargeWeight;
+                    return row.chargeWeight.toFixed(3);
                 },
                 "targets": colDef.length,
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -822,12 +830,14 @@
             colDef.push({
                 "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
-                    if (row.isLRBookingPurchased === false)
+                    if (!row.isLRBookingPurchased){
                         btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    }
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
 
-                    if (row.deleted === false && row.isLRBookingPurchased === false)
-                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Cancel' data-placement='bottom' data-original-title='Cancel'><i class='fa fa-trash-o'></i></a>";
+                    if (!row.deleted && !row.isLRBookingPurchased) {
+                        btnAct += "<a href='#' class='btn-cancel-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Cancel' data-placement='bottom' data-original-title='Cancel'><i class='fa fa-remove'></i></a>";
+                    }
                     btnAct += "</div>";
                     return btnAct;
                 },
@@ -881,10 +891,14 @@
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
                 },
-                "drawCallback": function (settings) {
+                "drawCallback": function (settings, ) {
                     gridDrawCallback(this);
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
-
             });
         }
 

@@ -68,6 +68,32 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
+                                <label for="DateFrom">Date From (Ch.Rec.)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="DateTo">Date To (Ch.Rec.)</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateTo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
                                 <label for="CityFrom">City From</label>
                                 <select class="filter-multi" id="CityFrom" multiple="multiple">
                                     @{
@@ -132,6 +158,22 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="BillParty">Bill Party</label>
+                                <select class="filter-multi" id="BillParty" multiple="multiple">
+                                    @{
+                                        if (Model.BillPartyList != null)
+                                        {
+                                            foreach (var o in Model.BillPartyList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
                                 <label for="PayType">Pay Type</label>
                                 <select class="filter-multi" id="PayType" multiple="multiple">
                                     @{
@@ -178,7 +220,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-1">
                             <div class="form-group"><label for="Summary">Summary</label></div>
                             <label class="custom-switch">
                                 <input type="checkbox" name="custom-switch-checkbox" id="Summary" class="custom-switch-input">
