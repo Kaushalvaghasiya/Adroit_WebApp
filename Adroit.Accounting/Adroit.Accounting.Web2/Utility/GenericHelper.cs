@@ -104,5 +104,105 @@ namespace Adroit.Accounting.Web.Utility
             };
             return list;
         }
+        public static List<DropdownViewModel> GetInvoiceTypeList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceTypeList.All)}", Value = $"{(int)InvoiceTypeList.All}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceTypeList.Sales)}", Value = $"{(int)InvoiceTypeList.Sales}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceTypeList.Return)}", Value = $"{(int)InvoiceTypeList.Return}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceTypeList.Export)}", Value = $"{(int)InvoiceTypeList.Export}" },
+            };
+            return list;
+        }
+        public static List<DropdownViewModel> GetChalanTypeList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanType.All)}", Value = $"{(int)ChalanType.All}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanType.Chalan)}", Value = $"{(int)ChalanType.Chalan}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanType.Return)}", Value = $"{(int)ChalanType.Return}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanType.Export)}", Value = $"{(int)ChalanType.Export}" },
+            };
+            return list;
+        }
+        public static List<DropdownViewModel> GetPurchaseBy()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseBy.All)}", Value = $"{(int)PurchaseBy.All}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseBy.Purchase)}", Value = $"{(int)PurchaseBy.Purchase}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseBy.Gen_Exps)}", Value = $"{(int)PurchaseBy.Gen_Exps}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseBy.Import)}", Value = $"{(int)PurchaseBy.Import}" },
+            };
+            return list;
+        }
+        public static List<DropdownViewModel> GetPurchaseType()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseType.All)}", Value = $"{(int)PurchaseType.All}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseType.Purchase)}", Value = $"{(int)PurchaseType.Purchase}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseType.Return)}", Value = $"{(int)PurchaseType.Return}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseType.Import)}", Value = $"{(int)PurchaseType.Import}" },
+            };
+            return list;
+        }
+        public static List<DropdownViewModel> GetPurchaseInvoiceType()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseInvoiceType.All)}", Value = $"{(int)PurchaseInvoiceType.All}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseInvoiceType.Tax_Invoice)}", Value = $"{(int)PurchaseInvoiceType.Tax_Invoice}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseInvoiceType.Bill_of_Supply)}", Value = $"{(int)PurchaseInvoiceType.Bill_of_Supply}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseInvoiceType.Retail_Invoice)}", Value = $"{(int)PurchaseInvoiceType.Retail_Invoice}" },
+            };
+            return list;
+        }
+        public static List<DropdownViewModel> GetSalesViewList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.Date_Wise)}", Value = $"{(int)SalesViewList.Date_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.Party_Wise)}", Value = $"{(int)SalesViewList.Party_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.Quality_Wise)}", Value = $"{(int)SalesViewList.Quality_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.Broker_Wise)}", Value = $"{(int)SalesViewList.Broker_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.Book_Wise)}", Value = $"{(int)SalesViewList.Book_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.HSN_Wise)}", Value = $"{(int)SalesViewList.HSN_Wise}" },
+            };
+            return list;
+        }
+        public static List<DropdownViewModel> GetGSTTransactionTypeList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(GSTTransactionTypeList.All)}", Value = $"{(int)GSTTransactionTypeList.All}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(GSTTransactionTypeList.Intra_State)}", Value = $"{(int)GSTTransactionTypeList.Intra_State}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(GSTTransactionTypeList.Inter_State)}", Value = $"{(int)GSTTransactionTypeList.Inter_State}" },
+            };
+            return list;
+        }
+        public static List<DropdownViewModel> GetPaymentStatusList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PaymentStatusList.All)}", Value = $"{(int)PaymentStatusList.All}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PaymentStatusList.Paid)}", Value = $"{(int)PaymentStatusList.Paid}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PaymentStatusList.Unpaid)}", Value = $"{(int)PaymentStatusList.Unpaid}" },
+            };
+            return list;
+        }
+        public static List<DropdownViewModel> GetSalesCustomerTypeList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(CustomerTypeList.All)}", Value = $"{(int)CustomerTypeList.All}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(CustomerTypeList.Regular)}", Value = $"{(int)CustomerTypeList.Regular}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(CustomerTypeList.Composition)}", Value = $"{(int)CustomerTypeList.Composition}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(CustomerTypeList.Rev_Charge)}", Value = $"{(int)CustomerTypeList.Rev_Charge}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(CustomerTypeList.URD)}", Value = $"{(int)CustomerTypeList.URD}" },
+            };
+            return list;
+        }
     }
 }
