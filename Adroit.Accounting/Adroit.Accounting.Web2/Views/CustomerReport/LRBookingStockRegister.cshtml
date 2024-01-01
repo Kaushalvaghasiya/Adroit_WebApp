@@ -67,7 +67,33 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="CityFromId">City From</label>
+                                <label for="DateFrom">Date From</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="DateTo">Date To</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateTo">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="CityFromId">From City</label>
                                 <select class="filter-multi mode-ed-multi" id="CityFromId" multiple="multiple">
                                     @{
                                         if (Model.CityList != null)
@@ -83,7 +109,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="CityToId">City To</label>
+                                <label for="CityToId">To City</label>
                                 <select class="filter-multi mode-ed-multi" id="CityToId" multiple="multiple">
                                     @{
                                         if (Model.CityList != null)
@@ -110,7 +136,6 @@
                                             }
                                         }
                                     }
-
                                 </select>
                             </div>
                         </div>
@@ -131,6 +156,22 @@
                             </div>
                         </div>
                         <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="BillPartyId">Bill Party</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BillPartyId">
+                                    @{
+                                        if (Model.AccountBranchMappingList != null)
+                                        {
+                                            foreach (var o in Model.AccountBranchMappingList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label for="PayTypeId">Pay Type</label>
                                 <select class="filter-multi mode-ed-multi" id="PayTypeId" multiple="multiple">
@@ -164,7 +205,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="InvStatus">Inv. Status</label>
+                                <label for="InvStatus">Invoice Status</label>
                                 <select class="form-control select2-show-search-report" id="InvStatus">
                                     @{
                                         if (Model.InvStatusList != null)

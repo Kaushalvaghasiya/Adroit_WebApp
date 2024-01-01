@@ -11,5 +11,6 @@ namespace Adroit.Accounting.Repository.IRepository
         public SalesBillMasterViewModel Get(int id, string connectionString, int loginId, int branchId);
         public List<LRBookingGridViewModel> GetListByLRNumberId(string connectionString, int lrNumberId, int loginId, int branchId, int firmId = 0);
         public List<DropdownViewModel> GetCustomerAccountBranchMappingList_Select(int loginId, int firmId, int branchId, int payTypeId, string connectionString);
+        public List<SalesBillMasterViewModel> SelectList(string connectionString, int loginId, int firmId, int branchId);
     }
 }

@@ -13,6 +13,10 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public List<DropdownViewModel> PayTypeList { get; set; }
         public List<DropdownViewModel> InvStatusList { get; set; }
         public List<DropdownViewModel> ChalanList { get; set; }
+        public DateTime DateFrom { get; set; } = DateTime.Now;
+        public DateTime DateTo { get; set; } = DateTime.Now;
+        public string DateFromString { get { return this.DateFrom.ToString("dd/MM/yyyy"); } }
+        public string DateToString { get { return this.DateTo.ToString("dd/MM/yyyy"); } }
         public int[] BranchId { get; set; }
         public int[] CityFromId { get; set; }
         public int[] CityToId { get; set; }
