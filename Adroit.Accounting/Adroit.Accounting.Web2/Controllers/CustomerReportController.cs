@@ -29,6 +29,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IReportLRBookingMonthlySummary _reportLRBookingMonthlySummaryRepository;
         private readonly ICustomerBook _customerBookRepository;
         private readonly ICustomerAccount _customerAccountRepo;
+        private readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
 
 
         public CustomerReportController(
@@ -48,7 +49,8 @@ namespace Adroit.Accounting.Web.Controllers
             IReportLRBookingChalanLoadingReport reportLRBookingChalanLoadingReportRepository,
             IReportLRBookingMonthlySummary reportLRBookingMonthlySummaryRepository,
             ICustomerBook customerBookRepository,
-            ICustomerAccount customerAccountRepo
+            ICustomerAccount customerAccountRepo,
+            ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo
             ) : base(loginHandler, userRepository, configurationData)
         {
             _commonRepository = commonRepository;
@@ -67,6 +69,7 @@ namespace Adroit.Accounting.Web.Controllers
             _reportLRBookingMonthlySummaryRepository = reportLRBookingMonthlySummaryRepository;
             _customerBookRepository = customerBookRepository;
             _customerAccountRepo = customerAccountRepo;
+            _customerBrokerBranchMappingRepo = customerBrokerBranchMappingRepo;
         }
     }
 }
