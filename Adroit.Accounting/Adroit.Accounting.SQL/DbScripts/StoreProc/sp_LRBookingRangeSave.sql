@@ -22,20 +22,50 @@ BEGIN
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
+		DECLARE @OrgStartNumber INT, @OrgEndNumber INT
+
+		SELECT @OrgStartNumber = StartNumber,@OrgEndNumber = EndNumber
+		FROM [LRBookingRange] 
+		WHERE YearId = @YearId AND [LRBookingRange].FirmId = @FirmId AND Deleted = 0 AND Id = @Id
+
 		IF EXISTS (
 			SELECT 1
 			FROM [LRBookingRange]
-			WHERE ((@StartNumber BETWEEN [LRBookingRange].StartNumber AND [LRBookingRange].EndNumber) 
-				OR (@EndNumber BETWEEN [LRBookingRange].StartNumber AND [LRBookingRange].EndNumber))
-			AND [LRBookingRange].YearId = @YearId
-			AND [LRBookingRange].FirmId = @FirmId
-			AND [LRBookingRange].Active = 1 
-			AND [LRBookingRange].Deleted = 0
+			WHERE ((@StartNumber BETWEEN StartNumber AND EndNumber) OR (@EndNumber BETWEEN StartNumber AND EndNumber)
+			OR (StartNumber BETWEEN @StartNumber AND @EndNumber) OR (EndNumber BETWEEN @StartNumber AND @EndNumber))  
+			AND YearId = @YearId AND FirmId = @FirmId AND Deleted = 0
+			AND ((@Id <= 0) OR (@Id > 0 AND (@StartNumber <> @OrgStartNumber OR @EndNumber <> @OrgEndNumber)))
 		)
 		BEGIN
 			SET @message = 'This LR booking range is already exists.';
 			RAISERROR ('%s', 16, 1, @message);
 		END
+
+		DECLARE @AllotedLR INT = (
+			SELECT SUM(EndNumber - StartNumber + 1) As AllotedLR
+			FROM [LRBookingRange]
+			WHERE YearId = @YearId AND FirmId = @FirmId AND BranchId = @BranchId AND Deleted = 0
+		)
+
+		DECLARE @UsedLR INT = (
+			SELECT COUNT(LRNumber) As UsedLR
+			FROM [Z-LRBooking-Z] 
+			WHERE YearId = @YearId AND BranchId = @BranchId AND Deleted = 0
+		)
+
+		IF @AllotedLR > @UsedLR AND (@Id <= 0 OR (@Id > 0 AND NOT EXISTS (SELECT 1 FROM [LRBookingRange] WHERE Id <> @Id) AND (@StartNumber <> @OrgStartNumber OR @EndNumber <> @OrgEndNumber)))
+		BEGIN
+			SET @message = 'Please use existing LR numbers before renew.';
+			RAISERROR ('%s', 16, 1, @message);
+		END
+
+		UPDATE [LRBookingRange]
+		SET Active = 0
+		WHERE YearId = @YearId
+			AND FirmId = @FirmId
+			AND BranchId = @BranchId
+			AND Active = 1
+			AND Deleted = 0;
 
 		IF EXISTS (SELECT 1 FROM [LRBookingRange] WHERE Id = @Id)
 		BEGIN
@@ -49,21 +79,6 @@ BEGIN
 				ModifiedById = @LoginId, 
 				ModifiedOn = GETUTCDATE()
 				WHERE Id = @Id;
-		END
-		ELSE If EXISTS (SELECT 1 FROM [LRBookingRange] WHERE BranchId = @BranchId AND Deleted = 1)
-		BEGIN
-				UPDATE  [LRBookingRange] SET
-				YearId = @YearId,
-				FirmId = @FirmId,
-				Active = @Active,
-				DeletedById = NULL,
-				DeletedOn = NULL,
-				Deleted = 0,
-				StartNumber = @StartNumber,
-				EndNumber = @EndNumber
-				WHERE BranchId = @BranchId
-
-			SELECT @Id=Id FROM [LRBookingRange] WHERE BranchId = @BranchId
 		END
 		ELSE
 		BEGIN

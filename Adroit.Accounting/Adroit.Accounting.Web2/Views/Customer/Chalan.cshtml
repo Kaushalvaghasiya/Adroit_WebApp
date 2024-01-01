@@ -35,15 +35,15 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-wrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">CHALLAN#</th>
-                                    <th class="border-bottom-0">DATE</th>
-                                    <th class="border-bottom-0">VEHICLE#</th>
-                                    <th class="border-bottom-0">FREIGHT</th>
-                                    <th class="border-bottom-0">FROM CITY</th>
-                                    <th class="border-bottom-0">TO CITY</th>
-                                    <th class="border-bottom-0">NET AMOUNT</th>
-                                    <th class="border-bottom-0">BILL PARTY</th>
-                                    <th class="border-bottom-0">DRIVER</th>
+                                    <th class="border-bottom-0 text-center">CHALLAN#</th>
+                                    <th class="border-bottom-0 text-center">DATE</th>
+                                    <th class="border-bottom-0 text-center">VEHICLE#</th>
+                                    <th class="border-bottom-0 text-right">FREIGHT</th>
+                                    <th class="border-bottom-0 text-center">FROM CITY</th>
+                                    <th class="border-bottom-0 text-center">TO CITY</th>
+                                    <th class="border-bottom-0 text-right">NET AMOUNT</th>
+                                    <th class="border-bottom-0 text-center">BILL PARTY</th>
+                                    <th class="border-bottom-0 text-center">DRIVER</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -770,42 +770,49 @@
                     return row.billNumberBranch;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.vehicleVRN;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.taxableAmount;
+                    return row.taxableAmount != null ? row.taxableAmount.toFixed(2) : "0.00";
                 },
                 "targets": colDef.length,
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.cityFrom;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.cityTo;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.netAmount;
+                    return row.netAmount.toFixed(2);
                 },
                 "targets": colDef.length,
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {

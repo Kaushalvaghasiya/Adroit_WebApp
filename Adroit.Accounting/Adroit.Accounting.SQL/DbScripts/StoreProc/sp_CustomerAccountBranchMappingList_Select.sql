@@ -10,7 +10,7 @@ BEGIN
 
 	SELECT CustomerAccountBranchMapping.Id As Value,
 	CONCAT(
-		[CustomerAccount].[Name],
+		COALESCE(NULLIF([CustomerAccount].PrintName, ''), [CustomerAccount].[Name]),
 		NULLIF(' | ' + ISNULL([CustomerAccount].GSTNumber, ''), ' | '),
 		NULLIF(' | ' + ISNULL([CustomerAccount].Mobile, ''), ' | ') 
 	) AS [Text]
@@ -19,7 +19,7 @@ BEGIN
 	WHERE [CustomerAccount].CustomerId = @CustomerId AND CustomerAccountBranchMapping.BranchId = @BranchId AND CustomerAccountBranchMapping.Deleted = 0
 	AND [CustomerAccount].Deleted = 0
 	AND [CustomerAccount].Active = 1
-	ORDER BY [CustomerAccount].[Name]
+	ORDER BY [Text]
 	
 END
 GO

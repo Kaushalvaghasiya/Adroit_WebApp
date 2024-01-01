@@ -21,6 +21,24 @@ BEGIN
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
+		DECLARE @AllotedLR INT = (
+			SELECT SUM(EndNumber - StartNumber + 1) As AllotedLR
+			FROM [LRBookingRange]
+			WHERE YearId = @YearId AND FirmId = @FirmId AND BranchId = @BranchId AND Deleted = 0
+		)
+
+		DECLARE @UsedLR INT = (
+			SELECT COUNT(LRNumber) As UsedLR
+			FROM [Z-LRBooking-Z] 
+			WHERE YearId = @YearId AND BranchId = @BranchId AND Deleted = 0
+		)
+
+		IF @AllotedLR > @UsedLR 
+		BEGIN
+			SET @message = 'Please use existing LR numbers before renew.';
+			RAISERROR ('%s', 16, 1, @message);
+		END
+
 		DECLARE @MaxNumber INT = (
 			SELECT ISNULL(MAX(EndNumber),0) As StratNumber
 			FROM [LRBookingRange]

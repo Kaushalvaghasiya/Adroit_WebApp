@@ -50,7 +50,6 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 model.LoginId = CurrentUserId;
-                model.BranchId = CurrentBranchId;
                 model.FirmId = CurrentFirmId;
 
                 int id = _lrBookingRangeRepository.Save(model, _configurationData.DefaultConnection);

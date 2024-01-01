@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="margin:auto;padding:10px 0 0 0;">
+    <div class="col-md-1">
+        <label for="lblQuery" class="form-label text-center">Query</label>
+    </div>
+    <div class="col-md-10">
+        <textarea id="Query" name="Query" rows="3" cols="190" placeholder=" Enter Your Query here..." required></textarea>
+    </div>
+    <div class="col-md-1">
+        <button type="button" class="btn btn-primary" id="ExecuteQuery">Get Results</button>
+    </div>
+</div>
+
+<div id="resultTables" style="margin:12px 35px 0 12px;">
+</div>
+
+@section Scripts
+{
+
+    <script>
+
+        $(function (e) {
+
+            $("#ExecuteQuery").on('click', function (e) {
+                if ($("#Query").val() === '') return;
+
+                try {
+                    $.ajax({
+                        url: "@Url.Action("ExecuteQuery")/" + $("#Query").val(),
+                        type: 'GET',
+                        success: function (data) {
+                            try {
+                                if (data) {
+                                    $('#resultTables').html(data);
+                                } else {
+                                    showError('Error', 'No data returned');
+                                }
+                            } catch (e) {
+                                showError('Error', e);
+                            }
+                        },
+                        error: function (error) {
+                            showError('Error', error.responseText);
+                        }
+                    });
+                } catch (err) {
+                    showError('Error', err);
+                }
+            });
+
+        });
+
+    </script>
+
+}

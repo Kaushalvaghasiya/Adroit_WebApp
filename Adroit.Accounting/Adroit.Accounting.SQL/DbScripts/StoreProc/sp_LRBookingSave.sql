@@ -1,4 +1,4 @@
-CREATE OR ALTER   PROCEDURE [dbo].[sp_LRBookingSave]
+CREATE OR ALTER  PROCEDURE [dbo].[sp_LRBookingSave]
 (
 	 @Id INT  
 	,@BranchId INT
@@ -48,7 +48,6 @@ BEGIN
 		DECLARE @CustomerId int = dbo.[fn_GetCustomerId](@LoginId);
 
 		DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId);
-		--DECLARE @CityIdFrom INT = (SELECT CityId FROM CustomerFirmBranch WHERE FirmId = @FirmId AND Id = @BranchId);
 		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @BranchId);
 		DECLARE @ProductBranchMappingId INT = (
 			SELECT ProductBranchMapping.Id 
@@ -59,9 +58,6 @@ BEGIN
 		);
 		DECLARE @YearId int = dbo.fn_GetYearId(@LoginId);
 		DECLARE @message VARCHAR(4000);
-		DECLARE @LRNumberStartRange INT;
-		DECLARE @LRNumberEndRange INT;
-		DECLARE @LRBookingMaxDate VARCHAR(20)=NULL, @LRBookingMinDate VARCHAR(20)=NULL;
 
 		IF @YearId IS NULL
 		BEGIN
@@ -69,59 +65,73 @@ BEGIN
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
-		IF EXISTS ( SELECT 1 FROM [Z-LRBooking-Z] WHERE LRNumber = @LRNumber AND BranchId = @BranchId AND (Id <> ISNULL(@Id, 0) OR ISNULL(@Id, 0) = 0)) AND ISNULL(@LRNumber, 0) > 0
-		BEGIN
-			SET @message = 'This LR Number is already exist.';
-			RAISERROR ('%s', 16, 1, @message);
-		END
+		SET @Id = ISNULL(@Id, 0)
+		SET @LRNumber = ISNULL(@LRNumber, 0)
 
-		IF (ISNULL(@LRNumber,0) = 0)
+		IF (@LRNumber = 0)
 		BEGIN
-		    SELECT @LRBookingMaxDate = ISNULL(CONVERT(DATETIME, MAX(LRDate)), CONVERT(DATETIME, GETDATE())) 
-			FROM [Z-LRBooking-Z]
-			WHERE Deleted = 0 AND BranchId = @BranchId
+			--LRDATE MUST BE >= LAST LR DATE SAVED FOR THIS BRANCH
+			DECLARE @LastLRDate DATE
+		    SELECT @LastLRDate = CAST(MAX(LRDate) AS DATE) FROM [Z-LRBooking-Z] WHERE BranchId = @BranchId AND Deleted = 0 
 		
-			SET @LRBookingMaxDate  = ISNULL(@LRBookingMaxDate , CONVERT(DATETIME, GETDATE()))
-
-		    IF (@LRDate < @LRBookingMaxDate)
+		    IF (@LastLRDate IS NOT NULL AND CAST(@LRDate AS DATE) < @LastLRDate)
 		    BEGIN
-		        SET @message = 'Please select a date on or after ' + @LRBookingMaxDate;
-		        RAISERROR ('%s', 16, 1, @message);
+		        SET @message = 'Please select a date on or after ' + CONVERT(VARCHAR, @LastLRDate, 103)
+		        RAISERROR ('%s', 16, 1, @message)
 		    END
+
+			--GENERATE NEXT LR
+			SELECT @LRNumber = MAX(LRNumber)
+			FROM [Z-LRBooking-Z]
+			WHERE BranchId = @BranchId;
+
+			IF (@LRNumber IS NULL)
+			BEGIN
+				--Get Active LR Range
+				SELECT @LRNumber = StartNumber
+				FROM LRBookingRange 
+				WHERE FirmId = @FirmId AND BranchId = @BranchId AND YearId = @YearId AND Active = 1 AND Deleted = 0
+			END
+			ELSE
+			BEGIN
+				SET @LRNumber = @LRNumber + 1
+			END
 		END
 		ELSE
 		BEGIN
-		    SELECT TOP 1 @LRBookingMaxDate = ISNULL(CONVERT(DATETIME, LRDate), CONVERT(DATETIME, GETDATE()))
+			--Same LR number not possible in same branch
+			IF EXISTS (SELECT 1 FROM [Z-LRBooking-Z] WHERE (@Id = 0 OR Id <> @Id) AND BranchId = @BranchId AND LRNumber = @LRNumber)
+			BEGIN
+				SET @message = 'This LR Number is already exist.';
+				RAISERROR ('%s', 16, 1, @message);
+			END
+
+			DECLARE @PrevLRBookingDate DATE
+		    SELECT TOP 1 @PrevLRBookingDate = CAST(LRDate AS DATE)
 		    FROM [Z-LRBooking-Z]
-		    WHERE [Z-LRBooking-Z].LRNumber < @LRNumber AND [Z-LRBooking-Z].BranchId = @BranchId
+		    WHERE [Z-LRBooking-Z].BranchId = @BranchId AND [Z-LRBooking-Z].LRNumber < @LRNumber
 		    ORDER BY [Z-LRBooking-Z].LRNumber DESC;
 
-			SET @LRBookingMaxDate  = ISNULL(@LRBookingMaxDate , DATEADD(DAY, -1, @LRBookingMaxDate))
-
-		    SELECT TOP 1 @LRBookingMinDate = ISNULL(CONVERT(DATETIME, LRDate), DATEADD(DAY, 1, @LRBookingMaxDate))
+			DECLARE @NextLRBookingDate DATE
+		    SELECT TOP 1 @NextLRBookingDate = CAST(LRDate AS DATE)
 		    FROM [Z-LRBooking-Z]
-		    WHERE [Z-LRBooking-Z].LRNumber > @LRNumber AND [Z-LRBooking-Z].BranchId = @BranchId
-		    ORDER BY [Z-LRBooking-Z].LRNumber ASC;
-			
-			SET @LRBookingMinDate  = ISNULL(@LRBookingMinDate , DATEADD(DAY, 365, @LRBookingMaxDate))
+		    WHERE [Z-LRBooking-Z].BranchId = @BranchId AND [Z-LRBooking-Z].LRNumber > @LRNumber
+		    ORDER BY [Z-LRBooking-Z].LRNumber;
 
-		    IF NOT (@LRDate BETWEEN @LRBookingMaxDate AND @LRBookingMinDate)
+		    IF NOT (CAST(@LRDate AS DATE) BETWEEN @PrevLRBookingDate AND @NextLRBookingDate)
 		    BEGIN
-		        SET @message = 'Please select a date between ' + @LRBookingMaxDate + ' and ' + @LRBookingMinDate;
+		        SET @message = 'Please select a date between ' + CONVERT(VARCHAR, @PrevLRBookingDate, 103) + ' and ' + CONVERT(VARCHAR, @NextLRBookingDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
 		    END
 		END
-
-		IF ISNULL(@LRNumber, 0) = 0
-		BEGIN
-			SELECT @LRNumber = ISNULL(MAX(LRNumber),0) + 1
-			FROM [Z-LRBooking-Z]
-			WHERE BranchId = @BranchId;
-		END
-
-		SELECT @LRNumberStartRange = StartNumber,@LRNumberEndRange = EndNumber
+		
+		DECLARE @LRNumberStartRange INT;
+		DECLARE @LRNumberEndRange INT;
+		SELECT 
+			@LRNumberStartRange = StartNumber, 
+			@LRNumberEndRange = EndNumber
 		FROM LRBookingRange 
-		WHERE BranchId = @BranchId AND FirmId = @FirmId AND YearId = @YearId AND Active = 1 AND Deleted = 0
+		WHERE FirmId = @FirmId AND BranchId = @BranchId AND YearId = @YearId AND Active = 1 AND Deleted = 0
 
 		IF (@LRNumber < @LRNumberStartRange OR @LRNumber > @LRNumberEndRange) 
 		BEGIN
@@ -164,7 +174,6 @@ BEGIN
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
-
 			INSERT INTO [Z-LRBooking-Z]
 				(BranchId,YearId,ValidDateFrom,ValidDateTo,AccountBranchMappingId,BookBranchMappingId,LRNumber,LRDate,VehicleId,CityIdFrom,CityIdTo,DeliveryAccountBranchMappingId,BillAccountBranchMappingId
 				,EwayBillNo,LRPayTypeId,InvoiceNo,InvoiceValue,PrivateMarka,Parcel,ActualWeight,ChargeWeight,DescriptionId,PackingId,LRRateOnId
@@ -177,7 +186,6 @@ BEGIN
 				,@IsDispatched,@LoginId,GETUTCDATE())
 
 			SET @Id = SCOPE_IDENTITY();
-			
 		END
 		ELSE
 		BEGIN
@@ -240,4 +248,3 @@ BEGIN
 		RAISERROR ('%s', 16, 1, @message);
 	END CATCH
 END
-GO
