@@ -1,19 +1,18 @@
 ﻿@using Adroit.Accounting.Model;
 @using Adroit.Accounting.Model.Enums;
-@model Adroit.Accounting.Model.ReportViewModel.LRDeliveryStockRegisterViewModel
+@model Adroit.Accounting.Model.ReportViewModel.SalesDetailRegisterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="dv-parameters side-app">
     <div class="row">
         <div class="col-md-12 col-lg-12">
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Reports</a></li>
-                    <li><a href="#">Book & Register</a></li>
-                    <li><a href="#">LR Delivery Register</a></li>
-                    <li class="active"><span>Stock Register</span></li>
+                    <li><a href="#">Sales & Purchase</a></li>
+                    <li><a href="#">Sales</a></li>
+                    <li class="active"><span>Detail Register</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -45,10 +44,10 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Branch">Branch</label>
-                                <select class="group-filter mode-ed" id="Branch" multiple="multiple">
+                                <label for="BranchId">Branch</label>
+                                <select class="filter-multi mode-ed-multi" id="BranchId" multiple="multiple">
                                     @{
                                         if (Model.BranchList != null)
                                         {
@@ -68,7 +67,39 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="DateFrom">Date From (Ch.Rec.)</label>
+                                <label for="InvTypeId">Inv. Type</label>
+                                <select class="form-control select2-show-search-report" id="InvTypeId">
+                                    @{
+                                        if (Model.InvTypeList != null)
+                                        {
+                                            foreach (var o in Model.InvTypeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="ViewId">View</label>
+                                <select class="form-control select2-show-search-report" id="ViewId">
+                                    @{
+                                        if (Model.ViewList != null)
+                                        {
+                                            foreach (var o in Model.ViewList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="DateFrom">Date From</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -81,7 +112,7 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="DateTo">Date To (Ch.Rec.)</label>
+                                <label for="DateTo">Date To</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -92,30 +123,14 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="CityFrom">City From</label>
-                                <select class="filter-multi" id="CityFrom" multiple="multiple">
+                                <label for="BookId">Book</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BookId">
                                     @{
-                                        if (Model.CityList != null)
+                                        if (Model.BookList != null)
                                         {
-                                            foreach (var o in Model.CityList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="CityTo">City To</label>
-                                <select class="filter-multi" id="CityTo" multiple="multiple">
-                                    @{
-                                        if (Model.CityList != null)
-                                        {
-                                            foreach (var o in Model.CityList)
+                                            foreach (var o in Model.BookList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -126,40 +141,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="Consignor">Consignor</label>
-                                <select class="filter-multi" id="Consignor" multiple="multiple">
-                                    @{
-                                        if (Model.ConsignorList != null)
-                                        {
-                                            foreach (var o in Model.ConsignorList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="Consignee">Consignee</label>
-                                <select class="filter-multi" id="Consignee" multiple="multiple">
-                                    @{
-                                        if (Model.ConsigneeList != null)
-                                        {
-                                            foreach (var o in Model.ConsigneeList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="BillParty">Bill Party</label>
-                                <select class="filter-multi" id="BillParty" multiple="multiple">
+                                <label for="BillPartyId">Bill Party</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BillPartyId">
                                     @{
                                         if (Model.BillPartyList != null)
                                         {
@@ -172,14 +155,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="PayType">Pay Type</label>
-                                <select class="filter-multi" id="PayType" multiple="multiple">
+                                <label for="BrokerId">Broker</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BrokerId">
                                     @{
-                                        if (Model.PayTypeList != null)
+                                        if (Model.BrokerList != null)
                                         {
-                                            foreach (var o in Model.PayTypeList)
+                                            foreach (var o in Model.BrokerList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -190,12 +173,12 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="ChalanStatus">Chalan Status</label>
-                                <select class="filter-multi" id="ChalanStatus" multiple="multiple">
+                                <label for="ProductGroupId">Product Group</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ProductGroupId">
                                     @{
-                                        if (Model.ChalanStatusList != null)
+                                        if (Model.ProductGroupList != null)
                                         {
-                                            foreach (var o in Model.ChalanStatusList)
+                                            foreach (var o in Model.ProductGroupList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -206,12 +189,12 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="InvStatus">Inv. Status</label>
-                                <select class="form-control select2-show-search-report" id="InvStatus">
+                                <label for="ProductSubGroupId">Product Sub Group</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ProductSubGroupId">
                                     @{
-                                        if (Model.InvStatusList != null)
+                                        if (Model.ProductSubGroupList != null)
                                         {
-                                            foreach (var o in Model.InvStatusList)
+                                            foreach (var o in Model.ProductSubGroupList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
@@ -220,32 +203,152 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-1">
-                            <div class="form-group"><label for="Summary">Summary</label></div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="DesignId">Design</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="DesignId">
+                                    @{
+                                        if (Model.DesignList != null)
+                                        {
+                                            foreach (var o in Model.DesignList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="ColourId">Colour</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ColourId">
+                                    @{
+                                        if (Model.ColourList != null)
+                                        {
+                                            foreach (var o in Model.ColourList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="DescriptionId">Product Description</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="DescriptionId">
+                                    @{
+                                        if (Model.DescriptionList != null)
+                                        {
+                                            foreach (var o in Model.DescriptionList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="GSTTransactionTypeId">GST Transaction Type</label>
+                                <select class="form-control select2-show-search-report" id="GSTTransactionTypeId">
+                                    @{
+                                        if (Model.ViewList != null)
+                                        {
+                                            foreach (var o in Model.GSTTransactionTypeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="CustomerTypeId">Customer Type</label>
+                                <select class="form-control select2-show-search-report" id="CustomerTypeId">
+                                    @{
+                                        if (Model.CustomerTypeList != null)
+                                        {
+                                            foreach (var o in Model.CustomerTypeList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="PaymentStatusId">Payment Status</label>
+                                <select class="form-control select2-show-search-report" id="PaymentStatusId">
+                                    @{
+                                        if (Model.PaymentStatusList != null)
+                                        {
+                                            foreach (var o in Model.PaymentStatusList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="GSTId">GST %</label>
+                                <select class="form-control select2-show-search-report" id="GSTId">
+                                    @{
+                                        if (Model.GSTList != null)
+                                        {
+                                            foreach (var o in Model.GSTList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group"><label for="form-group SubTotal">Sub Total</label></div>
                             <label class="custom-switch">
-                                <input type="checkbox" name="custom-switch-checkbox" id="Summary" class="custom-switch-input">
+                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="SubTotal">
+                                <span class="custom-switch-indicator"></span>
+                            </label>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group"><label for="form-group Summary">Summary</label></div>
+                            <label class="custom-switch">
+                                <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="Summary">
                                 <span class="custom-switch-indicator"></span>
                             </label>
                         </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn btn-warning mt-1 show-report" data-toggle="tooltip" title="" data-placement="top" data-original-title="Generate Report"><i class="fa fa-spinner"></i>&nbsp;Generate Report</a>
+                    <a href="#" class="btn btn-warning mt-1 show-report" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-spinner"></i>&nbsp;Generate Report</a>
                     <a href="#" class="btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <div class="dv-report side-app">
     <div class="row">
         <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Reports</a></li>
-                    <li><a href="#">Book & Register</a></li>
-                    <li><a href="#">LR Delivery Register</a></li>
-                    <li class="active"><span>Stock Register</span></li>
+                    <li><a href="#">Sales & Purchase</a></li>
+                    <li><a href="#">Sales</a></li>
+                    <li class="active"><span>Detail Register</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -268,19 +371,31 @@
                         <table id="tblMain" class="table table-bordered key-buttons">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">LR NUMBER</th>
-                                    <th class="border-bottom-0">LR DATE</th>
-                                    <th class="border-bottom-0">PARCEL</th>
-                                    <th class="border-bottom-0">CHARGE WT.</th>
-                                    <th class="border-bottom-0">LR AMOUNT</th>
-                                    <th class="border-bottom-0">GST%</th>
-                                    <th class="border-bottom-0">GST AMOUNT</th>
-                                    <th class="border-bottom-0">INV VALUE</th>
-                                    <th class="border-bottom-0">from CITY</th>
-                                    <th class="border-bottom-0">PVT. MARK</th>
-                                    <th class="border-bottom-0">CONSIGNOR PARTY</th>
-                                    <th class="border-bottom-0">CONSIGNEE PARTY</th>
-                                    <th class="border-bottom-0">BRANCH</th>
+                                    <th class="border-bottom-0">DATE</th>
+                                    <th class="border-bottom-0">Inv NUMBER</th>
+                                    <th class="border-bottom-0">Bill Party</th>
+                                    <th class="border-bottom-0">GST Number</th>
+                                    <th class="border-bottom-0">Product Description</th>
+                                    <th class="border-bottom-0">HSN/SAC</th>
+                                    <th class="border-bottom-0">Box 1</th>
+                                    <th class="border-bottom-0">Box 3</th>
+                                    <th class="border-bottom-0">UOM</th>
+                                    <th class="border-bottom-0">Sales Rate</th>
+                                    <th class="border-bottom-0">Discount %</th>
+                                    <th class="border-bottom-0">Net Rate</th>
+                                    <th class="border-bottom-0">Other Charges</th>
+                                    <th class="border-bottom-0">Taxable Amount</th>
+                                    <th class="border-bottom-0">GST %</th>
+                                    <th class="border-bottom-0">IGST Amount</th>
+                                    <th class="border-bottom-0">CGST Amount</th>
+                                    <th class="border-bottom-0">SGST Amount</th>
+                                    <th class="border-bottom-0">Central Cess %</th>
+                                    <th class="border-bottom-0">Central Cess Amount</th>
+                                    <th class="border-bottom-0">State Cess %</th>
+                                    <th class="border-bottom-0">State Cess Amount</th>
+                                    <th class="border-bottom-0">Round Off</th>
+                                    <th class="border-bottom-0">Invoice Amount</th>
+                                    <th class="border-bottom-0">Issue Branch</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -298,24 +413,6 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -342,9 +439,6 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -373,24 +467,6 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -417,9 +493,6 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
@@ -448,6 +521,18 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
                                 </tr>
                                 <tr>
                                     <td>xxxxxxxxx</td>
@@ -463,8 +548,181 @@
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
                                     <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
                                 </tr>
-
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
+                                <tr>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                    <td>xxxxxxxxx</td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -480,13 +738,23 @@
 </div>
 
 @section Scripts
-    {
-
+{
     <script>
+
         $(function (e) {
 
-            $('.dv-parameters').show();
             $('.dv-report').hide();
+            $('.dv-parameters').show();
+
+            $(".show-report").on("click", function () {
+                $('.dv-parameters').slideUp();
+                $('.dv-report').slideDown();
+            });
+
+            $(".btn-back").on("click", function () {
+                $('.dv-parameters').slideDown();
+                $('.dv-report').slideUp();
+            });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -508,7 +776,7 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                buttons: ['copy', 'excel', 'pdf', 'colvis'],
+                // buttons: ['copy', 'excel', 'pdf', 'colvis'],
                 //processing: true,
                 //serverSide: true,
                 // ajax: {
@@ -527,41 +795,6 @@
             });
 
             table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
-
-            $(".buttons-copy").removeClass("btn-primary");
-            $(".buttons-copy").addClass("btn-outline-primary");
-
-            $(".buttons-excel").removeClass("btn-primary");
-            $(".buttons-excel").addClass("btn-outline-primary");
-
-            $(".buttons-pdf").removeClass("btn-primary");
-            $(".buttons-pdf").addClass("btn-outline-primary");
-
-            $(".buttons-colvis").removeClass("btn-primary");
-            $(".buttons-colvis").removeClass("dropdown-toggle");
-            $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
-
-            $(".buttons-copy").empty();
-            $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
-
-            $(".buttons-excel").empty();
-            $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
-
-            $(".buttons-pdf").empty();
-            $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
-
-            $(".buttons-colvis").empty();
-            $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
-
-            $(".show-report").on("click", function () {
-                $('.dv-parameters').slideUp();
-                $('.dv-report').slideDown();
-            });
-
-            $(".btn-back").on("click", function () {
-                $('.dv-report').slideUp();
-                $('.dv-parameters').slideDown();
-            });
 
         });
 
