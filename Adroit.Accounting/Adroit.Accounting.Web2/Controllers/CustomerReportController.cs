@@ -30,7 +30,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IReportLRBookingDailySummary _reportLRBookingDailySummaryRepository;
         private readonly ICustomerBook _customerBookRepository;
         private readonly ICustomerAccount _customerAccountRepo;
-        protected readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
+        private readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
         private readonly IProductGroup _productGroupRepository;
         private readonly IProductSubGroup _productSubGroupRepository;
         private readonly IProductDesignNumber _productDesignNumberRepository;

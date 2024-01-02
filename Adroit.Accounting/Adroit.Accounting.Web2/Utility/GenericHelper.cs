@@ -1,6 +1,7 @@
 ﻿using Adroit.Accounting.Model.Enums;
 using Adroit.Accounting.Model.ViewModel;
 using System.ComponentModel;
+using System.IO;
 using System.Reflection;
 
 namespace Adroit.Accounting.Web.Utility
@@ -101,6 +102,59 @@ namespace Adroit.Accounting.Web.Utility
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanList.All)}", Value = $"{(int)ChalanList.All}" },
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanList.Chalan_Done)}", Value = $"{(int)ChalanList.Chalan_Done}" },
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanList.Pending_Chalan)}", Value = $"{(int)ChalanList.Pending_Chalan}" },
+            };
+            return list;
+        }
+        public static List<DropdownViewModel> GetVoucheBookViewList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.Cash_Payment)}", Value = $"{(int)VoucheBookViewList.Cash_Payment}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.Cash_Receive)}", Value = $"{(int)VoucheBookViewList.Cash_Receive}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.Bank_Payment)}", Value = $"{(int)VoucheBookViewList.Bank_Payment}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.Bank_Receive)}", Value = $"{(int)VoucheBookViewList.Bank_Receive}" },
+            };
+            return list;
+        }
+
+        public static List<DropdownViewModel> GetDateWiseTDSDetailViewList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TDS_Date_Wise)}", Value = $"{(int)DateWiseTDSDetailViewList.TDS_Date_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TCS_Date_Wise)}", Value = $"{(int)DateWiseTDSDetailViewList.TCS_Date_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TDS_Party_Wise)}", Value = $"{(int)DateWiseTDSDetailViewList.TDS_Party_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TCS_Party_Wise)}", Value = $"{(int)DateWiseTDSDetailViewList.TCS_Party_Wise}" },
+            };
+            return list;
+        }
+
+        public static List<DropdownViewModel> GetTransactionTypeViewList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(TransactionTypeViewList.Sales_Activity)}", Value = $"{(int)TransactionTypeViewList.Sales_Activity}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(TransactionTypeViewList.Purchase_Activity)}", Value = $"{(int)TransactionTypeViewList.Purchase_Activity}" },
+            };
+            return list;
+        }
+
+        public static List<DropdownViewModel> GetBrokerWiseDetailViewList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BrokerWiseDetailViewList.Party_Wise)}", Value = $"{(int)BrokerWiseDetailViewList.Party_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BrokerWiseDetailViewList.Broker_Wise)}", Value = $"{(int)BrokerWiseDetailViewList.Broker_Wise}" },
+            };
+            return list;
+        }
+
+        public static List<DropdownViewModel> GetPaymentStatusViewList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PaymentStatusViewList.Paid)}", Value = $"{(int)PaymentStatusViewList.Paid}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PaymentStatusViewList.Unpaid)}", Value = $"{(int)PaymentStatusViewList.Unpaid}" },
             };
             return list;
         }
