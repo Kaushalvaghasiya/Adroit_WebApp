@@ -31,7 +31,12 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICustomerBook _customerBookRepository;
         private readonly ICustomerAccount _customerAccountRepo;
         private readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
-
+        private readonly IProductGroup _productGroupRepository;
+        private readonly IProductSubGroup _productSubGroupRepository;
+        private readonly IProductDesignNumber _productDesignNumberRepository;
+        private readonly IProductColor _productColorRepository;
+        private readonly ITransportDesc _transportDescRepository;
+        private readonly IGSTRate _gstRateRepository;
 
         public CustomerReportController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
@@ -49,11 +54,17 @@ namespace Adroit.Accounting.Web.Controllers
             IReportLRBookingBookingRegister reportLRBookingBookingRegisterRepository,
             IReportLRBookingChalanLoadingReport reportLRBookingChalanLoadingReportRepository,
             IReportLRBookingMonthlySummary reportLRBookingMonthlySummaryRepository,
-            IReportLRBookingDailySummary reportLRBookingDailySummaryRepository, 
+            IReportLRBookingDailySummary reportLRBookingDailySummaryRepository,
             ICustomerBook customerBookRepository,
             ICustomerAccount customerAccountRepo,
-            ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo
-            ) : base(loginHandler, userRepository, configurationData)
+            ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
+            IProductGroup productGroupRepository,
+            IProductSubGroup productSubGroupRepository,
+            IProductDesignNumber productDesignNumberRepository,
+            IProductColor productColorRepository,
+            ITransportDesc transportDescRepository, 
+            IGSTRate gstRateRepository)
+            : base(loginHandler, userRepository, configurationData)
         {
             _vehicleRepo = vehicleRepo;
             _commonRepository = commonRepository;
@@ -74,6 +85,12 @@ namespace Adroit.Accounting.Web.Controllers
             _customerBookRepository = customerBookRepository;
             _customerAccountRepo = customerAccountRepo;
             _customerBrokerBranchMappingRepo = customerBrokerBranchMappingRepo;
+            _productGroupRepository = productGroupRepository;
+            _productSubGroupRepository = productSubGroupRepository;
+            _productDesignNumberRepository = productDesignNumberRepository;
+            _productColorRepository = productColorRepository;
+            _transportDescRepository = transportDescRepository;
+            _gstRateRepository = gstRateRepository;
         }
     }
 }
