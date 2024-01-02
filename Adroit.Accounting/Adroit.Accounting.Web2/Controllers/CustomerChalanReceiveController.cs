@@ -26,7 +26,7 @@ namespace Adroit.Accounting.Web.Controllers
                 model.CustomerFirmBranchTransportSetting = CustomerFirmBranchTransportSetting;
             }
 
-            model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
+            model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
             model.GoDownNumberList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ChalanReceiveTable._TableName, ChalanReceiveTable.GoDownNumber);
             
             ViewBag.CurrentBranchId = CurrentBranchId;

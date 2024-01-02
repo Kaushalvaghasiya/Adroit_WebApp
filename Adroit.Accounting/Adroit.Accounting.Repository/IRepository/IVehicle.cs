@@ -9,6 +9,6 @@ namespace Adroit.Accounting.Repository.IRepository
         int Save(Vehilcle value, int userId, string connectionString);
         VehicleViewModel Get(int id, int userId, string connectionString);
         void Delete(int id, int userId, string connectionString);
-        List<DropdownViewModel> SelectList(int userId, string connectionString);
+        List<DropdownViewModel> SelectList(int loginId, string connectionString);
     }
 }
