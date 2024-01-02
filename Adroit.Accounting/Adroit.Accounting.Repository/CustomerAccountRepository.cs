@@ -145,5 +145,13 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@VehicleId", vehicleId);
             return QueryHelper.Get<CustomerAccountViewModel>("sp_CustomerAccountBranchMappingGetByVehicle", connectionString, parameters);
         }
+        public CustomerAccountViewModel GetListWithCustomerAccountBranchMappingId(string connectionString, int CustomerAccountBranchMappingId, int branchId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@CustomerAccountBranchMappingId", CustomerAccountBranchMappingId);
+            parameters.Add("@branchId", branchId);
+            return QueryHelper.Get<CustomerAccountViewModel>("sp_GetCustomerAccountListWithCustomerAccountBranchMapping", connectionString, parameters);
+        }
+
     }
 }

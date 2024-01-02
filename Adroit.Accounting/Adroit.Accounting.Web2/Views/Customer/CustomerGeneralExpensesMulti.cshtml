@@ -1,4 +1,4 @@
-﻿@* @model Adroit.Accounting.Model.ViewModel.PurchaseBillMasterViewModel *@
+﻿@model Adroit.Accounting.Model.ViewModel.PurchaseBillMasterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -104,7 +104,7 @@
                                     <div class="col-md-5">
                                         <select class="form-control select2-show-search" id="AccountBranchMappingId">
                                             <option></option>
-                                           @*  @{
+                                            @{
                                                 if (Model.AccountBranchMappingList != null)
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
@@ -112,7 +112,7 @@
                                                         <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
-                                            } *@
+                                            }
                                         </select>
                                     </div>
                                     <label for="CreditDays" class="col-md-1 form-label">Credit Days</label>
@@ -123,7 +123,7 @@
                                     <div class="col-md-2">
                                         <select class="form-control select2-show-search" id="BillTypeID">
                                             <option></option>
-                                          @*   @{
+                                            @{
                                                 if (Model.BillTypeList != null)
                                                 {
                                                     foreach (var o in Model.BillTypeList)
@@ -131,7 +131,7 @@
                                                         <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
-                                            } *@
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@
                                     <div class="col-md-5">
                                         <select class="form-control select2-show-search" id="GenaralPurchaseAccountBranchMappingId">
                                             <option></option>
-                                            @* @{
+                                            @{
                                                 if (Model.AccountBranchMappingList != null)
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
@@ -173,7 +173,7 @@
                                                         <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
-                                            } *@
+                                            }
                                         </select>
                                     </div>
                                     <label for="RCMBillNumber" class="col-md-1 form-label">RCM Bill#</label>
@@ -188,32 +188,13 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12  p-0">
-                                    <div class="card" style="max-height: 202px; overflow-x: auto; overflow-y: auto;">
-                                        <table style="width: 100vw;">
-                                            <thead class="bg-primary" style="height:50px;">
-                                                <tr>
-                                                    <th class="pl-2 pr-2 text-center" style="position:sticky; z-index: 1; left: 0; background-color: #467fcf !important;">Sr #</th>
-                                                    <th class="pl-2 pr-2 text-center" style="width: 180px">Group</th>
-                                                    <th class="pl-2 pr-2 text-center" style="width: 250px;">Description</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel1</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel2</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel3</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel4</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel5</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel6</th>
-                                                    <th class="pl-2 pr-2 text-center">Rate</th>
-                                                    <th class="pl-2 pr-2 text-center">Disc %</th>
-                                                    <th class="pl-2 pr-2 text-center">Disc Amt</th>
-                                                    <th class="pl-2 pr-2 text-center">Oth. Charges</th>
-                                                    <th class="pl-2 pr-2 text-center">Taxable Amt</th>
-                                                    <th class="pl-2 pr-2 text-center">GST %</th>
-                                                    <th class="pl-2 pr-2 text-center" style="position: sticky; z-index: 1; left: 0; right: 0; background-color: #467fcf !important;">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="contentRow">
-                                            </tbody>
-                                        </table>
+                                <div class="row customer-gnr-ch-multi">
+                                    <div class="col-md-12 col-lg-12 p-2">
+                                        <div class="card mb-0 m-0 p-2 pl-3 pr-3">
+                                            <div class="col-md-12 p-0 m-0" id="GeneralExpensesMultiList">
+                                            </div>
+                                            <!--content rows-->
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -376,3 +357,1254 @@
     <input type="hidden" id="selectedLRDetails" value="[]" />
 
 </div>
+
+
+@section Scripts
+    {
+    <script>
+        var selectedLRDetails = [];
+        var addedIds = [];
+        var contentRowId = 0;
+
+        $(function (e) {
+
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+            bindDatatableList();
+
+            $('#TaxableAmount, #CGSTTotal, #SGSTTotal, #IGSTTotal, #GSTStateCessTotal, #GSTCentralCessTotal, #TCSPercent, #TCSAmount').on('keyup', function () {
+                calculateTotalTaxableAmount();
+            });
+
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#AccountBranchMappingId").focus();
+            // $("#BillNumberBranch").val(0);
+            // $("#BillNumberFirm").val(0);
+            $("#BillTypeID").val(@Model.CustomerBook.BillTypeID).trigger('change');
+            addRow();
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.id;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.ewayBillNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branch;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "id", "name": "id" });
+            columns.push({ "data": "billDate", "name": "billDate" });
+            columns.push({ "data": "ewayBillNumber", "name": "ewayBillNumber" });
+            columns.push({ "data": "branch", "name": "branch" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "consignor", "name": "consignor" });
+            columns.push({ "data": "consignee", "name": "consignee" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                destroy: true,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/CustomerGeneralExpensesMultiList"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function fromReset() {
+
+            $("#Id").val(0);
+            $("#BillNumberBranch").val(0);
+            $("#BillNumberFirm").val(0);
+            $("#BillDate").val('');
+            $("#ToPayAmount, #Paid, #TBB, #Total").val('0.00');
+            $("#CrossingAmount").val('');
+            $("#CrossingAmountAccountBranchMappingId").val('');
+            $("#CrossingCommission").val('');
+            $("#CrossingCommissionAccountBranchMappingId").val('');
+            $("#CrossingHamali").val('');
+            $("#CrossingHamaliAccountBranchMappingId").val('');
+            $("#CrossingDeliveryCharge").val('');
+            $("#CrossingDeliveryAccountBranchMappingId").val('');
+            $("#BrokerAmount").val('');
+            $("#TaxableAmount").val('');
+            $("#TDSAmount").val('');
+            $("#AdvanceCash").val('');
+            $("#AdvanceNeft").val('');
+            $("#ReceiveCash").val('');
+            $("#OtherPlus").val('');
+            $("#OtherLess").val('');
+            $("#NetAmount").val('');
+            $("#Notes").val('');
+
+            $("#CityIdFrom").val(null).trigger('change');
+            $("#CityIdTo").val(null).trigger('change');
+            $("#LRFromCity").val(null).trigger('change');
+            $("#LRToCity").val(null).trigger('change');
+            $("#VehicleId").val(null).trigger('change');
+            $("#DriverId").val(null).trigger('change');
+            $("#EwayBillNumber").val(null).trigger('change');
+            $("#LRNumber").val(null).trigger('change');
+            $("#ToPayAccountBranchMappingId").val(null).trigger('change');
+            $("#BrokerBranchMappingId").val(null).trigger('change');
+            $("#AccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingAmountAccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingCommissionAccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingHamaliAccountBranchMappingId").val(null).trigger('change');
+            $("#CrossingDeliveryAccountBranchMappingId").val(null).trigger('change');
+            $("#IsAutoLedger").prop('checked', true);
+
+            selectedLRDetails = [];
+            addedIds = [];
+            $("#hdnSelectedLRNumberIds").val();
+            $('#GeneralExpensesMultiList').html('');
+
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+
+        }
+
+        function saveItem() {
+            try {
+
+                var ewayBillNumber = $("#EwayBillNumber").val();
+
+                if ($("#AccountBranchMappingId").val() == null || $("#AccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select bill party");
+                    $("#AccountBranchMappingId").focus();
+                    return false;
+                }
+
+                if ($("#BillDate").val() == "") {
+                    showWarning("", "Please enter Date");
+                    $("#BillDate").focus();
+                    return false;
+                }
+
+                if ($("#BillNumberBranch").val() == "") {
+                    showWarning("", "Please enter branch chalan");
+                    $("#BillNumberBranch").focus();
+                    return false;
+                }
+
+                if ($("#BillNumberFirm").val() == "") {
+                    showWarning("", "Please enter firm chalan");
+                    $("#BillNumberFirm").focus();
+                    return false;
+                }
+
+                if (ewayBillNumber.length < 12) {
+                    showWarning("", "Eway Bill Number should be at least 12 characters long.");
+                    $("#EwayBillNumber").focus();
+                    return false;
+                }
+
+                if ($("#TaxableAmount").val() != null && $("#TaxableAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TaxableAmount").val())) {
+                        showWarning("", "Taxable amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TaxableAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TDSPercent").val() != null && $("#TDSPercent").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSPercent").val())) {
+                        showWarning("", "TDS percent must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TDSPercent").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TDSAmount").val() != null && $("#TDSAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSAmount").val())) {
+                        showWarning("", "TDS amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TDSAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#SGSTTotal").val() != null && $("#SGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#SGSTTotal").val())) {
+                        showWarning("", "SGST must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#SGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CGSTTotal").val() != null && $("#CGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CGSTTotal").val())) {
+                        showWarning("", "CGST must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#CGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#IGSTTotal").val() != null && $("#IGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#IGSTTotal").val())) {
+                        showWarning("", "IGST must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#IGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#GSTStateCessTotal").val() != null && $("#GSTStateCessTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#GSTStateCessTotal").val())) {
+                        showWarning("", "State Cess must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#GSTStateCessTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#GSTCentralCessTotal").val() != null && $("#GSTCentralCessTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#GSTCentralCessTotal").val())) {
+                        showWarning("", "Central Cess must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#GSTCentralCessTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TCSPercent").val() != null && $("#TCSPercent").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TCSPercent").val())) {
+                        showWarning("", "TCS percent must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TCSPercent").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TCSAmount").val() != null && $("#TCSAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TCSAmount").val())) {
+                        showWarning("", "TCS amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TCSAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#RoundOff").val() != null && $("#RoundOff").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#RoundOff").val())) {
+                        showWarning("", "Other (+/-) must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#RoundOff").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#BillAmount").val() != null && $("#BillAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#BillAmount").val())) {
+                        showWarning("", "Bill amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#BillAmount").focus();
+                        return false;
+                    }
+                }
+
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+
+                savedata.BillNumberBranch = getIntValueZero("BillNumberBranch");
+                savedata.BillNumberFirm = $("#BillNumberFirm").val();
+                savedata.BillDate = moment(getDate($("#BillDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.CityIdFrom = getIntValueNull("CityIdFrom");
+                savedata.CityIdTo = getIntValueNull("CityIdTo");
+                savedata.VehicleId = getIntValueZero("VehicleId");
+                savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
+                savedata.DriverId = getIntValueNull("DriverId");
+                savedata.EwayBillNumber = $("#EwayBillNumber").val();
+                savedata.ToPayAmount = getFloatValueNull("ToPayAmount", 2);
+                savedata.ToPayAccountBranchMappingId = getIntValueNull("ToPayAccountBranchMappingId");
+                savedata.CrossingAmount = getFloatValueNull("CrossingAmount", 2);
+                savedata.CrossingCommission = getFloatValueNull("CrossingCommission", 2);
+                savedata.CrossingHamali = getFloatValueNull("CrossingHamali", 2);
+                savedata.CrossingDeliveryCharge = getFloatValueNull("CrossingDeliveryCharge", 2);
+                savedata.CrossingAmountAccountBranchMappingId = getIntValueNull("CrossingAmountAccountBranchMappingId");
+                savedata.CrossingCommissionAccountBranchMappingId = getIntValueNull("CrossingCommissionAccountBranchMappingId");
+                savedata.CrossingHamaliAccountBranchMappingId = getIntValueNull("CrossingHamaliAccountBranchMappingId");
+                savedata.CrossingDeliveryAccountBranchMappingId = getIntValueNull("CrossingDeliveryAccountBranchMappingId");
+                savedata.BrokerAmount = getFloatValueNull("BrokerAmount", 2);
+                savedata.BrokerBranchMappingId = getIntValueNull("BrokerBranchMappingId");
+                savedata.Notes = $("#Notes").val();
+                savedata.TaxableAmount = getFloatValueNull("TaxableAmount", 2);
+                savedata.TDSAmount = getFloatValueNull("TDSAmount", 2);
+                savedata.AdvanceCash = getFloatValueNull("AdvanceCash", 2);
+                savedata.AdvanceNeft = getFloatValueNull("AdvanceNeft", 2);
+                savedata.ReceiveCash = getFloatValueNull("ReceiveCash", 2);
+                savedata.OtherPlus = getFloatValueNull("OtherPlus", 2);
+                savedata.OtherLess = getFloatValueNull("OtherLess", 2);
+                savedata.LRNumberId = $("#hdnSelectedLRNumberIds").val();
+                savedata.IsAutoLedger = $('#IsAutoLedger').is(':checked');
+
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveChalan", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'Chalan saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteCustomerGeneralExpensesMulti"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalan"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+
+                                selectedLRDetails = [];
+                                addedIds = [];
+                                $("#hdnSelectedLRNumberIds").val();
+                                $('#GeneralExpensesMultiList').html('');
+
+                                $("#Id").val(result.data.id);
+                                $("#BillNumberBranch").val(result.data.billNumberBranch);
+                                $("#BillNumberFirm").val(result.data.billNumberFirm);
+                                $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#CityIdFrom").val(result.data.cityIdFrom).trigger('change');
+                                $("#CityIdTo").val(result.data.cityIdTo).trigger('change');
+                                $("#LRFromCity").val(result.data.cityIdFrom).trigger('change');
+                                $("#LRToCity").val(result.data.cityIdTo).trigger('change');
+                                $("#VehicleId").val(result.data.vehicleId).trigger('change');
+                                $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                $("#DriverId").val(result.data.driverId).trigger('change');
+                                $("#EwayBillNumber").val(result.data.ewayBillNumber).trigger('change');
+                                $("#ToPayAccountBranchMappingId").val(result.data.toPayAccountBranchMappingId).trigger('change');
+                                $("#CrossingDeliveryCharge").val(result.data.crossingDeliveryCharge);
+                                $("#CrossingAmountAccountBranchMappingId").val(result.data.crossingAmountAccountBranchMappingId).trigger('change');
+                                $("#CrossingCommissionAccountBranchMappingId").val(result.data.crossingCommissionAccountBranchMappingId).trigger('change');
+                                $("#CrossingHamaliAccountBranchMappingId").val(result.data.crossingHamaliAccountBranchMappingId).trigger('change');
+                                $("#CrossingDeliveryAccountBranchMappingId").val(result.data.crossingDeliveryAccountBranchMappingId).trigger('change');
+                                $("#BrokerBranchMappingId").val(result.data.brokerBranchMappingId).trigger('change');
+                                $("#Notes").val(result.data.notes);
+                                $("#TaxableAmount").val((result.data.taxableAmount || 0).toFixed(2));
+                                $("#TDSAmount").val((result.data.tdsAmount || 0).toFixed(2));
+                                $("#AdvanceCash").val((result.data.advanceCash || 0).toFixed(2));
+                                $("#AdvanceNeft").val((result.data.advanceNeft || 0).toFixed(2));
+                                $("#ReceiveCash").val((result.data.receiveCash || 0).toFixed(2));
+                                $("#OtherPlus").val((result.data.otherPlus || 0).toFixed(2));
+                                $("#OtherLess").val((result.data.otherLess || 0).toFixed(2));
+                                $("#ToPayAmount").val((result.data.toPayAmount || 0).toFixed(2));
+                                $("#Paid").val((result.data.toPayAmount || 0).toFixed(2));
+                                $("#TBB").val((result.data.toPayAmount || 0).toFixed(2));
+                                $("#Total").val(((+$("#ToPayAmount").val() || 0) + (+$("#Paid").val() || 0) + (+$("#TBB").val() || 0)).toFixed(2));
+                                $("#CrossingAmount").val((result.data.crossingAmount || 0).toFixed(2));
+                                $("#CrossingCommission").val((result.data.crossingCommission || 0).toFixed(2));
+                                $("#CrossingHamali").val((result.data.crossingHamali || 0).toFixed(2));
+                                $("#CrossingDeliveryCharge").val((result.data.crossingDeliveryCharge || 0).toFixed(2));
+                                $("#BrokerAmount").val((result.data.brokerAmount || 0).toFixed(2));
+                                $("#IsAutoLedger").prop('checked', result.data.isAutoLedger);
+                                CalcNetAmount();
+                                getLRDetailListByPurchaseBillMas(result.data.id);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getLRDetailListByPurchaseBillMas(purchaseBillMasterId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByPurchaseBillMasterId"))" + "/" + purchaseBillMasterId, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                result.data.forEach(function (LRBookingDetail) {
+                                    selectedLRDetails.push({
+                                        id: LRBookingDetail.id,
+                                        lrNumber: LRBookingDetail.lrNumber,
+                                        lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                        privateMarka: LRBookingDetail.privateMarka,
+                                        packing: LRBookingDetail.packing,
+                                        chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
+                                        toCity: LRBookingDetail.cityTo,
+                                        fromCity: LRBookingDetail.cityFrom,
+                                        invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
+                                        description: LRBookingDetail.description,
+                                        consignor: LRBookingDetail.consignor,
+                                        consignee: LRBookingDetail.consignee,
+                                        billParty: LRBookingDetail.billParty,
+                                        ewayBillNo: LRBookingDetail.ewayBillNo
+                                    });
+                                });
+
+                                addRow();
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetListWithCustomerAccountBranchMappingId(CustomerAccountBranchMappingId, contentRowId) {
+            try {
+                 if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListWithCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#CreditDays").val(result.data.creditDays);
+                                $("#TDSPercent").val(result.data.tds);
+                                $("#TCSPercent").val(result.data.tcs);
+                                if (contentRowId)
+                                    $("#DiscountPercentage" + contentRowId).val(result.data.discount);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetProductListWithGroupId(GroupId, currentRowId) {
+            try {
+                if ($("#ProductGroupId" + currentRowId).val() == '' || $("#ProductGroupId" + currentRowId).val() == null) return;
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetProductListWithGroupId"))" + "/" + GroupId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#ProductBranchMappingId" + currentRowId).empty();
+
+                                result.data.forEach(function (item) {
+                                    $("#ProductBranchMappingId" + currentRowId).append('<option></option><option value="' + item.value + '">' + item.text + '</option>');
+                                });
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetRateListWithProductId(ProductId, currentRowId) {
+            try {
+                if ($("#ProductBranchMappingId" + currentRowId).val() == '' || $("#ProductBranchMappingId" + currentRowId).val() == null) return;
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetRateListWithProductId"))" + "/" + ProductId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#GST" + currentRowId).val(result.data.rate);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function CalcNetAmount() {
+
+            var TaxableAmount = +getFloatValueZero("TaxableAmount", 2);
+            var TDSAmount = +getFloatValueZero("TDSAmount", 2);
+            var AdvanceCash = +getFloatValueZero("AdvanceCash", 2);
+            var AdvanceNeft = +getFloatValueZero("AdvanceNeft", 2);
+            var ReceiveCash = +getFloatValueZero("ReceiveCash", 2);
+            var OtherPlus = +getFloatValueZero("OtherPlus", 2);
+            var OtherLess = +getFloatValueZero("OtherLess", 2);
+            var NetAmount = +getFloatValueZero("NetAmount", 2);
+
+            $("#NetAmount").val((isNaN(TaxableAmount - (TDSAmount + AdvanceCash + AdvanceNeft + OtherLess) + (ReceiveCash + OtherPlus)) ? 0 : (TaxableAmount - (TDSAmount + AdvanceCash + AdvanceNeft + OtherLess) + (ReceiveCash + OtherPlus)).toFixed(2)));
+
+        }
+
+        function GetLRToPayAmount(lrNumberId) {
+            try {
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetLRToPayAmount"))" + "/" + lrNumberId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#ToPayAmount").val((parseFloat($("#ToPayAmount").val() || 0) + parseFloat(result.data.toPayAccountValue || 0)).toFixed(2));
+                                $("#Paid").val((parseFloat($("#Paid").val() || 0) + parseFloat(result.data.toPayAccountValue || 0)).toFixed(2));
+                                $("#TBB").val((parseFloat($("#TBB").val() || 0) + parseFloat(result.data.toPayAccountValue || 0)).toFixed(2));
+
+                                var totalValue = parseFloat($("#ToPayAmount").val() || 0) +
+                                    parseFloat($("#Paid").val() || 0) +
+                                    parseFloat($("#TBB").val() || 0);
+
+                                $("#Total").val(totalValue.toFixed(2));
+
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function updateHiddenInput(ids) {
+            var uniqueIds = [...new Set(ids)];
+            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
+        }
+
+        function addRow() {
+            contentRowId++;
+            var htmlContentArray = [];
+
+            var htmlContent =
+                `<div class="row m-0 rounded content-rows" id="row-` + contentRowId + `" style="border-bottom: 1px solid rgba(107, 122, 144, 0.3)">
+                    <div class="row">
+                    <div class="col-md-1 pl-2 pr-2 grid-border"
+                        style="position:sticky;z-index:1;left:0;background-color:white;">
+                        <label for="srTextbox" class="form-label">
+                            SR
+                            #</label><input type="text"
+                            class="form-control content-row-srno" id="srTextbox"
+                            placeholder max="999">
+                    </div>
+                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                        <label for="exampleInputname" class="form-label">SKU
+                            #</label><input type="text" class="form-control"
+                            id="exampleInputname" placeholder max="999">
+                    </div>
+                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                        <label for="exampleInputname" class="form-label">GROUP</label>
+                        <select class="form-control select2-show-search" id="GroupId">
+                        <option></option>
+                        @{
+                            if (Model.ProductGroupList != null)
+                            {
+                                foreach (var o in Model.ProductGroupList)
+                                {
+                                    <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                        </select>
+                    </div>
+                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                        <label for="exampleInputname" class="form-label">DESIGN #</label>
+                        <select class="form-control select2-show-search" id="GroupId">
+                            <option></option>
+                            @{
+                                if (Model.ProductDesignNumberList != null)
+                                {
+                                    foreach (var o in Model.ProductDesignNumberList)
+                                    {
+                                        <option value="@o.Value">@o.Text</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                        <label for="exampleInputname" class="form-label">COLOUR</label>
+                        <select class="form-control select2-show-search" id="GroupId">
+                            <option></option>
+                            @{
+                                if (Model.ProductColorList != null)
+                                {
+                                    foreach (var o in Model.ProductColorList)
+                                    {
+                                        <option value="@o.Value">@o.Text</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                        <label for="exampleInputname" class="form-label">SIZE</label>
+                         <select class="form-control select2-show-search" id="GroupId">
+                            <option></option>
+                            @{
+                                if (Model.ProductSizeList != null)
+                                {
+                                    foreach (var o in Model.ProductSizeList)
+                                    {
+                                        <option value="@o.Value">@o.Text</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2 pl-2 pr-2 grid-border">
+                        <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
+                            data-active-index="false">
+                            <li class="acc_section">
+                                <div class="acc_head">
+                                    <div class="row">
+                                        <h3>Description</h3>
+                                        <div
+                                            class="invoice-ds-box acc-box col-md-12">
+                                            <input type="text"
+                                                class="form-control"
+                                                id="exampleInputname"
+                                                placeholder>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="acc_content">
+                                    <div class="row mb-1 align-items-center">
+                                        <label for="exampleInputname"
+                                            class="col-md-4 form-label">Item
+                                            Desc-01</label>
+                                        <div class="col-md-8"><input type="text"
+                                                class="form-control mr-1"
+                                                id="exampleInputname"
+                                                placeholder></div>
+                                    </div>
+                                    <div class="row mb-1"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">Item
+                                            Desc-02</label>
+                                        <div class="col-md-8"><input type="text"
+                                                class="form-control mr-1"
+                                                id="exampleInputname"
+                                                placeholder></div>
+                                    </div>
+                                    <div class="row mb-1"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">Item
+                                            Desc-03</label>
+                                        <div class="col-md-8"><input type="text"
+                                                class="form-control mr-1"
+                                                id="exampleInputname"
+                                                placeholder></div>
+                                    </div>
+                                    <div class="row mb-1"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">Item
+                                            Desc-04</label>
+                                        <div class="col-md-8"><input type="text"
+                                                class="form-control mr-1"
+                                                id="exampleInputname"
+                                                placeholder></div>
+                                    </div>
+                                    <div class="row"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">Item
+                                            Desc-05</label>
+                                        <div class="col-md-8"><input type="text"
+                                                class="form-control mr-1"
+                                                id="exampleInputname"
+                                                placeholder></div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-1 pl-2 pr-2 grid-border">
+                        <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
+                            data-active-index="false">
+                            <li class="acc_section">
+                                <div class="acc_head">
+                                    <div class="row">
+                                        <h3>Batch
+                                            No</h3>
+                                        <div
+                                            class="invoice-ds-box acc-box col-md-12">
+                                            <input type="text"
+                                                class="form-control"
+                                                id="exampleInputname"
+                                                placeholder>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="acc_content&quot;">
+                                    <div class="row mb-1"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">Exp.
+                                            Dt</label>
+                                        <div class="col-md-8"><input type="text"
+                                                class="form-control mr-1"
+                                                id="exampleInputname"
+                                                placeholder></div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel1</label>
+                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
+                     </div>
+                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel2</label>
+                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
+                     </div>
+                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel3</label>
+                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
+                     </div>
+                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel4</label>
+                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
+                     </div>
+                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel5</label>
+                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
+                     </div>
+                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel6</label>
+                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
+                     </div>
+                    <div class="col-md-1 pl-2 pr-2 grid-border"><label
+                            for="exampleInputname"
+                            class="form-label">Rate</label>
+                        <div class="mb-1"><input type="text"
+                                class="form-control" id="exampleInputname"
+                                placeholder></div>
+                    </div>
+                    <div class="col-md-2 pl-2 pr-2 grid-border">
+                        <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"   
+                            data-active-index="false">
+                            <li class="acc_section">
+                                <div class="acc_head">
+                                    <div class="row">
+                                        <h3>Discount</h3>
+                                        <div class="invoice-ds-box">
+                                            <div class="row"
+                                                style="flex-wrap:nowrap;padding: 0 16px 0 12px;">
+                                                <input type="text"
+                                                    class="form-control col-md-3 mr-1"
+                                                    id="exampleInputname"
+                                                    placeholder="%"><input
+                                                    type="text"
+                                                    class="form-control col-md-9"
+                                                    id="exampleInputname"
+                                                    placeholder>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="acc_content">
+                                    <div class="row mb-1"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">QTY
+                                            Disc</label>
+                                        <div class="col-md-8">
+                                            <div class="row col-md-12"
+                                                style="flex-wrap:nowrap;"><input
+                                                    type="text"
+                                                    class="form-control col-md-3 mr-1"
+                                                    id="exampleInputname"
+                                                    placeholder="%"><input
+                                                    type="text"
+                                                    class="form-control col-md-9 mr-1"
+                                                    id="exampleInputname"
+                                                    placeholder></div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">Trad
+                                            Disc</label>
+                                        <div class="col-md-8">
+                                            <div class="row col-md-12"
+                                                style="flex-wrap:nowrap;"><input
+                                                    type="text"
+                                                    class="form-control col-md-3 mr-1"
+                                                    id="exampleInputname"
+                                                    placeholder="%"><input
+                                                    type="text"
+                                                    class="form-control col-md-9 mr-1"
+                                                    id="exampleInputname"
+                                                    placeholder></div>
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">Sp.
+                                            Disc</label>
+                                        <div class="col-md-8">
+                                            <div class="row col-md-12"
+                                                style="flex-wrap:nowrap;"><input
+                                                    type="text"
+                                                    class="form-control col-md-3 mr-1"
+                                                    id="exampleInputname"
+                                                    placeholder="%"><input
+                                                    type="text"
+                                                    class="form-control col-md-9 mr-1"
+                                                    id="exampleInputname"
+                                                    placeholder></div>
+                                        </div>
+                                    </div>
+                                    <div class="row"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">Cash
+                                            Disc</label>
+                                        <div class="col-md-8">
+                                            <div class="row col-md-12"
+                                                style="flex-wrap:nowrap;"><input
+                                                    type="text"
+                                                    class="form-control col-md-3 mr-1"
+                                                    id="exampleInputname"
+                                                    placeholder="%"><input
+                                                    type="text"
+                                                    class="form-control col-md-9 mr-1"
+                                                    id="exampleInputname"
+                                                    placeholder></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-2 pl-2 pr-2 grid-border">
+                        <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
+                            data-active-index="false">
+                            <li class="acc_section">
+                                <div class="acc_head">
+                                    <div class="row">
+                                        <h3>Tax
+                                            Amt</h3>
+                                        <div
+                                            class="invoice-ds-box acc-box col-md-12">
+                                            <input type="text"
+                                                class="form-control"
+                                                id="exampleInputname"
+                                                placeholder>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="acc_content">
+                                    <div class="row mb-1"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">+
+                                            %</label>
+                                        <div class="col-md-8"><input type="text"
+                                                class="form-control mr-1"
+                                                id="exampleInputname"
+                                                placeholder></div>
+                                    </div>
+                                    <div class="row mb-1"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">Retail Rate
+                                            </label>
+                                        <div class="col-md-8"><input type="text"
+                                                class="form-control mr-1"
+                                                id="exampleInputname"
+                                                placeholder></div>
+                                    </div>
+                                </div>
+                                <div class="acc_content">
+                                    <div class="row mb-1"><label
+                                            for="exampleInputname"
+                                            class="col-md-4 form-label">Retail
+                                            Rate</label>
+                                        <div class="col-md-8"><input type="text"
+                                                class="form-control mr-1"
+                                                id="exampleInputname"
+                                                placeholder></div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-md-1 pl-2 pr-2 grid-border"><label
+                            for="exampleInputname"
+                            class="form-label">GST</label>
+                        <div class="mb-1"><input type="text"
+                                class="form-control" id="exampleInputname"
+                                placeholder></div>
+                    </div>
+                    <div class="col-md-1 pl-2 pr-2 grid-border"><label
+                            for="exampleInputname"
+                            class="form-label">S.Cess</label>
+                        <div class="mb-1"><input type="text"
+                                class="form-control" id="exampleInputname"
+                                placeholder></div>
+                    </div>
+                    <div class="col-md-1 pl-2 pr-2 grid-border"><label
+                            for="exampleInputname"
+                            class="form-label">C.Cess</label>
+                        <div class="mb-1"><input type="text"
+                                class="form-control" id="exampleInputname"
+                                placeholder></div>
+                    </div>
+                    <div class="col-md-1 grid-border d-flex justify-content-center align-items-center
+                        <div class=" form-group text-center mb-1">
+                        <div class="btn-list1 mt-1">
+                            <a href="javascript:addRow();"
+                                class="btn btn-outline-primary small-icon-btn"
+                                title data-placement="bottom"
+                                data-original-title="Add"><i
+                                    class="fa fa-plus"></i></a>
+                            <a href="javascript:deleteRow(` + contentRowId + `);"
+                                class="btn btn-outline-danger small-icon-btn"
+                                data-toggle="tooltip" title
+                                data-placement="bottom"
+                                data-original-title="Delete"><i
+                                    class="fa fa-trash-o"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>`;
+    
+            htmlContentArray.push(htmlContent);
+
+            // addedIds.push(selectedLRDetails[i].id);
+
+            $('.content-rows-add-btn').remove();
+            $('#GeneralExpensesMultiList').append(htmlContentArray.join(''));
+           	
+            var accordionContainers = $('#row-' + contentRowId + ' .demo-accordion');
+			accordionContainers.each(function () {
+				$(this).accordionjs(); // Initialize accordion
+				$(this).find('.acc_content').hide(); // Close accordion sections
+			});
+
+             $('.select2-show-search-contentrows').select2({
+                minimumResultsForSearch: ''
+            });
+
+            // Attach event listeners to relevant inputs for the taxable amount calculation
+            $('#Quantity1' + contentRowId + ', #Quantity2' + contentRowId + ', #Quantity3' + contentRowId +
+            ', #Quantity4' + contentRowId + ', #Quantity5' + contentRowId + ', #Quantity6' + contentRowId +
+            ', #Rate' + contentRowId + ', #DiscountAmount' + contentRowId + ', #OtherCharges' + contentRowId).on('keyup', function () {
+                calculateAmount(contentRowId);
+                calculateTotalTaxableAmount();
+            });
+
+            $('#ProductGroupId' + contentRowId).on('change', function (e) {
+                var currentRowId = $(this).attr('id').replace('ProductGroupId', '');
+                GetProductListWithGroupId($(this).val(), currentRowId);
+            });
+
+            $('#ProductBranchMappingId' + contentRowId).on('change', function (e) {
+                var currentRowId = $(this).attr('id').replace('ProductBranchMappingId', '');
+                GetRateListWithProductId($(this).val(), currentRowId);
+            });
+
+            $("#AccountBranchMappingId").on('change', function (e) {
+                GetListWithCustomerAccountBranchMappingId($(this).val(), contentRowId);
+                calculateTotalTaxableAmount();
+            });
+
+            var counter = 0;
+            $('.content-row-srno').each(function () {
+                $(this).val(++counter);
+            });
+
+            $('.delete-row-btn').on('click', function () {
+                var index = $(this).data('index');
+                deleteRow(index);
+            });
+
+            calculateTotalTaxableAmount();
+            // updateSelectedIdsInput();
+        }
+
+        function calculateAmount(contentRowId) {
+            // Assuming Quantity1 to Quantity6 are the labels 1 to 6
+            var quantity1 = parseFloat($('#Quantity1' + contentRowId).val()) || 0;
+            var quantity2 = parseFloat($('#Quantity2' + contentRowId).val()) || 0;
+            var quantity3 = parseFloat($('#Quantity3' + contentRowId).val()) || 0;
+            var quantity4 = parseFloat($('#Quantity4' + contentRowId).val()) || 0;
+            var quantity5 = parseFloat($('#Quantity5' + contentRowId).val()) || 0;
+            var quantity6 = parseFloat($('#Quantity6' + contentRowId).val()) || 0;
+
+            var rate = parseFloat($('#Rate' + contentRowId).val()) || 0;
+            var discountPercent = parseFloat($('#DiscountPercentage' + contentRowId).val()) || 0;
+            var discountAmount = (rate * discountPercent) / 100;
+            var otherCharges = parseFloat($('#OtherCharges' + contentRowId).val()) || 0;
+
+            // Calculate the sum of LABEL 1 to 6
+            var sumOfLabels = quantity1 + quantity2 + quantity3 + quantity4 + quantity5 + quantity6;
+
+            // Calculate the taxable amount using the provided formula
+            var taxableAmount = (sumOfLabels * (rate - discountAmount)) + otherCharges;
+
+            // Set the calculated amount in the respective input field
+            $('#BasicAmount' + contentRowId).val(taxableAmount.toFixed(2));
+            $('#DiscountAmount' + contentRowId).val(discountAmount.toFixed(2));
+
+        }
+
+        function calculateTotalTaxableAmount() {
+            var totalTaxableAmount = 0;
+
+            $('.content-rows').each(function () {
+                var currentRowId = $(this).attr('id').replace('row-', '');
+                var taxableAmount = parseFloat($('#BasicAmount' + currentRowId).val()) || 0;
+
+                // var CGSTTotal = parseFloat($('#CGSTTotal' + currentRowId).val()) || 0;
+                // var SGSTTotal = parseFloat($('#SGSTTotal' + currentRowId).val()) || 0;
+                // var IGSTTotal = parseFloat($('#IGSTTotal' + currentRowId).val()) || 0;
+                // var GSTStateCessTotal = parseFloat($('#GSTStateCessTotal' + currentRowId).val()) || 0;
+                // var GSTCentralCessTotal = parseFloat($('#GSTCentralCessTotal' + currentRowId).val()) || 0;
+                // var TCSPercent = parseFloat($('#TCSPercent' + currentRowId).val()) || 0;
+                var TDSPercent = parseFloat($('#TDSPercent').val() || 0);
+
+                totalTaxableAmount += taxableAmount;
+                
+                var tdsAmount = (totalTaxableAmount * TDSPercent) / 100;
+                tdsAmount = customRound(tdsAmount);
+                
+                $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
+                $('#TDSAmount').val(tdsAmount.toFixed(2));
+            });
+
+            var BasicAmount = parseFloat($('#TaxableAmount').val()) || 0;
+            var CGSTTotal = parseFloat($('#CGSTTotal').val()) || 0;
+            var SGSTTotal = parseFloat($('#SGSTTotal').val()) || 0;
+            var IGSTTotal = parseFloat($('#IGSTTotal').val()) || 0;
+            var GSTStateCessTotal = parseFloat($('#GSTStateCessTotal').val()) || 0;
+            var GSTCentralCessTotal = parseFloat($('#GSTCentralCessTotal').val()) || 0;
+            var TCSPercent = parseFloat($('#TCSPercent').val()) || 0;
+
+            $('#TCSAmount').val(((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal) * (TCSPercent) / 100).toFixed(2));
+            var TCSAmount = parseFloat($('#TCSAmount').val()) || 0;
+            
+            // Calculate the sum of all components
+            var totalAmount = BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount;
+
+            // Calculate RoundOff based on custom rounding logic
+            var RoundOff = customRound(totalAmount) - totalAmount;
+
+            $('#RoundOff').val(RoundOff.toFixed(2));
+            $('#BillAmount').val((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount + RoundOff).toFixed(2));
+
+        }
+
+        function customRound(number) {
+            var decimalPart = number % 1;
+            return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
+        }
+
+        function deleteRow(index) {
+            if (selectedLRDetails[index]) {
+                var deletedId = selectedLRDetails[index].id;
+                $('#row-' + index).remove();
+                addedIds = addedIds.filter(id => id !== deletedId);
+                selectedLRDetails.splice(index, 1);
+                updateSelectedIdsInput();
+            }
+        }
+
+        function updateSelectedIdsInput() {
+            var uniqueIds = [...new Set(selectedLRDetails.map(item => item.id))];
+            updateHiddenInput(uniqueIds);
+            $("#ToPayAmount, #Paid, #TBB, #Total").val('0.00');
+            uniqueIds.forEach(function (id) {
+                GetLRToPayAmount(id);
+            });
+        }
+
+    </script>
+}
