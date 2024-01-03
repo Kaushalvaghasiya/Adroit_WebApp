@@ -15,7 +15,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_BrokerSave]
 	@AdharUID			VARCHAR (12),
 	@Active				BIT,
 	@AddedById			INT,
-	@ModifiedById		INT
+	@ModifiedById		INT,
+	@CustomerBrokerBranchIds NVARCHAR(MAX)
 )
 AS
 BEGIN
@@ -42,6 +43,18 @@ BEGIN
 					ModifiedById = @ModifiedById, 
 					ModifiedOn = GETUTCDATE()
 					WHERE Id = @Id And CustomerId = @CustomerId
+
+					UPDATE  CustomerBrokerBranchMapping SET
+						DeletedById = @UserId,
+						DeletedOn = GETUTCDATE(),
+						Deleted = 1
+					WHERE BrokerId = @Id AND [BranchId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@CustomerBrokerBranchIds))
+
+					UPDATE  CustomerBrokerBranchMapping SET
+							DeletedById = NULL,
+							DeletedOn = NULL,
+							Deleted = 0
+					WHERE BrokerId = @Id AND [BranchId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@CustomerBrokerBranchIds))
 			END
 		ELSE
 			BEGIN
@@ -54,7 +67,12 @@ BEGIN
 
 				SET @Id = SCOPE_IDENTITY();
 			END
-		
+		INSERT INTO [CustomerBrokerBranchMapping] (BrokerId,BranchId,AddedById,AddedOn)
+		SELECT @Id,Id,@UserId,GETUTCDATE()
+		FROM dbo.[fnStringToIntArray](@CustomerBrokerBranchIds)
+		EXCEPT
+		SELECT BrokerId,BranchId,@UserId,GETUTCDATE() 
+		FROM [dbo].[CustomerBrokerBranchMapping]
 		COMMIT TRAN
 		SELECT @Id
 	END TRY

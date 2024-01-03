@@ -9,6 +9,10 @@ BEGIN
 
 	SELECT 
 		[Broker].*,
+		(SELECT STUFF((SELECT ',' + CAST(t1.BranchId AS VARCHAR) FROM CustomerBrokerBranchMapping t1
+					WHERE t1.BrokerId = t.BrokerId and  Deleted = 0 FOR XML PATH('')),1,1,'') Concats
+			FROM  CustomerBrokerBranchMapping t
+			WHERE t.BrokerId = @Id and  Deleted = 0 GROUP BY t.BrokerId) AS CustomerBrokerBranchIds,
 		[Country].Id as CountryId, 
 		[Country].Title as Country, 
 		[State].Id as StateId, 
