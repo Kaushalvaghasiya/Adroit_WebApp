@@ -27,6 +27,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Active", value.Active);
             parameters.Add("@AddedById", value.AddedById);
             parameters.Add("@ModifiedById", value.ModifiedById);
+            parameters.Add("@CustomerBrokerBranchIds", value.CustomerBrokerBranchIds);
 
             return QueryHelper.Save("sp_BrokerSave", connectionString, parameters);
         }

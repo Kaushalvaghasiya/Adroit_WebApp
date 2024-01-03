@@ -17,6 +17,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
             model.BrokerNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BrokerTable._TableName, BrokerTable.Name);
             model.BrokerageList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BrokerTable._TableName, BrokerTable.Brokerage);
+            model.BranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
             return View(model);
         }
 
