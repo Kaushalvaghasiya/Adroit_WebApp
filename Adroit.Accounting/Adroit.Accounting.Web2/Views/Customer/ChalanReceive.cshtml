@@ -35,10 +35,24 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">CHALLAN#</th>
-                                    <th class="border-bottom-0">DATE</th>
-                                    <th class="border-bottom-0">AMOUNT</th>
+                                    <th class="border-bottom-0">BRANCH REC#</th>
+                                    <th class="border-bottom-0">FIRM REC#</th>
+                                    <th class="border-bottom-0">ARRIVAL DATE</th>
+                                    <th class="border-bottom-0">VEHICLE #</th>
+                                    <th class="border-bottom-0">SENDER NAME</th>
+                                    <th class="border-bottom-0">CH.</th>
+                                    <th class="border-bottom-0">CH. DATE</th>
+                                    <th class="border-bottom-0">FREIGHT</th>
+                                    <th class="border-bottom-0">FROM CITY</th>
                                     <th class="border-bottom-0">TO CITY</th>
+                                    <th class="border-bottom-0">NET AMOUNT</th>
+                                    <th class="border-bottom-0">BILL PARTY</th>
+                                    <th class="border-bottom-0">TO PAY LR</th>
+                                    <th class="border-bottom-0">TO PAY LR AMT.</th>
+                                    <th class="border-bottom-0">PAID LR</th>
+                                    <th class="border-bottom-0">PAID LR AMT.</th>
+                                    <th class="border-bottom-0">TBB LR</th>
+                                    <th class="border-bottom-0">TBB LR AMT.</th>
                                     <th class="border-bottom-0 text-center" style="width:80px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -532,13 +546,50 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
+                    return row.billNumberFirm;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
                     return moment(row.receiveDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.netAmount;
+                    return row.vehilcleNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.senderName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.chalanNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.chalanDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.freight || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
                 },
                 "targets": colDef.length,
             });
@@ -547,6 +598,61 @@
                     return row.cityTo;
                 },
                 "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.netAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billParty;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.toPayLR;
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.toPayLRAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.paidLR;
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.paidLRAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.tbblr;
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.tbblrAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -563,9 +669,23 @@
             });
 
             columns.push({ "data": "billNumberBranch", "name": "billNumberBranch" });
+            columns.push({ "data": "billNumberFirm", "name": "billNumberFirm" });
             columns.push({ "data": "receiveDate", "name": "receiveDate" });
-            columns.push({ "data": "netAmount", "name": "netAmount" });
+            columns.push({ "data": "vehilcleNumber", "name": "vehilcleNumber" });
+            columns.push({ "data": "senderName", "name": "senderName" });
+            columns.push({ "data": "chalanNumber", "name": "chalanNumber" });
+            columns.push({ "data": "chalanDate", "name": "chalanDate" });
+            columns.push({ "data": "freight", "name": "freight" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "netAmount", "name": "netAmount" });
+            columns.push({ "data": "billParty", "name": "billParty" });
+            columns.push({ "data": "toPayLR", "name": "toPayLR" });
+            columns.push({ "data": "toPayLRAmount", "name": "toPayLRAmount" });
+            columns.push({ "data": "paidLR", "name": "paidLR" });
+            columns.push({ "data": "paidLRAmount", "name": "paidLRAmount" });
+            columns.push({ "data": "tbbLR", "name": "tbbLR" });
+            columns.push({ "data": "tbbLRAmount", "name": "tbbLRAmount" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
