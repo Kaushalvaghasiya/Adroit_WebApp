@@ -130,7 +130,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", branchId);
-            return QueryHelper.GetList<SalesBillMasterViewModel>("sp_CustomerInvoiceList_Select", connectionString, parameters);
+            return QueryHelper.GetList<SalesBillMasterViewModel>("sp_ReceiveInvoiceList", connectionString, parameters);
         }
     }
 }

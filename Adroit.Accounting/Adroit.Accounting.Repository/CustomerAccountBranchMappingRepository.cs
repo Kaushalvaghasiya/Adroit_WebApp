@@ -13,6 +13,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", branchId);
+            parameters.Add("@Code", "");
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountBranchMappingList_Select", connectionString, parameters);
         }
     }

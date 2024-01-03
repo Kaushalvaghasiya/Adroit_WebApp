@@ -1,4 +1,4 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerInvoiceList_Select]
+CREATE OR ALTER PROCEDURE [dbo].[sp_ReceiveInvoiceList]
 (
 	@BranchId INT,
 	@FirmId INT,
