@@ -8,7 +8,7 @@ namespace Adroit.Accounting.Repository
 {
     public class BrokerRepository : IBroker
     {
-        public int Save(Broker value, int userId, string connectionString)
+        public int Save(BrokerViewModel value, int userId, string connectionString)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
