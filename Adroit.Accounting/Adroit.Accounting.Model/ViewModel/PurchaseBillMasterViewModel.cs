@@ -16,6 +16,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> BrokerList { get; set; }
         public List<DropdownViewModel> CustomerFirmBranchList { get; set; }
         public List<DropdownViewModel> BillTypeList { get; set; }
+        public List<DropdownViewModel> ProductSKUList { get; set; }
         public List<DropdownViewModel> ProductGroupList { get; set; }
         public List<DropdownViewModel> ProductDesignNumberList { get; set; }
         public List<DropdownViewModel> ProductColorList { get; set; }

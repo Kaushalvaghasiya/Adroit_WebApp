@@ -18,6 +18,7 @@ namespace Adroit.Accounting.Web.Controllers
             var model = new PurchaseBillMasterViewModel();
 
             model.AccountBranchMappingList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection, CurrentUserId);
+            //model.ProductSKUList = _productRepository.SelectProductCodeList(CurrentFirmId, _configurationData.DefaultConnection);
             model.ProductGroupList = _productGroupRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
             model.ProductColorList = _productColorRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection); 
             model.ProductSizeList = _productSizeRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
@@ -27,6 +28,7 @@ namespace Adroit.Accounting.Web.Controllers
 
             return View(model);
         }
+
         [HttpPost]
         public JsonResult SaveCustomerGeneralExpensesMulti([FromBody] PurchaseBillMasterViewModel model)
         {

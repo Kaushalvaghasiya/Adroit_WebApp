@@ -41,12 +41,12 @@
                                     <th class="border-bottom-0">GST#</th>
                                     <th class="border-bottom-0">Amount</th>
                                     <th class="border-bottom-0">City</th>
-                                    <th class="border-bottom-0">E-Invoice Ack.#</th>
+                                    @* <th class="border-bottom-0">E-Invoice Ack.#</th>
                                     <th class="border-bottom-0">E-Invoice Date</th>
                                     <th class="border-bottom-0">GSTR1 Filling Ack.#</th>
                                     <th class="border-bottom-0">GSTR1 Filling Date</th>
                                     <th class="border-bottom-0">GSTR3B Filling Ack.#</th>
-                                    <th class="border-bottom-0">GSTR3B Filling Date</th>
+                                    <th class="border-bottom-0">GSTR3B Filling Date</th> *@
                                     <th class="border-bottom-0">Firm Bill#</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
@@ -360,10 +360,8 @@
 
 
 @section Scripts
-    {
+{
     <script>
-        var selectedLRDetails = [];
-        var addedIds = [];
         var contentRowId = 0;
 
         $(function (e) {
@@ -372,8 +370,14 @@
             $('.dv-detail').hide();
 
             bindDatatableList();
+            addClick();
 
             $('#TaxableAmount, #CGSTTotal, #SGSTTotal, #IGSTTotal, #GSTStateCessTotal, #GSTCentralCessTotal, #TCSPercent, #TCSAmount').on('keyup', function () {
+                calculateTotalTaxableAmount();
+            });
+
+            $("#AccountBranchMappingId").on('change', function (e) {
+                GetListWithCustomerAccountBranchMappingId($(this).val(), contentRowId);
                 calculateTotalTaxableAmount();
             });
 
@@ -562,8 +566,6 @@
             $("#CrossingDeliveryAccountBranchMappingId").val(null).trigger('change');
             $("#IsAutoLedger").prop('checked', true);
 
-            selectedLRDetails = [];
-            addedIds = [];
             $("#hdnSelectedLRNumberIds").val();
             $('#GeneralExpensesMultiList').html('');
 
@@ -820,8 +822,6 @@
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
 
-                                selectedLRDetails = [];
-                                addedIds = [];
                                 $("#hdnSelectedLRNumberIds").val();
                                 $('#GeneralExpensesMultiList').html('');
 
@@ -863,7 +863,7 @@
                                 $("#BrokerAmount").val((result.data.brokerAmount || 0).toFixed(2));
                                 $("#IsAutoLedger").prop('checked', result.data.isAutoLedger);
                                 CalcNetAmount();
-                                getLRDetailListByPurchaseBillMas(result.data.id);
+                                getLRDetailListByPurchaseBillMaster(result.data.id);
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -881,10 +881,10 @@
             }
         }
 
-        function getLRDetailListByPurchaseBillMas(purchaseBillMasterId) {
+        function getLRDetailListByPurchaseBillMaster(masterId) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByPurchaseBillMasterId"))" + "/" + purchaseBillMasterId, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByPurchaseBillMasterId"))" + "/" + masterId, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -926,9 +926,9 @@
             }
         }
 
-        function GetListWithCustomerAccountBranchMappingId(CustomerAccountBranchMappingId, contentRowId) {
+        function GetListWithCustomerAccountBranchMappingId(CustomerAccountBranchMappingId) {
             try {
-                 if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
+                if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListWithCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
                     function (result) {
                         try {
@@ -937,8 +937,8 @@
                                 $("#CreditDays").val(result.data.creditDays);
                                 $("#TDSPercent").val(result.data.tds);
                                 $("#TCSPercent").val(result.data.tcs);
-                                if (contentRowId)
-                                    $("#DiscountPercentage" + contentRowId).val(result.data.discount);
+                                $("#GenaralPurchaseAccountBranchMappingId").val($("#AccountBranchMappingId").val()).trigger("change");
+                                $(".discount-percentage-cls").val(result.data.discount);
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -1067,433 +1067,307 @@
             var htmlContentArray = [];
 
             var htmlContent =
-                `<div class="row m-0 rounded content-rows" id="row-` + contentRowId + `" style="border-bottom: 1px solid rgba(107, 122, 144, 0.3)">
-                    <div class="row">
-                    <div class="col-md-1 pl-2 pr-2 grid-border"
-                        style="position:sticky;z-index:1;left:0;background-color:white;">
-                        <label for="srTextbox" class="form-label">
-                            SR
-                            #</label><input type="text"
-                            class="form-control content-row-srno" id="srTextbox"
-                            placeholder max="999">
-                    </div>
-                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                        <label for="exampleInputname" class="form-label">SKU
-                            #</label><input type="text" class="form-control"
-                            id="exampleInputname" placeholder max="999">
-                    </div>
-                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                        <label for="exampleInputname" class="form-label">GROUP</label>
-                        <select class="form-control select2-show-search" id="GroupId">
-                        <option></option>
-                        @{
-                            if (Model.ProductGroupList != null)
-                            {
-                                foreach (var o in Model.ProductGroupList)
-                                {
-                                    <option value="@o.Value">@o.Text</option>
-                                }
-                            }
-                        }
-                        </select>
-                    </div>
-                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                        <label for="exampleInputname" class="form-label">DESIGN #</label>
-                        <select class="form-control select2-show-search" id="GroupId">
-                            <option></option>
-                            @{
-                                if (Model.ProductDesignNumberList != null)
-                                {
-                                    foreach (var o in Model.ProductDesignNumberList)
+                `<div class="row m-0 rounded content-rows" id="row-` + contentRowId + `">
+                     <div class="row">
+                         <input type="hidden" id="ProductBranchMappingId${contentRowId}" value="0" />
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="SrTextbox${contentRowId}" class="form-label"> SR#</label><input type="text" class="form-control content-row-srno" id="SrTextbox${contentRowId}" placeholder max="999">
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="SkuId${contentRowId}" class="form-label">SKU#</label>
+                             <select class="form-control select2-show-search select2-show-search-contentrows" id="SkuId${contentRowId}">
+                                @{
+                                    if (Model.ProductSKUList != null)
                                     {
-                                        <option value="@o.Value">@o.Text</option>
+                                        foreach (var o in Model.ProductSKUList)
+                                        {
+                                             <option value="@o.Value">@o.Text</option>
+                                        }
                                     }
                                 }
-                            }
-                        </select>
-                    </div>
-                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                        <label for="exampleInputname" class="form-label">COLOUR</label>
-                        <select class="form-control select2-show-search" id="GroupId">
-                            <option></option>
-                            @{
-                                if (Model.ProductColorList != null)
-                                {
-                                    foreach (var o in Model.ProductColorList)
+                             </select>
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="GroupId${contentRowId}" class="form-label">GROUP</label>
+                             <select class="form-control select2-show-search select2-show-search-contentrows" id="GroupId${contentRowId}">
+                                @{
+                                    if (Model.ProductGroupList != null)
                                     {
-                                        <option value="@o.Value">@o.Text</option>
+                                        foreach (var o in Model.ProductGroupList)
+                                        {
+                                             <option value="@o.Value">@o.Text</option>
+                                        }
                                     }
                                 }
-                            }
-                        </select>
-                    </div>
-                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                        <label for="exampleInputname" class="form-label">SIZE</label>
-                         <select class="form-control select2-show-search" id="GroupId">
-                            <option></option>
-                            @{
-                                if (Model.ProductSizeList != null)
-                                {
-                                    foreach (var o in Model.ProductSizeList)
+                             </select>
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="DesignId${contentRowId}" class="form-label">DESIGN #</label>
+                            <select class="form-control select2-show-search select2-show-search-contentrows" id="DesignId${contentRowId}">
+                                @{
+                                    if (Model.ProductDesignNumberList != null)
                                     {
-                                        <option value="@o.Value">@o.Text</option>
+                                        foreach (var o in Model.ProductDesignNumberList)
+                                        {
+                                             <option value="@o.Value">@o.Text</option>
+                                        }
                                     }
                                 }
-                            }
-                        </select>
-                    </div>
-                    <div class="col-md-2 pl-2 pr-2 grid-border">
-                        <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
-                            data-active-index="false">
-                            <li class="acc_section">
-                                <div class="acc_head">
-                                    <div class="row">
-                                        <h3>Description</h3>
-                                        <div
-                                            class="invoice-ds-box acc-box col-md-12">
-                                            <input type="text"
-                                                class="form-control"
-                                                id="exampleInputname"
-                                                placeholder>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="acc_content">
-                                    <div class="row mb-1 align-items-center">
-                                        <label for="exampleInputname"
-                                            class="col-md-4 form-label">Item
-                                            Desc-01</label>
-                                        <div class="col-md-8"><input type="text"
-                                                class="form-control mr-1"
-                                                id="exampleInputname"
-                                                placeholder></div>
-                                    </div>
-                                    <div class="row mb-1"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">Item
-                                            Desc-02</label>
-                                        <div class="col-md-8"><input type="text"
-                                                class="form-control mr-1"
-                                                id="exampleInputname"
-                                                placeholder></div>
-                                    </div>
-                                    <div class="row mb-1"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">Item
-                                            Desc-03</label>
-                                        <div class="col-md-8"><input type="text"
-                                                class="form-control mr-1"
-                                                id="exampleInputname"
-                                                placeholder></div>
-                                    </div>
-                                    <div class="row mb-1"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">Item
-                                            Desc-04</label>
-                                        <div class="col-md-8"><input type="text"
-                                                class="form-control mr-1"
-                                                id="exampleInputname"
-                                                placeholder></div>
-                                    </div>
-                                    <div class="row"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">Item
-                                            Desc-05</label>
-                                        <div class="col-md-8"><input type="text"
-                                                class="form-control mr-1"
-                                                id="exampleInputname"
-                                                placeholder></div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-1 pl-2 pr-2 grid-border">
-                        <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
-                            data-active-index="false">
-                            <li class="acc_section">
-                                <div class="acc_head">
-                                    <div class="row">
-                                        <h3>Batch
-                                            No</h3>
-                                        <div
-                                            class="invoice-ds-box acc-box col-md-12">
-                                            <input type="text"
-                                                class="form-control"
-                                                id="exampleInputname"
-                                                placeholder>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="acc_content&quot;">
-                                    <div class="row mb-1"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">Exp.
-                                            Dt</label>
-                                        <div class="col-md-8"><input type="text"
-                                                class="form-control mr-1"
-                                                id="exampleInputname"
-                                                placeholder></div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel1</label>
-                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
+                             </select>
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="ColourId${contentRowId}" class="form-label">COLOUR</label>
+                             <select class="form-control select2-show-search select2-show-search-contentrows" id="ColourId${contentRowId}">
+                                @{
+                                    if (Model.ProductColorList != null)
+                                    {
+                                        foreach (var o in Model.ProductColorList)
+                                        {
+                                             <option value="@o.Value">@o.Text</option>
+                                        }
+                                    }
+                                }
+                             </select>
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="SizeId${contentRowId}" class="form-label">SIZE</label>
+                             <select class="form-control select2-show-search select2-show-search-contentrows" id="SizeId${contentRowId}">
+                                @{
+                                    if (Model.ProductSizeList != null)
+                                    {
+                                        foreach (var o in Model.ProductSizeList)
+                                        {
+                                             <option value="@o.Value">@o.Text</option>
+                                        }
+                                    }
+                                }
+                             </select>
+                         </div>
+                         <div class="col-md-2 pl-2 pr-2 grid-border">
+                             <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
+                                 data-active-index="false">
+                                 <li class="acc_section">
+                                     <div class="acc_head">
+                                         <div class="row">
+                                             <h3>Description</h3>
+                                             <div class="invoice-ds-box acc-box col-md-12">
+                                                 <select class="form-control select2-show-search select2-show-search-contentrows" id="DescriptionId${contentRowId}">
+                                                    @{
+                                                        if (Model.ProductDescriptionList != null)
+                                                        {
+                                                            foreach (var o in Model.ProductDescriptionList)
+                                                            {
+                                                                <option value="@o.Value">@o.Text</option>
+                                                            }
+                                                        }
+                                                    }
+                                                 </select>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="acc_content">
+                                         <div class="row mb-1 align-items-center">
+                                             <label for="ItemDec1${contentRowId}" class="col-md-4 form-label">Item Desc-01</label>
+                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ItemDec1${contentRowId}" placeholder></div>
+                                         </div>
+                                         <div class="row mb-1">
+                                             <label for="ItemDec2${contentRowId}" class="col-md-4 form-label">Item Desc-02</label>
+                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ItemDec2${contentRowId}" placeholder></div>
+                                         </div>
+                                         <div class="row mb-1">
+                                             <label for="ItemDec3${contentRowId}" class="col-md-4 form-label">Item Desc-03</label>
+                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ItemDec3${contentRowId}" placeholder></div>
+                                         </div>
+                                         <div class="row mb-1">
+                                             <label for="ItemDec4${contentRowId}" class="col-md-4 form-label">Item Desc-04</label>
+                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ItemDec4${contentRowId}" placeholder></div>
+                                         </div>
+                                         <div class="row">
+                                             <label for="ItemDec5${contentRowId}" class="col-md-4 form-label">Item Desc-05</label>
+                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ItemDec5${contentRowId}" placeholder></div>
+                                         </div>
+                                     </div>
+                                 </li>
+                             </ul>
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border">
+                             <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                 <li class="acc_section">
+                                     <div class="acc_head">
+                                         <div class="row">
+                                             <h3>Batch No</h3>
+                                             <div class="invoice-ds-box acc-box col-md-12">
+                                                 <input type="text" class="form-control" id="BatchNo${contentRowId}" placeholder>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="acc_content&quot;">
+                                         <div class="row mb-1">
+                                             <label for="ExpDt${contentRowId}" class="col-md-4 form-label">Exp. Dt</label>
+                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ExpDt${contentRowId}" placeholder></div>
+                                         </div>
+                                     </div>
+                                 </li>
+                             </ul>
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="BoxLabel1${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel1</label>
+                             <input type="text" class="form-control" id="BoxLabel1${contentRowId}" placeholder max="999">
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="BoxLabel2${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel2</label>
+                             <input type="text" class="form-control" id="BoxLabel2${contentRowId}" placeholder max="999">
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="BoxLabel3${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel3</label>
+                             <input type="text" class="form-control" id="BoxLabel3${contentRowId}" placeholder max="999">
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="BoxLabel4${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel4</label>
+                             <input type="text" class="form-control" id="BoxLabel4${contentRowId}" placeholder max="999">
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="BoxLabel5${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel5</label>
+                             <input type="text" class="form-control" id="BoxLabel5${contentRowId}" placeholder max="999">
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                             <label for="BoxLabel6${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel6</label>
+                             <input type="text" class="form-control" id="BoxLabel6${contentRowId}" placeholder max="999">
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border">
+                             <label for="Rate${contentRowId}" class="form-label">Rate</label>
+                             <div class="mb-1"><input type="text" class="form-control" id="Rate${contentRowId}" placeholder></div>
+                         </div>
+                         <div class="col-md-2 pl-2 pr-2 grid-border">
+                             <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                 <li class="acc_section">
+                                     <div class="acc_head">
+                                         <div class="row">
+                                             <h3>Discount</h3>
+                                             <div class="invoice-ds-box">
+                                                 <div class="row" style="flex-wrap:nowrap;padding: 0 16px 0 12px;">
+                                                     <input type="text" class="form-control col-md-3 mr-1 discount-percentage-cls" id="DiscPercentage${contentRowId}" placeholder="%">
+                                                     <input type="text" class="form-control col-md-9" id="DiscAmt${contentRowId}" placeholder>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="acc_content">
+                                         <div class="row mb-1">
+                                             <label for="QtyDiscAmt" class="col-md-4 form-label">QTY Disc</label>
+                                             <div class="col-md-8">
+                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                     <input type="text" class="form-control col-md-3 mr-1" id="QtyDiscPercentage${contentRowId}" placeholder="%">
+                                                     <input type="text" class="form-control col-md-9 mr-1" id="QtyDiscAmt${contentRowId}" placeholder>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="row mb-1">
+                                             <label for="TradDiscAmt" class="col-md-4 form-label">Trad Disc</label>
+                                             <div class="col-md-8">
+                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                     <input type="text" class="form-control col-md-3 mr-1" id="TradDiscPerc${contentRowId}" placeholder="%">
+                                                     <input type="text" class="form-control col-md-9 mr-1" id="TradDiscAmt${contentRowId}" placeholder>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                         <div class="row mb-1">
+                                             <label for="SpDiscAmt" class="col-md-4 form-label">Sp. Disc</label>
+                                             <div class="col-md-8">
+                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                     <input type="text" class="form-control col-md-3 mr-1" id="SpDiscPerc${contentRowId}" placeholder="%">
+                                                     <input type="text" class="form-control col-md-9 mr-1" id="SpDiscAmt${contentRowId}" placeholder>
+                                                  </div>
+                                             </div>
+                                         </div>
+                                         <div class="row">
+                                             <label for="CashDiscAmt" class="col-md-4 form-label">Cash Disc</label>
+                                             <div class="col-md-8">
+                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                     <input type="text" class="form-control col-md-3 mr-1" id="CashDiscPerc${contentRowId}" placeholder="%">
+                                                     <input type="text" class="form-control col-md-9 mr-1" id="CashDiscAmt${contentRowId}" placeholder>
+                                                 </div>
+                                             </div>
+                                         </div>
+                                     </div>
+                                 </li>
+                             </ul>
+                         </div>
+                         <div class="col-md-2 pl-2 pr-2 grid-border">
+                             <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                 <li class="acc_section">
+                                     <div class="acc_head">
+                                         <div class="row">
+                                             <h3>Tax Amt</h3>
+                                             <div class="invoice-ds-box acc-box col-md-12">
+                                                 <input type="text" class="form-control" id="TaxAmt${contentRowId}" placeholder>
+                                             </div>
+                                         </div>
+                                     </div>
+                                     <div class="acc_content">
+                                         <div class="row mb-1">
+                                             <label for="TaxPlusAmt${contentRowId}" class="col-md-4 form-label">+ %</label>
+                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="TaxPlusAmt${contentRowId}" placeholder></div>
+                                         </div>
+                                         <div class="row mb-1">
+                                             <label for="RetailRate${contentRowId}" class="col-md-4 form-label">Retail Rate </label>
+                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="RetailRate${contentRowId}" placeholder></div>
+                                         </div>
+                                     </div>                                     
+                                 </li>
+                             </ul>
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border">
+                             <label for="Gst${contentRowId}" class="form-label">GST</label>
+                             <div class="mb-1"><input type="text" class="form-control" id="Gst${contentRowId}" placeholder></div>
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border">
+                             <label for="Scess${contentRowId}" class="form-label">S.Cess</label>
+                             <div class="mb-1"><input type="text" class="form-control" id="Scess${contentRowId}" placeholder></div>
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border">
+                             <label for="Ccess${contentRowId}" class="form-label">C.Cess</label>
+                             <div class="mb-1"><input type="text" class="form-control" id="Ccess${contentRowId}" placeholder></div>
+                         </div>
+                         <div class="col-md-1 grid-border d-flex justify-content-center align-items-center>
+                              <div class="form-group text-center mb-1">
+                                  <div class="btn-list1 mt-1">
+                                      <a href="javascript:addRow();" class="btn btn-outline-primary small-icon-btn content-rows-add-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add" tabindex="25"><i class="fa fa-plus"></i></a>
+                                      <a href="javascript:deleteRow(` + contentRowId + `);" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>
+                                  </div>
+                              </div>
+                         </div>
                      </div>
-                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel2</label>
-                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
-                     </div>
-                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel3</label>
-                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
-                     </div>
-                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel4</label>
-                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
-                     </div>
-                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel5</label>
-                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
-                     </div>
-                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                         <label for="exampleInputname" class="form-label">@Model.CustomerBook.BoxLabel6</label>
-                         <input type="text" class="form-control" id="exampleInputname" placeholder max="999">
-                     </div>
-                    <div class="col-md-1 pl-2 pr-2 grid-border"><label
-                            for="exampleInputname"
-                            class="form-label">Rate</label>
-                        <div class="mb-1"><input type="text"
-                                class="form-control" id="exampleInputname"
-                                placeholder></div>
-                    </div>
-                    <div class="col-md-2 pl-2 pr-2 grid-border">
-                        <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"   
-                            data-active-index="false">
-                            <li class="acc_section">
-                                <div class="acc_head">
-                                    <div class="row">
-                                        <h3>Discount</h3>
-                                        <div class="invoice-ds-box">
-                                            <div class="row"
-                                                style="flex-wrap:nowrap;padding: 0 16px 0 12px;">
-                                                <input type="text"
-                                                    class="form-control col-md-3 mr-1"
-                                                    id="exampleInputname"
-                                                    placeholder="%"><input
-                                                    type="text"
-                                                    class="form-control col-md-9"
-                                                    id="exampleInputname"
-                                                    placeholder>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="acc_content">
-                                    <div class="row mb-1"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">QTY
-                                            Disc</label>
-                                        <div class="col-md-8">
-                                            <div class="row col-md-12"
-                                                style="flex-wrap:nowrap;"><input
-                                                    type="text"
-                                                    class="form-control col-md-3 mr-1"
-                                                    id="exampleInputname"
-                                                    placeholder="%"><input
-                                                    type="text"
-                                                    class="form-control col-md-9 mr-1"
-                                                    id="exampleInputname"
-                                                    placeholder></div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">Trad
-                                            Disc</label>
-                                        <div class="col-md-8">
-                                            <div class="row col-md-12"
-                                                style="flex-wrap:nowrap;"><input
-                                                    type="text"
-                                                    class="form-control col-md-3 mr-1"
-                                                    id="exampleInputname"
-                                                    placeholder="%"><input
-                                                    type="text"
-                                                    class="form-control col-md-9 mr-1"
-                                                    id="exampleInputname"
-                                                    placeholder></div>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-1"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">Sp.
-                                            Disc</label>
-                                        <div class="col-md-8">
-                                            <div class="row col-md-12"
-                                                style="flex-wrap:nowrap;"><input
-                                                    type="text"
-                                                    class="form-control col-md-3 mr-1"
-                                                    id="exampleInputname"
-                                                    placeholder="%"><input
-                                                    type="text"
-                                                    class="form-control col-md-9 mr-1"
-                                                    id="exampleInputname"
-                                                    placeholder></div>
-                                        </div>
-                                    </div>
-                                    <div class="row"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">Cash
-                                            Disc</label>
-                                        <div class="col-md-8">
-                                            <div class="row col-md-12"
-                                                style="flex-wrap:nowrap;"><input
-                                                    type="text"
-                                                    class="form-control col-md-3 mr-1"
-                                                    id="exampleInputname"
-                                                    placeholder="%"><input
-                                                    type="text"
-                                                    class="form-control col-md-9 mr-1"
-                                                    id="exampleInputname"
-                                                    placeholder></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-2 pl-2 pr-2 grid-border">
-                        <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
-                            data-active-index="false">
-                            <li class="acc_section">
-                                <div class="acc_head">
-                                    <div class="row">
-                                        <h3>Tax
-                                            Amt</h3>
-                                        <div
-                                            class="invoice-ds-box acc-box col-md-12">
-                                            <input type="text"
-                                                class="form-control"
-                                                id="exampleInputname"
-                                                placeholder>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="acc_content">
-                                    <div class="row mb-1"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">+
-                                            %</label>
-                                        <div class="col-md-8"><input type="text"
-                                                class="form-control mr-1"
-                                                id="exampleInputname"
-                                                placeholder></div>
-                                    </div>
-                                    <div class="row mb-1"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">Retail Rate
-                                            </label>
-                                        <div class="col-md-8"><input type="text"
-                                                class="form-control mr-1"
-                                                id="exampleInputname"
-                                                placeholder></div>
-                                    </div>
-                                </div>
-                                <div class="acc_content">
-                                    <div class="row mb-1"><label
-                                            for="exampleInputname"
-                                            class="col-md-4 form-label">Retail
-                                            Rate</label>
-                                        <div class="col-md-8"><input type="text"
-                                                class="form-control mr-1"
-                                                id="exampleInputname"
-                                                placeholder></div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-md-1 pl-2 pr-2 grid-border"><label
-                            for="exampleInputname"
-                            class="form-label">GST</label>
-                        <div class="mb-1"><input type="text"
-                                class="form-control" id="exampleInputname"
-                                placeholder></div>
-                    </div>
-                    <div class="col-md-1 pl-2 pr-2 grid-border"><label
-                            for="exampleInputname"
-                            class="form-label">S.Cess</label>
-                        <div class="mb-1"><input type="text"
-                                class="form-control" id="exampleInputname"
-                                placeholder></div>
-                    </div>
-                    <div class="col-md-1 pl-2 pr-2 grid-border"><label
-                            for="exampleInputname"
-                            class="form-label">C.Cess</label>
-                        <div class="mb-1"><input type="text"
-                                class="form-control" id="exampleInputname"
-                                placeholder></div>
-                    </div>
-                    <div class="col-md-1 grid-border d-flex justify-content-center align-items-center
-                        <div class=" form-group text-center mb-1">
-                        <div class="btn-list1 mt-1">
-                            <a href="javascript:addRow();"
-                                class="btn btn-outline-primary small-icon-btn"
-                                title data-placement="bottom"
-                                data-original-title="Add"><i
-                                    class="fa fa-plus"></i></a>
-                            <a href="javascript:deleteRow(` + contentRowId + `);"
-                                class="btn btn-outline-danger small-icon-btn"
-                                data-toggle="tooltip" title
-                                data-placement="bottom"
-                                data-original-title="Delete"><i
-                                    class="fa fa-trash-o"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>`;
-    
+                </div>`;
+
             htmlContentArray.push(htmlContent);
 
             // addedIds.push(selectedLRDetails[i].id);
 
             $('.content-rows-add-btn').remove();
             $('#GeneralExpensesMultiList').append(htmlContentArray.join(''));
-           	
-            var accordionContainers = $('#row-' + contentRowId + ' .demo-accordion');
-			accordionContainers.each(function () {
-				$(this).accordionjs(); // Initialize accordion
-				$(this).find('.acc_content').hide(); // Close accordion sections
-			});
 
-             $('.select2-show-search-contentrows').select2({
+            var accordionContainers = $('#row-' + contentRowId + ' .demo-accordion');
+            accordionContainers.each(function () {
+                $(this).accordionjs(); // Initialize accordion
+                $(this).find('.acc_content').hide(); // Close accordion sections
+            });
+
+            $('.select2-show-search-contentrows').select2({
                 minimumResultsForSearch: ''
             });
 
             // Attach event listeners to relevant inputs for the taxable amount calculation
             $('#Quantity1' + contentRowId + ', #Quantity2' + contentRowId + ', #Quantity3' + contentRowId +
-            ', #Quantity4' + contentRowId + ', #Quantity5' + contentRowId + ', #Quantity6' + contentRowId +
-            ', #Rate' + contentRowId + ', #DiscountAmount' + contentRowId + ', #OtherCharges' + contentRowId).on('keyup', function () {
-                calculateAmount(contentRowId);
-                calculateTotalTaxableAmount();
-            });
+                ', #Quantity4' + contentRowId + ', #Quantity5' + contentRowId + ', #Quantity6' + contentRowId +
+                ', #Rate' + contentRowId + ', #DiscountAmount' + contentRowId + ', #OtherCharges' + contentRowId).on('keyup', function () {
+                    calculateAmount(contentRowId);
+                    calculateTotalTaxableAmount();
+                });
 
             $('#ProductGroupId' + contentRowId).on('change', function (e) {
                 var currentRowId = $(this).attr('id').replace('ProductGroupId', '');
                 GetProductListWithGroupId($(this).val(), currentRowId);
-            });
-
-            $('#ProductBranchMappingId' + contentRowId).on('change', function (e) {
-                var currentRowId = $(this).attr('id').replace('ProductBranchMappingId', '');
-                GetRateListWithProductId($(this).val(), currentRowId);
-            });
-
-            $("#AccountBranchMappingId").on('change', function (e) {
-                GetListWithCustomerAccountBranchMappingId($(this).val(), contentRowId);
-                calculateTotalTaxableAmount();
             });
 
             var counter = 0;
@@ -1507,7 +1381,39 @@
             });
 
             calculateTotalTaxableAmount();
-            // updateSelectedIdsInput();
+        }
+
+        function deleteRow(rowId) {
+            $('#row-' + rowId).remove();
+            if ($('.content-rows').length == 0 || $('.content-rows-add-btn').length == 0) {
+                addRow();
+            }
+        }
+
+        function getRowData() {
+            var rowDataArray = [];
+
+            $('.content-rows').each(function () {
+                var rowData = {
+                    'SrNumber': $(this).find('.content-row-srno').val(),
+                    'EwayBillNo': $(this).find('EwayBillNo' + contentRowId).val(),
+                    'LRNumber': $(this).find('#LRNumber' + contentRowId).val(),
+                    'LRDate': $(this).find('#LRDate' + contentRowId).val(),
+                    'PrivateMarka': $(this).find('#PrivateMarka' + contentRowId).val(),
+                    'CityIdFrom': $(this).find('#CityIdFrom' + contentRowId).val(),
+                    'CityIdTo': $(this).find('#CityIdTo' + contentRowId).val(),
+                    'AccountBranchMappingId': $(this).find('#AccountBranchMappingId' + contentRowId).val(),
+                    'DeliveryAccountBranchMappingId': $(this).find('#DeliveryAccountBranchMappingId' + contentRowId).val(),
+                    'Parcel': $(this).find('#Parcel' + contentRowId).val(),
+                    'ChargeWeight': $(this).find('#ChargeWeight' + contentRowId).val(),
+                    'LRPayTypeId': $(this).find('#LRPayTypeId' + contentRowId).val(),
+                    'BillAccountBranchMappingId': $(this).find('#BillAccountBranchMappingId' + contentRowId).val(),
+                    'NetAmount': $(this).find('#NetAmount' + contentRowId).val(),
+                };
+                rowDataArray.push(rowData);
+            });
+
+            return rowDataArray;
         }
 
         function calculateAmount(contentRowId) {
@@ -1552,10 +1458,10 @@
                 var TDSPercent = parseFloat($('#TDSPercent').val() || 0);
 
                 totalTaxableAmount += taxableAmount;
-                
+
                 var tdsAmount = (totalTaxableAmount * TDSPercent) / 100;
                 tdsAmount = customRound(tdsAmount);
-                
+
                 $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
                 $('#TDSAmount').val(tdsAmount.toFixed(2));
             });
@@ -1570,7 +1476,7 @@
 
             $('#TCSAmount').val(((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal) * (TCSPercent) / 100).toFixed(2));
             var TCSAmount = parseFloat($('#TCSAmount').val()) || 0;
-            
+
             // Calculate the sum of all components
             var totalAmount = BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount;
 
@@ -1585,16 +1491,6 @@
         function customRound(number) {
             var decimalPart = number % 1;
             return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
-        }
-
-        function deleteRow(index) {
-            if (selectedLRDetails[index]) {
-                var deletedId = selectedLRDetails[index].id;
-                $('#row-' + index).remove();
-                addedIds = addedIds.filter(id => id !== deletedId);
-                selectedLRDetails.splice(index, 1);
-                updateSelectedIdsInput();
-            }
         }
 
         function updateSelectedIdsInput() {

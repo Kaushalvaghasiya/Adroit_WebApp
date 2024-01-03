@@ -150,7 +150,7 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             parameters.Add("@CustomerAccountBranchMappingId", CustomerAccountBranchMappingId);
             parameters.Add("@branchId", branchId);
-            return QueryHelper.Get<CustomerAccountViewModel>("sp_GetCustomerAccountListWithCustomerAccountBranchMapping", connectionString, parameters);
+            return QueryHelper.Get<CustomerAccountViewModel>("sp_CustomerGeneralExpenceMultiGetCustomerAccountListByBranchMappingId", connectionString, parameters);
         }
 
     }
