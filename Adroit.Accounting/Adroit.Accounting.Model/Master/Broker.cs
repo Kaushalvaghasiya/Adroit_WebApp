@@ -29,6 +29,5 @@ namespace Adroit.Accounting.Model
         public System.DateTime? ModifiedOn { get; set; }
         public string AdharUID { get; set; }
         public bool Active { get; set; }
-        public string? CustomerBrokerBranchIds { get; set; } //Comma separated
     }
 }
