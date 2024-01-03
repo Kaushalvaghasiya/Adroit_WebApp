@@ -18,11 +18,6 @@ namespace Adroit.Accounting.Web.Controllers
             var model = new PurchaseBillMasterViewModel();
 
             model.AccountBranchMappingList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection, CurrentUserId);
-            //model.ProductSKUList = _productRepository.SelectProductCodeList(CurrentFirmId, _configurationData.DefaultConnection);
-            model.ProductGroupList = _productGroupRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
-            model.ProductColorList = _productColorRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection); 
-            model.ProductSizeList = _productSizeRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
-            model.ProductDesignNumberList = _productDesignNumberRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
             model.CustomerBook = _customerBookRepository.GetListWithIsGeneralPurchaseId(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId, CurrentFirmId);
             model.BillTypeList = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId);
 
@@ -110,48 +105,6 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        //[Route("~/Customer/GetListByCityFrom_To/{fromCityId}/{toCityId}")]
-        //public JsonResult GetListByCityFrom_To(int fromCityId, int toCityId, int draw = 0, int start = 0, int length = 10)
-        //{
-        //    var result = new DataTableListViewModel<LRBookingGridViewModel>();
-        //    try
-        //    {
-        //        //// note: we only sort one column at a time
-        //        var search = Request.Query["search[value]"];
-        //        var sortColumn = int.Parse(Request.Query["order[0][column]"]);
-        //        var sortDirection = Request.Query["order[0][dir]"];
-
-        //        var records = _lrBookingRepository.GetListByCityFrom_To(_configurationData.DefaultConnection, fromCityId, toCityId, CurrentBranchId, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
-        //        result.data = records;
-        //        result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
-        //        result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.data = new List<LRBookingGridViewModel>();
-        //        result.recordsTotal = 0;
-        //        result.recordsFiltered = 0;
-        //    }
-        //    return Json(result);
-        //}
-
-        //[Route("~/Customer/GetListByPurchaseBillMasterId/{purchaseBillMasterId}")]
-        //public JsonResult GetListByPurchaseBillMasterId(int purchaseBillMasterId)
-        //{
-        //    ApiResult result = new ApiResult();
-        //    try
-        //    {
-        //        result.data = _lrBookingRepository.GetListByPurchaseBillMasterId(_configurationData.DefaultConnection, purchaseBillMasterId, CurrentUserId, CurrentBranchId, CurrentFirmId);
-        //        result.result = Constant.API_RESULT_SUCCESS;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        result.data = ErrorHandler.GetError(ex);
-        //        result.result = Constant.API_RESULT_ERROR;
-        //    }
-        //    return Json(result);
-        //}
-
         [Route("~/Customer/GetListWithCustomerAccountBranchMappingId/{CustomerAccountBranchMappingId}")]
         public JsonResult GetCustomerAccountListWithCreditDays(int CustomerAccountBranchMappingId)
         {
@@ -176,8 +129,8 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 var model = new PurchaseBillMasterViewModel();
-                model.ProductDescriptionList = _productRepository.GetListWithGroupId(_configurationData.DefaultConnection, GroupId, CurrentUserId, CurrentFirmId);
-                result.data = model.ProductDescriptionList;
+                //model.ProductDescriptionList = _productRepository.GetListWithGroupId(_configurationData.DefaultConnection, GroupId, CurrentUserId, CurrentFirmId);
+                //result.data = model.ProductDescriptionList;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
