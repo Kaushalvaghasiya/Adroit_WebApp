@@ -12,58 +12,70 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+		IF (@StartNumber <= 0 )
+		BEGIN
+			RAISERROR ('%s', 16, 1, 'Start number must be greater than 0.');
+		END
+		IF (@EndNumber <= @StartNumber)
+		BEGIN
+			RAISERROR ('%s', 16, 1, 'End number must be greater than start number.');
+		END
 
 		DECLARE @YearId int = dbo.fn_GetYearId(@LoginId);
 
 		DECLARE @message VARCHAR(4000);
 		IF @YearId IS NULL
 		BEGIN
-			SET @message = 'Year Not Found!';
-			RAISERROR ('%s', 16, 1, @message);
+			RAISERROR ('%s', 16, 1, 'Year Not Found!');
 		END
-
-		DECLARE @OrgStartNumber INT, @OrgEndNumber INT
-
-		SELECT @OrgStartNumber = StartNumber,@OrgEndNumber = EndNumber
-		FROM [LRBookingRange] 
-		WHERE YearId = @YearId AND [LRBookingRange].FirmId = @FirmId AND Deleted = 0 AND Id = @Id
 
 		IF EXISTS (
-			SELECT 1
+			SELECT [LRBookingRange].Id
 			FROM [LRBookingRange]
-			WHERE ((@StartNumber BETWEEN StartNumber AND EndNumber) OR (@EndNumber BETWEEN StartNumber AND EndNumber)
-			OR (StartNumber BETWEEN @StartNumber AND @EndNumber) OR (EndNumber BETWEEN @StartNumber AND @EndNumber))  
-			AND YearId = @YearId AND FirmId = @FirmId AND Deleted = 0
-			AND ((@Id <= 0) OR (@Id > 0 AND (@StartNumber <> @OrgStartNumber OR @EndNumber <> @OrgEndNumber)))
+			WHERE FirmId = @FirmId 
+			AND YearId = @YearId 
+			AND Deleted = 0 
+			AND (@Id = 0 OR Id <> @Id) 
+			AND (
+					(@StartNumber BETWEEN StartNumber AND EndNumber) OR 
+					(@EndNumber BETWEEN StartNumber AND EndNumber) OR 
+					(StartNumber BETWEEN @StartNumber AND @EndNumber) OR 
+					(EndNumber BETWEEN @StartNumber AND @EndNumber)
+				)  
 		)
 		BEGIN
-			SET @message = 'This LR booking range is already exists.';
-			RAISERROR ('%s', 16, 1, @message);
+			RAISERROR ('%s', 16, 1, 'This LR booking range is already exists. Please check start & end numbers.');
 		END
 
-		DECLARE @AllotedLR INT = (
-			SELECT SUM(EndNumber - StartNumber + 1) As AllotedLR
-			FROM [LRBookingRange]
-			WHERE YearId = @YearId AND FirmId = @FirmId AND BranchId = @BranchId AND Deleted = 0
-		)
+		DECLARE @LastLR INT
+		SELECT @LastLR = MAX(LRNumber) FROM [Z-LRBooking-Z] WHERE BranchId = @BranchId AND YearId = @YearId AND Deleted = 0
 
-		DECLARE @UsedLR INT = (
-			SELECT COUNT(LRNumber) As UsedLR
-			FROM [Z-LRBooking-Z] 
-			WHERE YearId = @YearId AND BranchId = @BranchId AND Deleted = 0
-		)
-
-		IF @AllotedLR > @UsedLR AND (@Id <= 0 OR (@Id > 0 AND NOT EXISTS (SELECT 1 FROM [LRBookingRange] WHERE Id <> @Id) AND (@StartNumber <> @OrgStartNumber OR @EndNumber <> @OrgEndNumber)))
+		DECLARE @CurrentRangeStart INT, @CurrentEndStart INT
+		IF EXISTS (SELECT ID FROM LRBookingRange WHERE BranchId = @BranchId AND YearId = @YearId AND Deleted = 0)
 		BEGIN
-			SET @message = 'Please use existing LR numbers before renew.';
-			RAISERROR ('%s', 16, 1, @message);
+			IF (@Id = 0)
+			BEGIN
+				IF (ISNULL(@LastLR, 0) = 0 OR @LastLR < @StartNumber)
+				BEGIN
+					RAISERROR ('%s', 16, 1, 'Please complete existing LR range before adding new range.');
+				END
+			END
+			ELSE
+			BEGIN
+				SELECT @CurrentRangeStart = StartNumber, @CurrentEndStart = EndNumber FROM LRBookingRange WHERE BranchId = @BranchId AND YearId = @YearId AND Deleted = 0
+				IF NOT (@StartNumber <= @LastLR AND @LastLR <= @EndNumber)
+				BEGIN
+					SET @message = 'Last LR number is ' + CAST(@LastLR  AS VARCHAR) + '. So range must contains this number.'
+					RAISERROR ('%s', 16, 1, @message);
+				END
+			END
 		END
 
 		UPDATE [LRBookingRange]
 		SET Active = 0
-		WHERE YearId = @YearId
-			AND FirmId = @FirmId
+		WHERE FirmId = @FirmId
 			AND BranchId = @BranchId
+			AND YearId = @YearId
 			AND Active = 1
 			AND Deleted = 0;
 

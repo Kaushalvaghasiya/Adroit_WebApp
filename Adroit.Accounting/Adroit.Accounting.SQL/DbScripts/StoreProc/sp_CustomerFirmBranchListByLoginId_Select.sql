@@ -2,16 +2,16 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerFirmBranchListByLoginId_Select]
   @LoginId int
 As
 Begin
-	Declare @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
-
-	Select 
-		CustomerFirmBranch.Id AS Value, CustomerFirmBranch.Title AS Text
-	From Customer
-	Inner Join CustomerFirm On Customer.Id = CustomerFirm.CustomerId
-	Inner Join CustomerFirmBranch On CustomerFirm.Id = CustomerFirmBranch.FirmId
-	Where Customer.Id = @CustomerId
-	AND CustomerFirm.Deleted = 0
-	AND CustomerFirmBranch.Deleted = 0 AND CustomerFirmBranch.Active = 1
-	Order By CustomerFirmBranch.Title Asc
+	SELECT 
+		CustomerFirmBranch.Id AS Value, 
+		CustomerFirmBranch.Title  + (CASE ISNULL(City.Title, '') WHEN '' THEN '' ELSE ' | ' + City.Title END) AS Text,
+		City.Id As Other
+	From CustomerFirmBranch 
+		INNER JOIN CustomerUserBranchMapping ON CustomerFirmBranch.Id = CustomerUserBranchMapping.BranchId
+		 LEFT JOIN City ON City.Id = CustomerFirmBranch.CityId AND City.Active = 1
+	WHERE CustomerUserBranchMapping.UserId = @LoginId
+	AND CustomerFirmBranch.Active = 1 
+	AND CustomerFirmBranch.Deleted = 0
+	ORDER BY CustomerFirmBranch.Title,City.Title ASC
 End
 GO

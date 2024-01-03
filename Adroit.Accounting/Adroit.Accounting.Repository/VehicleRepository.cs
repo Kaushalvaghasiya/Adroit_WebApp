@@ -62,10 +62,10 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@UserId", userId);
             QueryHelper.Save("sp_VehicleDelete", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectList(int userId, string connectionString)
+        public List<DropdownViewModel> SelectList(int loginId, string connectionString)
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@UserId", userId);
+            parameters.Add("@LoginId", loginId);
             return QueryHelper.GetList<DropdownViewModel>("sp_VehicleList_Select", connectionString, parameters);
         }
     }
