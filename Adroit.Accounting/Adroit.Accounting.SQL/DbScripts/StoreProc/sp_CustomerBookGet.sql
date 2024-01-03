@@ -13,9 +13,9 @@ BEGIN
 	SELECT 
 		CustomerBook.*,
 		(SELECT STUFF((SELECT ',' + CAST(t1.BranchId AS VARCHAR) FROM CustomerBookBranchMapping t1
-						WHERE t1.BookId = t.BookId FOR XML PATH('')),1,1,'') Concats
+						WHERE t1.BookId = t.BookId AND Deleted = 0 FOR XML PATH('')),1,1,'') Concats
 			FROM  CustomerBookBranchMapping t
-			WHERE t.BookId = @Id GROUP BY t.BookId) AS CustomerBookBranchId
+			WHERE t.BookId = @Id AND Deleted = 0 GROUP BY t.BookId) AS CustomerBookBranchId
 	FROM CustomerBook
 	WHERE CustomerBook.CustomerId = @CustomerId AND CustomerBook.Id = @Id
 

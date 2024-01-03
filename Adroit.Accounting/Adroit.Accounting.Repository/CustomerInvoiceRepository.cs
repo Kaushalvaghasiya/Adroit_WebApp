@@ -124,5 +124,13 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", loginId);
             return QueryHelper.GetList<DropdownViewModel>("sp_InvoiceCustomerAccounListWithGroup_Select", connectionString, parameters);
         }
+        public List<SalesBillMasterViewModel> SelectList(string connectionString, int loginId, int firmId, int branchId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
+            return QueryHelper.GetList<SalesBillMasterViewModel>("sp_ReceiveInvoiceList", connectionString, parameters);
+        }
     }
 }
