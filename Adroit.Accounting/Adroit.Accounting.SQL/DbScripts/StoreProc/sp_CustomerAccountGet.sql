@@ -11,9 +11,9 @@ BEGIN
 
 	SELECT CustomerAccount.*,
 		   (SELECT STUFF((SELECT ',' + CAST(t1.BranchId AS VARCHAR) FROM CustomerAccountBranchMapping t1
-					WHERE t1.AccountId = t.AccountId FOR XML PATH('')),1,1,'') Concats
+					WHERE t1.AccountId = t.AccountId AND Deleted = 0 FOR XML PATH('')),1,1,'') Concats
 			FROM  CustomerAccountBranchMapping t
-			WHERE t.AccountId = @Id GROUP BY t.AccountId) AS CustomerAccountBranchIds,
+			WHERE t.AccountId = @Id AND Deleted = 0 GROUP BY t.AccountId) AS CustomerAccountBranchIds,
 		   Taluka.Id As TalukaId,
 		   District.Id As DistrictId
 	FROM CustomerAccount
