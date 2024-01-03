@@ -32,15 +32,13 @@ namespace Adroit.Accounting.Web.Controllers
             model.AccountBranchMappingList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
             model.DriverList = _driverRepository.SelectList(_configurationData.DefaultConnection, CurrentUserId);
             model.BrokerList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId,_configurationData.DefaultConnection, CurrentUserId);
-            model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId,_configurationData.DefaultConnection);
+            model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
            
             var currentUserBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
-            var currentCity = _cityRepository.Get((int)currentUserBranch.CityId!, _configurationData.DefaultConnection);
-
-            model.CityIdFrom = currentCity.Id;
-            model.CityFrom = currentCity.Title;
 
             ViewBag.CurrentBranchId = CurrentBranchId;
+            ViewBag.LoggedInBranchCity = currentUserBranch.CityId;
+
             return View(model);
         }
 
