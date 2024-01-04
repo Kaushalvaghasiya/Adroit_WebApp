@@ -30,7 +30,10 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                int id = _customerGeneralExpensesMultiRepository.Save(model, _configurationData.DefaultConnection, CurrentFirmId, CurrentBranchId, CurrentUserId);
+                model.LoginId = CurrentUserId;
+                model.BranchId = CurrentBranchId;
+                model.FirmId = CurrentFirmId;
+                int id = _chalanRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -51,7 +54,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var data = _customerGeneralExpensesMultiRepository.Get(id, _configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
+                var data = _chalanRepository.Get(id, _configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
                 //data.LRBookingList = _lrBookingRepository.GetListByPurchaseBillMasterId(_configurationData.DefaultConnection, id, CurrentUserId, CurrentBranchId);
                 result.data = data;
                 result.result = Constant.API_RESULT_SUCCESS;
@@ -94,7 +97,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerGeneralExpensesMultiRepository.Delete(id, _configurationData.DefaultConnection, CurrentUserId);
+                result.data = _chalanRepository.Delete(id, _configurationData.DefaultConnection, CurrentUserId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -122,33 +125,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetProductListWithGroupId/{GroupId}")]
-        public JsonResult GetProductListWithGroupId(int GroupId)
+        [HttpGet]
+        public JsonResult SearchCustomerGeneralExpensesMultiProductDesc(string search)
         {
             ApiResult result = new ApiResult();
             try
             {
-                var model = new PurchaseBillMasterViewModel();
-                //model.ProductDescriptionList = _productRepository.GetListWithGroupId(_configurationData.DefaultConnection, GroupId, CurrentUserId, CurrentFirmId);
-                //result.data = model.ProductDescriptionList;
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
-        [Route("~/Customer/GetRateListWithProductId/{productId}")]
-        public JsonResult GetRateListWithProductId(int productId)
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                var model = new PurchaseBillMasterViewModel();
-                result.data = _gstRateRepository.GetListWithProductId(_configurationData.DefaultConnection, productId);
+                result.data = _customerGeneralExpensesMultiRepository.CustomerGeneralExpenseMultiSearchProductDescList(_configurationData.DefaultConnection, search, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

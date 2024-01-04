@@ -62,5 +62,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public int loginId { get; set; }
         public int firmId { get; set; }
         public CustomerViewModel Customer { get; set; }
+        public int ProductBranchMappingId { get; set; }
     }
 }
