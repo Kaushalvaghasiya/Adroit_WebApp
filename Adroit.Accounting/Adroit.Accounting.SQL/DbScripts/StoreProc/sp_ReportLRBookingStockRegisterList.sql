@@ -1,7 +1,18 @@
 CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingStockRegisterList]
   @LoginId INT,
-  @BranchId INT,
+  @BranchIds NVARCHAR(Max),
   @FirmId INT,
+  @DateFrom NVARCHAR(MAX),
+  @DateTo NVARCHAR(MAX),
+  @CityFromIds NVARCHAR(MAX),
+  @CityToIds NVARCHAR(MAX),
+  @ConsignorIds NVARCHAR(MAX),
+  @ConsigneeIds NVARCHAR(MAX),
+  @BillPartyIds NVARCHAR(MAX),
+  @PayTypeIds NVARCHAR(MAX),
+  @ChalanId INT,
+  @InvStatusId INT,
+  @Summary BIT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -12,7 +23,7 @@ Set Nocount on;
 Begin
 	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
-
+	
 	SELECT * FROM
 	(   
 		SELECT ROW_NUMBER() over 
@@ -43,9 +54,13 @@ Begin
 			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' THEN CA2.Name END DESC,
 			CASE WHEN @SortColumn = 12 AND @SortOrder ='ASC' THEN [CustomerFirmBranch].Title END ASC,  
 			CASE WHEN @SortColumn = 12 AND @SortOrder ='DESC' THEN [CustomerFirmBranch].Title END DESC
+			--CASE WHEN @SortColumn = 13 AND @SortOrder ='ASC' THEN TotalLR END ASC,  
+			--CASE WHEN @SortColumn = 13 AND @SortOrder ='DESC' THEN TotalLR END DESC
+		
 		) AS RowNum,
-		Count(*) over () AS TotalCount 
-		,[Z-LRBooking-Z].LRNumber 
+		Count(*) over () AS TotalCount, 
+		Count([Z-LRBooking-Z].LRNumber) OVER () AS TotalLR,
+		[Z-LRBooking-Z].LRNumber 
 		,[Z-LRBooking-Z].LRDate 
 		,[Z-LRBooking-Z].Parcel 
 		,[Z-LRBooking-Z].ChargeWeight 
@@ -64,11 +79,91 @@ Begin
 		INNER JOIN [CustomerFirmTransportSetting] on [CustomerFirmTransportSetting].FirmId = [CustomerFirmBranch].FirmId
 		INNER JOIN [Product] on [Product].Id = [CustomerFirmTransportSetting].ProductIdForSales 
 		INNER JOIN [GSTRate] on [GSTRate].Id = [Product].GSTRateId 
-		INNER JOIN [CustomerAccountBranchMapping] AS CAB1 on CAB1.Id = [Z-LRBooking-Z].AccountBranchMappingId AND CAB1.BranchId = @BranchId
+		INNER JOIN [CustomerAccountBranchMapping] AS CAB1 on CAB1.Id = [Z-LRBooking-Z].AccountBranchMappingId 
 		INNER JOIN [CustomerAccount] AS CA1 on CA1.Id = CAB1.AccountId AND CA1.CustomerId = @CustomerId 
-		INNER JOIN [CustomerAccountBranchMapping] AS CAB2 on CAB2.Id = [Z-LRBooking-Z].DeliveryAccountBranchMappingId AND CAB2.BranchId = @BranchId
+		INNER JOIN [CustomerAccountBranchMapping] AS CAB2 on CAB2.Id = [Z-LRBooking-Z].DeliveryAccountBranchMappingId 
 		INNER JOIN [CustomerAccount] AS CA2 on CA2.Id = CAB2.AccountId AND CA2.CustomerId = @CustomerId 
-		WHERE [Z-LRBooking-Z].BranchId = @BranchId AND [Z-LRBooking-Z].YearId = @YearId
+		
+		WHERE [Z-LRBooking-Z].YearId = @YearId 
+		
+		AND 
+		(
+			(
+				(@BranchIds = '0' OR [Z-LRBooking-Z].BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)))
+			)
+		AND
+			(
+				(@DateFrom = '0' OR CONVERT(DATE, [Z-LRBooking-Z].LRDate) >= 
+					CASE 
+						WHEN @DateFrom = '0' THEN '19000101' 
+						ELSE CONVERT(DATE, @DateFrom)
+					END
+				)
+			)
+			AND
+			(
+				(@DateTo = '0' OR CONVERT(DATE, [Z-LRBooking-Z].LRDate) <= 
+					CASE 
+						WHEN @DateTo = '0' THEN '99991231' 
+						ELSE CONVERT(DATE, @DateTo)
+					END
+				)
+			)
+			AND
+			(
+				(@CityFromIds = '0' OR [Z-LRBooking-Z].CityIdFrom IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@CityFromIds)))
+			)
+			AND
+			(
+				(@CityToIds = '0' OR [Z-LRBooking-Z].CityIdTo IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@CityToIds)))
+			)	
+			AND
+			(
+				(@ConsignorIds = '0' OR [Z-LRBooking-Z].AccountBranchMappingId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@ConsignorIds)))
+			)
+			AND
+			(
+				(@ConsigneeIds = '0' OR [Z-LRBooking-Z].DeliveryAccountBranchMappingId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@ConsigneeIds)))
+			)
+			AND
+			(
+				(@BillPartyIds = '0' OR [Z-LRBooking-Z].BillAccountBranchMappingId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BillPartyIds)))
+			)
+			AND
+			(
+				(@PayTypeIds = '0' OR [Z-LRBooking-Z].LRPayTypeId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@PayTypeIds)))
+			)
+			AND
+			(
+				(
+					@ChalanId = '0'
+					OR
+					(
+						@ChalanId = '1' AND [Z-LRBooking-Z].Id IN ( SELECT LRBookingId FROM [Z-PurchaseBillDetail-Z] WHERE Deleted = 0 )
+					)
+					OR
+					(
+						@ChalanId = '2' AND [Z-LRBooking-Z].Id NOT IN ( SELECT LRBookingId FROM [Z-PurchaseBillDetail-Z] WHERE Deleted = 0 )
+					)
+				)
+			)
+			AND
+			(
+				(
+					@InvStatusId = '0'
+					OR
+					(
+						@InvStatusId = '1' AND [Z-LRBooking-Z].Id IN ( SELECT LRBookingId FROM [Z-SalesBillDetail-Z] WHERE Deleted = 0 )
+					)
+					OR
+					(
+						@InvStatusId = '2' AND [Z-LRBooking-Z].Id NOT IN ( SELECT LRBookingId FROM [Z-SalesBillDetail-Z] WHERE Deleted = 0 )
+					)
+				)
+			)
+			
+		)
+
 		AND (Coalesce(@Search,'') = '' OR [Z-LRBooking-Z].LRNumber like '%'+ @Search + '%'
 									   OR [Z-LRBooking-Z].LRDate like '%'+ @Search + '%'
 									   OR [Z-LRBooking-Z].Parcel like '%'+ @Search + '%'

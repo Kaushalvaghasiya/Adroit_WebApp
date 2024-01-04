@@ -1,14 +1,8 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.GridViewModel;
-using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ReportViewModel;
-using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.Repository;
-using Adroit.Accounting.SQL.Tables;
-using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Operations;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -28,7 +22,8 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult LRBookingStockRegisterReportList(int draw = 0, int start = 0, int length = 10)
+        [Route("~/CustomerReport/LRBookingStockRegisterReportList/{branchIds}/{DateFrom}/{DateTo}/{CityToIds}/{CityFromIds}/{ConsignorIds}/{ConsigneeIds}/{BillPartyIds}/{PayTypeIds}/{ChalanId}/{InvStatus}/{Summary}")]
+        public JsonResult LRBookingStockRegisterReportList(int draw = 0, int start = 0, int length = 10, string branchIds = "", string DateFrom = "", string DateTo = "", string CityToIds = "", string CityFromIds = "", string ConsignorIds = "", string ConsigneeIds = "", string BillPartyIds = "", string PayTypeIds = "", string ChalanId = "", string InvStatus = "", bool Summary = false)
         {
             var result = new DataTableListViewModel<LRBookingGridViewModel>();
             try
@@ -37,7 +32,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _reportLRBookingStockRegisterRepository.SelectList(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _reportLRBookingStockRegisterRepository.SelectList(_configurationData.DefaultConnection, CurrentUserId, branchIds, CurrentFirmId, search, start, length, sortColumn, sortDirection, DateFrom, DateTo, CityToIds, CityFromIds, ConsignorIds, ConsigneeIds, BillPartyIds, PayTypeIds, ChalanId, InvStatus, Summary).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
