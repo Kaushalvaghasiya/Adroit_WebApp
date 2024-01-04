@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.LRBookingViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.SalesBillMasterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -600,10 +600,15 @@
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <select class="form-control select2-show-search" id="">
-                                            <option value="1">All</option>
-                                            <option value="1">2 Pay Type</option>
-                                            <option value="1">3 Pay Type</option>
-                                            <option value="1">4 Pay Type</option>
+                                             @{
+                                                if (Model.BookBranchList != null)
+                                                {
+                                                    foreach (var o in Model.BookBranchList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
                                         </select>
                                     </div>
                                     <label for="exampleInputname" class="col-md-2 col-lg-1 form-label">
@@ -611,10 +616,15 @@
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <select class="form-control select2-show-search" id="">
-                                            <option value="1">All</option>
-                                            <option value="1">2 Pay Type</option>
-                                            <option value="1">3 Pay Type</option>
-                                            <option value="1">4 Pay Type</option>
+                                             @{
+                                                if (Model.ShippingFromList != null)
+                                                {
+                                                    foreach (var o in Model.ShippingFromList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
                                         </select>
                                     </div>
                                     <label for="exampleInputname" class="col-md-2 col-lg-1 form-label">
@@ -622,10 +632,15 @@
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <select class="form-control select2-show-search" id="">
-                                            <option value="1">All</option>
-                                            <option value="1">2 Pay Type</option>
-                                            <option value="1">3 Pay Type</option>
-                                            <option value="1">4 Pay Type</option>
+                                             @{
+                                                if (Model.InvoiceTypeList != null)
+                                                {
+                                                    foreach (var o in Model.InvoiceTypeList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
                                         </select>
                                     </div>
                                     <label for="exampleInputname" class="col-md-2 col-lg-1 form-label">
@@ -633,10 +648,15 @@
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <select class="form-control select2-show-search" id="">
-                                            <option value="1">All</option>
-                                            <option value="1">2 Pay Type</option>
-                                            <option value="1">3 Pay Type</option>
-                                            <option value="1">4 Pay Type</option>
+                                             @{
+                                                if (Model.BillFromList != null)
+                                                {
+                                                    foreach (var o in Model.BillFromList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -659,7 +679,7 @@
                                                 </div>
                                             </div>
                                             <input class="form-control fc-datepicker"
-                                                   placeholder="MM/DD/YYYY" type="text">
+                                                   placeholder="MM/DD/YYYY" type="text" id="BillDate">
                                         </div>
                                     </div>
                                     <label for="exampleInputname" class="col-md-2 col-lg-1 form-label">
@@ -689,10 +709,15 @@
                                     </label>
                                     <div class="col-md-10 col-lg-5">
                                         <select class="form-control select2-show-search" id="">
-                                            <option value="1">Party Name | GST number | City</option>
-                                            <option value="1">Party Name | GST number | City</option>
-                                            <option value="1">Party Name | GST number | City</option>
-                                            <option value="1">Party Name | GST number | City</option>
+                                             @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
                                         </select>
                                     </div>
                                     <label for="exampleInputname" class="col-md-2 col-lg-1 form-label mb-1">
@@ -707,10 +732,15 @@
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <select class="form-control select2-show-search" id="">
-                                            <option value="1">All</option>
-                                            <option value="1">2 Pay Type</option>
-                                            <option value="1">3 Pay Type</option>
-                                            <option value="1">4 Pay Type</option>
+                                             @{
+                                                if (Model.BrokerBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.BrokerBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -826,50 +856,24 @@
                                     <label for="#" class="col-md-1 col-lg-1 form-label mb-1">
                                     </label>
                                     <div class="col-md-2">
-                                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#lrChalanListModal" data-original-title="Select LR List">
+                                        <a href="#" class="btn btn-primary w-100" data-toggle="modal"
+                                            data-target="#lrChalanListModal"
+                                            data-original-title="Select LR List">
                                             <span>
-                                                <i class="fa fa-list"></i> Transport Detail
+                                                <i class="fa fa-list"></i>
+                                                Transport
+                                                Detail
                                             </span>
                                         </a>
                                     </div>
                                 </div>
 
                                 <div class="col-md-12 col-lg-12 p-0">
-                                    <div class="card" style="max-height: 202px; overflow-x: auto; overflow-y: auto;">
-                                        <table style="width: 100vw;">
-                                            <thead class="bg-primary" style="height:50px;">
-                                                <tr>
-                                                    <th class="pl-2 pr-2 text-center" style="position:sticky; z-index: 1; left: 0; background-color: #467fcf !important;">#</th>
-                                                    <th class="pl-2 pr-2 text-center">SKU#</th>
-                                                    <th class="pl-2 pr-2 text-center">Group</th>
-                                                    <th class="pl-2 pr-2 text-center">Design No</th>
-                                                    <th class="pl-2 pr-2 text-center">Colour</th>
-                                                    <th class="pl-2 pr-2 text-center">Size</th>
-                                                    <th class="pl-2 pr-2 text-center">Description</th>
-                                                    <th class="pl-2 pr-2 text-center">Batch No</th>
-                                                    <th class="pl-2 pr-2 text-center">Exp. Dt</th>
-                                                    <th class="pl-2 pr-2 text-center">[Lable 1]</th>
-                                                    <th class="pl-2 pr-2 text-center">[Lable 2]</th>
-                                                    <th class="pl-2 pr-2 text-center">[Lable 3]</th>
-                                                    <th class="pl-2 pr-2 text-center">[Lable 4]</th>
-                                                    <th class="pl-2 pr-2 text-center">[Lable 5]</th>
-                                                    <th class="pl-2 pr-2 text-center">[Lable 6]</th>
-                                                    <th class="pl-2 pr-2 text-center">Rate</th>
-                                                    <th class="pl-2 pr-2 text-center">Disc %</th>
-                                                    <th class="pl-2 pr-2 text-center">Oth Chgs.</th>
-                                                    <th class="pl-2 pr-2 text-center">Taxable Amount</th>
-                                                    <th class="pl-2 pr-2 text-center">GST%</th>
-                                                    <th class="pl-2 pr-2 text-center">S.Cess%</th>
-                                                    <th class="pl-2 pr-2 text-center">C.Cess%</th>
-                                                    <th class="pl-2 pr-2 text-center" style="position: sticky; z-index: 1; left: 0; right: 0; background-color: #467fcf !important;">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="InvoiceList">
-                                            </tbody>
-                                        </table>
-
+                                    <div class="card mb-0" style="max-height: auto; overflow-x: auto; overflow-y: auto;">
+                                        <div class="col-md-12" id="InvoiceList">
+                                            <!--content rows-->
+                                        </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
@@ -930,9 +934,15 @@
                                     </label>
                                     <div class="col-lg-5 col-md-9">
                                         <select class="form-control select2-show-search" id="">
-                                            <option value="1">Party Name | GST Number | City</option>
-                                            <option value="1">Party Name | GST Number | City</option>
-                                            <option value="1">Party Name | GST Number | City</option>
+                                            @{
+                                                if (Model.DeliveryPartyList != null)
+                                                {
+                                                foreach (var o in Model.DeliveryPartyList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -942,9 +952,15 @@
                                     </label>
                                     <div class="col-lg-5 col-md-9">
                                         <select class="form-control select2-show-search" id="">
-                                            <option value="1">Party Name | GST Number | City</option>
-                                            <option value="1">Party Name | GST Number | City</option>
-                                            <option value="1">Party Name | GST Number | City</option>
+                                            @{
+                                                if (Model.HastePartyList != null)
+                                                {
+                                                foreach (var o in Model.HastePartyList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -1671,7 +1687,7 @@
                                         </div>
                                     </div>
                                     <input class="form-control fc-datepicker"
-                                           placeholder="MM/DD/YYYY" type="text">
+                                           placeholder="MM/DD/YYYY" type="text" id="LRDate">
                                 </div>
                             </div>
                         </div>
@@ -1971,17 +1987,473 @@
     <script>
 
         $(function (e) {
+            //$('.dv-list').show();
+            //$('.dv-detail').hide();
+            $('.dv-list').hide();
+            $('.dv-detail').show();
 
-            $('.dv-list').show();
-            $('.dv-detail').hide();
+            $('.btn-add-new').click(function () {
+                $('.dv-list').slideUp();
+                $('.dv-detail').slideDown();
+            });
 
+            $('.btn-back').click(function () {
+                $('.dv-detail').slideUp();
+                $('.dv-list').slideDown();
+            });
+
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
+            $("#BillDate").datepicker("setDate", formattedMinimumDate);
+            $("#LRDate").datepicker("setDate", formattedMinimumDate);
+
+            // Function to move to the next input/triggerable element on pressing Enter
+            $('input, select').on('keydown', function (e) {
+                if (e.which === 13) {
+                    e.preventDefault();
+                    // Remove the active class from all input/select elements
+                    $('input, select').removeClass('active-field');
+                    // Get the index of the current input/triggerable element
+                    var currentIndex = $('input, select').index(this);
+                    // Move to the next input/triggerable element
+                    $('input, select').eq(currentIndex + 1).addClass('active-field').trigger('focus');
+                }
+            });
+
+            // Function to move to the previous input/triggerable element on pressing Esc
+            $('input, select').on('keydown', function (e) {
+                if (e.which === 27) {
+                    e.preventDefault();
+                    // Remove the active class from all input/select elements
+                    $('input, select').removeClass('active-field');
+                    // Get the index of the current input/triggerable element
+                    var currentIndex = $('input, select').index(this);
+                    // Move to the previous input/triggerable element
+                    $('input, select').eq(currentIndex - 1).addClass('active-field').trigger('focus');
+                }
+            });
+
+            var table = $('#tblMain').DataTable({
+                lengthChange: false,
+                pagingType: 'full_numbers',
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'pdf', 'colvis'],
+                scrollX: true,
+            });
+
+            table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
+
+            $(".buttons-copy").removeClass("btn-primary");
+            $(".buttons-copy").addClass("btn-outline-primary");
+
+            $(".buttons-excel").removeClass("btn-primary");
+            $(".buttons-excel").addClass("btn-outline-primary");
+
+            $(".buttons-pdf").removeClass("btn-primary");
+            $(".buttons-pdf").addClass("btn-outline-primary");
+
+            $(".buttons-colvis").removeClass("btn-primary");
+            $(".buttons-colvis").removeClass("dropdown-toggle");
+            $(".buttons-colvis").addClass("btn-outline-primary sub-icon");
+
+            $(".buttons-copy").empty();
+            $(".buttons-copy").append('<i class="fa fa-copy" data-toggle="tooltip" title="Copy" data-original-title="fa fa-copy"></i>');
+
+            $(".buttons-excel").empty();
+            $(".buttons-excel").append('<i class="fa fa-file-excel-o" data-toggle="tooltip" title="Excel" data-original-title="fa fa-file-excel-o"></i>');
+
+            $(".buttons-pdf").empty();
+            $(".buttons-pdf").append('<i class="fa fa-file-pdf-o" data-toggle="tooltip" title="PDF" data-original-title="fa fa-file-pdf-oo"></i>');
+
+            $(".buttons-colvis").empty();
+            $(".buttons-colvis").append('<i class="fa fa-eye" data-toggle="tooltip" title="Column Visibility" data-original-title="fa fa-eye"></i>');
+
+            $(".demo-accordion").accordionjs();
+
+            FileSalesOrderDatetime();
+            $('#lrChalanListModal').on('shown.bs.modal', function () {
+                $('.select2-container--default .select2-selection--single').css('width', '100%');
+            });
+            addRow();
         });
 
-        function addClick() {
+         function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
-            $(".btn-delete").hide();
+         }
+         var contentRowId = 0;
+        function addRow() {
+            contentRowId++;
+            var htmlContent =
+                '<div class="row m-0 rounded content-rows" id="row-' + contentRowId + '" style="border-bottom: 1px solid rgba(107, 122, 144, 0.3)">' +
+                    '<div class="row">'+
+                        '<div class="col-md-1 pl-2 pr-2" style="position:sticky;z-index:1;left:0;background-color:white;">' +
+                            '<label for="srTextbox" class="form-label"> SR #</label>'+
+                            '<input type="text" class="form-control content-row-srno" id="srTextbox" placeholder="" max="999">' +
+                        '</div>' +
+                        '<div class="col-md-1 pl-2 pr-2"style="position:sticky;z-index:1;left:0;background-color:white;">' +
+				            '<label for="exampleInputname" class="form-label">SKU #</label>' +
+				            '<input type="text" class="form-control"' +
+				            'id="exampleInputname" placeholder="" max="999">' +
+				        '</div>' +
+				        '<div class="col-md-1 pl-2 pr-2"style="position:sticky;z-index:1;left:0;background-color:white;">' +
+				            '<label for="exampleInputname" class="form-label">GROUP</label>' +
+				            '<input type="text" class="form-control"' +
+				                'id="exampleInputname" placeholder="" max="999">' +
+				        '</div>' +
+                        '<div class="col-md-1 pl-2 pr-2"style="position:sticky;z-index:1;left:0;background-color:white;">' +
+				            '<label for="exampleInputname" class="form-label">DESIGN #</label>' +
+				            '<input type="text" class="form-control"' +
+				                'id="exampleInputname" placeholder="" max="999">' +
+				        '</div>' +
+				        '<div class="col-md-1 pl-2 pr-2"style="position:sticky;z-index:1;left:0;background-color:white;">' +
+				            '<label for="exampleInputname" class="form-label">COLOUR</label>' +
+				            '<input type="text" class="form-control"' +
+				                'id="exampleInputname" placeholder="" max="999">' +
+				        '</div>' +
+				        '<div class="col-md-1 pl-2 pr-2"style="position:sticky;z-index:1;left:0;background-color:white;">' +
+				            '<label for="exampleInputname" class="form-label">SIZE</label>' +
+				            '<input type="text" class="form-control"' +
+				                'id="exampleInputname" placeholder="" max="999">' +
+				        '</div>' +
+				        '<div class="col-md-2 pl-2 pr-2">' +
+				        '<ul class="demo-accordion accordionjs m-0 col-md-12"' +
+				            'data-active-index="false">' +
+				            '<li class="acc_section">' +
+				                '<div class="acc_head">' +
+				                    '<div class="row">' +
+				                        '<h3>Description</h3>' +
+				                        '<div class="invoice-ds-box acc-box col-md-12">' +
+				                            '<input type="text" class="form-control"' +
+				                                'id="exampleInputname" placeholder="">' +
+				                        '</div>' +
+				                    '</div>' +
+				                '</div>' +
+				                '<div class="acc_content">' +
+            				        '<div class="row mb-1">' +
+			                	        '<label for="exampleInputname" class="col-md-4 form-label">' +
+				                            'Item Desc-01' +
+				                        '</label>' +
+				                        '<div class="col-md-8">' +
+				                            '<input type="text" class="form-control mr-1"' +
+				                                'id="exampleInputname" placeholder="">' +
+				                        '</div>' +
+				                    '</div>' +
+				                    '<div class="row mb-1">' +
+            				            '<label for="exampleInputname" class="col-md-4 form-label">' +
+			                	            'Item Desc-02' +
+				                        '</label>' +
+				                        '<div class="col-md-8">' +
+				                            '<input type="text" class="form-control mr-1"' +
+				                                'id="exampleInputname" placeholder="">' +
+				                        '</div>' +
+				                    '</div>' +
+				                    '<div class="row mb-1">' +
+				                        '<label for="exampleInputname" class="col-md-4 form-label">' +
+				                            'Item Desc-03' +
+				                        '</label>' +
+				                        '<div class="col-md-8">' +
+				                            '<input type="text" class="form-control mr-1"' +
+				                                'id="exampleInputname" placeholder="">' +
+				                        '</div>' +
+				                    '</div>' +
+				                    '<div class="row mb-1">' +
+				                        '<label for="exampleInputname" class="col-md-4 form-label">' +
+				                            'Item Desc-04' +
+				                        '</label>' +
+				                        '<div class="col-md-8">' +
+				                            '<input type="text" class="form-control mr-1"' +
+				                                'id="exampleInputname" placeholder="">' +
+                				        '</div>' +
+				                    '</div>' +
+				                    '<div class="row">' +
+				                        '<label for="exampleInputname" class="col-md-4 form-label">' +
+				                            'Item Desc-05' +
+                				        '</label>' +
+            				            '<div class="col-md-8">' +
+			                	            '<input type="text" class="form-control mr-1"' +
+				                                'id="exampleInputname" placeholder="">' +
+				                        '</div>' +
+				                    '</div>' +
+				                '</div>' +
+				            '</li>' +
+				        '</ul>' +
+				    '</div>' +
+                    '<div class="col-md-1 pl-2 pr-2">' +
+				        '<ul class="demo-accordion accordionjs m-0 col-md-12" data-active-index="false">' +
+				            '<li class="acc_section">' +
+				                '<div class="acc_head">' +
+				                    '<div class="row">' +
+				                        '<h3>Batch No</h3>' +
+				                        '<div class="invoice-ds-box acc-box col-md-12">' +
+				                            '<input type="text" class="form-control"' +
+				                                'id="exampleInputname" placeholder="">' +
+				                        '</div>' +
+				                    '</div>' +
+				                '</div>' +
+				                '<div class=acc_content">' +
+				                    '<div class="row mb-1">' +
+				                        '<label for="exampleInputname" class="col-md-4 form-label">Exp. Dt</label>' +
+				                        '<div class="col-md-8">' +
+				                            '<input type="text" class="form-control mr-1" id="exampleInputname" placeholder="">' +
+				                        '</div>' +
+				                    '</div>' +
+				                '</div>' +
+				            '</li>' +
+				        '</ul>' +
+				    '</div>' +
+				    '<div class="col-md-1 pl-2 pr-2"style="position:sticky;z-index:1;left:0;background-color:white;">' +
+				        '<label for="exampleInputname" class="form-label">Lable 1</label>' +
+				        '<input type="text" class="form-control"' +
+				            'id="exampleInputname" placeholder="" max="999">' +
+				    '</div>' +
+				    '<div class="col-md-1 pl-2 pr-2"style="position:sticky;z-index:1;left:0;background-color:white;">' +
+				        '<label for="exampleInputname" class="form-label">Lable 2</label>' +
+				        '<input type="text" class="form-control"' +
+				            'id="exampleInputname" placeholder="" max="999">' +
+				    '</div>' +
+				    '<div class="col-md-1 pl-2 pr-2"style="position:sticky;z-index:1;left:0;background-color:white;">' +
+				        '<label for="exampleInputname" class="form-label">Lable 3</label>' +
+				        '<input type="text" class="form-control"' +
+				            'id="exampleInputname" placeholder="" max="999">' +
+				    '</div>' +
+				    '<div class="col-md-1 pl-2 pr-2"style="position:sticky;z-index:1;left:0;background-color:white;">' +
+				        '<label for="exampleInputname" class="form-label">Lable 4</label>' +
+				        '<input type="text" class="form-control"' +
+				            'id="exampleInputname" placeholder="" max="999">' +
+				    '</div>' +
+				    '<div class="col-md-1 pl-2 pr-2"style="position:sticky;z-index:1;left:0;background-color:white;">' +
+				        '<label for="exampleInputname" class="form-label">Lable 5</label>' +
+				        '<input type="text" class="form-control"' +
+				            'id="exampleInputname" placeholder="" max="999">' +
+				    '</div>' +
+				    '<div class="col-md-1 pl-2 pr-2"style="position:sticky;z-index:1;left:0;background-color:white;">' +
+				        '<label for="exampleInputname" class="form-label">Lable 6</label>' +
+				        '<input type="text" class="form-control"' +
+				            'id="exampleInputname" placeholder="" max="999">' +
+				    '</div>' + 
+				    '<div class="col-md-1 pl-2 pr-2">' +
+				        '<label for="exampleInputname" class="form-label">' +
+				            'Rate' +
+				        '</label>' +
+				        '<div class="mb-1">' +
+				            '<input type="text" class="form-control"' +
+				                'id="exampleInputname" placeholder="">' +
+				        '</div>' +
+				    '</div>' +
+				    '<div class="col-md-2 pl-2 pr-2">' +
+				        '<ul class="demo-accordion accordionjs m-0 col-md-12"' +
+				            'data-active-index="false">' +
+				            '<li class="acc_section">' +
+				                '<div class="acc_head">' +
+				                    '<div class="row">' +
+				                        '<h3>Discount</h3>' +
+				                        '<div class="invoice-ds-box">' +
+				                            '<div class="row"' +
+				                                'style="flex-wrap:nowrap;padding: 0 16px 0 12px;">' +
+				                                '<input type="text" class="form-control col-md-3 mr-1" id="exampleInputname" placeholder="%">' +
+				                                '<input type="text" class="form-control col-md-9" id="exampleInputname" placeholder="">' +
+				                            '</div>' +
+				                        '</div>' +
+				                    '</div>' +
+				                '</div>' +
+				                '<div class="acc_content">' +
+				                    '<div class="row mb-1">' +
+				                        '<label for="exampleInputname" class="col-md-4 form-label">' +
+				                            'QTY Disc' +
+				                        '</label>' +
+				                        '<div class="col-md-8">' +
+				                            '<div class="row col-md-12" style="flex-wrap:nowrap;">' +
+				                                '<input type="text" class="form-control col-md-3 mr-1" id="exampleInputname" placeholder="%">' +
+				                                '<input type="text"' +
+				                                    'class="form-control col-md-9 mr-1"' +
+				                                    'id="exampleInputname" placeholder="">' +
+				                            '</div>' +
+				                        '</div>' +
+				                    '</div>' +
+				                    '<div class="row mb-1">' +
+				                        '<label for="exampleInputname" class="col-md-4 form-label">' +
+    				                        'Trad Disc' +
+				                        '</label>' +
+				                    '<div class="col-md-8">' +
+				                        '<div class="row col-md-12" style="flex-wrap:nowrap;">' +
+				                            '<input type="text"' +
+				                                'class="form-control col-md-3 mr-1"' +
+				                                    'id="exampleInputname" placeholder="%">' +
+				                            '<input type="text"' +
+				                                'class="form-control col-md-9 mr-1"' +
+				                                    'id="exampleInputname" placeholder="">' +
+				                        '</div>' +
+				                    '</div>' +
+				                '</div>' +
+				                '<div class="row mb-1">' +
+				                    '<label for="exampleInputname" class="col-md-4 form-label">' +
+				                        'Sp. Disc' +
+				                    '</label>' +
+				                        '<div class="col-md-8">' +
+				                            '<div class="row col-md-12" style="flex-wrap:nowrap;">' +
+				                                '<input type="text"' +
+				                                    'class="form-control col-md-3 mr-1"' +
+				                                        'id="exampleInputname" placeholder="%">' +
+				                                '<input type="text"' +
+				                                    'class="form-control col-md-9 mr-1"' +
+				                                    'id="exampleInputname" placeholder="">' +
+				                            '</div>' +
+				                        '</div>' +
+				                    '</div>' +
+				                    '<div class="row">' +
+				                        '<label for="exampleInputname" class="col-md-4 form-label">' +
+				                            'Cash Disc' +
+				                        '</label>' +
+				                        '<div class="col-md-8">' +
+				                            '<div class="row col-md-12" style="flex-wrap:nowrap;">' +
+				                                '<input type="text"' +
+				                                    'class="form-control col-md-3 mr-1"' +
+				                                    'id="exampleInputname" placeholder="%">' +
+				                                '<input type="text"' +
+				                                    'class="form-control col-md-9 mr-1"' +
+				                                    'id="exampleInputname" placeholder="">' +
+				                            '</div>' +
+				                        '</div>' +
+				                    '</div>' +
+				                '</div>' +
+				                '</li>' +
+				            '</ul>' +
+				        '</div>' +
+				        '<div class="col-md-2 pl-2 pr-2">' +
+				            '<ul class="demo-accordion accordionjs m-0 col-md-12"' +
+				                'data-active-index="false">' +
+				                '<li class="acc_section">' +
+				                    '<div class="acc_head">' +
+				                        '<div class="row">' +
+				                            '<h3>Tax Amt</h3>' +
+				                            '<div class="invoice-ds-box acc-box col-md-12">' +
+				                                '<input type="text" class="form-control"' +
+				                                    'id="exampleInputname" placeholder="">' +
+				                            '</div>' +
+				                        '</div>' +
+				                    '</div>' +
+				                    '<div class="acc_content">' +
+				                        '<div class="row mb-1">' +
+				                            '<label for="exampleInputname" class="col-md-4 form-label">' +
+				                                '+ %' +
+				                            '</label>' +
+				                            '<div class="col-md-8">' +
+				                                '<input type="text" class="form-control mr-1"' +
+				                                    'id="exampleInputname" placeholder="">' +
+				                            '</div>' +
+				                        '</div>' +
+				                    '</div>' +
+				                    '<div class="acc_content">' +
+				                        '<div class="row mb-1">' +
+				                            '<label for="exampleInputname" class="col-md-4 form-label">' +
+				                                'Retail Rate' +
+				                            '</label>' +
+				                            '<div class="col-md-8">' +
+				                                '<input type="text" class="form-control mr-1"' +
+				                                    'id="exampleInputname" placeholder="">' +
+				                            '</div>' +
+				                        '</div>' +
+				                    '</div>' +
+				                '</li>' +
+				            '</ul>' +
+				        '</div>' +
+				        '<div class="col-md-1 pl-2 pr-2">' +
+				            '<label for="exampleInputname" class="form-label">' +
+                			'GST' + 
+				            '</label>' +
+				            '<div class="mb-1">' +
+				                '<input type="text" class="form-control"' +
+				                    'id="exampleInputname" placeholder="">' +
+				            '</div>' +
+				        '</div>' +
+				        '<div class="col-md-1 pl-2 pr-2">' +
+				            '<label for="exampleInputname" class="form-label">' +
+				            'S.Cess' +
+				            '</label>' +
+				            '<div class="mb-1">' +
+				                '<input type="text" class="form-control"' +
+				                    'id="exampleInputname" placeholder="">' +
+				            '</div>' +
+				        '</div>' +
+				        '<div class="col-md-1 pl-2 pr-2">' +
+				            '<label for="exampleInputname" class="form-label">' +
+				                'C.Cess' +
+				            '</label>' +
+				            '<div class="mb-1">' +
+				                '<input type="text" class="form-control"' +
+				                    'id="exampleInputname" placeholder="">' +
+				            '</div>' +
+				        '</div>' +
+                        '<div class="col-md-1" > ' +
+    '                      <div class="form-group text-center mb-1">' +
+    '                          <div class="btn-list1 mt-1">' +
+    '                              <a href="javascript:addRow();" class="btn btn-outline-primary small-icon-btn content-rows-add-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add"><i class="fa fa-plus"></i></a>' +
+    '                              <a href="javascript:deleteRow(' + contentRowId + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
+    '                          </div>' +
+        '                   </div>' +
+        '               </div>' +
+                    '</div>' +
+                '</div>';
+
+            $('.content-rows-add-btn').remove();
+            $('#InvoiceList').append(htmlContent);
+            var accordionContainers = $('#row-' + contentRowId + ' .demo-accordion');
+			accordionContainers.each(function () {
+				$(this).accordionjs(); // Initialize accordion
+				$(this).find('.acc_content').hide(); // Close accordion sections
+			});
+            $('.fc-datepicker').datepicker();
+            $('.select2-show-search-contentrows').select2({
+                minimumResultsForSearch: ''
+            });
+
+            var counter = 0;
+            $('.content-row-srno').each(function () {
+                $(this).val(++counter);
+            });
+
+        }
+        function deleteRow(rowId) {
+            //$('#contentRow').remove($('#row-' + rowId));
+            $('#row-' + rowId).remove();
+            if ($('.content-rows').length == 0 || $('.content-rows-add-btn').length == 0) {
+                addRow();
+            }
         }
 
+        function FileSalesOrderDatetime() {
+            var currentDateTime = new Date();
+
+            var formattedDateTime = currentDateTime.getFullYear()
+                + ('0' + (currentDateTime.getMonth() + 1)).slice(-2)
+                + ('0' + currentDateTime.getDate()).slice(-2)
+                + ('0' + currentDateTime.getHours()).slice(-2)
+                + ('0' + currentDateTime.getMinutes()).slice(-2)
+                + ('0' + currentDateTime.getSeconds()).slice(-2)
+                + ('00' + currentDateTime.getMilliseconds()).slice(-3);
+
+            document.getElementById("SalesOrderNoTextbox").value = formattedDateTime;
+
+
+        }
+        $('#lrChalanListModal').on('shown.bs.modal', function () {
+            // Reinitialize or initialize the datepicker
+            $('#date').datepicker({
+                format: 'mm/dd/yyyy',
+                autoclose: true
+            });
+        });
+
+        // Optional: Remove the datepicker when the modal is hidden to avoid conflicts
+        $('#lrChalanListModal').on('hidden.bs.modal', function () {
+            $('#date').datepicker('destroy');
+        });
     </script>
 }

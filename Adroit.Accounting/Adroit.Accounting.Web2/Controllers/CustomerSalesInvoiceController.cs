@@ -15,7 +15,16 @@ namespace Adroit.Accounting.Web.Controllers
     {
         public IActionResult SalesInvoice()
         {
-            return View();
+            var model = new SalesBillMasterViewModel();
+            model.BookBranchList = _customerBookRepository.SelectList(CurrentBranchId, _configurationData.DefaultConnection);
+            model.ShippingFromList = _customerFirmBranchRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
+            model.InvoiceTypeList = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId);
+            model.BillFromList = _salesBillFromAdminRepository.SalesBillFromAdminList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId);
+            model.AccountBranchMappingList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
+            model.BrokerBranchMappingList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId, _configurationData.DefaultConnection);
+            model.DeliveryPartyList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
+            model.HastePartyList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
+            return View(model);
         }
     }
 }
