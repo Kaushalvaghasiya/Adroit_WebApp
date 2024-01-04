@@ -1,8 +1,19 @@
 ﻿@using Adroit.Accounting.Model;
 @using Adroit.Accounting.Model.Enums;
+@inject Adroit.Accounting.Web.Utility.ILoginHandler loginHandler
 @model Adroit.Accounting.Model.ReportViewModel.LRBookingLRRegisterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        var firmId = loginHandler.GetLoggedInFirmId(User);
+        ViewBag.Year = loginHandler.GetLoggedInYear(loginHandler.GetLoggedInYearId(User), firmId);
+    }
+    else
+    {
+        ViewBag.Year = string.Empty;
+    }
 }
 
 <div class="dv-parameters side-app">
@@ -47,8 +58,8 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="BranchId">Branch</label>
-                                <select class="group-filter mode-ed" id="BranchId" multiple="multiple">
+                                <label for="BranchIds">Branch</label>
+                                <select class="group-filter mode-ed" id="BranchIds" multiple="multiple">
                                     @{
                                         if (Model.BranchList != null)
                                         {
@@ -122,8 +133,8 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="CityFromId">City From</label>
-                                <select class="filter-multi mode-ed-multi" id="CityFromId" multiple="multiple">
+                                <label for="CityFromIds">City From</label>
+                                <select class="filter-multi mode-ed-multi" id="CityFromIds" multiple="multiple">
                                     @{
                                         if (Model.CityList != null)
                                         {
@@ -138,8 +149,8 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="CityToId">City To</label>
-                                <select class="filter-multi mode-ed-multi" id="CityToId" multiple="multiple">
+                                <label for="CityToIds">City To</label>
+                                <select class="filter-multi mode-ed-multi" id="CityToIds" multiple="multiple">
                                     @{
                                         if (Model.CityList != null)
                                         {
@@ -154,8 +165,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="ConsignorId">Consignor</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsignorId">
+                                <label for="ConsignorIds">Consignor</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsignorIds">
                                     @{
                                         if (Model.AccountBranchMappingList != null)
                                         {
@@ -171,8 +182,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="ConsigneeId">Consignee</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsigneeId">
+                                <label for="ConsigneeIds">Consignee</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsigneeIds">
                                     @{
                                         if (Model.AccountBranchMappingList != null)
                                         {
@@ -187,8 +198,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="BillPartyId">Bill Party</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BillPartyId">
+                                <label for="BillPartyIds">Bill Party</label>
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BillPartyIds">
                                     @{
                                         if (Model.AccountBranchMappingList != null)
                                         {
@@ -203,8 +214,8 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="PvtMarkId">Pvt Mark</label>
-                                <select class="filter-multi mode-ed-multi" id="PvtMarkId" multiple="multiple">
+                                <label for="PvtMarkIds">Pvt Mark</label>
+                                <select class="filter-multi mode-ed-multi" id="PvtMarkIds" multiple="multiple">
                                     @{
                                         if (Model.PvtMarkList != null)
                                         {
@@ -219,8 +230,8 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="PayTypeId">Pay Type</label>
-                                <select class="filter-multi mode-ed-multi" id="PayTypeId" multiple="multiple">
+                                <label for="PayTypeIds">Pay Type</label>
+                                <select class="filter-multi mode-ed-multi" id="PayTypeIds" multiple="multiple">
                                     @{
                                         if (Model.PayTypeList != null)
                                         {
@@ -251,8 +262,8 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="InvStatus">Inv. Status</label>
-                                <select class="form-control select2-show-search-report" id="InvStatus">
+                                <label for="InvStatusId">Inv. Status</label>
+                                <select class="form-control select2-show-search-report" id="InvStatusId">
                                     @{
                                         if (Model.InvStatusList != null)
                                         {
@@ -320,263 +331,9 @@
                     <div class="table-responsive">
                         <table id="tblMain" class="table table-bordered key-buttons">
                             <thead>
-                                <tr>
-                                    <th class="border-bottom-0 text-center">LR DATE</th>
-                                    <th class="border-bottom-0 text-center">LR NUMBER</th>
-                                    <th class="border-bottom-0 text-center">FROM CITY</th>
-                                    <th class="border-bottom-0 text-center">TO CITY</th>
-                                    <th class="border-bottom-0 text-center">GOODS DESCRIPTION</th>
-                                    <th class="border-bottom-0 text-center">PARCEL</th>
-                                    <th class="border-bottom-0 text-center">CHARGE WT.</th>
-                                    <th class="border-bottom-0 text-center">PACKING</th>
-                                    <th class="border-bottom-0 text-center">PVT. MARK</th>
-                                    <th class="border-bottom-0 text-center">LR AMOUNT</th>
-                                    <th class="border-bottom-0 text-center">GST%</th>
-                                    <th class="border-bottom-0 text-center">GST AMOUNT</th>
-                                    <th class="border-bottom-0 text-center">PAY TYPE</th>
-                                    <th class="border-bottom-0 text-center">INV VALUE</th>
-                                    <th class="border-bottom-0 text-center">BRANCH</th>
-                                </tr>
+                                <tr></tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -591,6 +348,8 @@
     </div>
 </div>
 
+<input type="hidden" id="hdnSelectedView" value="" />
+
 @section Scripts
 {
 
@@ -598,68 +357,110 @@
 
         $(function (e) {
 
+
             $('.dv-report').hide();
             $('.dv-parameters').show();
+
+            const viewBagYear = "@(ViewBag.Year)";
+            const dateRange = getDateRange(viewBagYear);
 
             $(".show-report").on("click", function () {
                 $('.dv-parameters').slideUp();
                 $('.dv-report').slideDown();
+
+                let spanElement = document.getElementById("select2-ViewId-container");
+                let selectedView = spanElement.getAttribute("title");
+
+                $("#hdnSelectedView").val(selectedView.replace(/\s/g, ''));
+
+                let Summary = $('#Summary').is(':checked');
+
+                if ($.fn.dataTable.isDataTable('#tblMain')) {
+                    $('#tblMain').DataTable().destroy();
+                }
+
+                $('#tblMain tbody').html('');
+                $('#tblMain thead tr').html('');
+
+                if (selectedView == 'Date Wise' && Summary === false) {
+                    DateWiseSummaryOffList();
+                }
+                if (selectedView == 'Date Wise' && Summary === true) {
+                    DateWiseSummaryOnList();
+                }
+                if (selectedView == 'LR Wise' && (Summary === true || Summary === false)) {
+                    LRWiseList();
+                }
+                if (selectedView == 'Party Wise' && Summary === false) {
+                    PartyWiseSummaryOffList();
+                }
+                if (selectedView == 'Party Wise' && Summary === true) {
+                    PartyWiseSummaryOnList();
+                }
+
             });
 
             $(".btn-back").on("click", function () {
                 $('.dv-parameters').slideDown();
                 $('.dv-report').slideUp();
+                $('#tblMain tbody').html('');
+                $('#tblMain thead tr').html('');
             });
-
-            var table = $('#tblMain').DataTable({
-                "bAutoWidth": false,
-                lengthChange: false,
-                ordering: true,
-                searching: true,
-                paging: true,
-                pageLength: 50,
-                order: [[0, 'asc']],
-                pagingType: 'full_numbers',
-                orderClasses: false,
-                // columnDefs: colDef,
-                // columns: columns,
-                language: {
-                    paginate: {
-                        next: '<i class="fa fa-angle-right"></i>', // or '→'
-                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
-                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
-                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
-                    }
-                },
-                // buttons: ['copy', 'excel', 'pdf', 'colvis'],
-                //processing: true,
-                //serverSide: true,
-                // ajax: {
-                //     url: '@(Url.Content("~/CustomerReport/LRRegister"))',
-                //     type: 'GET',
-                //     data: function (d) {
-
-                //     }
-                // },
-                // "initComplete": function (settings, json) {
-                //     gridInitComplete(table);
-                // },
-                // "drawCallback": function (settings) {
-                //     gridDrawCallback(this);
-                // }
-            });
-
-            table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
-
-            // bindDatatableList();
 
         });
 
-        function refreshDatatableList() {
-            $('#tblMain').DataTable().ajax.reload();
+        function getDateRange(yearRange) {
+            const [startYear, endYear] = yearRange.split('-').map(Number);
+
+            const startDate = moment(`${startYear}-04-01`, 'YYYY-MM-DD');
+            const endDate = moment(`${endYear}-03-31`, 'YYYY-MM-DD');
+
+            const formattedStartDate = startDate.format('DD/MM/YYYY');
+            const formattedEndDate = endDate.format('DD/MM/YYYY');
+
+            $("#DateFrom").val(formattedStartDate);
+            $("#DateTo").val(formattedEndDate);
         }
 
-        function bindDatatableList() {
+        function DateWiseSummaryOffList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">FROM CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GOODS DESCRIPTION</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PACKING</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PVT.MARK</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
+            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
+            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
+            let LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
+            let LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
+            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
+            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
+            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
+            let PvtMarkIds = $('#PvtMarkIds').val().length === 0 ? '0' : $('#PvtMarkIds').val().join(",");
+            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
+            let ChalanId = getIntValueZero('ChalanId');
+            let InvStatusId = getIntValueZero('InvStatusId');
+            let SubTotal = $('#SubTotal').is(':checked');
+
+            let currentDate = null;
+            let totalAmount = 0;
+            let prevDate = null;
+            let tableBody = $('#tblMain tbody');
+
             let columns = [];
             let colDef = [];
             colDef.push({
@@ -719,7 +520,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.amount.toFixed(2);
+                    return (row.amount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -767,7 +568,7 @@
             columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
             columns.push({ "data": "packing", "name": "packing" });
             columns.push({ "data": "privateMarka", "name": "privateMarka" });
-            columns.push({ "data": "chargeAmount", "name": "chargeAmount" });
+            columns.push({ "data": "amount", "name": "amount" });
             columns.push({ "data": "rate", "name": "rate" });
             columns.push({ "data": "rate", "name": "rate" });
             columns.push({ "data": "lrPayType", "name": "lrPayType" });
@@ -784,6 +585,7 @@
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
+                destroy: true,
                 //scrollCollapse: true,
                 //stateSave: false,
                 columnDefs: colDef,
@@ -796,11 +598,454 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                buttons: ['copy', 'excel', 'colvis'],
+                buttons: ['copy', 'excel', 'colvis',
+                    {
+                    extend: 'pdf',
+                    title: 'LR Register Report',
+                    text: '<i class="fa fa-print" style="color: #467fcf; background-color: white;"></i>',
+                    className: 'btn btn-primary buttons-pdf buttons-html5 btn-outline-primary',
+                    customize: function (doc) {
+
+                        doc.pageOrientation = 'landscape';
+                        doc.pageMargins = [10, 10, 10, 10];
+                    }
+                }],
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))',
+                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithoutSummary"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let dateCell = api.cell(i, 0).data();
+
+                        if (prevDate !== null && dateCell !== prevDate) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                                    '<td colspan="9">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="5"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            totalAmount = 0;
+                        }
+
+                        totalAmount += parseFloat(api.cell(i, 9).data());
+
+                        tableBody.append(rows[i]);
+                        prevDate = dateCell;
+                    }
+
+                    if (prevDate !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                            '<td colspan="9">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="5"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+                }
+
+            });
+
+            $('.btn-blue').on('click', function () {
+                 //generatePDF();
+                 table.button('.buttons-pdf').trigger();
+            });
+
+        }
+
+        function DateWiseSummaryOnList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
+            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
+            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
+            let LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
+            let LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
+            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
+            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
+            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
+            let PvtMarkIds = $('#PvtMarkIds').val().length === 0 ? '0' : $('#PvtMarkIds').val().join(",");
+            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
+            let ChalanId = getIntValueZero('ChalanId');
+            let InvStatusId = getIntValueZero('InvStatusId');
+            let Summary = $('#Summary').is(':checked');
+            let SubTotal = $('#SubTotal').is(':checked');
+
+            let currentDate = null;
+            let totalAmount = 0;
+            let prevDate = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.groupingColumn, "MMM DD YYYY h:mmA").format("DD/MM/YYYY");
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "groupingColumn", "name": "groupingColumn" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
+            columns.push({ "data": "amount", "name": "amount" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
+            columns.push({ "data": "branchName", "name": "branchName" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis',
+                {
+                    extend: 'pdf',
+                    title: 'LR Register Report',
+                    text: '<i class="fa fa-print" style="color: #467fcf; background-color: white;"></i>',
+                    className: 'btn btn-primary buttons-pdf buttons-html5 btn-outline-primary',
+                    customize: function (doc) {
+
+                        doc.pageOrientation = 'landscape';
+                        doc.pageMargins = [10, 10, 10, 10];
+                    }
+                }],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithSummary"))' + "/" + $("#hdnSelectedView").val() + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let dateCell = api.cell(i, 0).data();
+
+                        if (prevDate !== null && dateCell !== prevDate) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                                    '<td colspan="4">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="3"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            totalAmount = 0;
+                        }
+
+                        totalAmount += parseFloat(api.cell(i, 4).data());
+
+                        tableBody.append(rows[i]);
+                        prevDate = dateCell;
+                    }
+
+                    if (prevDate !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                            '<td colspan="4">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="3"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+                }
+
+            });
+
+            $('.btn-blue').on('click', function () {
+                //generatePDF();
+                table.button('.buttons-pdf').trigger();
+            });
+        }
+
+        function LRWiseList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">FROM CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GOODS DESCRIPTION</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PACKING</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PVT.MARK</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
+            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
+            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
+            let LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
+            let LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
+            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
+            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
+            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
+            let PvtMarkIds = $('#PvtMarkIds').val().length === 0 ? '0' : $('#PvtMarkIds').val().join(",");
+            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
+            let ChalanId = getIntValueZero('ChalanId');
+            let InvStatusId = getIntValueZero('InvStatusId');
+            let SubTotal = $('#SubTotal').is(':checked');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.description;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.packing;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.privateMarka;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrPayType;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "lrDate", "name": "lrDate" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "description", "name": "description" });
+            columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
+            columns.push({ "data": "packing", "name": "packing" });
+            columns.push({ "data": "privateMarka", "name": "privateMarka" });
+            columns.push({ "data": "amount", "name": "amount" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "lrPayType", "name": "lrPayType" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
+            columns.push({ "data": "branchName", "name": "branchName" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis',
+                {
+                    extend: 'pdf',
+                    title: 'LR Register Report',
+                    text: '<i class="fa fa-print" style="color: #467fcf; background-color: white;"></i>',
+                    className: 'btn btn-primary buttons-pdf buttons-html5 btn-outline-primary',
+                    customize: function (doc) {
+
+                        doc.pageOrientation = 'landscape';
+                        doc.pageMargins = [10, 10, 10, 10];
+                    }
+                }],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithoutSummary"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -811,6 +1056,473 @@
                     gridDrawCallback(this);
                 }
 
+            });
+
+            $('.btn-blue').on('click', function () {
+                //generatePDF();
+                table.button('.buttons-pdf').trigger();
+            });
+        }
+
+        function PartyWiseSummaryOffList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BILL PARTY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CONSIGNOR</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CONSIGNEE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">FROM CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GOODS DESCRIPTION</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PACKING</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PVT.MARK</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
+            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
+            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
+            let LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
+            let LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
+            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
+            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
+            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
+            let PvtMarkIds = $('#PvtMarkIds').val().length === 0 ? '0' : $('#PvtMarkIds').val().join(",");
+            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
+            let ChalanId = getIntValueZero('ChalanId');
+            let InvStatusId = getIntValueZero('InvStatusId');
+            let SubTotal = $('#SubTotal').is(':checked');
+
+            let currentDate = null;
+            let totalAmount = 0;
+            let prevParty = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billPartyName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.description;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.packing;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.privateMarka;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrPayType;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "billPartyName", "name": "billPartyName" });
+            columns.push({ "data": "consignor", "name": "consignor" });
+            columns.push({ "data": "consignee", "name": "consignee" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "lrDate", "name": "lrDate" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "description", "name": "description" });
+            columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
+            columns.push({ "data": "packing", "name": "packing" });
+            columns.push({ "data": "privateMarka", "name": "privateMarka" });
+            columns.push({ "data": "amount", "name": "amount" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "lrPayType", "name": "lrPayType" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
+            columns.push({ "data": "branchName", "name": "branchName" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis',
+                    {
+                        extend: 'pdf',
+                        title: 'LR Register Report',
+                        text: '<i class="fa fa-print" style="color: #467fcf; background-color: white;"></i>',
+                        className: 'btn btn-primary buttons-pdf buttons-html5 btn-outline-primary',
+                        customize: function (doc) {
+
+                            doc.pageOrientation = 'landscape';
+                            doc.pageMargins = [10, 10, 10, 10];
+                        }
+                    }],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithoutSummary"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let billPartyCell = api.cell(i, 0).data();
+
+                        if (prevParty !== null && billPartyCell !== prevParty) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                                    '<td colspan="12">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="5"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            totalAmount = 0;
+                        }
+
+                        totalAmount += parseFloat(api.cell(i, 12).data());
+
+                        tableBody.append(rows[i]);
+                        prevParty = billPartyCell;
+                    }
+
+                    if (prevParty !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                            '<td colspan="12">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="5"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+                }
+
+            });
+
+            $('.btn-blue').on('click', function () {
+                //generatePDF();
+                table.button('.buttons-pdf').trigger();
+            });
+
+        }
+
+        function PartyWiseSummaryOnList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CONSIGNOR</TH>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL LR</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
+            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
+            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
+            let LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
+            let LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
+            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
+            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
+            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
+            let PvtMarkIds = $('#PvtMarkIds').val().length === 0 ? '0' : $('#PvtMarkIds').val().join(",");
+            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
+            let ChalanId = getIntValueZero('ChalanId');
+            let InvStatusId = getIntValueZero('InvStatusId');
+            let Summary = $('#Summary').is(':checked');
+            let SubTotal = $('#SubTotal').is(':checked');
+
+            let currentDate = null;
+            let totalAmount = 0;
+            let prevParty = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.groupingColumn;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "groupingColumn", "name": "groupingColumn" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
+            columns.push({ "data": "amount", "name": "amount" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
+            columns.push({ "data": "branchName", "name": "branchName" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis',
+                    {
+                        extend: 'pdf',
+                        title: 'LR Register Report',
+                        text: '<i class="fa fa-print" style="color: #467fcf; background-color: white;"></i>',
+                        className: 'btn btn-primary buttons-pdf buttons-html5 btn-outline-primary',
+                        customize: function (doc) {
+
+                            doc.pageOrientation = 'landscape';
+                            doc.pageMargins = [10, 10, 10, 10];
+                        }
+                    }],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithSummary"))' + "/" + $("#hdnSelectedView").val() + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let billPartyCell = api.cell(i, 0).data();
+
+                        if (prevParty !== null && billPartyCell !== prevParty) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                                    '<td colspan="4">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="3"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            totalAmount = 0;
+                        }
+
+                        totalAmount += parseFloat(api.cell(i, 4).data());
+
+                        tableBody.append(rows[i]);
+                        prevParty = billPartyCell;
+                    }
+
+                    if (prevParty !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                            '<td colspan="4">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="3"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+                }
+
+            });
+
+            $('.btn-blue').on('click', function () {
+                //generatePDF();
+                table.button('.buttons-pdf').trigger();
             });
         }
 
