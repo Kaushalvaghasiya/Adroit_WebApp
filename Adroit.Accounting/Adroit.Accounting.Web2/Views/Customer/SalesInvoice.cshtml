@@ -708,7 +708,7 @@
                                         Bill Party
                                     </label>
                                     <div class="col-md-10 col-lg-5">
-                                        <select class="form-control select2-show-search" id="">
+                                        <select class="form-control select2-show-search" id="AccountBranchMappingId">
                                              @{
                                                 if (Model.AccountBranchMappingList != null)
                                                 {
@@ -724,7 +724,7 @@
                                         Credit Days
                                     </label>
                                     <div class="col-md-4 col-lg-2">
-                                        <input type="text" class="form-control" id="exampleInputname"
+                                        <input type="text" class="form-control" id="CreditDays"
                                                placeholder="">
                                     </div>
                                     <label for="exampleInputname" class="col-md-2 col-lg-1 form-label">
@@ -937,9 +937,16 @@
                                             @{
                                                 if (Model.DeliveryPartyList != null)
                                                 {
-                                                foreach (var o in Model.DeliveryPartyList)
+                                                    foreach (var o in Model.DeliveryPartyList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                        if (@o.Value == $"{ViewBag.LoggedInBranchCity}")
+                                                        {
+                                                            <option value="@o.Value" selected>@o.Text</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@o.Value">@o.Text</option>
+                                                        }
                                                     }
                                                 }
                                             }
@@ -2002,6 +2009,11 @@
                 $('.dv-list').slideDown();
             });
 
+            $("#AccountBranchMappingId").on('change', function (e) {
+                GetListByCustomerAccountBranchMappingId($(this).val());
+                calculateBasicAmount();
+            });
+
             var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
             $("#BillDate").datepicker("setDate", formattedMinimumDate);
             $("#LRDate").datepicker("setDate", formattedMinimumDate);
@@ -2083,11 +2095,38 @@
             addRow();
         });
 
-         function addClick() {
-            $('.dv-list').slideUp();
-            $('.dv-detail').slideDown();
-         }
-         var contentRowId = 0;
+        function GetListByCustomerAccountBranchMappingId(CustomerAccountBranchMappingId, contentRowId) {
+            try {
+                if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#CreditDays").val(result.data.creditDays);
+                                $("#TDSPercentage").val(result.data.tds);
+                                $("#TCSPercentage").val(result.data.tcs);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function addClick() {
+        $('.dv-list').slideUp();
+        $('.dv-detail').slideDown();
+        }
+        var contentRowId = 0;
         function addRow() {
             contentRowId++;
             var htmlContent =
