@@ -91,6 +91,11 @@ BEGIN
 				SELECT @LRNumber = StartNumber
 				FROM LRBookingRange 
 				WHERE FirmId = @FirmId AND BranchId = @BranchId AND YearId = @YearId AND Active = 1 AND Deleted = 0
+				IF (@LRNumber IS NULL)
+				BEGIN
+					SET @message = 'LR Range does not exist.';
+					RAISERROR ('%s', 16, 1, @message);
+				END
 			END
 			ELSE
 			BEGIN

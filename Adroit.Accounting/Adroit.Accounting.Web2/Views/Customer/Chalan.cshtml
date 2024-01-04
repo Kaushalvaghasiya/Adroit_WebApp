@@ -71,7 +71,7 @@
                 <div class="ml-auto">
                     <div class="row">
                         <div class="col-md-4" style="display:flex;">
-                            <label for="IsAutoLedger" style="padding:10px 20px 0 0;">Is Auto Ledger</label>
+                            <label for="IsAutoLedger" style="padding:10px 20px 0 0;">Auto Ledger</label>
                             <label class="custom-switch">
                                 <input id="IsAutoLedger" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
                                 <span class="custom-switch-indicator"></span>
@@ -81,7 +81,7 @@
                             <div class="input-group">
                                 <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
                                 <span class="input-group-append mr-2">
-                                    <button class="btn btn-primary EWayBill-search" type="button">Search</button>
+                                    <button class="btn btn-primary EWayBill-search" type="button">Go</button>
                                 </span>
                                 <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
                                 <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
@@ -160,6 +160,28 @@
                                             }
                                         </select>
                                     </div>
+                                    <label for="CityIdTo" class="col-md-1 form-label">To City</label>
+                                    <div class="col-md-2">
+                                        <select class="form-control select2-show-search" id="CityIdTo">
+                                            <option></option>
+                                            @{
+                                                if (Model.CityList != null)
+                                                {
+                                                    foreach (var o in Model.CityList)
+                                                    {
+                                                        if (($"{Model.CityIdTo}" == o.Value) || (Model.CityIdTo == 0 && o.Value == $"{ViewBag.LoggedInBranchCity}"))
+                                                        {
+                                                            <option value="@o.Value" selected>@o.Text</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@o.Value">@o.Text</option>
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
                                     <label for="VehicleId" class="col-md-1 form-label">Vehicle#</label>
                                     <div class="col-md-2">
                                         <select class="form-control select2-show-search" id="VehicleId">
@@ -176,7 +198,7 @@
                                         </select>
                                     </div>
                                     <label for="AccountBranchMappingId" class="col-md-1 form-label">Bill Party</label>
-                                    <div class="col-md-5">
+                                    <div class="col-md-2">
                                         <select class="form-control select2-show-search" id="AccountBranchMappingId">
                                             <option></option>
                                             @{
@@ -236,8 +258,17 @@
                                     </div>
                                     <label for="CityIdFrom" class="col-md-1 form-label">From City</label>
                                     <div class="col-md-2">
-                                        <select class="form-control select2-show-search-api" id="CityIdFrom">
-                                            <option value=""></option>
+                                        <select class="form-control select2-show-search" id="CityIdFrom">
+                                            <option></option>
+                                            @{
+                                                if (Model.CityList != null)
+                                                {
+                                                    foreach (var o in Model.CityList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
                                         </select>
                                     </div>
                                 </div>
@@ -425,7 +456,7 @@
                                 <div class="row mb-1">
                                     <label for="TaxableAmount" class="col-md-6 form-label text-right">Lorry Hire/ Freight</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TaxableAmount" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly CalculateNetAmount" data-tofixed="2" id="TaxableAmount" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
@@ -434,37 +465,37 @@
                                         <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TDSPercent" placeholder="%">
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="TDSAmount" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly CalculateNetAmount" data-tofixed="2" id="TDSAmount" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="AdvanceCash" class="col-md-6 form-label text-right">Cash To Lorry Trip</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="AdvanceCash" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly CalculateNetAmount" data-tofixed="2" id="AdvanceCash" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="AdvanceNeft" class="col-md-6 form-label text-right">Bank Transfer To Lorry Trip</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="AdvanceNeft" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly CalculateNetAmount" data-tofixed="2" id="AdvanceNeft" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="ReceiveCash" class="col-md-6 form-label text-right">Received Cash By Driver</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="ReceiveCash" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly CalculateNetAmount" data-tofixed="2" id="ReceiveCash" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="OtherPlus" class="col-md-6 form-label text-right">Other Exp of Trip</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="OtherPlus" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly CalculateNetAmount" data-tofixed="2" id="OtherPlus" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="OtherLess" class="col-md-6 form-label text-right">Other Less</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="OtherLess" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly CalculateNetAmount" data-tofixed="2" id="OtherLess" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
@@ -507,9 +538,9 @@
             <div class="modal-content ">
                 <div class="form-horizontal modal-header pd-x-20">
                     <h5 class="modal-title col-md-1" style="align-self:center;">LR List</h5>
-                    <label for="LRFromCity" class="col-md-1 form-label">From City</label>
+                    <label for="LRCityFrom" class="col-md-1 form-label">From City</label>
                     <div class="col-md-2">
-                        <select multiple="multiple" class="filter-multi mode-ed-multi" id="LRFromCity">
+                        <select multiple="multiple" class="filter-multi mode-ed-multi" id="LRCityFrom">
                             @{
                                 if (Model.CityList != null)
                                 {
@@ -521,9 +552,9 @@
                             }
                         </select>
                     </div>
-                    <label for="LRToCity" class="col-md-1 form-label">To City</label>
+                    <label for="LRCityTo" class="col-md-1 form-label">To City</label>
                     <div class="col-md-2">
-                        <select multiple="multiple" class="filter-multi mode-ed-multi" id="LRToCity">
+                        <select multiple="multiple" class="filter-multi mode-ed-multi" id="LRCityTo">
                             @{
                                 if (Model.CityList != null)
                                 {
@@ -597,6 +628,8 @@
     <script>
         var selectedLRDetails = [];
         var addedIds = [];
+        var branchArray = [];
+        var vehicleArray = [];
         $(function (e) {
 
             $('.dv-list').show();
@@ -632,20 +665,21 @@
             });
 
             $("#AccountBranchMappingId").on('change', function (e) {
-                GetTDSPercentByCustomerAccountBranchMappingId($(this).val());
+                getTDSPercentByCustomerAccountBranchMappingId($(this).val());
             });
 
             $("#VehicleId").on('change', function (e) {
-                getBillParty();
+                var vehicle = vehicleArray.find(x => x.VehicleId == $(this).val());
+                if (vehicle != null && (@Model.Id == 0 || $("#AccountBranchMappingId").val() == "")) {
+                    $("#AccountBranchMappingId").val(vehicle.AccountId).trigger('change');
+                }
             });
 
             $("#ToPayAccountBranchMappingId").on('change', function (e) {
-
                 $("#CrossingAmountAccountBranchMappingId").val($(this).val()).trigger('change');
                 $("#CrossingCommissionAccountBranchMappingId").val($(this).val()).trigger('change');
                 $("#CrossingHamaliAccountBranchMappingId").val($(this).val()).trigger('change');
                 $("#CrossingDeliveryAccountBranchMappingId").val($(this).val()).trigger('change');
-
             });
 
             $('#EWayBill-search').on('click', function () {
@@ -653,32 +687,8 @@
                 $(this).attr('data-content', Data);
             });
 
-            $("#TaxableAmount").on('keyup', function (e) {
-                CalcNetAmount();
-            });
-
-            $("#TDSAmount").on('keyup', function (e) {
-                CalcNetAmount();
-            });
-
-            $("#AdvanceCash").on('keyup', function (e) {
-                CalcNetAmount();
-            });
-
-            $("#AdvanceNeft").on('keyup', function (e) {
-                CalcNetAmount();
-            });
-
-            $("#ReceiveCash").on('keyup', function (e) {
-                CalcNetAmount();
-            });
-
-            $("#OtherPlus").on('keyup', function (e) {
-                CalcNetAmount();
-            });
-
-            $("#OtherLess").on('keyup', function (e) {
-                CalcNetAmount();
+            $(".CalculateNetAmount").on('keyup', function (e) {
+                calcNetAmount();
             });
 
             $("#AddData").on('click', function (e) {
@@ -688,13 +698,13 @@
 
             $("#SearchLRNumberList").on('click', function (e) {
 
-                if ($("#LRFromCity").val() == null || $("#LRFromCity").val() == "") {
+                if ($("#LRCityFrom").val() == null || $("#LRCityFrom").val() == "") {
                     showWarning("", "Please select from city");
-                    $("#LRFromCity").focus();
+                    $("#LRCityFrom").focus();
                     return false;
-                } else if ($("#LRToCity").val() == null || $("#LRToCity").val() == "") {
+                } else if ($("#LRCityTo").val() == null || $("#LRCityTo").val() == "") {
                     showWarning("", "Please select to city");
-                    $("#LRToCity").focus();
+                    $("#LRCityTo").focus();
                     return false;
                 } else
                     bindLRList();
@@ -725,7 +735,30 @@
                 $("#" + fieldId).val(formattedValue);
             });
 
-            addClick(true);
+            $("#BranchIdTo").on('change', function (e) {
+                var branch = branchArray.find(x => x.BranchId == $(this).val());
+                if (branch != null && (@Model.Id == 0 || $("#CityIdTo").val() == "")) {
+                    $("#CityIdTo").val(branch.CityId).trigger('change');
+                }
+            });
+
+        @if (Model.CustomerFirmBranchList != null)
+        {
+            @foreach (var branch in Model.CustomerFirmBranchList)
+            {
+                @:branchArray.push({ BranchId: "@branch.Value", CityId: "@branch.Other" });
+            }
+        }
+
+        @if (Model.VehicleList != null)
+        {
+            @foreach (var vehicle in Model.VehicleList)
+            {
+                @:vehicleArray.push({ VehicleId: "@vehicle.Value", AccountId: "@vehicle.Other" });
+            }
+        }
+
+                addClick(true);
         });
 
         function addClick(isClickAtPgLoad = false) {
@@ -737,17 +770,13 @@
             $("#BillNumberBranch").focus();
             $("#BillNumberBranch").val(0);
             $("#BillNumberFirm").val(0);
+
             $("#ToPayAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
             $("#CrossingAmountAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
             $("#CrossingCommissionAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
             $("#CrossingHamaliAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
             $("#CrossingDeliveryAccountBranchMappingId").val(@Model.CustomerFirmBranchTransportSetting.SalesAccountBranchMappingId).trigger('change');
             $("#IsAutoLedger").prop('checked', true);
-
-            var cityFromStr = "<option value='" + @Model.CityIdFrom + "'>" + "@Model.CityFrom" + "</option>";
-            $("#CityIdFrom").html(cityFromStr);
-            $("#CityIdFrom").val(@Model.CityIdFrom).trigger("change");
-
         }
 
         function viewMode(id) {
@@ -921,8 +950,8 @@
             $("#NetAmount").val('');
             $("#Notes").val('');
 
-            $("#LRFromCity").val(null).trigger('change');
-            $("#LRToCity").val(null).trigger('change');
+            $("#LRCityFrom").val(null).trigger('change');
+            $("#LRCityTo").val(null).trigger('change');
             if (isClickAtPgLoad === false)
                 $("#VehicleId").val(null).trigger('change');
             $("#DriverId").val(null).trigger('change');
@@ -953,9 +982,7 @@
                 var ewayBillNumber = $("#EwayBillNumber").val();
 
                 if ($("#BillNumberBranch").val() == "") {
-                    showWarning("", "Please enter branch chalan");
-                    $("#BillNumberBranch").focus();
-                    return false;
+                    $("#BillNumberBranch").val("0");
                 }
 
                 if ($("#BillDate").val() == "") {
@@ -985,9 +1012,7 @@
                 }
 
                 if ($("#BillNumberFirm").val() == "") {
-                    showWarning("", "Please enter firm chalan");
-                    $("#BillNumberFirm").focus();
-                    return false;
+                    $("#BillNumberFirm").val("0");
                 }
 
                 if ($("#CityIdFrom").val() == null || $("#CityIdFrom").val() == "") {
@@ -1144,6 +1169,7 @@
                 savedata.EntryTypeName = "PUR";
                 savedata.BranchIdTo = parseInt($("#BranchIdTo").val());
                 savedata.CityIdFrom = getIntValueZero("CityIdFrom");
+                savedata.CityIdTo = getIntValueZero("CityIdTo");
 
                 blockUI('container');
 
@@ -1268,11 +1294,10 @@
                                 $("#BrokerAmount").val(result.data.brokerAmount ? result.data.brokerAmount.toFixed(2) : '');
                                 $("#IsAutoLedger").prop('checked', result.data.isAutoLedger);
 
-                                var cityFromStr = "<option value='" + result.data.cityIdFrom + "'>" + result.data.cityFrom + "</option>";
-                                $("#CityIdFrom").html(cityFromStr);
-                                $("#CityIdFrom").val(result.data.cityIdFrom).trigger("change");
+                                $("#CityIdFrom").val(result.data.cityIdFrom).trigger('change');
+                                $("#CityIdTo").val(result.data.cityIdTo).trigger('change');
 
-                                CalcNetAmount();
+                                calcNetAmount();
                                 getLRDetailListByPurchaseBillMas(result.data.id);
 
                             } else {
@@ -1294,9 +1319,11 @@
         function getLRDetailListByPurchaseBillMas(purchaseBillMasterId) {
             try {
                 blockUI('container');
+                //$('#AddData').prop('disabled', true);
                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByPurchaseBillMasterId"))" + "/" + purchaseBillMasterId, "",
                     function (result) {
                         unblockUI('container');
+                        //$('#AddData').prop('disabled', false);
                         try {
                             if (result.result == RESULT_SUCCESS) {
                                 result.data.forEach(function (LRBookingDetail) {
@@ -1307,8 +1334,8 @@
                                         privateMarka: LRBookingDetail.privateMarka,
                                         parcel: LRBookingDetail.parcel,
                                         chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
-                                        toCity: LRBookingDetail.cityTo,
-                                        fromCity: LRBookingDetail.cityFrom,
+                                        cityTo: LRBookingDetail.cityTo,
+                                        cityFrom: LRBookingDetail.cityFrom,
                                         invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
                                         description: LRBookingDetail.description,
                                         consignor: LRBookingDetail.consignor,
@@ -1339,12 +1366,13 @@
         function getLRDetailListByLRNumber(LRNumberId) {
             try {
                 blockUI('container');
+                //$('#AddData').prop('disabled', true);
                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByLRNumberId"))" + "/" + LRNumberId, "",
                     function (result) {
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
-
+                                //$('#AddData').prop('disabled', false);
                                 if (result.data.length == 0) {
                                     showWarning("", 'LR(' + LRNumberId + ') detail not found!.');
                                 }
@@ -1360,8 +1388,8 @@
                                                 privateMarka: LRBookingDetail.privateMarka,
                                                 parcel: LRBookingDetail.parcel,
                                                 chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
-                                                toCity: LRBookingDetail.cityTo,
-                                                fromCity: LRBookingDetail.cityFrom,
+                                                cityTo: LRBookingDetail.cityTo,
+                                                cityFrom: LRBookingDetail.cityFrom,
                                                 invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
                                                 description: LRBookingDetail.description,
                                                 consignor: LRBookingDetail.consignor,
@@ -1390,7 +1418,7 @@
             }
         }
 
-        function GetTDSPercentByCustomerAccountBranchMappingId(CustomerAccountBranchMappingId, contentRowId) {
+        function getTDSPercentByCustomerAccountBranchMappingId(CustomerAccountBranchMappingId, contentRowId) {
             try {
                 if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetTDSPercentByCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
@@ -1415,7 +1443,7 @@
             }
         }
 
-        function CalcNetAmount() {
+        function calcNetAmount() {
 
             var TaxableAmount = +getFloatValueZero("TaxableAmount", 2);
             var TDSAmount = +getFloatValueZero("TDSAmount", 2);
@@ -1431,8 +1459,8 @@
         }
 
         function bindLRList() {
-            let fromCity = $('#LRFromCity').val().length === 0 ? '0' : $('#LRFromCity').val().join(",");
-            let toCity = $('#LRFromCity').val().length === 0 ? '0' : $('#LRToCity').val().join(",");
+            let cityFrom = $('#LRCityFrom').val().length === 0 ? '0' : $('#LRCityFrom').val().join(",");
+            let cityTo = $('#LRCityFrom').val().length === 0 ? '0' : $('#LRCityTo').val().join(",");
 
             let columns = [];
             let colDef = [];
@@ -1547,6 +1575,8 @@
             columns.push({ "data": "consignor", "name": "consignor" });
             columns.push({ "data": "consignee", "name": "consignee" });
 
+            //$('#AddData').hide();
+
             var table = $('#LRtblMain').DataTable({
                 "bAutoWidth": false,
                 lengthChange: false,
@@ -1569,7 +1599,7 @@
                     'style': 'multi'
                 },
                 ajax: {
-                    url: '@(Url.Content("~/Customer/GetLRBookingListByCity"))' + "/" + fromCity + "/" + toCity,
+                    url: '@(Url.Content("~/Customer/GetLRBookingListByCity"))' + "/" + cityFrom + "/" + cityTo,
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -1592,8 +1622,8 @@
                                     privateMarka: row.privateMarka,
                                     parcel: row.parcel,
                                     chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
-                                    toCity: row.cityTo,
-                                    fromCity: row.cityFrom,
+                                    cityTo: row.cityTo,
+                                    cityFrom: row.cityFrom,
                                     invoiceValue: parseFloat(row.invoiceValue || 0).toFixed(2),
                                     description: row.description,
                                     consignor: row.consignor,
@@ -1605,6 +1635,8 @@
                         });
 
                         updateHiddenInput(selectedIds);
+
+                        //$('#AddData').show();
                     }
 
                     selectedLRDetails.forEach(function (item) {
@@ -1638,8 +1670,8 @@
                         privateMarka: row.privateMarka,
                         parcel: row.parcel,
                         chargeWeight: row.chargeWeight,
-                        toCity: row.toCity,
-                        fromCity: row.fromCity,
+                        cityTo: row.cityTo,
+                        cityFrom: row.cityFrom,
                         invoiceValue: row.invoiceValue,
                         description: row.description,
                         consignor: row.consignor,
@@ -1675,8 +1707,8 @@
                                     privateMarka: row.data().privateMarka,
                                     parcel: row.data().parcel,
                                     chargeWeight: row.data().chargeWeight,
-                                    toCity: row.data().toCity,
-                                    fromCity: row.data().fromCity,
+                                    cityTo: row.data().cityTo,
+                                    cityFrom: row.data().cityFrom,
                                     invoiceValue: row.data().invoiceValue,
                                     description: row.data().description,
                                     consignor: row.data().consignor,
@@ -1694,7 +1726,7 @@
             });
         }
 
-        function GetChalanToPayAmount(lrNumberIds) {
+        function getChalanToPayAmount(lrNumberIds) {
             try {
                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanToPayAmount"))" + "/" + lrNumberIds, "",
                     function (result) {
@@ -1752,10 +1784,10 @@
                     '<label for="chargeWeight" style="color: #212529;">' + (selectedLRDetails[i].chargeWeight || '') + '</label>' +
                     '</td>' +
                     '<td class="text-center">' +
-                    '<label for="toCity" style="color: #212529;">' + (selectedLRDetails[i].toCity || '') + '</label>' +
+                    '<label for="cityTo" style="color: #212529;">' + (selectedLRDetails[i].cityTo || '') + '</label>' +
                     '</td>' +
                     '<td class="text-center">' +
-                    '<label for="fromCity" style="color: #212529;">' + (selectedLRDetails[i].fromCity || '') + '</label>' +
+                    '<label for="cityFrom" style="color: #212529;">' + (selectedLRDetails[i].cityFrom || '') + '</label>' +
                     '</td>' +
                     '<td class="text-right">' +
                     '<label for="invoiceValue" style="color: #212529;">' + (selectedLRDetails[i].invoiceValue || '') + '</label>' +
@@ -1779,7 +1811,6 @@
                     '<a href="javascript:deleteRow(' + selectedLRDetails[i].id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
                     '</td>' +
                     '</tr>';
-
                 htmlContentArray.push(htmlContent);
 
                 addedIds.push(selectedLRDetails[i].id);
@@ -1827,7 +1858,7 @@
             updateHiddenInput(uniqueIds);
             $("#ToPayAmount, #Paid, #TBB, #Total").val('0.00');
             uniqueIds.forEach(function (id) {
-                GetChalanToPayAmount(id);
+                getChalanToPayAmount(id);
             });
         }
 
@@ -1836,31 +1867,5 @@
             $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
         }
 
-        function getBillParty() {
-            try {
-                if ($('#VehicleId').val() == '') return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCustomerAccountBranchMappingByVehicle"))" + "/" + $('#VehicleId').val(), "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data != null && data.data != undefined) {
-                                $('#AccountBranchMappingId').val(data.data.id).trigger('change');
-                            }
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
     </script>
 }

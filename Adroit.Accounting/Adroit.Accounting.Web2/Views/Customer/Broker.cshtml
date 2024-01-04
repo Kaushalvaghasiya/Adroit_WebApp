@@ -217,6 +217,22 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="CustomerBrokerBranchIds">Branch Permission</label>
+                                <select id="CustomerBrokerBranchIds" multiple="multiple" class="filter-multi mode-ed-multi">
+                                    @{
+                                        if (Model.BranchList != null)
+                                        {
+                                            foreach (var o in Model.BranchList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <div><label for="Active">Active</label></div>
                                 <label class="custom-switch">
                                     <input id="Active" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
@@ -530,6 +546,7 @@
             $("#MobileAlternate").val("");
             $("#Email").val("");
             $("#AadhaarUID").val("");
+            $('#CustomerBrokerBranchIds').multipleSelect('checkAll');
             $("#Active").prop('checked', false);
 
             $("#hdnCountryId").val("");
@@ -645,6 +662,12 @@
                     }
                 }
 
+                if ($("#CustomerBrokerBranchIds").val() == "") {
+                    showWarning("", "Please select branch.");
+                    $("#CustomerBrokerBranchIds").focus();
+                    return false;
+                }
+
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.Name = $("#BrokerName").val();
@@ -658,6 +681,7 @@
                 savedata.Email = $("#Email").val();
                 savedata.AdharUID = $("#AadhaarUID").val();
                 savedata.Active = $('#Active').is(':checked');
+                savedata.CustomerBrokerBranchIds = $("#CustomerBrokerBranchIds").val().join(",");
 
                 blockUI('container');
 
@@ -759,6 +783,9 @@
                                 $("#hdnTalukaId").val(result.data.talukaId);
                                 $("#hdnCityId").val(result.data.cityId);
                                 $("#Country").val(result.data.countryId).trigger("change");
+                                if (result.data.customerBrokerBranchIds != null) {
+                                    $("#CustomerBrokerBranchIds").multipleSelect('setSelects', result.data.customerBrokerBranchIds.split(','));
+                                }
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }

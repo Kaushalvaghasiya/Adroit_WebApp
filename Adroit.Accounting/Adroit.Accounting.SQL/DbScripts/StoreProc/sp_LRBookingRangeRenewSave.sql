@@ -12,49 +12,42 @@ BEGIN
 	BEGIN TRY
 
 		DECLARE @YearId int = dbo.fn_GetYearId(@LoginId);
-
 		DECLARE @message VARCHAR(4000);
-
+		
 		IF @YearId IS NULL
 		BEGIN
-			SET @message = 'Year Not Found!';
-			RAISERROR ('%s', 16, 1, @message);
+			RAISERROR ('%s', 16, 1, 'Year Not Found!');
 		END
 
-		DECLARE @AllotedLR INT = (
-			SELECT SUM(EndNumber - StartNumber + 1) As AllotedLR
-			FROM [LRBookingRange]
-			WHERE YearId = @YearId AND FirmId = @FirmId AND BranchId = @BranchId AND Deleted = 0
-		)
-
-		DECLARE @UsedLR INT = (
-			SELECT COUNT(LRNumber) As UsedLR
-			FROM [Z-LRBooking-Z] 
-			WHERE YearId = @YearId AND BranchId = @BranchId AND Deleted = 0
-		)
-
-		IF @AllotedLR > @UsedLR 
-		BEGIN
-			SET @message = 'Please use existing LR numbers before renew.';
-			RAISERROR ('%s', 16, 1, @message);
-		END
-
-		DECLARE @MaxNumber INT = (
-			SELECT ISNULL(MAX(EndNumber),0) As StratNumber
-			FROM [LRBookingRange]
-			WHERE [LRBookingRange].YearId = @YearId
-			AND [LRBookingRange].FirmId = @FirmId
+		DECLARE @MaxNumber INT 
+		SELECT @MaxNumber = MAX(EndNumber) FROM [LRBookingRange] 
+			WHERE [LRBookingRange].FirmId = @FirmId 
+			AND [LRBookingRange].YearId = @YearId
 			AND [LRBookingRange].Deleted = 0
-		)
 
 		DECLARE @StartNumber INT = @MaxNumber + 1
 		DECLARE @EndNumber INT = @MaxNumber + @NumberOfLR 
 
+		DECLARE @LastLR INT
+		SELECT @LastLR = MAX(LRNumber) FROM [Z-LRBooking-Z] WHERE BranchId = @BranchId AND YearId = @YearId AND Deleted = 0
+
+		DECLARE @CurrentRangeStart INT, @CurrentEndStart INT
+		IF EXISTS (SELECT ID FROM LRBookingRange WHERE BranchId = @BranchId AND YearId = @YearId AND Deleted = 0)
+		BEGIN
+			IF (@Id = 0)
+			BEGIN
+				IF (ISNULL(@LastLR, 0) = 0 OR @LastLR < @StartNumber)
+				BEGIN
+					RAISERROR ('%s', 16, 1, 'Please complete existing LR range before adding new range.');
+				END
+			END
+		END
+
 		UPDATE [LRBookingRange]
 		SET Active = 0
-		WHERE YearId = @YearId
-			AND FirmId = @FirmId
+		WHERE FirmId = @FirmId
 			AND BranchId = @BranchId
+			AND YearId = @YearId
 			AND Active = 1
 			AND Deleted = 0;
 

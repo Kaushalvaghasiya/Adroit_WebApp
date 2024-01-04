@@ -54,7 +54,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.CityFrom = currentCity.Title;
 
             ViewBag.LastLrToCityCookieName = "LastLrToCityCookie" + CurrentUserId + "-" + CurrentFirmId + "-" + CurrentBranchId;
-            ViewBag.CurrentUserCity = currentUserBranch.CityId;
+            ViewBag.LoggedInBranchCity = currentUserBranch.CityId;
             return View(model);
         }
 
