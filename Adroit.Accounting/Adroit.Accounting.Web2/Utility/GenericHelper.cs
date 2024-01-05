@@ -1,7 +1,6 @@
 ﻿using Adroit.Accounting.Model.Enums;
 using Adroit.Accounting.Model.ViewModel;
 using System.ComponentModel;
-using System.IO;
 using System.Reflection;
 
 namespace Adroit.Accounting.Web.Utility
@@ -71,7 +70,6 @@ namespace Adroit.Accounting.Web.Utility
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceStatusList.All)}", Value = $"{(int)InvoiceStatusList.All}" },
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceStatusList.Invoice_Done)}", Value = $"{(int)InvoiceStatusList.Invoice_Done}" },
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceStatusList.Pending_Invoice)}", Value = $"{(int)InvoiceStatusList.Pending_Invoice}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceStatusList.Forward_Chalan)}", Value = $"{(int)InvoiceStatusList.Forward_Chalan}" },
             };
             return list;
         }
