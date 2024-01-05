@@ -1,7 +1,8 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanReceiveGetMasterDetailsByChalanNumber]
   @LoginId int,
   @FirmId int,
-  @ChalanNumber int
+  @ChalanNumber int,
+  @SenderId int
 AS
 BEGIN
 	DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
@@ -74,6 +75,7 @@ BEGIN
 	AND PBM.FirmId = @FirmId
 	AND PBM.Deleted = 0
 	AND PBM.BillNumberBranch = @ChalanNumber
+	AND PBM.BranchId = @SenderId
 
 END
 GO
