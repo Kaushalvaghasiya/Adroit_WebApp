@@ -313,7 +313,7 @@
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
+                        <a href="@Url.Action("LRBookingLRRegisterPrint", "CustomerReport")" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
                         <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send"><span><i class="fa fa-share-alt"></i></span></a>
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
@@ -339,7 +339,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="@Url.Action("LRBookingLRRegisterPrint", "CustomerReport")" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn btn-gray mt-1 btn-back" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
                 </div>
@@ -422,6 +422,12 @@
             $("#DateTo").val(formattedEndDate);
         }
 
+        function getCurrentTableData() {
+            var table = $('#tblMain').DataTable();
+            var data = table.data().toArray();
+            return data;
+        }
+
         function DateWiseSummaryOffList() {
 
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
@@ -457,6 +463,7 @@
             let SubTotal = $('#SubTotal').is(':checked');
 
             let currentDate = null;
+            let subTotalAmount = 0;
             let totalAmount = 0;
             let prevDate = null;
             let tableBody = $('#tblMain tbody');
@@ -598,22 +605,10 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                buttons: ['copy', 'excel', 'colvis',
-                    {
-                    extend: 'pdf',
-                    title: 'LR Register Report',
-                    text: '<i class="fa fa-print" style="color: #467fcf; background-color: white;"></i>',
-                    className: 'btn btn-primary buttons-pdf buttons-html5 btn-outline-primary',
-                    customize: function (doc) {
-
-                        doc.pageOrientation = 'landscape';
-                        doc.pageMargins = [10, 10, 10, 10];
-                    }
-                }],
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithoutSummary"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
+                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))' + "/" + $("#hdnSelectedView").val() + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -632,41 +627,45 @@
 
                         if (prevDate !== null && dateCell !== prevDate) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e7dedfa8;">' +
                                     '<td colspan="9">SUB TOTAL</td>' +
-                                    '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                                    '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="5"></td>' +
                                     '</tr>';
 
                                 tableBody.append(subtotalRow);
                             }
-                            totalAmount = 0;
+                            subTotalAmount = 0;
                         }
 
-                        totalAmount += parseFloat(api.cell(i, 9).data());
+                        subTotalAmount += parseFloat(api.cell(i, 9).data());
 
                         tableBody.append(rows[i]);
                         prevDate = dateCell;
                     }
 
                     if (prevDate !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e7dedfa8;">' +
                             '<td colspan="9">SUB TOTAL</td>' +
-                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="5"></td>' +
                             '</tr>';
 
                         tableBody.append(finalSubtotalRow);
+
+                        totalAmount += subTotalAmount;
+
+                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#e7dedfa8;">' +
+                            '<td colspan="9">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="5"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
                     }
                 }
 
             });
-
-            $('.btn-blue').on('click', function () {
-                 //generatePDF();
-                 table.button('.buttons-pdf').trigger();
-            });
-
         }
 
         function DateWiseSummaryOnList() {
@@ -789,27 +788,18 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                buttons: ['copy', 'excel', 'colvis',
-                {
-                    extend: 'pdf',
-                    title: 'LR Register Report',
-                    text: '<i class="fa fa-print" style="color: #467fcf; background-color: white;"></i>',
-                    className: 'btn btn-primary buttons-pdf buttons-html5 btn-outline-primary',
-                    customize: function (doc) {
-
-                        doc.pageOrientation = 'landscape';
-                        doc.pageMargins = [10, 10, 10, 10];
-                    }
-                }],
+                buttons: ['copy', 'excel', 'colvis'],
                 processing: true,
                 serverSide: true,
                 ajax: {
                     url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithSummary"))' + "/" + $("#hdnSelectedView").val() + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
                     type: 'GET',
-                    data: function (d) { }
+                    data: function (d) {
+                    }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
+
                 },
                 "drawCallback": function (settings) {
                     gridDrawCallback(this);
@@ -823,7 +813,7 @@
 
                         if (prevDate !== null && dateCell !== prevDate) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e7dedfa8;">' +
                                     '<td colspan="4">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="3"></td>' +
@@ -841,21 +831,17 @@
                     }
 
                     if (prevDate !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e7dedfa8;">' +
                             '<td colspan="4">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="3"></td>' +
                             '</tr>';
 
                         tableBody.append(finalSubtotalRow);
+
                     }
                 }
 
-            });
-
-            $('.btn-blue').on('click', function () {
-                //generatePDF();
-                table.button('.buttons-pdf').trigger();
             });
         }
 
@@ -1030,24 +1016,14 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                buttons: ['copy', 'excel', 'colvis',
-                {
-                    extend: 'pdf',
-                    title: 'LR Register Report',
-                    text: '<i class="fa fa-print" style="color: #467fcf; background-color: white;"></i>',
-                    className: 'btn btn-primary buttons-pdf buttons-html5 btn-outline-primary',
-                    customize: function (doc) {
-
-                        doc.pageOrientation = 'landscape';
-                        doc.pageMargins = [10, 10, 10, 10];
-                    }
-                }],
+                buttons: ['copy', 'excel', 'colvis'],
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithoutSummary"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
+                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))' + "/" + $("#hdnSelectedView").val() + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
                     type: 'GET',
-                    data: function (d) { }
+                    data: function (d) {
+                    }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
@@ -1056,11 +1032,6 @@
                     gridDrawCallback(this);
                 }
 
-            });
-
-            $('.btn-blue').on('click', function () {
-                //generatePDF();
-                table.button('.buttons-pdf').trigger();
             });
         }
 
@@ -1265,24 +1236,14 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                buttons: ['copy', 'excel', 'colvis',
-                    {
-                        extend: 'pdf',
-                        title: 'LR Register Report',
-                        text: '<i class="fa fa-print" style="color: #467fcf; background-color: white;"></i>',
-                        className: 'btn btn-primary buttons-pdf buttons-html5 btn-outline-primary',
-                        customize: function (doc) {
-
-                            doc.pageOrientation = 'landscape';
-                            doc.pageMargins = [10, 10, 10, 10];
-                        }
-                    }],
+                buttons: ['copy', 'excel', 'colvis'],
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithoutSummary"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
+                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))' + "/" + $("#hdnSelectedView").val() + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
                     type: 'GET',
-                    data: function (d) { }
+                    data: function (d) {
+                    }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
@@ -1299,7 +1260,7 @@
 
                         if (prevParty !== null && billPartyCell !== prevParty) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e7dedfa8;">' +
                                     '<td colspan="12">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="5"></td>' +
@@ -1317,7 +1278,7 @@
                     }
 
                     if (prevParty !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e7dedfa8;">' +
                             '<td colspan="12">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="5"></td>' +
@@ -1328,12 +1289,6 @@
                 }
 
             });
-
-            $('.btn-blue').on('click', function () {
-                //generatePDF();
-                table.button('.buttons-pdf').trigger();
-            });
-
         }
 
         function PartyWiseSummaryOnList() {
@@ -1456,24 +1411,14 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                buttons: ['copy', 'excel', 'colvis',
-                    {
-                        extend: 'pdf',
-                        title: 'LR Register Report',
-                        text: '<i class="fa fa-print" style="color: #467fcf; background-color: white;"></i>',
-                        className: 'btn btn-primary buttons-pdf buttons-html5 btn-outline-primary',
-                        customize: function (doc) {
-
-                            doc.pageOrientation = 'landscape';
-                            doc.pageMargins = [10, 10, 10, 10];
-                        }
-                    }],
+                buttons: ['copy', 'excel', 'colvis'],
                 processing: true,
                 serverSide: true,
                 ajax: {
                     url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithSummary"))' + "/" + $("#hdnSelectedView").val() + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + LRFrom + "/" + LRTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + PvtMarkIds + "/" + ChalanId + "/" + InvStatusId,
                     type: 'GET',
-                    data: function (d) { }
+                    data: function (d) { 
+                    }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
@@ -1490,7 +1435,7 @@
 
                         if (prevParty !== null && billPartyCell !== prevParty) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e7dedfa8;">' +
                                     '<td colspan="4">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="3"></td>' +
@@ -1508,7 +1453,7 @@
                     }
 
                     if (prevParty !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:aliceblue;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e7dedfa8;">' +
                             '<td colspan="4">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="3"></td>' +
@@ -1518,11 +1463,6 @@
                     }
                 }
 
-            });
-
-            $('.btn-blue').on('click', function () {
-                //generatePDF();
-                table.button('.buttons-pdf').trigger();
             });
         }
 

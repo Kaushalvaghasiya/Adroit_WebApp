@@ -1,6 +1,7 @@
-CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingLRRegisterListWithoutSummary]
+CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingLRRegisterList]
   @LoginId INT,
   @FirmId INT,
+  @SelectedView VARCHAR(100),
   @BranchIds NVARCHAR(MAX),
   @DateFrom NVARCHAR(MAX),
   @DateTo NVARCHAR(MAX),
@@ -30,8 +31,12 @@ Begin
 	(   
 		SELECT ROW_NUMBER() over 
 		(ORDER BY
-			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CA1.Name END ASC,  
-			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN CA1.Name END DESC,
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' AND @SelectedView = 'DateWise' THEN [Z-LRBooking-Z].LRDate END ASC,  
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' AND @SelectedView = 'DateWise' THEN [Z-LRBooking-Z].LRDate END DESC, 
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' AND @SelectedView = 'PartyWise' THEN CA1.Name END ASC, 
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' AND @SelectedView = 'PartyWise' THEN CA1.Name END DESC, 
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' AND @SelectedView = 'LRWise' THEN [Z-LRBooking-Z].LRNumber END ASC, 
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' AND @SelectedView = 'LRWise' THEN [Z-LRBooking-Z].LRNumber END DESC, 
 			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CA2.Name END ASC,  
 			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN CA2.Name END DESC,
 			CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN CA3.Name END ASC,  

@@ -9,6 +9,7 @@ using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
+using Newtonsoft.Json;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -29,12 +30,13 @@ namespace Adroit.Accounting.Web.Controllers
             return View(model);
         }
 
-        [Route("~/CustomerReport/LRBookingLRRegisterReportListWithoutSummary/{branchIds}/{dateFrom}/{dateTo}/{lrFrom}/{lrTo}/{cityFromIds}/{cityToIds}/{consignorIds}/{consigneeIds}/{billPartyIds}/{payTypeIds}/{pvtMarkIds}/{chalanId}/{invStatusId}")]
-        public JsonResult LRBookingLRRegisterReportListWithoutSummary(LRBookingLRRegisterViewModel model, int draw = 0, int start = 0, int length = 10, string branchIds = "", string dateFrom = "", string dateTo = "", int lrFrom = 0, int lrTo = 0, string cityFromIds = "", string cityToIds = "", string consignorIds = "", string consigneeIds = "", string billPartyIds = "", string payTypeIds = "", string pvtMarkIds = "", int chalanId = 0, int invStatusId = 0)
+        [Route("~/CustomerReport/LRBookingLRRegisterReportList/{selectedView}/{branchIds}/{dateFrom}/{dateTo}/{lrFrom}/{lrTo}/{cityFromIds}/{cityToIds}/{consignorIds}/{consigneeIds}/{billPartyIds}/{payTypeIds}/{pvtMarkIds}/{chalanId}/{invStatusId}")]
+        public JsonResult LRBookingLRRegisterReportList(LRBookingLRRegisterViewModel model, int draw = 0, int start = 0, int length = 10, string selectedView = "", string branchIds = "", string dateFrom = "", string dateTo = "", int lrFrom = 0, int lrTo = 0, string cityFromIds = "", string cityToIds = "", string consignorIds = "", string consigneeIds = "", string billPartyIds = "", string payTypeIds = "", string pvtMarkIds = "", int chalanId = 0, int invStatusId = 0)
         {
             var result = new DataTableListViewModel<LRBookingLRRegisterGridViewModel>();
             try
             {
+                model.SelectedView = selectedView;
                 model.BranchIds = branchIds;
                 model.DateFrom = dateFrom;
                 model.DateTo = dateTo;
@@ -54,7 +56,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _reportLRBookingLRRegisterRepository.GetListWithoutSummary(model, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _reportLRBookingLRRegisterRepository.GetList(model, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -90,6 +92,9 @@ namespace Adroit.Accounting.Web.Controllers
                 model.ChalanId = chalanId;
                 model.InvStatusId = invStatusId;
 
+                //save to session
+                //HttpContext.Session.SetString("LRBookingLRRegisterReportListWithSummary", JsonConvert.SerializeObject(model));
+
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
@@ -106,6 +111,15 @@ namespace Adroit.Accounting.Web.Controllers
                 result.recordsFiltered = 0;
             }
             return Json(result);
+        }
+
+        public IActionResult LRBookingLRRegisterPrint()
+        {
+            var model = JsonConvert.DeserializeObject<LRBookingLRRegisterViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportListWithSummary"));
+            //var records = _reportLRBookingLRRegisterRepository.GetListWithSummary(model, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+
+            //return View(model);
+            return View(model);
         }
 
     }

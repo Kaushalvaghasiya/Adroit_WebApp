@@ -10,11 +10,12 @@ namespace Adroit.Accounting.Repository
 {
     public class ReportLRBookingLRRegisterRepository : IReportLRBookingLRRegister
     {
-        public List<LRBookingLRRegisterGridViewModel> GetListWithoutSummary(LRBookingLRRegisterViewModel value, string connectionString, int loginId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<LRBookingLRRegisterGridViewModel> GetList(LRBookingLRRegisterViewModel value, string connectionString, int loginId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
+            parameters.Add("@SelectedView", value.SelectedView);
             parameters.Add("@BranchIds", value.BranchIds);
             parameters.Add("@DateFrom", value.DateFrom);
             parameters.Add("@DateTo", value.DateTo);
@@ -34,7 +35,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<LRBookingLRRegisterGridViewModel>("sp_ReportLRBookingLRRegisterListWithoutSummary", connectionString, parameters);
+            return QueryHelper.GetList<LRBookingLRRegisterGridViewModel>("sp_ReportLRBookingLRRegisterList", connectionString, parameters);
         }
 
         public List<LRBookingLRRegisterGridViewModel> GetListWithSummary(LRBookingLRRegisterViewModel value, string connectionString, int loginId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")

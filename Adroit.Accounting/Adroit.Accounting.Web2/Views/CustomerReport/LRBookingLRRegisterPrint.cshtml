@@ -1,0 +1,47 @@
+﻿@model List<Adroit.Accounting.Model.ReportViewModel.LRBookingLRRegisterViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<table id="tblMain" class="table table-bordered key-buttons">
+    <thead>
+        <tr>
+            @{
+                if (Model != null && Model.Count > 0)
+                {
+                    foreach (var property in Model.First().GetType().GetProperties())
+                    {
+                        <th>@property.Name</th>
+                    }
+                }
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <tr>
+                        @{
+                            foreach (var property in item.GetType().GetProperties())
+                            {
+                                <td>@property.GetValue(item, null)</td>
+                            }
+                        }
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+
+    <script>
+
+    </script>
+
+}

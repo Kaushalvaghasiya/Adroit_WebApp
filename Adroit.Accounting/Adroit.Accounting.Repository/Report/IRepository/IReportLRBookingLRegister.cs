@@ -6,7 +6,7 @@ namespace Adroit.Accounting.Repository
 {
     public interface IReportLRBookingLRRegister
     {
-        public List<LRBookingLRRegisterGridViewModel> GetListWithoutSummary(LRBookingLRRegisterViewModel value, string connectionString, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
+        public List<LRBookingLRRegisterGridViewModel> GetList(LRBookingLRRegisterViewModel value, string connectionString, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
         public List<LRBookingLRRegisterGridViewModel> GetListWithSummary(LRBookingLRRegisterViewModel value, string connectionString, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
     }
 }
