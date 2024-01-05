@@ -8,30 +8,19 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSave]
 	 @Code VARCHAR(20),
 	 @PrintName NVARCHAR(100),
 	 @TitleAlternate NVARCHAR(100),
-	 @DesignNumberId INT,
 	 @DesignNumber NVARCHAR(50),
-	 @ColourId INT,
 	 @Colour NVARCHAR(50),
-	 @SizeId INT,
 	 @Size NVARCHAR(50),
-	 @PackingId INT,
 	 @Packing NVARCHAR(50),
-	 @ShadeNumberId INT,
 	 @ShadeNumber NVARCHAR(50),
-	 @FabricId INT,
 	 @Fabric NVARCHAR(50),
-	 @GroupId INT,
 	 @Group NVARCHAR(40),
-	 @SubGroupId INT,
 	 @SubGroup NVARCHAR(50),
-	 @StockTypeId INT,
 	 @StockType NVARCHAR(50),
-	 @QualityTypeId INT,
 	 @QualityType NVARCHAR(50),
 	 @UQCId INT,
 	 @UQC NVARCHAR(30),
 	 @HSNCode VARCHAR(8),
-	 @CategoryId SMALLINT,
 	 @Category NVARCHAR(30),
 	 @DenierWeight DECIMAL(5, 3),
 	 @RatePerMeter DECIMAL(5, 3),
@@ -45,13 +34,10 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSave]
 	 @BoxPack DECIMAL(5, 2),
 	 @RolMin DECIMAL(5, 2),
 	 @RolMax DECIMAL(7, 2),
-	 @GSTCalculationId TINYINT,
 	 @GSTCalculation NVARCHAR(30),
-	 @GSTRateId TINYINT,
 	 @GSTRate DECIMAL(15, 3),
 	 @GstCentralCess DECIMAL(5, 2),
 	 @GstStateCess DECIMAL(5, 2),
-	 @AmountCalcId SMALLINT,
 	 @AmountCalc NVARCHAR(25),
 	 @RateUpdate BIT,
 	 @Discount DECIMAL(4, 2),
@@ -68,117 +54,295 @@ BEGIN
 
     Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 
-		IF ISNULL(@DesignNumberId, 0) <= 0 AND ISNULL(@DesignNumber,'') != ''
+		DECLARE @DesignNumberId INT = NULL 
+
+		IF (isnull(@DesignNumber, '') <> '')
 		BEGIN
-			EXEC @DesignNumberId = dbo.sp_ProductDesignNumberSave  0, @LoginId, @DesignNumber , 0, @LoginId, @LoginId, 1
-			SELECT @DesignNumberId = Id FROM ProductDesignNumber WHERE Title = @DesignNumber AND Active = 1
+			IF EXISTS (SELECT 1 FROM ProductDesignNumber WHERE ProductDesignNumber.CustomerId = @CustomerId AND Title = @DesignNumber AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductDesignNumber SET Deleted = 0, Active = 1 WHERE ProductDesignNumber.CustomerId = @CustomerId AND Title = @DesignNumber;
+				SELECT @DesignNumberId = Id FROM ProductDesignNumber WHERE ProductDesignNumber.CustomerId = @CustomerId AND Title = @DesignNumber;
+			end
+			else
+			begin
+				SELECT @DesignNumberId  = Id from ProductDesignNumber WHERE ProductDesignNumber.CustomerId = @CustomerId AND Title = @DesignNumber;
+				if @DesignNumberId IS NULL
+				BEGIN
+					EXEC @DesignNumberId = dbo.sp_ProductDesignNumberSave  0, @LoginId, @DesignNumber , 0, @LoginId, @LoginId, 1;
+					SELECT @DesignNumberId = Id FROM ProductDesignNumber WHERE ProductDesignNumber.CustomerId = @CustomerId AND Title = @DesignNumber;
+				END
+			end
 		END
 
-		IF ISNULL(@ColourId, 0) <= 0 AND ISNULL(@Colour,'') != '' AND @Colour NOT IN ( SELECT Title From ProductColor WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
+		DECLARE @ColourId INT = NULL 
+
+		IF (isnull(@Colour, '') <> '')
 		BEGIN
-			EXEC @ColourId = dbo.sp_ProductColorSave  0, @LoginId, @Colour , 0, @LoginId, @LoginId, 1
-			SELECT @ColourId = Id FROM ProductColor WHERE Title = @Colour AND Active = 1
-		END
-		ELSE IF ISNULL(@ColourId, 0) <= 0 AND ISNULL(@Colour,'') != ''
-		BEGIN
-			SELECT @ColourId = Id FROM ProductColor WHERE Title = @Colour AND Active = 1
-		END
-		ELSE
-		BEGIN
-			SELECT @ColourId = NULL
+			IF EXISTS (SELECT 1 FROM ProductColor WHERE ProductColor.CustomerId = @CustomerId AND Title = @Colour AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductColor SET Deleted = 0, Active = 1 WHERE ProductColor.CustomerId = @CustomerId AND Title = @Colour;
+				SELECT @ColourId = Id FROM ProductColor WHERE ProductColor.CustomerId = @CustomerId AND Title = @Colour;
+			end
+			else
+			begin
+				SELECT @ColourId  = Id from ProductColor WHERE ProductColor.CustomerId = @CustomerId AND Title = @Colour
+				if @ColourId IS NULL
+				BEGIN
+					EXEC @ColourId = dbo.sp_ProductColorSave  0, @LoginId, @Colour , 0, @LoginId, @LoginId, 1
+					SELECT @ColourId = Id FROM ProductColor WHERE Title = @Colour
+				END
+			end
 		END
 
-		IF ISNULL(@SizeId, 0) <= 0 AND ISNULL(@Size,'') != '' AND @Size NOT IN ( SELECT Title From ProductSize WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
+		DECLARE @SizeId INT = NULL 
+
+		IF (isnull(@Size, '') <> '')
 		BEGIN
-			EXEC @SizeId = dbo.sp_ProductSizeSave  0, @LoginId, @Size , 0, @LoginId, @LoginId, 1
-			SELECT @SizeId = Id FROM ProductSize WHERE Title = @Size AND Active = 1
-		END
-		ELSE IF ISNULL(@SizeId, 0) <= 0 AND ISNULL(@Size,'') != ''
-		BEGIN
-			SELECT @SizeId = Id FROM ProductSize WHERE Title = @Size AND Active = 1
-		END
-		ELSE
-		BEGIN
-			SELECT @SizeId = NULL
+			IF EXISTS (SELECT 1 FROM ProductSize WHERE ProductSize.CustomerId = @CustomerId AND Title = @Size AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductSize SET Deleted = 0, Active = 1 WHERE ProductSize.CustomerId = @CustomerId AND Title = @Size;
+				SELECT @SizeId = Id FROM ProductSize WHERE ProductSize.CustomerId = @CustomerId AND Title = @Size;
+			end
+			else
+			begin
+				SELECT @SizeId  = Id from ProductSize WHERE ProductSize.CustomerId = @CustomerId AND Title = @Size
+				if @SizeId IS NULL
+				BEGIN
+					EXEC @SizeId = dbo.sp_ProductSizeSave  0, @LoginId, @Size , 0, @LoginId, @LoginId, 1
+					SELECT @SizeId = Id FROM ProductSize WHERE Title = @Size
+				END
+			end
 		END
 
-		IF ISNULL(@PackingId, 0) <= 0 AND ISNULL(@Packing,'') != ''
+		DECLARE @PackingId INT = NULL 
+
+		IF (isnull(@Packing, '') <> '')
 		BEGIN
-			EXEC @PackingId = dbo.sp_ProductPackingSave  0, @LoginId, @Packing , 0, @LoginId, @LoginId, 1
-			SELECT @PackingId = Id FROM ProductPacking WHERE Title = @Packing AND Active = 1
+			IF EXISTS (SELECT 1 FROM ProductPacking WHERE ProductPacking.CustomerId = @CustomerId AND Title = @Packing AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductPacking SET Deleted = 0, Active = 1 WHERE ProductPacking.CustomerId = @CustomerId AND Title = @Packing;
+				SELECT @PackingId = Id FROM ProductPacking WHERE ProductPacking.CustomerId = @CustomerId AND Title = @Packing;
+			end
+			else
+			begin
+				SELECT @PackingId  = Id from ProductPacking WHERE ProductPacking.CustomerId = @CustomerId AND Title = @Packing
+				if @PackingId IS NULL
+				BEGIN
+					EXEC @PackingId = dbo.sp_ProductPackingSave  0, @LoginId, @Packing , 0, @LoginId, @LoginId, 1
+					SELECT @PackingId = Id FROM ProductPacking WHERE Title = @Packing
+				END
+			end
 		END
 
-		IF ISNULL(@ShadeNumberId, 0) <= 0 AND ISNULL(@ShadeNumber,'') != ''
+		DECLARE @ShadeNumberId INT = NULL 
+
+		IF (isnull(@ShadeNumber, '') <> '')
 		BEGIN
-			EXEC @ShadeNumberId = dbo.sp_ProductShadeNumberSave  0, @LoginId, @ShadeNumber , 0, @LoginId, @LoginId, 1
-			SELECT @ShadeNumberId = Id FROM ProductShadeNumber WHERE Title = @ShadeNumber AND Active = 1
+			IF EXISTS (SELECT 1 FROM ProductShadeNumber WHERE ProductShadeNumber.CustomerId = @CustomerId AND Title = @ShadeNumber AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductShadeNumber SET Deleted = 0, Active = 1 WHERE ProductShadeNumber.CustomerId = @CustomerId AND Title = @ShadeNumber;
+				SELECT @ShadeNumberId = Id FROM ProductShadeNumber WHERE ProductShadeNumber.CustomerId = @CustomerId AND Title = @ShadeNumber;
+			end
+			else
+			begin
+				SELECT @ShadeNumberId  = Id from ProductShadeNumber WHERE ProductShadeNumber.CustomerId = @CustomerId AND Title = @ShadeNumber
+				if @ShadeNumberId IS NULL
+				BEGIN
+					EXEC @ShadeNumberId = dbo.sp_ProductShadeNumberSave  0, @LoginId, @ShadeNumber , 0, @LoginId, @LoginId, 1
+					SELECT @ShadeNumberId = Id FROM ProductShadeNumber WHERE Title = @ShadeNumber
+				END
+			end
+		END
+		
+		DECLARE @FabricId INT = NULL 
+
+		IF (isnull(@Fabric, '') <> '')
+		BEGIN
+			IF EXISTS (SELECT 1 FROM ProductFabric WHERE ProductFabric.CustomerId = @CustomerId AND Title = @Fabric AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductFabric SET Deleted = 0, Active = 1 WHERE ProductFabric.CustomerId = @CustomerId AND Title = @Fabric;
+				SELECT @FabricId = Id FROM ProductFabric WHERE ProductFabric.CustomerId = @CustomerId AND Title = @Fabric;
+			end
+			else
+			begin
+				SELECT @FabricId  = Id from ProductFabric WHERE ProductFabric.CustomerId = @CustomerId AND Title = @Fabric
+				if @FabricId IS NULL
+				BEGIN
+					EXEC @FabricId = dbo.sp_ProductFabricSave  0, @LoginId, @Fabric , 0, @LoginId, @LoginId, 1
+					SELECT @FabricId = Id FROM ProductFabric WHERE Title = @Fabric
+				END
+			end
 		END
 
-		IF ISNULL(@FabricId, 0) <= 0 AND ISNULL(@Fabric,'') != ''
+		DECLARE @GroupId INT = NULL 
+
+		IF (isnull(@Group, '') <> '')
 		BEGIN
-			EXEC @FabricId = dbo.sp_ProductFabricSave  0, @LoginId, @Fabric , 0, @LoginId, @LoginId, 1
-			SELECT @FabricId = Id FROM ProductFabric WHERE Title = @Fabric AND Active = 1
+			IF EXISTS (SELECT 1 FROM ProductGroup WHERE ProductGroup.CustomerId = @CustomerId AND Title = @Group AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductGroup SET Deleted = 0, Active = 1 WHERE ProductGroup.CustomerId = @CustomerId AND Title = @Group;
+				SELECT @GroupId = Id FROM ProductGroup WHERE ProductGroup.CustomerId = @CustomerId AND Title = @Group;
+			end
+			else
+			begin
+				SELECT @GroupId  = Id from ProductGroup WHERE ProductGroup.CustomerId = @CustomerId AND Title = @Group
+				if @GroupId IS NULL
+				BEGIN
+					EXEC @GroupId = dbo.sp_ProductGroupSave  0, @LoginId, @Group , 0, @LoginId, @LoginId, 1
+					SELECT @GroupId = Id FROM ProductGroup WHERE Title = @Group
+				END
+			end
 		END
 
-		IF ISNULL(@GroupId, 0) <= 0 AND ISNULL(@Group,'') != ''
-		BEGIN
-			EXEC @GroupId = dbo.sp_ProductGroupSave  0, @LoginId, @Group , 0, @LoginId, @LoginId, 1
-			SELECT @GroupId = Id FROM ProductGroup WHERE Title = @Group AND Active = 1
-		END
+		DECLARE @SubGroupId INT = NULL 
 
-		IF ISNULL(@SubGroupId, 0) <= 0 AND ISNULL(@SubGroup,'') != ''
+		IF (isnull(@SubGroup, '') <> '')
 		BEGIN
-			EXEC @SubGroupId = dbo.sp_ProductSubGroupSave  0, @LoginId, @SubGroup , 0, @LoginId, @LoginId, 1
-			SELECT @SubGroupId = Id FROM ProductSubGroup WHERE Title = @SubGroup AND Active = 1
+			IF EXISTS (SELECT 1 FROM ProductSubGroup WHERE ProductSubGroup.CustomerId = @CustomerId AND Title = @SubGroup AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductSubGroup SET Deleted = 0, Active = 1 WHERE ProductSubGroup.CustomerId = @CustomerId AND Title = @SubGroup;
+				SELECT @SubGroupId = Id FROM ProductSubGroup WHERE ProductSubGroup.CustomerId = @CustomerId AND Title = @SubGroup;
+			end
+			else
+			begin
+				SELECT @SubGroupId  = Id from ProductSubGroup WHERE ProductSubGroup.CustomerId = @CustomerId AND Title = @SubGroup
+				if @SubGroupId IS NULL
+				BEGIN
+					EXEC @SubGroupId = dbo.sp_ProductSubGroupSave  0, @LoginId, @SubGroup , 0, @LoginId, @LoginId, 1
+					SELECT @SubGroupId = Id FROM ProductSubGroup WHERE Title = @SubGroup
+				END
+			end
 		END
 		 
-		IF ISNULL(@StockTypeId, 0) <= 0 AND ISNULL(@StockType,'') != ''
+		DECLARE @StockTypeId INT = NULL 
+
+		IF (isnull(@StockType, '') <> '')
 		BEGIN
-			EXEC @StockTypeId = dbo.sp_ProductStockTypeSave  0, @StockType , 0, 1
-			SELECT @StockTypeId = Id FROM ProductStockType WHERE Title = @StockType AND Active = 1
+			IF EXISTS (SELECT 1 FROM ProductStockType WHERE Title = @StockType AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductStockType SET Deleted = 0, Active = 1 WHERE Title = @StockType;
+				SELECT @StockTypeId = Id FROM ProductStockType WHERE Title = @StockType;
+			end
+			else
+			begin
+				SELECT @StockTypeId  = Id from ProductStockType WHERE Title = @StockType
+				if @StockTypeId IS NULL
+				BEGIN
+					EXEC @StockTypeId = dbo.sp_ProductStockTypeSave  0, @LoginId, @StockType , 0, @LoginId, @LoginId, 1
+					SELECT @StockTypeId = Id FROM ProductStockType WHERE Title = @StockType
+				END
+			end
 		END
 		 
-		IF ISNULL(@QualityTypeId, 0) <= 0 AND ISNULL(@QualityType,'') != ''
+		DECLARE @QualityTypeId INT = NULL 
+
+		IF (isnull(@QualityType, '') <> '')
 		BEGIN
-			EXEC @QualityTypeId = dbo.sp_ProductQualityTypeSave  0, @QualityType , 0, 1
-			SELECT @QualityTypeId = Id FROM ProductQualityType WHERE Title = @QualityType AND Active = 1
+			IF EXISTS (SELECT 1 FROM ProductQualityType WHERE Title = @QualityType AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductQualityType SET Deleted = 0, Active = 1 WHERE Title = @QualityType;
+				SELECT @QualityTypeId = Id FROM ProductQualityType WHERE Title = @QualityType;
+			end
+			else
+			begin
+				SELECT @QualityTypeId  = Id from ProductQualityType WHERE Title = @QualityType
+				if @QualityTypeId IS NULL
+				BEGIN
+					EXEC @QualityTypeId = dbo.sp_ProductQualityTypeSave  0, @LoginId, @QualityType , 0, @LoginId, @LoginId, 1
+					SELECT @QualityTypeId = Id FROM ProductQualityType WHERE Title = @QualityType
+				END
+			end
 		END
 
-		IF ISNULL(@UQCId, 0) <= 0 AND ISNULL(@UQC,'') != ''
-		BEGIN
+		--IF ISNULL(@UQCId, 0) <= 0 AND ISNULL(@UQC,'') != ''
+		--BEGIN
 			
-			Declare @UQCCode NVARCHAR(50) = SUBSTRING(@UQC,0,CHARINDEX('-',@UQC))
-			Declare @UQCEWayCode NVARCHAR(50) = REPLACE(RIGHT(@UQC,CHARINDEX('-',REVERSE(@UQC))),'-','') 
+		--	Declare @UQCCode NVARCHAR(50) = SUBSTRING(@UQC,0,CHARINDEX('-',@UQC))
+		--	Declare @UQCEWayCode NVARCHAR(50) = REPLACE(RIGHT(@UQC,CHARINDEX('-',REVERSE(@UQC))),'-','') 
 
-			EXEC @UQCId = dbo.sp_GSTUQCSave  0, @UQC, @UQCCode, @UQCEWayCode, 0, 1
-			SELECT @UQCId = Id FROM GSTUQC WHERE Code = @UQCCode AND Active = 1
+		--	EXEC @UQCId = dbo.sp_GSTUQCSave  0, @UQC, @UQCCode, @UQCEWayCode, 0, 1
+		--	SELECT @UQCId = Id FROM GSTUQC WHERE Code = @UQCCode AND Active = 1
 
+		--END
+
+		DECLARE @CategoryId SMALLINT = NULL 
+
+		IF (isnull(@Category, '') <> '')
+		BEGIN
+			IF EXISTS (SELECT 1 FROM ProductCategory WHERE Title = @Category AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductCategory SET Deleted = 0, Active = 1 WHERE Title = @Category;
+				SELECT @CategoryId = Id FROM ProductCategory WHERE Title = @Category;
+			end
+			else
+			begin
+				SELECT @CategoryId  = Id from ProductCategory WHERE Title = @Category
+				if @CategoryId IS NULL
+				BEGIN
+					EXEC @CategoryId = dbo.sp_ProductCategorySave  0, @LoginId, @Category , 0, @LoginId, @LoginId, 1
+					SELECT @CategoryId = Id FROM ProductCategory WHERE Title = @Category
+				END
+			end
 		END
 
-		IF ISNULL(@CategoryId, 0) <= 0 AND ISNULL(@Category,'') != ''
+		DECLARE @GSTCalculationId TINYINT = NULL 
+
+		IF (isnull(@GSTCalculation, '') <> '')
 		BEGIN
-			EXEC @CategoryId = dbo.sp_ProductCategorySave  0, @Category , 0, 1
-			SELECT @CategoryId = Id FROM ProductCategory WHERE Title = @Category AND Active = 1
+			IF EXISTS (SELECT 1 FROM GSTCalculation WHERE Title = @GSTCalculation AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE GSTCalculation SET Deleted = 0, Active = 1 WHERE Title = @GSTCalculation;
+				SELECT @GSTCalculationId = Id FROM GSTCalculation WHERE Title = @GSTCalculation;
+			end
+			else
+			begin
+				SELECT @GSTCalculationId  = Id from GSTCalculation WHERE Title = @GSTCalculation
+				if @GSTCalculationId IS NULL
+				BEGIN
+					EXEC @GSTCalculationId = dbo.sp_GSTCalculationSave  0, @LoginId, @GSTCalculation , 0, @LoginId, @LoginId, 1
+					SELECT @GSTCalculationId = Id FROM GSTCalculation WHERE Title = @GSTCalculation
+				END
+			end
 		END
 
-		IF ISNULL(@GSTCalculationId, 0) <= 0 AND ISNULL(@GSTCalculation,'') != ''
+		DECLARE @GSTRateId TINYINT = NULL 
+
+		IF (isnull(@GSTRate, '') <> '')
 		BEGIN
-			EXEC @GSTCalculationId = dbo.sp_GSTCalculationSave  0, @GSTCalculation , 0, 1
-			SELECT @GSTCalculationId = Id FROM GSTCalculation WHERE Title = @GSTCalculation AND Active = 1
+			IF EXISTS (SELECT 1 FROM GSTRate WHERE Rate = @GSTRate AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE GSTRate SET Deleted = 0, Active = 1 WHERE Rate = @GSTRate;
+				SELECT @GSTRateId = Id FROM GSTRate WHERE Rate = @GSTRate;
+			end
+			else
+			begin
+				SELECT @GSTRateId  = Id from GSTRate WHERE Rate = @GSTRate;
+				if @GSTRateId IS NULL
+				BEGIN
+					EXEC @GSTRateId = dbo.sp_GSTRateSave  0, @GSTRate , 0, 1;
+					SELECT @GSTRateId = Id FROM GSTRate WHERE Rate = @GSTRate;
+				END
+			end
 		END
 
-		IF ISNULL(@GSTRateId, 0) <= 0 AND ISNULL(@GSTRate,'') != ''
-		BEGIN
-			EXEC @GSTRateId = dbo.sp_GSTRateSave  0, @GSTRate , 0, 1
-			SELECT @GSTRateId = Id FROM GSTRate WHERE Rate = @GSTRate AND Active = 1
-		END
+		DECLARE @AmountCalcId SMALLINT = NULL 
 
-		IF ISNULL(@AmountCalcId, 0) <= 0 AND ISNULL(@AmountCalc,'') != ''
+		IF (isnull(@AmountCalc, '') <> '')
 		BEGIN
-			
-			EXEC @AmountCalcId = dbo.sp_ProductAmtCalcOnSave  0, @AmountCalc, @SoftwareId, 0, 1
-			SELECT @AmountCalcId = Id FROM ProductAmtCalcOn WHERE Title = @AmountCalc AND Active = 1
-
+			IF EXISTS (SELECT 1 FROM ProductAmtCalcOn WHERE ProductAmtCalcOn.SoftwareId = @SoftwareId AND Title = @AmountCalc AND (Deleted = 1 OR Active = 0))
+			begin
+				UPDATE ProductAmtCalcOn SET Deleted = 0, Active = 1 WHERE ProductAmtCalcOn.SoftwareId = @SoftwareId AND Title = @AmountCalc;
+				SELECT @GSTCalculationId = Id FROM ProductAmtCalcOn WHERE ProductAmtCalcOn.SoftwareId = @SoftwareId AND Title = @AmountCalc;
+			end
+			else
+			begin
+				SELECT @AmountCalcId  = Id from ProductAmtCalcOn WHERE ProductAmtCalcOn.SoftwareId = @SoftwareId AND Title = @AmountCalc;
+				if @AmountCalcId IS NULL
+				BEGIN
+					EXEC @AmountCalcId = dbo.sp_ProductAmtCalcOnSave  0, @AmountCalc, @SoftwareId, 0, 1;
+					SELECT @AmountCalcId = Id FROM ProductAmtCalcOn WHERE ProductAmtCalcOn.SoftwareId = @SoftwareId AND Title = @AmountCalc;
+				END
+			end
 		END
 
 		DECLARE @IdCheck INT
