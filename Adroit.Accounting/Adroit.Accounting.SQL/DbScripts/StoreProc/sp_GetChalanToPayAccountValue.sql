@@ -21,7 +21,6 @@ BEGIN
 	INNER JOIN TransportLRPayType AS TLRType3 ON LB3.LRPayTypeId = TLRType3.Id AND TLRType3.Title = 'TBB' AND TLRType3.Deleted = 0 AND LB3.Deleted = 0
 	AND LB3.Id IN (SELECT Id FROM [dbo].[fnStringToIntArray](@LRNumberIds))
 	) L3			
-	--AND LB3.BranchId = @BranchId) L3			
 
 END
 GO
