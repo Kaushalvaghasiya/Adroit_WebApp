@@ -7,7 +7,7 @@ namespace Adroit.Accounting.Repository
 {
     public class ReportLRBookingStockRegisterRepository : IReportLRBookingStockRegister
     {
-        public List<LRBookingStockRegisterGridViewModel> GetListWithoutSummary(LRBookingStockRegisterViewModel value, string connectionString, int loginId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<LRBookingStockRegisterGridViewModel> GetList(LRBookingStockRegisterViewModel value, string connectionString, int loginId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
@@ -28,7 +28,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<LRBookingStockRegisterGridViewModel>("sp_ReportLRBookingStockRegisterListWithoutSummary", connectionString, parameters);
+            return QueryHelper.GetList<LRBookingStockRegisterGridViewModel>("sp_ReportLRBookingStockRegisterList", connectionString, parameters);
         }
 
         public List<LRBookingStockRegisterGridViewModel> GetListWithSummary(LRBookingStockRegisterViewModel value, string connectionString, int loginId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
