@@ -1,4 +1,4 @@
-CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingStockRegisterList]
+CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingStockRegisterListWithoutSummary]
   @LoginId INT,
   @BranchIds NVARCHAR(Max),
   @FirmId INT,
@@ -12,7 +12,6 @@ CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingStockRegisterList]
   @PayTypeIds NVARCHAR(MAX),
   @ChalanId INT,
   @InvStatusId INT,
-  @Summary BIT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -54,9 +53,6 @@ Begin
 			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' THEN CA2.Name END DESC,
 			CASE WHEN @SortColumn = 12 AND @SortOrder ='ASC' THEN [CustomerFirmBranch].Title END ASC,  
 			CASE WHEN @SortColumn = 12 AND @SortOrder ='DESC' THEN [CustomerFirmBranch].Title END DESC
-			--CASE WHEN @SortColumn = 13 AND @SortOrder ='ASC' THEN TotalLR END ASC,  
-			--CASE WHEN @SortColumn = 13 AND @SortOrder ='DESC' THEN TotalLR END DESC
-		
 		) AS RowNum,
 		Count(*) over () AS TotalCount, 
 		Count([Z-LRBooking-Z].LRNumber) OVER () AS TotalLR,
@@ -91,7 +87,7 @@ Begin
 			(
 				(@BranchIds = '0' OR [Z-LRBooking-Z].BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)))
 			)
-		AND
+			AND
 			(
 				(@DateFrom = '0' OR CONVERT(DATE, [Z-LRBooking-Z].LRDate) >= 
 					CASE 

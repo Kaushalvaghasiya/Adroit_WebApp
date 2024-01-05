@@ -277,21 +277,7 @@
                     <div class="table-responsive">
                         <table id="tblMain" class="table table-bordered key-buttons">
                             <thead>
-                                <tr>
-                                    <th class="border-bottom-0 text-center">LR NUMBER</th>
-                                    <th class="border-bottom-0 text-center">LR DATE</th>
-                                    <th class="border-bottom-0 text-center">PARCEL</th>
-                                    <th class="border-bottom-0 text-center">CHARGE WT.</th>
-                                    <th class="border-bottom-0 text-center">LR AMOUNT</th>
-                                    <th class="border-bottom-0 text-center">GST%</th>
-                                    <th class="border-bottom-0 text-center">GST AMOUNT</th>
-                                    <th class="border-bottom-0 text-center">INV VALUE</th>
-                                    <th class="border-bottom-0 text-center">TO CITY</th>
-                                    <th class="border-bottom-0 text-center">PVT. MARK</th>
-                                    <th class="border-bottom-0 text-center">CONSIGNOR PARTY</th>
-                                    <th class="border-bottom-0 text-center">CONSIGNEE PARTY</th>
-                                    <th class="border-bottom-0 text-center">BRANCH</th>
-                                </tr>
+                                <tr></tr>
                             </thead>
                             <tbody>
                             </tbody>
@@ -307,6 +293,7 @@
         </div>
     </div>
 </div>
+<input type="hidden" id="hdnSelectedView" value="" />
 
 @section Scripts
     {
@@ -324,15 +311,31 @@
             $(".show-report").on("click", function () {
                 $('.dv-parameters').slideUp();
                 $('.dv-report').slideDown();
-                bindDatatableList();
+
+                let Summary = $('#Summary').is(':checked');
+
+                if ($.fn.dataTable.isDataTable('#tblMain')) {
+                    $('#tblMain').DataTable().destroy();
+                }
+
+                $('#tblMain tbody').html('');
+                $('#tblMain thead tr').html('');
+
+                if (Summary === false) {
+                    SummaryOffList();
+                }
+                if (Summary === true) {
+                    SummaryOnList();
+                }
+                
             });
 
             $(".btn-back").on("click", function () {
                 $('.dv-parameters').slideDown();
                 $('.dv-report').slideUp();
+                $('#tblMain tbody').html('');
+                $('#tblMain thead tr').html('');
             });
-
-
 
         });
 
@@ -340,296 +343,321 @@
             $('#tblMain').DataTable().ajax.reload();
         }
 
-        function bindDatatableList() {
+        function SummaryOffList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST%</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PVT. MARK</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CONSIGNOR PARTY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CONSIGNEE PARTY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
             let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
-            let DateFrom = $('#DateFrom').val() === '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let DateTo = $('#DateTo').val() === '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
             let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
             let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
             let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
             let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
             let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
             let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
-            let ChalanId = $('#ChalanId').val() === '0' ? '0' : $('#ChalanId').val();
-            let InvStatus = $('#InvStatus').val() === "0" ? '0' : $('#InvStatus').val();
-            let Summary = $('#Summary').is(':checked');
-            console.log(Summary);
+            let ChalanId = getIntValueZero('ChalanId');
+            let InvStatusId = getIntValueZero('InvStatusId');
+
+            let currentDate = null;
+            let totalAmount = 0;
+            let prevDate = null;
+            let tableBody = $('#tblMain tbody');
+
             let columns = [];
             let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+           
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.privateMarka;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });
 
-            if (Summary) {
-                $('#tblMain thead tr').empty();
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "lrDate", "name": "lrDate" });
+            columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
+            columns.push({ "data": "amount", "name": "amount" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "privateMarka", "name": "privateMarka" });
+            columns.push({ "data": "consigner", "name": "consigner" });
+            columns.push({ "data": "consignee", "name": "consignee" });
+            columns.push({ "data": "branchName", "name": "branchName" });
 
-                $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total LR</th>');
-                $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total Parcel</th>');
-                $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total Charge Wt.</th>');
-                $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total LR Amount</th>');
-                $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST%</th>');
-                $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total GST Amount</th>');
-                $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total Inv Value</th>');
-                $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Branch</th>');
-                $('#tblMain tbody tr').empty();
-
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.lrNumber;
-                    },
-                    "targets": colDef.length,
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.parcel;
-                    },
-                    "targets": colDef.length,
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return (row.chargeWeight || 0).toFixed(3);
-                    },
-                    "targets": colDef.length,
-                    "class": "text-right",
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.amount.toFixed(2);
-                    },
-                    "targets": colDef.length,
-                    "class": "text-right",
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return (row.rate || 0).toFixed(3);
-                    },
-                    "targets": colDef.length,
-                    "class": "text-right",
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return (row.rate || 0).toFixed(3);
-                    },
-                    "targets": colDef.length,
-                    "class": "text-right",
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return (row.invoiceValue || 0).toFixed(2);;
-                    },
-                    "targets": colDef.length,
-                    "class": "text-right",
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.branchName;
-                    },
-                    "targets": colDef.length,
-                });
-
-                columns.push({ "data": "lrNumber", "name": "lrNumber" });
-                columns.push({ "data": "parcel", "name": "parcel" });
-                columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
-                columns.push({ "data": "amount", "name": "amount" });
-                columns.push({ "data": "rate", "name": "rate" });
-                columns.push({ "data": "rate", "name": "rate" });
-                columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
-                columns.push({ "data": "branchName", "name": "branchName" });
-
-
-                var table = $('#tblMain').DataTable({
-                    "bAutoWidth": false,
-                    lengthChange: false,
-                    ordering: true,
-                    searching: true,
-                    paging: true,
-                    pageLength: 50,
-                    order: [[0, 'asc']],
-                    pagingType: 'full_numbers',
-                    orderClasses: false,
-                    destroy: true,
-                    //scrollCollapse: true,
-                    //stateSave: false,
-                    columnDefs: colDef,
-                    columns: columns,
-                    language: {
-                        paginate: {
-                            next: '<i class="fa fa-angle-right"></i>', // or '→'
-                            previous: '<i class="fa fa-angle-left"></i>', // or '←'
-                            first: '<i class="fa fa-angle-double-left"></i>', // or '→'
-                            last: '<i class="fa fa-angle-double-right"></i>' // or '←'
-                        }
-                    },
-                    buttons: ['copy', 'excel', 'colvis'],
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: '@(Url.Content("~/CustomerReport/LRBookingStockRegisterReportList"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + ChalanId + "/" + InvStatus + "/" + Summary,
-                        type: 'GET',
-                        data: function (d) { }
-                    },
-                    "initComplete": function (settings, json) {
-                        gridInitComplete(table);
-                    },
-                    "drawCallback": function (settings) {
-                        gridDrawCallback(this);
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingStockRegisterReportListWithoutSummary"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + ChalanId + "/" + InvStatusId,
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
 
-                });
+                }
 
-            } else {
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.lrNumber;
-                    },
-                    "targets": colDef.length,
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
-                    },
-                    "targets": colDef.length,
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.parcel;
-                    },
-                    "targets": colDef.length,
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return (row.chargeWeight || 0).toFixed(3);
-                    },
-                    "targets": colDef.length,
-                    "class": "text-right",
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.amount.toFixed(2);
-                    },
-                    "targets": colDef.length,
-                    "class": "text-right",
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return (row.rate || 0).toFixed(3);
-                    },
-                    "targets": colDef.length,
-                    "class": "text-right",
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return (row.rate || 0).toFixed(3);
-                    },
-                    "targets": colDef.length,
-                    "class": "text-right",
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return (row.invoiceValue || 0).toFixed(2);;
-                    },
-                    "targets": colDef.length,
-                    "class": "text-right",
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.cityTo;
-                    },
-                    "targets": colDef.length,
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.privateMarka;
-                    },
-                    "targets": colDef.length,
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.consignor;
-                    },
-                    "targets": colDef.length,
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.consignee;
-                    },
-                    "targets": colDef.length,
-                });
-                colDef.push({
-                    "render": function (data, type, row) {
-                        return row.branchName;
-                    },
-                    "targets": colDef.length,
-                });
+            });
 
-                columns.push({ "data": "lrNumber", "name": "lrNumber" });
-                columns.push({ "data": "lrDate", "name": "lrDate" });
-                columns.push({ "data": "parcel", "name": "parcel" });
-                columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
-                columns.push({ "data": "amount", "name": "amount" });
-                columns.push({ "data": "rate", "name": "rate" });
-                columns.push({ "data": "rate", "name": "rate" });
-                columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
-                columns.push({ "data": "cityTo", "name": "cityTo" });
-                columns.push({ "data": "privateMarka", "name": "privateMarka" });
-                columns.push({ "data": "consigner", "name": "consigner" });
-                columns.push({ "data": "consignee", "name": "consignee" });
-                columns.push({ "data": "branchName", "name": "branchName" });
-
-                var table = $('#tblMain').DataTable({
-                    "bAutoWidth": false,
-                    lengthChange: false,
-                    ordering: true,
-                    searching: true,
-                    paging: true,
-                    pageLength: 50,
-                    order: [[0, 'asc']],
-                    pagingType: 'full_numbers',
-                    orderClasses: false,
-                    destroy: true,
-                    //scrollCollapse: true,
-                    //stateSave: false,
-                    columnDefs: colDef,
-                    columns: columns,
-                    language: {
-                        paginate: {
-                            next: '<i class="fa fa-angle-right"></i>', // or '→'
-                            previous: '<i class="fa fa-angle-left"></i>', // or '←'
-                            first: '<i class="fa fa-angle-double-left"></i>', // or '→'
-                            last: '<i class="fa fa-angle-double-right"></i>' // or '←'
-                        }
-                    },
-                    buttons: ['copy', 'excel', 'colvis',
-                        {
-                            extend: 'pdf',
-                            title: 'Stock Register Report',
-                            text: '<i class="fa fa-print" style="color: #467fcf; background-color: white;"></i>',
-                            className: 'btn btn-primary buttons-pdf buttons-html5 btn-outline-primary',
-                            customize: function (doc) {
-
-                                doc.pageOrientation = 'landscape';
-                                doc.pageMargins = [10, 10, 10, 10];
-                            }
-                        }],
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: '@(Url.Content("~/CustomerReport/LRBookingStockRegisterReportList"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + ChalanId + "/" + InvStatus + "/" + Summary,
-                        type: 'GET',
-                        data: function (d) { }
-                    },
-                    "initComplete": function (settings, json) {
-                        gridInitComplete(table);
-                    },
-                    "drawCallback": function (settings) {
-                        gridDrawCallback(this);
-                    }
-
-                });
-
-                $('.btn-blue').on('click', function () {
-                    //generatePDF();
-                    table.button('.buttons-pdf').trigger();
-                });
-            }
         }
+
+        function SummaryOnList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total LR</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total Parcel</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total Charge Wt.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total LR Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST%</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total GST Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total Inv Value</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Branch</th>');
+
+            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
+            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
+            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
+            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
+            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
+            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
+            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
+            let ChalanId = getIntValueZero('ChalanId');
+            let InvStatusId = getIntValueZero('InvStatusId');
+            let Summary = $('#Summary').is(':checked');
+            let SubTotal = $('#SubTotal').is(':checked');
+
+            let currentDate = null;
+            let totalAmount = 0;
+            let prevDate = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "parcel", "name": "parcel" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
+            columns.push({ "data": "amount", "name": "amount" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "rate", "name": "rate" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
+            columns.push({ "data": "branchName", "name": "branchName" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingStockRegisterReportListWithSummary"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + ChalanId + "/" + InvStatusId,
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                }
+
+            });
+
+        }
+
         function getDateRange(yearRange) {
             const [startYear, endYear] = yearRange.split('-').map(Number);
 
@@ -642,26 +670,6 @@
             $("#DateFrom").val(formattedStartDate);
             $("#DateTo").val(formattedEndDate);
         }
-
-                // function generatePDF() {
-                //     debugger
-                //     var pdfWidth =400;
-                //     var pdfHeight =100;
-                //     var pdf = new jsPDF({
-                //         orientation: 'landscape',
-                //         format: [pdfWidth, pdfHeight],
-                //         unit: 'mm'
-                //     });
-
-                //     var element = document.getElementById('tblMain');
-
-                //     html2canvas(element, { scale: 3 }).then(function (canvas) {
-                //         var imgData = canvas.toDataURL('image/png');
-                //         pdf.addImage(imgData, 'PNG', 10, 10, pdfWidth - 20, pdfHeight - 20);
-
-                //         pdf.save('report.pdf');
-                //     });
-                // }
 
     </script>
 
