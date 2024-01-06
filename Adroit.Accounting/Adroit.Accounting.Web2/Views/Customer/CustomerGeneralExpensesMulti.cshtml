@@ -424,51 +424,51 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.id;
+                    return row.billNumberBranch;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.ewayBillNumber;
+                    return row.billPartyName;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.branch;
+                    return row.gstNo;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.cityFrom;
+                    return row.billAmount.toFixed(2);
                 },
                 "targets": colDef.length,
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.cityTo;
                 },
                 "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.consignor;
+                    return row.billNumberFirm;
                 },
                 "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.consignee;
-                },
-                "targets": colDef.length,
+                "className": "text-center",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -484,14 +484,13 @@
                 "orderable": false
             });
 
-            columns.push({ "data": "id", "name": "id" });
+            columns.push({ "data": "billNumberBranch", "name": "billNumberBranch" });
             columns.push({ "data": "billDate", "name": "billDate" });
-            columns.push({ "data": "ewayBillNumber", "name": "ewayBillNumber" });
-            columns.push({ "data": "branch", "name": "branch" });
-            columns.push({ "data": "cityFrom", "name": "cityFrom" });
+            columns.push({ "data": "billPartyName", "name": "billPartyName" });
+            columns.push({ "data": "gstNo", "name": "gstNo" });
+            columns.push({ "data": "billAmount", "name": "billAmount" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
-            columns.push({ "data": "consignor", "name": "consignor" });
-            columns.push({ "data": "consignee", "name": "consignee" });
+            columns.push({ "data": "billNumberFirm", "name": "billNumberFirm" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -727,11 +726,11 @@
                 savedata.RoundOff = getFloatValueZero("RoundOff", 2);
                 savedata.BillAmount = getFloatValueZero("BillAmount", 2);
                 savedata.TCSAmount = getFloatValueZero("TCSAmount", 2);
-                savedata.EntryTypeName = "SAL";
+                savedata.EntryTypeName = "GPM";
                 savedata.SkipInGSTR = $('#SkipInGSTR').is(':checked');
 
                 var detailGridList = getRowData();
-
+                savedata.detailTableDetails = JSON.stringify(detailGridList);
                 blockUI('container');
 
                 $.ajax({
@@ -857,6 +856,32 @@
             }
         }
 
+        function getProductDetail(id, productcontentRowId) {
+            try {
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetProductetailsByMappingId"))" + "/" + id, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                $("#Rate" + productcontentRowId).val(result.data.purchaseRate ? result.data.purchaseRate.toFixed(2) : '0.00');
+                                $("#DiscPercentage" + productcontentRowId).val(result.data.discount ? result.data.discount.toFixed(3) : '0.000');
+                                $("#RetailRate" + productcontentRowId).val(result.data.rateRetail ? result.data.rateRetail.toFixed(2) : '0.00');
+                                $("#Gst" + productcontentRowId).val(result.data.gstRate ? result.data.gstRate.toFixed(2) : '0.00');
+                                $("#Scess" + productcontentRowId).val(result.data.gstStateCess ? result.data.gstStateCess.toFixed(2) : '0.00');
+                                $("#Ccess" + productcontentRowId).val(result.data.gstCentralCess ? result.data.gstCentralCess.toFixed(2) : '0.00');
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                    });
+            }
+            catch (err) {
+            }
+        }
+
         function getLRDetailListByPurchaseBillMaster(masterId) {
             try {
                 blockUI('container');
@@ -865,22 +890,42 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
+                                contentRowId = 0;
                                 result.data.forEach(function (LRBookingDetail) {
-                                        addRow();
-                                        id: LRBookingDetail.id,
-                                        lrNumber: LRBookingDetail.lrNumber,
-                                        lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
-                                        privateMarka: LRBookingDetail.privateMarka,
-                                        packing: LRBookingDetail.packing,
-                                        chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
-                                        toCity: LRBookingDetail.cityTo,
-                                        fromCity: LRBookingDetail.cityFrom,
-                                        invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
-                                        description: LRBookingDetail.description,
-                                        consignor: LRBookingDetail.consignor,
-                                        consignee: LRBookingDetail.consignee,
-                                        billParty: LRBookingDetail.billParty,
-                                        ewayBillNo: LRBookingDetail.ewayBillNo
+                                    addRow();
+                                    $("#SrTextbox" + contentRowId).val(contentRowId);
+                                    $("#ProductMappingId" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec1" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec2" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec3" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec4" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec5" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec6" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#BatchNo" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#ExpDt" + contentRowId).val(moment(LRBookingDetail.chargeWeight.split('T')[0]).format('DD/MM/YYYY'));
+                                    $("#BoxLabel1" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#BoxLabel2" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#BoxLabel3" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#BoxLabel4" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#BoxLabel5" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#BoxLabel6" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#Rate" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#DiscPercentage" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#DiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#QtyDiscPercentage" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#QtyDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#TradDiscPerc" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#TradDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#SpDiscPerc" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#SpDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#CashDiscPerc" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#CashDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#TaxAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#TaxPlusAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#RetailRate" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#Gst" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#Scess" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#Ccess" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
                                 });
 
                             } else {
@@ -976,7 +1021,7 @@
                 `<div class="row m-0 rounded content-rows" id="row-` + contentRowId + `">
                      <div class="row">
                          <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                             <label for="SrTextbox${contentRowId}" class="form-label"> SR#</label><input type="text" class="form-control content-row-srno" id="SrTextbox${contentRowId}" placeholder max="999">
+                             <label for="SrTextbox${contentRowId}" class="form-label"> SR#</label><input type="text" class="form-control content-row-srno" id="SrTextbox${contentRowId}" placeholder max="999" readonly>
                          </div>                         
                          <div class="col-md-7 pl-2 pr-2 grid-border">
                              <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
@@ -984,34 +1029,141 @@
                                  <li class="acc_section">
                                      <div class="acc_head">
                                          <div class="row">
+                                            @if(!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc1) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc2) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc3) 
+                                                || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc4) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc5) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc6))
+                                            {
                                              <h3>Description</h3>
+                                            }
+                                            else
+                                            {
+                                             <h5 class="pl-3">Description</h5>
+                                            }
                                              <div class="invoice-ds-box acc-box col-md-12">
-                                                 <select class="form-control select2-show-search-api select2-show-search-contentrows" id="ProductMappingId${contentRowId}">
+                                                 <select class="form-control select2-show-search-api" data-rowid="${contentRowId}" id="ProductMappingId${contentRowId}">
                                                  </select>
                                              </div>
                                          </div>
                                      </div>
                                      <div class="acc_content">
+                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc1))
+                                         {
                                          <div class="row mb-1 align-items-center">
-                                             <label for="ItemDec1${contentRowId}" class="col-md-4 form-label">Item Desc-01</label>
-                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ItemDec1${contentRowId}" placeholder></div>
+                                             <label for="ItemDec1${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc1</label>
+                                             <div class="col-md-8">
+                                                 <select class="form-control select2-show-search-add mode-ed" id="ItemDec1${contentRowId}">
+                                                   <option></option>
+                                                    @{
+                                                        if (Model.ItemDescList != null)
+                                                        {
+                                                            foreach (var o in Model.ItemDescList)
+                                                            {
+                                                                    <option value="@o.Value">@o.Text</option>
+                                                            }
+                                                        }
+                                                    }
+                                                 </select>
+                                            </div>
                                          </div>
+                                         }
+                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc2))
+                                         {
+                                             <div class="row mb-1">
+                                             <label for="ItemDec2${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc2</label>
+                                             <div class="col-md-8">
+                                                         <select class="form-control select2-show-search-add mode-ed" id="ItemDec2${contentRowId}">
+                                                   <option></option>
+                                                    @{
+                                                        if (Model.ItemDescList != null)
+                                                        {
+                                                            foreach (var o in Model.ItemDescList)
+                                                            {
+                                                                    <option value="@o.Value">@o.Text</option>
+                                                            }
+                                                        }
+                                                    }
+                                                 </select>
+                                            </div>
+                                         </div>
+                                         }
+                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc3)){
                                          <div class="row mb-1">
-                                             <label for="ItemDec2${contentRowId}" class="col-md-4 form-label">Item Desc-02</label>
-                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ItemDec2${contentRowId}" placeholder></div>
+                                             <label for="ItemDec3${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc3</label>
+                                             <div class="col-md-8">
+                                                 <select class="form-control select2-show-search-add mode-ed" id="ItemDec3${contentRowId}">
+                                                   <option></option>
+                                                    @{
+                                                        if (Model.ItemDescList != null)
+                                                        {
+                                                            foreach (var o in Model.ItemDescList)
+                                                            {
+                                                                    <option value="@o.Value">@o.Text</option>
+                                                            }
+                                                        }
+                                                    }
+                                                 </select>
+                                            </div>
                                          </div>
+                                         }
+                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc4))
+                                         {
                                          <div class="row mb-1">
-                                             <label for="ItemDec3${contentRowId}" class="col-md-4 form-label">Item Desc-03</label>
-                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ItemDec3${contentRowId}" placeholder></div>
+                                             <label for="ItemDec4${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc4</label>
+                                             <div class="col-md-8">
+                                                 <select class="form-control select2-show-search-add mode-ed" id="ItemDec4${contentRowId}">
+                                                   <option></option>
+                                                    @{
+                                                        if (Model.ItemDescList != null)
+                                                        {
+                                                            foreach (var o in Model.ItemDescList)
+                                                            {
+                                                                    <option value="@o.Value">@o.Text</option>
+                                                            }
+                                                        }
+                                                    }
+                                                 </select>
+                                            </div>
                                          </div>
-                                         <div class="row mb-1">
-                                             <label for="ItemDec4${contentRowId}" class="col-md-4 form-label">Item Desc-04</label>
-                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ItemDec4${contentRowId}" placeholder></div>
-                                         </div>
+                                         }
+                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc5))
+                                         {
                                          <div class="row">
-                                             <label for="ItemDec5${contentRowId}" class="col-md-4 form-label">Item Desc-05</label>
-                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ItemDec5${contentRowId}" placeholder></div>
+                                             <label for="ItemDec5${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc5</label>
+                                             <div class="col-md-8">
+                                                 <select class="form-control select2-show-search-add mode-ed" id="ItemDec5${contentRowId}">
+                                                   <option></option>
+                                                    @{
+                                                        if (Model.ItemDescList != null)
+                                                        {
+                                                            foreach (var o in Model.ItemDescList)
+                                                            {
+                                                                    <option value="@o.Value">@o.Text</option>
+                                                            }
+                                                        }
+                                                    }
+                                                 </select>
+                                            </div>
                                          </div>
+                                         }
+                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc6))
+                                         {
+                                         <div class="row">
+                                             <label for="ItemDec6${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc6</label>
+                                             <div class="col-md-8">
+                                                 <select class="form-control select2-show-search-add mode-ed" id="ItemDec6${contentRowId}">
+                                                   <option></option>
+                                                    @{
+                                                        if (Model.ItemDescList != null)
+                                                        {
+                                                            foreach (var o in Model.ItemDescList)
+                                                            {
+                                                                    <option value="@o.Value">@o.Text</option>
+                                                            }
+                                                        }
+                                                    }
+                                                 </select>
+                                            </div>
+                                         </div>
+                                         }
                                      </div>
                                  </li>
                              </ul>
@@ -1030,39 +1182,61 @@
                                      <div class="acc_content&quot;">
                                          <div class="row mb-1">
                                              <label for="ExpDt${contentRowId}" class="col-md-4 form-label">Exp. Dt</label>
-                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="ExpDt${contentRowId}" placeholder></div>
+                                             <div class="col-md-8">
+                                                <div class="input-group">
+                                                    <input class="form-control fc-datepicker" placeholder="MM/YY" type="text" id="ExpDt${contentRowId}">
+                                                </div>
+                                             </div>
                                          </div>
                                      </div>
                                  </li>
                              </ul>
                          </div>
+                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel1))
+                         {   
                          <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
                              <label for="BoxLabel1${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel1</label>
-                             <input type="text" class="form-control" id="BoxLabel1${contentRowId}" placeholder max="999">
+                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel1${contentRowId}" placeholder max="999">
                          </div>
+                         }
+                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel2))
+                         {
                          <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
                              <label for="BoxLabel2${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel2</label>
-                             <input type="text" class="form-control" id="BoxLabel2${contentRowId}" placeholder max="999">
+                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel2${contentRowId}" placeholder max="999">
                          </div>
+                         }
+                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel3))
+                         {
                          <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
                              <label for="BoxLabel3${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel3</label>
-                             <input type="text" class="form-control" id="BoxLabel3${contentRowId}" placeholder max="999">
+                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel3${contentRowId}" placeholder max="999">
                          </div>
+                         }
+                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel4))
+                         {
                          <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
                              <label for="BoxLabel4${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel4</label>
-                             <input type="text" class="form-control" id="BoxLabel4${contentRowId}" placeholder max="999">
+                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel4${contentRowId}" placeholder max="999">
                          </div>
+                         }
+                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel5))
+                         {
                          <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
                              <label for="BoxLabel5${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel5</label>
-                             <input type="text" class="form-control" id="BoxLabel5${contentRowId}" placeholder max="999">
+                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel5${contentRowId}" placeholder max="999">
                          </div>
+                         }
+                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel6))
+                         {
                          <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
                              <label for="BoxLabel6${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel6</label>
-                             <input type="text" class="form-control" id="BoxLabel6${contentRowId}" placeholder max="999">
+                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel6${contentRowId}" placeholder max="999">
                          </div>
+                         }
                          <div class="col-md-1 pl-2 pr-2 grid-border">
                              <label for="Rate${contentRowId}" class="form-label">Rate</label>
-                             <div class="mb-1"><input type="text" class="form-control" id="Rate${contentRowId}" placeholder></div>
+                             <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Rate${contentRowId}" placeholder></div>
                          </div>
                          <div class="col-md-2 pl-2 pr-2 grid-border">
                              <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
@@ -1072,8 +1246,8 @@
                                              <h3>Discount</h3>
                                              <div class="invoice-ds-box">
                                                  <div class="row" style="flex-wrap:nowrap;padding: 0 16px 0 12px;">
-                                                     <input type="text" class="form-control col-md-3 mr-1 discount-percentage-cls" id="DiscPercentage${contentRowId}" placeholder="%">
-                                                     <input type="text" class="form-control col-md-9" id="DiscAmt${contentRowId}" placeholder>
+                                                     <input type="text" class="form-control col-md-3 mr-1 discount-percentage-cls decimalonly" data-tofixed="3" id="DiscPercentage${contentRowId}" placeholder="%">
+                                                     <input type="text" class="form-control col-md-9 decimalonly" data-tofixed="2" id="DiscAmt${contentRowId}" placeholder>
                                                  </div>
                                              </div>
                                          </div>
@@ -1083,8 +1257,8 @@
                                              <label for="QtyDiscAmt" class="col-md-4 form-label">QTY Disc</label>
                                              <div class="col-md-8">
                                                  <div class="row col-md-12" style="flex-wrap:nowrap;">
-                                                     <input type="text" class="form-control col-md-3 mr-1" id="QtyDiscPercentage${contentRowId}" placeholder="%">
-                                                     <input type="text" class="form-control col-md-9 mr-1" id="QtyDiscAmt${contentRowId}" placeholder>
+                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="QtyDiscPercentage${contentRowId}" placeholder="%">
+                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="QtyDiscAmt${contentRowId}" placeholder>
                                                  </div>
                                              </div>
                                          </div>
@@ -1092,8 +1266,8 @@
                                              <label for="TradDiscAmt" class="col-md-4 form-label">Trad Disc</label>
                                              <div class="col-md-8">
                                                  <div class="row col-md-12" style="flex-wrap:nowrap;">
-                                                     <input type="text" class="form-control col-md-3 mr-1" id="TradDiscPerc${contentRowId}" placeholder="%">
-                                                     <input type="text" class="form-control col-md-9 mr-1" id="TradDiscAmt${contentRowId}" placeholder>
+                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="TradDiscPerc${contentRowId}" placeholder="%">
+                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="TradDiscAmt${contentRowId}" placeholder>
                                                  </div>
                                              </div>
                                          </div>
@@ -1101,8 +1275,8 @@
                                              <label for="SpDiscAmt" class="col-md-4 form-label">Sp. Disc</label>
                                              <div class="col-md-8">
                                                  <div class="row col-md-12" style="flex-wrap:nowrap;">
-                                                     <input type="text" class="form-control col-md-3 mr-1" id="SpDiscPerc${contentRowId}" placeholder="%">
-                                                     <input type="text" class="form-control col-md-9 mr-1" id="SpDiscAmt${contentRowId}" placeholder>
+                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="SpDiscPerc${contentRowId}" placeholder="%">
+                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="SpDiscAmt${contentRowId}" placeholder>
                                                   </div>
                                              </div>
                                          </div>
@@ -1110,14 +1284,18 @@
                                              <label for="CashDiscAmt" class="col-md-4 form-label">Cash Disc</label>
                                              <div class="col-md-8">
                                                  <div class="row col-md-12" style="flex-wrap:nowrap;">
-                                                     <input type="text" class="form-control col-md-3 mr-1" id="CashDiscPerc${contentRowId}" placeholder="%">
-                                                     <input type="text" class="form-control col-md-9 mr-1" id="CashDiscAmt${contentRowId}" placeholder>
+                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="CashDiscPerc${contentRowId}" placeholder="%">
+                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="CashDiscAmt${contentRowId}" placeholder>
                                                  </div>
                                              </div>
                                          </div>
                                      </div>
                                  </li>
                              </ul>
+                         </div>
+                         <div class="col-md-1 pl-2 pr-2 grid-border">
+                             <label for="OtherCharges${contentRowId}" class="form-label">Oth. Charges</label>
+                             <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="OtherCharges${contentRowId}" placeholder></div>
                          </div>
                          <div class="col-md-2 pl-2 pr-2 grid-border">
                              <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
@@ -1126,18 +1304,18 @@
                                          <div class="row">
                                              <h3>Tax Amt</h3>
                                              <div class="invoice-ds-box acc-box col-md-12">
-                                                 <input type="text" class="form-control" id="TaxAmt${contentRowId}" placeholder>
+                                                 <input type="text" class="form-control decimalonly" data-tofixed="2" id="TaxAmt${contentRowId}" placeholder>
                                              </div>
                                          </div>
                                      </div>
                                      <div class="acc_content">
                                          <div class="row mb-1">
                                              <label for="TaxPlusAmt${contentRowId}" class="col-md-4 form-label">+ %</label>
-                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="TaxPlusAmt${contentRowId}" placeholder></div>
+                                             <div class="col-md-8"><input type="text" class="form-control mr-1 decimalonly" data-tofixed="3" id="TaxPlusAmt${contentRowId}" placeholder></div>
                                          </div>
                                          <div class="row mb-1">
                                              <label for="RetailRate${contentRowId}" class="col-md-4 form-label">Retail Rate </label>
-                                             <div class="col-md-8"><input type="text" class="form-control mr-1" id="RetailRate${contentRowId}" placeholder></div>
+                                             <div class="col-md-8"><input type="text" class="form-control mr-1 decimalonly" data-tofixed="2" id="RetailRate${contentRowId}" placeholder></div>
                                          </div>
                                      </div>                                     
                                  </li>
@@ -1145,15 +1323,15 @@
                          </div>
                          <div class="col-md-1 pl-2 pr-2 grid-border">
                              <label for="Gst${contentRowId}" class="form-label">GST</label>
-                             <div class="mb-1"><input type="text" class="form-control" id="Gst${contentRowId}" placeholder></div>
+                             <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Gst${contentRowId}" placeholder></div>
                          </div>
                          <div class="col-md-1 pl-2 pr-2 grid-border">
                              <label for="Scess${contentRowId}" class="form-label">S.Cess</label>
-                             <div class="mb-1"><input type="text" class="form-control" id="Scess${contentRowId}" placeholder></div>
+                             <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Scess${contentRowId}" placeholder></div>
                          </div>
                          <div class="col-md-1 pl-2 pr-2 grid-border">
                              <label for="Ccess${contentRowId}" class="form-label">C.Cess</label>
-                             <div class="mb-1"><input type="text" class="form-control" id="Ccess${contentRowId}" placeholder></div>
+                             <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Ccess${contentRowId}" placeholder></div>
                          </div>
                          <div class="col-md-1 grid-border d-flex justify-content-center align-items-center>
                               <div class="form-group text-center mb-1">
@@ -1168,8 +1346,6 @@
 
             htmlContentArray.push(htmlContent);
 
-            // addedIds.push(selectedLRDetails[i].id);
-
             $('.content-rows-add-btn').remove();
             $('#GeneralExpensesMultiList').append(htmlContentArray.join(''));
 
@@ -1179,12 +1355,27 @@
                 $(this).find('.acc_content').hide(); // Close accordion sections
             });
 
-            $('.select2-show-search-contentrows').select2({
-                minimumResultsForSearch: ''
+            $('.select2-show-search-add').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                tags: true
             });
 
             $('.select2-show-search-api').select2({
                 minimumResultsForSearch: ''
+            });
+
+            $('.fc-datepicker').datepicker({
+                dateFormat: 'mm/y',
+                onClose: function (dateText, inst) {
+                    $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+                }
+            });
+
+            $("#ProductMappingId" + contentRowId).on('change', function () {
+                var rowId = $(this).attr('data-rowid');
+                getProductDetail($(this).val(), rowId);
             });
 
             // Attach event listeners to relevant inputs for the taxable amount calculation
@@ -1228,6 +1419,7 @@
                     'ItemDec3': $(this).find('#ItemDec3' + contentRowId).val(),
                     'ItemDec4': $(this).find('#ItemDec4' + contentRowId).val(),
                     'ItemDec5': $(this).find('#ItemDec5' + contentRowId).val(),
+                    'ItemDec6': $(this).find('#ItemDec6' + contentRowId).val(),
                     'BoxLabel1': $(this).find('#BoxLabel1' + contentRowId).val(),
                     'BoxLabel2': $(this).find('#BoxLabel2' + contentRowId).val(),
                     'BoxLabel3': $(this).find('#BoxLabel3' + contentRowId).val(),
@@ -1237,6 +1429,12 @@
                     'Rate': $(this).find('#Rate' + contentRowId).val(),
                     'DiscPercentage': $(this).find('#DiscPercentage' + contentRowId).val(),
                     'DiscAmt': $(this).find('#DiscAmt' + contentRowId).val(),
+                    'QtyDiscPercentage': $(this).find('#QtyDiscPercentage' + contentRowId).val(),
+                    'QtyDiscAmt': $(this).find('#QtyDiscAmt' + contentRowId).val(),
+                    'TradDiscPerc': $(this).find('#TradDiscPerc' + contentRowId).val(),
+                    'SpDiscPerc': $(this).find('#SpDiscPerc' + contentRowId).val(),
+                    'CashDiscPerc': $(this).find('#CashDiscPerc' + contentRowId).val(),
+                    'OtherCharges': $(this).find('#OtherCharges' + contentRowId).val(),
                     'TaxAmt': $(this).find('#TaxAmt' + contentRowId).val(),
                     'TaxPlusAmt': $(this).find('#TaxPlusAmt' + contentRowId).val(),
                     'RetailRate': $(this).find('#RetailRate' + contentRowId).val(),

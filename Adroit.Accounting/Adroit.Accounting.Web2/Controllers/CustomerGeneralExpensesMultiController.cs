@@ -8,6 +8,7 @@ using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
+using NuGet.Packaging;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -20,7 +21,17 @@ namespace Adroit.Accounting.Web.Controllers
             model.AccountBranchMappingList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection, CurrentUserId);
             model.CustomerBook = _customerBookRepository.GetListWithIsGeneralPurchaseId(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId, CurrentFirmId);
             model.BillTypeList = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId);
-
+            model.ItemDescList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillDetailTable._TableName, PurchaseBillDetailTable.ItemDesc1);
+            var itemDesc2 = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillDetailTable._TableName, PurchaseBillDetailTable.ItemDesc2);
+            var itemDesc3 = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillDetailTable._TableName, PurchaseBillDetailTable.ItemDesc3);
+            var itemDesc4 = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillDetailTable._TableName, PurchaseBillDetailTable.ItemDesc4);
+            var itemDesc5 = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillDetailTable._TableName, PurchaseBillDetailTable.ItemDesc5);
+            var itemDesc6 = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, PurchaseBillDetailTable._TableName, PurchaseBillDetailTable.ItemDesc6);
+            model.ItemDescList.AddRange(itemDesc2);
+            model.ItemDescList.AddRange(itemDesc3);
+            model.ItemDescList.AddRange(itemDesc4);
+            model.ItemDescList.AddRange(itemDesc5);
+            model.ItemDescList.AddRange(itemDesc6);
             return View(model);
         }
 
@@ -142,5 +153,21 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        [Route("~/Customer/GetProductetailsByMappingId/{ProductBranchMappingId}")]
+        public JsonResult GetProductetailsByMappingId(int ProductBranchMappingId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _productRepository.GetByProductBranchMappingId(ProductBranchMappingId, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
     }
 }
