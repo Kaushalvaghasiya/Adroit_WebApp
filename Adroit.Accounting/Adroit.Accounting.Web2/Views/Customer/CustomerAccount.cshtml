@@ -97,21 +97,6 @@
             bindDatatableList();
             bindGSTInvoiceTypeList();
 
-            $("#CountryId").on('change', function (e) {
-                bindStateList($(this).val());
-            });
-
-            $("#StateId").on('change', function (e) {
-                bindDistrictList($(this).val());
-            });
-
-            $("#District").on('change', function (e) {
-                bindTalukaList($(this).val());
-            });
-
-            $("#Taluka").on('change', function (e) {
-                bindCityList($(this).val());
-            });
             $("#TransportName").on('change', function (e) {
                 getTransporterGSTNumber($(this).val());
             });
@@ -370,132 +355,7 @@
                 unblockUI('container');
                 showError("", e.message);
             }
-        }
-
-        function bindStateList(countryId) {
-            try {
-                $("#StateId").empty();
-
-                if (countryId == '' || countryId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#StateId').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#StateId').val($("#hdnStateId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
-
-        function bindDistrictList(stateId) {
-            try {
-                $("#District").empty();
-                if (stateId == '' || stateId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetDistricts"))" + "?stateId=" + stateId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#District').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#District').val($("#hdnDistrictId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
-
-        function bindTalukaList(districtId) {
-            try {
-                $("#Taluka").empty();
-                if (districtId == '' || districtId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetTalukas"))" + "?districtId=" + districtId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#Taluka').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#Taluka').val($("#hdnTalukaId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
-
-        function bindCityList(talukaId) {
-            try {
-                $("#CityId").empty();
-                if (talukaId == '' || talukaId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?talukaId=" + talukaId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#CityId').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#CityId').val($("#hdnCityId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
+        }        
 
         function getTransporterGSTNumber(name) {
             try {
@@ -538,11 +398,7 @@
             $("#Address1").val('');
             $("#Address2").val('');
             $("#Address3").val('');
-            $("#CityId").val(null).trigger("change");
-            $("#TalukaId").val(null).trigger("change");
-            $("#DistrictId").val(null).trigger("change");
-            $("#StateId").val(null).trigger("change");
-            $("#CountryId").val(null).trigger("change");
+            $("#CityId").val('').trigger("change");            
             $("#Pincode").val('');
             $("#KM").val('');
 
@@ -586,12 +442,6 @@
             $('#CustomerAccountBranchIds').multipleSelect('checkAll');
             $('#Active').prop('checked', true);
 
-            $("#hdnCountry").val("");
-            $("#hdnStateId").val("");
-            $("#hdnDistrict").val("");
-            $("#hdnTaluka").val("");
-            $("#hdnCityId").val("");
-
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
         }
@@ -628,34 +478,10 @@
                     }
                 }
 
-                if ($("#CountryId").val() == null || $("#CountryId").val() == "") {
-                    showWarning("", "Please select country.");
-                    $("#CountryId").focus();
-                    return false;
-                }
-
-                if ($("#District").val() != null || $("#District").val() != "") {
-                    if ($("#StateId").val() == null || $("#StateId").val() == "") {
-                        showWarning("", "Please select state.");
-                        $("#StateId").focus();
-                        return false;
-                    }
-                }
-
-                if ($("#Taluka").val() != null || $("#CountryId").val() != "") {
-                    if ($("#District").val() == null || $("#District").val() == "") {
-                        showWarning("", "Please select or enter district.");
-                        $("#District").focus();
-                        return false;
-                    }
-                }
-
-                if ($("#CityId").val() != null || $("#CountryId").val() != "") {
-                    if ($("#Taluka").val() == null || $("#Taluka").val() == "") {
-                        showWarning("", "Please select or enter taluka.");
-                        $("#Taluka").focus();
-                        return false;
-                    }
+                if ($("#CityId").val() == null || $("#CityId").val() == "") {              
+                    showWarning("", "Please select city.");
+                    $("#CityId").focus();
+                    return false;                   
                 }
 
                 if ($("#Mobile").val().trim() != "") {
@@ -796,10 +622,7 @@
                 savedata.AccountGroupId = getIntValueZero("AccountGroupId");
                 savedata.Address1 = $("#Address1").val();
                 savedata.Address2 = $("#Address2").val();
-                savedata.Address3 = $("#Address3").val();
-                savedata.CityId = getIntValueZero("CityId");
-                savedata.StateId = getIntValueZero("StateId");
-                savedata.CountryId = getIntValueZero("CountryId");
+                savedata.Address3 = $("#Address3").val();                
                 savedata.Pincode = $("#Pincode").val();
                 savedata.KM = $("#KM").val();
                 savedata.ContactPersonName = $("#ContactPersonName").val();
@@ -833,11 +656,7 @@
                 savedata.RCMParty = $("#RCMParty").is(':checked');
                 savedata.CapitalPercentage = getFloatValueZero("CapitalPercentage", 2);
                 savedata.Active = $('#Active').is(':checked');
-                savedata.City = $("#CityId").val();
-                savedata.DistrictId = getIntValueZero("District");
-                savedata.District = $("#District").val();
-                savedata.TalukaId = getIntValueZero("Taluka");
-                savedata.Taluka = $("#Taluka").val();
+                savedata.CityId = $("#CityId").val();                
                 savedata.Remarks = $("#Remarks").val();
                 savedata.CustomerAccountBranchIds = $("#CustomerAccountBranchIds").val().join(",");
 
@@ -929,11 +748,7 @@
                                 $("#Address1").val(result.data.address1);
                                 $("#Address2").val(result.data.address2);
                                 $("#Address3").val(result.data.address3);
-                                $("#CityId").val(result.data.cityId).trigger("change");
-                                $("#TalukaId").val(result.data.talukaId).trigger("change");
-                                $("#DistrictId").val(result.data.districtId).trigger("change");
-                                $("#StateId").val(result.data.stateId).trigger("change");
-                                $("#CountryId").val(result.data.countryId).trigger("change");
+                                $("#CityId").val(result.data.cityId).trigger("change");                                
                                 $("#Pincode").val(result.data.pincode);
                                 $("#KM").val(result.data.km);
 
@@ -969,13 +784,7 @@
                                 $("#CompositParty").prop('checked', result.data.compositParty);
                                 $("#RCMParty").prop('checked', result.data.rcmParty);
                                 $("#CapitalPercentage").val(result.data.capitalPercentage.toFixed(2));
-
-                                $("#hdnCountryId").val(result.data.countryId);
-                                $("#hdnStateId").val(result.data.stateId);
-                                $("#hdnDistrictId").val(result.data.districtId);
-                                $("#hdnTalukaId").val(result.data.talukaId);
-                                $("#hdnCityId").val(result.data.cityId);
-                                $("#CountryId").val(result.data.countryId).trigger("change");
+                                
                                 $("#Remarks").val(result.data.remarks);
                                 if (result.data.customerAccountBranchIds != null) {
                                     $("#CustomerAccountBranchIds").multipleSelect('setSelects', result.data.customerAccountBranchIds.split(','));
@@ -1023,14 +832,8 @@
                                     $("#Address3").val(result.data.address3);
                                     $("#Pincode").val(result.data.pincode);
                                     $("#PAN").val(result.data.pan);
-
-                                    $("#hdnCountryId").val(result.data.countryId);
-                                    $("#hdnStateId").val(result.data.stateId);
-                                    $("#hdnDistrictId").val(result.data.districtId);
-                                    $("#hdnTalukaId").val(result.data.talukaId);
-                                    $("#hdnCityId").val(result.data.cityId);
-                                    $("#CountryId").val(result.data.countryId).trigger("change");
-
+                                    
+                                    $("#CityId").val(result.data.cityId).trigger("change");
                                     notySuccess("GST# " + result.data.gstNumber + " found.");
                                 } else {
                                     notyError("GST# " + gstNumber + " not found.");

@@ -37,7 +37,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Name", value.Name);
             parameters.Add("@Address", value.Address);
             parameters.Add("@CityId", value.CityId);
-            parameters.Add("@StateId", value.StateId);
             parameters.Add("@Pincode", value.Pincode);
             parameters.Add("@Mobile", value.Mobile);
             parameters.Add("@PAN", value.PAN);
