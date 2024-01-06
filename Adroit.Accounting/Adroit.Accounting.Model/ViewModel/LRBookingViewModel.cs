@@ -29,7 +29,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? BillPartyName { get; set; }
         public string? VehilcleNo { get; set; }
         public string? BranchChalanNo { get; set; }
-        public string? ChalanDate { get; set; }
+        public DateTime? ChalanDate { get; set; }
+        public string ChalanDateString { get { return this.ChalanDate?.ToString(Adroit.Accounting.Model.Constant.DateFormat) ?? ""; } }
         public bool? IsLRBookingPurchased { get; set; }
         public short? CreditDays { get; set; }
         public bool? Deleted { get; set; }

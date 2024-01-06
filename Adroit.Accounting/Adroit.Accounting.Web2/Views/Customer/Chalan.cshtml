@@ -169,14 +169,7 @@
                                                 {
                                                     foreach (var o in Model.CityList)
                                                     {
-                                                        if (($"{Model.CityIdTo}" == o.Value) || (Model.CityIdTo == 0 && o.Value == $"{ViewBag.LoggedInBranchCity}"))
-                                                        {
-                                                            <option value="@o.Value" selected>@o.Text</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@o.Value">@o.Text</option>
-                                                        }
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -265,7 +258,14 @@
                                                 {
                                                     foreach (var o in Model.CityList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                        if (($"{Model.CityIdFrom}" == o.Value) || ((Model.CityIdFrom ?? 0) == 0 && o.Value == $"{ViewBag.LoggedInBranchCity}"))
+                                                        {
+                                                            <option value="@o.Value" selected>@o.Text</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@o.Value">@o.Text</option>
+                                                        }
                                                     }
                                                 }
                                             }
@@ -966,6 +966,8 @@
             $("#CrossingDeliveryAccountBranchMappingId").val(null).trigger('change');
             $("#BranchIdTo").val(null).trigger('change');
             $("#IsAutoLedger").prop('checked', true);
+
+            $("#CityIdFrom").val("@ViewBag.LoggedInBranchCity").trigger('change');
 
             selectedLRDetails = [];
             addedIds = [];

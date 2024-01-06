@@ -10,14 +10,15 @@ BEGIN
 	DECLARE @CustomerId INT = dbo.fn_GetCustomerId(@LoginId), 
 		    @VehilcleNo VARCHAR(25)='', 
 			@BranchChalanNo VARCHAR(20)='', 
-			@ChalanDate VARCHAR(20)='';
+			@ChalanDate DATETIME= NULL;
 
-	SELECT TOP 1 @BranchChalanNo = [Z-PurchaseBillMaster-Z].BillNumberBranch, 
+	SELECT TOP 1 @BranchChalanNo = CAST(BillNumberBranch AS VARCHAR) + ' | ' + BillNumberFirm, 
 			     @ChalanDate = [Z-PurchaseBillMaster-Z].BillDate, 
 				 @VehilcleNo = Vehilcle.VRN
 	FROM [Z-PurchaseBillDetail-Z] 
-		 INNER JOIN [Z-PurchaseBillMaster-Z] ON [Z-PurchaseBillDetail-Z].PurchaseBillMasterId = [Z-PurchaseBillMaster-Z].Id AND [Z-PurchaseBillDetail-Z].LRBookingId = 2
-		 INNER JOIN Vehilcle ON Vehilcle.Id = [Z-PurchaseBillMaster-Z].VehicleId AND Vehilcle.Active = 1
+		 INNER JOIN [Z-PurchaseBillMaster-Z] ON [Z-PurchaseBillDetail-Z].PurchaseBillMasterId = [Z-PurchaseBillMaster-Z].Id 
+		 INNER JOIN Vehilcle ON Vehilcle.Id = [Z-PurchaseBillMaster-Z].VehicleId
+	WHERE [Z-PurchaseBillDetail-Z].LRBookingId = @Id
 	ORDER BY [Z-PurchaseBillDetail-Z].Id DESC 
 
 	SELECT [Z-LRBooking-Z].*
