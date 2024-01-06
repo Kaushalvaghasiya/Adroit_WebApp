@@ -8,7 +8,7 @@ namespace Adroit.Accounting.Model.ViewModel
     {
         public List<DropdownViewModel> NameList { get; set; } = new();
         public List<DropdownViewModel> AccountGroupList { get; set; } = new();
-        public List<DropdownViewModel> CountryList { get; set; } = new();
+        public List<DropdownViewModel> CityList { get; set; } = new();
         public List<DropdownViewModel> AreaNameList { get; set; } = new();
         public List<DropdownViewModel> TransportNameList { get; set; } = new();
         public List<DropdownViewModel> AccountBranchMappingList { get; set; } = new();
@@ -19,10 +19,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? AccountGroup { get; set; }
         public string? City { get; set; }
 
-        public int? DistrictId { get; set; }
-        public string? District { get; set; }
-        public int? TalukaId { get; set; }
-        public string? Taluka { get; set; }
         public string? CustomerAccountBranchIds { get; set; } //Comma separated
         public int? LoginId { get; set; } = 0;
         public int? FirmId { get; set; } = 0;

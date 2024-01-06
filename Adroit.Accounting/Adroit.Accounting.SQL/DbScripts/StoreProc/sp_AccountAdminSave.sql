@@ -8,8 +8,6 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_AccountAdminSave]
 	 @Address2 NVARCHAR(100),
 	 @Address3 NVARCHAR(100),
 	 @CityId INT,
-	 @StateId INT,
-	 @CountryId SMALLINT,
 	 @Pincode VARCHAR(10),
 	 @KM VARCHAR(4),
 	 @ContactPersonName NVARCHAR(30),
@@ -45,6 +43,17 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+		DECLARE @TalukaId INT
+		SELECT @TalukaId = City.TalukaId from City WHERE City.Id = @CityId;
+
+		DECLARE @DistrictId INT
+		SELECT @DistrictId = Taluka.DistrictId from Taluka WHERE Taluka.Id = @TalukaId;
+
+		DECLARE @StateId INT
+		SELECT @StateId = District.StateId from District WHERE District.Id = @DistrictId;
+
+		DECLARE @CountryId SMALLINT
+		SELECT @CountryId = State.CountryId from State WHERE State.Id = @StateId;
 
 		DECLARE @StateCode VARCHAR(5) = (
 			SELECT Code
