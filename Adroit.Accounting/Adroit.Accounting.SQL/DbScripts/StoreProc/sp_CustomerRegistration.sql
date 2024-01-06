@@ -93,6 +93,15 @@ BEGIN
 		VALUES (@Id, @DefaultUserId, 1, 0, GETUTCDATE(), @BrnachId, @Name)
 			
 		COMMIT TRAN
+
+		--Default Year 
+		DECLARE @y1 INT = CAST(RIGHT(CONVERT(VARCHAR, GETDATE(), 103), 4) AS INT)
+		DECLARE @y2 INT = @y1 + 1
+		INSERT INTO [FinanceYear] (FirmId, Title, YearFrom, YearTo, Deleted, Active)
+		SELECT @FirmId, cast(@y1 as varchar) + '-' +cast(@y2 as varchar) , cast(@y1 as varchar)+'/04/01', cast(@y2 as varchar)+'/03/31', 0, 1
+		from CustomerFirm where CustomerId = @cid
+
+
 		SELECT @Id
 	END TRY
 	BEGIN CATCH
