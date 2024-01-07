@@ -37,7 +37,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSave]
 	 @GSTCalculation NVARCHAR(30),
 	 @GSTRate DECIMAL(15, 3),
 	 @GstCentralCess DECIMAL(5, 2),
-	 @GstStateCess DECIMAL(5, 2),
+	 @GstStateCess DECIMAL(5, 0),
 	 @AmountCalc NVARCHAR(25),
 	 @RateUpdate BIT,
 	 @Discount DECIMAL(4, 2),
