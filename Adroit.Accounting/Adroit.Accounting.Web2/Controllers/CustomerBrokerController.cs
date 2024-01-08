@@ -14,7 +14,6 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Broker(int id = 0)
         {
             BrokerViewModel model = new BrokerViewModel() { Id = id };
-            model.CityList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);
             model.BrokerNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BrokerTable._TableName, BrokerTable.Name);
             model.BrokerageList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BrokerTable._TableName, BrokerTable.Brokerage);
             model.BranchList = _customerFirmBranchRepository.SelectListByCustomerId(CurrentFirmId, _configurationData.DefaultConnection);

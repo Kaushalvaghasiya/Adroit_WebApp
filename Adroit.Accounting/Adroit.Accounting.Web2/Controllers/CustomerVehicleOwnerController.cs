@@ -12,7 +12,6 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult VehicleOwner()
         {
             VehicleOwnerViewModel model = new();
-            model.CityList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);
             model.AccountList = _customerAccountRepo.GetCustomerAccountList(_configurationData.DefaultConnection,0,CurrentFirmId);
 
             return View(model);

@@ -26,7 +26,7 @@ Begin
 		) AS RowNum,
 	   Count(*) over () AS TotalCount, VehicleOwner.* ,
 	   CustomerAccount.[Name] as AccountName,
-	   [City].Title As City
+	   [City].Title As CityName
 	  FROM VehicleOwner
 	  LEFT JOIN CustomerAccount ON VehicleOwner.AccountId = CustomerAccount.Id
 	  LEFT JOIN [City] on VehicleOwner.CityId = [City].Id

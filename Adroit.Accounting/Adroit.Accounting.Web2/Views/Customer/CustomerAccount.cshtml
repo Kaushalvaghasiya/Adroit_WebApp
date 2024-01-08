@@ -97,6 +97,33 @@
             bindDatatableList();
             bindGSTInvoiceTypeList();
 
+            $('.select2-show-search-api').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                ajax: {
+                    minimumInputLength: 2,
+                    url: '@(Url.Content("~/common/searchcity"))',
+                    dataType: "json",
+                    type: "GET",
+                    data: function (params) {
+                        return {
+                            city: params.term// search term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data.data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.value
+                                }
+                            })
+                        };
+                    }
+                },
+            });
+
             $("#TransportName").on('change', function (e) {
                 getTransporterGSTNumber($(this).val());
             });
@@ -254,7 +281,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.city;
+                    return row.cityName;
                 },
                 "targets": colDef.length,
             });
@@ -281,7 +308,7 @@
             columns.push({ "data": "name", "name": "name" });
             columns.push({ "data": "accountGroup", "name": "accountGroup" });
             columns.push({ "data": "gstNumber", "name": "gstNumber" });
-            columns.push({ "data": "city", "name": "city" });
+            columns.push({ "data": "cityName", "name": "cityName" });
             columns.push({ "data": "mobile", "name": "mobile" });
 
             var table = $('#tblMain').DataTable({
@@ -656,7 +683,7 @@
                 savedata.RCMParty = $("#RCMParty").is(':checked');
                 savedata.CapitalPercentage = getFloatValueZero("CapitalPercentage", 2);
                 savedata.Active = $('#Active').is(':checked');
-                savedata.CityId = $("#CityId").val();                
+                savedata.CityId = parseInt($("#CityId").val());
                 savedata.Remarks = $("#Remarks").val();
                 savedata.CustomerAccountBranchIds = $("#CustomerAccountBranchIds").val().join(",");
 
@@ -748,6 +775,7 @@
                                 $("#Address1").val(result.data.address1);
                                 $("#Address2").val(result.data.address2);
                                 $("#Address3").val(result.data.address3);
+                                $("#CityId").html("<option value='" + result.data.cityId + "'>" + result.data.cityName + "</option>");
                                 $("#CityId").val(result.data.cityId).trigger("change");                                
                                 $("#Pincode").val(result.data.pincode);
                                 $("#KM").val(result.data.km);
@@ -832,7 +860,8 @@
                                     $("#Address3").val(result.data.address3);
                                     $("#Pincode").val(result.data.pincode);
                                     $("#PAN").val(result.data.pan);
-                                    
+
+                                    $("#CityId").html("<option value='" + result.data.cityId + "'>" + result.data.city + "</option>");
                                     $("#CityId").val(result.data.cityId).trigger("change");
                                     notySuccess("GST# " + result.data.gstNumber + " found.");
                                 } else {
