@@ -9,15 +9,17 @@ AS
 BEGIN
 	DECLARE @CustomerId INT = dbo.fn_GetCustomerId(@LoginId), 
 		    @VehilcleNo VARCHAR(25)='', 
-			@BranchChalanNo VARCHAR(20)='', 
+			@BranchChalanNo VARCHAR(250)='', 
 			@ChalanDate DATETIME= NULL;
 
-	SELECT TOP 1 @BranchChalanNo = CAST(BillNumberBranch AS VARCHAR) + ' | ' + BillNumberFirm, 
+	SELECT TOP 1 @BranchChalanNo = CAST(BillNumberBranch AS VARCHAR) + ' (' + CustomerFirmBranch.Title + ') ' + ' | ' + BillNumberFirm + ' (' + CustomerFirm.Title + ')', 
 			     @ChalanDate = [Z-PurchaseBillMaster-Z].BillDate, 
 				 @VehilcleNo = Vehilcle.VRN
 	FROM [Z-PurchaseBillDetail-Z] 
 		 INNER JOIN [Z-PurchaseBillMaster-Z] ON [Z-PurchaseBillDetail-Z].PurchaseBillMasterId = [Z-PurchaseBillMaster-Z].Id 
 		 INNER JOIN Vehilcle ON Vehilcle.Id = [Z-PurchaseBillMaster-Z].VehicleId
+		 INNER JOIN CustomerFirm on [Z-PurchaseBillMaster-Z].FirmId = CustomerFirm.Id
+		 INNER JOIN CustomerFirmBranch ON [Z-PurchaseBillMaster-Z].BranchId = CustomerFirmBranch .Id
 	WHERE [Z-PurchaseBillDetail-Z].LRBookingId = @Id
 	ORDER BY [Z-PurchaseBillDetail-Z].Id DESC 
 
@@ -25,7 +27,7 @@ BEGIN
 	,[TransportDesc].Title As Description
 	,[TransportPacking].Title As Packing
 	,ISNULL(@BranchChalanNo,'') AS BranchChalanNo
-	,ISNULL(@ChalanDate,'') AS ChalanDate
+	,@ChalanDate AS ChalanDate
 	,ISNULL(@VehilcleNo,'') AS VehilcleNo
 	,City.Title AS CityFrom
 	FROM [Z-LRBooking-Z]
