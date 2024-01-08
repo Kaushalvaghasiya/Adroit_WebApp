@@ -13,7 +13,7 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public int ViewId { get; set; }
         public int GSTId { get; set; }
         public int PurchaseInoiceTypeId { get; set; }
-        public int PurchaseId { get; set; }
+        public int PurchaseTypeId { get; set; }
         public DateTime DateFrom { get; set; } = DateTime.Now;
         public DateTime DateTo { get; set; } = DateTime.Now;
         public string DateFromString { get { return this.DateFrom.ToString("dd/MM/yyyy"); } }

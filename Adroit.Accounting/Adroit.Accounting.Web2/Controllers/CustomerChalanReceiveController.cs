@@ -133,13 +133,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetChalanMasterListByChalanNumber/{chalanNumber}")]
-        public JsonResult GetChalanMasterListByChalanNumber(int chalanNumber)
+        [Route("~/Customer/GetChalanMasterListByChalanNumber/{chalanNumber}/{senderId}")]
+        public JsonResult GetChalanMasterListByChalanNumber(int chalanNumber, int senderId)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _chalanReceiveRepository.GetChalanMasterListByChalanNumber(_configurationData.DefaultConnection, chalanNumber, CurrentUserId, CurrentFirmId);
+                result.data = _chalanReceiveRepository.GetChalanMasterListByChalanNumber(_configurationData.DefaultConnection, chalanNumber, senderId, CurrentUserId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -150,13 +150,13 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetChalanDetailListByChalanNumber/{chalanNumber}")]
-        public JsonResult GetChalanDetailListByChalanNumber(int chalanNumber)
+        [Route("~/Customer/GetChalanDetailListByChalanNumber/{chalanNumber}/{senderId}")]
+        public JsonResult GetChalanDetailListByChalanNumber(int chalanNumber, int senderId)
         {
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _chalanReceiveRepository.GetChalanDetailListByChalanNumber(_configurationData.DefaultConnection, chalanNumber, CurrentUserId, CurrentFirmId);
+                result.data = _chalanReceiveRepository.GetChalanDetailListByChalanNumber(_configurationData.DefaultConnection, chalanNumber, senderId, CurrentUserId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

@@ -13,5 +13,5 @@ GO
 ALTER TABLE [dbo].[Z-SalesBillMaster-Z] DROP COLUMN [InvoiceMemo];
 GO
 
-ALTER TABLE [dbo].[Z-SalesBillMaster-Z] ADD [InvoiceMemo] [bit] NOT NULL;
+ALTER TABLE [dbo].[Z-SalesBillMaster-Z] ADD [InvoiceMemo] [BIT] NOT NULL DEFAULT(0);
 GO
