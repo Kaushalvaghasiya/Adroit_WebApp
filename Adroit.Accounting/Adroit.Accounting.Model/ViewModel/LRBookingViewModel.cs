@@ -35,6 +35,10 @@ namespace Adroit.Accounting.Model.ViewModel
         public short? CreditDays { get; set; }
         public bool? Deleted { get; set; }
 
+        public string? BranchInvoiceNo { get; set; }
+        public DateTime? InvoiceDate { get; set; }
+        public decimal? gstRate { get; set; }
+
         public string BranchName { get; set; }
         public int? TotalLR { get; set; }
         public decimal? ToPayAmount { get; set; }
