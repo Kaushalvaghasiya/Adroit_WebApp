@@ -155,7 +155,8 @@ namespace Adroit.Accounting.Web.Controllers
             IChalan chalanRepository,
             ICustomerInvoice customerInvoice,
             IChalanReceive chalanReceiveRepository,
-            ILRBookingRangeRenew lrBookingRangeRenewRepository, ICustomerGeneralExpensesMulti customerGeneralExpensesMultiRepository)
+            ILRBookingRangeRenew lrBookingRangeRenewRepository, 
+            ICustomerGeneralExpensesMulti customerGeneralExpensesMultiRepository)
             : base(loginHandler, userRepository, configurationData)
         {
             _vehicleRepo = vehicleRepo;

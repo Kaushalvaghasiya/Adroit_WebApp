@@ -256,5 +256,15 @@ namespace Adroit.Accounting.Web.Utility
             };
             return list;
         }
+        public static List<DropdownViewModel> GetBookingLRInvoiceStatusList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BookingLRInvoiceStatusList.All)}", Value = $"{(int)BookingLRInvoiceStatusList.All}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BookingLRInvoiceStatusList.Invoice_Done)}", Value = $"{(int)BookingLRInvoiceStatusList.Invoice_Done}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BookingLRInvoiceStatusList.Pending_Invoice)}", Value = $"{(int)BookingLRInvoiceStatusList.Pending_Invoice}" },
+            };
+            return list;
+        }
     }
 }
