@@ -35,5 +35,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? BranchName { get; set; }
         public string LRNumberId { get; set; }
         public string? DetailTableDetails { get; set; }
+        public bool ChalanReceived { get; set; }
     }
 }
