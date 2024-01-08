@@ -15,6 +15,7 @@ namespace Adroit.Accounting.Web.Controllers
     {
         private readonly ICommon _commonRepository;
         protected readonly ICustomerFirmBranch _customerFirmBranchRepository;
+        protected readonly ICustomerFirm _customerFirmRepository;
         private readonly ICity _cityRepository;
         private readonly IVehicle _vehicleRepo;
         private readonly ITransportLRPayType _transportLRPayTypeRepository;
@@ -62,8 +63,9 @@ namespace Adroit.Accounting.Web.Controllers
             IProductSubGroup productSubGroupRepository,
             IProductDesignNumber productDesignNumberRepository,
             IProductColor productColorRepository,
-            ITransportDesc transportDescRepository, 
-            IGSTRate gstRateRepository)
+            ITransportDesc transportDescRepository,
+            IGSTRate gstRateRepository, 
+            ICustomerFirm customerFirmRepository)
             : base(loginHandler, userRepository, configurationData)
         {
             _vehicleRepo = vehicleRepo;
@@ -91,6 +93,7 @@ namespace Adroit.Accounting.Web.Controllers
             _productColorRepository = productColorRepository;
             _transportDescRepository = transportDescRepository;
             _gstRateRepository = gstRateRepository;
+            _customerFirmRepository = customerFirmRepository;
         }
     }
 }

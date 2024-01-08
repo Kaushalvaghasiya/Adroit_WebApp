@@ -146,6 +146,7 @@ try
     builder.Services.AddSingleton<IReportLRBookingMonthlySummary, ReportLRBookingMonthlySummaryRepository>();
     builder.Services.AddSingleton<IReportLRBookingDailySummary, ReportLRBookingDailySummaryRepository>();
     builder.Services.AddSingleton<ICustomerGeneralExpensesMulti, CustomerGeneralExpensesMultiRepository>();
+	builder.Services.AddSession();
 
     if (!builder.Environment.IsDevelopment())
     {
@@ -199,6 +200,7 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
+	app.UseSession();
 
     app.MapControllerRoute(
         name: "default",

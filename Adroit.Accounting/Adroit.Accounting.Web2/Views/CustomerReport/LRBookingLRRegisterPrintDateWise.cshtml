@@ -1,0 +1,107 @@
+﻿@model List<Adroit.Accounting.Model.GridViewModel.LRBookingLRRegisterGridViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<table id="tblMain" class="table table-bordered key-buttons">
+    <thead>
+        <tr><th>@ViewBag.CurrentFimName</th></tr>
+        <tr><th>From - @ViewBag.DateFrom To @ViewBag.DateTo</th></tr>
+        <tr><th>LR BOOKING REGISTER</th></tr>
+        <tr>
+            <th style="padding-right:50px;">LR DATE</th>
+            <th style="padding-right:50px;">LR NUMBER</th>
+            <th style="padding-right:50px;">FROM CITY</th>
+            <th style="padding-right:50px;">TO CITY</th>
+            <th style="padding-right:50px;">GOODS DESCRIPTION</th>
+            <th style="padding-right:50px;">PARCEL</th>
+            <th style="padding-right:50px;">CHARGE WT.</th>
+            <th style="padding-right:50px;">PACKING</th>
+            <th style="padding-right:50px;">PVT.MARK</th>
+            <th style="padding-right:50px;">LR AMOUNT</th>
+            <th style="padding-right:50px;">GST %</th>
+            <th style="padding-right:50px;">GST AMOUNT</th>
+            <th style="padding-right:50px;">PAY TYPE</th>
+            <th style="padding-right:50px;">INV VALUE</th>
+            <th style="padding-right:50px;">BRANCH</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var prevDate = "";
+                decimal subTotalAmount = 0.00m; 
+                decimal totalAmount = 0.00m;
+
+                foreach (var item in Model)
+                {
+                    subTotalAmount += item.Amount ?? 0.00m; // Use decimal
+                    totalAmount += item.Amount ?? 0.00m;    // Use decimal
+
+                    // Calculate subtotals
+                    if (prevDate != item.LRDateString && prevDate != "")
+                    {
+                        if (ViewBag.SubTotal)
+                        {
+                        <tr class="subtotal-row">
+                            <td colspan="9">SUB TOTAL</td>
+                            <td class="text-right">@subTotalAmount</td>
+                            <td colspan="5"></td>
+                        </tr>
+                        }
+                        subTotalAmount = 0;
+                    }
+                    prevDate = item.LRDateString;
+
+                    <tr>
+                        <td>@item.LRDateString</td>
+                        <td>@item.LRNumber</td>
+                        <td>@item.CityFrom</td>
+                        <td>@item.CityTo</td>
+                        <td>@item.Description</td>
+                        <td>@item.Parcel</td>
+                        <td>@item.ChargeWeight</td>
+                        <td>@item.Packing</td>
+                        <td>@item.PrivateMarka</td>
+                        <td>@item.Amount</td>
+                        <td>@item.Rate</td>
+                        <td>@item.Rate</td>
+                        <td>@item.LRPayType</td>
+                        <td>@item.InvoiceValue</td>
+                        <td>@item.BranchName</td>
+                    </tr>
+                    
+                }
+
+                // Display the last subtotal and total
+                if (prevDate != "" && ViewBag.SubTotal)
+                {
+                    <tr class="subtotal-row">
+                        <td colspan="9">SUB TOTAL</td>
+                        <td class="text-right">@subTotalAmount</td>
+                        <td colspan="5"></td>
+                    </tr>
+                }
+
+                if (totalAmount > 0 && ViewBag.SubTotal)
+                {
+                    <tr class="total-row">
+                        <td colspan="9">TOTAL</td>
+                        <td class="text-right">@totalAmount</td>
+                        <td colspan="5"></td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+
+    <script>
+
+    </script>
+
+}
