@@ -32,6 +32,8 @@ namespace Adroit.Accounting.Web.Controllers
             model.ItemDescList.AddRange(itemDesc4);
             model.ItemDescList.AddRange(itemDesc5);
             model.ItemDescList.AddRange(itemDesc6);
+            byte SoftwareId = _softwareRepository.GetSoftwareIdFirmId(CurrentFirmId, _configurationData.DefaultConnection);
+            model.ProductAmtCalcOnList = _productAmtCalcOnRepository.SelectList(SoftwareId, _configurationData.DefaultConnection);
             return View(model);
         }
 
@@ -44,7 +46,7 @@ namespace Adroit.Accounting.Web.Controllers
                 model.LoginId = CurrentUserId;
                 model.BranchId = CurrentBranchId;
                 model.FirmId = CurrentFirmId;
-                int id = _chalanRepository.Save(model, _configurationData.DefaultConnection);
+                int id = _customerGeneralExpensesMultiRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;

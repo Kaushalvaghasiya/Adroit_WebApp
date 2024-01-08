@@ -12,6 +12,12 @@ Set Nocount on;
 Begin
 	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
+		DECLARE @EntryTypeId INT = (
+			SELECT Id
+			FROM [BillEntryTypeAdmin]
+			WHERE [BillEntryTypeAdmin].Code = 'GPM' 
+			AND [BillEntryTypeAdmin].Active = 1
+		);
 
 	SELECT * FROM
 	(   
@@ -49,6 +55,7 @@ Begin
 			  AND [Z-PurchaseBillMaster-Z].FirmId = @FirmId
 			  AND [Z-PurchaseBillMaster-Z].BranchId = @BranchId
 			  AND [Z-PurchaseBillMaster-Z].YearId = @YearId
+			  AND [Z-PurchaseBillMaster-Z].EntryTypeId = @EntryTypeId
 	  AND (Coalesce(@Search,'') = '' OR [Z-PurchaseBillMaster-Z].BillNumberBranch like '%'+ @Search + '%'
 									 OR [Z-PurchaseBillMaster-Z].BillDate like '%'+ @Search + '%'
 									 OR CustomerAccount.Name like '%'+ @Search + '%'

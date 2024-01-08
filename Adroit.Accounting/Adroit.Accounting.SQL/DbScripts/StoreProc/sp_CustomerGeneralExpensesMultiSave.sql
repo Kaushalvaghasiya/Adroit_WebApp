@@ -7,36 +7,11 @@ CREATE OR ALTER procedure [dbo].[sp_CustomerGeneralExpensesMultiSave]
 	,@BillNumberBranch INT  
 	,@BillNumberFirm VARCHAR(20) 
 	,@BillDate DATETIME  
-	,@CityIdFrom INT
-	,@CityIdTo INT
-	,@VehicleId INT
 	,@AccountBranchMappingId INT
-	,@DriverId INT
 	,@EwayBillNumber VARCHAR(25)
-	,@ToPayAmount DECIMAL(9,2)
-	,@ToPayAccountBranchMappingId INT
-	,@CrossingAmount DECIMAL(9,2)
-	,@CrossingCommission DECIMAL(9,2)
-	,@CrossingHamali DECIMAL(9,2)
-	,@CrossingDeliveryCharge DECIMAL(9,2)
-	,@CrossingAmountAccountBranchMappingId INT
-	,@CrossingCommissionAccountBranchMappingId INT
-	,@CrossingHamaliAccountBranchMappingId INT
-	,@CrossingDeliveryAccountBranchMappingId INT
-	,@BrokerAmount DECIMAL(9,2)
-	,@BrokerBranchMappingId INT
 	,@Notes NVARCHAR(250)
 	,@TaxableAmount DECIMAL(9,2)
 	,@TDSAmount DECIMAL(9,2)
-	,@AdvanceCash DECIMAL(9,2)
-	,@AdvanceNeft DECIMAL(9,2)
-	,@ReceiveCash DECIMAL(9,2)
-	,@OtherPlus DECIMAL(9,2)
-	,@OtherLess DECIMAL(9,2)
-	,@LRNumberIds NVARCHAR(MAX)
-	,@IsAutoLedger BIT
-	,@ValidDateFrom DATETIME 
-	,@ValidDateTo DATETIME 
 	,@TDSPercent DECIMAL(9,2) 
 	,@SGSTTotal DECIMAL(9,2) 
 	,@CGSTTotal DECIMAL(9,2) 
@@ -48,20 +23,12 @@ CREATE OR ALTER procedure [dbo].[sp_CustomerGeneralExpensesMultiSave]
 	,@CreditDays DECIMAL(9,2) 
 	,@RoundOff DECIMAL(9,2) 
 	,@BillAmount DECIMAL(9,2) 
-	,@SalesAccountBranchMappingId INT 
 	,@GenaralPurchaseAccountBranchMappingId INT 
 	,@SkipInGSTR BIT 
-	,@RCMId INT 
 	,@RCMBillNumber INT 
 	,@BillTypeID INT 
-	,@ReturnBillNumber VARCHAR(30) 
-	,@ReturnBillDate DATETIME 
-	,@ReturnReasonId INT 
-	,@PurchaseOrderRefNo VARCHAR(30) 
-	,@EntryTypeName VARCHAR(25) 
-	,@BranchIdTo INT 
-	,@BillNumberTable VARCHAR(30) = 'Static'
-	,@BillNumberBranchTable VARCHAR(30) = 'Static'
+	,@EntryTypeName VARCHAR(25)
+	,@DetailTableDetails NVARCHAR(MAX)
 )
 AS
 BEGIN
@@ -179,6 +146,78 @@ BEGIN
 			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-PurchaseBillMaster-Z].EntryTypeId = @EntryTypeId 
 		END
 
+		DECLARE @LRDetails TABLE
+			(
+				ProductBranchMappingId int,
+				Quantity1 decimal(9, 3),
+				Quantity2 decimal(9, 3),
+				Quantity3 decimal(9, 3),
+				Quantity4 decimal(9, 3),
+				Quantity5 decimal(9, 3),
+				Quantity6 decimal(9, 3),
+				DiscountPercentage decimal(5, 2),
+				DiscountAmount decimal(9, 3),
+				Rate decimal(9, 3),
+				OtherCharges decimal(9, 3),
+				BasicAmount decimal(9, 3),
+				GSTStateCessPercentage decimal(5, 2),
+				GSTCentralCess decimal(5, 0),
+				BatchNumber varchar(30),
+				ExpiryDate datetime,
+				ItemDesc1 nvarchar(100),
+				ItemDesc2 nvarchar(100),
+				ItemDesc3 nvarchar(100),
+				ItemDesc4 nvarchar(100),
+				ItemDesc5 nvarchar(100),
+				ItemDesc6 nvarchar(100),
+				QuantityDiscountPercentage decimal(3, 2),
+				QuantityDiscountAmount decimal(9, 3),
+				SpecialDiscount1 decimal(9, 3),
+				SpecialDiscount2 decimal(9, 3),
+				SpecialDiscount3 decimal(9, 3),
+				SalesRate decimal(9, 3),
+				SalesDiscount decimal(9, 3)
+			);
+
+	    INSERT INTO @LRDetails
+		SELECT
+		    ProductBranchMappingId,Quantity1,Quantity2,Quantity3,Quantity4,Quantity5,Quantity6,DiscountPercentage,
+			DiscountAmount,Rate,OtherCharges,BasicAmount,GSTStateCessPercentage,GSTCentralCess,BatchNumber,ExpiryDate,
+			ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,QuantityDiscountPercentage,QuantityDiscountAmount,
+			SpecialDiscount1,SpecialDiscount2,SpecialDiscount3,SalesRate,SalesDiscount
+		FROM OPENJSON(@DetailTableDetails)
+		WITH (
+				ProductBranchMappingId int,
+				Quantity1 decimal(9, 3),
+				Quantity2 decimal(9, 3),
+				Quantity3 decimal(9, 3),
+				Quantity4 decimal(9, 3),
+				Quantity5 decimal(9, 3),
+				Quantity6 decimal(9, 3),
+				DiscountPercentage decimal(5, 2),
+				DiscountAmount decimal(9, 3),
+				Rate decimal(9, 3),
+				OtherCharges decimal(9, 3),
+				BasicAmount decimal(9, 3),
+				GSTStateCessPercentage decimal(5, 2),
+				GSTCentralCess decimal(5, 0),
+				BatchNumber varchar(30),
+				ExpiryDate datetime,
+				ItemDesc1 nvarchar(100),
+				ItemDesc2 nvarchar(100),
+				ItemDesc3 nvarchar(100),
+				ItemDesc4 nvarchar(100),
+				ItemDesc5 nvarchar(100),
+				ItemDesc6 nvarchar(100),
+				QuantityDiscountPercentage decimal(3, 2),
+				QuantityDiscountAmount decimal(9, 3),
+				SpecialDiscount1 decimal(9, 3),
+				SpecialDiscount2 decimal(9, 3),
+				SpecialDiscount3 decimal(9, 3),
+				SalesRate decimal(9, 3),
+				SalesDiscount decimal(9, 3)
+		);
+
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM [Z-PurchaseBillMaster-Z] 
 							WHERE (Id = @Id) 
@@ -188,20 +227,13 @@ BEGIN
 		BEGIN
 
 			INSERT INTO [Z-PurchaseBillMaster-Z]
-				(AccountBranchMappingId,BookBranchMappingId,BillNumberFirm,BillNumberTable,BillNumberBranch,BillNumberBranchTable,EntryTypeId,BillDate,VehicleId,CityIdFrom,CityIdTo,DriverId
-				,DeliveryBranchId,EwayBillNumber,ValidDateFrom,ValidDateTo,TaxableAmount,TDSPercent,TDSAmount,AdvanceCash,AdvanceNeft,OtherLess,ReceiveCash,OtherPlus,SGSTTotal,CGSTTotal,IGSTTotal
-				,GSTStateCessTotal,GSTCentralCessTotal,TCSPercent,TCSAmount,ToPayAmount,CrossingAmount,CrossingCommission,CrossingHamali,CrossingDeliveryCharge,CreditDays,RoundOff,BillAmount
-				,BrokerBranchMappingId,BrokerAmount,Notes,ToPayAccountBranchMappingId,CrossingAmountAccountBranchMappingId,CrossingCommissionAccountBranchMappingId,CrossingHamaliAccountBranchMappingId
-				,CrossingDeliveryAccountBranchMappingId,SalesAccountBranchMappingId,GenaralPurchaseAccountBranchMappingId,SkipInGSTR,RCMId,RCMBillNumber,BillTypeID,ReturnBillNumber,ReturnBillDate
-				,ReturnReasonId,PurchaseOrderRefNo,AddedOn,AddedById,BranchId,YearId,IsAutoLedger,FirmId,BranchIdTo)
+				(AccountBranchMappingId,BookBranchMappingId,BillNumberFirm,BillNumberBranch,EntryTypeId,BillDate,EwayBillNumber,TaxableAmount,TDSPercent,TDSAmount
+				,SGSTTotal,CGSTTotal,IGSTTotal,GSTStateCessTotal,GSTCentralCessTotal,TCSPercent,TCSAmount,CreditDays,RoundOff,BillAmount,Notes
+				,GenaralPurchaseAccountBranchMappingId,SkipInGSTR,RCMBillNumber,BillTypeID,AddedOn,AddedById,BranchId,YearId,FirmId)
 			VALUES 
-				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumberFirm,@BillNumberTable,@BillNumberBranch,@BillNumberBranchTable,@EntryTypeId,@BillDate,@VehicleId,@CityIdFrom
-				,@CityIdTo,@DriverId,@BranchId,@EwayBillNumber,@ValidDateFrom,@ValidDateTo,@TaxableAmount,@TDSPercent,@TDSAmount,@AdvanceCash,@AdvanceNeft,@OtherLess,@ReceiveCash
-				,@OtherPlus,@SGSTTotal,@CGSTTotal,@IGSTTotal,@GSTStateCessTotal,@GSTCentralCessTotal,@TCSPercent,@TCSAmount,@ToPayAmount,@CrossingAmount,@CrossingCommission,@CrossingHamali
-				,@CrossingDeliveryCharge,@CreditDays,@RoundOff,@BillAmount,@BrokerBranchMappingId,@BrokerAmount,@Notes,@ToPayAccountBranchMappingId,@CrossingAmountAccountBranchMappingId
-				,@CrossingCommissionAccountBranchMappingId,@CrossingHamaliAccountBranchMappingId,@CrossingDeliveryAccountBranchMappingId,@SalesAccountBranchMappingId
-				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMId,@RCMBillNumber,@BillTypeID,@ReturnBillNumber,@ReturnBillDate,@ReturnReasonId,@PurchaseOrderRefNo,GETUTCDATE()
-				,@LoginId,@BranchId,@YearId,@IsAutoLedger,@FirmId,@BranchIdTo)
+				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumberFirm,@BillNumberBranch,@EntryTypeId,@BillDate,@EwayBillNumber,@TaxableAmount,@TDSPercent,@TDSAmount
+				,@SGSTTotal,@CGSTTotal,@IGSTTotal,@GSTStateCessTotal,@GSTCentralCessTotal,@TCSPercent,@TCSAmount,@CreditDays,@RoundOff,@BillAmount,@Notes
+				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMBillNumber,@BillTypeID,GETUTCDATE(),@LoginId,@BranchId,@YearId,@FirmId)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -214,27 +246,14 @@ BEGIN
 			AccountBranchMappingId = @AccountBranchMappingId 
 			,BookBranchMappingId = @BookBranchMappingId 
 			,BillNumberFirm = @BillNumberFirm 
-			,BillNumberTable = @BillNumberTable 
 			,BillNumberBranch = @BillNumberBranch 
-			,BillNumberBranchTable = @BillNumberBranchTable 
 			,EntryTypeId = @EntryTypeId 
 			,BillDate = @BillDate 
-			,VehicleId = @VehicleId 
-			,CityIdFrom = @CityIdFrom 
-			,CityIdTo = @CityIdTo 
-			,DriverId = @DriverId 
 			,DeliveryBranchId = @BranchId 
 			,EwayBillNumber = @EwayBillNumber 
-			,ValidDateFrom = @ValidDateFrom 
-			,ValidDateTo = @ValidDateTo 
 			,TaxableAmount = @TaxableAmount 
 			,TDSPercent = @TDSPercent 
 			,TDSAmount = @TDSAmount 
-			,AdvanceCash = @AdvanceCash 
-			,AdvanceNeft = @AdvanceNeft 
-			,OtherLess = @OtherLess 
-			,ReceiveCash = @ReceiveCash 
-			,OtherPlus = @OtherPlus 
 			,SGSTTotal = @SGSTTotal 
 			,CGSTTotal = @CGSTTotal 
 			,IGSTTotal = @IGSTTotal 
@@ -242,32 +261,14 @@ BEGIN
 			,GSTCentralCessTotal = @GSTCentralCessTotal 
 			,TCSPercent = @TCSPercent 
 			,TCSAmount = @TCSAmount 
-			,ToPayAmount = @ToPayAmount 
-			,CrossingAmount = @CrossingAmount 
-			,CrossingCommission = @CrossingCommission 
-			,CrossingHamali = @CrossingHamali 
-			,CrossingDeliveryCharge = @CrossingDeliveryCharge 
 			,CreditDays = @CreditDays 
 			,RoundOff = @RoundOff 
 			,BillAmount = @BillAmount 
-			,BrokerBranchMappingId = @BrokerBranchMappingId 
-			,BrokerAmount = @BrokerAmount 
 			,Notes = @Notes 
-			,ToPayAccountBranchMappingId = @ToPayAccountBranchMappingId 
-			,CrossingAmountAccountBranchMappingId = @CrossingAmountAccountBranchMappingId 
-			,CrossingCommissionAccountBranchMappingId = @CrossingCommissionAccountBranchMappingId 
-			,CrossingHamaliAccountBranchMappingId = @CrossingHamaliAccountBranchMappingId 
-			,CrossingDeliveryAccountBranchMappingId = @CrossingDeliveryAccountBranchMappingId 
-			,SalesAccountBranchMappingId = @SalesAccountBranchMappingId 
 			,GenaralPurchaseAccountBranchMappingId = @GenaralPurchaseAccountBranchMappingId 
 			,SkipInGSTR = @SkipInGSTR 
-			,RCMId = @RCMId 
 			,RCMBillNumber = @RCMBillNumber 
 			,BillTypeID = @BillTypeID 
-			,ReturnBillNumber = @ReturnBillNumber 
-			,ReturnBillDate = @ReturnBillDate 
-			,ReturnReasonId = @ReturnReasonId 
-			,PurchaseOrderRefNo = @PurchaseOrderRefNo 
 			,DeletedById = NULL 
 			,DeletedOn = NULL 
 			,ModifiedById = @LoginId 
@@ -276,31 +277,71 @@ BEGIN
 			,BranchId = @BranchId 
 			,FirmId = @FirmId 
 			,YearId = @YearId 
-			,IsAutoLedger = @IsAutoLedger 
-			,BranchIdTo = @BranchIdTo
 			WHERE Id = @Id
 
 			UPDATE  [Z-PurchaseBillDetail-Z] SET
 					DeletedById = @LoginId,
 					DeletedOn = GETUTCDATE(),
 					Deleted = 1
-			WHERE PurchaseBillMasterId = @Id AND [LRBookingId] NOT IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
+			WHERE PurchaseBillMasterId = @Id AND ProductBranchMappingId NOT IN ( SELECT ProductBranchMappingId FROM @LRDetails)
 
 			UPDATE  [Z-PurchaseBillDetail-Z] SET
 					DeletedById = NULL,
 					DeletedOn = NULL,
 					Deleted = 0
-			WHERE PurchaseBillMasterId = @Id AND [LRBookingId] IN ( SELECT Id FROM dbo.[fnStringToIntArray](@LRNumberIds))
+			WHERE PurchaseBillMasterId = @Id AND ProductBranchMappingId IN ( SELECT ProductBranchMappingId FROM @LRDetails)
 		END
 
-		--INSERT INTO [Z-PurchaseBillDetail-Z] (PurchaseBillMasterId,ProductBranchMappingId,LRBookingId,AddedById,AddedOn)
-		--SELECT @Id,PBM.ProductBranchMappingId,LRN.Id,@LoginId,GETUTCDATE()
-		--FROM dbo.[fnStringToIntArray](@LRNumberIds) AS LRN
-		--INNER JOIN [Z-LRBooking-Z] AS PBM ON PBM.Id = LRN.Id
-		--EXCEPT
-		--SELECT PurchaseBillMasterId,ProductBranchMappingId,LRBookingId,@LoginId,GETUTCDATE() 
-		--FROM [dbo].[Z-PurchaseBillDetail-Z]
-		
+		MERGE INTO [Z-PurchaseBillDetail-Z] AS LRTarget
+		USING @LRDetails AS LRSource
+		ON LRTarget.PurchaseBillMasterId = @Id AND LRTarget.ProductBranchMappingId = LRSource.ProductBranchMappingId
+		WHEN MATCHED THEN
+		    UPDATE SET 
+		        LRTarget.ProductBranchMappingId = LRSource.ProductBranchMappingId,
+				LRTarget.Quantity1 = LRSource.Quantity1,
+				LRTarget.Quantity2 = LRSource.Quantity2,
+				LRTarget.Quantity3 = LRSource.Quantity3,
+				LRTarget.Quantity4 = LRSource.Quantity4,
+				LRTarget.Quantity5 = LRSource.Quantity5,
+				LRTarget.Quantity6 = LRSource.Quantity6,
+				LRTarget.DiscountPercentage = LRSource.DiscountPercentage,
+				LRTarget.DiscountAmount = LRSource.DiscountAmount,
+				LRTarget.Rate = LRSource.Rate,
+				LRTarget.OtherCharges = LRSource.OtherCharges,
+				LRTarget.BasicAmount = LRSource.BasicAmount,
+				LRTarget.GSTStateCessPercentage = LRSource.GSTStateCessPercentage,
+				LRTarget.GSTCentralCess = LRSource.GSTCentralCess,
+				LRTarget.BatchNumber = LRSource.BatchNumber,
+				LRTarget.ExpiryDate = LRSource.ExpiryDate,
+				LRTarget.ItemDesc1 = LRSource.ItemDesc1,
+				LRTarget.ItemDesc2 = LRSource.ItemDesc2,
+				LRTarget.ItemDesc3 = LRSource.ItemDesc3,
+				LRTarget.ItemDesc4 = LRSource.ItemDesc4,
+				LRTarget.ItemDesc5 = LRSource.ItemDesc5,
+				LRTarget.ItemDesc6 = LRSource.ItemDesc6,
+				LRTarget.QuantityDiscountPercentage = LRSource.QuantityDiscountPercentage,
+				LRTarget.QuantityDiscountAmount = LRSource.QuantityDiscountAmount,
+				LRTarget.SpecialDiscount1 = LRSource.SpecialDiscount1,
+				LRTarget.SpecialDiscount2 = LRSource.SpecialDiscount2,
+				LRTarget.SpecialDiscount3 = LRSource.SpecialDiscount3,
+				LRTarget.SalesRate = LRSource.SalesRate,
+				LRTarget.SalesDiscount = LRSource.SalesDiscount,
+		        LRTarget.ModifiedOn = GETUTCDATE(),
+		        LRTarget.ModifiedById = @LoginId
+		WHEN NOT MATCHED THEN
+		    INSERT (
+		        PurchaseBillMasterId,ProductBranchMappingId,Quantity1,Quantity2,Quantity3,Quantity4,Quantity5,Quantity6,DiscountPercentage,
+				DiscountAmount,Rate,OtherCharges,BasicAmount,GSTStateCessPercentage,GSTCentralCess,BatchNumber,ExpiryDate,
+				ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,QuantityDiscountPercentage,QuantityDiscountAmount,
+				SpecialDiscount1,SpecialDiscount2,SpecialDiscount3,SalesRate,SalesDiscount, AddedOn, AddedById
+		    )
+		    VALUES (
+		        @Id,LRSource.ProductBranchMappingId,LRSource.Quantity1,LRSource.Quantity2,LRSource.Quantity3,LRSource.Quantity4,LRSource.Quantity5,LRSource.Quantity6,
+				LRSource.DiscountPercentage,LRSource.DiscountAmount,LRSource.Rate,LRSource.OtherCharges,LRSource.BasicAmount,LRSource.GSTStateCessPercentage,LRSource.GSTCentralCess,
+				LRSource.BatchNumber,LRSource.ExpiryDate,LRSource.ItemDesc1,LRSource.ItemDesc2,LRSource.ItemDesc3,LRSource.ItemDesc4,LRSource.ItemDesc5,LRSource.ItemDesc6,
+				LRSource.QuantityDiscountPercentage,LRSource.QuantityDiscountAmount,LRSource.SpecialDiscount1,LRSource.SpecialDiscount2,LRSource.SpecialDiscount3,
+				LRSource.SalesRate,LRSource.SalesDiscount, GETUTCDATE(), @LoginId
+		    );		
 		COMMIT TRAN
 		SELECT @Id
 	END TRY

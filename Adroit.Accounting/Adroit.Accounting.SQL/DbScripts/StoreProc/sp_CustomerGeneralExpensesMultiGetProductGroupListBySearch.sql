@@ -7,11 +7,11 @@ Set Nocount on;
 Begin
 	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	
-	SELECT Product.GroupId, ProductGroup.Title AS GroupName,
-		   Product.DesignNumberId, ProductDesignNumber.Title AS ProductDesignNumber,
-		   Product.ColourId, ProductColor.Title AS ColorName,
-		   Product.SizeId, ProductSize.Title AS SizeName,
-		   Product.Code, Product.PrintName, Product.TitleAlternate, Product.HSNCode, ProductBranchMapping.Id AS ProductBranchMappingId
+	SELECT Product.*, ProductGroup.Title AS GroupName,
+			ProductDesignNumber.Title AS ProductDesignNumber,
+			ProductColor.Title AS ColorName,
+			ProductSize.Title AS SizeName,
+			ProductBranchMapping.Id AS ProductBranchMappingId
 	FROM Product 
 		 INNER JOIN ProductBranchMapping ON Product.Id = ProductBranchMapping.ProductId AND ProductBranchMapping.BranchId = 22 AND Product.CustomerId = 14
 		 LEFT JOIN ProductGroup ON Product.GroupId = ProductGroup.Id AND ProductGroup.Active = 1 AND ProductGroup.Deleted = 0
@@ -27,6 +27,7 @@ Begin
 									 OR Product.TitleAlternate like '%'+ @Search + '%'
 									 OR Product.HSNCode like '%'+ @Search + '%'
 		  )
+	 ORDER BY ProductGroup.Title, ProductDesignNumber.Title, ProductColor.Title, ProductSize.Title, Product.Code, Product.PrintName, Product.TitleAlternate, Product.HSNCode
 End
 Set Nocount off;
 GO

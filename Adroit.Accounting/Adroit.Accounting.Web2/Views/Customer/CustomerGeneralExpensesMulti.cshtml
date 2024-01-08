@@ -237,8 +237,8 @@
                         <div class="col-md-4">
                             <div class="form-horizontal">
                                 <div class="row mb-1">
-                                    <label for="TaxableAmount" class="col-md-6 form-label text-left">Basic Amount</label>
-                                    <div class="col-md-6">
+                                    <label for="TaxableAmount" class="col-md-4 form-label text-left">Basic Amount</label>
+                                    <div class="col-md-8">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="TaxableAmount" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
@@ -247,37 +247,37 @@
                                     <div class="col-md-2">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="TDSPercent" placeholder="%">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-8">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="TDSAmount" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="SGSTTotal" class="col-md-6 form-label text-left">SGST</label>
-                                    <div class="col-md-6">
+                                    <label for="SGSTTotal" class="col-md-4 form-label text-left">SGST</label>
+                                    <div class="col-md-8">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="SGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="CGSTTotal" class="col-md-6 form-label text-left">CGST</label>
-                                    <div class="col-md-6">
+                                    <label for="CGSTTotal" class="col-md-4 form-label text-left">CGST</label>
+                                    <div class="col-md-8">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="CGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="IGSTTotal" class="col-md-6 form-label text-left">IGST</label>
-                                    <div class="col-md-6">
+                                    <label for="IGSTTotal" class="col-md-4 form-label text-left">IGST</label>
+                                    <div class="col-md-8">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="IGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="GSTStateCessTotal" class="col-md-6 form-label text-left">State Cess</label>
-                                    <div class="col-md-6">
+                                    <label for="GSTStateCessTotal" class="col-md-4 form-label text-left">State Cess</label>
+                                    <div class="col-md-8">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="GSTStateCessTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="GSTCentralCessTotal" class="col-md-6 form-label text-left">Central Cess</label>
-                                    <div class="col-md-6">
+                                    <label for="GSTCentralCessTotal" class="col-md-4 form-label text-left">Central Cess</label>
+                                    <div class="col-md-8">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="GSTCentralCessTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
@@ -286,19 +286,19 @@
                                     <div class="col-md-2">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="TCSPercent" placeholder="%">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-8">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="TCSAmount" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="RoundOff" class="col-md-6 form-label text-left">Other (+/-)</label>
-                                    <div class="col-md-6">
+                                    <label for="RoundOff" class="col-md-4 form-label text-left">Other (+/-)</label>
+                                    <div class="col-md-8">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="RoundOff" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="BillAmount" class="col-md-6 form-label text-left">Bill Amount</label>
-                                    <div class="col-md-6">
+                                    <label for="BillAmount" class="col-md-4 form-label text-left">Bill Amount</label>
+                                    <div class="col-md-8">
                                         <input type="text" class="form-control CalculateTotalTaxableAmount" id="BillAmount" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
@@ -335,6 +335,16 @@
 
     <input type="hidden" id="Id" value="0" />
 
+    @{
+        if (Model.ProductAmtCalcOnList != null)
+        {
+            foreach (var o in Model.ProductAmtCalcOnList)
+            {
+                    <input class="ProductAMtCalcOn" type="hidden" value="@o.Text">
+            }
+        }
+    }
+
 </div>
 
 
@@ -359,39 +369,12 @@
             $('.CalculateTotalTaxableAmount').on('keyup', function () {
                 calculateBasicAmount();
             });
-         
+
             $("#TDSPercentage").on('keyup', function (e) {
                 var amt = ($('#TaxableAmount').val() * $(this).val() / 100) || 0;
                 $("#TDSAmount").val(Math.round(amt));
             });
 
-            $('.select2-show-search-api').select2({
-                placeholder: 'Choose one',
-                searchInputPlaceholder: 'Search',
-                width: '100%',
-                ajax: {
-                    minimumInputLength: 2,
-                    url: '@(Url.Content("~/Customer/SearchCustomerGeneralExpensesMultiProductDesc"))',
-                    dataType: "json",
-                    type: "GET",
-                    data: function (params) {
-                        return {
-                            search: params.term// search term
-                        };
-                    },
-                    processResults: function (data) {
-                        debugger;
-                        return {
-                            results: $.map(data.data, function (item) {
-                                return {
-                                    text: item.text,
-                                    id: item.value
-                                }
-                            })
-                        };
-                    }
-                },
-            });
         });
 
         function addClick() {
@@ -573,8 +556,7 @@
 
         function saveItem() {
             try {
-
-                var ewayBillNumber = $("#EwayBillNumber").val();
+                var ewayBillNumber = $("#ewayBill").val();
 
                 if ($("#AccountBranchMappingId").val() == null || $("#AccountBranchMappingId").val() == "") {
                     showWarning("", "Please select bill party");
@@ -704,13 +686,11 @@
 
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
-
                 savedata.BillDate = moment(getDate($("#BillDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
                 savedata.BillNumberFirm = $("#BillNumberFirm").val();
                 savedata.RCMBillNumber = $("#RCMBillNumber").val();
                 savedata.CreditDays = getIntValueZero("CreditDays");
                 savedata.Notes = $("#Notes").val();
-                savedata.CityIdTo = getIntValueNull("CityIdTo");
                 savedata.BillTypeID = getIntValueZero("BillTypeID");
                 savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
                 savedata.GenaralPurchaseAccountBranchMappingId = getIntValueZero("GenaralPurchaseAccountBranchMappingId");
@@ -730,7 +710,56 @@
                 savedata.SkipInGSTR = $('#SkipInGSTR').is(':checked');
 
                 var detailGridList = getRowData();
-                savedata.detailTableDetails = JSON.stringify(detailGridList);
+                var detailList = [];
+                detailGridList.forEach(function(details){
+                    var detail = {};
+                    var expdateParts = details.ExpDt.split('/');
+                    var expdt;
+                    if (expdateParts.length === 2) {
+                        var month = expdateParts[0];
+                        var year = expdateParts[1];
+
+                        var convertedDate = new Date(year, month - 1, 1);
+
+                        expdt = ("0" + convertedDate.getDate()).slice(-2) + "/" +
+                            ("0" + (convertedDate.getMonth() + 1)).slice(-2) + "/" +
+                            (convertedDate.getFullYear() % 100);
+                    }
+
+                    detail.ProductBranchMappingId = details.ProductMappingId;
+                    detail.Quantity1 = details.BoxLabel1 == undefined ? null : details.BoxLabel1;
+                    detail.Quantity2 = details.BoxLabel2 == undefined ? null : details.BoxLabel2;
+                    detail.Quantity3 = details.BoxLabel3 == undefined ? null : details.BoxLabel3;
+                    detail.Quantity4 = details.BoxLabel4 == undefined ? null : details.BoxLabel4;
+                    detail.Quantity5 = details.BoxLabel5 == undefined ? null : details.BoxLabel5;
+                    detail.Quantity6 = details.BoxLabel6 == undefined ? null : details.BoxLabel6;
+                    detail.DiscountPercentage = (details.DiscPercentage || 0).toFixed(2);
+                    detail.DiscountAmount = (details.DiscAmt || 0).toFixed(3);
+                    detail.Rate = (details.Rate || 0).toFixed(3);
+                    detail.OtherCharges = (details.OtherCharges || 0).toFixed(3);
+                    detail.BasicAmount = (details.TaxAmt || 0).toFixed(3);
+                    detail.GSTStateCessPercentage = (details.Scess || 0).toFixed(2);
+                    detail.GSTCentralCess = (details.Ccess || 0).toFixed(2);
+                    detail.BatchNumber = details.BatchNo
+                    detail.ExpiryDate = moment(getDate(expdt)).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                    detail.ItemDesc1 = details.ItemDec1 == undefined ? null : details.ItemDec1;
+                    detail.ItemDesc2 = details.ItemDec2 == undefined ? null : details.ItemDec2;
+                    detail.ItemDesc3 = details.ItemDec3 == undefined ? null : details.ItemDec3;
+                    detail.ItemDesc4 = details.ItemDec4 == undefined ? null : details.ItemDec4;
+                    detail.ItemDesc5 = details.ItemDec5 == undefined ? null : details.ItemDec5;
+                    detail.ItemDesc6 = details.ItemDec6 == undefined ? null : details.ItemDec6;
+                    detail.QuantityDiscountPercentage = (details.QtyDiscPercentage || 0).toFixed(2);
+                    detail.QuantityDiscountAmount = (details.QtyDiscAmt || 0).toFixed(3);
+                    detail.SpecialDiscount1 = (details.TradDiscPerc || 0).toFixed(2);
+                    detail.SpecialDiscount2 = (details.SpDiscPerc || 0).toFixed(2);
+                    detail.SpecialDiscount3 = (details.CashDiscPerc || 0).toFixed(2);
+                    detail.SalesRate = (details.TaxPlusAmt || 0).toFixed(3);
+                    detail.SalesDiscount = (details.RetailRate || 0).toFixed(3);
+
+                    detailList.push(detail);
+                });
+
+                savedata.detailTableDetails = JSON.stringify(detailList);
                 blockUI('container');
 
                 $.ajax({
@@ -978,7 +1007,7 @@
 
             $('.content-rows').each(function () {
                 var contentRowId = $(this).attr('id').replace('row-', '');
-                var taxableAmount = parseFloat($('#TaxableAmount' + contentRowId).text()) || 0;
+                var taxableAmount = parseFloat($('#TaxAmt' + contentRowId).text()) || 0;
                 totalTaxableAmount += taxableAmount;
                 $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
             });
@@ -1008,341 +1037,351 @@
             return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
         }
 
-        function updateHiddenInput(ids) {
-            var uniqueIds = [...new Set(ids)];
-            $('#hdnSelectedLRNumberIds').val(uniqueIds.join(','));
-        }
-
         function addRow() {
             contentRowId++;
             var htmlContentArray = [];
 
             var htmlContent =
                 `<div class="row m-0 rounded content-rows" id="row-` + contentRowId + `">
-                     <div class="row">
-                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                             <label for="SrTextbox${contentRowId}" class="form-label"> SR#</label><input type="text" class="form-control content-row-srno" id="SrTextbox${contentRowId}" placeholder max="999" readonly>
-                         </div>                         
-                         <div class="col-md-7 pl-2 pr-2 grid-border">
-                             <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
-                                 data-active-index="false">
-                                 <li class="acc_section">
-                                     <div class="acc_head">
-                                         <div class="row">
-                                            @if(!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc1) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc2) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc3) 
-                                                || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc4) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc5) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc6))
-                                            {
-                                             <h3>Description</h3>
-                                            }
-                                            else
-                                            {
-                                             <h5 class="pl-3">Description</h5>
-                                            }
-                                             <div class="invoice-ds-box acc-box col-md-12">
-                                                 <select class="form-control select2-show-search-api" data-rowid="${contentRowId}" id="ProductMappingId${contentRowId}">
-                                                 </select>
-                                             </div>
-                                         </div>
-                                     </div>
-                                     <div class="acc_content">
-                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc1))
-                                         {
-                                         <div class="row mb-1 align-items-center">
-                                             <label for="ItemDec1${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc1</label>
-                                             <div class="col-md-8">
-                                                 <select class="form-control select2-show-search-add mode-ed" id="ItemDec1${contentRowId}">
-                                                   <option></option>
-                                                    @{
-                                                        if (Model.ItemDescList != null)
-                                                        {
-                                                            foreach (var o in Model.ItemDescList)
-                                                            {
-                                                                    <option value="@o.Value">@o.Text</option>
-                                                            }
-                                                        }
-                                                    }
-                                                 </select>
-                                            </div>
-                                         </div>
-                                         }
-                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc2))
-                                         {
-                                             <div class="row mb-1">
-                                             <label for="ItemDec2${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc2</label>
-                                             <div class="col-md-8">
-                                                         <select class="form-control select2-show-search-add mode-ed" id="ItemDec2${contentRowId}">
-                                                   <option></option>
-                                                    @{
-                                                        if (Model.ItemDescList != null)
-                                                        {
-                                                            foreach (var o in Model.ItemDescList)
-                                                            {
-                                                                    <option value="@o.Value">@o.Text</option>
-                                                            }
-                                                        }
-                                                    }
-                                                 </select>
-                                            </div>
-                                         </div>
-                                         }
-                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc3)){
-                                         <div class="row mb-1">
-                                             <label for="ItemDec3${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc3</label>
-                                             <div class="col-md-8">
-                                                 <select class="form-control select2-show-search-add mode-ed" id="ItemDec3${contentRowId}">
-                                                   <option></option>
-                                                    @{
-                                                        if (Model.ItemDescList != null)
-                                                        {
-                                                            foreach (var o in Model.ItemDescList)
-                                                            {
-                                                                    <option value="@o.Value">@o.Text</option>
-                                                            }
-                                                        }
-                                                    }
-                                                 </select>
-                                            </div>
-                                         </div>
-                                         }
-                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc4))
-                                         {
-                                         <div class="row mb-1">
-                                             <label for="ItemDec4${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc4</label>
-                                             <div class="col-md-8">
-                                                 <select class="form-control select2-show-search-add mode-ed" id="ItemDec4${contentRowId}">
-                                                   <option></option>
-                                                    @{
-                                                        if (Model.ItemDescList != null)
-                                                        {
-                                                            foreach (var o in Model.ItemDescList)
-                                                            {
-                                                                    <option value="@o.Value">@o.Text</option>
-                                                            }
-                                                        }
-                                                    }
-                                                 </select>
-                                            </div>
-                                         </div>
-                                         }
-                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc5))
-                                         {
-                                         <div class="row">
-                                             <label for="ItemDec5${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc5</label>
-                                             <div class="col-md-8">
-                                                 <select class="form-control select2-show-search-add mode-ed" id="ItemDec5${contentRowId}">
-                                                   <option></option>
-                                                    @{
-                                                        if (Model.ItemDescList != null)
-                                                        {
-                                                            foreach (var o in Model.ItemDescList)
-                                                            {
-                                                                    <option value="@o.Value">@o.Text</option>
-                                                            }
-                                                        }
-                                                    }
-                                                 </select>
-                                            </div>
-                                         </div>
-                                         }
-                                         @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc6))
-                                         {
-                                         <div class="row">
-                                             <label for="ItemDec6${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc6</label>
-                                             <div class="col-md-8">
-                                                 <select class="form-control select2-show-search-add mode-ed" id="ItemDec6${contentRowId}">
-                                                   <option></option>
-                                                    @{
-                                                        if (Model.ItemDescList != null)
-                                                        {
-                                                            foreach (var o in Model.ItemDescList)
-                                                            {
-                                                                    <option value="@o.Value">@o.Text</option>
-                                                            }
-                                                        }
-                                                    }
-                                                 </select>
-                                            </div>
-                                         </div>
-                                         }
-                                     </div>
-                                 </li>
-                             </ul>
-                         </div>
-                         <div class="col-md-1 pl-2 pr-2 grid-border">
-                             <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
-                                 <li class="acc_section">
-                                     <div class="acc_head">
-                                         <div class="row">
-                                             <h3>Batch No</h3>
-                                             <div class="invoice-ds-box acc-box col-md-12">
-                                                 <input type="text" class="form-control" id="BatchNo${contentRowId}" placeholder>
-                                             </div>
-                                         </div>
-                                     </div>
-                                     <div class="acc_content&quot;">
-                                         <div class="row mb-1">
-                                             <label for="ExpDt${contentRowId}" class="col-md-4 form-label">Exp. Dt</label>
-                                             <div class="col-md-8">
-                                                <div class="input-group">
-                                                    <input class="form-control fc-datepicker" placeholder="MM/YY" type="text" id="ExpDt${contentRowId}">
-                                                </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </li>
-                             </ul>
-                         </div>
-                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel1))
-                         {   
-                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                             <label for="BoxLabel1${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel1</label>
-                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel1${contentRowId}" placeholder max="999">
-                         </div>
-                         }
-                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel2))
-                         {
-                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                             <label for="BoxLabel2${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel2</label>
-                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel2${contentRowId}" placeholder max="999">
-                         </div>
-                         }
-                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel3))
-                         {
-                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                             <label for="BoxLabel3${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel3</label>
-                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel3${contentRowId}" placeholder max="999">
-                         </div>
-                         }
-                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel4))
-                         {
-                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                             <label for="BoxLabel4${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel4</label>
-                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel4${contentRowId}" placeholder max="999">
-                         </div>
-                         }
-                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel5))
-                         {
-                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                             <label for="BoxLabel5${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel5</label>
-                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel5${contentRowId}" placeholder max="999">
-                         </div>
-                         }
-                         @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel6))
-                         {
-                         <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
-                             <label for="BoxLabel6${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel6</label>
-                             <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel6${contentRowId}" placeholder max="999">
-                         </div>
-                         }
-                         <div class="col-md-1 pl-2 pr-2 grid-border">
-                             <label for="Rate${contentRowId}" class="form-label">Rate</label>
-                             <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Rate${contentRowId}" placeholder></div>
-                         </div>
-                         <div class="col-md-2 pl-2 pr-2 grid-border">
-                             <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
-                                 <li class="acc_section">
-                                     <div class="acc_head">
-                                         <div class="row">
-                                             <h3>Discount</h3>
-                                             <div class="invoice-ds-box">
-                                                 <div class="row" style="flex-wrap:nowrap;padding: 0 16px 0 12px;">
-                                                     <input type="text" class="form-control col-md-3 mr-1 discount-percentage-cls decimalonly" data-tofixed="3" id="DiscPercentage${contentRowId}" placeholder="%">
-                                                     <input type="text" class="form-control col-md-9 decimalonly" data-tofixed="2" id="DiscAmt${contentRowId}" placeholder>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                     <div class="acc_content">
-                                         <div class="row mb-1">
-                                             <label for="QtyDiscAmt" class="col-md-4 form-label">QTY Disc</label>
-                                             <div class="col-md-8">
-                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
-                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="QtyDiscPercentage${contentRowId}" placeholder="%">
-                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="QtyDiscAmt${contentRowId}" placeholder>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                         <div class="row mb-1">
-                                             <label for="TradDiscAmt" class="col-md-4 form-label">Trad Disc</label>
-                                             <div class="col-md-8">
-                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
-                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="TradDiscPerc${contentRowId}" placeholder="%">
-                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="TradDiscAmt${contentRowId}" placeholder>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                         <div class="row mb-1">
-                                             <label for="SpDiscAmt" class="col-md-4 form-label">Sp. Disc</label>
-                                             <div class="col-md-8">
-                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
-                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="SpDiscPerc${contentRowId}" placeholder="%">
-                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="SpDiscAmt${contentRowId}" placeholder>
-                                                  </div>
-                                             </div>
-                                         </div>
-                                         <div class="row">
-                                             <label for="CashDiscAmt" class="col-md-4 form-label">Cash Disc</label>
-                                             <div class="col-md-8">
-                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
-                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="CashDiscPerc${contentRowId}" placeholder="%">
-                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="CashDiscAmt${contentRowId}" placeholder>
-                                                 </div>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </li>
-                             </ul>
-                         </div>
-                         <div class="col-md-1 pl-2 pr-2 grid-border">
-                             <label for="OtherCharges${contentRowId}" class="form-label">Oth. Charges</label>
-                             <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="OtherCharges${contentRowId}" placeholder></div>
-                         </div>
-                         <div class="col-md-2 pl-2 pr-2 grid-border">
-                             <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
-                                 <li class="acc_section">
-                                     <div class="acc_head">
-                                         <div class="row">
-                                             <h3>Tax Amt</h3>
-                                             <div class="invoice-ds-box acc-box col-md-12">
-                                                 <input type="text" class="form-control decimalonly" data-tofixed="2" id="TaxAmt${contentRowId}" placeholder>
-                                             </div>
-                                         </div>
-                                     </div>
-                                     <div class="acc_content">
-                                         <div class="row mb-1">
-                                             <label for="TaxPlusAmt${contentRowId}" class="col-md-4 form-label">+ %</label>
-                                             <div class="col-md-8"><input type="text" class="form-control mr-1 decimalonly" data-tofixed="3" id="TaxPlusAmt${contentRowId}" placeholder></div>
-                                         </div>
-                                         <div class="row mb-1">
-                                             <label for="RetailRate${contentRowId}" class="col-md-4 form-label">Retail Rate </label>
-                                             <div class="col-md-8"><input type="text" class="form-control mr-1 decimalonly" data-tofixed="2" id="RetailRate${contentRowId}" placeholder></div>
-                                         </div>
-                                     </div>                                     
-                                 </li>
-                             </ul>
-                         </div>
-                         <div class="col-md-1 pl-2 pr-2 grid-border">
-                             <label for="Gst${contentRowId}" class="form-label">GST</label>
-                             <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Gst${contentRowId}" placeholder></div>
-                         </div>
-                         <div class="col-md-1 pl-2 pr-2 grid-border">
-                             <label for="Scess${contentRowId}" class="form-label">S.Cess</label>
-                             <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Scess${contentRowId}" placeholder></div>
-                         </div>
-                         <div class="col-md-1 pl-2 pr-2 grid-border">
-                             <label for="Ccess${contentRowId}" class="form-label">C.Cess</label>
-                             <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Ccess${contentRowId}" placeholder></div>
-                         </div>
-                         <div class="col-md-1 grid-border d-flex justify-content-center align-items-center>
-                              <div class="form-group text-center mb-1">
-                                  <div class="btn-list1 mt-1">
-                                      <a href="javascript:addRow();" class="btn btn-outline-primary small-icon-btn content-rows-add-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add" tabindex="25"><i class="fa fa-plus"></i></a>
-                                      <a href="javascript:deleteRow(` + contentRowId + `);" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>
-                                  </div>
-                              </div>
-                         </div>
-                     </div>
-                </div>`;
+                                                             <div class="row">
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                     <label for="SrTextbox${contentRowId}" class="form-label"> SR#</label><input type="text" class="form-control content-row-srno" id="SrTextbox${contentRowId}" placeholder max="999" readonly>
+                                                                 </div>
+                                                                 <div class="col-md-7 pl-2 pr-2 grid-border">
+                                                                     <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
+                                                                         data-active-index="false">
+                                                                         <li class="acc_section">
+                                                                             <div class="acc_head">
+                                                                                 <div class="row">
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc1) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc2) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc3)
+       || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc4) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc5) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc6))
+        {
+                                                                                                         <h3>Description</h3>
+        }
+        else
+        {
+                                                                                                         <h5 class="pl-3">Description</h5>
+        }
+                                                                                     <div class="invoice-ds-box acc-box col-md-12">
+                                                                                         <select class="form-control select2-show-search-api" data-rowid="${contentRowId}" id="ProductMappingId${contentRowId}">
+                                                                                         </select>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="acc_content">
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc1))
+        {
+                                                                                                     <div class="row mb-1 align-items-center">
+                                                                                                         <label for="ItemDec1${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc1</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                             <select class="form-control select2-show-search-add mode-ed" id="ItemDec1${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc2))
+        {
+                                                                                                         <div class="row mb-1">
+                                                                                                         <label for="ItemDec2${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc2</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                                     <select class="form-control select2-show-search-add mode-ed" id="ItemDec2${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc3))
+        {
+                                                                                                     <div class="row mb-1">
+                                                                                                         <label for="ItemDec3${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc3</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                             <select class="form-control select2-show-search-add mode-ed" id="ItemDec3${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc4))
+        {
+                                                                                                     <div class="row mb-1">
+                                                                                                         <label for="ItemDec4${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc4</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                             <select class="form-control select2-show-search-add mode-ed" id="ItemDec4${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc5))
+        {
+                                                                                                     <div class="row">
+                                                                                                         <label for="ItemDec5${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc5</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                             <select class="form-control select2-show-search-add mode-ed" id="ItemDec5${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc6))
+        {
+                                                                                                     <div class="row">
+                                                                                                         <label for="ItemDec6${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc6</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                             <select class="form-control select2-show-search-add mode-ed" id="ItemDec6${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+                                                                             </div>
+                                                                         </li>
+                                                                     </ul>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                                                         <li class="acc_section">
+                                                                             <div class="acc_head">
+                                                                                 <div class="row">
+                                                                                     <h3>Batch No</h3>
+                                                                                     <div class="invoice-ds-box acc-box col-md-12">
+                                                                                         <input type="text" class="form-control" id="BatchNo${contentRowId}" placeholder>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="acc_content&quot;">
+                                                                                 <div class="row mb-1">
+                                                                                     <label for="ExpDt${contentRowId}" class="col-md-4 form-label">Exp. Dt</label>
+                                                                                     <div class="col-md-8">
+                                                                                        <div class="input-group">
+                                                                                            <input class="form-control fc-datepicker" placeholder="MM/YY" type="text" id="ExpDt${contentRowId}">
+                                                                                        </div>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                         </li>
+                                                                     </ul>
+                                                                 </div>
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel1))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel1${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel1</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel1${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel2))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel2${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel2</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel2${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel3))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel3${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel3</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel3${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel4))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel4${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel4</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel4${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel5))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel5${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel5</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel5${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel6))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel6${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel6</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel6${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Rate${contentRowId}" class="form-label">Rate</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Rate${contentRowId}" placeholder></div>
+                                                                 </div>
+        @if (Model.CustomerBook.IsItemDiscount == true || Model.CustomerBook.IsItemDiscountSp == true)
+        {
+                                                                                     <div class="col-md-2 pl-2 pr-2 grid-border">
+                                                                                         <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                                                                             <li class="acc_section">
+                                                                                                 <div class="acc_head">
+                                                                                                     <div class="row">
+                                                                                                         <h3>Discount</h3>
+                                                                                                         <div class="invoice-ds-box">
+                                                                                                             <div class="row" style="flex-wrap:nowrap;padding: 0 16px 0 12px;">
+                                        @if (Model.CustomerBook.IsItemDiscount == true)
+                                        {
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 discount-percentage-cls decimalonly" data-tofixed="3" id="DiscPercentage${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 decimalonly" data-tofixed="2" id="DiscAmt${contentRowId}" placeholder>
+                                        }
+                                        else @if (Model.CustomerBook.IsItemDiscount == false && Model.CustomerBook.IsItemDiscountSp == true)
+                                        {
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 discount-percentage-cls decimalonly" data-tofixed="3" id="DiscPercentage${contentRowId}" placeholder="%" readonly>
+                                                                                                                                     <input type="text" class="form-control col-md-9 decimalonly" data-tofixed="2" id="DiscAmt${contentRowId}" placeholder readonly>
+                                        }
+                                                                                                             </div>
+                                                                                                         </div>
+                                                                                                     </div>
+                                                                                                 </div>
+                        @if (Model.CustomerBook.IsItemDiscountSp == true)
+                        {
+                                                                                                                     <div class="acc_content">
+                                                                                                                         <div class="row mb-1">
+                                                                                                                             <label for="QtyDiscAmt" class="col-md-4 form-label">QTY Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="QtyDiscPercentage${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="QtyDiscAmt${contentRowId}" placeholder>
+                                                                                                                                 </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                         <div class="row mb-1">
+                                                                                                                             <label for="TradDiscAmt" class="col-md-4 form-label">Trad Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="TradDiscPerc${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="TradDiscAmt${contentRowId}" placeholder>
+                                                                                                                                 </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                         <div class="row mb-1">
+                                                                                                                             <label for="SpDiscAmt" class="col-md-4 form-label">Sp. Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="SpDiscPerc${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="SpDiscAmt${contentRowId}" placeholder>
+                                                                                                                                  </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                         <div class="row">
+                                                                                                                             <label for="CashDiscAmt" class="col-md-4 form-label">Cash Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="CashDiscPerc${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="CashDiscAmt${contentRowId}" placeholder>
+                                                                                                                                 </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                     </div>
+                        }
+                                                                                             </li>
+                                                                                         </ul>
+                                                                                     </div>
+        }
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="OtherCharges${contentRowId}" class="form-label">Oth. Charges</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="OtherCharges${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-2 pl-2 pr-2 grid-border">
+                                                                     <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                                                         <li class="acc_section">
+                                                                             <div class="acc_head">
+                                                                                 <div class="row">
+                                                                                     <h3>Tax Amt</h3>
+                                                                                     <div class="invoice-ds-box acc-box col-md-12">
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="TaxAmt${contentRowId}" placeholder>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="acc_content">
+                                                                                 <div class="row mb-1">
+                                                                                     <label for="TaxPlusAmt${contentRowId}" class="col-md-4 form-label">+ %</label>
+                                                                                     <div class="col-md-8"><input type="text" class="form-control mr-1 decimalonly" data-tofixed="3" id="TaxPlusAmt${contentRowId}" placeholder></div>
+                                                                                 </div>
+                                                                                 <div class="row mb-1">
+                                                                                     <label for="RetailRate${contentRowId}" class="col-md-4 form-label">Retail Rate </label>
+                                                                                     <div class="col-md-8"><input type="text" class="form-control mr-1 decimalonly" data-tofixed="2" id="RetailRate${contentRowId}" placeholder></div>
+                                                                                 </div>
+                                                                             </div>
+                                                                         </li>
+                                                                     </ul>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Gst${contentRowId}" class="form-label">GST</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Gst${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Scess${contentRowId}" class="form-label">S.Cess</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Scess${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Ccess${contentRowId}" class="form-label">C.Cess</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Ccess${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-1 grid-border d-flex justify-content-center align-items-center>
+                                                                      <div class="form-group text-center mb-1">
+                                                                          <div class="btn-list1 mt-1">
+                                                                              <a href="javascript:addRow();" class="btn btn-outline-primary small-icon-btn content-rows-add-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add" tabindex="25"><i class="fa fa-plus"></i></a>
+                                                                              <a href="javascript:deleteRow(` + contentRowId + `);" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>
+                                                                          </div>
+                                                                      </div>
+                                                                 </div>
+                                                             </div>
+                                                        </div>`;
 
             htmlContentArray.push(htmlContent);
 
@@ -1373,17 +1412,101 @@
                 }
             });
 
+            $('.select2-show-search-api').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                ajax: {
+                    minimumInputLength: 2,
+                    url: '@(Url.Content("~/Customer/SearchCustomerGeneralExpensesMultiProductDesc"))',
+                    dataType: "json",
+                    type: "GET",
+                    data: function (params) {
+                        return {
+                            search: params.term// search term
+                        };
+                    },
+                    processResults: function (data) {
+                        var combinedResults = [];
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item?.groupName != null && item?.groupName != undefined ? item?.groupName : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item.productDesignNumber != null && item.productDesignNumber != undefined ? item.productDesignNumber : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item.colorName != null && item.colorName != undefined ? item.colorName : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item.sizeName != null && item.sizeName != undefined ? item.sizeName : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            var text = '';
+
+                            if (item.code != null && item.code != undefined) {
+                                text += item.code;
+                            }
+
+                            if (item.printName != null && item.printName != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.printName;
+                            } else if (item.titleAlternate != null && item.titleAlternate != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.titleAlternate;
+                            }
+
+                            if (item.hsnCode != null && item.hsnCode != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.hsnCode;
+                            }
+
+                            return {
+                                text: text,
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        return {
+                            results: combinedResults
+                        };
+                    }
+                },
+            });
+
+            var formattedMinimumDate = $.datepicker.formatDate("mm/y", new Date());
+            $(`#ExpDt${contentRowId}`).datepicker("setDate", formattedMinimumDate);
+
             $("#ProductMappingId" + contentRowId).on('change', function () {
                 var rowId = $(this).attr('data-rowid');
                 getProductDetail($(this).val(), rowId);
             });
 
             // Attach event listeners to relevant inputs for the taxable amount calculation
-            $('#Quantity1' + contentRowId + ', #Quantity2' + contentRowId + ', #Quantity3' + contentRowId +
-                ', #Quantity4' + contentRowId + ', #Quantity5' + contentRowId + ', #Quantity6' + contentRowId +
-                ', #Rate' + contentRowId + ', #DiscountAmount' + contentRowId + ', #OtherCharges' + contentRowId).on('keyup', function () {
-                    calculateAmount(contentRowId);
-                    calculateTotalTaxableAmount();
+            $('#BoxLabel1' + contentRowId + ', #BoxLabel2' + contentRowId + ', #BoxLabel3' + contentRowId +
+                ', #BoxLabel4' + contentRowId + ', #BoxLabel5' + contentRowId + ', #BoxLabel6' + contentRowId +
+                ', #Rate' + contentRowId + ', #DiscPercentage' + contentRowId + ', #QtyDiscPercentage' + contentRowId +
+                ', #TradDiscPerc' + contentRowId + ', #SpDiscPerc' + contentRowId + ', #CashDiscPerc' + contentRowId +
+                ', #TaxAmt' + contentRowId + ', #OtherCharges' + contentRowId).on('blur', function () {
+                    var IsItemDiscountSp = "@Model.CustomerBook.IsItemDiscountSp";
+                    if (IsItemDiscountSp == "True") {
+                        calculateSpDiscTaxableAmount(contentRowId);
+                    } else {
+                        calculateOnlyDiscTaxableAmount(contentRowId);
+                    }
                 });
 
             var counter = 0;
@@ -1396,7 +1519,7 @@
                 deleteRow(index);
             });
 
-            calculateTotalTaxableAmount();
+            calculateBasicAmount();
         }
 
         function deleteRow(rowId) {
@@ -1441,6 +1564,8 @@
                     'Gst': $(this).find('#Gst' + contentRowId).val(),
                     'Scess': $(this).find('#Scess' + contentRowId).val(),
                     'Ccess': $(this).find('#Ccess' + contentRowId).val(),
+                    'BatchNo': $(this).find('#BatchNo' + contentRowId).val(),
+                    'ExpDt': $(this).find('#ExpDt' + contentRowId).val(),
                 };
                 rowDataArray.push(rowData);
             });
@@ -1448,55 +1573,97 @@
             return rowDataArray;
         }
 
-        function calculateTotalTaxableAmount() {
-            var totalTaxableAmount = 0;
+        function calculateSpDiscTaxableAmount(currentRowId) {
+            var totalQtAmt = 0;
 
-            $('.content-rows').each(function () {
-                var currentRowId = $(this).attr('id').replace('row-', '');
-                var taxableAmount = parseFloat($('#BasicAmount' + currentRowId).val()) || 0;
+            $(".ProductAMtCalcOn").each(function (index, item) {
+                var box1 = "@Model.CustomerBook.BoxLabel1.ToUpper()";
+                var box2 = "@Model.CustomerBook.BoxLabel2.ToUpper()";
+                var box3 = "@Model.CustomerBook.BoxLabel3.ToUpper()";
+                var box4 = "@Model.CustomerBook.BoxLabel4.ToUpper()";
+                var box5 = "@Model.CustomerBook.BoxLabel5.ToUpper()";
+                var box6 = "@Model.CustomerBook.BoxLabel6.ToUpper()";
+                var hyphenIndex = item.value.indexOf('-');
+                var value = hyphenIndex !== -1 ? item.value.substring(hyphenIndex + 1).toUpperCase().trim() : item.value.toUpperCase().trim();
 
-                // var CGSTTotal = parseFloat($('#CGSTTotal' + currentRowId).val()) || 0;
-                // var SGSTTotal = parseFloat($('#SGSTTotal' + currentRowId).val()) || 0;
-                // var IGSTTotal = parseFloat($('#IGSTTotal' + currentRowId).val()) || 0;
-                // var GSTStateCessTotal = parseFloat($('#GSTStateCessTotal' + currentRowId).val()) || 0;
-                // var GSTCentralCessTotal = parseFloat($('#GSTCentralCessTotal' + currentRowId).val()) || 0;
-                // var TCSPercent = parseFloat($('#TCSPercent' + currentRowId).val()) || 0;
-                var TDSPercent = parseFloat($('#TDSPercent').val() || 0);
-
-                totalTaxableAmount += taxableAmount;
-
-                var tdsAmount = (totalTaxableAmount * TDSPercent) / 100;
-                tdsAmount = customRound(tdsAmount);
-
-                $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
-                $('#TDSAmount').val(tdsAmount.toFixed(2));
+                if (box1 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel1${currentRowId}`);
+                }
+                if (box2 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel2${currentRowId}`);
+                }
+                if (box3 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel3${currentRowId}`);
+                }
+                if (box4 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel4${currentRowId}`);
+                }
+                if (box5 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel5${currentRowId}`);
+                }
+                if (box6 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel6${currentRowId}`);
+                }
             });
 
-            var BasicAmount = parseFloat($('#TaxableAmount').val()) || 0;
-            var CGSTTotal = parseFloat($('#CGSTTotal').val()) || 0;
-            var SGSTTotal = parseFloat($('#SGSTTotal').val()) || 0;
-            var IGSTTotal = parseFloat($('#IGSTTotal').val()) || 0;
-            var GSTStateCessTotal = parseFloat($('#GSTStateCessTotal').val()) || 0;
-            var GSTCentralCessTotal = parseFloat($('#GSTCentralCessTotal').val()) || 0;
-            var TCSPercent = parseFloat($('#TCSPercent').val()) || 0;
+            var a = totalQtAmt * parseFloat(getFloatValueZero(`Rate${currentRowId}`, 2));
+            var b = totalQtAmt * parseFloat(getFloatValueZero(`QtyDiscPercentage${currentRowId}`, 3));
+            var c = ((a - b) * parseFloat(getFloatValueZero(`TradDiscPerc${currentRowId}`, 3))) / 100;
+            var d = ((a - b - c) * parseFloat(getFloatValueZero(`SpDiscPerc${currentRowId}`, 3))) / 100;
+            var e = ((a - b - c - d) * parseFloat(getFloatValueZero(`CashDiscPerc${currentRowId}`, 3))) / 100;
+            var f = b + c + d + e;
+            var f1 = (100 * f) / a;
+            var g = (a - f) + parseFloat(getFloatValueZero(`OtherCharges${currentRowId}`, 2));
 
-            $('#TCSAmount').val(((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal) * (TCSPercent) / 100).toFixed(2));
-            var TCSAmount = parseFloat($('#TCSAmount').val()) || 0;
-
-            // Calculate the sum of all components
-            var totalAmount = BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount;
-
-            // Calculate RoundOff based on custom rounding logic
-            var RoundOff = customRound(totalAmount) - totalAmount;
-
-            $('#RoundOff').val(RoundOff.toFixed(2));
-            $('#BillAmount').val((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount + RoundOff).toFixed(2));
-
+            $(`#QtyDiscAmt${currentRowId}`).val(b.toFixed(2));
+            $(`#TradDiscAmt${currentRowId}`).val(c.toFixed(2));
+            $(`#SpDiscAmt${currentRowId}`).val(d.toFixed(2));
+            $(`#CashDiscAmt${currentRowId}`).val(e.toFixed(2));
+            $(`#DiscAmt${currentRowId}`).val(f.toFixed(2));
+            $(`#DiscPercentage${currentRowId}`).val(f1.toFixed(3));
+            $(`#TaxAmt${currentRowId}`).val(g.toFixed(2));
+            calculateBasicAmount();
         }
 
-        function customRound(number) {
-            var decimalPart = number % 1;
-            return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
+        function calculateOnlyDiscTaxableAmount(currentRowId) {
+            var totalQtAmt = 0;
+
+            $(".ProductAMtCalcOn").each(function (index, item) {
+                var box1 = "@Model.CustomerBook.BoxLabel1.ToUpper()";
+                var box2 = "@Model.CustomerBook.BoxLabel2.ToUpper()";
+                var box3 = "@Model.CustomerBook.BoxLabel3.ToUpper()";
+                var box4 = "@Model.CustomerBook.BoxLabel4.ToUpper()";
+                var box5 = "@Model.CustomerBook.BoxLabel5.ToUpper()";
+                var box6 = "@Model.CustomerBook.BoxLabel6.ToUpper()";
+                var hyphenIndex = item.value.indexOf('-');
+                var value = hyphenIndex !== -1 ? item.value.substring(hyphenIndex + 1).toUpperCase().trim() : item.value.toUpperCase().trim();
+
+                if (box1 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel1${currentRowId}`);
+                }
+                if (box2 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel2${currentRowId}`);
+                }
+                if (box3 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel3${currentRowId}`);
+                }
+                if (box4 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel4${currentRowId}`);
+                }
+                if (box5 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel5${currentRowId}`);
+                }
+                if (box6 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel6${currentRowId}`);
+                }
+            });
+
+            var a = (parseFloat(getFloatValueZero(`Rate${currentRowId}`, 2)) * parseFloat(getFloatValueZero(`DiscPercentage${currentRowId}`, 3))) / 100;
+            var b = ((parseFloat(getFloatValueZero(`Rate${currentRowId}`, 2)) - parseFloat(getFloatValueZero(`DiscAmt${currentRowId}`, 3))) * totalQtAmt) + parseFloat(getFloatValueZero(`OtherCharges${currentRowId}`, 2));
+
+            $(`#DiscAmt${currentRowId}`).val(a.toFixed(2));
+            $(`#TaxAmt${currentRowId}`).val(b.toFixed(2));
+            calculateBasicAmount();
         }
 
     </script>
