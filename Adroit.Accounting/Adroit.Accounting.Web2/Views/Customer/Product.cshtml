@@ -1064,7 +1064,7 @@
             $("#DealerRate").append(new Option(maxvalue.toFixed(2), maxvalue.toFixed(2), true, true)).trigger('change');
             $("#AveragePack").append(new Option(maxvalue.toFixed(2), maxvalue.toFixed(2), true, true)).trigger('change');
             $("#BoxPack").append(new Option(maxvalue.toFixed(2), maxvalue.toFixed(2), true, true)).trigger('change');
-            $("#GstCentralCess").append(new Option(maxvalue.toFixed(2), maxvalue.toFixed(2), true, true)).trigger('change');
+            $("#GstCentralCess").append(new Option(maxvalue.toFixed(0), maxvalue.toFixed(0), true, true)).trigger('change');
             $("#GstStateCess").append(new Option(maxvalue.toFixed(2), maxvalue.toFixed(2), true, true)).trigger('change');
             $("#Discount").append(new Option(maxvalue.toFixed(2), maxvalue.toFixed(2), true, true)).trigger('change');
             $("#Cut").append(new Option(maxvalue.toFixed(2), maxvalue.toFixed(2), true, true)).trigger('change');
@@ -1174,8 +1174,8 @@
                     return false;
                 }
 
-                if (!/^[-+]?(\d{1,3}(\.\d{0,2})?|\.\d{1,2})$/.test($("#GstCentralCess").val())) {
-                    showWarning("", "Central Cess must be upto 3 characters before decimal point and 2 characters after decimal point long.");
+                if ($("#GstCentralCess").val() == null || $("#GstCentralCess").val() == "" || $("#GstCentralCess").val().length > 5) {
+                    showWarning("", "Central Cess must be upto 5 characters long.");
                     $("#GstCentralCess").focus();
                     return false;
                 }
@@ -1290,6 +1290,7 @@
                 savedata.GSTCalculationName = $("#GSTCalculationId option:selected").text();
                 savedata.GSTRateName = $("#GSTRateId option:selected").text();
                 savedata.AmtCalcName = $("#AmountCalcId option:selected").text();
+                savedata.GstCentralCess = $("#GstCentralCess option:selected").text();
 
                 savedata.HSNCode = $("#HSNCode").val();
 
@@ -1304,8 +1305,7 @@
                 savedata.AveragePack = getFloatValueNull("AveragePack", 2);
                 savedata.BoxPack = getFloatValueNull("BoxPack", 2);
                 savedata.RolMin = getFloatValueNull("RolMin", 2);
-                savedata.RolMax = getFloatValueNull("RolMax", 2);
-                savedata.GstCentralCess = getFloatValueZero("GstCentralCess", 2);
+                savedata.RolMax = getFloatValueNull("RolMax", 2);                
                 savedata.GstStateCess = getFloatValueZero("GstStateCess", 2);
                 savedata.Discount = getFloatValueZero("Discount", 2);
 
@@ -1419,6 +1419,7 @@
                                 $("#Title").val(result.data.title).trigger("change");
                                 $("#HSNCode").val(result.data.hsnCode).trigger("change");
                                 $("#HSNDesc").val(result.data.hsnDesc).trigger("change");
+                                $("#GstCentralCess").val(result.data.gstCentralCess).trigger("change");
 
                                 $("#PurchaseRate").val(((isNaN(parseFloat(result.data.purchaseRate)) ? 0.00 : parseFloat(result.data.purchaseRate))).toFixed(3)).trigger("change");
                                 $("#DenierWeight").val(parseFloat(result.data.denierWeight).toFixed(3)).trigger("change");
@@ -1432,7 +1433,6 @@
                                 $("#BoxPack").val(parseFloat(result.data.boxPack).toFixed(2)).trigger("change");
                                 $("#RolMin").val(parseFloat(result.data.rolMin).toFixed(2)).trigger("change");
                                 $("#RolMax").val(parseFloat(result.data.rolMax).toFixed(2)).trigger("change");
-                                $("#GstCentralCess").val(parseFloat(result.data.gstCentralCess).toFixed(2)).trigger("change");
                                 $("#GstStateCess").val(parseFloat(result.data.gstStateCess).toFixed(2)).trigger("change");
                                 $("#Discount").val(parseFloat(result.data.discount).toFixed(2)).trigger("change");
 

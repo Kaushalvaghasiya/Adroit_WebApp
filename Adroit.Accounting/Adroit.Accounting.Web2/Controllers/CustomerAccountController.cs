@@ -22,13 +22,13 @@ namespace Adroit.Accounting.Web.Controllers
 
             model.AccountGroupList = _customerAccountGroupRepo.CustomerAccountGroupByFirmIdList_Select(CurrentFirmId, _configurationData.DefaultConnection);
             model.AccountBranchMappingList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
-            model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
+            model.CityList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);
 
             model.AreaNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.AreaName);
             model.TransportNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.TransportName);
             model.NameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.Name);
             model.BrokerBranchMappingList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId, _configurationData.DefaultConnection);
-            model.BranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
+            model.BranchList = _customerFirmBranchRepository.SelectListByCustomerId(CurrentFirmId, _configurationData.DefaultConnection);
 
             return View(model);
         }

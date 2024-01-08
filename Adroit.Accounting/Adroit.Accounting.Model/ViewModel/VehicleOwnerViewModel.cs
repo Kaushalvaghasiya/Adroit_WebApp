@@ -6,7 +6,7 @@ namespace Adroit.Accounting.Model.ViewModel
 {
     public class VehicleOwnerViewModel : VehicleOwner
     {
-        public List<DropdownViewModel> CountryList { get; set; }
+        public List<DropdownViewModel> CityList { get; set; }
         public List<DropdownViewModel> AccountList { get; set; }
 
         public string AccountName { get; set; }

@@ -26,7 +26,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
 
             byte SoftwareId = _softwareRepository.GetSoftwareIdFirmId(CurrentFirmId, _configurationData.DefaultConnection);
-            model.BranchList = _customerFirmBranchRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
+            model.BranchList = _customerFirmBranchRepository.SelectListByCustomerId(CurrentUserId, _configurationData.DefaultConnection);
 
             model.CodeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductTable._TableName, ProductTable.Code);
             model.ProductList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ProductTable._TableName, ProductTable.Title);

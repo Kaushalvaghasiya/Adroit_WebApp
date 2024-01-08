@@ -26,8 +26,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Address2", value.Address2);
             parameters.Add("@Address3", value.Address3);
             parameters.Add("@CityId", value.CityId);
-            parameters.Add("@StateId", value.StateId);
-            parameters.Add("@CountryId", value.CountryId);
             parameters.Add("@Pincode", value.Pincode);
             parameters.Add("@KM", value.KM);
             parameters.Add("@ContactPersonName", value.ContactPersonName);

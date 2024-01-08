@@ -1,6 +1,7 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.Repository;
 using Adroit.Accounting.SQL.Tables;
 using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Utility;
@@ -9,12 +10,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace Adroit.Accounting.Web.Controllers
 {
     public partial class AdminController : MasterController
-    {
+    {   
         public IActionResult Account()
         {
             AccountAdminViewModel model = new();
             model.AccountGroupList = _accountGroupAdminRepository.GetAccountGroupAdmin_SelectList(_configurationData.DefaultConnection);
-            model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
+            model.CityList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);
 
             model.AreaNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, AccountAdminTable._TableName, AccountAdminTable.AreaName);
             model.TransportNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, AccountAdminTable._TableName, AccountAdminTable.TransportName);
