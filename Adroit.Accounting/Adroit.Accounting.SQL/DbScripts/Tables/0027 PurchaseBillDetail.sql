@@ -1,0 +1,8 @@
+ALTER TABLE [Z-PurchaseBillDetail-Z] ALTER COLUMN LRBookingId INT NULL
+GO
+
+IF NOT EXISTS (SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_NAME = 'Z-PurchaseBillDetail-Z' AND COLUMN_NAME = 'GSTCentralCess')
+BEGIN 
+	ALTER TABLE [dbo].[Z-PurchaseBillDetail-Z] ADD [GSTCentralCess] decimal(5,0) NULL;
+END
+GO
