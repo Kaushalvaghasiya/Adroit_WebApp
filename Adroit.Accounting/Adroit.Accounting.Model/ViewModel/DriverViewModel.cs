@@ -17,7 +17,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public string LicenceIssuePlace { get; set; }
         public List<DropdownViewModel> DriverNameList { get; set; }
         public List<DropdownViewModel> CustomerList { get; set; }
-        public List<DropdownViewModel> CountryList { get; set; }
         public List<DropdownViewModel> CityList { get; set; }
         public List<DropdownViewModel> MobileNoList { get; set; }
         public List<DropdownViewModel> LicenceNumberList { get; set; }

@@ -16,7 +16,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@UserId", userId);
             parameters.Add("@Address", value.Address ?? "");
             parameters.Add("@CityId", value.CityId);
-            parameters.Add("@StateId", value.StateId);
             parameters.Add("@PinCode", value.Pincode ?? "");
             parameters.Add("@LicenceIssuePlaceId", value.LicenceIssuePlaceId);
             parameters.Add("@LicenceNumber", value.LicenceNumber ?? "");

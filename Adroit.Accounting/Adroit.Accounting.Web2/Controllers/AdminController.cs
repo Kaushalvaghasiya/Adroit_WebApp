@@ -58,6 +58,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ITransportLRCharges _transportLRChargesRepository;
         private readonly IGSTCollection _gstCollectionRepository;
         private readonly ICustomerFirm _customerCustomerFirmRepository;
+        private readonly IDriver _driverRepository;
         public AdminController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
             IBookAdmin bookAdminRepository,
@@ -101,6 +102,7 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTRate gstRateRepository,
             IGSTInvoiceType gstInvoiceTypeRepository,
             IGSTPort gstPortRepository,
+            IDriver driverRepository,
             ITransportPackingAdmin transportPackingAdminRepository,
             ISalesBillFromAdmin salesBillFromAdminRepository,
             ITransportDescAdmin transportDescAdminRepository,
@@ -151,6 +153,7 @@ namespace Adroit.Accounting.Web.Controllers
             _gstRateRepository = gstRateRepository;
             _gstInvoiceTypeRepository = gstInvoiceTypeRepository;
             _gstPortRepository = gstPortRepository;
+            _driverRepository= driverRepository;
             _transportPackingAdminRepository = transportPackingAdminRepository;
             _salesBillFromAdminRepository = salesBillFromAdminRepository;
             _transportDescAdminRepository = transportDescAdminRepository;

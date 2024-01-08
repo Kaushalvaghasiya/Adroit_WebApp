@@ -5,7 +5,6 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_DriverSave]
 	 @Name		 nvarchar(100),
 	 @Address	 nvarchar(100),
 	 @CityId	 int,
-	 @StateId    int,
 	 @Pincode    varchar(10),
 	 @LicenceIssuePlaceId int,
 	 @LicenceNumber	varchar(20),
@@ -22,6 +21,15 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		Declare @CustomerId int = dbo.[fn_GetCustomerId](@UserId);
+		DECLARE @TalukaId INT
+		SELECT @TalukaId = City.TalukaId from City WHERE City.Id = @CityId;
+
+		DECLARE @DistrictId INT
+		SELECT @DistrictId = Taluka.DistrictId from Taluka WHERE Taluka.Id = @TalukaId;
+
+		DECLARE @StateId INT
+		SELECT @StateId = District.StateId from District WHERE District.Id = @DistrictId;
+
 		IF EXISTS (SELECT 1 FROM Driver WHERE Id = @Id And CustomerId = @CustomerId)
 			BEGIN
 					UPDATE Driver SET
