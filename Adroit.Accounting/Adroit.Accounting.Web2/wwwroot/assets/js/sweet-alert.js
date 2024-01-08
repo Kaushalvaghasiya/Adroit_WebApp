@@ -32,7 +32,7 @@ $(function(e){
 		var message = $("#message").val();
 		var title = $("#title").val();
 		if(message == ""){
-			message  = "New Notification from Sparic";
+			message  = "New Notification from Trackoit";
 		}
 		if(title == ""){
 			title = "Notification Styles";
@@ -51,7 +51,7 @@ $(function(e){
 		var message = $("#message").val();
 		var title = $("#title").val();
 		if(message == ""){
-			message  = "New Notification from Sparic";
+			message = "New Notification from Trackoit";
 		}
 		if(title == ""){
 			title = "Notification Styles";

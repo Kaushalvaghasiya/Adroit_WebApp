@@ -75,8 +75,24 @@
                     <div class="row" style="width: 42.5vw;">
                         <label for="CityIdFrom" class="col-lg-2 col-xl-2 col-md-2 col-sm-2" style="padding:10px 20px 0 0;">From City</label>
                         <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4" style="display:flex;">
-                            <select class="form-control select2-show-search-api" id="CityIdFrom">
-                                <option value=""></option>
+                            <select class="form-control select2-show-search" id="CityIdFrom">
+                                <option></option>
+                                @{
+                                    if (Model.CityList != null)
+                                    {
+                                        foreach (var o in Model.CityList)
+                                        {
+                                            if (@o.Value == $"{ViewBag.LoggedInBranchCity}")
+                                            {
+                                                <option value="@o.Value" selected>@o.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                }
                             </select>
                         </div>
                         <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6">
@@ -118,7 +134,7 @@
                                                 {
                                                     foreach (var o in Model.CityList)
                                                     {
-                                                        if (@o.Value != ViewBag.CurrentUserCity.ToString())
+                                                        if (@o.Value != ViewBag.LoggedInBranchCity.ToString())
                                                         {
                                                             <option value="@o.Value">@o.Text</option>
                                                         }
@@ -732,10 +748,6 @@
             $("#LRPayTypeId").val(@Model.CustomerFirmBranchTransportSetting.LRPayTypeId).trigger('change');
             var cookieValue = getCookie('@Html.Raw(lastLrToCityCookieName)');
             $("#CityIdTo").val(cookieValue).trigger('change');
-
-            var cityFromStr = "<option value='" + @Model.CityIdFrom + "'>" + "@Model.CityFrom" + "</option>";
-            $("#CityIdFrom").html(cityFromStr);
-            $("#CityIdFrom").val(@Model.CityIdFrom).trigger("change");
         }
 
         function viewMode(id) {
@@ -830,7 +842,7 @@
             colDef.push({
                 "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
-                    if (!row.isLRBookingPurchased){
+                    if (!row.isLRBookingPurchased) {
                         btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
                     }
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
@@ -891,7 +903,7 @@
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
                 },
-                "drawCallback": function (settings, ) {
+                "drawCallback": function (settings,) {
                     gridDrawCallback(this);
                 },
                 "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
@@ -1243,10 +1255,6 @@
                                 $("#Ch").val(result.data.branchChalanNo);
                                 $("#Truck").val(result.data.vehilcleNo);
                                 $("#TruckLoadDate").val(result.data.chalanDate !== '' ? moment(result.data.chalanDate.split('T')[0]).format('DD/MM/YYYY') : '');
-
-                                var cityFromStr = "<option value='" + result.data.cityIdFrom + "'>" + result.data.cityFrom + "</option>";
-                                $("#CityIdFrom").html(cityFromStr);
-                                $("#CityIdFrom").val(result.data.cityIdFrom).trigger("change");
 
                                 CalcNetAmount();
 

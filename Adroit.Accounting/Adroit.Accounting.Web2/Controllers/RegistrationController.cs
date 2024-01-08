@@ -25,13 +25,13 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegistrationController> _logger;
         private readonly IEmailService _emailService;
-        public RegistrationController(ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData, 
-            ICustomer customerRepo, 
-            IState stateRepo, 
+        public RegistrationController(ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
+            ICustomer customerRepo,
+            IState stateRepo,
             ICity cityRepo,
             ICountry countryRepo,
-            IBusiness businessRepo, 
-            UserManager<IdentityUser> userManager, 
+            IBusiness businessRepo,
+            UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             ILogger<RegistrationController> logger,
             IEmailService emailService)
@@ -82,6 +82,8 @@ namespace Adroit.Accounting.Web.Controllers
                         MobileOtp = RandomNumber.SixDigigNumber(),
                         CustomerType = CustomerType.Inquiry,
                         StatusId = CustomerStatus.Registered,
+                        TotalFirm = 1,
+                        TotalUsers = 1,
                     });
                 if (data.id > 0)
                 {

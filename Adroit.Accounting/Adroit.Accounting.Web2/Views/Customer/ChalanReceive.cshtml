@@ -35,10 +35,24 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">CHALLAN#</th>
-                                    <th class="border-bottom-0">DATE</th>
-                                    <th class="border-bottom-0">AMOUNT</th>
+                                    <th class="border-bottom-0">BRANCH REC#</th>
+                                    <th class="border-bottom-0">FIRM REC#</th>
+                                    <th class="border-bottom-0">ARRIVAL DATE</th>
+                                    <th class="border-bottom-0">VEHICLE #</th>
+                                    <th class="border-bottom-0">SENDER NAME</th>
+                                    <th class="border-bottom-0">CH.</th>
+                                    <th class="border-bottom-0">CH. DATE</th>
+                                    <th class="border-bottom-0">FREIGHT</th>
+                                    <th class="border-bottom-0">FROM CITY</th>
                                     <th class="border-bottom-0">TO CITY</th>
+                                    <th class="border-bottom-0">NET AMOUNT</th>
+                                    <th class="border-bottom-0">BILL PARTY</th>
+                                    <th class="border-bottom-0">TO PAY LR</th>
+                                    <th class="border-bottom-0">TO PAY LR AMT.</th>
+                                    <th class="border-bottom-0">PAID LR</th>
+                                    <th class="border-bottom-0">PAID LR AMT.</th>
+                                    <th class="border-bottom-0">TBB LR</th>
+                                    <th class="border-bottom-0">TBB LR AMT.</th>
                                     <th class="border-bottom-0 text-center" style="width:80px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -478,9 +492,9 @@
             $("#btnChalanSearch").on('click', function (e) {
                 if ($('#Chalan').val() == null || $('#Chalan').val() == '') {
                     showWarning("", "Please select Chalan.");
-                } else if ($('#hdnCheckedLRNumberIds').val() == '') {
-                    GetChalanMasterListByChalanNumber($('#Chalan').val());
-                    GetChalanDetailListByChalanNumber($('#Chalan').val());
+                } else if (($('#hdnCheckedLRNumberIds').val() == '') && ($("#SenderNameId").val() != '' || $("#SenderNameId").val() != null)) {
+                    GetChalanMasterListByChalanNumber($('#Chalan').val(), $('#SenderNameId').val());
+                    GetChalanDetailListByChalanNumber($('#Chalan').val(), $('#SenderNameId').val());
                 }
                 else {
                     $('#confirmationModal').modal('show');
@@ -488,8 +502,8 @@
             });
 
             $("#btnYes").on('click', function (e) {
-                GetChalanMasterListByChalanNumber($('#Chalan').val());
-                GetChalanDetailListByChalanNumber($('#Chalan').val());
+                GetChalanMasterListByChalanNumber($('#Chalan').val(), $('#SenderNameId').val());
+                GetChalanDetailListByChalanNumber($('#Chalan').val(), $('#SenderNameId').val());
                 $('#confirmationModal').modal('hide');
             });
         });
@@ -532,13 +546,50 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
+                    return row.billNumberFirm;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
                     return moment(row.receiveDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.netAmount;
+                    return row.vehilcleNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.senderName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.chalanNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.chalanDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.freight || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityFrom;
                 },
                 "targets": colDef.length,
             });
@@ -547,6 +598,61 @@
                     return row.cityTo;
                 },
                 "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.netAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billParty;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.toPayLR;
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.toPayLRAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.paidLR;
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.paidLRAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.tbblr;
+                },
+                "targets": colDef.length,
+                "class": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.tbblrAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "class": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -563,9 +669,23 @@
             });
 
             columns.push({ "data": "billNumberBranch", "name": "billNumberBranch" });
+            columns.push({ "data": "billNumberFirm", "name": "billNumberFirm" });
             columns.push({ "data": "receiveDate", "name": "receiveDate" });
-            columns.push({ "data": "netAmount", "name": "netAmount" });
+            columns.push({ "data": "vehilcleNumber", "name": "vehilcleNumber" });
+            columns.push({ "data": "senderName", "name": "senderName" });
+            columns.push({ "data": "chalanNumber", "name": "chalanNumber" });
+            columns.push({ "data": "chalanDate", "name": "chalanDate" });
+            columns.push({ "data": "freight", "name": "freight" });
+            columns.push({ "data": "cityFrom", "name": "cityFrom" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "netAmount", "name": "netAmount" });
+            columns.push({ "data": "billParty", "name": "billParty" });
+            columns.push({ "data": "toPayLR", "name": "toPayLR" });
+            columns.push({ "data": "toPayLRAmount", "name": "toPayLRAmount" });
+            columns.push({ "data": "paidLR", "name": "paidLR" });
+            columns.push({ "data": "paidLRAmount", "name": "paidLRAmount" });
+            columns.push({ "data": "tbbLR", "name": "tbbLR" });
+            columns.push({ "data": "tbbLRAmount", "name": "tbbLRAmount" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -802,14 +922,15 @@
                                 $('#contentRow').html('');
 
                                 $("#Id").val(result.data.id);
+                                $("#SenderNameId").val(result.data.senderId).trigger('change');
                                 $("#ReceiveDate").val(moment(result.data.receiveDate.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#GoDownNumber").val(result.data.goDownNumber).trigger('change');
                                 $("#BillNumberBranch").val(result.data.billNumberBranch);
                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
                                 $("#hdnPurchaseBillMasterId").val(result.data.purchaseBillMasterId);
-
-                                GetChalanMasterListByChalanNumber(result.data.chalanNumber);
-                                GetChalanDetailListByChalanNumber(result.data.chalanNumber);
+                                
+                                GetChalanMasterListByChalanNumber(result.data.chalanNumber,result.data.senderId);
+                                GetChalanDetailListByChalanNumber(result.data.chalanNumber,result.data.senderId);
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -861,15 +982,15 @@
 
         }
 
-        function GetChalanMasterListByChalanNumber(Chalan) {
+        function GetChalanMasterListByChalanNumber(Chalan, SenderNameId) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanMasterListByChalanNumber"))" + "/" + Chalan, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanMasterListByChalanNumber"))" + "/" + Chalan + "/" + SenderNameId, "",
                     function (result) {
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
-
+                                
                                 $("#hdnPurchaseBillMasterId").val(result.data.id);
                                 $("#Date").val(moment(result.data.receiveDate.split('T')[0]).format('DD/MM/YYYY'));
                                 $("#CityFrom").val(result.data.cityFrom);
@@ -921,10 +1042,10 @@
             }
         }
 
-        function GetChalanDetailListByChalanNumber(Chalan) {
+        function GetChalanDetailListByChalanNumber(Chalan,SenderNameId) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/getChalanDetailListByChalanNumber"))" + "/" + Chalan, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/getChalanDetailListByChalanNumber"))" + "/" + Chalan + "/" + SenderNameId, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -1072,7 +1193,7 @@
                 var htmlContent = '<tr class="rounded content-rows" id="row-' + i + '">' +
                     '<td class="text-center">' +
                         '<label>' +
-                            '<input type="checkbox" id="checkbox-' + selectedLRDetails[i].lrNumber + '" name="checkbox-' + selectedLRDetails[i].received + '">' +
+                            '<input type="checkbox" id="checkbox-' + selectedLRDetails[i].id + '" name="checkbox-' + selectedLRDetails[i].received + '">' +
                         '</label>' +
                     '</td>' +
                     '<td class="text-center">' +
@@ -1121,7 +1242,7 @@
 
                 htmlContentArray.push(htmlContent);
 
-                addedIds.push(selectedLRDetails[i].lrNumber);
+                addedIds.push(selectedLRDetails[i].id);
 
             }
 
@@ -1169,19 +1290,19 @@
         }
 
         function updateSelectedIdsInput() {
-            var uniqueIds = [...new Set(selectedLRDetails.map(item => item.lrNumber))];
+            var uniqueIds = [...new Set(selectedLRDetails.map(item => item.id))];
             updateHiddenInput(uniqueIds);
 
-            uniqueIds.forEach(function (lrNumber) {
+            uniqueIds.forEach(function (id) {
 
                 $('[id^="checkbox-"]').each(function () {
                     var checkboxId = $(this).attr('id');
                     var currentLrNumber = checkboxId.split('-')[1];
 
-                    if (parseInt(currentLrNumber) === lrNumber) {
+                    if (parseInt(currentLrNumber) === id) {
                         var rowId = $(this).closest('.content-rows').attr('id');
                         if (rowId !== null) {
-                            GetChalanReceiveToPayAmount(lrNumber, rowId);
+                            GetChalanReceiveToPayAmount(id, rowId);
                         }
                     }
                 });
@@ -1220,14 +1341,14 @@
                 if ($(this).is(':checked')) {
                     selectedCheckboxIds.push(selectedId);
                     TotalSelectedLR += 1;
-                    var selectedDetail = selectedLRDetails.find(item => item.lrNumber === selectedId);
+                    var selectedDetail = selectedLRDetails.find(item => item.id === selectedId);
                     if (selectedDetail) {
                         TotalSelectedPkg += (+selectedDetail.packing || 0);
                         TotalSelectedWgt += (+selectedDetail.chargeWeight || 0);
                     }
                 } else {
                     TotalDeclinedLR += 1;
-                    var unselectedDetail = selectedLRDetails.find(item => item.lrNumber === selectedId);
+                    var unselectedDetail = selectedLRDetails.find(item => item.id === selectedId);
                     if (unselectedDetail) {
                         TotalDeclinedPkg += (+unselectedDetail.packing || 0);
                         TotalDeclinedWgt += (+unselectedDetail.chargeWeight || 0);

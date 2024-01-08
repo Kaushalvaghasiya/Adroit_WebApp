@@ -11,6 +11,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> CustomerFirmBranchList { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
         public int LoginId { get; set; }
+        public int SenderId { get; set; }
         public string? CheckedLRNumberIds { get; set; }
         public string? UnCheckedLRNumberIds { get; set; }
         public bool? Received { get; set; }
@@ -61,6 +62,14 @@ namespace Adroit.Accounting.Model.ViewModel
         public string CrossingCommissionAccountLabel { get; set; }
         public string CrossingHamaliAccountLabel { get; set; }
         public string CrossingDeliveryChargeAccountLabel { get; set; }
-
+        public string SenderName { get; set; }
+        public System.DateTime ChalanDate { get; set; }
+        public decimal? Freight { get; set; }
+        public decimal? ToPayLR { get; set; }
+        public decimal? ToPayLRAmount { get; set; }
+        public decimal? PaidLR { get; set; }
+        public decimal? PaidLRAmount { get; set; }
+        public decimal? TBBLR { get; set; }
+        public decimal? TBBLRAmount { get; set; }
     }
 }

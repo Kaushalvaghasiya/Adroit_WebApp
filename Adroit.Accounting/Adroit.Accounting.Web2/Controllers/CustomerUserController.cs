@@ -28,7 +28,7 @@ namespace Adroit.Accounting.Web.Controllers
                 model.Customer = Customer;
             }
 
-            model.BranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
+            model.BranchList = _customerFirmBranchRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
             return View(model);
         }
 

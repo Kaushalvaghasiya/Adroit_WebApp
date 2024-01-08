@@ -91,6 +91,11 @@ BEGIN
 				SELECT @LRNumber = StartNumber
 				FROM LRBookingRange 
 				WHERE FirmId = @FirmId AND BranchId = @BranchId AND YearId = @YearId AND Active = 1 AND Deleted = 0
+				IF (@LRNumber IS NULL)
+				BEGIN
+					SET @message = 'LR Range does not exist.';
+					RAISERROR ('%s', 16, 1, @message);
+				END
 			END
 			ELSE
 			BEGIN
@@ -139,33 +144,17 @@ BEGIN
 			RAISERROR ('%s', 16, 1, @message);
 		END
 
-		IF ISNULL(@DescriptionId, 0) <= 0 AND ISNULL(@Description,'') != '' AND @Description NOT IN ( SELECT Title From TransportDesc WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
+		IF NOT EXISTS (SELECT Title From TransportDesc WHERE CustomerId = @CustomerId AND Title = @Description)
 		BEGIN
 			EXEC @DescriptionId = dbo.sp_TransportDescSave 0, @LoginId, @Description , 0, @LoginId, @LoginId, 1
-			SELECT @DescriptionId = Id FROM TransportDesc WHERE Title = @Description AND Active = 1
 		END
-		ELSE IF ISNULL(@DescriptionId, 0) <= 0 AND ISNULL(@Description,'') != ''
-		BEGIN
-			SELECT @DescriptionId = Id FROM TransportDesc WHERE Title = @Description AND Active = 1
-		END
-		ELSE
-		BEGIN
-			SELECT @DescriptionId = NULL
-		END
+		SELECT @DescriptionId = Id FROM TransportDesc WHERE CustomerId = @CustomerId AND Title = @Description AND Active = 1
 
-		IF ISNULL(@PackingId, 0) <= 0 AND ISNULL(@Packing,'') != '' AND @Packing NOT IN ( SELECT Title From TransportPacking WHERE CustomerId = @CustomerId AND Active = 1 AND Deleted = 0 )
+		IF NOT EXISTS (SELECT Title From TransportPacking WHERE CustomerId = @CustomerId AND Title = @Packing)
 		BEGIN
 			EXEC @PackingId = dbo.sp_TransportPackingSave 0, @LoginId, @Packing , 1, 0, @LoginId, @LoginId
-			SELECT @PackingId = Id FROM TransportPacking WHERE Title = @Packing AND Active = 1
 		END
-		ELSE IF ISNULL(@PackingId, 0) <= 0 AND ISNULL(@Packing,'') != ''
-		BEGIN
-			SELECT @PackingId = Id FROM TransportPacking WHERE Title = @Packing AND Active = 1
-		END
-		ELSE
-		BEGIN
-			SELECT @PackingId = NULL
-		END
+		SELECT @PackingId = Id FROM TransportPacking WHERE CustomerId = @CustomerId AND Title = @Packing
 
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM [Z-LRBooking-Z] 

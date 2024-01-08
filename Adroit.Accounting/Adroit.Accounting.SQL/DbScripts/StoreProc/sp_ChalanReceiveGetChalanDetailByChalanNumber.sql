@@ -1,14 +1,15 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanReceiveGetChalanDetailByChalanNumber]
   @LoginId int,
   @FirmId int,
-  @ChalanNumber int
+  @ChalanNumber int,
+  @SenderId int
 AS
 BEGIN
 	DECLARE @CustomerId int = dbo.fn_GetCustomerId(@LoginId);
 	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
-	SELECT PBD.Id AS LRBookingId
-	,PBD.LRBookingId AS LRNumber
+	SELECT PBD.LRBookingId AS LRBookingId
+	,LBZ.LRNumber AS LRNumber
 	,PBD.Received AS Received
 	,LBZ.LRDate AS LRDate 
 	,LBZ.PrivateMarka AS PrivateMarka
@@ -30,6 +31,6 @@ BEGIN
 	AND PBM.FirmId = @FirmId
 	AND PBM.Deleted = 0
 	AND PBM.BillNumberBranch = @ChalanNumber
-
+	AND PBM.BranchId = @SenderId
 END
 GO
