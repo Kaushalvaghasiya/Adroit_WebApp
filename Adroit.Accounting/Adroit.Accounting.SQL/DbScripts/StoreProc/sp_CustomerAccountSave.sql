@@ -9,9 +9,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountSave]
 	,@Address1 NVARCHAR(100)
 	,@Address2 NVARCHAR(100)
 	,@Address3 NVARCHAR(100)
-	,@CityId INT
-	,@StateId INT
-	,@CountryId INT
+	,@CityId INT	
 	,@Pincode VARCHAR(10)
 	,@KM VARCHAR(4)
 	,@ContactPersonName NVARCHAR(30)
@@ -45,12 +43,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountSave]
 	,@RCMParty BIT
 	,@CapitalPercentage DECIMAL(5,2)
 	,@OwnerBranchId INT
-	,@Active BIT
-	,@City NVARCHAR(100)
-	,@DistrictId INT
-	,@District  NVARCHAR(100)
-	,@TalukaId INT
-	,@Taluka NVARCHAR(100)
+	,@Active BIT	
 	,@Remarks  NVARCHAR(max)
 	,@CustomerAccountBranchIds NVARCHAR(MAX)
 
@@ -60,6 +53,18 @@ BEGIN
 	BEGIN TRAN
 	BEGIN TRY
 		Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
+
+		DECLARE @TalukaId INT
+		SELECT @TalukaId = City.TalukaId from City WHERE City.Id = @CityId;
+
+		DECLARE @DistrictId INT
+		SELECT @DistrictId = Taluka.DistrictId from Taluka WHERE Taluka.Id = @TalukaId;
+
+		DECLARE @StateId INT
+		SELECT @StateId = District.StateId from District WHERE District.Id = @DistrictId;
+
+		DECLARE @CountryId SMALLINT
+		SELECT @CountryId = State.CountryId from State WHERE State.Id = @StateId;
 
 		DECLARE @StateCode VARCHAR(5) = (
 			SELECT Code
@@ -73,27 +78,6 @@ BEGIN
 
 			SET @message = 'Invaild GST Number.';
 			RAISERROR ('%s', 16, 1, @message);
-		END
-
-		IF(ISNULL(@CountryId,0) >= 0 AND ISNULL(@StateId,0) >= 0)
-		BEGIN 			
-			IF(ISNULL(@District,'') != '' AND ISNULL(@DistrictId,0) <= 0)
-			BEGIN 
-				EXEC @DistrictId = [dbo].[sp_DistrictSave] 0,@District,@StateId,1
-				SELECT @DistrictId = Id FROM District WHERE Title = @District AND Active = 1
-			END
-			
-			IF(ISNULL(@DistrictId,0) >= 0 AND ISNULL(@Taluka,'') != '' AND ISNULL(@TalukaId,0) <= 0)
-			BEGIN 
-				EXEC @TalukaId = [dbo].[sp_TalukaSave] 0,@Taluka,@DistrictId,1
-				SELECT @TalukaId = Id FROM Taluka WHERE Title = @Taluka AND Active = 1
-			END
-
-			IF(ISNULL(@TalukaId,0) >= 0 AND ISNULL(@City,'') != '' AND ISNULL(@CityId,0) <= 0)
-			BEGIN 
-				EXEC @CityId = [dbo].[sp_CitySave] 0,@City,@TalukaId,1
-				SELECT @CityId = Id FROM City WHERE Title = @City AND Active = 1
-			END
 		END
 
 		DECLARE @IdCheck INT

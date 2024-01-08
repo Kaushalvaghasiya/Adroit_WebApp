@@ -160,6 +160,7 @@
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchListByCustomerId_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchListByFirmId_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchListByLoginId_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_CustomerFirmBranchListWithFirmName_Select.sql" />
@@ -341,11 +342,13 @@
     <None Remove="DbScripts\StoreProc\sp_ProductSubGroupList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ProductSubGroupList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_ProductSubGroupSave.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ReceiveInvoiceList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingBookingRegisterList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingChalanLoadingList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingDailySummaryList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingLRRegisterList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingMonthlySummaryList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ReportLRBookingStockRegisterList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingStockRegisterListWithSummary.sql" />
     <None Remove="DbScripts\StoreProc\sp_SalesBillFromAdminDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_SalesBillFromAdminGet.sql" />
@@ -449,6 +452,7 @@
     <None Remove="DbScripts\Tables\0024 ChalanReceive.sql" />
     <None Remove="DbScripts\Tables\0025 ChalanReceiveAgencyMaster.sql" />
     <None Remove="DbScripts\Tables\0026 ChalanReceiveAgencyDetail.sql" />
+    <None Remove="DbScripts\Tables\0316 Product GstCentralCess changes.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -476,10 +480,10 @@
     <EmbeddedResource Include="DbScripts\StoreProc\fn_GetCustomerType.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\fn_GetLoggedInFirmId.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\fn_GetLoggedInBranchId.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\fn_GetLoggedInBranchId.sql">
+    <EmbeddedResource Include="DbScripts\StoreProc\fn_GetLoggedInFirmId.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\fn_GetUserBranches.sql">
@@ -891,6 +895,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchListByCustomerId_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_CustomerFirmBranchListByFirmId_Select.sql">
@@ -1436,6 +1443,9 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ProductSubGroupSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ReceiveInvoiceList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ReportLRBookingBookingRegisterList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -1451,9 +1461,12 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ReportLRBookingMonthlySummaryList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-	  <EmbeddedResource Include="DbScripts\StoreProc\sp_ReportLRBookingStockRegisterListWithSummary.sql">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ReportLRBookingStockRegisterList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ReportLRBookingStockRegisterListWithSummary.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_SalesBillFromAdminDelete.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -1758,6 +1771,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\Tables\0026 ChalanReceiveAgencyDetail.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\Tables\0316 Product GstCentralCess changes.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
