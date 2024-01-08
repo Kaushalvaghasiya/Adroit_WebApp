@@ -13,6 +13,7 @@ namespace Adroit.Accounting.Model
         public int FirmId { get; set; }
         public bool IsWeightRoundOff { get; set; }
         public bool IsPartyAndCityRateFromLastLR { get; set; }
+        public bool IsTaxCalculateGTASales { get; set; }
         public string LRBookChargeLable1 { get; set; }
         public string LRBookChargeLable2 { get; set; }
         public string LRBookChargeLable3 { get; set; }

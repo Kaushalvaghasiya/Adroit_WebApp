@@ -40,6 +40,7 @@
                                     <th class="border-bottom-0" style="width:100px">LAST LR RATE</th>
                                     <th class="border-bottom-0" style="width:100px">URD RCM</th>
                                     <th class="border-bottom-0" style="width:100px">RCM LIMIT</th>
+                                    <th class="border-bottom-0" style="width:100px">GAT TAX</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
                             </thead>
@@ -341,7 +342,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-12">
+                        <div class="col-lg-2 col-md-12">
                             <div class="form-group">
                                 <div><label for="ReverseChargeApplyForURDParty">Is Rev Charge Apply For URD</label></div>
                                 <label class="custom-switch">
@@ -350,10 +351,19 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="col-lg-3 col-md-12">
+                        <div class="col-lg-2 col-md-12">
                             <div class="form-group">
                                 <label for="ReverseChargeLimitForSalesGST">Reverce Charge Limit</label>
                                 <input type="text" class="form-control mode-ed" id="ReverseChargeLimitForSalesGST" placeholder="" maxlength="100">
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-12">
+                            <div class="form-group">
+                                <div><label for="IsTaxCalculateGTASales">Is Tax Calculate (GTA Sales)</label></div>
+                                <label class="custom-switch">
+                                    <input id="IsTaxCalculateGTASales" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -453,6 +463,13 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
+                    return row.isTaxCalculateGTASales ? "Yes" : "No";
+                },
+                "targets": colDef.length,
+                "className": "text-center"
+            });
+            colDef.push({
+                "render": function (data, type, row) {
                     let btnAct = "<div class='btn-list'> ";
                     btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.firmId + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.firmId + "' data-toggle='tooltip' title='' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
@@ -470,6 +487,7 @@
             columns.push({ "data": "isPartyAndCityRateFromLastLR", "name": "isPartyAndCityRateFromLastLR" });
             columns.push({ "data": "reverseChargeApplyForURDParty", "name": "reverseChargeApplyForURDParty" });
             columns.push({ "data": "reverseChargeLimitForSalesGST", "name": "reverseChargeLimitForSalesGST" });
+            columns.push({ "data": "isTaxCalculateGTASales", "name": "isTaxCalculateGTASales" });
 
 
             var table = $('#tblMain').DataTable({
@@ -531,6 +549,7 @@
             $("#IsWeightRoundOff").prop('checked', false);
             $("#IsPartyAndCityRateFromLastLR").prop('checked', false);
             $("#ReverseChargeApplyForURDParty").prop('checked', false);
+            $("#IsTaxCalculateGTASales").prop('checked', false);
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -578,6 +597,7 @@
                 savedata.IsWeightRoundOff = $("#IsWeightRoundOff").is(':checked');
                 savedata.IsPartyAndCityRateFromLastLR = $('#IsPartyAndCityRateFromLastLR').is(':checked');
                 savedata.ReverseChargeApplyForURDParty = $('#ReverseChargeApplyForURDParty').is(':checked');
+                savedata.IsTaxCalculateGTASales = $('#IsTaxCalculateGTASales').is(':checked');
                 
                 blockUI('container');
 
@@ -652,6 +672,7 @@
                                 $("#IsWeightRoundOff").prop('checked', result.data.isWeightRoundOff);
                                 $("#IsPartyAndCityRateFromLastLR").prop('checked', result.data.isPartyAndCityRateFromLastLR);
                                 $("#ReverseChargeApplyForURDParty").prop('checked', result.data.reverseChargeApplyForURDParty);
+                                $("#IsTaxCalculateGTASales").prop('checked', result.data.isTaxCalculateGTASales);
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info

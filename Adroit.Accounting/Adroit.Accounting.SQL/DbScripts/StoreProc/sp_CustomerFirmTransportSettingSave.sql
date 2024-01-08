@@ -18,6 +18,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_CustomerFirmTransportSettingSave]
 	 ,@IsWeightRoundOff BIT
 	 ,@IsPartyAndCityRateFromLastLR BIT
 	 ,@ReverseChargeApplyForURDParty BIT
+	 ,@IsTaxCalculateGTASales BIT
 	 ,@ReverseChargeLimitForSalesGST DECIMAL(6,2)
 
 )
@@ -47,6 +48,7 @@ BEGIN
 			,IsPartyAndCityRateFromLastLR = @IsPartyAndCityRateFromLastLR
 			,ReverseChargeApplyForURDParty = @ReverseChargeApplyForURDParty
 			,ReverseChargeLimitForSalesGST = @ReverseChargeLimitForSalesGST
+			,IsTaxCalculateGTASales = @IsTaxCalculateGTASales
 			,ModifiedById = @LoginId
 			,ModifiedOn = GETUTCDATE()
 			WHERE FirmId = @FirmId
@@ -58,12 +60,12 @@ BEGIN
 			INSERT INTO CustomerFirmTransportSetting (FirmId,ProductIdForSales,LRBookChargeLable1,LRBookChargeLable2,LRBookChargeLable3
 				,LRBookChargeLable4,LRBookChargeLable5,LRBookChargeLable6,DeliveryChargeLable1,DeliveryChargeLable2,DeliveryChargeLable3
 				,DeliveryChargeLable4,DeliveryChargeLable5,DeliveryChargeLable6,IsWeightRoundOff,IsPartyAndCityRateFromLastLR
-				,ReverseChargeApplyForURDParty,ReverseChargeLimitForSalesGST,AddedOn,AddedById)
+				,IsTaxCalculateGTASales,ReverseChargeApplyForURDParty,ReverseChargeLimitForSalesGST,AddedOn,AddedById)
 			VALUES
 				(@FirmId,@ProductIdForSales,@LRBookChargeLable1,@LRBookChargeLable2,@LRBookChargeLable3,@LRBookChargeLable4,@LRBookChargeLable5
 				,@LRBookChargeLable6,@DeliveryChargeLable1,@DeliveryChargeLable2,@DeliveryChargeLable3,@DeliveryChargeLable4,@DeliveryChargeLable5
-				,@DeliveryChargeLable6,@IsWeightRoundOff,@IsPartyAndCityRateFromLastLR,@ReverseChargeApplyForURDParty,@ReverseChargeLimitForSalesGST
-				,GETUTCDATE(),@LoginId)
+				,@DeliveryChargeLable6,@IsWeightRoundOff,@IsPartyAndCityRateFromLastLR,@IsTaxCalculateGTASales,@ReverseChargeApplyForURDParty
+				,@ReverseChargeLimitForSalesGST,GETUTCDATE(),@LoginId)
 
 		END
 
