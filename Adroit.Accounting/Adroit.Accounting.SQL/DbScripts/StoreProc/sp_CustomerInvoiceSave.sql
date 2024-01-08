@@ -71,7 +71,7 @@ BEGIN
 	BEGIN TRY
 		DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
-		DECLARE @InvoiceMaxDate VARCHAR(20)=NULL, @InvoiceMinDate VARCHAR(20)=NULL;
+		DECLARE @InvoiceMaxDate Date=NULL, @InvoiceMinDate Date=NULL;
 
 		DECLARE @message VARCHAR(4000);
 
@@ -89,52 +89,52 @@ BEGIN
 
 		IF (ISNULL(@SerialNumberOfBranch,0) = 0 AND ISNULL(@BillNumber,0) = 0)
 		BEGIN
-		    SELECT @InvoiceMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+		    SELECT @InvoiceMaxDate = Cast(MAX(BillDate) as Date) 
 			FROM [Z-SalesBillMaster-Z]
 			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 			
-			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CONVERT(DATETIME, GETDATE()))
+			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CAST(GETDATE() AS DATE))
 
 		    IF (@BillDate < @InvoiceMaxDate)
 		    BEGIN
-		        SET @message = 'Please select a date on or after ' + @InvoiceMaxDate;
+		        SET @message = 'Please select a date on or after ' + CONVERT(VARCHAR, @InvoiceMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
 		    END
 		END
 		ELSE IF (ISNULL(@SerialNumberOfBranch,0) = 0)
 		BEGIN
-		    SELECT @InvoiceMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+		    SELECT @InvoiceMaxDate = CAST(MAX(BillDate) AS DATE)
 			FROM [Z-SalesBillMaster-Z]
 			WHERE [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
-			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CONVERT(DATETIME, GETDATE()))
+			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CAST(GETDATE() AS DATE))
 
 		    IF (@BillDate < @InvoiceMaxDate)
 		    BEGIN
-		        SET @message = 'Please select a date on or after ' + @InvoiceMaxDate;
+		        SET @message = 'Please select a date on or after ' + CONVERT(VARCHAR, @InvoiceMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
 		    END
 		END
 		ELSE IF (ISNULL(@BillNumber,0) = 0)
 		BEGIN
-		    SELECT @InvoiceMaxDate = ISNULL(CONVERT(VARCHAR(10), MAX(BillDate), 103), CONVERT(VARCHAR(10), GETDATE(), 103)) 
+		    SELECT @InvoiceMaxDate = CAST(MAX(BillDate) AS DATE)
 			FROM [Z-SalesBillMaster-Z]
 			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
-			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CONVERT(DATETIME, GETDATE()))
+			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CAST(GETDATE() AS DATE))
 			
 		    IF (@BillDate < @InvoiceMaxDate)
 		    BEGIN
-		        SET @message = 'Please select a date on or after ' + @InvoiceMaxDate;
+		        SET @message = 'Please select a date on or after ' + CONVERT(VARCHAR, @InvoiceMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
 		    END
 		END
 		ELSE
 		BEGIN
-		    SELECT TOP 1 @InvoiceMaxDate = ISNULL(CONVERT(VARCHAR(10), BillDate, 103), CONVERT(VARCHAR(10), GETDATE(), 103))
+		    SELECT TOP 1 @InvoiceMaxDate = CAST(BillDate AS DATE)
 		    FROM [Z-SalesBillMaster-Z]
 		    WHERE BranchId = @BranchId AND SerialNumberOfBranch < @SerialNumberOfBranch AND BillNumber < @BillNumber AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		    ORDER BY SerialNumberOfBranch, BillNumber DESC;
-			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , DATEADD(DAY, -1, @InvoiceMaxDate))
+			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , DATEADD(DAY, -1, CAST(GETDATE() AS DATE)))
 			
-		    SELECT TOP 1 @InvoiceMinDate = ISNULL(CONVERT(VARCHAR(10), BillDate, 103), DATEADD(DAY, 1, @InvoiceMaxDate))
+		    SELECT TOP 1 @InvoiceMinDate = CAST(ISNULL(BillDate, DATEADD(DAY, 1, @InvoiceMaxDate)) AS DATE)
 		    FROM [Z-SalesBillMaster-Z]
 		    WHERE BranchId = @BranchId AND SerialNumberOfBranch > @SerialNumberOfBranch AND BillNumber > @BillNumber AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		    ORDER BY SerialNumberOfBranch, BillNumber DESC;
@@ -143,7 +143,7 @@ BEGIN
 			
 		    IF NOT (@BillDate BETWEEN @InvoiceMaxDate AND @InvoiceMinDate)
 		    BEGIN
-		        SET @message = 'Please select a date between ' + @InvoiceMaxDate + ' and ' + @InvoiceMinDate;
+		        SET @message = 'Please select a date between ' + CONVERT(VARCHAR, @InvoiceMaxDate, 103) + ' and ' + CONVERT(VARCHAR, @InvoiceMinDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
 		    END
 		END
@@ -217,14 +217,14 @@ BEGIN
 		BEGIN
 			SELECT @SerialNumberOfBranch = ISNULL(MAX(SerialNumberOfBranch),0) + 1
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			WHERE [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-SalesBillMaster-Z].EntryTypeId = @EntryTypeId 
 		END
 
 		IF ISNULL(@BillNumber, 0) = 0
 		BEGIN
 			SELECT @BillNumber = ISNULL(MAX(BillNumber),0) + 1
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-SalesBillMaster-Z].EntryTypeId = @EntryTypeId 
 		END
 
 		DECLARE @IdCheck INT

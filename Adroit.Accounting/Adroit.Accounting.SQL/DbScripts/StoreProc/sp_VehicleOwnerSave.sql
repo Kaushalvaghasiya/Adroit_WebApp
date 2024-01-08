@@ -5,7 +5,6 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_VehicleOwnerSave]
 	 @Name VARCHAR(70),
 	 @Address NVARCHAR(150),
 	 @CityId int,
-	 @StateId int,
 	 @PinCode varchar(10),
 	 @Mobile varchar(15),
 	 @PAN varchar(12),
@@ -21,6 +20,15 @@ BEGIN
 	BEGIN TRY
 		
 		Declare @CustomerId int = dbo.fn_GetCustomerId(@UserId);
+
+		DECLARE @TalukaId INT
+		SELECT @TalukaId = City.TalukaId from City WHERE City.Id = @CityId;
+
+		DECLARE @DistrictId INT
+		SELECT @DistrictId = Taluka.DistrictId from Taluka WHERE Taluka.Id = @TalukaId;
+
+		DECLARE @StateId INT
+		SELECT @StateId = District.StateId from District WHERE District.Id = @DistrictId;
 
 		IF EXISTS (SELECT 1 FROM VehicleOwner WHERE Id = @Id And CustomerId = @CustomerId)
 			BEGIN

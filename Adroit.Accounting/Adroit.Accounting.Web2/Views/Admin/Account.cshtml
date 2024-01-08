@@ -148,49 +148,20 @@
                                 <label for="Address3">Address Line 3</label>
                                 <input type="text" class="form-control" id="Address3" placeholder="" maxlength="100">
                             </div>
-                        </div>
+                        </div>                        
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="CountryId">Country</label>
-                                <select class="form-control select2-show-search" id="CountryId">
-                                    <option></option>
+                                <label for="CityId">City</label>
+                                <select class="form-control select2-show-search-clear" id="CityId">
                                     @{
-                                        if (Model.CountryList != null)
+                                        if (Model.CityList != null)
                                         {
-                                            foreach (var o in Model.CountryList)
+                                            foreach (var o in Model.CityList)
                                             {
                                                 <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="StateId">State</label>
-                                <select class="form-control select2-show-search-clear" id="StateId">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="District">District</label>
-                                <select class="form-control select2-show-search-clear" id="District">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="Taluka">Taluka</label>
-                                <select class="form-control select2-show-search-clear" id="Taluka">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="CityId">City</label>
-                                <select class="form-control select2-show-search-clear" id="CityId">
                                 </select>
                             </div>
                         </div>
@@ -421,11 +392,6 @@
     <!-- row end -->
     <input type="hidden" id="Id" value="0" />
 
-    <input type="hidden" id="hdnCountryId" value="0" />
-    <input type="hidden" id="hdnStateId" value="0" />
-    <input type="hidden" id="hdnDistrictId" value="0" />
-    <input type="hidden" id="hdnTalukaId" value="0" />
-    <input type="hidden" id="hdnCityId" value="0" />
     <input type="hidden" id="hdnGSTInvoiceTypeId" value="0" />
 </div>
 
@@ -440,23 +406,7 @@
             $('.dv-detail').hide();
 
             bindDatatableList();
-            bindGSTInvoiceTypeList();
-
-            $("#CountryId").on('change', function (e) {
-                bindStateList($(this).val());
-            });
-
-            $("#StateId").on('change', function (e) {
-                bindDistrictList($(this).val());
-            });
-
-            $("#District").on('change', function (e) {
-                bindTalukaList($(this).val());
-            });
-
-            $("#Taluka").on('change', function (e) {
-                bindCityList($(this).val());
-            });
+            bindGSTInvoiceTypeList();            
 
             $('#GSTNumber').on('input', function (e) {
                 var gst = $('#GSTNumber').val();
@@ -714,131 +664,6 @@
             }
         }
 
-        function bindStateList(countryId) {
-            try {
-                $("#StateId").empty();
-
-                if (countryId == '' || countryId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#StateId').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#StateId').val($("#hdnStateId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
-
-        function bindDistrictList(stateId) {
-            try {
-                $("#District").empty();
-                if (stateId == '' || stateId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetDistricts"))" + "?stateId=" + stateId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#District').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#District').val($("#hdnDistrictId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
-
-        function bindTalukaList(districtId) {
-            try {
-                $("#Taluka").empty();
-                if (districtId == '' || districtId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetTalukas"))" + "?districtId=" + districtId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#Taluka').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#Taluka').val($("#hdnTalukaId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
-
-        function bindCityList(talukaId) {
-            try {
-                $("#CityId").empty();
-                if (talukaId == '' || talukaId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?talukaId=" + talukaId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#CityId').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#CityId').val($("#hdnCityId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
-
         function fromReset() {
             $("#Id").val(0);
             $("#Name").val('').trigger("change");
@@ -848,10 +673,6 @@
             $("#Address2").val("");
             $("#Address3").val("");
             $("#CityId").val('').trigger("change");
-            $("#TalukaId").val('').trigger("change");
-            $("#DistrictId").val('').trigger("change");
-            $("#StateId").val('').trigger("change");
-            $("#CountryId").val('').trigger("change");
             $("#Pincode").val("");
             $("#KM").val("");
 
@@ -886,12 +707,6 @@
             $("#CapitalPercentage").val("");
 
             $("#Active").prop('checked', true);
-
-            $("#hdnCountry").val("");
-            $("#hdnStateId").val("");
-            $("#hdnDistrict").val("");
-            $("#hdnTaluka").val("");
-            $("#hdnCityId").val("");
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -929,9 +744,9 @@
                     }
                 }
 
-                if ($("#CountryId").val() == null || $("#CountryId").val() == "") {
-                    showWarning("", "Please select country.");
-                    $("#CountryId").focus();
+                if ($("#CityId").val() == null || $("#CityId").val() == "") {
+                    showWarning("", "Please select city.");
+                    $("#CityId").focus();
                     return false;
                 }
 
@@ -1072,8 +887,6 @@
                 savedata.Address2 = $("#Address2").val();
                 savedata.Address3 = $("#Address3").val();
                 savedata.CityId = parseInt($("#CityId").val());
-                savedata.StateId = parseInt($("#StateId").val());
-                savedata.CountryId = parseInt($("#CountryId").val());
                 savedata.Pincode = $("#Pincode").val();
                 savedata.KM = $("#KM").val();
                 savedata.ContactPersonName = $("#ContactPersonName").val();
@@ -1195,10 +1008,6 @@
                                 $("#Address2").val(result.data.address2);
                                 $("#Address3").val(result.data.address3);
                                 $("#CityId").val(result.data.cityId).trigger("change");
-                                $("#TalukaId").val(result.data.talukaId).trigger("change");
-                                $("#DistrictId").val(result.data.districtId).trigger("change");
-                                $("#StateId").val(result.data.stateId).trigger("change");
-                                $("#CountryId").val(result.data.countryId).trigger("change");
                                 $("#Pincode").val(result.data.pincode);
                                 $("#KM").val(result.data.km);
 
@@ -1231,13 +1040,6 @@
                                 $("#CompositParty").prop('checked', result.data.compositParty);
                                 $("#RCMParty").prop('checked', result.data.rcmParty);
                                 $("#CapitalPercentage").val(result.data.capitalPercentage.toFixed(2));
-
-                                $("#hdnCountryId").val(result.data.countryId);
-                                $("#hdnStateId").val(result.data.stateId);
-                                $("#hdnDistrictId").val(result.data.districtId);
-                                $("#hdnTalukaId").val(result.data.talukaId);
-                                $("#hdnCityId").val(result.data.cityId);
-                                $("#CountryId").val(result.data.countryId).trigger("change");
 
                                 $('#Active').prop('checked', result.data.active);
                             } else {
@@ -1282,12 +1084,7 @@
                                     $("#Pincode").val(result.data.pincode);
                                     $("#PAN").val(result.data.pan);
 
-                                    $("#hdnCountryId").val(result.data.countryId);
-                                    $("#hdnStateId").val(result.data.stateId);
-                                    $("#hdnDistrictId").val(result.data.districtId);
-                                    $("#hdnTalukaId").val(result.data.talukaId);
-                                    $("#hdnCityId").val(result.data.cityId);
-                                    $("#CountryId").val(result.data.countryId).trigger("change");
+                                    $("#CityId").val(result.data.cityId).trigger("change");
 
                                     notySuccess("GST# " + result.data.gstNumber + " found.");
                                 } else {

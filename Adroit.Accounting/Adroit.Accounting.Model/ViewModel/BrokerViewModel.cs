@@ -15,7 +15,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string City { get; set; }
         public List<DropdownViewModel> BrokerNameList { get; set; }
         public List<DropdownViewModel> BrokerageList { get; set; }
-        public List<DropdownViewModel> CountryList { get; set; }
+        public List<DropdownViewModel> CityList { get; set; }
         public List<DropdownViewModel> BranchList { get; set; }
         public string? CustomerBrokerBranchIds { get; set; } //Comma separated
     }

@@ -21,8 +21,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Address2", value.Address2);
             parameters.Add("@Address3", value.Address3);
             parameters.Add("@CityId", value.CityId);
-            parameters.Add("@StateId", value.StateId);
-            parameters.Add("@CountryId", value.CountryId);
             parameters.Add("@Pincode", value.Pincode);
             parameters.Add("@KM", value.KM);
             parameters.Add("@ContactPersonName", value.ContactPersonName);
@@ -56,12 +54,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@RCMParty", value.RCMParty);
             parameters.Add("@CapitalPercentage", value.CapitalPercentage);
             parameters.Add("@OwnerBranchId", value.OwnerBranchId);
-            parameters.Add("@Active", value.Active);
-            parameters.Add("@City", value.City);
-            parameters.Add("@DistrictId ", value.DistrictId);
-            parameters.Add("@District", value.District);
-            parameters.Add("@TalukaId", value.TalukaId);
-            parameters.Add("@Taluka", value.Taluka);
+            parameters.Add("@Active", value.Active);            
             parameters.Add("@Remarks", value.Remarks);
             parameters.Add("@CustomerAccountBranchIds", value.CustomerAccountBranchIds);
 
@@ -145,5 +138,13 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@VehicleId", vehicleId);
             return QueryHelper.Get<CustomerAccountViewModel>("sp_CustomerAccountBranchMappingGetByVehicle", connectionString, parameters);
         }
+        public CustomerAccountViewModel GetListWithCustomerAccountBranchMappingId(string connectionString, int CustomerAccountBranchMappingId, int branchId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@CustomerAccountBranchMappingId", CustomerAccountBranchMappingId);
+            parameters.Add("@branchId", branchId);
+            return QueryHelper.Get<CustomerAccountViewModel>("sp_CustomerGeneralExpenceMultiGetCustomerAccountListByBranchMappingId", connectionString, parameters);
+        }
+
     }
 }

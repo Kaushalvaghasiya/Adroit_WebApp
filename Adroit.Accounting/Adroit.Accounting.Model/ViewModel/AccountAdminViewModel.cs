@@ -8,7 +8,7 @@ namespace Adroit.Accounting.Model.ViewModel
     {
         public List<DropdownViewModel> NameList { get; set; }
         public List<DropdownViewModel> AccountGroupList { get; set; }
-        public List<DropdownViewModel> CountryList { get; set; }
+        public List<DropdownViewModel> CityList { get; set; }
         public List<DropdownViewModel> AreaNameList { get; set; }
         public List<DropdownViewModel> TransportNameList { get; set; }
 

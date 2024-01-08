@@ -37,7 +37,7 @@
                                 <tr>
                                     <th class="border-bottom-0 text-center">Branch Bill #</th>
                                     <th class="border-bottom-0 text-center">Bill Date</th>
-                                    <th class="border-bottom-0 text-center">Bill Party</th>
+                                    <th class="border-bottom-0">Bill Party</th>
                                     <th class="border-bottom-0 text-center">GST #</th>
                                     <th class="border-bottom-0 text-right">Amount</th>
                                     <th class="border-bottom-0 text-center">City</th>
@@ -118,7 +118,7 @@
                                     </label>
                                     <div class="col-md-2">
                                         <div class="input-group" style="flex-wrap:nowrap;">
-                                            <select class="form-control select2-show-search" id="LRNumber">
+                                            <select class="form-control select2-show-search-add-clear" id="LRNumber">
                                                 <option></option>
                                                 @{
                                                     if (Model.LRNumberList != null)
@@ -593,12 +593,18 @@
             });
 
             $("#SearchLRNumber").on('click', function (e) {
+                $("#AccountBranchMappingId").prop("disabled", false);
+
                 if ($('#LRNumber').val() == null || $('#LRNumber').val() == '') {
                     showWarning("", "Please select LR Number.");
                 } else {
                     getLRDetailListByLRNumber($('#LRNumber').val());
                 }
 
+            });
+
+            $("#LRNumber").on("select2:unselecting", function (e) {
+                $("#AccountBranchMappingId").prop("disabled", false);
             });
 
             $("#PayTypeId").on('change', function (e) {
@@ -705,6 +711,7 @@
                     return row.billAmount.toFixed(2);
                 },
                 "targets": colDef.length,
+                "className": "text-right"
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -824,7 +831,7 @@
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
-
+            $("#AccountBranchMappingId").select2({disabled:'false'});
             bindBillParty();
         }
 
@@ -1206,6 +1213,7 @@
                                     var isDuplicate = selectedLRDetails.some(item => item.id === LRBookingDetail.id);
 
                                     $("#AccountBranchMappingId").val(LRBookingDetail.billAccountBranchMappingId).trigger('change');
+                                    $("#AccountBranchMappingId").select2({disabled:'true'});
                                     $("#CreditDays").val(LRBookingDetail.creditDays);
 
                                     if (!isDuplicate) {

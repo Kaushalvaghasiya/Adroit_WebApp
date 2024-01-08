@@ -13,7 +13,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Driver(int id = 0)
         {
             DriverViewModel model = new DriverViewModel() { Id = id };
-            model.CountryList = _countryRepository.SelectList(_configurationData.DefaultConnection);
+            model.CityList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);
             model.DriverNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, DriverTable._TableName, DriverTable.Name);
             model.DriverTypeList = _driverTypeAdmin.SelectList(_configurationData.DefaultConnection);
             model.LicenceIssuePlaceList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);

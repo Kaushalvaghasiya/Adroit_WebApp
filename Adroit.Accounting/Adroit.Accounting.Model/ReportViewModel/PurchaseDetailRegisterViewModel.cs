@@ -21,8 +21,9 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public List<DropdownViewModel> PurchaseInvoiceType { get; set; }
         public int ViewId { get; set; }
         public int[] BillPartyId { get; set; }
+        public int InvTypeId { get; set; }
         public int[] BranchId { get; set; }
-        public int[] BrokerListId { get; set; }
+        public int[] BrokerId { get; set; }
         public int[] ProductGroupId { get; set; }
         public int[] ProductSubGroupId { get; set; }
         public int[] DescriptionId { get; set; }
