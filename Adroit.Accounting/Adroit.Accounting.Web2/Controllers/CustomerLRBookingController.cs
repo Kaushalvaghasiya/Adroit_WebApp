@@ -154,5 +154,22 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
+        [Route("~/Customer/GetGSTRate/{productId}")]
+        public JsonResult GetGSTRate(int productId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _lrBookingRepository.GetGSTRate(CurrentFirmId, CurrentBranchId, productId, _configurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
     }
 }

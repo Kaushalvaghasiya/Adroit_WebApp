@@ -467,7 +467,7 @@
                                         <div class="row mb-1">
                                             <label for="Ch" class="col-md-2 form-label">Invoice#</label>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control" id="InvoiceNo" placeholder="" readonly tabindex="-1">
+                                                <input type="text" class="form-control" id="BranchInvoiceNo" placeholder="" readonly tabindex="-1">
                                             </div>
                                             <label for="Truck" class="col-md-2 form-label">Invoice Date</label>
                                             <div class="col-md-4">
@@ -748,6 +748,7 @@
             $("#LRPayTypeId").val(@Model.CustomerFirmBranchTransportSetting.LRPayTypeId).trigger('change');
             var cookieValue = getCookie('@Html.Raw(lastLrToCityCookieName)');
             $("#CityIdTo").val(cookieValue).trigger('change');
+            getGSTRate();
         }
 
         function viewMode(id) {
@@ -1256,7 +1257,11 @@
                                 $("#Truck").val(result.data.vehilcleNo);
                                 $("#TruckLoadDate").val(result.data.chalanDate !== '' ? moment(result.data.chalanDate.split('T')[0]).format('DD/MM/YYYY') : '');
 
+                                $("#BranchInvoiceNo").val(result.data.branchInvoiceNo);
+                                $("#InvoiceDate").val(result.data.invoiceDate !== '' ? moment(result.data.invoiceDate.split('T')[0]).format('DD/MM/YYYY') : '');
+
                                 CalcNetAmount();
+                                getGSTRate();
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -1343,6 +1348,27 @@
                 $("#PrivateMarka").val(invoiceNoValue + '*' + parcelValue);
             } else {
                 $("#PrivateMarka").val(parcelValue);
+            }
+        }
+
+        function getGSTRate() {
+            try {
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetGSTRate/"))" + @Model.CustomerFirmTransportSetting.ProductIdForSales, "",
+                    function (data) {
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data != null) {
+                                $('#GST').val((data.data.gstRate || 0).toFixed(3));
+                            } 
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                showError("", e.message);
             }
         }
 
