@@ -10,5 +10,6 @@ namespace Adroit.Accounting.Repository.IRepository
         List<DropdownViewModel> SelectList(string connectionString);
         int Save(GSTRate value, string connectionString);
         GSTRateViewModel Get(int id, string connectionString);
+        public GSTRateViewModel GetListWithProductId(string connectionString, int productId);
     }
 }

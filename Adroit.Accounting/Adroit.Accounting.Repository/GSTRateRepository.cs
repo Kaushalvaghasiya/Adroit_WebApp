@@ -48,5 +48,12 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             return QueryHelper.GetList<DropdownViewModel>("sp_GSTRateList_Select", connectionString, parameters);
         }
+        public GSTRateViewModel GetListWithProductId(string connectionString, int productId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@ProductId", productId);
+            return QueryHelper.Get<GSTRateGridViewModel>("sp_GetGSTRateListWithProductId", connectionString, parameters);
+        }
+
     }
 }

@@ -217,14 +217,14 @@ BEGIN
 		BEGIN
 			SELECT @SerialNumberOfBranch = ISNULL(MAX(SerialNumberOfBranch),0) + 1
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			WHERE [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-SalesBillMaster-Z].EntryTypeId = @EntryTypeId 
 		END
 
 		IF ISNULL(@BillNumber, 0) = 0
 		BEGIN
 			SELECT @BillNumber = ISNULL(MAX(BillNumber),0) + 1
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-SalesBillMaster-Z].EntryTypeId = @EntryTypeId 
 		END
 
 		DECLARE @IdCheck INT

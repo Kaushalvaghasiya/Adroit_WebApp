@@ -85,6 +85,16 @@ namespace Adroit.Accounting.Repository
             return QueryHelper.Get<ProductViewModel>("sp_ProductGet", connectionString, parameters);
         }
 
+        public ProductViewModel GetByProductBranchMappingId(int id, string connectionString, int loginId, int firmId, int branchId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
+            return QueryHelper.Get<ProductViewModel>("sp_ProductGetByBranchMappingId", connectionString, parameters);
+        }
+
         public List<ProductGridViewModel> List(string connectionString, int loginId = 0, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var param = new DynamicParameters();
@@ -97,5 +107,14 @@ namespace Adroit.Accounting.Repository
             param.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<ProductGridViewModel>("sp_ProductList", connectionString, param);
         }
+        public List<DropdownViewModel> GetListWithGroupId(string connectionString, int GroupId, int loginId = 0, int firmId = 0)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@loginId", loginId);
+            parameters.Add("@firmId", firmId);
+            parameters.Add("@GroupId", GroupId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_GetProductListWithGroupId", connectionString, parameters);
+        }
+
     }
 }

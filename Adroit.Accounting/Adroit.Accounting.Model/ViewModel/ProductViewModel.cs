@@ -42,25 +42,27 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> BranchList { get; set; } = new();
 
         //Only Temp Values For Saving & Listing
-        public string CustomerName { get; set; }
-        public string ProductDesignNumber { get; set; }
-        public string ColorName { get; set; }
-        public string SizeName { get; set; }
-        public string PackingName { get; set; }
-        public string ShadeNumber { get; set; }
-        public string FabricName { get; set; }
-        public string GroupName { get; set; }
-        public string SubGroupName { get; set; }
-        public string StockTypeName { get; set; }
-        public string QualityTypeName { get; set; }
-        public string UQCTypeName { get; set; }
-        public string CategoryName { get; set; }
-        public string GSTCalculationName { get; set; }
-        public string GSTRateName { get; set; }
-        public string AmtCalcName { get; set; }
-        public byte softwareId { get; set; }
-        public int loginId { get; set; }
-        public int firmId { get; set; }
+        public string? CustomerName { get; set; }
+        public string? ProductDesignNumber { get; set; }
+        public string? ColorName { get; set; }
+        public string? SizeName { get; set; }
+        public string? PackingName { get; set; }
+        public string? ShadeNumber { get; set; }
+        public string? FabricName { get; set; }
+        public string? GroupName { get; set; }
+        public string? SubGroupName { get; set; }
+        public string? StockTypeName { get; set; }
+        public string? QualityTypeName { get; set; }
+        public string? UQCTypeName { get; set; }
+        public string? CategoryName { get; set; }
+        public string? GSTCalculationName { get; set; }
+        public string? GSTRateName { get; set; }
+        public string? AmtCalcName { get; set; }
+        public decimal? GSTRate { get; set; }
+        public byte? softwareId { get; set; }
+        public int? loginId { get; set; }
+        public int? firmId { get; set; }
         public CustomerViewModel Customer { get; set; }
+        public int? ProductBranchMappingId { get; set; }
     }
 }
