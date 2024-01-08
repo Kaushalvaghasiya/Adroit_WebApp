@@ -33,8 +33,8 @@ Begin
 		(ORDER BY
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' AND @SelectedView = 'DateWise' THEN [Z-LRBooking-Z].LRDate END ASC,  
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' AND @SelectedView = 'DateWise' THEN [Z-LRBooking-Z].LRDate END DESC, 
-			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' AND @SelectedView = 'PartyWise' THEN CA1.Name END ASC, 
-			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' AND @SelectedView = 'PartyWise' THEN CA1.Name END DESC, 
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' AND @SelectedView = 'PartyWise' THEN CA3.Name END ASC, 
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' AND @SelectedView = 'PartyWise' THEN CA3.Name END DESC, 
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' AND @SelectedView = 'LRWise' THEN [Z-LRBooking-Z].LRNumber END ASC, 
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' AND @SelectedView = 'LRWise' THEN [Z-LRBooking-Z].LRNumber END DESC, 
 			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN CA2.Name END ASC,  

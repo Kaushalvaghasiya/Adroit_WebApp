@@ -1,0 +1,113 @@
+﻿@model List<Adroit.Accounting.Model.GridViewModel.LRBookingLRRegisterGridViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<table id="tblMain" class="table table-bordered key-buttons">
+    <thead>
+        <tr><th>LR BOOKING REGISTER</th></tr>
+        <tr>
+            <th style="padding-right:50px;">BILL PARTY</th>
+            <th style="padding-right:50px;">CONSIGNOR</th>
+            <th style="padding-right:50px;">CONSIGNEE</th>
+            <th style="padding-right:50px;">LR NUMBER</th>
+            <th style="padding-right:50px;">LR DATE</th>
+            <th style="padding-right:50px;">FROM CITY</th>
+            <th style="padding-right:50px;">TO CITY</th>
+            <th style="padding-right:50px;">GOODS DESCRIPTION</th>
+            <th style="padding-right:50px;">PARCEL</th>
+            <th style="padding-right:50px;">CHARGE WT.</th>
+            <th style="padding-right:50px;">PACKING</th>
+            <th style="padding-right:50px;">PVT.MARK</th>
+            <th style="padding-right:50px;">LR AMOUNT</th>
+            <th style="padding-right:50px;">GST %</th>
+            <th style="padding-right:50px;">GST AMOUNT</th>
+            <th style="padding-right:50px;">PAY TYPE</th>
+            <th style="padding-right:50px;">INV VALUE</th>
+            <th style="padding-right:50px;">BRANCH</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var prevParty = "";
+                decimal subTotalAmount = 0.00m;
+                decimal totalAmount = 0.00m;
+
+                foreach (var item in Model)
+                {
+                    <tr> 
+                        <td>@item.BillPartyName</td>
+                        <td>@item.Consignor</td>
+                        <td>@item.Consignee</td>
+                        <td>@item.LRNumber</td>
+                        <td>@item.LRDateString</td>
+                        <td>@item.CityFrom</td>
+                        <td>@item.CityTo</td>
+                        <td>@item.Description</td>
+                        <td>@item.Parcel</td>
+                        <td>@item.ChargeWeight</td>
+                        <td>@item.Packing</td>
+                        <td>@item.PrivateMarka</td>
+                        <td>@item.Amount</td>
+                        <td>@item.Rate</td>
+                        <td>@item.Rate</td>
+                        <td>@item.LRPayType</td>
+                        <td>@item.InvoiceValue</td>
+                        <td>@item.BranchName</td>
+                    </tr>
+
+                    subTotalAmount += item.Amount ?? 0.00m; // Use decimal
+                    totalAmount += item.Amount ?? 0.00m;    // Use decimal
+
+                    // Calculate subtotals
+                    if (prevParty != item.BillPartyName)
+                    {
+                        if (item.SubTotal)
+                        {
+                            <tr class="subtotal-row">
+                                <td colspan="12">SUB TOTAL</td>
+                                <td class="text-right">@subTotalAmount</td>
+                                <td colspan="5"></td>
+                            </tr>
+                        }
+                        subTotalAmount = 0;
+                    }
+                    prevParty = item.BillPartyName;
+
+                    totalAmount += item.Amount ?? 0.00m;    
+
+                }
+
+                // Display the last subtotal and total
+                if (prevParty != "" && subTotalAmount > 0)
+                {
+                    <tr class="subtotal-row">
+                        <td colspan="12">SUB TOTAL</td>
+                        <td class="text-right">@subTotalAmount</td>
+                        <td colspan="5"></td>
+                    </tr>
+                }
+
+                if (totalAmount > 0)
+                {
+                    <tr class="total-row">
+                        <td colspan="12">TOTAL</td>
+                        <td class="text-right">@totalAmount</td>
+                        <td colspan="5"></td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+
+    <script>
+
+    </script>
+
+}

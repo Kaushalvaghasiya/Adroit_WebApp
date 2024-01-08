@@ -4,7 +4,7 @@
 
 using Adroit.Accounting.Model.ReportViewModel;
 
-namespace Adroit.Accounting.Model.ViewModel
+namespace Adroit.Accounting.Model.GridViewModel
 {
     public class LRBookingLRRegisterGridViewModel : LRBookingLRRegisterViewModel
     {

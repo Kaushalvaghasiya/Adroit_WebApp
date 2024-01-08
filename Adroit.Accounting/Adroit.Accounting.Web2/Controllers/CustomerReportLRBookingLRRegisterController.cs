@@ -9,7 +9,9 @@ using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.Operations;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -30,27 +32,14 @@ namespace Adroit.Accounting.Web.Controllers
             return View(model);
         }
 
-        [Route("~/CustomerReport/LRBookingLRRegisterReportList/{selectedView}/{branchIds}/{dateFrom}/{dateTo}/{lrFrom}/{lrTo}/{cityFromIds}/{cityToIds}/{consignorIds}/{consigneeIds}/{billPartyIds}/{payTypeIds}/{pvtMarkIds}/{chalanId}/{invStatusId}")]
-        public JsonResult LRBookingLRRegisterReportList(LRBookingLRRegisterViewModel model, int draw = 0, int start = 0, int length = 10, string selectedView = "", string branchIds = "", string dateFrom = "", string dateTo = "", int lrFrom = 0, int lrTo = 0, string cityFromIds = "", string cityToIds = "", string consignorIds = "", string consigneeIds = "", string billPartyIds = "", string payTypeIds = "", string pvtMarkIds = "", int chalanId = 0, int invStatusId = 0)
+        [Route("~/CustomerReport/LRBookingLRRegisterReportList")]
+        public JsonResult LRBookingLRRegisterReportList(LRBookingLRRegisterViewModel model, int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<LRBookingLRRegisterGridViewModel>();
             try
             {
-                model.SelectedView = selectedView;
-                model.BranchIds = branchIds;
-                model.DateFrom = dateFrom;
-                model.DateTo = dateTo;
-                model.LRFrom = lrFrom;
-                model.LRTo = lrTo;
-                model.CityFromIds = cityFromIds;
-                model.CityToIds = cityToIds;
-                model.ConsignorIds = consignorIds;
-                model.ConsigneeIds = consigneeIds;
-                model.BillPartyIds = billPartyIds;
-                model.PayTypeIds = payTypeIds;
-                model.PvtMarkIds = pvtMarkIds;
-                model.ChalanId = chalanId;
-                model.InvStatusId = invStatusId;
+                //save to session
+                HttpContext.Session.SetString("LRBookingLRRegisterReportList", JsonConvert.SerializeObject(model));
 
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
@@ -70,30 +59,14 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/CustomerReport/LRBookingLRRegisterReportListWithSummary/{selectedView}/{branchIds}/{dateFrom}/{dateTo}/{lrFrom}/{lrTo}/{cityFromIds}/{cityToIds}/{consignorIds}/{consigneeIds}/{billPartyIds}/{payTypeIds}/{pvtMarkIds}/{chalanId}/{invStatusId}")]
-        public JsonResult LRBookingLRRegisterReportListWithSummary(LRBookingLRRegisterViewModel model, int draw = 0, int start = 0, int length = 10, string selectedView = "", string branchIds = "", string dateFrom = "", string dateTo = "", int lrFrom = 0, int lrTo = 0, string cityFromIds = "", string cityToIds = "", string consignorIds = "", string consigneeIds = "", string billPartyIds = "", string payTypeIds = "", string pvtMarkIds = "", int chalanId = 0, int invStatusId = 0)
+        [Route("~/CustomerReport/LRBookingLRRegisterReportListWithSummary")]
+        public JsonResult LRBookingLRRegisterReportListWithSummary(LRBookingLRRegisterViewModel model, int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<LRBookingLRRegisterGridViewModel>();
             try
             {
-                model.SelectedView = selectedView;
-                model.BranchIds = branchIds;
-                model.DateFrom = dateFrom;
-                model.DateTo = dateTo;
-                model.LRFrom = lrFrom;
-                model.LRTo = lrTo;
-                model.CityFromIds = cityFromIds;
-                model.CityToIds = cityToIds;
-                model.ConsignorIds = consignorIds;
-                model.ConsigneeIds = consigneeIds;
-                model.BillPartyIds = billPartyIds;
-                model.PayTypeIds = payTypeIds;
-                model.PvtMarkIds = pvtMarkIds;
-                model.ChalanId = chalanId;
-                model.InvStatusId = invStatusId;
-
                 //save to session
-                //HttpContext.Session.SetString("LRBookingLRRegisterReportListWithSummary", JsonConvert.SerializeObject(model));
+                HttpContext.Session.SetString("LRBookingLRRegisterReportListWithSummary", JsonConvert.SerializeObject(model));
 
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
@@ -113,14 +86,60 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        public IActionResult LRBookingLRRegisterPrint()
+        public IActionResult LRBookingLRRegisterPrintDateWise()
         {
-            var model = JsonConvert.DeserializeObject<LRBookingLRRegisterViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportListWithSummary"));
-            //var records = _reportLRBookingLRRegisterRepository.GetListWithSummary(model, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            bool subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            string Datefrom = HttpContext.Request.Query["DateFrom"].ToString();
+            string Dateto = HttpContext.Request.Query["DateTo"].ToString();
+            var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportList"));
+            var result = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
+            ViewBag.SubTotal = subtotal;
+            ViewBag.DateFrom = Datefrom;
+            ViewBag.DateTo = Dateto;
+            ViewBag.CurrentFimName = currentFirm.Title.ToString();
 
-            //return View(model);
-            return View(model);
+            return View(result);
         }
 
+        public IActionResult LRBookingLRRegisterPrintDateWiseSummary()
+        {
+            bool subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportListWithSummary"));
+            var result = _reportLRBookingLRRegisterRepository.GetListWithSummary(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            ViewBag.SubTotal = subtotal;
+
+            return View(result);
+        }
+
+        public IActionResult LRBookingLRRegisterPrintLRWise()
+        {
+            bool subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportList"));
+            var result = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            ViewBag.SubTotal = subtotal;
+
+            return View(result);
+        }
+
+        public IActionResult LRBookingLRRegisterPrintPartyWise()
+        {
+            bool subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportList"));
+            var result = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            ViewBag.SubTotal = subtotal;
+
+            return View(result);
+        }
+
+        public IActionResult LRBookingLRRegisterPrintPartyWiseSummary()
+        {
+            bool subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportListWithSummary"));
+            var result = _reportLRBookingLRRegisterRepository.GetListWithSummary(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            ViewBag.SubTotal = subtotal;
+
+            return View(result);
+        }
     }
 }
