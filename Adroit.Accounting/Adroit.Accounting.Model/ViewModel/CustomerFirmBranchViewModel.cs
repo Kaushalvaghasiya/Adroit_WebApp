@@ -6,7 +6,6 @@ namespace Adroit.Accounting.Model.ViewModel
 {
     public class CustomerFirmBranchViewModel : CustomerFirmBranch
     {
-        public List<DropdownViewModel> CountryList { get; set; }
         public List<DropdownViewModel> SoftwarePlanList { get; set; }
         public List<DropdownViewModel> OrderNumberList { get; set; }
         public List<DropdownViewModel> BranchTypeList { get; set; }

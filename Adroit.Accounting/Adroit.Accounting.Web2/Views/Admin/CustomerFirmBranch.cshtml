@@ -163,48 +163,12 @@
                                 <label for="Address3">Address Line 3</label>
                                 <input type="text" class="form-control mode-ed" id="Address3" placeholder="Address Line 3" maxlength="200">
                             </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="CountryId">Country</label>
-                                <select class="form-control select2-show-search mode-ed" id="CountryId">
-                                    @{
-                                        if (Model.CountryList != null)
-                                        {
-                                            foreach (var o in Model.CountryList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="StateId">State</label>
-                                <select class="form-control select2-show-search mode-ed" id="StateId">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="District">District</label>
-                                <select class="form-control select2-show-search mode-ed" id="District">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="Taluka">Taluka</label>
-                                <select class="form-control select2-show-search mode-ed" id="Taluka">
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
+                        </div>                        
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="CityId">City</label>
-                                <select class="form-control select2-show-search mode-ed" id="CityId">
+                                <select class="form-control select2-show-search-api" id="CityId">
+                                    <option value=""></option>
                                 </select>
                             </div>
                         </div>
@@ -341,11 +305,6 @@
     <input type="hidden" id="CustomerId" value="@Model.Firm.Customer.Id" />
     <input type="hidden" id="FirmId" value="@Model.Firm.Id" />
 
-    <input type="hidden" id="hdnCountryId" value="0" />
-    <input type="hidden" id="hdnStateId" value="0" />
-    <input type="hidden" id="hdnDistrictId" value="0" />
-    <input type="hidden" id="hdnTalukaId" value="0" />
-    <input type="hidden" id="hdnCityId" value="0" />
 </div>
 
 
@@ -359,21 +318,31 @@
             $('.dv-detail').hide();
 
             bindDatatableList();
-
-            $("#CountryId").on('change', function (e) {
-                bindStateList($(this).val());
-            });
-
-            $("#StateId").on('change', function (e) {
-                bindDistrictList($(this).val());
-            });
-
-            $("#District").on('change', function (e) {
-                bindTalukaList($(this).val());
-            });
-
-            $("#Taluka").on('change', function (e) {
-                bindCityList($(this).val());
+            $('.select2-show-search-api').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                ajax: {
+                    minimumInputLength: 2,
+                    url: '@(Url.Content("~/common/searchcity"))',
+                    dataType: "json",
+                    type: "GET",
+                    data: function (params) {
+                        return {
+                            city: params.term// search term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data.data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.value
+                                }
+                            })
+                        };
+                    }
+                },
             });
 
             $("#SoftwarePlanId").on('change', function (e) {
@@ -461,10 +430,10 @@
                     return row.firmBranchTypeAdmin;
                 },
                 "targets": colDef.length,
-            });
+            });            
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.city;
+                    return row.cityName;
                 },
                 "targets": colDef.length,
             });
@@ -504,8 +473,7 @@
             columns.push({ "data": "Title", "name": "Title" });
             columns.push({ "data": "ShortTitle", "name": "ShortTitle" });
             columns.push({ "data": "FirmBranchTypeAdmin", "name": "FirmBranchTypeAdmin" });
-            columns.push({ "data": "PINCODE", "name": "PINCODE" });
-            columns.push({ "data": "City", "name": "City" });
+            columns.push({ "data": "CityName", "name": "CityName" });
             columns.push({ "data": "AddedOn", "name": "AddedOn" });
             columns.push({ "data": "RenewalDate", "name": "RenewalDate" });
             columns.push({ "data": "SoftwarePlan", "name": "SoftwarePlan" });
@@ -550,132 +518,7 @@
                 }
 
             });
-        }
-
-        function bindStateList(countryId) {
-            try {
-                $("#StateId").empty();
-
-                if (countryId == '' || countryId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetStates"))" + "?countryId=" + countryId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#StateId').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#StateId').val($("#hdnStateId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
-
-        function bindDistrictList(stateId) {
-            try {
-                $("#District").empty();
-                if (stateId == '' || stateId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetDistricts"))" + "?stateId=" + stateId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#District').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#District').val($("#hdnDistrictId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
-
-        function bindTalukaList(districtId) {
-            try {
-                $("#Taluka").empty();
-                if (districtId == '' || districtId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetTalukas"))" + "?districtId=" + districtId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#Taluka').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#Taluka').val($("#hdnTalukaId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
-
-        function bindCityList(talukaId) {
-            try {
-                $("#CityId").empty();
-                if (talukaId == '' || talukaId == null) return;
-
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GetCities"))" + "?talukaId=" + talukaId, "",
-                    function (data) {
-                        unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    $('#CityId').append(new Option(data.data[i].text, data.data[i].value, false, false));
-                                }
-                            }
-                            $('#CityId').val($("#hdnCityId").val()).trigger('change');
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }
+        }        
 
         function fromReset() {
             $("#Id").val(0);
@@ -688,11 +531,7 @@
             $("#Address3").val("");
             $("#GSTNumber").val("");
             $("#PAN").val("");
-
-            $("#CountryId").val('').trigger("change");
-            $("#StateId").val('').trigger("change");
-            $("#DistrictId").val('').trigger("change");
-            $("#TalukaId").val('').trigger("change");
+            
             $("#CityId").val('').trigger("change");
             $("#Pincode").val("");
             $("#Phone").val("");
@@ -710,11 +549,6 @@
             $("#OrderNumber").val("");
             $("#Active").prop('checked', false);
 
-            $("#hdnCountry").val("");
-            $("#hdnStateId").val("");
-            $("#hdnDistrict").val("");
-            $("#hdnTaluka").val("");
-            $("#hdnCityId").val("");
             $("#SoftwarePlanId").val('').trigger("change");
 
             $("#activeTabName").text("Add");
@@ -743,32 +577,12 @@
                     showWarning("", "Please enter valid PAN.");
                     $("#PAN").focus();
                     return false;
-                }
-                if ($("#CountryId").val() == null || $("#CountryId").val() == "") {
-                    showWarning("", "Please select country.");
-                    $("#CountryId").focus();
+                }                
+                if ($("#CityId").val() == null || $("#CityId").val() == "") {
+                    showWarning("", "Please select city.");
+                    $("#CityId").focus();
                     return false;
                 }
-                //if ($("#StateId").val() == null || $("#StateId").val() == "") {
-                //    showWarning("", "Please select state.");
-                //    $("#StateId").focus();
-                //    return false;
-                //}
-                //if ($("#District").val() == null || $("#District").val() == "") {
-                //    showWarning("", "Please select district.");
-                //    $("#District").focus();
-                //    return false;
-                //}
-                //if ($("#Taluka").val() == null || $("#Taluka").val() == "") {
-                //    showWarning("", "Please select taluka.");
-                //    $("#Taluka").focus();
-                //    return false;
-                //}
-                //if ($("#CityId").val() == null || $("#CityId").val() == "") {
-                //    showWarning("", "Please select city.");
-                //    $("#CityId").focus();
-                //    return false;
-                //}
 
                 if ($("#SoftwarePlanId").val() == null || $("#SoftwarePlanId").val() == "") {
                     showWarning("", "Please select software plan");
@@ -839,9 +653,7 @@
                 savedata.PAN = $("#PAN").val();
                 savedata.Address1 = $("#Address1").val();
                 savedata.Address2 = $("#Address2").val();
-                savedata.Address3 = $("#Address3").val();
-                savedata.CountryId = parseInt($("#CountryId").val());
-                savedata.StateId = parseInt($("#StateId").val());
+                savedata.Address3 = $("#Address3").val();                
                 savedata.CityId = parseInt($("#CityId").val());
                 savedata.Pincode = $("#Pincode").val();
                 savedata.ContactPersonName = $("#ContactPersonName").val();
@@ -963,12 +775,8 @@
                                 $("#SetupPrice").val(result.data.setupPrice);
                                 $("#OrderNumber").val(result.data.orderNumber).trigger("change");
 
-                                $("#hdnCountryId").val(result.data.countryId);
-                                $("#hdnStateId").val(result.data.stateId);
-                                $("#hdnDistrictId").val(result.data.districtId);
-                                $("#hdnTalukaId").val(result.data.talukaId);
-                                $("#hdnCityId").val(result.data.cityId);
-                                $("#CountryId").val(result.data.countryId).trigger("change");
+                                $("#CityId").html("<option value='" + result.data.cityId + "'>" + result.data.cityName + "</option>");
+                                $("#CityId").val(result.data.cityId).trigger("change");
                                 $("#SoftwarePlanId").val(result.data.softwarePlanId).trigger("change");
 
                                 $('#Active').prop('checked', result.data.active);
@@ -1012,6 +820,8 @@
                                     $("#hdnCityId").val(result.data.cityId);
                                     $("#CountryId").val(result.data.countryId).trigger("change");
 
+                                    $("#CityId").html("<option value='" + result.data.cityId + "'>" + result.data.city + "</option>");
+                                    $("#CityId").val(result.data.cityId).trigger("change");
                                     notySuccess("GST# " + result.data.gstNumber + " found.");
                                 } else {
                                     notyError("GST# " + gstNumber + " not found.");
