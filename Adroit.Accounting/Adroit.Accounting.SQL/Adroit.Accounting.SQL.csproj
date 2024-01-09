@@ -41,6 +41,10 @@
     <None Remove="DbScripts\StoreProc\sp_AccountGroupHeaderAdminList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_AccountGroupHeaderAdminSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_AccountGroupTypeList_Select.sql" />
+    <None Remove="DbScripts\StoreProc\sp_AdminCustomerBranchToBranchMappingDelete.sql" />
+    <None Remove="DbScripts\StoreProc\sp_AdminCustomerBranchToBranchMappingList.sql" />
+    <None Remove="DbScripts\StoreProc\sp_AdminCustomerBranchToBranchMappingList_Select.sql" />
+    <None Remove="DbScripts\StoreProc\sp_AdminCustomerBranchToBranchMappingSave.sql" />
     <None Remove="DbScripts\StoreProc\sp_AdminCustomerFirmBranchDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_AdminCustomerFirmBranchGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_AdminCustomerFirmBranchList.sql" />
@@ -352,7 +356,7 @@
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingChalanLoadingList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingDailySummaryList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingLRRegisterList.sql" />
-    <None Remove="DbScripts\StoreProc\sp_ReportLRBookingLRRegisterListWithSummary.sql" />
+	<None Remove="DbScripts\StoreProc\sp_ReportLRBookingLRRegisterListWithSummary.sql" />
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingMonthlySummaryList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingStockRegisterList.sql" />
     <None Remove="DbScripts\StoreProc\sp_ReportLRBookingStockRegisterListWithSummary.sql" />
@@ -461,6 +465,7 @@
     <None Remove="DbScripts\Tables\0027 PurchaseBillDetail.sql" />
     <None Remove="DbScripts\Tables\0028 SalesBillDetail.sql" />
     <None Remove="DbScripts\Tables\0316 Product GstCentralCess changes.sql" />
+    <None Remove="DbScripts\Tables\0317 Branch to Branch MAPPING for Transport Chalan.sql" />
     <None Remove="DbScripts\Tables\0318 Transport Firm Setting GTA Tax.sql" />
   </ItemGroup>
 
@@ -555,19 +560,31 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminCustomerFirmBranchGet.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminCustomerBranchToBranchMappingList.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminCustomerFirmBranchList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminCustomerFirmBranchListByCustomer_Select.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminCustomerBranchToBranchMappingList_Select.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminCustomerFirmBranchList_Select.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminCustomerBranchToBranchMappingSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminCustomerFirmBranchSave.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminCustomerFirmBranchWithFirmListByCustomer_Select.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminCustomerBranchToBranchMappingDelete.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_AdminCustomerFirmDelete.sql">
@@ -1479,9 +1496,9 @@
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ReportLRBookingDailySummaryList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_ReportLRBookingLRRegisterListWithSummary.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+	<EmbeddedResource Include="DbScripts\StoreProc\sp_ReportLRBookingLRRegisterListWithSummary.sql">
+		<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	</EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_ReportLRBookingLRRegisterList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -1743,6 +1760,9 @@
     <EmbeddedResource Include="DbScripts\Tables\0008 BookAdmin.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\Tables\0317 Branch to Branch MAPPING for Transport Chalan.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\Tables\0318 Transport Firm Setting GTA Tax.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
@@ -1811,7 +1831,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\Tables\0028 SalesBillDetail.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
+    </EmbeddedResource>    
   </ItemGroup>
 
   <ItemGroup>
