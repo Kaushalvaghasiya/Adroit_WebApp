@@ -36,10 +36,9 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_AdminCustomerBranchToBranchMappingSave", connectionString, parameters);
         }
-        public List<DropdownViewModel> SelectList(int firmId, string connectionString = "")
+        public List<DropdownViewModel> SelectList(string connectionString = "")
         {
             var parameters = new DynamicParameters();
-            parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<DropdownViewModel>("sp_AdminCustomerBranchToBranchMappingList_Select", connectionString, parameters);
         }
     }

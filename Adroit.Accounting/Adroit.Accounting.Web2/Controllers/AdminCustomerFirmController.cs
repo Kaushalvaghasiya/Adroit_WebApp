@@ -106,8 +106,8 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult BranchToBranchMapping(int? editid = 0)
         {
             CustomerBranchToBranchMappingViewModel model = new();
-            model.BranchList = _customerBranchToBranchMappingRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
-            model.SharedBranchList = _customerBranchToBranchMappingRepository.SelectList(CurrentFirmId, _configurationData.DefaultConnection);
+            model.BranchList = _customerBranchToBranchMappingRepository.SelectList(_configurationData.DefaultConnection);
+            model.SharedBranchList = _customerBranchToBranchMappingRepository.SelectList(_configurationData.DefaultConnection);
 
             return View(model);
         }
