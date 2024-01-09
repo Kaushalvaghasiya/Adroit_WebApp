@@ -117,19 +117,11 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CityId">City</label>
-                                <select class="form-control select2-show-search mode-ed" id="CityId">
-                                    @{
-                                        if (Model.CityList != null)
-                                        {
-                                            foreach (var o in Model.CityList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
+                                <select class="form-control select2-show-search-api" id="CityId">
+                                    <option value=""></option>
                                 </select>
                             </div>
-                        </div>
+                        </div>     
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="Pincode">Pincode</label>
@@ -188,7 +180,34 @@
             $('.dv-list').show();
             $('.dv-detail').hide();
 
-            bindDatatableList();            
+            bindDatatableList();
+
+            $('.select2-show-search-api').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                ajax: {
+                    minimumInputLength: 2,
+                    url: '@(Url.Content("~/common/searchcity"))',
+                    dataType: "json",
+                    type: "GET",
+                    data: function (params) {
+                        return {
+                            city: params.term// search term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data.data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.value
+                                }
+                            })
+                        };
+                    }
+                },
+            });
 
             if (@Model.Id > 0) {
                 getDetail(@Model.Id, false);
@@ -235,7 +254,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.city;
+                    return row.cityName;
                 },
                 "targets": colDef.length,
                 "className": "text-center"
@@ -263,7 +282,7 @@
 
             columns.push({ "data": "Name", "name": "Name" });
             columns.push({ "data": "AccountName", "name": "AccountName" });
-            columns.push({ "data": "City", "name": "City" });
+            columns.push({ "data": "CityName", "name": "CityName" });
             columns.push({ "data": "Active", "name": "Active" });
             columns.push({ "data": "Id", "name": "Id" });
 
@@ -494,6 +513,7 @@
                                 $("#AadhaarUID").val(result.data.adharUID);
                                 $('#Active').prop('checked', result.data.active);
 
+                                $("#CityId").html("<option value='" + result.data.cityId + "'>" + result.data.cityName + "</option>");
                                 $("#CityId").val(result.data.cityId).trigger("change");
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info

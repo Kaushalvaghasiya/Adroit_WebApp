@@ -15,7 +15,6 @@ namespace Adroit.Accounting.Web.Controllers
         {
             AccountAdminViewModel model = new();
             model.AccountGroupList = _accountGroupAdminRepository.GetAccountGroupAdmin_SelectList(_configurationData.DefaultConnection);
-            model.CityList = _driverRepository.SelectLicenceIssuePlace(_configurationData.DefaultConnection);
 
             model.AreaNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, AccountAdminTable._TableName, AccountAdminTable.AreaName);
             model.TransportNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, AccountAdminTable._TableName, AccountAdminTable.TransportName);

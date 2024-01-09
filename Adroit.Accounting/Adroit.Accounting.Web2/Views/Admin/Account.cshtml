@@ -152,16 +152,8 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="CityId">City</label>
-                                <select class="form-control select2-show-search-clear" id="CityId">
-                                    @{
-                                        if (Model.CityList != null)
-                                        {
-                                            foreach (var o in Model.CityList)
-                                            {
-                                                <option value="@o.Value">@o.Text</option>
-                                            }
-                                        }
-                                    }
+                                <select class="form-control select2-show-search-api" id="CityId">
+                                    <option value=""></option>
                                 </select>
                             </div>
                         </div>
@@ -406,7 +398,34 @@
             $('.dv-detail').hide();
 
             bindDatatableList();
-            bindGSTInvoiceTypeList();            
+            bindGSTInvoiceTypeList();        
+            
+            $('.select2-show-search-api').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                ajax: {
+                    minimumInputLength: 2,
+                    url: '@(Url.Content("~/common/searchcity"))',
+                    dataType: "json",
+                    type: "GET",
+                    data: function (params) {
+                        return {
+                            city: params.term// search term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: $.map(data.data, function (item) {
+                                return {
+                                    text: item.text,
+                                    id: item.value
+                                }
+                            })
+                        };
+                    }
+                },
+            });
 
             $('#GSTNumber').on('input', function (e) {
                 var gst = $('#GSTNumber').val();
@@ -1007,6 +1026,7 @@
                                 $("#Address1").val(result.data.address1);
                                 $("#Address2").val(result.data.address2);
                                 $("#Address3").val(result.data.address3);
+                                $("#CityId").html("<option value='" + result.data.cityId + "'>" + result.data.cityName + "</option>");
                                 $("#CityId").val(result.data.cityId).trigger("change");
                                 $("#Pincode").val(result.data.pincode);
                                 $("#KM").val(result.data.km);

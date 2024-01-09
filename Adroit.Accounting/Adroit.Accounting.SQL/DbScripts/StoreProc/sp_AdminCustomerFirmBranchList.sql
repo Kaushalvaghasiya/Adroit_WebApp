@@ -34,7 +34,7 @@ Begin
 			CustomerFirmBranch.*,
 			[CustomerFirm].Title as CustomerFirm,
 			[FirmBranchTypeAdmin].Title as FirmBranchTypeAdmin, 
-			[City].Title as City,
+			[City].Title as CityName,
 			SoftwarePlan.Code + ' - ' + SoftwarePlan.Title AS SoftwarePlan
 		FROM CustomerFirmBranch
 		LEFT JOIN CustomerFirm ON CustomerFirm.Id=CustomerFirmBranch.FirmId

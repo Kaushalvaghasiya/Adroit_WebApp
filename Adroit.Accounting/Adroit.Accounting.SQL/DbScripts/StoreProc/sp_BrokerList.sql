@@ -25,7 +25,7 @@ Begin
 		) AS RowNum,
 		Count(*) over () AS TotalCount, 
 		Broker.*,
-		City.Title As City
+		City.Title As CityName
 		FROM [Broker]
 		LEFT JOIN City on City.Id = [Broker].CityId
 		WHERE [Broker].Deleted = 0 And [Broker].CustomerId=@CustomerId

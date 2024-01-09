@@ -23,7 +23,7 @@ namespace Adroit.Accounting.Model
         public string Address2 { get; set; }
         public string Address3 { get; set; }
         public int? CityId { get; set; }
-        public string City { get; set; }
+        public string CityName { get; set; }
         public int? StateId { get; set; }
         public short CountryId { get; set; }
         public string Pincode { get; set; }
