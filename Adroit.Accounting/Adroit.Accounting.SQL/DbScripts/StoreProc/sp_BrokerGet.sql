@@ -20,11 +20,11 @@ BEGIN
 		[District].Id as DistrictId, 
 		[Taluka].Id as TalukaId 
 	FROM [Broker]
-	LEFT JOIN [City] on [Broker].CityId = [City].Id AND City.Active = 1
-	LEFT JOIN [Taluka] on [City].TalukaId = [Taluka].Id AND Taluka.Active = 1
-	LEFT JOIN [District] on [Taluka].DistrictId = [District].Id AND District.Active = 1
-	LEFT JOIN [State] on [District].StateId = [State].Id AND State.Active = 1
-	LEFT JOIN [Country] on [State].CountryId = [Country].Id AND Country.Active = 1
+	LEFT JOIN [City] on [Broker].CityId = [City].Id
+	LEFT JOIN [Taluka] on [City].TalukaId = [Taluka].Id
+	LEFT JOIN [District] on [Taluka].DistrictId = [District].Id
+	LEFT JOIN [State] on [District].StateId = [State].Id
+	LEFT JOIN [Country] on [State].CountryId = [Country].Id
 	WHERE [Broker].Id = @Id And CustomerId = @CustomerId
 END
 GO

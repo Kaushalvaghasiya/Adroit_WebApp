@@ -18,11 +18,11 @@ BEGIN
 		   Taluka.Id As TalukaId,
 		   District.Id As DistrictId
 	FROM CustomerAccount
-	LEFT JOIN [City] on [CustomerAccount].CityId = [City].Id AND City.Active = 1
-	LEFT JOIN [Taluka] on [City].TalukaId = [Taluka].Id AND Taluka.Active = 1
-	LEFT JOIN [District] on [Taluka].DistrictId = [District].Id AND District.Active = 1
-	LEFT JOIN [State] on [District].StateId = [State].Id AND State.Active = 1
-	LEFT JOIN [Country] on [State].CountryId = [Country].Id AND Country.Active = 1
+	LEFT JOIN [City] on [CustomerAccount].CityId = [City].Id
+	LEFT JOIN [Taluka] on [City].TalukaId = [Taluka].Id
+	LEFT JOIN [District] on [Taluka].DistrictId = [District].Id
+	LEFT JOIN [State] on [District].StateId = [State].Id
+	LEFT JOIN [Country] on [State].CountryId = [Country].Id
 	WHERE CustomerAccount.Id = @Id AND CustomerAccount.CustomerId = @CustomerId
 END
 GO

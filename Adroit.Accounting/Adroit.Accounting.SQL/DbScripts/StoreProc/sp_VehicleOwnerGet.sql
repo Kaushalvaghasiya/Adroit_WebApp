@@ -18,11 +18,11 @@ BEGIN
 		[Taluka].Id as TalukaId, 
 		[Taluka].Title as Taluka		
 	FROM VehicleOwner
-	LEFT JOIN [City] on [VehicleOwner].CityId = [City].Id AND City.Active = 1
-	LEFT JOIN [Taluka] on [City].TalukaId = [Taluka].Id AND Taluka.Active = 1
-	LEFT JOIN [District] on [Taluka].DistrictId = [District].Id AND District.Active = 1
-	LEFT JOIN [State] on [District].StateId = [State].Id AND State.Active = 1
-	LEFT JOIN [Country] on [State].CountryId = [Country].Id AND Country.Active = 1
+	LEFT JOIN [City] on [VehicleOwner].CityId = [City].Id
+	LEFT JOIN [Taluka] on [City].TalukaId = [Taluka].Id
+	LEFT JOIN [District] on [Taluka].DistrictId = [District].Id
+	LEFT JOIN [State] on [District].StateId = [State].Id
+	LEFT JOIN [Country] on [State].CountryId = [Country].Id
 	WHERE VehicleOwner.Id = @Id And VehicleOwner.CustomerId = @CustomerId
 END
 GO
