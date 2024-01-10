@@ -10,8 +10,6 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchSave]
 	 @Address2 varchar(200),
 	 @Address3 varchar(200),
 	 @CityId int,
-	 @StateId int,
-	 @CountryId INT,
 	 @PinCode VARCHAR(12),
 	 @Phone varchar(15),
 	 @ContactPersonName varchar(30),
@@ -36,6 +34,18 @@ BEGIN
 	
 	BEGIN TRAN
 	BEGIN TRY
+		
+		DECLARE @TalukaId INT
+		SELECT @TalukaId = City.TalukaId from City WHERE City.Id = @CityId;
+
+		DECLARE @DistrictId INT
+		SELECT @DistrictId = Taluka.DistrictId from Taluka WHERE Taluka.Id = @TalukaId;
+
+		DECLARE @StateId INT
+		SELECT @StateId = District.StateId from District WHERE District.Id = @DistrictId;
+
+		DECLARE @CountryId SMALLINT
+		SELECT @CountryId = State.CountryId from State WHERE State.Id = @StateId;
 
 		IF EXISTS (SELECT 1 FROM CustomerFirmBranch WHERE FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId) AND Id = @Id)
 		BEGIN
@@ -69,7 +79,7 @@ BEGIN
 				ModifiedOn=GETUTCDATE()
 				--Active=@Active,
 				--SoftwarePlanId = @SoftwarePlanId
-				WHERE ID = @Id AND FirmId IN (SELECT Id FROM [CustomerFirm] WHERE [CustomerId] = @CustomerId)  
+				WHERE ID = @Id AND FirmId = @FirmId
 		END
 		ELSE
 		BEGIN

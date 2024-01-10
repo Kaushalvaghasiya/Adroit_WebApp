@@ -9,16 +9,16 @@ BEGIN
 
 	SELECT
 		VehicleOwner.*,
+		City.Title + ' | ' + Taluka.Title + ' | ' + District.Title + ' | ' + State.Title + ' | ' + Country.Title As CityName,
 		[Country].Id as CountryId, 
 		[Country].Title as Country, 
 		[State].Title as State, 
 		[District].Id as DistrictId, 
 		[District].Title as District, 
 		[Taluka].Id as TalukaId, 
-		[Taluka].Title as Taluka, 
-		[City].Title as City
+		[Taluka].Title as Taluka		
 	FROM VehicleOwner
-	LEFT JOIN [City] on VehicleOwner.CityId = [City].Id
+	LEFT JOIN [City] on [VehicleOwner].CityId = [City].Id
 	LEFT JOIN [Taluka] on [City].TalukaId = [Taluka].Id
 	LEFT JOIN [District] on [Taluka].DistrictId = [District].Id
 	LEFT JOIN [State] on [District].StateId = [State].Id

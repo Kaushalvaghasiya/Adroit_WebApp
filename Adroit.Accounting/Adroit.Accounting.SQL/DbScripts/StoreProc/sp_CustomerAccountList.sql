@@ -33,7 +33,7 @@ Begin
 	   CustomerAccount.[Name], 
 	   [CustomerAccountGroup].Title as AccountGroup, 
 	   CustomerAccount.GSTNumber, 
-	   [City].Title as [City], 
+	   [City].Title as [CityName], 
 	   CustomerAccount.Mobile 
 	  FROM CustomerAccount
 	  INNER JOIN [CustomerAccountGroup] on CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id

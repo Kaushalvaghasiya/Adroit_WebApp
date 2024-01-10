@@ -1,0 +1,91 @@
+﻿@model List<Adroit.Accounting.Model.GridViewModel.LRBookingLRRegisterGridViewModel>
+@{
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+
+<table id="tblMain" class="table table-bordered key-buttons">
+    <thead>
+        <tr><th>LR BOOKING REGISTER</th></tr>
+        <tr>
+            <th style="padding-right:50px;">LR DATE</th>
+            <th style="padding-right:50px;">TOTAL NUMBER</th>
+            <th style="padding-right:50px;">TOTAL PARCEL</th>
+            <th style="padding-right:50px;">TOTAL CHARGE WT.</th>
+            <th style="padding-right:50px;">TOTAL LR AMOUNT</th>
+            <th style="padding-right:50px;">TOTAL GST AMOUNT</th>
+            <th style="padding-right:50px;">TOTAL INV VALUE</th>
+            <th style="padding-right:50px;">BRANCH</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null)
+            {
+                var prevDate = "";
+                decimal subTotalAmount = 0.00m; 
+                decimal totalAmount = 0.00m;
+
+                foreach (var item in Model)
+                {
+                    <tr> 
+                        <td>@item.GroupingColumn</td> 
+                        <td>@item.LRNumber</td>
+                        <td>@item.Parcel</td>
+                        <td>@item.ChargeWeight</td>
+                        <td>@item.Amount</td>
+                        <td>@item.Rate</td>
+                        <td>@item.InvoiceValue</td>
+                        <td>@item.BranchName</td>
+                    </tr>
+
+                    subTotalAmount += item.Amount ?? 0.00m; // Use decimal
+                    totalAmount += item.Amount ?? 0.00m;    // Use decimal
+
+                    // Calculate subtotals
+                    if (prevDate != item.GroupingColumn)
+                    {
+                        if (item.SubTotal)
+                        {
+                        <tr class="subtotal-row">
+                            <td colspan="4">SUB TOTAL</td>
+                            <td class="text-right">@subTotalAmount</td>
+                            <td colspan="3"></td>
+                        </tr>
+                        }
+                        subTotalAmount = 0;
+                    }
+                    prevDate = item.GroupingColumn;
+                    
+                }
+
+                // Display the last subtotal and total
+                if (prevDate != "" && subTotalAmount > 0)
+                {
+                    <tr class="subtotal-row">
+                        <td colspan="4">SUB TOTAL</td>
+                        <td class="text-right">@subTotalAmount</td>
+                        <td colspan="3"></td>
+                    </tr>
+                }
+
+                if (totalAmount > 0)
+                {
+                    <tr class="total-row">
+                        <td colspan="4">TOTAL</td>
+                        <td class="text-right">@totalAmount</td>
+                        <td colspan="3"></td>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+
+    <script>
+
+    </script>
+
+}

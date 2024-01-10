@@ -1,4 +1,4 @@
-﻿@* @model Adroit.Accounting.Model.ViewModel.PurchaseBillMasterViewModel *@
+﻿@model Adroit.Accounting.Model.ViewModel.PurchaseBillMasterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -41,12 +41,12 @@
                                     <th class="border-bottom-0">GST#</th>
                                     <th class="border-bottom-0">Amount</th>
                                     <th class="border-bottom-0">City</th>
-                                    <th class="border-bottom-0">E-Invoice Ack.#</th>
+                                    @* <th class="border-bottom-0">E-Invoice Ack.#</th>
                                     <th class="border-bottom-0">E-Invoice Date</th>
                                     <th class="border-bottom-0">GSTR1 Filling Ack.#</th>
                                     <th class="border-bottom-0">GSTR1 Filling Date</th>
                                     <th class="border-bottom-0">GSTR3B Filling Ack.#</th>
-                                    <th class="border-bottom-0">GSTR3B Filling Date</th>
+                                    <th class="border-bottom-0">GSTR3B Filling Date</th> *@
                                     <th class="border-bottom-0">Firm Bill#</th>
                                     <th class="border-bottom-0 text-center" style="width:120px!important;">Action</th>
                                 </tr>
@@ -104,15 +104,15 @@
                                     <div class="col-md-5">
                                         <select class="form-control select2-show-search" id="AccountBranchMappingId">
                                             <option></option>
-                                           @*  @{
+                                            @{
                                                 if (Model.AccountBranchMappingList != null)
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                            <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
-                                            } *@
+                                            }
                                         </select>
                                     </div>
                                     <label for="CreditDays" class="col-md-1 form-label">Credit Days</label>
@@ -123,22 +123,22 @@
                                     <div class="col-md-2">
                                         <select class="form-control select2-show-search" id="BillTypeID">
                                             <option></option>
-                                          @*   @{
+                                            @{
                                                 if (Model.BillTypeList != null)
                                                 {
                                                     foreach (var o in Model.BillTypeList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                            <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
-                                            } *@
+                                            }
                                         </select>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="BillNumberFirm" class="col-md-1 form-label">Pur. Bill</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="BillNumberFirm" placeholder="" readonly tabindex="-1">
+                                        <input type="text" class="form-control" id="BillNumberFirm" placeholder="" tabindex="-1">
                                     </div>
                                     <label for="BillDate" class="col-md-1 form-label mb-1">Bill Date</label>
                                     <div class="col-md-2">
@@ -165,15 +165,15 @@
                                     <div class="col-md-5">
                                         <select class="form-control select2-show-search" id="GenaralPurchaseAccountBranchMappingId">
                                             <option></option>
-                                            @* @{
+                                            @{
                                                 if (Model.AccountBranchMappingList != null)
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                            <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
-                                            } *@
+                                            }
                                         </select>
                                     </div>
                                     <label for="RCMBillNumber" class="col-md-1 form-label">RCM Bill#</label>
@@ -188,32 +188,12 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12  p-0">
-                                    <div class="card" style="max-height: 202px; overflow-x: auto; overflow-y: auto;">
-                                        <table style="width: 100vw;">
-                                            <thead class="bg-primary" style="height:50px;">
-                                                <tr>
-                                                    <th class="pl-2 pr-2 text-center" style="position:sticky; z-index: 1; left: 0; background-color: #467fcf !important;">Sr #</th>
-                                                    <th class="pl-2 pr-2 text-center" style="width: 180px">Group</th>
-                                                    <th class="pl-2 pr-2 text-center" style="width: 250px;">Description</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel1</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel2</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel3</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel4</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel5</th>
-                                                    <th class="pl-2 pr-2 text-center">BoxLabel6</th>
-                                                    <th class="pl-2 pr-2 text-center">Rate</th>
-                                                    <th class="pl-2 pr-2 text-center">Disc %</th>
-                                                    <th class="pl-2 pr-2 text-center">Disc Amt</th>
-                                                    <th class="pl-2 pr-2 text-center">Oth. Charges</th>
-                                                    <th class="pl-2 pr-2 text-center">Taxable Amt</th>
-                                                    <th class="pl-2 pr-2 text-center">GST %</th>
-                                                    <th class="pl-2 pr-2 text-center" style="position: sticky; z-index: 1; left: 0; right: 0; background-color: #467fcf !important;">Action</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="contentRow">
-                                            </tbody>
-                                        </table>
+                                <div class="row customer-gnr-ch-multi">
+                                    <div class="col-md-12 col-lg-12 p-2">
+                                        <div class="card mb-0 m-0 p-2 pl-3 pr-3">
+                                            <div class="col-md-12 p-0 m-0" id="GeneralExpensesMultiList">
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -257,69 +237,69 @@
                         <div class="col-md-4">
                             <div class="form-horizontal">
                                 <div class="row mb-1">
-                                    <label for="TaxableAmount" class="col-md-6 form-label text-right">Basic Amount</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="TaxableAmount" placeholder="" readonly tabindex="-1">
+                                    <label for="TaxableAmount" class="col-md-4 form-label text-left">Basic Amount</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="TaxableAmount" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="TDSPercent" class="col-md-6 form-label text-right">T.D.S.</label>
+                                    <label for="TDSPercent" class="col-md-2 form-label text-left">T.D.S.</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="TDSPercent" placeholder="%">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="TDSPercent" placeholder="%">
                                     </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" id="TDSAmount" placeholder="" tabindex="-1">
-                                    </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <label for="SGSTTotal" class="col-md-6 form-label text-right">SGST</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="SGSTTotal" placeholder="" tabindex="-1">
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="TDSAmount" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="CGSTTotal" class="col-md-6 form-label text-right">CGST</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="CGSTTotal" placeholder="" tabindex="-1">
+                                    <label for="SGSTTotal" class="col-md-4 form-label text-left">SGST</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="SGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="IGSTTotal" class="col-md-6 form-label text-right">IGST</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="IGSTTotal" placeholder="" tabindex="-1">
+                                    <label for="CGSTTotal" class="col-md-4 form-label text-left">CGST</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="CGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="GSTStateCessTotal" class="col-md-6 form-label text-right">State Cess</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="GSTStateCessTotal" placeholder="" tabindex="-1">
+                                    <label for="IGSTTotal" class="col-md-4 form-label text-left">IGST</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="IGSTTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="GSTCentralCessTotal" class="col-md-6 form-label text-right">Central Cess</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="GSTCentralCessTotal" placeholder="" tabindex="-1">
+                                    <label for="GSTStateCessTotal" class="col-md-4 form-label text-left">State Cess</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="GSTStateCessTotal" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="TCSPercent" class="col-md-6 form-label text-right">T.C.S.</label>
+                                    <label for="GSTCentralCessTotal" class="col-md-4 form-label text-left">Central Cess</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="GSTCentralCessTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="TCSPercent" class="col-md-2 form-label text-left">T.C.S.</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control" id="TCSPercent" placeholder="%">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="TCSPercent" placeholder="%">
                                     </div>
-                                    <div class="col-md-4">
-                                        <input type="text" class="form-control" id="TCSAmount" placeholder="" tabindex="-1">
-                                    </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <label for="RoundOff" class="col-md-6 form-label text-right">Other (+/-)</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="RoundOff" placeholder="">
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="TCSAmount" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="BillAmount" class="col-md-6 form-label text-right">Bill Amount</label>
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" id="BillAmount" placeholder="" readonly tabindex="-1">
+                                    <label for="RoundOff" class="col-md-4 form-label text-left">Other (+/-)</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="RoundOff" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BillAmount" class="col-md-4 form-label text-left">Bill Amount</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="BillAmount" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                             </div>
@@ -334,36 +314,18 @@
                             <div class="row">
                                 <label for="PaymentDetail" class="col-md-2 form-label">Payment Detail</label>
                                 <div class="col-md-6">
-                                    <input type="text" class="form-control" id="PaymentDetail" placeholder="">
+                                    <input type="text" class="form-control" id="PaymentDetail" placeholder="" readonly>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6 text-right">
-                        <a href="#" class="btn btn-primary mt-1" data-toggle="tooltip" title=""
-                           data-placement="top" data-original-title="Save">
-                            <i class="fa fa-save"></i>&nbsp;Save
-                        </a>
-                        <a href="#" class="btn btn-blue mt-1" data-toggle="tooltip" title=""
-                           data-placement="top" data-original-title="Print">
-                            <i class="fa fa-print"></i>&nbsp;Print
-                        </a>
-                        <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title=""
-                           data-placement="top" data-original-title="Send">
-                            <i class="fa fa-share-alt"></i>&nbsp;Send
-                        </a>
-                        <a href="#" class="btn btn-danger mt-1" data-toggle="tooltip" title=""
-                           data-placement="top" data-original-title="Delete">
-                            <i class="fa fa-trash-o"></i>&nbsp;Delete
-                        </a>
-                        <a href="#" class="btn-back btn btn-warning mt-1" data-toggle="tooltip" title=""
-                           data-placement="top" data-original-title="Cancel">
-                            <i class="fa fa-plus"></i>&nbsp;New
-                        </a>
-                        <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title=""
-                           data-placement="top" data-original-title="Cancel">
-                            <i class="fa fa-arrow-left"></i>&nbsp;Cancel
-                        </a>
+                        <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                        <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                        <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                        <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                        <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                        <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                     </div>
                 </dic>
             </div>
@@ -372,7 +334,1337 @@
     <!-- row end -->
 
     <input type="hidden" id="Id" value="0" />
-    <input type="hidden" id="hdnSelectedLRNumberIds" value="" />
-    <input type="hidden" id="selectedLRDetails" value="[]" />
+
+    @{
+        if (Model.ProductAmtCalcOnList != null)
+        {
+            foreach (var o in Model.ProductAmtCalcOnList)
+            {
+                    <input class="ProductAMtCalcOn" type="hidden" value="@o.Text">
+            }
+        }
+    }
 
 </div>
+
+
+@section Scripts
+{
+    <script>
+        var contentRowId = 0;
+
+        $(function (e) {
+
+            $('.dv-list').show();
+            $('.dv-detail').hide();
+
+            bindDatatableList();
+            addClick();
+
+            $("#AccountBranchMappingId").on('change', function (e) {
+                GetListWithCustomerAccountBranchMappingId($(this).val(), contentRowId);
+                calculateBasicAmount();
+            });
+
+            $('.CalculateTotalTaxableAmount').on('keyup', function () {
+                calculateBasicAmount();
+            });
+
+            $("#TDSPercentage").on('keyup', function (e) {
+                var amt = ($('#TaxableAmount').val() * $(this).val() / 100) || 0;
+                $("#TDSAmount").val(Math.round(amt));
+            });
+
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#AccountBranchMappingId").focus();
+            // $("#BillNumberBranch").val(0);
+            $("#BillNumberFirm").val(0);
+            $("#BillTypeID").val(@Model.CustomerBook.BillTypeID).trigger('change');
+            addRow();
+        }
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billNumberBranch;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billPartyName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.gstNo;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billAmount.toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billNumberFirm;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+            columns.push({ "data": "billNumberBranch", "name": "billNumberBranch" });
+            columns.push({ "data": "billDate", "name": "billDate" });
+            columns.push({ "data": "billPartyName", "name": "billPartyName" });
+            columns.push({ "data": "gstNo", "name": "gstNo" });
+            columns.push({ "data": "billAmount", "name": "billAmount" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "billNumberFirm", "name": "billNumberFirm" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                destroy: true,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/CustomerGeneralExpensesMultiList"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function fromReset() {
+
+            $("#Id").val(0);
+            $("#BillNumberBranch").val(0);
+            $("#BillNumberFirm").val(0);
+            $("#RCMBillNumber").val(0);
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
+            $("#BillDate").datepicker("setDate", formattedMinimumDate);
+
+            $("#CreditDays").val('');
+            $("#BillNumber").val(0);
+            $("#Notes").val('');
+            $("#TaxableAmount").val('');
+            $("#TDSPercentage").val('');
+            $("#TDSAmount").val('');
+            $("#SGSTTotal").val('');
+            $("#CGSTTotal").val('');
+            $("#IGSTTotal").val('');
+            $("#GSTStateCessTotal").val('');
+            $("#GSTCentralCessTotal").val('');
+            $("#RoundOff").val('');
+            $("#BillAmount").val('');
+            $("#TCSPercentage").val('');
+            $("#TCSAmount").val('');
+            $("#ewayBill").val('');
+
+            $("#AccountBranchMappingId").val(null).trigger('change');
+            $("#BillTypeID").val(@Model.CustomerBook.BillTypeID).trigger('change');
+            $("#GenaralPurchaseAccountBranchMappingId").val(null).trigger('change');
+            $("#SkipInGSTR").prop('checked', true);
+
+            $('#GeneralExpensesMultiList').html('');
+
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+
+        }
+
+        function saveItem() {
+            try {
+                var ewayBillNumber = $("#ewayBill").val();
+
+                if ($("#AccountBranchMappingId").val() == null || $("#AccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select bill party");
+                    $("#AccountBranchMappingId").focus();
+                    return false;
+                }
+
+                if ($("#BillDate").val() == "") {
+                    showWarning("", "Please enter Date");
+                    $("#BillDate").focus();
+                    return false;
+                }
+
+                if ($("#BillNumberBranch").val() == "") {
+                    showWarning("", "Please enter branch chalan");
+                    $("#BillNumberBranch").focus();
+                    return false;
+                }
+
+                if ($("#BillNumberFirm").val() == "") {
+                    showWarning("", "Please enter firm chalan");
+                    $("#BillNumberFirm").focus();
+                    return false;
+                }
+
+                if (ewayBillNumber.length < 12) {
+                    showWarning("", "Eway Bill Number should be at least 12 characters long.");
+                    $("#EwayBillNumber").focus();
+                    return false;
+                }
+
+                if ($("#TaxableAmount").val() != null && $("#TaxableAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TaxableAmount").val())) {
+                        showWarning("", "Taxable amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TaxableAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TDSPercent").val() != null && $("#TDSPercent").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSPercent").val())) {
+                        showWarning("", "TDS percent must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TDSPercent").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TDSAmount").val() != null && $("#TDSAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSAmount").val())) {
+                        showWarning("", "TDS amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TDSAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#SGSTTotal").val() != null && $("#SGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#SGSTTotal").val())) {
+                        showWarning("", "SGST must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#SGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CGSTTotal").val() != null && $("#CGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CGSTTotal").val())) {
+                        showWarning("", "CGST must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#CGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#IGSTTotal").val() != null && $("#IGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#IGSTTotal").val())) {
+                        showWarning("", "IGST must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#IGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#GSTStateCessTotal").val() != null && $("#GSTStateCessTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#GSTStateCessTotal").val())) {
+                        showWarning("", "State Cess must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#GSTStateCessTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#GSTCentralCessTotal").val() != null && $("#GSTCentralCessTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#GSTCentralCessTotal").val())) {
+                        showWarning("", "Central Cess must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#GSTCentralCessTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TCSPercent").val() != null && $("#TCSPercent").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TCSPercent").val())) {
+                        showWarning("", "TCS percent must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TCSPercent").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TCSAmount").val() != null && $("#TCSAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TCSAmount").val())) {
+                        showWarning("", "TCS amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TCSAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#RoundOff").val() != null && $("#RoundOff").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#RoundOff").val())) {
+                        showWarning("", "Other (+/-) must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#RoundOff").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#BillAmount").val() != null && $("#BillAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#BillAmount").val())) {
+                        showWarning("", "Bill amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#BillAmount").focus();
+                        return false;
+                    }
+                }
+
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.BillDate = moment(getDate($("#BillDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.BillNumberFirm = $("#BillNumberFirm").val();
+                savedata.RCMBillNumber = $("#RCMBillNumber").val();
+                savedata.CreditDays = getIntValueZero("CreditDays");
+                savedata.Notes = $("#Notes").val();
+                savedata.BillTypeID = getIntValueZero("BillTypeID");
+                savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
+                savedata.GenaralPurchaseAccountBranchMappingId = getIntValueZero("GenaralPurchaseAccountBranchMappingId");
+                savedata.TDSPercentage = getFloatValueZero("TDSPercentage", 3);
+                savedata.TCSPercentage = getFloatValueZero("TCSPercentage", 3);
+                savedata.TaxableAmount = getFloatValueZero("TaxableAmount", 2);
+                savedata.TDSAmount = getFloatValueZero("TDSAmount", 2);
+                savedata.SGSTTotal = getFloatValueZero("SGSTTotal", 2);
+                savedata.CGSTTotal = getFloatValueZero("CGSTTotal", 2);
+                savedata.IGSTTotal = getFloatValueZero("IGSTTotal", 2);
+                savedata.GSTStateCessTotal = getFloatValueZero("GSTStateCessTotal", 2);
+                savedata.GSTCentralCessTotal = getFloatValueZero("GSTCentralCessTotal", 2);
+                savedata.RoundOff = getFloatValueZero("RoundOff", 2);
+                savedata.BillAmount = getFloatValueZero("BillAmount", 2);
+                savedata.TCSAmount = getFloatValueZero("TCSAmount", 2);
+                savedata.EntryTypeName = "GPM";
+                savedata.SkipInGSTR = $('#SkipInGSTR').is(':checked');
+
+                var detailGridList = getRowData();
+                var detailList = [];
+                detailGridList.forEach(function(details){
+                    var detail = {};
+                    var expdateParts = details.ExpDt.split('/');
+                    var expdt;
+                    if (expdateParts.length === 2) {
+                        var month = expdateParts[0];
+                        var year = expdateParts[1];
+
+                        var convertedDate = new Date(year, month - 1, 1);
+
+                        expdt = ("0" + convertedDate.getDate()).slice(-2) + "/" +
+                            ("0" + (convertedDate.getMonth() + 1)).slice(-2) + "/" +
+                            (convertedDate.getFullYear() % 100);
+                    }
+
+                    detail.ProductBranchMappingId = details.ProductMappingId;
+                    detail.Quantity1 = details.BoxLabel1 == undefined ? null : details.BoxLabel1;
+                    detail.Quantity2 = details.BoxLabel2 == undefined ? null : details.BoxLabel2;
+                    detail.Quantity3 = details.BoxLabel3 == undefined ? null : details.BoxLabel3;
+                    detail.Quantity4 = details.BoxLabel4 == undefined ? null : details.BoxLabel4;
+                    detail.Quantity5 = details.BoxLabel5 == undefined ? null : details.BoxLabel5;
+                    detail.Quantity6 = details.BoxLabel6 == undefined ? null : details.BoxLabel6;
+                    detail.DiscountPercentage = (details.DiscPercentage || 0).toFixed(2);
+                    detail.DiscountAmount = (details.DiscAmt || 0).toFixed(3);
+                    detail.Rate = (details.Rate || 0).toFixed(3);
+                    detail.OtherCharges = (details.OtherCharges || 0).toFixed(3);
+                    detail.BasicAmount = (details.TaxAmt || 0).toFixed(3);
+                    detail.GSTStateCessPercentage = (details.Scess || 0).toFixed(2);
+                    detail.GSTCentralCess = (details.Ccess || 0).toFixed(2);
+                    detail.BatchNumber = details.BatchNo
+                    detail.ExpiryDate = moment(getDate(expdt)).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                    detail.ItemDesc1 = details.ItemDec1 == undefined ? null : details.ItemDec1;
+                    detail.ItemDesc2 = details.ItemDec2 == undefined ? null : details.ItemDec2;
+                    detail.ItemDesc3 = details.ItemDec3 == undefined ? null : details.ItemDec3;
+                    detail.ItemDesc4 = details.ItemDec4 == undefined ? null : details.ItemDec4;
+                    detail.ItemDesc5 = details.ItemDec5 == undefined ? null : details.ItemDec5;
+                    detail.ItemDesc6 = details.ItemDec6 == undefined ? null : details.ItemDec6;
+                    detail.QuantityDiscountPercentage = (details.QtyDiscPercentage || 0).toFixed(2);
+                    detail.QuantityDiscountAmount = (details.QtyDiscAmt || 0).toFixed(3);
+                    detail.SpecialDiscount1 = (details.TradDiscPerc || 0).toFixed(2);
+                    detail.SpecialDiscount2 = (details.SpDiscPerc || 0).toFixed(2);
+                    detail.SpecialDiscount3 = (details.CashDiscPerc || 0).toFixed(2);
+                    detail.SalesRate = (details.TaxPlusAmt || 0).toFixed(3);
+                    detail.SalesDiscount = (details.RetailRate || 0).toFixed(3);
+
+                    detailList.push(detail);
+                });
+
+                savedata.detailTableDetails = JSON.stringify(detailList);
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveCustomerGeneralExpensesMulti", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'General Expenses Multi saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteCustomerGeneralExpensesMulti"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetCustomerGeneralExpensesMulti"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                addClick();
+                                if (isViewMode) {
+                                    setScreenMode(true);
+                                    $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                } else {
+                                    setScreenMode(false);
+                                    $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                }
+
+                                $('#GeneralExpensesMultiList').html('');
+
+                                $("#Id").val(result.data.id);
+                                $("#BillNumberFirm").val(result.data.billNumberFirm);
+                                $("#RCMBillNumber").val(result.data.rcmBillNumber);
+                                $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
+                                $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                $("#BillTypeID").val(result.data.billTypeID).trigger('change');
+                                $("#GenaralPurchaseAccountBranchMappingId").val(result.data.genaralPurchaseAccountBranchMappingId).trigger('change');
+                                $("#CreditDays").val(result.data.creditDays);
+                                $("#Notes").val(result.data.notes);
+                                $("#TaxableAmount").val(result.data.taxableAmount ? result.data.taxableAmount.toFixed(2) : '');
+                                $("#TDSPercentage").val(result.data.tdsPercentage ? result.data.tdsPercentage.toFixed(3) : '');
+                                $("#TDSAmount").val(result.data.tdsAmount ? result.data.tdsAmount.toFixed(2) : '');
+                                $("#SGSTTotal").val(result.data.sgstTotal ? result.data.sgstTotal.toFixed(2) : '');
+                                $("#CGSTTotal").val(result.data.cgstTotal ? result.data.cgstTotal.toFixed(2) : '');
+                                $("#IGSTTotal").val(result.data.igstTotal ? result.data.igstTotal.toFixed(2) : '');
+                                $("#GSTStateCessTotal").val(result.data.gstStateCessTotal ? result.data.gstStateCessTotal.toFixed(2) : '');
+                                $("#GSTCentralCessTotal").val(result.data.gstCentralCessTotal ? result.data.gstCentralCessTotal.toFixed(2) : '');
+                                $("#RoundOff").val(result.data.roundOff ? result.data.roundOff.toFixed(2) : '');
+                                $("#BillAmount").val(result.data.billAmount ? result.data.billAmount.toFixed(2) : '');
+                                $("#TCSPercentage").val(result.data.tcsPercentage ? result.data.tcsPercentage.toFixed(3) : '');
+                                $("#TCSAmount").val(result.data.tcsAmount ? result.data.tcsAmount.toFixed(2) : '');
+                                $("#SkipInGSTR").prop('checked', result.data.skipInGSTR);
+                                calculateBasicAmount();
+                                getLRDetailListByPurchaseBillMaster(result.data.id);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getProductDetail(id, productcontentRowId) {
+            try {
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetProductetailsByMappingId"))" + "/" + id, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                $("#Rate" + productcontentRowId).val(result.data.purchaseRate ? result.data.purchaseRate.toFixed(2) : '0.00');
+                                $("#DiscPercentage" + productcontentRowId).val(result.data.discount ? result.data.discount.toFixed(3) : '0.000');
+                                $("#RetailRate" + productcontentRowId).val(result.data.rateRetail ? result.data.rateRetail.toFixed(2) : '0.00');
+                                $("#Gst" + productcontentRowId).val(result.data.gstRate ? result.data.gstRate.toFixed(2) : '0.00');
+                                $("#Scess" + productcontentRowId).val(result.data.gstStateCess ? result.data.gstStateCess.toFixed(2) : '0.00');
+                                $("#Ccess" + productcontentRowId).val(result.data.gstCentralCess ? result.data.gstCentralCess.toFixed(2) : '0.00');
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getLRDetailListByPurchaseBillMaster(masterId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListByPurchaseBillMasterId"))" + "/" + masterId, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                contentRowId = 0;
+                                result.data.forEach(function (LRBookingDetail) {
+                                    addRow();
+                                    $("#SrTextbox" + contentRowId).val(contentRowId);
+                                    $("#ProductMappingId" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec1" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec2" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec3" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec4" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec5" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#ItemDec6" + contentRowId).val(LRBookingDetail.chargeWeight).trigger('change');
+                                    $("#BatchNo" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#ExpDt" + contentRowId).val(moment(LRBookingDetail.chargeWeight.split('T')[0]).format('DD/MM/YYYY'));
+                                    $("#BoxLabel1" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#BoxLabel2" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#BoxLabel3" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#BoxLabel4" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#BoxLabel5" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#BoxLabel6" + contentRowId).val(LRBookingDetail.chargeWeight);
+                                    $("#Rate" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#DiscPercentage" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#DiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#QtyDiscPercentage" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#QtyDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#TradDiscPerc" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#TradDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#SpDiscPerc" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#SpDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#CashDiscPerc" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#CashDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#TaxAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#TaxPlusAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#RetailRate" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#Gst" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#Scess" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    $("#Ccess" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                });
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetListWithCustomerAccountBranchMappingId(CustomerAccountBranchMappingId) {
+            try {
+                if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListWithCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#CreditDays").val(result.data.creditDays);
+                                $("#TDSPercent").val(result.data.tds);
+                                $("#TCSPercent").val(result.data.tcs);
+                                $("#GenaralPurchaseAccountBranchMappingId").val($("#AccountBranchMappingId").val()).trigger("change");
+                                $(".discount-percentage-cls").val(result.data.discount);
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function calculateBasicAmount() {
+            var totalTaxableAmount = 0;
+
+            $('.content-rows').each(function () {
+                var contentRowId = $(this).attr('id').replace('row-', '');
+                var taxableAmount = parseFloat($('#TaxAmt' + contentRowId).text()) || 0;
+                totalTaxableAmount += taxableAmount;
+                $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
+            });
+
+            var BasicAmount = parseFloat($('#TaxableAmount').val()) || 0;
+            var CGSTTotal = parseFloat($('#CGSTTotal').val()) || 0;
+            var SGSTTotal = parseFloat($('#SGSTTotal').val()) || 0;
+            var IGSTTotal = parseFloat($('#IGSTTotal').val()) || 0;
+            var GSTStateCessTotal = parseFloat($('#GSTStateCessTotal').val()) || 0;
+            var GSTCentralCessTotal = parseFloat($('#GSTCentralCessTotal').val()) || 0;
+            var TCSPercentage = parseFloat($('#TCSPercentage').val()) || 0;
+
+            $('#TCSAmount').val(((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal) * (TCSPercentage) / 100).toFixed(2));
+            var TCSAmount = parseFloat($('#TCSAmount').val()) || 0;
+
+            var totalAmount = BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount;
+
+            var RoundOff = customRound(totalAmount) - totalAmount;
+
+            $('#RoundOff').val(RoundOff.toFixed(2));
+            $('#BillAmount').val((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount + RoundOff).toFixed(2));
+
+        }
+
+        function customRound(number) {
+            var decimalPart = number % 1;
+            return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
+        }
+
+        function addRow() {
+            contentRowId++;
+            var htmlContentArray = [];
+
+            var htmlContent =
+                `<div class="row m-0 rounded content-rows" id="row-` + contentRowId + `">
+                                                             <div class="row">
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                     <label for="SrTextbox${contentRowId}" class="form-label"> SR#</label><input type="text" class="form-control content-row-srno" id="SrTextbox${contentRowId}" placeholder max="999" readonly>
+                                                                 </div>
+                                                                 <div class="col-md-7 pl-2 pr-2 grid-border">
+                                                                     <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
+                                                                         data-active-index="false">
+                                                                         <li class="acc_section">
+                                                                             <div class="acc_head">
+                                                                                 <div class="row">
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc1) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc2) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc3)
+       || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc4) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc5) || !string.IsNullOrEmpty(Model.CustomerBook.ItemDesc6))
+        {
+                                                                                                         <h3>Description</h3>
+        }
+        else
+        {
+                                                                                                         <h5 class="pl-3">Description</h5>
+        }
+                                                                                     <div class="invoice-ds-box acc-box col-md-12">
+                                                                                         <select class="form-control select2-show-search-api" data-rowid="${contentRowId}" id="ProductMappingId${contentRowId}">
+                                                                                         </select>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="acc_content">
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc1))
+        {
+                                                                                                     <div class="row mb-1 align-items-center">
+                                                                                                         <label for="ItemDec1${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc1</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                             <select class="form-control select2-show-search-add mode-ed" id="ItemDec1${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc2))
+        {
+                                                                                                         <div class="row mb-1">
+                                                                                                         <label for="ItemDec2${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc2</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                                     <select class="form-control select2-show-search-add mode-ed" id="ItemDec2${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc3))
+        {
+                                                                                                     <div class="row mb-1">
+                                                                                                         <label for="ItemDec3${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc3</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                             <select class="form-control select2-show-search-add mode-ed" id="ItemDec3${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc4))
+        {
+                                                                                                     <div class="row mb-1">
+                                                                                                         <label for="ItemDec4${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc4</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                             <select class="form-control select2-show-search-add mode-ed" id="ItemDec4${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc5))
+        {
+                                                                                                     <div class="row">
+                                                                                                         <label for="ItemDec5${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc5</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                             <select class="form-control select2-show-search-add mode-ed" id="ItemDec5${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.ItemDesc6))
+        {
+                                                                                                     <div class="row">
+                                                                                                         <label for="ItemDec6${contentRowId}" class="col-md-4 form-label">@Model.CustomerBook.ItemDesc6</label>
+                                                                                                         <div class="col-md-8">
+                                                                                                             <select class="form-control select2-show-search-add mode-ed" id="ItemDec6${contentRowId}">
+                                                                                                               <option></option>
+                        @{
+                            if (Model.ItemDescList != null)
+                            {
+                                foreach (var o in Model.ItemDescList)
+                                {
+                                                                                                                                                                                                                <option value="@o.Value">@o.Text</option>
+                                }
+                            }
+                        }
+                                                                                                             </select>
+                                                                                                        </div>
+                                                                                                     </div>
+        }
+                                                                             </div>
+                                                                         </li>
+                                                                     </ul>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                                                         <li class="acc_section">
+                                                                             <div class="acc_head">
+                                                                                 <div class="row">
+                                                                                     <h3>Batch No</h3>
+                                                                                     <div class="invoice-ds-box acc-box col-md-12">
+                                                                                         <input type="text" class="form-control" id="BatchNo${contentRowId}" placeholder>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="acc_content&quot;">
+                                                                                 <div class="row mb-1">
+                                                                                     <label for="ExpDt${contentRowId}" class="col-md-4 form-label">Exp. Dt</label>
+                                                                                     <div class="col-md-8">
+                                                                                        <div class="input-group">
+                                                                                            <input class="form-control fc-datepicker" placeholder="MM/YY" type="text" id="ExpDt${contentRowId}">
+                                                                                        </div>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                         </li>
+                                                                     </ul>
+                                                                 </div>
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel1))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel1${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel1</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel1${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel2))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel2${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel2</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel2${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel3))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel3${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel3</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel3${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel4))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel4${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel4</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel4${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel5))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel5${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel5</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel5${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+        @if (!string.IsNullOrEmpty(Model.CustomerBook.BoxLabel6))
+        {
+                                                                                     <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                                         <label for="BoxLabel6${contentRowId}" class="form-label">@Model.CustomerBook.BoxLabel6</label>
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel6${contentRowId}" placeholder max="999">
+                                                                                     </div>
+        }
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Rate${contentRowId}" class="form-label">Rate</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Rate${contentRowId}" placeholder></div>
+                                                                 </div>
+        @if (Model.CustomerBook.IsItemDiscount == true || Model.CustomerBook.IsItemDiscountSp == true)
+        {
+                                                                                     <div class="col-md-2 pl-2 pr-2 grid-border">
+                                                                                         <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                                                                             <li class="acc_section">
+                                                                                                 <div class="acc_head">
+                                                                                                     <div class="row">
+                                                                                                         <h3>Discount</h3>
+                                                                                                         <div class="invoice-ds-box">
+                                                                                                             <div class="row" style="flex-wrap:nowrap;padding: 0 16px 0 12px;">
+                                        @if (Model.CustomerBook.IsItemDiscount == true)
+                                        {
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 discount-percentage-cls decimalonly" data-tofixed="3" id="DiscPercentage${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 decimalonly" data-tofixed="2" id="DiscAmt${contentRowId}" placeholder>
+                                        }
+                                        else @if (Model.CustomerBook.IsItemDiscount == false && Model.CustomerBook.IsItemDiscountSp == true)
+                                        {
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 discount-percentage-cls decimalonly" data-tofixed="3" id="DiscPercentage${contentRowId}" placeholder="%" readonly>
+                                                                                                                                     <input type="text" class="form-control col-md-9 decimalonly" data-tofixed="2" id="DiscAmt${contentRowId}" placeholder readonly>
+                                        }
+                                                                                                             </div>
+                                                                                                         </div>
+                                                                                                     </div>
+                                                                                                 </div>
+                        @if (Model.CustomerBook.IsItemDiscountSp == true)
+                        {
+                                                                                                                     <div class="acc_content">
+                                                                                                                         <div class="row mb-1">
+                                                                                                                             <label for="QtyDiscAmt" class="col-md-4 form-label">QTY Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="QtyDiscPercentage${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="QtyDiscAmt${contentRowId}" placeholder>
+                                                                                                                                 </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                         <div class="row mb-1">
+                                                                                                                             <label for="TradDiscAmt" class="col-md-4 form-label">Trad Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="TradDiscPerc${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="TradDiscAmt${contentRowId}" placeholder>
+                                                                                                                                 </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                         <div class="row mb-1">
+                                                                                                                             <label for="SpDiscAmt" class="col-md-4 form-label">Sp. Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="SpDiscPerc${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="SpDiscAmt${contentRowId}" placeholder>
+                                                                                                                                  </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                         <div class="row">
+                                                                                                                             <label for="CashDiscAmt" class="col-md-4 form-label">Cash Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="CashDiscPerc${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="CashDiscAmt${contentRowId}" placeholder>
+                                                                                                                                 </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                     </div>
+                        }
+                                                                                             </li>
+                                                                                         </ul>
+                                                                                     </div>
+        }
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="OtherCharges${contentRowId}" class="form-label">Oth. Charges</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="OtherCharges${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-2 pl-2 pr-2 grid-border">
+                                                                     <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                                                         <li class="acc_section">
+                                                                             <div class="acc_head">
+                                                                                 <div class="row">
+                                                                                     <h3>Tax Amt</h3>
+                                                                                     <div class="invoice-ds-box acc-box col-md-12">
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="TaxAmt${contentRowId}" placeholder>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="acc_content">
+                                                                                 <div class="row mb-1">
+                                                                                     <label for="TaxPlusAmt${contentRowId}" class="col-md-4 form-label">+ %</label>
+                                                                                     <div class="col-md-8"><input type="text" class="form-control mr-1 decimalonly" data-tofixed="3" id="TaxPlusAmt${contentRowId}" placeholder></div>
+                                                                                 </div>
+                                                                                 <div class="row mb-1">
+                                                                                     <label for="RetailRate${contentRowId}" class="col-md-4 form-label">Retail Rate </label>
+                                                                                     <div class="col-md-8"><input type="text" class="form-control mr-1 decimalonly" data-tofixed="2" id="RetailRate${contentRowId}" placeholder></div>
+                                                                                 </div>
+                                                                             </div>
+                                                                         </li>
+                                                                     </ul>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Gst${contentRowId}" class="form-label">GST</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Gst${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Scess${contentRowId}" class="form-label">S.Cess</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Scess${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Ccess${contentRowId}" class="form-label">C.Cess</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Ccess${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-1 grid-border d-flex justify-content-center align-items-center>
+                                                                      <div class="form-group text-center mb-1">
+                                                                          <div class="btn-list1 mt-1">
+                                                                              <a href="javascript:addRow();" class="btn btn-outline-primary small-icon-btn content-rows-add-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add" tabindex="25"><i class="fa fa-plus"></i></a>
+                                                                              <a href="javascript:deleteRow(` + contentRowId + `);" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>
+                                                                          </div>
+                                                                      </div>
+                                                                 </div>
+                                                             </div>
+                                                        </div>`;
+
+            htmlContentArray.push(htmlContent);
+
+            $('.content-rows-add-btn').remove();
+            $('#GeneralExpensesMultiList').append(htmlContentArray.join(''));
+
+            var accordionContainers = $('#row-' + contentRowId + ' .demo-accordion');
+            accordionContainers.each(function () {
+                $(this).accordionjs(); // Initialize accordion
+                $(this).find('.acc_content').hide(); // Close accordion sections
+            });
+
+            $('.select2-show-search-add').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                tags: true
+            });
+
+            $('.select2-show-search-api').select2({
+                minimumResultsForSearch: ''
+            });
+
+            $('.fc-datepicker').datepicker({
+                dateFormat: 'mm/y',
+                onClose: function (dateText, inst) {
+                    $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+                }
+            });
+
+            $('.select2-show-search-api').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                ajax: {
+                    minimumInputLength: 2,
+                    url: '@(Url.Content("~/Customer/SearchCustomerGeneralExpensesMultiProductDesc"))',
+                    dataType: "json",
+                    type: "GET",
+                    data: function (params) {
+                        return {
+                            search: params.term// search term
+                        };
+                    },
+                    processResults: function (data) {
+                        var combinedResults = [];
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item?.groupName != null && item?.groupName != undefined ? item?.groupName : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item.productDesignNumber != null && item.productDesignNumber != undefined ? item.productDesignNumber : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item.colorName != null && item.colorName != undefined ? item.colorName : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item.sizeName != null && item.sizeName != undefined ? item.sizeName : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            var text = '';
+
+                            if (item.code != null && item.code != undefined) {
+                                text += item.code;
+                            }
+
+                            if (item.printName != null && item.printName != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.printName;
+                            } else if (item.titleAlternate != null && item.titleAlternate != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.titleAlternate;
+                            }
+
+                            if (item.hsnCode != null && item.hsnCode != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.hsnCode;
+                            }
+
+                            return {
+                                text: text,
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        return {
+                            results: combinedResults
+                        };
+                    }
+                },
+            });
+
+            var formattedMinimumDate = $.datepicker.formatDate("mm/y", new Date());
+            $(`#ExpDt${contentRowId}`).datepicker("setDate", formattedMinimumDate);
+
+            $("#ProductMappingId" + contentRowId).on('change', function () {
+                var rowId = $(this).attr('data-rowid');
+                getProductDetail($(this).val(), rowId);
+            });
+
+            // Attach event listeners to relevant inputs for the taxable amount calculation
+            $('#BoxLabel1' + contentRowId + ', #BoxLabel2' + contentRowId + ', #BoxLabel3' + contentRowId +
+                ', #BoxLabel4' + contentRowId + ', #BoxLabel5' + contentRowId + ', #BoxLabel6' + contentRowId +
+                ', #Rate' + contentRowId + ', #DiscPercentage' + contentRowId + ', #QtyDiscPercentage' + contentRowId +
+                ', #TradDiscPerc' + contentRowId + ', #SpDiscPerc' + contentRowId + ', #CashDiscPerc' + contentRowId +
+                ', #TaxAmt' + contentRowId + ', #OtherCharges' + contentRowId).on('blur', function () {
+                    var IsItemDiscountSp = "@Model.CustomerBook.IsItemDiscountSp";
+                    if (IsItemDiscountSp == "True") {
+                        calculateSpDiscTaxableAmount(contentRowId);
+                    } else {
+                        calculateOnlyDiscTaxableAmount(contentRowId);
+                    }
+                });
+
+            var counter = 0;
+            $('.content-row-srno').each(function () {
+                $(this).val(++counter);
+            });
+
+            $('.delete-row-btn').on('click', function () {
+                var index = $(this).data('index');
+                deleteRow(index);
+            });
+
+            calculateBasicAmount();
+        }
+
+        function deleteRow(rowId) {
+            $('#row-' + rowId).remove();
+            if ($('.content-rows').length == 0 || $('.content-rows-add-btn').length == 0) {
+                contentRowId = 0;
+                addRow();
+            }
+        }
+
+        function getRowData() {
+            var rowDataArray = [];
+
+            $('.content-rows').each(function () {
+                var rowData = {
+                    'SrTextbox': $(this).find('.content-row-srno').val(),
+                    'ProductMappingId': $(this).find('#ProductMappingId' + contentRowId).val(),
+                    'ItemDec1': $(this).find('#ItemDec1' + contentRowId).val(),
+                    'ItemDec2': $(this).find('#ItemDec2' + contentRowId).val(),
+                    'ItemDec3': $(this).find('#ItemDec3' + contentRowId).val(),
+                    'ItemDec4': $(this).find('#ItemDec4' + contentRowId).val(),
+                    'ItemDec5': $(this).find('#ItemDec5' + contentRowId).val(),
+                    'ItemDec6': $(this).find('#ItemDec6' + contentRowId).val(),
+                    'BoxLabel1': $(this).find('#BoxLabel1' + contentRowId).val(),
+                    'BoxLabel2': $(this).find('#BoxLabel2' + contentRowId).val(),
+                    'BoxLabel3': $(this).find('#BoxLabel3' + contentRowId).val(),
+                    'BoxLabel4': $(this).find('#BoxLabel4' + contentRowId).val(),
+                    'BoxLabel5': $(this).find('#BoxLabel5' + contentRowId).val(),
+                    'BoxLabel6': $(this).find('#BoxLabel6' + contentRowId).val(),
+                    'Rate': $(this).find('#Rate' + contentRowId).val(),
+                    'DiscPercentage': $(this).find('#DiscPercentage' + contentRowId).val(),
+                    'DiscAmt': $(this).find('#DiscAmt' + contentRowId).val(),
+                    'QtyDiscPercentage': $(this).find('#QtyDiscPercentage' + contentRowId).val(),
+                    'QtyDiscAmt': $(this).find('#QtyDiscAmt' + contentRowId).val(),
+                    'TradDiscPerc': $(this).find('#TradDiscPerc' + contentRowId).val(),
+                    'SpDiscPerc': $(this).find('#SpDiscPerc' + contentRowId).val(),
+                    'CashDiscPerc': $(this).find('#CashDiscPerc' + contentRowId).val(),
+                    'OtherCharges': $(this).find('#OtherCharges' + contentRowId).val(),
+                    'TaxAmt': $(this).find('#TaxAmt' + contentRowId).val(),
+                    'TaxPlusAmt': $(this).find('#TaxPlusAmt' + contentRowId).val(),
+                    'RetailRate': $(this).find('#RetailRate' + contentRowId).val(),
+                    'Gst': $(this).find('#Gst' + contentRowId).val(),
+                    'Scess': $(this).find('#Scess' + contentRowId).val(),
+                    'Ccess': $(this).find('#Ccess' + contentRowId).val(),
+                    'BatchNo': $(this).find('#BatchNo' + contentRowId).val(),
+                    'ExpDt': $(this).find('#ExpDt' + contentRowId).val(),
+                };
+                rowDataArray.push(rowData);
+            });
+
+            return rowDataArray;
+        }
+
+        function calculateSpDiscTaxableAmount(currentRowId) {
+            var totalQtAmt = 0;
+
+            $(".ProductAMtCalcOn").each(function (index, item) {
+                var box1 = "@Model.CustomerBook.BoxLabel1.ToUpper()";
+                var box2 = "@Model.CustomerBook.BoxLabel2.ToUpper()";
+                var box3 = "@Model.CustomerBook.BoxLabel3.ToUpper()";
+                var box4 = "@Model.CustomerBook.BoxLabel4.ToUpper()";
+                var box5 = "@Model.CustomerBook.BoxLabel5.ToUpper()";
+                var box6 = "@Model.CustomerBook.BoxLabel6.ToUpper()";
+                var hyphenIndex = item.value.indexOf('-');
+                var value = hyphenIndex !== -1 ? item.value.substring(hyphenIndex + 1).toUpperCase().trim() : item.value.toUpperCase().trim();
+
+                if (box1 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel1${currentRowId}`);
+                }
+                if (box2 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel2${currentRowId}`);
+                }
+                if (box3 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel3${currentRowId}`);
+                }
+                if (box4 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel4${currentRowId}`);
+                }
+                if (box5 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel5${currentRowId}`);
+                }
+                if (box6 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel6${currentRowId}`);
+                }
+            });
+
+            var a = totalQtAmt * parseFloat(getFloatValueZero(`Rate${currentRowId}`, 2));
+            var b = totalQtAmt * parseFloat(getFloatValueZero(`QtyDiscPercentage${currentRowId}`, 3));
+            var c = ((a - b) * parseFloat(getFloatValueZero(`TradDiscPerc${currentRowId}`, 3))) / 100;
+            var d = ((a - b - c) * parseFloat(getFloatValueZero(`SpDiscPerc${currentRowId}`, 3))) / 100;
+            var e = ((a - b - c - d) * parseFloat(getFloatValueZero(`CashDiscPerc${currentRowId}`, 3))) / 100;
+            var f = b + c + d + e;
+            var f1 = (100 * f) / a;
+            var g = (a - f) + parseFloat(getFloatValueZero(`OtherCharges${currentRowId}`, 2));
+
+            $(`#QtyDiscAmt${currentRowId}`).val(b.toFixed(2));
+            $(`#TradDiscAmt${currentRowId}`).val(c.toFixed(2));
+            $(`#SpDiscAmt${currentRowId}`).val(d.toFixed(2));
+            $(`#CashDiscAmt${currentRowId}`).val(e.toFixed(2));
+            $(`#DiscAmt${currentRowId}`).val(f.toFixed(2));
+            $(`#DiscPercentage${currentRowId}`).val(f1.toFixed(3));
+            $(`#TaxAmt${currentRowId}`).val(g.toFixed(2));
+            calculateBasicAmount();
+        }
+
+        function calculateOnlyDiscTaxableAmount(currentRowId) {
+            var totalQtAmt = 0;
+
+            $(".ProductAMtCalcOn").each(function (index, item) {
+                var box1 = "@Model.CustomerBook.BoxLabel1.ToUpper()";
+                var box2 = "@Model.CustomerBook.BoxLabel2.ToUpper()";
+                var box3 = "@Model.CustomerBook.BoxLabel3.ToUpper()";
+                var box4 = "@Model.CustomerBook.BoxLabel4.ToUpper()";
+                var box5 = "@Model.CustomerBook.BoxLabel5.ToUpper()";
+                var box6 = "@Model.CustomerBook.BoxLabel6.ToUpper()";
+                var hyphenIndex = item.value.indexOf('-');
+                var value = hyphenIndex !== -1 ? item.value.substring(hyphenIndex + 1).toUpperCase().trim() : item.value.toUpperCase().trim();
+
+                if (box1 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel1${currentRowId}`);
+                }
+                if (box2 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel2${currentRowId}`);
+                }
+                if (box3 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel3${currentRowId}`);
+                }
+                if (box4 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel4${currentRowId}`);
+                }
+                if (box5 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel5${currentRowId}`);
+                }
+                if (box6 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel6${currentRowId}`);
+                }
+            });
+
+            var a = (parseFloat(getFloatValueZero(`Rate${currentRowId}`, 2)) * parseFloat(getFloatValueZero(`DiscPercentage${currentRowId}`, 3))) / 100;
+            var b = ((parseFloat(getFloatValueZero(`Rate${currentRowId}`, 2)) - parseFloat(getFloatValueZero(`DiscAmt${currentRowId}`, 3))) * totalQtAmt) + parseFloat(getFloatValueZero(`OtherCharges${currentRowId}`, 2));
+
+            $(`#DiscAmt${currentRowId}`).val(a.toFixed(2));
+            $(`#TaxAmt${currentRowId}`).val(b.toFixed(2));
+            calculateBasicAmount();
+        }
+
+    </script>
+}

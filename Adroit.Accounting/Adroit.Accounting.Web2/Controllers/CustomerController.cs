@@ -82,6 +82,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IChalan _chalanRepository;
         private readonly IChalanReceive _chalanReceiveRepository;
         private readonly ILRBookingRangeRenew _lrBookingRangeRenewRepository;
+        private readonly ICustomerGeneralExpensesMulti _customerGeneralExpensesMultiRepository;
         private readonly IChalanReceiveAgency _chalanReceiveAgency;
 
         public CustomerController(
@@ -154,7 +155,8 @@ namespace Adroit.Accounting.Web.Controllers
             IChalan chalanRepository,
             ICustomerInvoice customerInvoice,
             IChalanReceive chalanReceiveRepository,
-            ILRBookingRangeRenew lrBookingRangeRenewRepository,
+            ILRBookingRangeRenew lrBookingRangeRenewRepository, 
+            ICustomerGeneralExpensesMulti customerGeneralExpensesMultiRepository,
             IChalanReceiveAgency chalanReceiveAgency)
             : base(loginHandler, userRepository, configurationData)
         {
@@ -228,6 +230,7 @@ namespace Adroit.Accounting.Web.Controllers
             _customerInvoice = customerInvoice;
             _chalanReceiveRepository = chalanReceiveRepository;
             _lrBookingRangeRenewRepository = lrBookingRangeRenewRepository;
+            _customerGeneralExpensesMultiRepository = customerGeneralExpensesMultiRepository;
             _chalanReceiveAgency = chalanReceiveAgency;
         }
 

@@ -78,6 +78,7 @@ try
     builder.Services.AddSingleton<IGSTFirmType, GSTFirmTypeRepository>();
     builder.Services.AddSingleton<ISoftware, SoftwareRepository>();
     builder.Services.AddSingleton<IAdminCustomerFirmBranch, AdminCustomerFirmBranchRepository>();
+    builder.Services.AddSingleton<IAdminCustomerBranchToBranchMapping, AdminCustomerBranchToBranchMappingRepository>();
     builder.Services.AddSingleton<IBranchTypeAdmin, BranchTypeAdminRepository>();
     builder.Services.AddSingleton<IAdminCustomerUser, AdminCustomerUserRepository>();
     builder.Services.AddSingleton<ICustomerAccountGroupHeader, CustomerAccountGroupHeaderRepository>();
@@ -146,6 +147,8 @@ try
     builder.Services.AddSingleton<IReportLRBookingMonthlySummary, ReportLRBookingMonthlySummaryRepository>();
     builder.Services.AddSingleton<IReportLRBookingDailySummary, ReportLRBookingDailySummaryRepository>();
     builder.Services.AddSingleton<IChalanReceiveAgency, ChalanReceiveAgencyRepository>();
+    builder.Services.AddSingleton<ICustomerGeneralExpensesMulti, CustomerGeneralExpensesMultiRepository>();
+	builder.Services.AddSession();
 
     if (!builder.Environment.IsDevelopment())
     {
@@ -199,6 +202,7 @@ try
 
     app.UseAuthentication();
     app.UseAuthorization();
+	app.UseSession();
 
     app.MapControllerRoute(
         name: "default",

@@ -32,6 +32,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@IsWeightRoundOff", value.IsWeightRoundOff);
             parameters.Add("@IsPartyAndCityRateFromLastLR", value.IsPartyAndCityRateFromLastLR);
             parameters.Add("@ReverseChargeApplyForURDParty", value.ReverseChargeApplyForURDParty);
+            parameters.Add("@IsTaxCalculateGTASales", value.IsTaxCalculateGTASales);
             return QueryHelper.Save("sp_CustomerFirmTransportSettingSave", connectionString, parameters);
         }
        

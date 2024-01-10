@@ -25,10 +25,10 @@ Begin
 		) AS RowNum,
 		Count(*) over () AS TotalCount, 
 		Broker.*,
-		City.Title As City
+		City.Title As CityName
 		FROM [Broker]
 		LEFT JOIN City on City.Id = [Broker].CityId
-		WHERE [Broker].Deleted = 0 And [Broker].CustomerId=@CustomerId
+		WHERE [Broker].CustomerId = @CustomerId AND [Broker].Deleted = 0 
 		AND (
 			Coalesce(@Search,'') = '' OR [Broker].[Name] like '%'+ @Search + '%'
 			OR ContactPersonName like '%'+ @Search + '%'

@@ -249,6 +249,16 @@
         public const string _TableName = "[Z-PurchaseBillMaster-Z]";
         public const string EwayBillNumber = "EwayBillNumber";
     }
+    public sealed class PurchaseBillDetailTable
+    {
+        public const string _TableName = "[Z-PurchaseBillDetail-Z]";
+        public const string ItemDesc1 = "ItemDesc1";
+        public const string ItemDesc2 = "ItemDesc2";
+        public const string ItemDesc3 = "ItemDesc3";
+        public const string ItemDesc4 = "ItemDesc4";
+        public const string ItemDesc5 = "ItemDesc5";
+        public const string ItemDesc6 = "ItemDesc6";
+    }
     public sealed class ChalanReceiveTable
     {
         public const string _TableName = "[Z-ChalanReceive-Z]";
