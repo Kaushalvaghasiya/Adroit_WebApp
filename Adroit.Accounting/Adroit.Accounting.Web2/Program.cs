@@ -134,7 +134,7 @@ try
     builder.Services.AddSingleton<ILRBooking, LRBookingRepository>();
     builder.Services.AddSingleton<ITransportLRDelivery, TransportLRDeliveryRepository>();
     builder.Services.AddSingleton<ITransportLRDeliveryType, TransportLRDeliveryTypeRepository>();
-    builder.Services.AddSingleton<ILoginHandler, LoginHandler>();    
+    builder.Services.AddSingleton<ILoginHandler, LoginHandler>();
     builder.Services.AddSingleton<IChalan, ChalanRepository>();
     builder.Services.AddSingleton<IFinanceYear, FinanceYearRepository>();
     builder.Services.AddSingleton<ICustomerInvoice, CustomerInvoiceRepository>();
@@ -146,6 +146,7 @@ try
     builder.Services.AddSingleton<IReportLRBookingChalanLoadingReport, ReportLRBookingChalanLoadingReportRepository>();
     builder.Services.AddSingleton<IReportLRBookingMonthlySummary, ReportLRBookingMonthlySummaryRepository>();
     builder.Services.AddSingleton<IReportLRBookingDailySummary, ReportLRBookingDailySummaryRepository>();
+    builder.Services.AddSingleton<IChalanReceiveAgency, ChalanReceiveAgencyRepository>();
     builder.Services.AddSingleton<ICustomerGeneralExpensesMulti, CustomerGeneralExpensesMultiRepository>();
 	builder.Services.AddSession();
 
@@ -193,7 +194,7 @@ try
     // Run SQL Changes
     Adroit.Accounting.SQL.SQLMigrate.ExecuteSQL(connectionString);
 
-    
+
     app.UseHttpsRedirection();
     app.UseStaticFiles();
 
