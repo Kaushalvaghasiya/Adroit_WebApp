@@ -24,8 +24,6 @@ namespace Adroit.Accounting.Web.Controllers
                 model.Customer = Customer;
             }
             model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
-            model.CustomerAccountList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
-            model.CustomerBookList = _customerBookRepository.SelectList(CurrentBranchId, _configurationData.DefaultConnection);
             model.TransportLRRateOnList = _transportLRRateOnRepository.SelectList(_configurationData.DefaultConnection);
             model.TransportLRPayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
 
@@ -84,7 +82,10 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerFirmBranchTransportSettingRepository.Get(id, _configurationData.DefaultConnection);
+                var model = _customerFirmBranchTransportSettingRepository.Get(id, _configurationData.DefaultConnection) ?? new CustomerFirmBranchTransportSettingViewModel() { BranchId = id };
+                model.CustomerAccountList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, model.BranchId, _configurationData.DefaultConnection);
+                model.CustomerBookList = _customerBookRepository.SelectList(model.BranchId, _configurationData.DefaultConnection);
+                result.data = model;
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

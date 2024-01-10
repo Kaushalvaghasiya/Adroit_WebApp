@@ -14,10 +14,12 @@ BEGIN
     ) AS Text
 	FROM CustomerFirm 
 	INNER JOIN CustomerFirmBranch on CustomerFirm.Id = CustomerFirmBranch.FirmId
+	INNER JOIN CustomerUserBranchMapping ON CustomerFirmBranch.Id = CustomerUserBranchMapping.BranchId
 	WHERE CustomerFirm.CustomerId = @CustomerId
+	AND CustomerUserBranchMapping.UserId = @LoginId
 	AND CustomerFirm.Deleted = 0 
-	AND CustomerFirmBranch.Deleted = 0 AND CustomerFirmBranch.Active = 1
-	ORDER BY CustomerFirm.Title,CustomerFirmBranch.Title
-
+	AND CustomerFirmBranch.Deleted = 0 
+	AND CustomerFirmBranch.Active = 1
+	ORDER BY CustomerFirm.Title, CustomerFirmBranch.Title
 END
 GO

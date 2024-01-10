@@ -11,10 +11,10 @@ BEGIN
 		FROM CustomerBookBranchMapping 
 		INNER JOIN [CustomerBook] ON CustomerBookBranchMapping.BookId = [CustomerBook].Id AND CustomerBookBranchMapping.BranchId = @BranchId  
 		INNER JOIN CustomerAccount on CustomerBook.BookAccountId = [CustomerAccount].Id AND CustomerAccount.CustomerId = @CustomerId
-		WHERE CustomerBookBranchMapping.Deleted = 0
+		WHERE [CustomerBook].CustomerId = @CustomerId
 		AND [CustomerBook].Deleted = 0
 		AND [CustomerBook].Active = 1
-		AND [CustomerBook].CustomerId = @CustomerId
+		AND CustomerBookBranchMapping.Deleted = 0
 		ORDER BY CustomerAccount.[Name] 
 
 END

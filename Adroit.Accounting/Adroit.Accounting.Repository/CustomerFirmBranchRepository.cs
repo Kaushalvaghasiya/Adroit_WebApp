@@ -100,5 +100,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmBranchListWithFirmName_Select", connectionString, parameters);
         }
+        public List<DropdownViewModel> SelectListForPendingChalan(int loginId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmBranchListForPendingChalan_Select", connectionString, parameters);
+        }
     }
 }
