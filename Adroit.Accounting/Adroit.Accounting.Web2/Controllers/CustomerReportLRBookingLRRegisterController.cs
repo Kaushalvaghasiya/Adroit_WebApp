@@ -1,17 +1,10 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.GridViewModel;
-using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ReportViewModel;
-using Adroit.Accounting.Model.ViewModel;
-using Adroit.Accounting.Repository;
 using Adroit.Accounting.SQL.Tables;
-using Adroit.Accounting.Utility;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.Operations;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using System.Globalization;
 
 namespace Adroit.Accounting.Web.Controllers
 {
