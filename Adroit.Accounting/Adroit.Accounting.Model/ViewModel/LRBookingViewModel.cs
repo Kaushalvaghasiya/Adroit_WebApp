@@ -38,7 +38,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? BranchInvoiceNo { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public decimal? gstRate { get; set; }
-        public string LRDateString { get { return this.LRDate.ToString(Adroit.Accounting.Model.Constant.DateFormat); }}
+        public string LRDateString { get { return this.LRDate.ToString(Adroit.Accounting.Model.Constant.DateFormat); } }
 
         public string BranchName { get; set; }
         public int? TotalLR { get; set; }
@@ -46,5 +46,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public decimal? PaidAmount { get; set; }
         public decimal? TBBAmount { get; set; }
         public string LRMonth { get; set; }
+
+        public string InvoiceDateString { get { return this.InvoiceDate?.ToString(Adroit.Accounting.Model.Constant.DateFormat) ?? ""; } }
+
     }
 }
