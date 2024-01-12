@@ -45,7 +45,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpPost]
-        public JsonResult SaveTransportLRBranchCityMapping([FromBody] TransportLRBranchCityMapping model)
+        public JsonResult SaveTransportLRBranchCityMapping([FromBody] TransportLRBranchCityMappingViewModel model)
         {
             ApiResult result = new ApiResult();
             try
