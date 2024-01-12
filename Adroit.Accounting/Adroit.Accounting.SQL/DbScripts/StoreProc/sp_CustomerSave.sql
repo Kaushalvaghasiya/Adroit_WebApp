@@ -7,7 +7,6 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerSave]
 	 @Address2 varchar(200),
 	 @Address3 varchar(200),
 	 @CityId int,
-	 @StateId int,
 	 @PinCode VARCHAR(10),
 	 @ContactPersonName varchar(100),
 	 @Mobile varchar(15),
@@ -30,6 +29,14 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+		DECLARE @TalukaId INT
+		SELECT @TalukaId = City.TalukaId from City WHERE City.Id = @CityId;
+
+		DECLARE @DistrictId INT
+		SELECT @DistrictId = Taluka.DistrictId from Taluka WHERE Taluka.Id = @TalukaId;
+
+		DECLARE @StateId INT
+		SELECT @StateId = District.StateId from District WHERE District.Id = @DistrictId;
 		IF EXISTS (SELECT 1 FROM Customer WHERE Id = @Id)
 			BEGIN
 				UPDATE Customer SET

@@ -5,6 +5,8 @@ using Adroit.Accounting.SQL.Tables;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System;
+using System.Globalization;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -81,56 +83,90 @@ namespace Adroit.Accounting.Web.Controllers
 
         public IActionResult LRBookingLRRegisterPrintDateWise()
         {
-            bool subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
-            string Datefrom = HttpContext.Request.Query["DateFrom"].ToString();
-            string Dateto = HttpContext.Request.Query["DateTo"].ToString();
+            var result = new ReportDataViewModel<List<LRBookingLRRegisterGridViewModel>>();
+            result.ReportHeader = new ReportHeaderViewModel();
+            result.ReportHeader.Subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
+            result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
             var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportList"));
-            var result = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            result.ReportData = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
             var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
-            ViewBag.SubTotal = subtotal;
-            ViewBag.DateFrom = Datefrom;
-            ViewBag.DateTo = Dateto;
-            ViewBag.CurrentFimName = currentFirm.Title.ToString();
+            var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);            
+            result.ReportHeader.FrimName = currentFirm.Title.ToString();
+            result.ReportHeader.BranchName = currentBranch.Title.ToString();
+            result.ReportHeader.BranchAddress = currentBranch.Address1.ToString();
 
             return View(result);
         }
 
         public IActionResult LRBookingLRRegisterPrintDateWiseSummary()
         {
-            bool subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            var result = new ReportDataViewModel<List<LRBookingLRRegisterGridViewModel>>();
+            result.ReportHeader = new ReportHeaderViewModel();
+            result.ReportHeader.Subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
+            result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
             var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportListWithSummary"));
-            var result = _reportLRBookingLRRegisterRepository.GetListWithSummary(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
-            ViewBag.SubTotal = subtotal;
+            result.ReportData = _reportLRBookingLRRegisterRepository.GetListWithSummary(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
+            var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
+            result.ReportHeader.FrimName = currentFirm.Title.ToString();
+            result.ReportHeader.BranchName = currentBranch.Title.ToString();
+            result.ReportHeader.BranchAddress = currentBranch.Address1.ToString();
 
             return View(result);
         }
 
         public IActionResult LRBookingLRRegisterPrintLRWise()
         {
-            bool subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            var result = new ReportDataViewModel<List<LRBookingLRRegisterGridViewModel>>();
+            result.ReportHeader = new ReportHeaderViewModel();
+            result.ReportHeader.Subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
+            result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
             var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportList"));
-            var result = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
-            ViewBag.SubTotal = subtotal;
+            result.ReportData = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
+            var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);            
+            result.ReportHeader.FrimName = currentFirm.Title.ToString();
+            result.ReportHeader.BranchName = currentBranch.Title.ToString();
+            result.ReportHeader.BranchAddress = currentBranch.Address1.ToString();
 
             return View(result);
         }
 
         public IActionResult LRBookingLRRegisterPrintPartyWise()
         {
-            bool subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            var result = new ReportDataViewModel<List<LRBookingLRRegisterGridViewModel>>();
+            result.ReportHeader = new ReportHeaderViewModel();
+            result.ReportHeader.Subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
+            result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
             var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportList"));
-            var result = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
-            ViewBag.SubTotal = subtotal;
+            result.ReportData = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
+            var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
+            result.ReportHeader.FrimName = currentFirm.Title.ToString();
+            result.ReportHeader.BranchName = currentBranch.Title.ToString();
+            result.ReportHeader.BranchAddress = currentBranch.Address1.ToString();
 
             return View(result);
         }
 
         public IActionResult LRBookingLRRegisterPrintPartyWiseSummary()
         {
-            bool subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            var result = new ReportDataViewModel<List<LRBookingLRRegisterGridViewModel>>();
+            result.ReportHeader = new ReportHeaderViewModel();
+            result.ReportHeader.Subtotal = bool.TryParse(HttpContext.Request.Query["SubTotal"], out bool subtotalValue) ? subtotalValue : false;
+            result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
+            result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
             var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportListWithSummary"));
-            var result = _reportLRBookingLRRegisterRepository.GetListWithSummary(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
-            ViewBag.SubTotal = subtotal;
+            result.ReportData = _reportLRBookingLRRegisterRepository.GetListWithSummary(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
+            var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
+            result.ReportHeader.FrimName = currentFirm.Title.ToString();
+            result.ReportHeader.BranchName = currentBranch.Title.ToString();
+            result.ReportHeader.BranchAddress = currentBranch.Address1.ToString();
 
             return View(result);
         }

@@ -39,13 +39,11 @@ Begin
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN SUM(LBR.ChargeWeight) END ASC,  
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN SUM(LBR.ChargeWeight) END DESC,
 			CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN (SUM(ISNULL(LBR.Freight,0)+ISNULL(LBR.Charges1,0)+ISNULL(LBR.Charges2,0)+ISNULL(LBR.Charges3,0)+ISNULL(LBR.Charges4,0)+ISNULL(LBR.Charges5,0)+ISNULL(LBR.Charges6,0))) END ASC,  
-			CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN (SUM(ISNULL(LBR.Freight,0)+ISNULL(LBR.Charges1,0)+ISNULL(LBR.Charges2,0)+ISNULL(LBR.Charges3,0)+ISNULL(LBR.Charges4,0)+ISNULL(LBR.Charges5,0)+ISNULL(LBR.Charges6,0))) END DESC,
-			CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN SUM([GSTRate].Rate) END ASC,  
-			CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN SUM([GSTRate].Rate) END DESC,
-			CASE WHEN @SortColumn = 6 AND @SortOrder ='ASC' THEN SUM(LBR.InvoiceValue) END ASC,  
-			CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN SUM(LBR.InvoiceValue) END DESC,
-			CASE WHEN @SortColumn = 7 AND @SortOrder ='ASC' THEN MAX([CustomerFirmBranch].Title) END ASC,  
-			CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN MAX([CustomerFirmBranch].Title) END DESC
+			CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN (SUM(ISNULL(LBR.Freight,0)+ISNULL(LBR.Charges1,0)+ISNULL(LBR.Charges2,0)+ISNULL(LBR.Charges3,0)+ISNULL(LBR.Charges4,0)+ISNULL(LBR.Charges5,0)+ISNULL(LBR.Charges6,0))) END DESC,			
+			CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN SUM(LBR.InvoiceValue) END ASC,  
+			CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN SUM(LBR.InvoiceValue) END DESC,
+			CASE WHEN @SortColumn = 6 AND @SortOrder ='ASC' THEN MAX([CustomerFirmBranch].Title) END ASC,  
+			CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN MAX([CustomerFirmBranch].Title) END DESC
 		) AS RowNum,
 		 Count(*) over () AS TotalCount 
 		,CASE WHEN @SelectedView = 'DateWise' THEN CAST(LBR.LRDate AS VARCHAR(100)) WHEN @SelectedView = 'PartyWise' THEN CA1.Name END As GroupingColumn
