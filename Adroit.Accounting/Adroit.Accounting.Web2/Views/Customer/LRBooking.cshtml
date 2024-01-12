@@ -84,11 +84,11 @@
                                         {
                                             if (@o.Value == $"{ViewBag.LoggedInBranchCity}")
                                             {
-                                                    <option value="@o.Value" selected>@o.Text</option>
+                                                                <option value="@o.Value" selected>@o.Text</option>
                                             }
                                             else
                                             {
-                                                    <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -136,7 +136,7 @@
                                                     {
                                                         if (@o.Value != ViewBag.LoggedInBranchCity.ToString())
                                                         {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                                            <option value="@o.Value">@o.Text</option>
                                                         }
                                                     }
                                                 }
@@ -167,7 +167,7 @@
                                                 {
                                                     foreach (var o in Model.EwayBillList)
                                                     {
-                                                            <option value="@o.Text">@o.Text</option>
+                                                                        <option value="@o.Text">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -192,7 +192,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -207,7 +207,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -224,7 +224,7 @@
                                                 {
                                                     foreach (var o in Model.PaymentList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -239,7 +239,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -266,7 +266,7 @@
                                         {
                                             foreach (var o in Model.DescriptionList)
                                             {
-                                                    <option value="@o.Text">@o.Text</option>
+                                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -283,7 +283,7 @@
                                         {
                                             foreach (var o in Model.PackingList)
                                             {
-                                                    <option value="@o.Text">@o.Text</option>
+                                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -312,7 +312,7 @@
                                         {
                                             foreach (var o in Model.LRRateOnList)
                                             {
-                                                    <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -369,7 +369,7 @@
                                                         {
                                                             foreach (var o in Model.VehicleList)
                                                             {
-                                                                    <option value="@o.Value">@o.Text</option>
+                                                                                <option value="@o.Value">@o.Text</option>
                                                             }
                                                         }
                                                     }
@@ -389,12 +389,12 @@
                                                             if (goDownDelivery != null)
                                                             {
                                                                 var goDownDeliveryId = goDownDelivery.Value;
-                                                                    <option value="@goDownDeliveryId" selected>@goDownDelivery.Text</option>
+                                                                                <option value="@goDownDeliveryId" selected>@goDownDelivery.Text</option>
                                                             }
 
                                                             foreach (var o in Model.LRDeliveryList.Where(x => x.Text.Trim().ToLower() != "go-down delivery"))
                                                             {
-                                                                    <option value="@o.Value">@o.Text</option>
+                                                                                <option value="@o.Value">@o.Text</option>
                                                             }
                                                         }
                                                     }
@@ -414,12 +414,12 @@
                                                             if (FirstRow != null)
                                                             {
                                                                 var FirstRowId = FirstRow.Value;
-                                                                    <option value="@FirstRowId" selected>@FirstRow.Text</option>
+                                                                                <option value="@FirstRowId" selected>@FirstRow.Text</option>
                                                             }
 
                                                             foreach (var o in Model.LRDeliveryTypeList.Where(x => x.Text != "-"))
                                                             {
-                                                                    <option value="@o.Value">@o.Text</option>
+                                                                                <option value="@o.Value">@o.Text</option>
                                                             }
                                                         }
                                                     }
@@ -589,8 +589,6 @@
                 $(this).attr('data-content', Data);
             });
 
-            triggerRateChange();
-
             $("#Parcel").on('keyup', function (e) {
                 updatePrivateMarka();
                 calcFreight();
@@ -695,29 +693,38 @@
             });
 
             addClick();
-            var cookieValue = getCookie('@Html.Raw(lastLrToCityCookieName)');
-            $("#CityIdTo").val(cookieValue).trigger('change');
-        });
 
-        function triggerRateChange() {
             $("#CityIdTo").on('change', function (e) {
                 $('#Rate').attr('disabled', false);
-                getLRRateDetail();
+                if (citychangeapply) {
+                    getLRRateDetail();
+                }
             });
 
             $("#BillAccountBranchMappingId").on('change', function (e) {
                 $('#Rate').attr('disabled', false);
-                getLRRateDetail();
+                if (billpartychangeapply) {                    
+                    getLRRateDetail();
+                }
             });
 
             $("#LRRateOnId").on('change', function (e) {
                 $('#Rate').attr('disabled', false);
-                if ($("#LRRateOnId").val() != '' || $("#LRRateOnId").val() != null) {
-                    getLRRateDetail();
+                if (ratechangeapply) {
+                    if ($("#LRRateOnId").val() != '' || $("#LRRateOnId").val() != null) {
+                        getLRRateDetail();
+                    }
                 }
             });
-        }
 
+            var cookieValue = getCookie('@Html.Raw(lastLrToCityCookieName)');
+            $("#CityIdTo").val(cookieValue).trigger('change');
+        });
+
+        var citychangeapply = true;
+        var billpartychangeapply = true;
+        var ratechangeapply = true;
+       
         function BindBillParty(isForceFullyChangeBillParty = false) {
             if ($("#BillAccountBranchMappingId").val() == '' || $("#BillAccountBranchMappingId").val() == null || isForceFullyChangeBillParty) {
                 if ($("#LRPayTypeId").val() != '' || $("#LRPayTypeId").val() != null) {
@@ -955,6 +962,10 @@
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
+
+            citychangeapply = true;
+            billpartychangeapply = true;
+            ratechangeapply = true;
 
         }
 
@@ -1224,9 +1235,9 @@
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
 
-                                $('#CityIdTo').off('change');
-                                $('#BillAccountBranchMappingId').off('change');
-                                $('#LRRateOnId').off('change');
+                                citychangeapply = false;
+                                billpartychangeapply = false;
+                                ratechangeapply = false;
 
                                 $("#Id").val(result.data.id);
 
@@ -1269,7 +1280,10 @@
 
                                 calcNetAmount();
                                 getGSTRate();
-                                triggerRateChange();
+
+                                citychangeapply = true;
+                                billpartychangeapply = true;
+                                ratechangeapply = true;
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
