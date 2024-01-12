@@ -1,104 +1,109 @@
-﻿@model List<Adroit.Accounting.Model.GridViewModel.LRBookingLRRegisterGridViewModel>
-@{
+﻿@{
     Layout = "~/Views/Shared/_LayoutReport.cshtml";
 }
-
-<table id="tblMain" class="table table-bordered key-buttons">
+<div class="col-lg-12 col-sm-12 text-right">
+    <lable class="report-number">AIPI</lable>
+</div>
+<div class="col-lg-12 col-sm-12 text-center pdfheader">
+    <div class="firmname">
+        <lable>@Model.ReportHeader.FrimName</lable>
+    </div>
+    <div class="address">
+        <lable>@($"{Model.ReportHeader.BranchName} : {Model.ReportHeader.BranchAddress}")</lable>
+    </div>
+    <div class="heading">
+        <lable>LR BOOKING REGISTER</lable>
+    </div>
+    <div class="date">
+        <lable>From - @Model.ReportHeader.DateFrom To @Model.ReportHeader.DateTo</lable>
+    </div>
+</div>
+<table id="tblMain" class="table col-md-12" align="center">
     <thead>
-        <tr><th>@ViewBag.CurrentFimName</th></tr>
-        <tr><th>From - @ViewBag.DateFrom To @ViewBag.DateTo</th></tr>
-        <tr><th>LR BOOKING REGISTER</th></tr>
         <tr>
-            <th style="padding-right:50px;">LR DATE</th>
-            <th style="padding-right:50px;">LR NUMBER</th>
-            <th style="padding-right:50px;">FROM CITY</th>
-            <th style="padding-right:50px;">TO CITY</th>
-            <th style="padding-right:50px;">GOODS DESCRIPTION</th>
-            <th style="padding-right:50px;">PARCEL</th>
-            <th style="padding-right:50px;">CHARGE WT.</th>
-            <th style="padding-right:50px;">PACKING</th>
-            <th style="padding-right:50px;">PVT.MARK</th>
-            <th style="padding-right:50px;">LR AMOUNT</th>
-            <th style="padding-right:50px;">GST %</th>
-            <th style="padding-right:50px;">GST AMOUNT</th>
-            <th style="padding-right:50px;">PAY TYPE</th>
-            <th style="padding-right:50px;">INV VALUE</th>
-            <th style="padding-right:50px;">BRANCH</th>
+            <th class="text-center">LR Date</th>
+            <th class="text-center">LR Number</th>
+            <th class="text-left">From City</th>
+            <th class="text-left">To City</th>
+            <th class="text-left">Goods Description</th>
+            <th class="text-center">Parcel</th>
+            <th class="text-right">Charge Wt.</th>
+            <th class="text-center">Packing</th>
+            <th class="text-left">Pvt.Mark</th>
+            <th class="text-right">LR Amount</th>
+            <th class="text-center">Gst %</th>
+            <th class="text-center">Pay Type</th>
+            <th class="text-right">Inv Value</th>
+            <th class="text-center">Branch</th>
         </tr>
     </thead>
     <tbody>
-        @{
-            if (Model != null)
+        @if (Model != null && Model.ReportData != null)
+        {
+            var prevDate = "";
+            decimal subTotalAmount = 0.00m;
+            decimal totalAmount = 0.00m;
+
+            foreach (var item in Model.ReportData)
             {
-                var prevDate = "";
-                decimal subTotalAmount = 0.00m; 
-                decimal totalAmount = 0.00m;
+                subTotalAmount += item.Amount ?? 0.00m;
+                totalAmount += item.Amount ?? 0.00m;
 
-                foreach (var item in Model)
+                if (prevDate != item.LRDateString && prevDate != "")
                 {
-                    subTotalAmount += item.Amount ?? 0.00m; // Use decimal
-                    totalAmount += item.Amount ?? 0.00m;    // Use decimal
-
-                    // Calculate subtotals
-                    if (prevDate != item.LRDateString && prevDate != "")
+                    if (Model.ReportHeader.Subtotal.Equals(true))
                     {
-                        if (ViewBag.SubTotal)
-                        {
                         <tr class="subtotal-row">
-                            <td colspan="9">SUB TOTAL</td>
+                            <td colspan="9" class="text-right">Sub Total</td>
                             <td class="text-right">@subTotalAmount</td>
                             <td colspan="5"></td>
                         </tr>
-                        }
-                        subTotalAmount = 0;
                     }
-                    prevDate = item.LRDateString;
-
-                    <tr>
-                        <td>@item.LRDateString</td>
-                        <td>@item.LRNumber</td>
-                        <td>@item.CityFrom</td>
-                        <td>@item.CityTo</td>
-                        <td>@item.Description</td>
-                        <td>@item.Parcel</td>
-                        <td>@item.ChargeWeight</td>
-                        <td>@item.Packing</td>
-                        <td>@item.PrivateMarka</td>
-                        <td>@item.Amount</td>
-                        <td>@item.Rate</td>
-                        <td>@item.Rate</td>
-                        <td>@item.LRPayType</td>
-                        <td>@item.InvoiceValue</td>
-                        <td>@item.BranchName</td>
-                    </tr>
-                    
+                    subTotalAmount = 0;
                 }
+                prevDate = item.LRDateString;
 
-                // Display the last subtotal and total
-                if (prevDate != "" && ViewBag.SubTotal)
-                {
-                    <tr class="subtotal-row">
-                        <td colspan="9">SUB TOTAL</td>
-                        <td class="text-right">@subTotalAmount</td>
-                        <td colspan="5"></td>
-                    </tr>
-                }
+                <tr>
+                    <td class="text-center">@item.LRDateString</td>
+                    <td class="text-center">@item.LRNumber</td>
+                    <td class="text-left">@item.CityFrom</td>
+                    <td class="text-left">@item.CityTo</td>
+                    <td class="text-left">@item.Description</td>
+                    <td class="text-center">@item.Parcel</td>
+                    <td class="text-right">@item.ChargeWeight</td>
+                    <td class="text-center">@item.Packing</td>
+                    <td class="text-left">@item.PrivateMarka</td>
+                    <td class="text-right">@item.Amount</td>
+                    <td class="text-center">@item.Rate</td>
+                    <td class="text-center">@item.LRPayType</td>
+                    <td class="text-right">@item.InvoiceValue</td>
+                    <td class="text-center">@item.BranchName</td>
+                </tr>
+            }
 
-                if (totalAmount > 0 && ViewBag.SubTotal)
-                {
-                    <tr class="total-row">
-                        <td colspan="9">TOTAL</td>
-                        <td class="text-right">@totalAmount</td>
-                        <td colspan="5"></td>
-                    </tr>
-                }
+            if (prevDate != "" && Model.ReportHeader.Subtotal.Equals(true))
+            {
+                <tr class="subtotal-row">
+                    <td colspan="9" class="text-right">Sub Total</td>
+                    <td class="text-right">@subTotalAmount</td>
+                    <td colspan="5"></td>
+                </tr>
+            }
+
+            if (totalAmount > 0 && Model.ReportHeader.Subtotal.Equals(true))
+            {
+                <tr class="total-row">
+                    <td colspan="9" class="text-right">Total</td>
+                    <td class="text-right">@totalAmount</td>
+                    <td colspan="5"></td>
+                </tr>
             }
         }
     </tbody>
 </table>
 
 @section Scripts
-{
+    {
 
     <script>
 
