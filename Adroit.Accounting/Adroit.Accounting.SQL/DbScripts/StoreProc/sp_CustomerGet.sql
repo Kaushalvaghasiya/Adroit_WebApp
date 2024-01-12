@@ -5,14 +5,14 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerGet]
 AS
 BEGIN
 	SELECT Customer.*,
+		City.Title + ' | ' + Taluka.Title + ' | ' + District.Title + ' | ' + State.Title + ' | ' + Country.Title As City,
 		[Country].Id as CountryId, 
 		[Country].Title as Country, 
 		[State].Title as State, 
 		[District].Id as DistrictId, 
 		[District].Title as District, 
 		[Taluka].Id as TalukaId, 
-		[Taluka].Title as Taluka, 
-		[City].Title as City
+		[Taluka].Title as Taluka
 	FROM Customer
 	LEFT JOIN [City] on Customer.CityId = [City].Id
 	LEFT JOIN [Taluka] on [City].TalukaId = [Taluka].Id
