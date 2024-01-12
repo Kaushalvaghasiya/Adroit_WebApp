@@ -16,7 +16,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult Chalan()
         {
             var model = new PurchaseBillMasterViewModel();
-            var customerFirmBranchTransportSetting = _chalanRepository.GetChalanLabelList(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
+            var customerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.GetByLoginId(CurrentUserId, _configurationData.DefaultConnection);
             if (customerFirmBranchTransportSetting == null)
             {
                 return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch" });
@@ -38,6 +38,7 @@ namespace Adroit.Accounting.Web.Controllers
 
             ViewBag.CurrentBranchId = CurrentBranchId;
             ViewBag.LoggedInBranchCity = currentUserBranch.CityId;
+            ViewBag.BookName = $"{model.CustomerFirmBranchTransportSetting.PurchaseBookName}";
 
             return View(model);
         }
@@ -48,9 +49,11 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                model.LoginId = CurrentUserId;
-                model.BranchId = CurrentBranchId;
                 model.FirmId = CurrentFirmId;
+                model.BranchId = CurrentBranchId;
+                model.LoginId = CurrentUserId;
+                model.YearId = CurrentYearId;
+                
                 int id = _chalanRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {

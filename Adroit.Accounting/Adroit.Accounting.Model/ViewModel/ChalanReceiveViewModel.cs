@@ -1,7 +1,6 @@
 ﻿//-----------------------------------------------------------------------
 //    Copyright (c) Adroit IBS Pvt Ltd. All rights reserved.
 //-----------------------------------------------------------------------
-using Adroit.Accounting.Model.GridViewModel;
 
 namespace Adroit.Accounting.Model.ViewModel
 {
@@ -52,16 +51,11 @@ namespace Adroit.Accounting.Model.ViewModel
         public decimal? CrossingCommission { get; set; }
         public decimal? CrossingHamali { get; set; }
         public decimal? CrossingDeliveryCharge { get; set; }
-        public string ToPayAccount { get; set; }
-        public string CrossingAmountAccount { get; set; }
-        public string CrossingCommissionAccount { get; set; }
-        public string CrossingHamaliAccount { get; set; }
-        public string CrossingDeliveryChargeAccount { get; set; }
-        public string ToPayAccountLabel { get; set; }
-        public string CrossingAmountAccountLabel { get; set; }
-        public string CrossingCommissionAccountLabel { get; set; }
-        public string CrossingHamaliAccountLabel { get; set; }
-        public string CrossingDeliveryChargeAccountLabel { get; set; }
+        public string ToPayAccountName { get; set; }
+        public string CrossingAmountAccountName { get; set; }
+        public string CrossingCommissionAccountName { get; set; }
+        public string CrossingHamaliAccountName { get; set; }
+        public string CrossingDeliveryChargeAccountName { get; set; }
         public string SenderName { get; set; }
         public System.DateTime ChalanDate { get; set; }
         public decimal? Freight { get; set; }

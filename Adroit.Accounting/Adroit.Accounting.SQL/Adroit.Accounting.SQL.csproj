@@ -14,7 +14,9 @@
 
   <ItemGroup>
     <None Remove="DbScripts\StoreProc\fn_fnStringToIntArray.sql" />
+    <None Remove="DbScripts\StoreProc\fn_GetAccountName.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetBookAdminSoftwareIds.sql" />
+    <None Remove="DbScripts\StoreProc\fn_GetBookName.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetBusinessSoftwareIds.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetBusinessSoftwareName.sql" />
     <None Remove="DbScripts\StoreProc\fn_GetCustomerId.sql" />
@@ -225,7 +227,6 @@
     <None Remove="DbScripts\StoreProc\sp_FirmAdminTypeList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_FirmList_Select.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetAllGSTNoByTransportName.sql" />
-    <None Remove="DbScripts\StoreProc\sp_GetChalanLabelList.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetChalanReceiveAgencyMasterTableListByMasterId.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetChalanToPayAccountValue.sql" />
     <None Remove="DbScripts\StoreProc\sp_GetColumnData.sql" />
@@ -425,6 +426,7 @@
     <None Remove="DbScripts\StoreProc\sp_UserDeactivate.sql" />
     <None Remove="DbScripts\StoreProc\sp_UserDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_UserGet.sql" />
+    <None Remove="DbScripts\StoreProc\sp_ValidateLoginBranch.sql" />
     <None Remove="DbScripts\StoreProc\sp_VehicleDelete.sql" />
     <None Remove="DbScripts\StoreProc\sp_VehicleGet.sql" />
     <None Remove="DbScripts\StoreProc\sp_VehicleList.sql" />
@@ -478,7 +480,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="DbScripts\StoreProc\sp_ValidateLoginBranch.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\fn_fnStringToIntArray.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\fn_GetAccountName.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DbScripts\StoreProc\fn_GetBookName.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\fn_GetBookAdminSoftwareIds.sql">
@@ -1109,9 +1120,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_GetAllGSTNoByTransportName.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <EmbeddedResource Include="DbScripts\StoreProc\sp_GetChalanLabelList.sql">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="DbScripts\StoreProc\sp_GetChalanReceiveAgencyMasterTableListByMasterId.sql">

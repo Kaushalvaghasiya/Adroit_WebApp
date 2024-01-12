@@ -28,7 +28,7 @@ namespace Adroit.Accounting.Web.Controllers
                 model.CustomerFirmTransportSetting = customerFirmTransportSetting;
             }
 
-            var customerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.Get(CurrentBranchId, _configurationData.DefaultConnection);
+            var customerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.GetByLoginId(CurrentUserId, _configurationData.DefaultConnection);
             if (customerFirmBranchTransportSetting == null)
             {
                 return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch." });
@@ -46,7 +46,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.PaymentList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.LRDeliveryList = _transportLRDeliveryRepository.SelectList(_configurationData.DefaultConnection);
             model.LRDeliveryTypeList = _transportLRDeliveryTypeRepository.SelectList(_configurationData.DefaultConnection);
-            model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);            
+            model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
             var currentUserBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
             var currentCity = _cityRepository.Get((int)currentUserBranch.CityId!, _configurationData.DefaultConnection);
 
@@ -55,6 +55,8 @@ namespace Adroit.Accounting.Web.Controllers
 
             ViewBag.LastLrToCityCookieName = "LastLrToCityCookie" + CurrentUserId + "-" + CurrentFirmId + "-" + CurrentBranchId;
             ViewBag.LoggedInBranchCity = currentUserBranch.CityId;
+            ViewBag.BookName = $"{model.CustomerFirmBranchTransportSetting.BookingSalesBookName}";
+
             return View(model);
         }
 
@@ -64,8 +66,12 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
+                model.FirmId = CurrentFirmId;
                 model.BranchId = CurrentBranchId;
-                int id = _lrBookingRepository.Save(model, _configurationData.DefaultConnection, CurrentUserId);
+                model.LoginId = CurrentUserId;
+                model.YearId = CurrentYearId;
+
+                int id = _lrBookingRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;

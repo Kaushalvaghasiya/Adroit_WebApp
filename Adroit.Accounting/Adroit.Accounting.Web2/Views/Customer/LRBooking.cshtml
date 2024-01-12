@@ -1,7 +1,7 @@
 ﻿@model Adroit.Accounting.Model.ViewModel.LRBookingViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var lastLrToCityCookieName = ViewBag.LastLrToCityCookieName;
+    var lastLrToCityCookieName = ViewBag.LastLrToCityCookieName;    
 }
 
 <div class="dv-list side-app">
@@ -582,31 +582,18 @@
                 },
             });
 
-            $("#CityIdTo").on('change', function (e) {
-                $('#Rate').attr('disabled', false);
-                getLRRateDetail($(this).val(), $("#BillAccountBranchMappingId").val(), $("#LRRateOnId").val());
-            });
+            
 
             $('#EWayBill-search').on('click', function () {
                 var Data = "Your dynamically generated content goes here.";
                 $(this).attr('data-content', Data);
             });
 
-            $("#BillAccountBranchMappingId").on('change', function (e) {
-                $('#Rate').attr('disabled', false);
-                getLRRateDetail($("#CityIdTo").val(), $(this).val(), $("#LRRateOnId").val());
-            });
+            triggerRateChange();
 
             $("#Parcel").on('keyup', function (e) {
                 updatePrivateMarka();
                 calcFreight();
-            });
-
-            $("#LRRateOnId").on('change', function (e) {
-                $('#Rate').attr('disabled', false);
-                if ($("#LRRateOnId").val() != '' || $("#LRRateOnId").val() != null) {
-                    getLRRateDetail($("#CityIdTo").val(), $("#BillAccountBranchMappingId").val(), $(this).val());
-                }
             });
 
             var roundOff = @((Model.CustomerFirmTransportSetting.IsWeightRoundOff ? "true" : "false").ToLower());
@@ -711,6 +698,25 @@
             var cookieValue = getCookie('@Html.Raw(lastLrToCityCookieName)');
             $("#CityIdTo").val(cookieValue).trigger('change');
         });
+
+        function triggerRateChange() {
+            $("#CityIdTo").on('change', function (e) {
+                $('#Rate').attr('disabled', false);
+                getLRRateDetail();
+            });
+
+            $("#BillAccountBranchMappingId").on('change', function (e) {
+                $('#Rate').attr('disabled', false);
+                getLRRateDetail();
+            });
+
+            $("#LRRateOnId").on('change', function (e) {
+                $('#Rate').attr('disabled', false);
+                if ($("#LRRateOnId").val() != '' || $("#LRRateOnId").val() != null) {
+                    getLRRateDetail();
+                }
+            });
+        }
 
         function BindBillParty(isForceFullyChangeBillParty = false) {
             if ($("#BillAccountBranchMappingId").val() == '' || $("#BillAccountBranchMappingId").val() == null || isForceFullyChangeBillParty) {
@@ -1218,6 +1224,10 @@
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
 
+                                $('#CityIdTo').off('change');
+                                $('#BillAccountBranchMappingId').off('change');
+                                $('#LRRateOnId').off('change');
+
                                 $("#Id").val(result.data.id);
 
                                 $("#LRNumber").val(result.data.lrNumber);
@@ -1253,13 +1263,13 @@
                                 $("#Ch").val(result.data.branchChalanNo);
                                 $("#Truck").val(result.data.vehilcleNo);
                                 $("#TruckLoadDate").val(result.data.chalanDateString);
-
+                               
                                 $("#BranchInvoiceNo").val(result.data.branchInvoiceNo);
                                 $("#InvoiceDate").val(result.data.invoiceDateString);
 
                                 calcNetAmount();
                                 getGSTRate();
-
+                                triggerRateChange();
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -1276,8 +1286,12 @@
             }
         }
 
-        function getLRRateDetail(cityIdTo, billPartyId, rateOnId) {
+        function getLRRateDetail() {
             try {
+
+                var cityIdTo = $("#CityIdTo").val();
+                var billPartyId = $("#BillAccountBranchMappingId").val();
+                var rateOnId = $("#LRRateOnId").val();
 
                 if ((cityIdTo == '' || cityIdTo == null)
                     || (billPartyId == '' || billPartyId == null)
@@ -1319,7 +1333,6 @@
             else {
                 $("#Freight").val(rate);
             }
-
         }
 
         function calcNetAmount() {

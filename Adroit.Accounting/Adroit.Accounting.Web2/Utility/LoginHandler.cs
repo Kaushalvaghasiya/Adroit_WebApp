@@ -66,14 +66,13 @@ namespace Adroit.Accounting.Web.Utility
         {
             int userid = GetUserId(user);
             var key = $"CacheFirmId-{userid}";
-            int firmId;
+            int firmId = 0;
             _memoryCache.TryGetValue(key, out firmId);
 
             if (firmId == 0)
             {
                 firmId = _userRepository.GetLoggedInFirmId(userid, _configurationData.DefaultConnection);
 
-                //var cacheEntryOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));
                 _memoryCache.Set(key, firmId);
             }
 
@@ -83,7 +82,7 @@ namespace Adroit.Accounting.Web.Utility
         {
             int userid = GetUserId(user);
             var key = $"CacheBrachId-{userid}";
-            int branchId;
+            int branchId = 0;
             _memoryCache.TryGetValue(key, out branchId);
 
             if (branchId == 0)
@@ -100,7 +99,7 @@ namespace Adroit.Accounting.Web.Utility
         {
             int userid = GetUserId(user);
             var key = $"CacheYearId-{userid}";
-            int yearId;
+            int yearId = 0;
             _memoryCache.TryGetValue(key, out yearId);
 
             if (yearId == 0)
@@ -116,7 +115,7 @@ namespace Adroit.Accounting.Web.Utility
         public string GetLoggedInBranchName(int branchId, int firmId)
         {
             var key = $"CacheBrachName-{branchId}";
-            string branchName;
+            string branchName = "";
             _memoryCache.TryGetValue(key, out branchName);
 
             if (string.IsNullOrWhiteSpace(branchName))
@@ -132,7 +131,7 @@ namespace Adroit.Accounting.Web.Utility
         public string GetLoggedInYear(int yearId, int firmId)
         {
             var key = $"CacheYear-{yearId}-{firmId}";
-            string year;
+            string year = "";
             _memoryCache.TryGetValue(key, out year);
 
             if (string.IsNullOrWhiteSpace(year))

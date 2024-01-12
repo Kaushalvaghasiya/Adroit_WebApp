@@ -15,6 +15,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", value.LoginId);
             parameters.Add("@FirmId", value.FirmId);
             parameters.Add("@BranchId", value.BranchId);
+            parameters.Add("@YearId", value.YearId);
+
             parameters.Add("@Id", value.Id);
             parameters.Add("@BillNumberBranch", value.BillNumberBranch);
             parameters.Add("@BillNumberFirm", value.BillNumberFirm);
@@ -102,13 +104,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<PurchaseBillMasterGridViewModel>("sp_ChalanList", connectionString, parameters);
-        }
-        public CustomerFirmBranchTransportSettingViewModel GetChalanLabelList(string connectionString, int loginId, int branchId)
-        {
-            var parameters = new DynamicParameters();
-            parameters.Add("@LoginId", loginId);
-            parameters.Add("@BranchId", branchId);
-            return QueryHelper.Get<CustomerFirmBranchTransportSettingViewModel>("sp_GetChalanLabelList", connectionString, parameters);
         }
         public CustomerFirmBranchTransportSettingViewModel GetChalanToPayAccountValueList(string lrNumberIds, string connectionString, int branchId)
         {

@@ -15,6 +15,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", value.LoginId);
             parameters.Add("@FirmId", value.FirmId);
             parameters.Add("@BranchId", value.BranchId);
+            parameters.Add("@YearId", value.YearId);
+
             parameters.Add("@Id", value.Id);
             parameters.Add("@AccountBranchMappingId", value.AccountBranchMappingId);
             parameters.Add("@BillDate", value.BillDate);

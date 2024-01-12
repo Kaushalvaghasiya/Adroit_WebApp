@@ -36,8 +36,8 @@ Begin
 			[CustomerFirm].[Title] AS FirmName,
 			CustomerFirmBranch.[Title] AS BranchName,
 			PBBA.[Name] AS PurchaseBookName,
-			BSBBA.[Name] AS BkSalesBookName,
-			DSBBA.[Name] AS DelSalesBookName
+			BSBBA.[Name] AS BookingSalesBookName,
+			DSBBA.[Name] AS DeliverySalesBookName
 		FROM [dbo].[CustomerFirmBranchTransportSetting] 		
 			 INNER JOIN CustomerUserBranchMapping ON CustomerUserBranchMapping.[BranchId] = [CustomerFirmBranchTransportSetting].[BranchId] AND CustomerUserBranchMapping.[UserId] = @LoginId
 			 INNER JOIN CustomerFirmBranch ON CustomerFirmBranch.Id = CustomerUserBranchMapping.[BranchId] 

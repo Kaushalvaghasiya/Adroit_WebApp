@@ -176,14 +176,15 @@
             font-size: 14px !important;
             font-weight: normal;
         }
-        
+
         .mode-ed-multi ul {
             max-height: 90px !important;
         }
-        
-        .customer-gnr-ch-multi{
 
-                 .dropdown-item.buttons-columnVisibility {
+        .customer-gnr-ch-multi {
+            .dropdown-item.buttons-columnVisibility
+
+        {
             color: #020202 !important;
         }
 
@@ -247,9 +248,8 @@
             z-index: 100;
         }
 
-        .accordionjs .acc_section .acc_head h3{
+        .accordionjs .acc_section .acc_head h3 {
             padding-left: 8px;
-
         }
 
         #InvoiceDetailModal .accordionjs .acc_section .acc_head h3:before {
@@ -277,7 +277,7 @@
             padding: 0 !important;
         }
 
-        #InvoiceDetailModal .accordionjs .acc_section.acc_active>.acc_head {
+        #InvoiceDetailModal .accordionjs .acc_section.acc_active > .acc_head {
             background: none !important;
             border-bottom: 0 !important;
         }
@@ -306,18 +306,18 @@
         .grid-border {
             border-left: 1px solid #d2d7dd;
             border-bottom: 1px solid #d2d7dd;
-
         }
 
-        .grid-border:first-child, .grid-border:nth-child(12){border-left: none;}
-
-    
-            .invoice-ds-box {
-                padding: 2px 12px 0;
+            .grid-border:first-child, .grid-border:nth-child(12) {
+                border-left: none;
             }
-  
+
+
+        .invoice-ds-box {
+            padding: 2px 12px 0;
         }
-        
+
+        }
     </style>
 </head>
 
@@ -452,8 +452,22 @@
                                 </a>
                             </li>
                         </ul>
+                        @{
+                            if (!string.IsNullOrWhiteSpace(@ViewBag.BookName))
+                            {
+                                <ul class="nav header-nav navbar-nav">
+                                    <li class="nav-item dropdown header-option m-2 pb-3">
+                                        <a class="mr-2 nav-link " id="daterange-btn">
+                                            <span>
+                                                <i class="fa fa-book"></i> @ViewBag.BookName
+                                            </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            }
+                        }
+                        
                         <div class="d-flex order-lg-2 ml-auto header-rightmenu">
-
                             <div class="dropdown d-sm-flex d-none">
                                 <a class="nav-link icon full-screen-link" id="fullscreen-button">
                                     <i class="fe fe-maximize-2"></i>

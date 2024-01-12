@@ -24,15 +24,7 @@ namespace Adroit.Accounting.Web.Controllers
                 model.CustomerFirmTransportSetting = customerFirmTransportSetting;
             }
 
-            var customerFirmBranchTransportSetting = _chalanRepository.GetChalanLabelList(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
-            if (customerFirmBranchTransportSetting == null)
-            {
-                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch" });
-            }
-            else
-            {
-                model.CustomerFirmBranchTransportSetting = customerFirmBranchTransportSetting;
-            }
+            model.CustomerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.GetByLoginId(CurrentUserId, _configurationData.DefaultConnection);
 
             model.EwayBillBList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, ChalanReceiveAgencyMasterTable._TableName, ChalanReceiveAgencyMasterTable.EwayBillNumber);
             model.CityList = _transportLRBranchCityMappingRepository.SelectList(_configurationData.DefaultConnection, CurrentBranchId);

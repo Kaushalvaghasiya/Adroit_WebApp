@@ -1,8 +1,10 @@
 CREATE OR ALTER  PROCEDURE [dbo].[sp_LRBookingSave]
 (
-	 @Id INT  
+	@LoginId INT
+	,@FirmId INT 
 	,@BranchId INT
-	,@LoginId INT
+	,@YearId INT 
+	,@Id INT  
 	,@CityIdTo INT
 	,@CityIdFrom INT
 	,@LRNumber INT
@@ -44,10 +46,10 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+		exec [sp_ValidateLoginBranch] @LoginId, @BranchId, @YearId
 
-		DECLARE @CustomerId int = dbo.[fn_GetCustomerId](@LoginId);
-
-		DECLARE @FirmId INT = (SELECT FirmId FROM CustomerFirmBranch WHERE Id = @BranchId);
+		DECLARE @CustomerId int = dbo.[fn_GetCustomerId] (@LoginId);
+		
 		DECLARE @BookBranchMappingId INT = (SELECT BookingSalesBookBranchMappingId FROM CustomerFirmBranchTransportSetting WHERE BranchId = @BranchId);
 		DECLARE @ProductBranchMappingId INT = (
 			SELECT ProductBranchMapping.Id 
@@ -56,7 +58,7 @@ BEGIN
 				AND ProductBranchMapping.BranchId = @BranchId
 			WHERE CustomerFirmTransportSetting.FirmId = @FirmId
 		);
-		DECLARE @YearId int = dbo.fn_GetYearId(@LoginId);
+		 
 		DECLARE @message VARCHAR(4000);
 
 		IF @YearId IS NULL

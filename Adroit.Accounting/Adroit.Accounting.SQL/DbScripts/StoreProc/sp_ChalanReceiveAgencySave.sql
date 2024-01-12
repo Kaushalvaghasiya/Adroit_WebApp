@@ -1,9 +1,9 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanReceiveAgencySave]
 (
 	@LoginId INT,
-	@FirmId INT,
 	@BranchId INT,
-	@Id INT ,
+	@YearId INT,
+	@Id INT,
 	@SenderBranchAccountMappingid INT,
     @ArrivalDate DATETIME,
     @BillNumberBranch INT,
@@ -52,8 +52,9 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-		DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
-		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
+		exec [sp_ValidateLoginBranch] @LoginId, @BranchId, @YearId
+
+		DECLARE @FirmId INT = DBO.fn_GetLoggedInFirmId (@LoginId);
 
 		DECLARE @message VARCHAR(4000);
 

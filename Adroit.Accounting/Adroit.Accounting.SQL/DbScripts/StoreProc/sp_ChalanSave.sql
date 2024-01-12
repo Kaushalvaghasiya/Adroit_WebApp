@@ -1,8 +1,9 @@
-CREATE OR ALTER   PROCEDURE [dbo].[sp_ChalanSave]
+CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanSave]
 (
 	 @LoginId INT
 	,@FirmId INT
 	,@BranchId INT
+	,@YearId INT 
 	,@Id INT 
 	,@BillNumberBranch INT  
 	,@BillNumberFirm VARCHAR(20) 
@@ -67,17 +68,10 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
-
-		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
+		exec [sp_ValidateLoginBranch] @LoginId, @BranchId, @YearId
 
 		DECLARE @message VARCHAR(4000);
 		DECLARE @ChalanMaxDate DATETIME=NULL, @ChalanMinDate DATETIME=NULL;
-
-		IF @YearId IS NULL
-		BEGIN
-			SET @message = 'Year Not Found!';
-			RAISERROR ('%s', 16, 1, @message);
-		END
 
 		DECLARE @BookBranchMappingId INT = (
 			SELECT PurcahseBookBranchMappingId

@@ -1,8 +1,9 @@
 CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerInvoiceSave]
 (
 	 @LoginId INT
-	,@FirmId INT
+	,@FirmId INT 
 	,@BranchId INT
+	,@YearId INT 
 	,@Id INT 
 	,@AccountBranchMappingId int
     ,@BillDate datetime
@@ -69,18 +70,13 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+		exec [sp_ValidateLoginBranch] @LoginId, @BranchId, @YearId
+
 		DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
-		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 		DECLARE @InvoiceMaxDate Date=NULL, @InvoiceMinDate Date=NULL;
 
 		DECLARE @message VARCHAR(4000);
 
-		IF @YearId IS NULL
-		BEGIN
-			SET @message = 'Year Not Found!';
-			RAISERROR ('%s', 16, 1, @message);
-		END
-		
 		DECLARE @BookBranchMappingId INT = (
 			SELECT BookingSalesBookBranchMappingId
 			FROM CustomerFirmBranchTransportSetting
@@ -202,7 +198,7 @@ BEGIN
 
 		SELECT @Prefix = CustomerBook.BillNoPrefix, @Postfix = CustomerBook.BillNoPostfix, @BillTypeId = CustomerBook.BillTypeID, @SalesBillFromId = CustomerBook.SalesBillFrom
 		FROM CustomerBookBranchMapping
-		INNER JOIN CustomerBook on CustomerBook.Id = CustomerBookBranchMapping.BookId AND CustomerBook.CustomerId = @CustomerId AND CustomerBook.Active = 1 AND CustomerBook.Deleted = 0
+		INNER JOIN CustomerBook on CustomerBook.Id = CustomerBookBranchMapping.BookId AND CustomerBook.CustomerId = @CustomerId
 		WHERE CustomerBookBranchMapping.Id = @BookBranchMappingId
 		AND CustomerBookBranchMapping.Deleted = 0 
 

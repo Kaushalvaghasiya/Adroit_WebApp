@@ -16,14 +16,15 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult ChalanReceive()
         {
             var model = new ChalanReceiveViewModel();
-            var CustomerFirmBranchTransportSetting = _chalanRepository.GetChalanLabelList(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
-            if (CustomerFirmBranchTransportSetting == null)
+
+            var customerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.GetByLoginId(CurrentUserId, _configurationData.DefaultConnection);
+            if (customerFirmBranchTransportSetting == null)
             {
-                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch" });
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch." });
             }
             else
             {
-                model.CustomerFirmBranchTransportSetting = CustomerFirmBranchTransportSetting;
+                model.CustomerFirmBranchTransportSetting = customerFirmBranchTransportSetting;
             }
 
             model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectListForPendingChalan(CurrentUserId, _configurationData.DefaultConnection);

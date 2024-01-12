@@ -49,5 +49,7 @@ namespace Adroit.Accounting.Model.ViewModel
 
         public string InvoiceDateString { get { return this.InvoiceDate?.ToString(Adroit.Accounting.Model.Constant.DateFormat) ?? ""; } }
 
+        public int LoginId { get; set; }
+        public int FirmId { get; set; }
     }
 }

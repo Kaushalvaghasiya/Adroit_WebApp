@@ -28,9 +28,20 @@ namespace Adroit.Accounting.Web.Controllers
                 model.CustomerFirmTransportSetting = customerFirmTransportSetting;
             }
 
+            var customerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.GetByLoginId(CurrentUserId, _configurationData.DefaultConnection);
+            if (customerFirmBranchTransportSetting == null)
+            {
+                return RedirectToAction("ErrorMessage", "Common", new { errMessage = "Please add data into Settings > Transport Settings > Branch" });
+            }
+            else
+            {
+                model.CustomerFirmBranchTransportSetting = customerFirmBranchTransportSetting;
+            }
+
+            ViewBag.BookName = $"{model.CustomerFirmBranchTransportSetting.BookingSalesBookName}";
             model.LRNumberList = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId);
             model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
-            
+
             return View(model);
         }
 
@@ -69,6 +80,8 @@ namespace Adroit.Accounting.Web.Controllers
                 model.FirmId = CurrentFirmId;
                 model.BranchId = CurrentBranchId;
                 model.LoginId = CurrentUserId;
+                model.YearId = CurrentYearId;
+
                 int id = _customerInvoice.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
