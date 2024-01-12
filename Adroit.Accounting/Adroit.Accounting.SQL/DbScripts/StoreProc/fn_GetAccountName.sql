@@ -12,5 +12,5 @@ BEGIN
 	INNER JOIN CustomerAccount ON CustomerAccountBranchMapping.AccountId = CustomerAccount.Id
 	WHERE CustomerAccountBranchMapping.Id = @accountmappingId 
 
-	RETURN SUBSTRING(@name, 0, LEN(@name))
+	RETURN @name
 END

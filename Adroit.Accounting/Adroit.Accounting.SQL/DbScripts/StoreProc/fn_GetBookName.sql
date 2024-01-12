@@ -13,5 +13,5 @@ BEGIN
 	INNER JOIN CustomerAccount ON CustomerBook.BookAccountId = CustomerAccount.Id
 	WHERE CustomerBookBranchMapping.Id = @bookmappingId 
 
-	RETURN SUBSTRING(@name, 0, LEN(@name))
+	RETURN @name
 END
