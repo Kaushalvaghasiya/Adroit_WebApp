@@ -245,7 +245,7 @@
                         <div class="col-lg-2 col-md-12">
                             <div class="form-group">
                                 <label for="UQCId">UOM</label>
-                                <select class="form-control select2-show-search" id="UQCId">
+                                <select class="form-control select2-show-search-add-clear" id="UQCId">
                                     <option></option>
                                     @{
                                         if (Model.GSTUQCList != null)
@@ -1101,17 +1101,11 @@
                     return false;
                 }
 
-                if ($("#UQCId").val() != "") {
-
-                    var spanElement = document.getElementById("select2-UQCId-container");
-                    var selectedValue = spanElement.getAttribute("title");
-
-                    if (!selectedValue.includes('-')) {
-                        showWarning("", "Please select UOM in Code - CodeEWayBill format.");
-                        $("#UQCId").focus();
-                        return false;
-                    }
-
+                var UQC = $("#UQCId option:selected").text();
+                if (!UQC.includes('-')) {
+                    showWarning("", "Please select UOM in Code-CodeEWayBill format.");
+                    $("#UQCId").focus();
+                    return false;
                 }
 
                 if ($("#RateRetail").val() != null && $("#RateRetail").val() != "") {
@@ -1305,7 +1299,7 @@
                 savedata.AveragePack = getFloatValueNull("AveragePack", 2);
                 savedata.BoxPack = getFloatValueNull("BoxPack", 2);
                 savedata.RolMin = getFloatValueNull("RolMin", 2);
-                savedata.RolMax = getFloatValueNull("RolMax", 2);                
+                savedata.RolMax = getFloatValueNull("RolMax", 2);
                 savedata.GstStateCess = getFloatValueZero("GstStateCess", 2);
                 savedata.Discount = getFloatValueZero("Discount", 2);
 
@@ -1331,7 +1325,6 @@
                             showWarning("", 'Product saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
-                            history.go(0);
                             $('.btn-back').click();
                         } else {
                             showError("", data.data);

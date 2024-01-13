@@ -18,7 +18,6 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSave]
 	 @SubGroup NVARCHAR(50),
 	 @StockType NVARCHAR(50),
 	 @QualityType NVARCHAR(50),
-	 @UQCId INT,
 	 @UQC NVARCHAR(30),
 	 @HSNCode VARCHAR(8),
 	 @Category NVARCHAR(30),
@@ -254,16 +253,25 @@ BEGIN
 			end
 		END
 
-		--IF ISNULL(@UQCId, 0) <= 0 AND ISNULL(@UQC,'') != ''
-		--BEGIN
-			
-		--	Declare @UQCCode NVARCHAR(50) = SUBSTRING(@UQC,0,CHARINDEX('-',@UQC))
-		--	Declare @UQCEWayCode NVARCHAR(50) = REPLACE(RIGHT(@UQC,CHARINDEX('-',REVERSE(@UQC))),'-','') 
-
-		--	EXEC @UQCId = dbo.sp_GSTUQCSave  0, @UQC, @UQCCode, @UQCEWayCode, 0, 1
-		--	SELECT @UQCId = Id FROM GSTUQC WHERE Code = @UQCCode AND Active = 1
-
-		--END
+		DECLARE @UQCId TINYINT
+		IF (isnull(@UQC, '') <> '')
+		BEGIN
+			Declare @UQCCode NVARCHAR(50) = LTRIM(RTRIM(SUBSTRING(@UQC, 0, CHARINDEX('-', @UQC))))
+			Declare @UQCEWayCode NVARCHAR(50) = LTRIM(RTRIM(SUBSTRING(@UQC, CHARINDEX('-', @UQC) + 1, LEN(@UQC))))
+			IF EXISTS (SELECT 1 FROM GSTUQC WHERE Code = @UQCCode AND (Deleted = 1 OR Active = 0))
+			BEGIN
+				UPDATE GSTUQC SET Deleted = 0, Active = 1 WHERE Code = @UQCCode
+				SELECT @UQCId = Id FROM GSTUQC WHERE Code = @UQCCode
+			END
+			ELSE
+			BEGIN
+				SELECT @UQCId = Id FROM GSTUQC WHERE Code = @UQCCode
+				IF @UQCId IS NULL
+				BEGIN
+					EXEC @UQCId = dbo.sp_GSTUQCSave  0, @UQC, @UQCCode, @UQCEWayCode, 0, 1
+				END
+			END
+		END
 
 		DECLARE @CategoryId SMALLINT = NULL 
 
@@ -307,23 +315,20 @@ BEGIN
 
 		DECLARE @GSTRateId TINYINT = NULL 
 
-		IF (isnull(@GSTRate, '') <> '')
-		BEGIN
-			IF EXISTS (SELECT 1 FROM GSTRate WHERE Rate = @GSTRate AND (Deleted = 1 OR Active = 0))
-			begin
-				UPDATE GSTRate SET Deleted = 0, Active = 1 WHERE Rate = @GSTRate;
+		IF EXISTS (SELECT 1 FROM GSTRate WHERE Rate = @GSTRate AND (Deleted = 1 OR Active = 0))
+		begin
+			UPDATE GSTRate SET Deleted = 0, Active = 1 WHERE Rate = @GSTRate;
+			SELECT @GSTRateId = Id FROM GSTRate WHERE Rate = @GSTRate;
+		end
+		else
+		begin
+			SELECT @GSTRateId  = Id from GSTRate WHERE Rate = @GSTRate;
+			if @GSTRateId IS NULL
+			BEGIN
+				EXEC @GSTRateId = dbo.sp_GSTRateSave  0, @GSTRate , 0, 1;
 				SELECT @GSTRateId = Id FROM GSTRate WHERE Rate = @GSTRate;
-			end
-			else
-			begin
-				SELECT @GSTRateId  = Id from GSTRate WHERE Rate = @GSTRate;
-				if @GSTRateId IS NULL
-				BEGIN
-					EXEC @GSTRateId = dbo.sp_GSTRateSave  0, @GSTRate , 0, 1;
-					SELECT @GSTRateId = Id FROM GSTRate WHERE Rate = @GSTRate;
-				END
-			end
-		END
+			END
+		end
 
 		DECLARE @AmountCalcId SMALLINT = NULL 
 

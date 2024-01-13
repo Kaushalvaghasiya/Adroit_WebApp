@@ -37,7 +37,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SubGroup", value.SubGroupName);
             parameters.Add("@StockType", value.StockTypeName);
             parameters.Add("@QualityType", value.QualityTypeName);
-            parameters.Add("@UQCId", value.UQCId);
             parameters.Add("@UQC", value.UQCTypeName);
             parameters.Add("@HSNCode", value.HSNCode);
             parameters.Add("@Category", value.CategoryName);

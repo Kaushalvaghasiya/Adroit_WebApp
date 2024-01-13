@@ -16,7 +16,7 @@ namespace Adroit.Accounting.Web.Controllers
             BrokerViewModel model = new BrokerViewModel() { Id = id };
             model.BrokerNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BrokerTable._TableName, BrokerTable.Name);
             model.BrokerageList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, BrokerTable._TableName, BrokerTable.Brokerage);
-            model.BranchList = _customerFirmBranchRepository.SelectListByCustomerId(CurrentFirmId, _configurationData.DefaultConnection);
+            model.BranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
             return View(model);
         }
 
