@@ -6,16 +6,16 @@ namespace Adroit.Accounting.Model.Enums
     public enum SalesViewList
     {
         [Description("Date Wise")]
-        Date_Wise,
+        DateWise,
         [Description("Party Wise")]
-        Party_Wise,
+        PartyWise,
         [Description("Quality Wise")]
-        Quality_Wise,
+        QualityWise,
         [Description("Broker Wise")]
-        Broker_Wise,
+        BrokerWise,
         [Description("Book Wise")]
-        Book_Wise,
+        BookWise,
         [Description("HSN Wise")]
-        HSN_Wise,
+        HSNWise,
     }
 }

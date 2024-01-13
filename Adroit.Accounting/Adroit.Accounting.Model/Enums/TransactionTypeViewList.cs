@@ -6,8 +6,8 @@ namespace Adroit.Accounting.Model.Enums
     public enum TransactionTypeViewList
     {
         [Description("Sales Activity")]
-        Sales_Activity,
+        SalesActivity,
         [Description("LR Wise")]
-        Purchase_Activity,
+        PurchaseActivity,
     }
 }

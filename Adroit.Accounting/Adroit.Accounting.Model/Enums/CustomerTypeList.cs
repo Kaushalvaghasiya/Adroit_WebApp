@@ -12,7 +12,7 @@ namespace Adroit.Accounting.Model.Enums
         [Description("Composition")]
         Composition,
         [Description("Rev. Charge")]
-        Rev_Charge,
+        RevCharge,
         [Description("URD")]
         URD
     }

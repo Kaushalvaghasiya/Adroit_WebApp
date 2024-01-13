@@ -65,12 +65,12 @@
                                         {
                                             foreach (var y in Model.BranchList.GroupBy(o => o.Other).ToList())
                                             {
-                                                <optgroup label="@y.First().Other">
-                                                    @foreach (var o in y)
+                                                                <optgroup label="@y.First().Other">
+                                                                    @foreach (var o in y)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                                        <option value="@o.Value">@o.Text</option>
                                                     }
-                                                </optgroup>
+                                                                </optgroup>
                                             }
                                         }
                                     }
@@ -140,7 +140,7 @@
                                         {
                                             foreach (var o in Model.CityList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -156,7 +156,7 @@
                                         {
                                             foreach (var o in Model.CityList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -172,7 +172,7 @@
                                         {
                                             foreach (var o in Model.AccountBranchMappingList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -189,7 +189,7 @@
                                         {
                                             foreach (var o in Model.AccountBranchMappingList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -205,7 +205,7 @@
                                         {
                                             foreach (var o in Model.AccountBranchMappingList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -221,7 +221,7 @@
                                         {
                                             foreach (var o in Model.PvtMarkList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -237,7 +237,7 @@
                                         {
                                             foreach (var o in Model.PayTypeList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -253,7 +253,7 @@
                                         {
                                             foreach (var o in Model.ChalanList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -269,7 +269,7 @@
                                         {
                                             foreach (var o in Model.InvStatusList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -313,7 +313,7 @@
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm PrintPDF" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
+                        <a href="#" target="_blank" class="btn btn-blue text-white mr-2 btn-sm btn-print" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
                         <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send"><span><i class="fa fa-share-alt"></i></span></a>
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
@@ -339,7 +339,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn btn-blue mt-1 PrintPDF" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" target="_blank" class="btn btn-blue mt-1 btn-print" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn btn-gray mt-1 btn-back" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
                 </div>
@@ -347,8 +347,6 @@
         </div>
     </div>
 </div>
-
-<input type="hidden" id="hdnSelectedView" value="" />
 
 @section Scripts
 {
@@ -382,15 +380,34 @@
             });
 
             $(".show-report").on("click", function () {
+                BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
+                if (BranchIds == '0') {
+                    showWarning("", "Please select branch");
+                    return;
+                }
+
+                DateFrom = $('#DateFrom').val() == '' ? null : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                DateTo = $('#DateTo').val() == '' ? null : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
+                CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
+                LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
+                LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
+                ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
+                ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
+                BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
+                PvtMarkIds = $('#PvtMarkIds').val().length === 0 ? '0' : $('#PvtMarkIds').val().join(",");
+                PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
+                ChalanId = getIntValueZero('ChalanId');
+                InvStatusId = getIntValueZero('InvStatusId');
+                SubTotal = $('#SubTotal').is(':checked');
+
                 $('.dv-parameters').slideUp();
                 $('.dv-report').slideDown();
 
-                let spanElement = document.getElementById("select2-ViewId-container");
-                let selectedView = spanElement.getAttribute("title");
+                let selectedView = $('#ViewId').val();
 
-                $("#hdnSelectedView").val(selectedView.replace(/\s/g, ''));
-
-                let Summary = $('#Summary').is(':checked');
+                let summary = $('#Summary').is(':checked');
+                let subTotal = $('#SubTotal').is(':checked');
 
                 if ($.fn.dataTable.isDataTable('#tblMain')) {
                     $('#tblMain').DataTable().destroy();
@@ -399,45 +416,35 @@
                 $('#tblMain tbody').html('');
                 $('#tblMain thead tr').html('');
 
-                if (selectedView == 'Date Wise' && Summary === false) {
-                    DateWiseSummaryOffList();
+                var url = '@Url.Content("~/CustomerReport")';
+
+                if (selectedView == '@((int)ViewList.DateWise)') {
+                    if (summary) {
+                        url += '/LRBookingLRRegisterPrintDateWiseSummary';
+                        dateWiseSummaryOnList();
+                    }
+                    else {
+                        url += '/LRBookingLRRegisterPrintDateWise';
+                        dateWiseSummaryOffList();
+                    }
                 }
-                if (selectedView == 'Date Wise' && Summary === true) {
-                    DateWiseSummaryOnList();
+                else if (selectedView == '@((int)ViewList.LRWise)') {
+                    url += '/LRBookingLRRegisterPrintLRWise';
+                    lrWiseList();
                 }
-                if (selectedView == 'LR Wise' && (Summary === true || Summary === false)) {
-                    LRWiseList();
-                }
-                if (selectedView == 'Party Wise' && Summary === false) {
-                    PartyWiseSummaryOffList();
-                }
-                if (selectedView == 'Party Wise' && Summary === true) {
-                    PartyWiseSummaryOnList();
+                else if (selectedView == '@((int)ViewList.PartyWise)') {
+                    if (summary) { 
+                        url += '/LRBookingLRRegisterPrintPartyWiseSummary';
+                        partyWiseSummaryOnList();
+                    }
+                    else {
+                        url += '/LRBookingLRRegisterPrintPartyWise';
+                        partyWiseSummaryOffList();
+                    }
                 }
 
-            });
-
-            $(".PrintPDF").on("click", function () {
-
-                let Summary = $('#Summary').is(':checked');
-                let SubTotal = $('#SubTotal').is(':checked');
-
-                if ($("#hdnSelectedView").val() == 'DateWise' && Summary === false) {
-                    window.open('/CustomerReport/LRBookingLRRegisterPrintDateWise?SubTotal=' + SubTotal + '&DateFrom=' + $("#DateFrom").val() + '&DateTo=' + $("#DateTo").val(), '_blank');
-                }
-                if ($("#hdnSelectedView").val() == 'DateWise' && Summary === true) {
-                    window.open('/CustomerReport/LRBookingLRRegisterPrintDateWiseSummary?SubTotal=' + SubTotal + '&DateFrom=' + $("#DateFrom").val() + '&DateTo=' + $("#DateTo").val(), '_blank');
-                }
-                if ($("#hdnSelectedView").val() == 'LRWise' && (Summary === true || Summary === false)) {
-                    window.open('/CustomerReport/LRBookingLRRegisterPrintLRWise?SubTotal=' + SubTotal + '&DateFrom=' + $("#DateFrom").val() + '&DateTo=' + $("#DateTo").val(), '_blank');
-                }
-                if ($("#hdnSelectedView").val() == 'PartyWise' && Summary === false) {
-                    window.open('/CustomerReport/LRBookingLRRegisterPrintPartyWise?SubTotal=' + SubTotal + '&DateFrom=' + $("#DateFrom").val() + '&DateTo=' + $("#DateTo").val(), '_blank');
-                }
-                if ($("#hdnSelectedView").val() == 'PartyWise' && Summary === true) {
-                    window.open('/CustomerReport/LRBookingLRRegisterPrintPartyWiseSummary?SubTotal=' + SubTotal + '&DateFrom=' + $("#DateFrom").val() + '&DateTo=' + $("#DateTo").val(), '_blank');
-                }
-
+                url += '?SubTotal=' + subTotal + '&DateFrom=' + $("#DateFrom").val() + '&DateTo=' + $("#DateTo").val();
+                $(".btn-print").attr("href", url);
             });
 
             $(".btn-back").on("click", function () {
@@ -468,7 +475,23 @@
             return data;
         }
 
-        function DateWiseSummaryOffList() {
+        var BranchIds;
+        var DateFrom;
+        var DateTo;
+        var CityFromIds;
+        var CityToIds;
+        var LRFrom;
+        var LRTo;
+        var ConsignorIds;
+        var ConsigneeIds;
+        var BillPartyIds;
+        var PvtMarkIds;
+        var PayTypeIds;
+        var ChalanId;
+        var InvStatusId;
+        var SubTotal;
+
+        function dateWiseSummaryOffList() {
 
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
@@ -485,23 +508,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
-            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
-            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
-            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
-            let LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
-            let LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
-            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
-            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
-            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
-            let PvtMarkIds = $('#PvtMarkIds').val().length === 0 ? '0' : $('#PvtMarkIds').val().join(",");
-            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
-            let ChalanId = getIntValueZero('ChalanId');
-            let InvStatusId = getIntValueZero('InvStatusId');
-            let SubTotal = $('#SubTotal').is(':checked');
-
-            let currentDate = null;
             let subTotalAmount = 0;
             let totalAmount = 0;
             let prevDate = null;
@@ -618,8 +624,8 @@
                 lengthChange: false,
                 ordering: true,
                 searching: true,
-                paging: true,
-                pageLength: 50,
+                paging: false,
+                //pageLength: @(int.MaxValue),
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
@@ -643,7 +649,7 @@
                     url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))',
                     type: 'GET',
                     data: function (d) {
-                        d.selectedView = $("#hdnSelectedView").val();
+                        d.SelectedView = $('#ViewId').val();
                         d.BranchIds = BranchIds;
                         d.DateFrom = DateFrom;
                         d.DateTo = DateTo;
@@ -715,7 +721,7 @@
             });
         }
 
-        function DateWiseSummaryOnList() {
+        function dateWiseSummaryOnList() {
 
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL NUMBER</th>');
@@ -725,24 +731,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
-            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
-            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
-            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
-            let LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
-            let LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
-            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
-            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
-            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
-            let PvtMarkIds = $('#PvtMarkIds').val().length === 0 ? '0' : $('#PvtMarkIds').val().join(",");
-            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
-            let ChalanId = getIntValueZero('ChalanId');
-            let InvStatusId = getIntValueZero('InvStatusId');
-            let Summary = $('#Summary').is(':checked');
-            let SubTotal = $('#SubTotal').is(':checked');
-
-            let currentDate = null;
             let subTotalAmount = 0;
             let totalAmount = 0;
             let prevDate = null;
@@ -809,8 +797,8 @@
                 lengthChange: false,
                 ordering: true,
                 searching: true,
-                paging: true,
-                pageLength: 50,
+                paging: false,
+                //pageLength: @(int.MaxValue),
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
@@ -834,7 +822,7 @@
                     url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithSummary"))',
                     type: 'GET',
                     data: function (d) {
-                        d.selectedView = $("#hdnSelectedView").val();
+                        d.SelectedView = $('#ViewId').val();
                         d.BranchIds = BranchIds;
                         d.DateFrom = DateFrom;
                         d.DateTo = DateTo;
@@ -909,7 +897,7 @@
             });
         }
 
-        function LRWiseList() {
+        function lrWiseList() {
 
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');            
@@ -925,22 +913,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
-            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
-            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
-            let LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
-            let LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
-            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
-            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
-            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
-            let PvtMarkIds = $('#PvtMarkIds').val().length === 0 ? '0' : $('#PvtMarkIds').val().join(",");
-            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
-            let ChalanId = getIntValueZero('ChalanId');
-            let InvStatusId = getIntValueZero('InvStatusId');
-            let SubTotal = $('#SubTotal').is(':checked');
 
             let totalAmount = 0;
             let tableBody = $('#tblMain tbody');
@@ -1056,8 +1028,8 @@
                 lengthChange: false,
                 ordering: true,
                 searching: true,
-                paging: true,
-                pageLength: 50,
+                paging: false,
+                //pageLength: @(int.MaxValue),
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
@@ -1081,7 +1053,7 @@
                     url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))',
                     type: 'GET',
                     data: function (d) {
-                        d.selectedView = $("#hdnSelectedView").val();
+                        d.SelectedView = $('#ViewId').va();
                         d.BranchIds = BranchIds;
                         d.DateFrom = DateFrom;
                         d.DateTo = DateTo;
@@ -1127,7 +1099,7 @@
             });
         }
 
-        function PartyWiseSummaryOffList() {
+        function partyWiseSummaryOffList() {
 
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">BILL PARTY</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNOR</th>');
@@ -1147,23 +1119,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
-            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
-            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
-            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
-            let LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
-            let LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
-            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
-            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
-            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
-            let PvtMarkIds = $('#PvtMarkIds').val().length === 0 ? '0' : $('#PvtMarkIds').val().join(",");
-            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
-            let ChalanId = getIntValueZero('ChalanId');
-            let InvStatusId = getIntValueZero('InvStatusId');
-            let SubTotal = $('#SubTotal').is(':checked');
-
-            let currentDate = null;
             let subTotalAmount = 0;
             let totalAmount = 0;
             let prevParty = null;
@@ -1302,8 +1257,8 @@
                 lengthChange: false,
                 ordering: true,
                 searching: true,
-                paging: true,
-                pageLength: 50,
+                paging: false,
+                //pageLength: @(int.MaxValue),
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
@@ -1327,7 +1282,7 @@
                     url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))',
                     type: 'GET',
                     data: function (d) {
-                        d.selectedView = $("#hdnSelectedView").val();
+                        d.SelectedView = $('#ViewId').val();
                         d.BranchIds = BranchIds;
                         d.DateFrom = DateFrom;
                         d.DateTo = DateTo;
@@ -1401,7 +1356,7 @@
             });
         }
 
-        function PartyWiseSummaryOnList() {
+        function partyWiseSummaryOnList() {
 
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNOR</TH>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL LR</th>');
@@ -1411,24 +1366,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
-            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
-            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
-            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
-            let LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
-            let LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
-            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
-            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
-            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
-            let PvtMarkIds = $('#PvtMarkIds').val().length === 0 ? '0' : $('#PvtMarkIds').val().join(",");
-            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
-            let ChalanId = getIntValueZero('ChalanId');
-            let InvStatusId = getIntValueZero('InvStatusId');
-            let Summary = $('#Summary').is(':checked');
-            let SubTotal = $('#SubTotal').is(':checked');
-
-            let currentDate = null;
             let subTotalAmount = 0;
             let totalAmount = 0;
             let prevParty = null;
@@ -1495,8 +1432,8 @@
                 lengthChange: false,
                 ordering: true,
                 searching: true,
-                paging: true,
-                pageLength: 50,
+                paging: false,
+                //pageLength: @(int.MaxValue),
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
@@ -1520,7 +1457,7 @@
                     url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithSummary"))',
                     type: 'GET',
                     data: function (d) {
-                        d.selectedView = $("#hdnSelectedView").val();
+                        d.SelectedView = $('#ViewId').val();
                         d.BranchIds = BranchIds;
                         d.DateFrom = DateFrom;
                         d.DateTo = DateTo;
@@ -1589,9 +1526,7 @@
 
                         tableBody.append(totalRow);
                     }
-
                 }
-
             });
         }
 

@@ -6,10 +6,10 @@ namespace Adroit.Accounting.Model.Enums
     public enum LRViewList
     {
         [Description("All LR")]
-        All_LR,
+        AllLR,
         [Description("Past Year LR")]
-        Past_Year_LR,
+        PastYearLR,
         [Description("Current Year LR")]
-        Current_Year_LR,
+        CurrentYearLR,
     }
 }

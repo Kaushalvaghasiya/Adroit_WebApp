@@ -89,7 +89,8 @@ namespace Adroit.Accounting.Web.Controllers
             result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
             result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
             var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportList"));
-            result.ReportData = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+
+            result.ReportData = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, pageSize: -1).ToList();
             var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
             var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);            
             result.ReportHeader.FrimName = currentFirm.Title.ToString();
@@ -107,7 +108,8 @@ namespace Adroit.Accounting.Web.Controllers
             result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
             result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
             var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportListWithSummary"));
-            result.ReportData = _reportLRBookingLRRegisterRepository.GetListWithSummary(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+
+            result.ReportData = _reportLRBookingLRRegisterRepository.GetListWithSummary(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, pageSize: -1).ToList();
             var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
             var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
             result.ReportHeader.FrimName = currentFirm.Title.ToString();
@@ -125,7 +127,8 @@ namespace Adroit.Accounting.Web.Controllers
             result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
             result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
             var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportList"));
-            result.ReportData = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            
+            result.ReportData = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, pageSize: -1).ToList();
             var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
             var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);            
             result.ReportHeader.FrimName = currentFirm.Title.ToString();
@@ -143,7 +146,8 @@ namespace Adroit.Accounting.Web.Controllers
             result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
             result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
             var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportList"));
-            result.ReportData = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            
+            result.ReportData = _reportLRBookingLRRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, pageSize: -1).ToList();
             var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
             var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
             result.ReportHeader.FrimName = currentFirm.Title.ToString();
@@ -161,7 +165,8 @@ namespace Adroit.Accounting.Web.Controllers
             result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
             result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
             var parameters = JsonConvert.DeserializeObject<LRBookingLRRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingLRRegisterReportListWithSummary"));
-            result.ReportData = _reportLRBookingLRRegisterRepository.GetListWithSummary(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId).ToList();
+            
+            result.ReportData = _reportLRBookingLRRegisterRepository.GetListWithSummary(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, pageSize: -1).ToList();
             var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
             var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
             result.ReportHeader.FrimName = currentFirm.Title.ToString();

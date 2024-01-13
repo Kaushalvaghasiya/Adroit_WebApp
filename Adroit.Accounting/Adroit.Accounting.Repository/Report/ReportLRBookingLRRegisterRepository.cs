@@ -1,8 +1,6 @@
-﻿using Adroit.Accounting.Model;
+﻿using Adroit.Accounting.Model.Enums;
 using Adroit.Accounting.Model.GridViewModel;
-using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Model.ReportViewModel;
-using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
 
@@ -35,6 +33,9 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
+            parameters.Add("@DateWise", ViewList.DateWise);
+            parameters.Add("@PartyWise", ViewList.LRWise);
+            parameters.Add("@LRWise", ViewList.PartyWise);
             return QueryHelper.GetList<LRBookingLRRegisterGridViewModel>("sp_ReportLRBookingLRRegisterList", connectionString, parameters);
         }
 
@@ -63,6 +64,9 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
+            parameters.Add("@DateWise", ViewList.DateWise);
+            parameters.Add("@PartyWise", ViewList.LRWise);
+            parameters.Add("@LRWise", ViewList.PartyWise);
             return QueryHelper.GetList<LRBookingLRRegisterGridViewModel>("sp_ReportLRBookingLRRegisterListWithSummary", connectionString, parameters);
         }
     }

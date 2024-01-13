@@ -6,8 +6,8 @@ namespace Adroit.Accounting.Model.Enums
     public enum BrokerWiseDetailViewList
     {
         [Description("Party Wise")]
-        Party_Wise,
+        PartyWise,
         [Description("Broker Wise")]
-        Broker_Wise,
+        BrokerWise,
     }
 }

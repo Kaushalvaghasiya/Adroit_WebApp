@@ -9,7 +9,7 @@ namespace Adroit.Accounting.Model.Enums
         [Description("Purchase")]
         Purchase,
         [Description("Gen Exps.")]
-        Gen_Exps,
+        GenExps,
         [Description("Import")]
         Import
     }

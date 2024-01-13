@@ -8,8 +8,8 @@ namespace Adroit.Accounting.Model.Enums
         [Description("All")]
         All,
         [Description("Invoice Done")]
-        Invoice_Done,
+        InvoiceDone,
         [Description("Pending Invoice")]
-        Pending_Invoice,
+        PendingInvoice,
     }
 }

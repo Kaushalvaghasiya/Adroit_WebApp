@@ -6,12 +6,12 @@ namespace Adroit.Accounting.Model.Enums
     public enum VoucheBookViewList
     {
         [Description("Cash Payment")]
-        Cash_Payment,
+        CashPayment,
         [Description("Cash Receive")]
-        Cash_Receive,
+        CashReceive,
         [Description("Bank Payment")]
-        Bank_Payment,
+        BankPayment,
         [Description("Bank Receive")]
-        Bank_Receive,
+        BankReceive,
     }
 }

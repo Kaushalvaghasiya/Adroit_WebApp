@@ -8,8 +8,8 @@ namespace Adroit.Accounting.Model.Enums
         [Description("All")]
         All,
         [Description("Intra State")]
-        Intra_State,
+        IntraState,
         [Description("Inter State")]
-        Inter_State,
+        InterState,
     }
 }

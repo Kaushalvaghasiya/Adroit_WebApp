@@ -68,8 +68,8 @@ namespace Adroit.Accounting.Web.Utility
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceStatusList.All)}", Value = $"{(int)InvoiceStatusList.All}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceStatusList.Invoice_Done)}", Value = $"{(int)InvoiceStatusList.Invoice_Done}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceStatusList.Pending_Invoice)}", Value = $"{(int)InvoiceStatusList.Pending_Invoice}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceStatusList.InvoiceDone)}", Value = $"{(int)InvoiceStatusList.InvoiceDone}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(InvoiceStatusList.PendingInvoice)}", Value = $"{(int)InvoiceStatusList.PendingInvoice}" },
             };
             return list;
         }
@@ -77,9 +77,9 @@ namespace Adroit.Accounting.Web.Utility
         {
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(LRViewList.All_LR)}", Value = $"{(int)LRViewList.All_LR}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(LRViewList.Past_Year_LR)}", Value = $"{(int)LRViewList.Past_Year_LR}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(LRViewList.Current_Year_LR)}", Value = $"{(int)LRViewList.Current_Year_LR}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(LRViewList.AllLR)}", Value = $"{(int)LRViewList.AllLR}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(LRViewList.PastYearLR)}", Value = $"{(int)LRViewList.PastYearLR}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(LRViewList.CurrentYearLR)}", Value = $"{(int)LRViewList.CurrentYearLR}" },
             };
             return list;
         }
@@ -87,9 +87,9 @@ namespace Adroit.Accounting.Web.Utility
         {
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.Date_Wise)}", Value = $"{(int)ViewList.Date_Wise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.LR_Wise)}", Value = $"{(int)ViewList.LR_Wise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.Party_Wise)}", Value = $"{(int)ViewList.Party_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.DateWise)}", Value = $"{(int)ViewList.DateWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.LRWise)}", Value = $"{(int)ViewList.LRWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.PartyWise)}", Value = $"{(int)ViewList.PartyWise}" },
             };
             return list;
         }
@@ -98,8 +98,8 @@ namespace Adroit.Accounting.Web.Utility
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanList.All)}", Value = $"{(int)ChalanList.All}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanList.Chalan_Done)}", Value = $"{(int)ChalanList.Chalan_Done}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanList.Pending_Chalan)}", Value = $"{(int)ChalanList.Pending_Chalan}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanList.ChalanDone)}", Value = $"{(int)ChalanList.ChalanDone}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanList.PendingChalan)}", Value = $"{(int)ChalanList.PendingChalan}" },
             };
             return list;
         }
@@ -107,10 +107,10 @@ namespace Adroit.Accounting.Web.Utility
         {
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.Cash_Payment)}", Value = $"{(int)VoucheBookViewList.Cash_Payment}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.Cash_Receive)}", Value = $"{(int)VoucheBookViewList.Cash_Receive}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.Bank_Payment)}", Value = $"{(int)VoucheBookViewList.Bank_Payment}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.Bank_Receive)}", Value = $"{(int)VoucheBookViewList.Bank_Receive}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.CashPayment)}", Value = $"{(int)VoucheBookViewList.CashPayment}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.CashReceive)}", Value = $"{(int)VoucheBookViewList.CashReceive}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.BankPayment)}", Value = $"{(int)VoucheBookViewList.BankPayment}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(VoucheBookViewList.BankReceive)}", Value = $"{(int)VoucheBookViewList.BankReceive}" },
             };
             return list;
         }
@@ -119,10 +119,10 @@ namespace Adroit.Accounting.Web.Utility
         {
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TDS_Date_Wise)}", Value = $"{(int)DateWiseTDSDetailViewList.TDS_Date_Wise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TCS_Date_Wise)}", Value = $"{(int)DateWiseTDSDetailViewList.TCS_Date_Wise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TDS_Party_Wise)}", Value = $"{(int)DateWiseTDSDetailViewList.TDS_Party_Wise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TCS_Party_Wise)}", Value = $"{(int)DateWiseTDSDetailViewList.TCS_Party_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TDSDateWise)}", Value = $"{(int)DateWiseTDSDetailViewList.TDSDateWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TCSDateWise)}", Value = $"{(int)DateWiseTDSDetailViewList.TCSDateWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TDSPartyWise)}", Value = $"{(int)DateWiseTDSDetailViewList.TDSPartyWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(DateWiseTDSDetailViewList.TCSPartyWise)}", Value = $"{(int)DateWiseTDSDetailViewList.TCSPartyWise}" },
             };
             return list;
         }
@@ -131,8 +131,8 @@ namespace Adroit.Accounting.Web.Utility
         {
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(TransactionTypeViewList.Sales_Activity)}", Value = $"{(int)TransactionTypeViewList.Sales_Activity}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(TransactionTypeViewList.Purchase_Activity)}", Value = $"{(int)TransactionTypeViewList.Purchase_Activity}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(TransactionTypeViewList.SalesActivity)}", Value = $"{(int)TransactionTypeViewList.SalesActivity}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(TransactionTypeViewList.PurchaseActivity)}", Value = $"{(int)TransactionTypeViewList.PurchaseActivity}" },
             };
             return list;
         }
@@ -141,8 +141,8 @@ namespace Adroit.Accounting.Web.Utility
         {
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BrokerWiseDetailViewList.Party_Wise)}", Value = $"{(int)BrokerWiseDetailViewList.Party_Wise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BrokerWiseDetailViewList.Broker_Wise)}", Value = $"{(int)BrokerWiseDetailViewList.Broker_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BrokerWiseDetailViewList.PartyWise)}", Value = $"{(int)BrokerWiseDetailViewList.PartyWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BrokerWiseDetailViewList.BrokerWise)}", Value = $"{(int)BrokerWiseDetailViewList.BrokerWise}" },
             };
             return list;
         }
@@ -184,7 +184,7 @@ namespace Adroit.Accounting.Web.Utility
             {
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseBy.All)}", Value = $"{(int)PurchaseBy.All}" },
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseBy.Purchase)}", Value = $"{(int)PurchaseBy.Purchase}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseBy.Gen_Exps)}", Value = $"{(int)PurchaseBy.Gen_Exps}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseBy.GenExps)}", Value = $"{(int)PurchaseBy.GenExps}" },
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseBy.Import)}", Value = $"{(int)PurchaseBy.Import}" },
             };
             return list;
@@ -205,9 +205,9 @@ namespace Adroit.Accounting.Web.Utility
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseInvoiceType.All)}", Value = $"{(int)PurchaseInvoiceType.All}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseInvoiceType.Tax_Invoice)}", Value = $"{(int)PurchaseInvoiceType.Tax_Invoice}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseInvoiceType.Bill_of_Supply)}", Value = $"{(int)PurchaseInvoiceType.Bill_of_Supply}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseInvoiceType.Retail_Invoice)}", Value = $"{(int)PurchaseInvoiceType.Retail_Invoice}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseInvoiceType.TaxInvoice)}", Value = $"{(int)PurchaseInvoiceType.TaxInvoice}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseInvoiceType.BillOfSupply)}", Value = $"{(int)PurchaseInvoiceType.BillOfSupply}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(PurchaseInvoiceType.RetailInvoice)}", Value = $"{(int)PurchaseInvoiceType.RetailInvoice}" },
             };
             return list;
         }
@@ -215,12 +215,12 @@ namespace Adroit.Accounting.Web.Utility
         {
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.Date_Wise)}", Value = $"{(int)SalesViewList.Date_Wise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.Party_Wise)}", Value = $"{(int)SalesViewList.Party_Wise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.Quality_Wise)}", Value = $"{(int)SalesViewList.Quality_Wise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.Broker_Wise)}", Value = $"{(int)SalesViewList.Broker_Wise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.Book_Wise)}", Value = $"{(int)SalesViewList.Book_Wise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.HSN_Wise)}", Value = $"{(int)SalesViewList.HSN_Wise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.DateWise)}", Value = $"{(int)SalesViewList.DateWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.PartyWise)}", Value = $"{(int)SalesViewList.PartyWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.QualityWise)}", Value = $"{(int)SalesViewList.QualityWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.BrokerWise)}", Value = $"{(int)SalesViewList.BrokerWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.BookWise)}", Value = $"{(int)SalesViewList.BookWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(SalesViewList.HSNWise)}", Value = $"{(int)SalesViewList.HSNWise}" },
             };
             return list;
         }
@@ -229,8 +229,8 @@ namespace Adroit.Accounting.Web.Utility
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(GSTTransactionTypeList.All)}", Value = $"{(int)GSTTransactionTypeList.All}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(GSTTransactionTypeList.Intra_State)}", Value = $"{(int)GSTTransactionTypeList.Intra_State}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(GSTTransactionTypeList.Inter_State)}", Value = $"{(int)GSTTransactionTypeList.Inter_State}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(GSTTransactionTypeList.IntraState)}", Value = $"{(int)GSTTransactionTypeList.IntraState}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(GSTTransactionTypeList.InterState)}", Value = $"{(int)GSTTransactionTypeList.InterState}" },
             };
             return list;
         }
@@ -251,7 +251,7 @@ namespace Adroit.Accounting.Web.Utility
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(CustomerTypeList.All)}", Value = $"{(int)CustomerTypeList.All}" },
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(CustomerTypeList.Regular)}", Value = $"{(int)CustomerTypeList.Regular}" },
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(CustomerTypeList.Composition)}", Value = $"{(int)CustomerTypeList.Composition}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(CustomerTypeList.Rev_Charge)}", Value = $"{(int)CustomerTypeList.Rev_Charge}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(CustomerTypeList.RevCharge)}", Value = $"{(int)CustomerTypeList.RevCharge}" },
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(CustomerTypeList.URD)}", Value = $"{(int)CustomerTypeList.URD}" },
             };
             return list;
@@ -261,8 +261,8 @@ namespace Adroit.Accounting.Web.Utility
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BookingLRInvoiceStatusList.All)}", Value = $"{(int)BookingLRInvoiceStatusList.All}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BookingLRInvoiceStatusList.Invoice_Done)}", Value = $"{(int)BookingLRInvoiceStatusList.Invoice_Done}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BookingLRInvoiceStatusList.Pending_Invoice)}", Value = $"{(int)BookingLRInvoiceStatusList.Pending_Invoice}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BookingLRInvoiceStatusList.InvoiceDone)}", Value = $"{(int)BookingLRInvoiceStatusList.InvoiceDone}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(BookingLRInvoiceStatusList.PendingInvoice)}", Value = $"{(int)BookingLRInvoiceStatusList.PendingInvoice}" },
             };
             return list;
         }

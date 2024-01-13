@@ -7,10 +7,10 @@ namespace Adroit.Accounting.Model.Enums
         [Description("All")]
         All,
         [Description("Tax Invoice")]
-        Tax_Invoice,
+        TaxInvoice,
         [Description("Bill of Supply")]
-        Bill_of_Supply,
+        BillOfSupply,
         [Description("Retail Invoice")]
-        Retail_Invoice
+        RetailInvoice
     }
 }

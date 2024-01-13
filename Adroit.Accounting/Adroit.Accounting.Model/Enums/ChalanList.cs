@@ -8,8 +8,8 @@ namespace Adroit.Accounting.Model.Enums
         [Description("All")]
         All,
         [Description("Chalan Done")]
-        Chalan_Done,
+        ChalanDone,
         [Description("Pending Chalan")]
-        Pending_Chalan,
+        PendingChalan,
     }
 }
