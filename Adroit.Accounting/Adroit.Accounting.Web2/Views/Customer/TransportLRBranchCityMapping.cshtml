@@ -85,9 +85,8 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="CountryId">Branch</label>
-                                <select class="form-control select2-show-search" id="BranchId">
-                                    <option></option>
+                                <label for="BranchIds">Branch</label>
+                                <select id="BranchIds" multiple="multiple" class="filter-multi mode-ed-multi">
                                     @{
                                         if (Model.BranchList != null)
                                         {
@@ -147,6 +146,7 @@
     </div>
     <!-- row end -->
     <input type="hidden" id="Id" value="0" />
+    <input type="hidden" id="hdnBranchId" value="0" />
 </div>
 
 @section Scripts
@@ -190,7 +190,7 @@
 
         function addClick() {
             $('.dv-list').slideUp();
-            $('.dv-detail').slideDown();
+            $('.dv-detail').slideDown();            
             fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
@@ -309,7 +309,8 @@
 
         function fromReset() {
             $("#Id").val(0);
-            $("#BranchId").val('').trigger("change");
+            $('#hdnBranchId').val(0);
+            $("#BranchIds").multipleSelect('setSelects', '');
             $("#CityId").val('').trigger("change");
             $("#OrderNumber").val(null).trigger('change');
             $("#Active").prop('checked', false);
@@ -324,9 +325,9 @@
                 var savedata = new Object();
                 savedata.OrderNumber = parseInt($("#OrderNumber").val());
 
-                if ($("#BranchId").val() == null || $("#BranchId").val() == "") {
+                if ($("#BranchIds").val() == "") {
                     showWarning("", "Please select branch");
-                    $("#BranchId").focus();
+                    $("#BranchIds").focus();
                     return false;
                 }
 
@@ -345,7 +346,8 @@
 
                 savedata.Id = parseInt($("#Id").val());
                 savedata.CityId = parseInt($("#CityId").val());
-                savedata.BranchId = parseInt($("#BranchId").val());
+                savedata.BranchId = parseInt($("#hdnBranchId").val());
+                savedata.BranchIds = $("#BranchIds").val().join(",");
                 savedata.Active = $("#Active").prop('checked');
 
                 blockUI('container');
@@ -431,7 +433,8 @@
                                 $('#Id').val(result.data.id);
                                 $("#CityId").html("<option value='" + result.data.cityId + "'>" + result.data.cityName + "</option>");
                                 $("#CityId").val(result.data.cityId).trigger("change");
-                                $("#BranchId").val(result.data.branchId).trigger("change");
+                                $("#hdnBranchId").val(result.data.branchId);
+                                $("#BranchIds").multipleSelect('setSelects', [result.data.branchId]);
                                 $("#OrderNumber").val(result.data.orderNumber).trigger('change');
                                 $("#Active").prop('checked', result.data.active);
 

@@ -9,13 +9,14 @@ namespace Adroit.Accounting.Repository
 {
     public class TransportLRBranchCityMappingRepository : ITransportLRBranchCityMapping
     {
-        public int Save(TransportLRBranchCityMapping value, string connectionString, int loginId, int firmId)
+        public int Save(TransportLRBranchCityMappingViewModel value, string connectionString, int loginId, int firmId)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@Id", value.Id);
             parameters.Add("@LoginId", loginId);
             parameters.Add("@FirmId", firmId);
             parameters.Add("@BranchId", value.BranchId);
+            parameters.Add("@BranchIds", value.BranchIds);
             parameters.Add("@CityId", value.CityId);
             parameters.Add("@Active", value.Active);
             parameters.Add("@OrderNumber", value.OrderNumber);
