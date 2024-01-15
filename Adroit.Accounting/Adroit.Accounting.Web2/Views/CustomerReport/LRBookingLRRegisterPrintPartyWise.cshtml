@@ -50,6 +50,20 @@
 
                 foreach (var item in Model.ReportData)
                 {
+                    // Calculate subtotals
+                    if (prevParty != item.BillPartyName && prevParty != "")
+                    {
+                        if (Model.ReportHeader.Subtotal.Equals(true))
+                        {
+                            <tr class="subtotal-row">
+                                <td colspan="12" class="text-right">Sub Total</td>
+                                <td class="text-right">@subTotalAmount</td>
+                                <td colspan="5"></td>
+                            </tr>
+                        }
+                        subTotalAmount = 0;
+                    }
+                    prevParty = item.BillPartyName;
                     <tr> 
                         <td class="text-left">@item.BillPartyName</td>
                         <td class="text-left">@item.Consignor</td>
@@ -71,25 +85,7 @@
                     </tr>
 
                     subTotalAmount += item.Amount ?? 0.00m; // Use decimal
-                    totalAmount += item.Amount ?? 0.00m;    // Use decimal
-
-                    // Calculate subtotals
-                    if (prevParty != item.BillPartyName)
-                    {
-                        if (item.SubTotal)
-                        {
-                            <tr class="subtotal-row">
-                                <td colspan="12" class="text-right">Sub Total</td>
-                                <td class="text-right">@subTotalAmount</td>
-                                <td colspan="5"></td>
-                            </tr>
-                        }
-                        subTotalAmount = 0;
-                    }
-                    prevParty = item.BillPartyName;
-
-                    totalAmount += item.Amount ?? 0.00m;    
-
+                    totalAmount += item.Amount ?? 0.00m;    // Use decimal                    
                 }
 
                 // Display the last subtotal and total
