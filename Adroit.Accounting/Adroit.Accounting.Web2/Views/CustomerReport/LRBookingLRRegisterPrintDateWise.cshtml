@@ -45,9 +45,7 @@
             decimal totalAmount = 0.00m;
 
             foreach (var item in Model.ReportData)
-            {
-                subTotalAmount += item.Amount ?? 0.00m;
-                totalAmount += item.Amount ?? 0.00m;
+            {                
 
                 if (prevDate != item.LRDateString && prevDate != "")
                 {
@@ -62,7 +60,6 @@
                     subTotalAmount = 0;
                 }
                 prevDate = item.LRDateString;
-
                 <tr>
                     <td class="text-center">@item.LRDateString</td>
                     <td class="text-center">@item.LRNumber</td>
@@ -79,6 +76,23 @@
                     <td class="text-right">@item.InvoiceValue</td>
                     <td class="text-center">@item.BranchName</td>
                 </tr>
+
+                subTotalAmount += item.Amount ?? 0.00m;
+                totalAmount += item.Amount ?? 0.00m;
+
+                if (prevDate != item.LRDateString && prevDate != "")
+                {
+                    if (Model.ReportHeader.Subtotal.Equals(true))
+                    {
+                        <tr class="subtotal-row">
+                            <td colspan="9" class="text-right">Sub Total</td>
+                            <td class="text-right">@subTotalAmount</td>
+                            <td colspan="5"></td>
+                        </tr>
+                    }
+                    subTotalAmount = 0;
+                }
+                prevDate = item.LRDateString;
             }
 
             if (prevDate != "" && Model.ReportHeader.Subtotal.Equals(true))
@@ -90,7 +104,7 @@
                 </tr>
             }
 
-            if (totalAmount > 0 && Model.ReportHeader.Subtotal.Equals(true))
+            if (totalAmount > 0)
             {
                 <tr class="total-row">
                     <td colspan="9" class="text-right">Total</td>
