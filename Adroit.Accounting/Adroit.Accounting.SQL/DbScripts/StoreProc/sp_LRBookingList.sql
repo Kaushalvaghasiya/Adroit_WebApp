@@ -50,12 +50,12 @@ Begin
 		,CA3.Name As BillPartyName
 		,CASE WHEN [Z-PurchaseBillDetail-Z].LRBookingId IS NULL AND [Z-SalesBillDetail-Z].LRBookingId IS NULL THEN 0 ELSE 1 END AS IsLRBookingPurchased
 		FROM [Z-LRBooking-Z]
-		INNER JOIN [CustomerAccountBranchMapping] AS CAB1 on CAB1.Id = [Z-LRBooking-Z].AccountBranchMappingId AND CAB1.BranchId = @BranchId AND CAB1.Deleted = 0
-		INNER JOIN [CustomerAccount] AS CA1 on CA1.Id = CAB1.AccountId AND CA1.CustomerId = @CustomerId AND CA1.Active = 1 AND CA1.Deleted = 0
-		INNER JOIN [CustomerAccountBranchMapping] AS CAB2 on CAB2.Id = [Z-LRBooking-Z].DeliveryAccountBranchMappingId AND CAB2.BranchId = @BranchId AND CAB2.Deleted = 0  
-		INNER JOIN [CustomerAccount] AS CA2 on CA2.Id = CAB2.AccountId AND CA2.CustomerId = @CustomerId AND CA2.Active = 1 AND CA2.Deleted = 0
-		INNER JOIN [CustomerAccountBranchMapping] AS CAB3 on CAB3.Id = [Z-LRBooking-Z].BillAccountBranchMappingId AND CAB3.BranchId = @BranchId AND CAB3.Deleted = 0
-		INNER JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId AND CA3.CustomerId = @CustomerId AND CA3.Active = 1 AND CA3.Deleted = 0
+		INNER JOIN [CustomerAccountBranchMapping] AS CAB1 on CAB1.Id = [Z-LRBooking-Z].AccountBranchMappingId AND CAB1.BranchId = @BranchId
+		INNER JOIN [CustomerAccount] AS CA1 on CA1.Id = CAB1.AccountId AND CA1.CustomerId = @CustomerId 
+		INNER JOIN [CustomerAccountBranchMapping] AS CAB2 on CAB2.Id = [Z-LRBooking-Z].DeliveryAccountBranchMappingId AND CAB2.BranchId = @BranchId 
+		INNER JOIN [CustomerAccount] AS CA2 on CA2.Id = CAB2.AccountId AND CA2.CustomerId = @CustomerId 
+		INNER JOIN [CustomerAccountBranchMapping] AS CAB3 on CAB3.Id = [Z-LRBooking-Z].BillAccountBranchMappingId AND CAB3.BranchId = @BranchId 
+		INNER JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId AND CA3.CustomerId = @CustomerId 
 		INNER JOIN [City] AS CT2 on CT2.Id = [Z-LRBooking-Z].CityIdTo
 		INNER JOIN [TransportLRPayType] on TransportLRPayType.Id = [Z-LRBooking-Z].LRPayTypeId
 		LEFT JOIN [Z-PurchaseBillDetail-Z] ON [Z-PurchaseBillDetail-Z].LRBookingId = [Z-LRBooking-Z].id AND [Z-PurchaseBillDetail-Z].Deleted = 0

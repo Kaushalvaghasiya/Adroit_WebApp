@@ -1,7 +1,7 @@
 ﻿@model Adroit.Accounting.Model.ViewModel.LRBookingViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
-    var lastLrToCityCookieName = ViewBag.LastLrToCityCookieName;    
+    var lastLrToCityCookieName = ViewBag.LastLrToCityCookieName;
 }
 
 <div class="dv-list side-app">
@@ -84,11 +84,11 @@
                                         {
                                             if (@o.Value == $"{ViewBag.LoggedInBranchCity}")
                                             {
-                                                                <option value="@o.Value" selected>@o.Text</option>
+                                                <option value="@o.Value" selected>@o.Text</option>
                                             }
                                             else
                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -136,7 +136,7 @@
                                                     {
                                                         if (@o.Value != ViewBag.LoggedInBranchCity.ToString())
                                                         {
-                                                                            <option value="@o.Value">@o.Text</option>
+                                                            <option value="@o.Value">@o.Text</option>
                                                         }
                                                     }
                                                 }
@@ -167,7 +167,7 @@
                                                 {
                                                     foreach (var o in Model.EwayBillList)
                                                     {
-                                                                        <option value="@o.Text">@o.Text</option>
+                                                        <option value="@o.Text">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -192,7 +192,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                                        <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -207,7 +207,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                                        <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -224,7 +224,7 @@
                                                 {
                                                     foreach (var o in Model.PaymentList)
                                                     {
-                                                                        <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -239,7 +239,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                                        <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -266,7 +266,7 @@
                                         {
                                             foreach (var o in Model.DescriptionList)
                                             {
-                                                                <option value="@o.Text">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -283,7 +283,7 @@
                                         {
                                             foreach (var o in Model.PackingList)
                                             {
-                                                                <option value="@o.Text">@o.Text</option>
+                                                <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -312,7 +312,7 @@
                                         {
                                             foreach (var o in Model.LRRateOnList)
                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -369,7 +369,7 @@
                                                         {
                                                             foreach (var o in Model.VehicleList)
                                                             {
-                                                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                                             }
                                                         }
                                                     }
@@ -389,12 +389,12 @@
                                                             if (goDownDelivery != null)
                                                             {
                                                                 var goDownDeliveryId = goDownDelivery.Value;
-                                                                                <option value="@goDownDeliveryId" selected>@goDownDelivery.Text</option>
+                                                                <option value="@goDownDeliveryId" selected>@goDownDelivery.Text</option>
                                                             }
 
                                                             foreach (var o in Model.LRDeliveryList.Where(x => x.Text.Trim().ToLower() != "go-down delivery"))
                                                             {
-                                                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                                             }
                                                         }
                                                     }
@@ -414,12 +414,12 @@
                                                             if (FirstRow != null)
                                                             {
                                                                 var FirstRowId = FirstRow.Value;
-                                                                                <option value="@FirstRowId" selected>@FirstRow.Text</option>
+                                                                <option value="@FirstRowId" selected>@FirstRow.Text</option>
                                                             }
 
                                                             foreach (var o in Model.LRDeliveryTypeList.Where(x => x.Text != "-"))
                                                             {
-                                                                                <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                                             }
                                                         }
                                                     }
@@ -582,7 +582,7 @@
                 },
             });
 
-            
+
 
             $('#EWayBill-search').on('click', function () {
                 var Data = "Your dynamically generated content goes here.";
@@ -703,7 +703,7 @@
 
             $("#BillAccountBranchMappingId").on('change', function (e) {
                 $('#Rate').attr('disabled', false);
-                if (billpartychangeapply) {                    
+                if (billpartychangeapply) {
                     getLRRateDetail();
                 }
             });
@@ -724,7 +724,7 @@
         var citychangeapply = true;
         var billpartychangeapply = true;
         var ratechangeapply = true;
-       
+
         function BindBillParty(isForceFullyChangeBillParty = false) {
             if ($("#BillAccountBranchMappingId").val() == '' || $("#BillAccountBranchMappingId").val() == null || isForceFullyChangeBillParty) {
                 if ($("#LRPayTypeId").val() != '' || $("#LRPayTypeId").val() != null) {
@@ -1274,7 +1274,7 @@
                                 $("#Ch").val(result.data.branchChalanNo);
                                 $("#Truck").val(result.data.vehilcleNo);
                                 $("#TruckLoadDate").val(result.data.chalanDateString);
-                               
+
                                 $("#BranchInvoiceNo").val(result.data.branchInvoiceNo);
                                 $("#InvoiceDate").val(result.data.invoiceDateString);
 
@@ -1383,7 +1383,7 @@
                         if (data.result == RESULT_SUCCESS) {
                             if (data.data != null) {
                                 $('#GST').val((data.data.gstRate || 0).toFixed(3));
-                            } 
+                            }
                         } else {
                             showError("", data.data);
                         }

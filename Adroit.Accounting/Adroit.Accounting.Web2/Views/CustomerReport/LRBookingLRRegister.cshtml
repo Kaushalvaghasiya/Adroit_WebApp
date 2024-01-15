@@ -65,12 +65,12 @@
                                         {
                                             foreach (var y in Model.BranchList.GroupBy(o => o.Other).ToList())
                                             {
-                                                                <optgroup label="@y.First().Other">
-                                                                    @foreach (var o in y)
+                                                <optgroup label="@y.First().Other">
+                                                    @foreach (var o in y)
                                                     {
-                                                                        <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
-                                                                </optgroup>
+                                                </optgroup>
                                             }
                                         }
                                     }
@@ -93,20 +93,20 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="DateFrom">Date From</label>
+                                <label for="DateFrom">Date</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
                                     </div>
-                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
+                                    <input class="form-control fc-datepicker1 fc-daterange" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        @* <div class="col-md-2">
                             <div class="form-group">
                                 <label for="DateTo">Date To</label>
                                 <div class="input-group">
@@ -118,7 +118,7 @@
                                     <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateTo">
                                 </div>
                             </div>
-                        </div>
+                        </div> *@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="LRFrom">LR From</label>
@@ -140,7 +140,7 @@
                                         {
                                             foreach (var o in Model.CityList)
                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -156,14 +156,14 @@
                                         {
                                             foreach (var o in Model.CityList)
                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 hide-for-datewise">
                             <div class="form-group">
                                 <label for="ConsignorIds">Consignor</label>
                                 <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsignorIds">
@@ -172,7 +172,7 @@
                                         {
                                             foreach (var o in Model.AccountBranchMappingList)
                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -180,7 +180,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 hide-for-datewise">
                             <div class="form-group">
                                 <label for="ConsigneeIds">Consignee</label>
                                 <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsigneeIds">
@@ -189,14 +189,14 @@
                                         {
                                             foreach (var o in Model.AccountBranchMappingList)
                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 hide-for-datewise">
                             <div class="form-group">
                                 <label for="BillPartyIds">Bill Party</label>
                                 <select class="filter-multi mode-ed-multi" multiple="multiple" id="BillPartyIds">
@@ -205,7 +205,7 @@
                                         {
                                             foreach (var o in Model.AccountBranchMappingList)
                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -221,7 +221,7 @@
                                         {
                                             foreach (var o in Model.PvtMarkList)
                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -237,7 +237,7 @@
                                         {
                                             foreach (var o in Model.PayTypeList)
                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -253,7 +253,7 @@
                                         {
                                             foreach (var o in Model.ChalanList)
                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -269,7 +269,7 @@
                                         {
                                             foreach (var o in Model.InvStatusList)
                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -364,7 +364,7 @@
             $(".reset-button").on("click", function () {
                 $("#BranchIds").multipleSelect('setSelects', []);
                 $("#ViewId").val($("#ViewId option:first").val()).trigger("change");
-                $("#LRFrom").val("");   
+                $("#LRFrom").val("");
                 $("#LRTo").val("");
                 $("#CityFromIds").multipleSelect('setSelects', []);
                 $("#CityToIds").multipleSelect('setSelects', []);
@@ -374,9 +374,9 @@
                 $("#PvtMarkIds").multipleSelect('setSelects', []);
                 $("#PayTypeIds").multipleSelect('setSelects', []);
                 $("#ChalanId").val($("#ChalanId option:first").val()).trigger("change");
-                $("#InvStatusId").val($("#InvStatusId option:first").val()).trigger("change");     
+                $("#InvStatusId").val($("#InvStatusId option:first").val()).trigger("change");
                 $("#SubTotal").prop('checked', false);
-                $("#Summary").prop('checked', false);                
+                $("#Summary").prop('checked', false);
             });
 
             $(".show-report").on("click", function () {
@@ -386,8 +386,11 @@
                     return;
                 }
 
-                DateFrom = $('#DateFrom').val() == '' ? null : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-                DateTo = $('#DateTo').val() == '' ? null : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                // DateFrom = $('#DateFrom').val() == '' ? null : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                // DateTo = $('#DateTo').val() == '' ? null : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                var dates = $('#DateFrom').val().split(" - ");
+                DateFrom = moment(getDate(dates[0])).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                DateTo = moment(getDate(dates[1])).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
                 CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
                 CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
                 LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
@@ -433,7 +436,7 @@
                     lrWiseList();
                 }
                 else if (selectedView == '@((int)ViewList.PartyWise)') {
-                    if (summary) { 
+                    if (summary) {
                         url += '/LRBookingLRRegisterPrintPartyWiseSummary';
                         partyWiseSummaryOnList();
                     }
@@ -443,7 +446,9 @@
                     }
                 }
 
-                url += '?SubTotal=' + subTotal + '&DateFrom=' + $("#DateFrom").val() + '&DateTo=' + $("#DateTo").val();
+                //url += '?SubTotal=' + subTotal + '&DateFrom=' + $("#DateFrom").val() + '&DateTo=' + $("#DateTo").val();
+                var dates = $('#DateFrom').val().split(" - ");
+                url += '?SubTotal=' + subTotal + '&DateFrom=' + dates[0] + '&DateTo=' + dates[1];
                 $(".btn-print").attr("href", url);
             });
 
@@ -454,6 +459,15 @@
                 $('#tblMain thead tr').html('');
             });
 
+            $('.hide-for-datewise').hide();
+            $("#ViewId").on('change', function (e) {
+                if ($(this).val() == '@((int)ViewList.DateWise)')
+                {
+                    $('.hide-for-datewise').hide();
+                }else{
+                    $('.hide-for-datewise').show();
+                }
+            });
         });
 
         function getDateRange(yearRange) {
@@ -465,8 +479,8 @@
             const formattedStartDate = startDate.format('DD/MM/YYYY');
             const formattedEndDate = endDate.format('DD/MM/YYYY');
 
-            $("#DateFrom").val(formattedStartDate);
-            $("#DateTo").val(formattedEndDate);
+            $("#DateFrom").val(formattedStartDate + ' - ' + formattedEndDate);
+            //$("#DateTo").val(formattedEndDate);
         }
 
         function getCurrentTableData() {
@@ -503,7 +517,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PACKING</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">PVT.MARK</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LR AMOUNT</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');    
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
@@ -583,7 +597,7 @@
                 },
                 "targets": colDef.length,
                 "className": "text-right",
-            });            
+            });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.lrPayType;
@@ -632,7 +646,7 @@
                 destroy: true,
                 //scrollCollapse: true,
                 //stateSave: false,
-                columnDefs: colDef,                
+                columnDefs: colDef,
                 columns: columns,
                 language: {
                     paginate: {
@@ -769,7 +783,7 @@
                 },
                 "targets": colDef.length,
                 "className": "text-right",
-            });            
+            });
             colDef.push({
                 "render": function (data, type, row) {
                     return (row.invoiceValue || 0).toFixed(2);
@@ -900,7 +914,7 @@
         function lrWiseList() {
 
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');            
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">FROM CITY</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TO CITY</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">GOODS DESCRIPTION</th>');
@@ -909,7 +923,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PACKING</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">PVT.MARK</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LR AMOUNT</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');    
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
@@ -987,7 +1001,7 @@
                 },
                 "targets": colDef.length,
                 "className": "text-right",
-            });            
+            });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.lrPayType;
@@ -1053,7 +1067,7 @@
                     url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))',
                     type: 'GET',
                     data: function (d) {
-                        d.SelectedView = $('#ViewId').va();
+                        d.SelectedView = $('#ViewId').val();
                         d.BranchIds = BranchIds;
                         d.DateFrom = DateFrom;
                         d.DateTo = DateTo;
@@ -1105,7 +1119,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNOR</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNEE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');            
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">FROM CITY</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TO CITY</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">GOODS DESCRIPTION</th>');
@@ -1114,7 +1128,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PACKING</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">PVT.MARK</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LR AMOUNT</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');    
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
@@ -1213,7 +1227,7 @@
                 },
                 "targets": colDef.length,
                 "className": "text-right",
-            });            
+            });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.lrPayType;
@@ -1404,7 +1418,7 @@
                 },
                 "targets": colDef.length,
                 "className": "text-right",
-            });            
+            });
             colDef.push({
                 "render": function (data, type, row) {
                     return (row.invoiceValue || 0).toFixed(2);
