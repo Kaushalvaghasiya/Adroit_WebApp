@@ -6506,7 +6506,7 @@ INSERT [dbo].[TransportLRRateOn] ([Id], [Title], [OrderNumber], [Deleted]) VALUE
 GO
 INSERT [dbo].[TransportLRRateOn] ([Id], [Title], [OrderNumber], [Deleted]) VALUES (3, N'Fix', 3, 0)
 GO
-INSERT [dbo].[TransportLRRateOn] ([Id], [Title], [OrderNumber], [Deleted]) VALUES (4, N'NO', 4, 0)
+INSERT [dbo].[TransportLRRateOn] ([Id], [Title], [OrderNumber], [Deleted]) VALUES (4, N'FOC', 4, 0)
 GO
 SET IDENTITY_INSERT [dbo].[TransportLRRateOn] OFF
 GO
