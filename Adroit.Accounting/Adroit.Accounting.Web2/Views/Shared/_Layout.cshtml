@@ -2028,74 +2028,6 @@
     <script>
         var RESULT_SUCCESS = "@Adroit.Accounting.Model.Constant.API_RESULT_SUCCESS";
 
-        $(function (e) {
-            $(".btn-save").on("click", function () {
-                saveItem();
-            });
-
-            $(".btn-add-new").on("click", function () {
-                addClick();
-            });
-
-            $(".btn-back").on("click", function () {
-                $('.dv-detail').slideUp();
-                $('.dv-list').slideDown();
-            });
-
-            //$(".btn-edit").on("click", function () {
-            //    editMode(parseInt($(this).attr("data-value")));
-            //});
-
-            //$(".btn-disableview").on("click", function () {
-            //    viewMode(parseInt($(this).attr("data-value")));
-            //});
-
-            //$(".btn-delete").on("click", function () {
-            //    deleteItemConfirmation(parseInt($(this).attr("data-value")));
-            //});
-
-            $(".btn-underdevelopment").on("click", function () {
-                showInfo("", "Under Development");
-            });
-
-            $(".go-search").on("click", function () {
-                goSearch($('#GoSearchQuery').val());
-            });
-
-            // $(".decimalonly").blur(function () {
-            //     var fixedNo = (isNaN(parseInt($(this).attr("data-tofixed"))) ? 0 : parseInt($(this).attr("data-tofixed")));
-            //     var value = (isNaN(parseFloat($(this).val())) ? 0.00 : parseFloat($(this).val()).toFixed(fixedNo));
-            //     $(this).val(value);
-            // });
-            $(".decimalonly").on("input", function (evt) {
-                var self = $(this);
-                self.val(self.val().replace(/[^0-9.]/g, ''));
-                if ((evt.which != 46 || self.val().indexOf('.') != -1) && (evt.which < 48 || evt.which > 57)) {
-                    evt.preventDefault();
-                }
-            });
-
-            $(".decimalonly").blur(function () {
-                // Get the desired number of decimal places from the data-tofixed attribute
-                var fixedNo = isNaN(parseInt($(this).attr("data-tofixed"))) ? 0 : parseInt($(this).attr("data-tofixed"));
-
-                // Get the current value and remove any leading zeros before the decimal point
-                var currentValue = $(this).val().replace(/^0+(?=\d)/, '');
-
-                // If the input is empty or starts with a ".", add a "0" before it
-                if (currentValue === '' || currentValue === '.') {
-                    currentValue = '0' + currentValue;
-                }
-
-                // Validate and format the input value
-                var value = isNaN(parseFloat(currentValue)) ? '0.00' : parseFloat(currentValue).toFixed(fixedNo);
-
-                // Update the input value
-                $(this).val(value);
-            });
-
-        });
-
         function logout() {
             $('#logoutForm').submit();
         }
@@ -2305,21 +2237,6 @@
             } catch (err) {
                 showError("", e.message);
             }
-        }
-
-        function setCookie(name, value) {
-            document.cookie = `${name}=${value}; path=/`;
-        }
-
-        function getCookie(name) {
-            const cookieArray = document.cookie.split(';');
-            for (let i = 0; i < cookieArray.length; i++) {
-                const cookiePair = cookieArray[i].split('=');
-                if (cookiePair[0].trim() === name) {
-                    return decodeURIComponent(cookiePair[1]);
-                }
-            }
-            return null;
         }
 
     </script>

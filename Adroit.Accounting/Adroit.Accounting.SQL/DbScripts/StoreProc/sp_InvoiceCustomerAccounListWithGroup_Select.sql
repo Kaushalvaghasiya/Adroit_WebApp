@@ -10,7 +10,7 @@ BEGIN
 	Declare @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
-	SELECT CustomerAccountBranchMapping.Id As [Value], 		
+	SELECT DISTINCT CustomerAccountBranchMapping.Id As [Value], 		
 		CASE ISNULL(CustomerAccount.[PrintName], '') WHEN '' THEN CustomerAccount.[Name] ELSE CustomerAccount.[PrintName] 
 		END + ' (' + [CustomerAccountGroup].Title + ' - ' + [CustomerAccountGroup].Code + ')' As Text 
 	From CustomerAccount
@@ -27,9 +27,8 @@ BEGIN
 		    )
 		AND CustomerAccount.CustomerId = @CustomerId 
 		AND CustomerAccountBranchMapping.BranchId = @BranchId 
-		AND CustomerAccount.Active = 1 
-		AND CustomerAccount.Deleted = 0
 		AND [Z-LRBooking-Z].Deleted = 0 
-	Order by CustomerAccount.[Name];
+	Order by CASE ISNULL(CustomerAccount.[PrintName], '') WHEN '' THEN CustomerAccount.[Name] ELSE CustomerAccount.[PrintName] 
+		END + ' (' + [CustomerAccountGroup].Title + ' - ' + [CustomerAccountGroup].Code + ')' 
 END
 GO

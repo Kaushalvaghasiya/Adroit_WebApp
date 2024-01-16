@@ -43,11 +43,11 @@ Begin
 		,CT1.Title As City
 		,CustomerAccount.GSTNumber As GSTNo
 		FROM [Z-SalesBillMaster-Z]
-		INNER JOIN CustomerAccountBranchMapping on CustomerAccountBranchMapping.Id = [Z-SalesBillMaster-Z].AccountBranchMappingId AND CustomerAccountBranchMapping.Deleted = 0
-		INNER JOIN CustomerAccount on CustomerAccount.Id = CustomerAccountBranchMapping.AccountId AND CustomerAccount.CustomerId = @CustomerId AND CustomerAccount.Deleted = 0
-		INNER JOIN [CustomerFirmBranch] on [CustomerFirmBranch].Id = [Z-SalesBillMaster-Z].BranchId AND [CustomerFirmBranch].Deleted = 0
+		INNER JOIN CustomerAccountBranchMapping on CustomerAccountBranchMapping.Id = [Z-SalesBillMaster-Z].AccountBranchMappingId 
+		INNER JOIN CustomerAccount on CustomerAccount.Id = CustomerAccountBranchMapping.AccountId AND CustomerAccount.CustomerId = @CustomerId 
+		INNER JOIN [CustomerFirmBranch] on [CustomerFirmBranch].Id = [Z-SalesBillMaster-Z].BranchId 
 		INNER JOIN [CustomerFirmTransportSetting] on [CustomerFirmTransportSetting].FirmId = [CustomerFirmBranch].FirmId
-		INNER JOIN [Product] on [Product].Id = [CustomerFirmTransportSetting].ProductIdForSales AND [Product].Deleted = 0
+		INNER JOIN [Product] on [Product].Id = [CustomerFirmTransportSetting].ProductIdForSales 
 		INNER JOIN [GSTRate] on [GSTRate].Id = [Product].GSTRateId
 		LEFT JOIN [City] AS CT1 on CT1.Id = CustomerAccount.CityId 
 		WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId

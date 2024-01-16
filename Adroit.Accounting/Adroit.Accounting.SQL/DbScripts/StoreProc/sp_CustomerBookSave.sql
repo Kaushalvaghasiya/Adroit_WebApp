@@ -78,9 +78,19 @@ BEGIN
 							WHERE (Id = @Id) 
 							OR (BookAccountId = @BookAccountId AND BillTypeID = @BillTypeID AND CustomerId = @CustomerId AND YearId = @YearId AND OwnerBranchId = @BranchId AND Deleted = 1)
 
-		IF ISNULL(@IdCheck, 0) = 0
-		BEGIN
+		SET @IdCheck = ISNULL(@IdCheck, 0)
 
+		IF (@IsGeneralPurchase = 1)
+		BEGIN
+			IF EXISTS (SELECT ID FROM CustomerBook WHERE (Id <> @Id) AND CustomerId = @CustomerId AND Deleted = 0 AND IsGeneralPurchase = 1)
+			BEGIN
+				RAISERROR ('%s', 16, 1, 'General Purchase book already exist. Please disable General Purchase swtich.')
+			END
+		END
+
+		IF @IdCheck = 0
+		BEGIN
+			
 			INSERT INTO CustomerBook
 			(CustomerId,YearId,BookAccountId,BookTypeId,BoxLabel1,BoxLabel2,BoxLabel3,BoxLabel4,BoxLabel5,BoxLabel6,BillNoPrefix,BillNoPostFix,LRRequired,BillTypeID,IsGeneralPurchase,
 				IsItemDiscount,IsItemDiscountSp,IsCashPayAtBill,ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,ShowSalesOrderBoxNumber,ShowPurcahseOrderBoxNumber,

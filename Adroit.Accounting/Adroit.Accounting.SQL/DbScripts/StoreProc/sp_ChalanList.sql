@@ -56,12 +56,12 @@ Begin
 		+ (ISNULL([Z-PurchaseBillMaster-Z].ReceiveCash,0) + ISNULL([Z-PurchaseBillMaster-Z].OtherPlus,0)) AS NetAmount,
 		CASE WHEN ISNULL([Z-ChalanReceive-Z].Id, 0) = 0 THEN 0 ELSE 1 END AS ChalanReceived
 		FROM [Z-PurchaseBillMaster-Z]
-		INNER JOIN Vehilcle on Vehilcle.Id = [Z-PurchaseBillMaster-Z].VehicleId AND Vehilcle.Active = 1
-		LEFT JOIN Driver on Driver.Id = [Z-PurchaseBillMaster-Z].DriverId AND Driver.Active = 1
-		LEFT JOIN [CustomerAccountBranchMapping] AS CAB on CAB.Id = [Z-PurchaseBillMaster-Z].AccountBranchMappingId AND CAB.Deleted = 0
-		LEFT JOIN [CustomerAccount] AS CA on CA.Id = CAB.AccountId AND CA.CustomerId = @CustomerId AND CA.Deleted = 0 AND CA.Active = 1
-		LEFT JOIN [City] AS CT1 on CT1.Id = [Z-PurchaseBillMaster-Z].CityIdFrom AND CT1.Active = 1
-		LEFT JOIN [City] AS CT2 on CT2.Id = [Z-PurchaseBillMaster-Z].CityIdTo AND CT2.Active = 1
+		INNER JOIN Vehilcle on Vehilcle.Id = [Z-PurchaseBillMaster-Z].VehicleId 
+		LEFT JOIN Driver on Driver.Id = [Z-PurchaseBillMaster-Z].DriverId 
+		LEFT JOIN [CustomerAccountBranchMapping] AS CAB on CAB.Id = [Z-PurchaseBillMaster-Z].AccountBranchMappingId 
+		LEFT JOIN [CustomerAccount] AS CA on CA.Id = CAB.AccountId AND CA.CustomerId = @CustomerId 
+		LEFT JOIN [City] AS CT1 on CT1.Id = [Z-PurchaseBillMaster-Z].CityIdFrom 
+		LEFT JOIN [City] AS CT2 on CT2.Id = [Z-PurchaseBillMaster-Z].CityIdTo 
 		LEFT JOIN [Z-ChalanReceive-Z] ON [Z-PurchaseBillMaster-Z].Id = [Z-ChalanReceive-Z].PurchaseBillMasterId
 		WHERE [Z-PurchaseBillMaster-Z].Deleted = 0 
 			AND [Z-PurchaseBillMaster-Z].FirmId = @FirmId
