@@ -102,6 +102,14 @@ namespace Adroit.Accounting.Web.Utility
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanList.PendingChalan)}", Value = $"{(int)ChalanList.PendingChalan}" },
             };
             return list;
+        }public static List<DropdownViewModel> GetChalanViewList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanViewList.DateWise)}", Value = $"{(int)ChalanViewList.DateWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanViewList.TruckWise)}", Value = $"{(int)ChalanViewList.TruckWise}" },
+            };
+            return list;
         }
         public static List<DropdownViewModel> GetVoucheBookViewList()
         {
