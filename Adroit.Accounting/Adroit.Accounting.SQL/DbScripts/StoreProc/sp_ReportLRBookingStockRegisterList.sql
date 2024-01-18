@@ -80,8 +80,6 @@ Begin
 		LEFT JOIN [Product] on [Product].Id = [CustomerFirmTransportSetting].ProductIdForSales 
 		LEFT JOIN [GSTRate] on [GSTRate].Id = [Product].GSTRateId
 
-		
-		)
 		AND [Z-LRBooking-Z].YearId = @YearId 
 		AND (@DateFrom IS NULL OR CAST([Z-LRBooking-Z].LRDate AS DATE) >= @DateFrom)
 		AND (@DateTo IS NULL OR CAST([Z-LRBooking-Z].LRDate AS DATE) <= @DateTo)

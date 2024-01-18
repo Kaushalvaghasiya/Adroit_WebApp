@@ -55,7 +55,6 @@ Begin
 		LEFT JOIN [Product] on [Product].Id = [CustomerFirmTransportSetting].ProductIdForSales 
 		LEFT JOIN [GSTRate] on [GSTRate].Id = [Product].GSTRateId		
 		WHERE [CustomerFirmBranch].Id IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds))
-		)
 		AND LRB.YearId = @YearId 
 		AND (@DateFrom IS NULL OR CAST(LRB.LRDate AS DATE) >= @DateFrom)
 		AND (@DateTo IS NULL OR CAST(LRB.LRDate AS DATE) <= @DateTo)
