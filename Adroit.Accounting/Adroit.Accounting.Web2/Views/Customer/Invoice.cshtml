@@ -576,8 +576,10 @@
                     return false;
                 }
                 else {
-                    $("#LRListModal").modal("show");
-                    bindLRList();
+                    if (bindLRList())
+                    {
+                        $("#LRListModal").modal("show");
+                    }
                 }
 
             });
@@ -1268,19 +1270,19 @@
         function bindLRList() {
             if ($('#LRFromDate').val() == '' || $('#LRFromDate').val() == null) {
                 showWarning("", "Please select fromdate.");
-                return;
+                return false;
             }
             if ($('#LRToDate').val() == '' || $('#LRToDate').val() == null) {
                 showWarning("", "Please select todate.");
-                return;
+                return false;
             }
             if ($('#PayTypeId').val() == '' || $('#PayTypeId').val() == null) {
                 showWarning("", "Please select pay type.");
-                return;
+                return false;
             }
             if ($('#AccountBranchMappingId').val() == '' || $('#AccountBranchMappingId').val() == null) {
                 showWarning("", "Please select bill party.");
-                return;
+                return false;
             }
 
             let columns = [];
@@ -1541,6 +1543,8 @@
                     }
                 }
             });
+
+            return true;
         }
 
         function addRow() {

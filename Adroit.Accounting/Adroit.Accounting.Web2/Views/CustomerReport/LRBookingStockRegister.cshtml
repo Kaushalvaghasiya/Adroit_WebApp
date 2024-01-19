@@ -75,29 +75,16 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="DateFrom">Date From</label>
+                                <label for="DateFrom">Date</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
                                     </div>
-                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="DateTo">Date To</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
-                                        </div>
-                                    </div>
-                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateTo">
+                                    <input class="form-control fc-datepicker1 fc-daterange" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
                                 </div>
                             </div>
                         </div>
@@ -215,8 +202,8 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="InvStatus">Invoice Status</label>
-                                <select class="form-control select2-show-search-report" id="InvStatus">
+                                <label for="InvStatusId">Invoice Status</label>
+                                <select class="form-control select2-show-search-report" id="InvStatusId">
                                     @{
                                         if (Model.InvStatusList != null)
                                         {
@@ -240,7 +227,7 @@
                 </div>
                 <div class="card-footer text-right">
                     <a href="#" class="btn btn-warning mt-1 show-report" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-spinner"></i>&nbsp;Generate Report</a>
-                    <a href="#" class="btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+                    <a href="#" class="btn btn-gray mt-1 reset-button" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
                 </div>
             </div>
         </div>
@@ -259,7 +246,7 @@
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
+                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm btn-print" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
                         <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send"><span><i class="fa fa-share-alt"></i></span></a>
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
@@ -285,7 +272,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn btn-blue mt-1 btn-print" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn btn-gray mt-1 btn-back" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
                 </div>
@@ -308,11 +295,41 @@
             const viewBagYear = "@(ViewBag.Year)";
             const dateRange = getDateRange(viewBagYear);
 
+            $(".reset-button").on("click", function () {
+                $("#BranchIds").multipleSelect('setSelects', []);                
+                $("#CityFromIds").multipleSelect('setSelects', []);
+                $("#CityToIds").multipleSelect('setSelects', []);
+                $("#ConsignorIds").multipleSelect('setSelects', []);
+                $("#ConsigneeIds").multipleSelect('setSelects', []);
+                $("#BillPartyIds").multipleSelect('setSelects', []);
+                $("#PayTypeIds").multipleSelect('setSelects', []);
+                $("#ChalanId").val($("#ChalanId option:first").val()).trigger("change");
+                $("#InvStatusId").val($("#InvStatusId option:first").val()).trigger("change");
+                $("#Summary").prop('checked', false);
+            });
+
             $(".show-report").on("click", function () {
+                BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
+                if (BranchIds == '0') {
+                    showWarning("", "Please select branch");
+                    return;
+                }
+                var dates = $('#DateFrom').val().split(" - ");
+                DateFrom = moment(getDate(dates[0])).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                DateTo = moment(getDate(dates[1])).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
+                CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");                
+                ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
+                ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
+                BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
+                PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
+                ChalanId = getIntValueZero('ChalanId');
+                InvStatusId = getIntValueZero('InvStatusId');
+
                 $('.dv-parameters').slideUp();
                 $('.dv-report').slideDown();
 
-                let Summary = $('#Summary').is(':checked');
+                let summary = $('#Summary').is(':checked');
 
                 if ($.fn.dataTable.isDataTable('#tblMain')) {
                     $('#tblMain').DataTable().destroy();
@@ -321,12 +338,19 @@
                 $('#tblMain tbody').html('');
                 $('#tblMain thead tr').html('');
 
-                if (Summary === false) {
-                    SummaryOffList();
-                }
-                if (Summary === true) {
+                var url = '@Url.Content("~/CustomerReport")';
+
+                if (summary) {
+                    url += '/LRBookingStockRegisterPrintSummary';
                     SummaryOnList();
                 }
+                else {
+                    url += '/LRBookingStockRegisterPrint';
+                    SummaryOffList();
+                }
+                var dates = $('#DateFrom').val().split(" - ");
+                url += '?DateFrom=' + dates[0] + '&DateTo=' + dates[1];
+                $(".btn-print").attr("href", url);
                 
             });
 
@@ -338,38 +362,52 @@
             });
 
         });
+        
+        function getDateRange(yearRange) {
+            const [startYear, endYear] = yearRange.split('-').map(Number);
 
-        function refreshDatatableList() {
-            $('#tblMain').DataTable().ajax.reload();
+            const startDate = moment(`${startYear}-04-01`, 'YYYY-MM-DD');
+            const endDate = moment(`${endYear}-03-31`, 'YYYY-MM-DD');
+
+            const formattedStartDate = startDate.format('DD/MM/YYYY');
+            const formattedEndDate = endDate.format('DD/MM/YYYY');
+
+            $("#DateFrom").val(formattedStartDate + ' - ' + formattedEndDate);
+            //$("#DateTo").val(formattedEndDate);
         }
+
+        function getCurrentTableData() {
+            var table = $('#tblMain').DataTable();
+            var data = table.data().toArray();
+            return data;
+        }
+
+        var BranchIds;
+        var DateFrom;
+        var DateTo;
+        var CityFromIds;
+        var CityToIds;        
+        var ConsignorIds;
+        var ConsigneeIds;
+        var BillPartyIds;
+        var PayTypeIds;
+        var ChalanId;
+        var InvStatusId;
 
         function SummaryOffList() {
 
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CHARGE WT.</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LR AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST%</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST AMOUNT</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">INV VALUE</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TO CITY</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PVT. MARK</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CONSIGNOR PARTY</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CONSIGNEE PARTY</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
-            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
-            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
-            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
-            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
-            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
-            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
-            let ChalanId = getIntValueZero('ChalanId');
-            let InvStatusId = getIntValueZero('InvStatusId');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">PVT. MARK</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNOR PARTY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNEE PARTY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');            
 
             let currentDate = null;
             let totalAmount = 0;
@@ -412,18 +450,11 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(3);
+                    return (row.rate || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
+            });           
             colDef.push({
                 "render": function (data, type, row) {
                     return (row.invoiceValue || 0).toFixed(2);
@@ -463,19 +494,18 @@
                 },
                 "targets": colDef.length,
             });
-            columns.push({ "data": "lrNumber", "name": "lrNumber" });
-            columns.push({ "data": "lrDate", "name": "lrDate" });
-            columns.push({ "data": "parcel", "name": "parcel" });
-            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
-            columns.push({ "data": "amount", "name": "amount" });
-            columns.push({ "data": "rate", "name": "rate" });
-            columns.push({ "data": "rate", "name": "rate" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
-            columns.push({ "data": "cityTo", "name": "cityTo" });
-            columns.push({ "data": "privateMarka", "name": "privateMarka" });
-            columns.push({ "data": "consigner", "name": "consigner" });
-            columns.push({ "data": "consignee", "name": "consignee" });
-            columns.push({ "data": "branchName", "name": "branchName" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "lrDate", "name": "lrDate", "className": "text-center" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "cityTo", "name": "cityTo", "className": "text-left" });
+            columns.push({ "data": "privateMarka", "name": "privateMarka", "className": "text-left" });
+            columns.push({ "data": "consigner", "name": "consigner", "className": "text-left" });
+            columns.push({ "data": "consignee", "name": "consignee", "className": "text-left" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -506,7 +536,19 @@
                 ajax: {
                     url: '@(Url.Content("~/CustomerReport/LRBookingStockRegisterReportList"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + ChalanId + "/" + InvStatusId,
                     type: 'GET',
-                    data: function (d) { }
+                    data: function (d) {
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;                        
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
@@ -524,26 +566,10 @@
 
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total LR</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total Parcel</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total Charge Wt.</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total LR Amount</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST%</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total GST Amount</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Total Inv Value</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Branch</th>');
-
-            let BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
-            let DateFrom = $('#DateFrom').val() == '' ? '0' : moment(getDate($("#DateFrom").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let DateTo = $('#DateTo').val() == '' ? '0' : moment(getDate($("#DateTo").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-            let CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
-            let CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
-            let ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
-            let ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
-            let BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
-            let PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
-            let ChalanId = getIntValueZero('ChalanId');
-            let InvStatusId = getIntValueZero('InvStatusId');
-            let Summary = $('#Summary').is(':checked');
-            let SubTotal = $('#SubTotal').is(':checked');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">Total Charge Wt.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">Total LR Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">Total Inv Value</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Branch</th>');            
 
             let currentDate = null;
             let totalAmount = 0;
@@ -577,21 +603,7 @@
                 },
                 "targets": colDef.length,
                 "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
+            });            
             colDef.push({
                 "render": function (data, type, row) {
                     return (row.invoiceValue || 0).toFixed(2);
@@ -606,14 +618,12 @@
                 "targets": colDef.length,
             });
 
-            columns.push({ "data": "lrNumber", "name": "lrNumber" });
-            columns.push({ "data": "parcel", "name": "parcel" });
-            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
-            columns.push({ "data": "amount", "name": "amount" });
-            columns.push({ "data": "rate", "name": "rate" });
-            columns.push({ "data": "rate", "name": "rate" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
-            columns.push({ "data": "branchName", "name": "branchName" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });            
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -644,7 +654,19 @@
                 ajax: {
                     url: '@(Url.Content("~/CustomerReport/LRBookingStockRegisterReportListWithSummary"))' + "/" + BranchIds + "/" + DateFrom + "/" + DateTo + "/" + CityFromIds + "/" + CityToIds + "/" + ConsignorIds + "/" + ConsigneeIds + "/" + BillPartyIds + "/" + PayTypeIds + "/" + ChalanId + "/" + InvStatusId,
                     type: 'GET',
-                    data: function (d) { }
+                    data: function (d) {
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;                        
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
@@ -656,20 +678,7 @@
 
             });
 
-        }
-
-        function getDateRange(yearRange) {
-            const [startYear, endYear] = yearRange.split('-').map(Number);
-
-            const startDate = moment(`${startYear}-04-01`, 'YYYY-MM-DD');
-            const endDate = moment(`${endYear}-03-31`, 'YYYY-MM-DD');
-
-            const formattedStartDate = startDate.format('DD/MM/YYYY');
-            const formattedEndDate = endDate.format('DD/MM/YYYY');
-
-            $("#DateFrom").val(formattedStartDate);
-            $("#DateTo").val(formattedEndDate);
-        }
+        }        
 
     </script>
 

@@ -8,8 +8,8 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public List<DropdownViewModel> PayTypeList { get; set; }
         public List<DropdownViewModel> InvStatusList { get; set; }
         public List<DropdownViewModel> ChalanList { get; set; }
-        public string DateFrom { get; set; }
-        public string DateTo { get; set; }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
         public string BranchIds { get; set; }
         public string CityFromIds { get; set; }
         public string CityToIds { get; set; }
