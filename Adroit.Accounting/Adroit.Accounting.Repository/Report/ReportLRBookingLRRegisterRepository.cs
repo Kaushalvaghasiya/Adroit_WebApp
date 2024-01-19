@@ -28,6 +28,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PayTypeIds", value.PayTypeIds);
             parameters.Add("@ChalanId", value.ChalanId);
             parameters.Add("@InvStatusId", value.InvStatusId);
+            parameters.Add("@LRStatusId", value.LRStatusId);
             parameters.Add("@Search", search);
             parameters.Add("@PageStart", pageStart);
             parameters.Add("@PageSize", pageSize);
@@ -59,6 +60,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PayTypeIds", value.PayTypeIds);
             parameters.Add("@ChalanId", value.ChalanId);
             parameters.Add("@InvStatusId", value.InvStatusId);
+            parameters.Add("@LRStatusId", value.LRStatusId);
             parameters.Add("@Search", search);
             parameters.Add("@PageStart", pageStart);
             parameters.Add("@PageSize", pageSize);

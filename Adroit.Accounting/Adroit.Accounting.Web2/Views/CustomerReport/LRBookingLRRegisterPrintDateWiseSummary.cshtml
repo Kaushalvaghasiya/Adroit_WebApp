@@ -26,7 +26,7 @@
             <th class="text-center">Total Number</th>
             <th class="text-center">Total Parcel</th>
             <th class="text-right">Total Charge Wt.</th>
-            <th class="text-center">Total LR Amount</th>
+            <th class="text-right">Total LR Amount</th>
             <th class="text-right">Total Inv Value</th>
             <th class="text-center">Branch</th>
         </tr>
@@ -54,10 +54,10 @@
                                 @item.GroupingColumn
                             }
                         }</td>
-                        <td class="text-center">@item.LRNumber</td>
+                        <td class="text-center @((item.Deleted??false)?"cancelled-row":"")">@item.LRNumber</td>
                         <td class="text-center">@item.Parcel</td>
                         <td class="text-right">@item.ChargeWeight</td>
-                        <td class="text-center">@item.Rate</td>
+                        <td class="text-right">@item.Amount</td>
                         <td class="text-right">@item.InvoiceValue</td>
                         <td class="text-center">@item.BranchName</td>
                     </tr>
