@@ -317,11 +317,11 @@
                 else if (selectedView == '@((int)ChalanViewList.TruckWise)') {
                     if (summary) {
                         url += '/LRBookingChalanLoadingPrintTruckWiseSummary';
-                        partyWiseSummaryOnList();
+                        truckWiseSummaryOnList();
                     }
                     else {
                         url += '/LRBookingChalanLoadingPrintTruckWise';
-                        partyWiseSummaryOffList();
+                        truckWiseSummaryOffList();
                     }
                 }
 
@@ -385,7 +385,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TRUCK NUMBER</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL LR</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PARCLE</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL CHARGE WT.</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO PAY AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PAID AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO BE BILLED AMOUNT</th>');
@@ -671,12 +671,16 @@
 
         function dateWiseSummaryOnList() {
 
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL NUMBER</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PARCEL</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL CHARGE WT.</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL LR AMOUNT</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">LOADING DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL CHALAN</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL LR</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO PAY AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PAID AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO BE BILLED AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL FREIGHT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">NET TOTAL</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
             let subTotalAmount = 0;
@@ -694,33 +698,61 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.lrNumber;
+                    return row.totalChalan;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.parcel;
+                    return row.totalLR;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.chargeWeight || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.amount || 0).toFixed(2);
+                    return (row.totalToPayAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.totalPaidAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.totalToBeBilledAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.totalFreight || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstPer || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.netTotal || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -733,11 +765,15 @@
             });
 
             columns.push({ "data": "groupingColumn", "name": "groupingColumn", "className": "text-center" });
-            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
-            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
-            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
-            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "totalChalan", "name": "totalChalan", "className": "text-center" });
+            columns.push({ "data": "totalLR", "name": "totalLR", "className": "text-center" });
+            columns.push({ "data": "totalToPayAmount", "name": "totalToPayAmount", "className": "text-right" });
+            columns.push({ "data": "totalPaidAmount", "name": "totalPaidAmount", "className": "text-right" });
+            columns.push({ "data": "totalToBeBilledAmount", "name": "totalToBeBilledAmount", "className": "text-right" });
+            columns.push({ "data": "totalFreight", "name": "totalFreight", "className": "text-right" });
+            columns.push({ "data": "gstPer", "name": "gstPer", "className": "text-right" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "netTotal", "name": "netTotal", "className": "text-right" });
             columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
             var table = $('#tblMain').DataTable({
@@ -767,24 +803,20 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithSummary"))',
+                    url: '@(Url.Content("~/CustomerReport/LRBookingChalanLoadingReportListWithSummary"))',
                     type: 'GET',
                     data: function (d) {
                         d.SelectedView = $('#ViewId').val();
                         d.BranchIds = BranchIds;
                         d.DateFrom = DateFrom;
                         d.DateTo = DateTo;
-                        d.LRFrom = LRFrom;
-                        d.LRTo = LRTo;
+                        d.ChalanFrom = ChalanFrom;
+                        d.ChalanTo = ChalanTo;
                         d.CityFromIds = CityFromIds;
                         d.CityToIds = CityToIds;
-                        d.ConsignorIds = ConsignorIds;
-                        d.ConsigneeIds = ConsigneeIds;
-                        d.BillPartyIds = BillPartyIds;
-                        d.PayTypeIds = PayTypeIds;
-                        d.PvtMarkIds = PvtMarkIds;
-                        d.ChalanId = ChalanId;
-                        d.InvStatusId = InvStatusId;
+                        d.VehicleNumber = VehicleNumber;
+                        d.VehicleOwner = VehicleOwner;
+                        d.Agent = Agent;
                     }
                 },
                 "initComplete": function (settings, json) {
@@ -845,216 +877,14 @@
             });
         }
 
-        function lrWiseList() {
-
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">FROM CITY</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TO CITY</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">GOODS DESCRIPTION</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">CHARGE WT.</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PACKING</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">PVT.MARK</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LR AMOUNT</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let totalAmount = 0;
-            let tableBody = $('#tblMain tbody');
-
-            let columns = [];
-            let colDef = [];
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.lrNumber;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.cityFrom;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.cityTo;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.description;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.parcel;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.chargeWeight || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.packing;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.privateMarka;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.amount || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.lrPayType;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.branchName;
-                },
-                "targets": colDef.length,
-            });
-
-            columns.push({ "data": "lrDate", "name": "lrDate", "className": "text-center" });
-            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
-            columns.push({ "data": "cityFrom", "name": "cityFrom", "className": "text-left" });
-            columns.push({ "data": "cityTo", "name": "cityTo", "className": "text-left" });
-            columns.push({ "data": "description", "name": "description", "className": "text-left" });
-            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
-            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
-            columns.push({ "data": "packing", "name": "packing", "className": "text-center" });
-            columns.push({ "data": "privateMarka", "name": "privateMarka", "className": "text-left" });
-            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
-            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
-            columns.push({ "data": "lrPayType", "name": "lrPayType", "className": "text-center" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
-            columns.push({ "data": "branchName", "name": "branchName", "className": "text-left" });
-
-            var table = $('#tblMain').DataTable({
-                "bAutoWidth": false,
-                lengthChange: false,
-                ordering: true,
-                searching: true,
-                paging: false,
-                //pageLength: @(int.MaxValue),
-                order: [[0, 'asc']],
-                pagingType: 'full_numbers',
-                orderClasses: false,
-                destroy: true,
-                //scrollCollapse: true,
-                //stateSave: false,
-                columnDefs: colDef,
-                columns: columns,
-                language: {
-                    paginate: {
-                        next: '<i class="fa fa-angle-right"></i>', // or '→'
-                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
-                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
-                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
-                    }
-                },
-                buttons: ['copy', 'excel', 'colvis'],
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))',
-                    type: 'GET',
-                    data: function (d) {
-                        d.SelectedView = $('#ViewId').val();
-                        d.BranchIds = BranchIds;
-                        d.DateFrom = DateFrom;
-                        d.DateTo = DateTo;
-                        d.LRFrom = LRFrom;
-                        d.LRTo = LRTo;
-                        d.CityFromIds = CityFromIds;
-                        d.CityToIds = CityToIds;
-                        d.ConsignorIds = ConsignorIds;
-                        d.ConsigneeIds = ConsigneeIds;
-                        d.BillPartyIds = BillPartyIds;
-                        d.PayTypeIds = PayTypeIds;
-                        d.PvtMarkIds = PvtMarkIds;
-                        d.ChalanId = ChalanId;
-                        d.InvStatusId = InvStatusId;
-                    }
-                },
-                "initComplete": function (settings, json) {
-                    gridInitComplete(table);
-                },
-                "drawCallback": function (settings) {
-                    gridDrawCallback(this);
-
-                    let api = this.api();
-                    let rows = api.rows({ page: 'current' }).nodes();
-                    tableBody.empty();
-
-                    for (let i = 0; i < rows.length; i++) {
-                        totalAmount += parseFloat(api.cell(i, 9).data());
-                        tableBody.append(rows[i]);
-                    }
-
-                    if (SubTotal && totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#e5e4e2;color:#FF0000;">' +
-                            '<td colspan="9">TOTAL</td>' +
-                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="5"></td>' +
-                            '</tr>';
-
-                        tableBody.append(totalRow);
-                    }
-                }
-
-            });
-        }
-
         function truckWiseSummaryOffList() {
 
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">LOADING DATE</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CHALAN NUMBER</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TRUCK NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CHALAN NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">LOADING DATE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL LR</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PARCLE</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL CHARGE WT.</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO PAY AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PAID AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO BE BILLED AMOUNT</th>');
@@ -1078,58 +908,33 @@
 
             let columns = [];
             let colDef = [];
-
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.billPartyName;
+                    return row.truckNumber;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.consignor;
+                    return row.chalanNumber;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.consignee;
+                    return moment(row.loadingDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.lrNumber;
+                    return row.totalLR;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.cityFrom;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.cityTo;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.description;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.parcel;
+                    return row.totalParcel;
                 },
                 "targets": colDef.length,
             });
@@ -1142,39 +947,96 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.packing;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.privateMarka;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.amount || 0).toFixed(2);
+                    return (row.totalToPayAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(2);
+                    return (row.totalPaidAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.lrPayType;
+                    return (row.totalToBeBilledAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.lorryHireCharge || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lessTDS;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return row.tds;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstPer || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.cashToLorryTrip || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.bankPaymentToLorryTrip || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.receivedCashByDriver || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.otherExpsOfTrip || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.balanceLorryHireCharge || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.totalFreight || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -1186,23 +1048,27 @@
                 "targets": colDef.length,
             });
 
-            columns.push({ "data": "billPartyName", "name": "billPartyName", "className": "text-left" });
-            columns.push({ "data": "consignor", "name": "consignor", "className": "text-left" });
-            columns.push({ "data": "consignee", "name": "consignee", "className": "text-left" });
-            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
-            columns.push({ "data": "lrDate", "name": "lrDate", "className": "text-center" });
-            columns.push({ "data": "cityFrom", "name": "cityFrom", "className": "text-left" });
-            columns.push({ "data": "cityTo", "name": "cityTo", "className": "text-left" });
-            columns.push({ "data": "description", "name": "description", "className": "text-left" });
-            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "truckNumber", "name": "truckNumber", "className": "text-center" });
+            columns.push({ "data": "chalanNumber", "name": "chalanNumber", "className": "text-center" });
+            columns.push({ "data": "loadingDate", "name": "loadingDate", "className": "text-center" });
+            columns.push({ "data": "totalLR", "name": "totalLR", "className": "text-left" });
+            columns.push({ "data": "totalParcel", "name": "totalParcel", "className": "text-right" });
             columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
-            columns.push({ "data": "packing", "name": "packing", "className": "text-left" });
-            columns.push({ "data": "privateMarka", "name": "privateMarka", "className": "text-left" });
-            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
-            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
-            columns.push({ "data": "lrPayType", "name": "lrPayType", "className": "text-center" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
-            columns.push({ "data": "branchName", "name": "branchName", "className": "text-left" });
+            columns.push({ "data": "totalToPayAmount", "name": "totalToPayAmount", "className": "text-right" });
+            columns.push({ "data": "totalPaidAmount", "name": "totalPaidAmount", "className": "text-right" });
+            columns.push({ "data": "totalToBeBilledAmount", "name": "totalToBeBilledAmount", "className": "text-right" });
+            columns.push({ "data": "lorryHireCharge", "name": "lorryHireCharge", "className": "text-left" });
+            columns.push({ "data": "lessTDS", "name": "lessTDS", "className": "text-right" });
+            columns.push({ "data": "tds", "name": "tds", "className": "text-right" });
+            columns.push({ "data": "gstPer", "name": "gstPer", "className": "text-right" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "cashToLorryTrip", "name": "cashToLorryTrip", "className": "text-right" });
+            columns.push({ "data": "bankPaymentToLorryTrip", "name": "bankPaymentToLorryTrip", "className": "text-right" });
+            columns.push({ "data": "receivedCashByDriver", "name": "receivedCashByDriver", "className": "text-right" });
+            columns.push({ "data": "otherExpsOfTrip", "name": "otherExpsOfTrip", "className": "text-right" });
+            columns.push({ "data": "balanceLorryHireCharge", "name": "balanceLorryHireCharge", "className": "text-right" });
+            columns.push({ "data": "totalFreight", "name": "totalFreight", "className": "text-right" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -1231,24 +1097,20 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportList"))',
+                    url: '@(Url.Content("~/CustomerReport/LRBookingChalanLoadingReportList"))',
                     type: 'GET',
                     data: function (d) {
                         d.SelectedView = $('#ViewId').val();
                         d.BranchIds = BranchIds;
                         d.DateFrom = DateFrom;
                         d.DateTo = DateTo;
-                        d.LRFrom = LRFrom;
-                        d.LRTo = LRTo;
+                        d.ChalanFrom = ChalanFrom;
+                        d.ChalanTo = ChalanTo;
                         d.CityFromIds = CityFromIds;
                         d.CityToIds = CityToIds;
-                        d.ConsignorIds = ConsignorIds;
-                        d.ConsigneeIds = ConsigneeIds;
-                        d.BillPartyIds = BillPartyIds;
-                        d.PayTypeIds = PayTypeIds;
-                        d.PvtMarkIds = PvtMarkIds;
-                        d.ChalanId = ChalanId;
-                        d.InvStatusId = InvStatusId;
+                        d.VehicleNumber = VehicleNumber;
+                        d.VehicleOwner = VehicleOwner;
+                        d.Agent = Agent;
                     }
                 },
                 "initComplete": function (settings, json) {
@@ -1310,12 +1172,16 @@
 
         function truckWiseSummaryOnList() {
 
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNOR</TH>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TRUCK NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL CHALAN</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL LR</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PARCEL</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL CHARGE WT.</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL LR AMOUNT</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO PAY AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PAID AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO BE BILLED AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL FREIGHT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">NET TOTAL</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
             let subTotalAmount = 0;
@@ -1333,33 +1199,61 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.lrNumber;
+                    return row.totalChalan;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.parcel;
+                    return row.totalLR;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.chargeWeight || 0).toFixed(3);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.amount || 0).toFixed(2);
+                    return (row.totalToPayAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.totalPaidAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.totalToBeBilledAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.totalFreight || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstPer || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.netTotal || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -1371,12 +1265,16 @@
                 "targets": colDef.length,
             });
 
-            columns.push({ "data": "groupingColumn", "name": "groupingColumn", "className": "text-left" });
-            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
-            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
-            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
-            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "groupingColumn", "name": "groupingColumn", "className": "text-center" });
+            columns.push({ "data": "totalChalan", "name": "totalChalan", "className": "text-center" });
+            columns.push({ "data": "totalLR", "name": "totalLR", "className": "text-center" });
+            columns.push({ "data": "totalToPayAmount", "name": "totalToPayAmount", "className": "text-right" });
+            columns.push({ "data": "totalPaidAmount", "name": "totalPaidAmount", "className": "text-right" });
+            columns.push({ "data": "totalToBeBilledAmount", "name": "totalToBeBilledAmount", "className": "text-right" });
+            columns.push({ "data": "totalFreight", "name": "totalFreight", "className": "text-right" });
+            columns.push({ "data": "gstPer", "name": "gstPer", "className": "text-right" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "netTotal", "name": "netTotal", "className": "text-right" });
             columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
             var table = $('#tblMain').DataTable({
@@ -1406,24 +1304,20 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerReport/LRBookingLRRegisterReportListWithSummary"))',
+                    url: '@(Url.Content("~/CustomerReport/LRBookingChalanLoadingReportListWithSummary"))',
                     type: 'GET',
                     data: function (d) {
                         d.SelectedView = $('#ViewId').val();
                         d.BranchIds = BranchIds;
                         d.DateFrom = DateFrom;
                         d.DateTo = DateTo;
-                        d.LRFrom = LRFrom;
-                        d.LRTo = LRTo;
+                        d.ChalanFrom = ChalanFrom;
+                        d.ChalanTo = ChalanTo;
                         d.CityFromIds = CityFromIds;
                         d.CityToIds = CityToIds;
-                        d.ConsignorIds = ConsignorIds;
-                        d.ConsigneeIds = ConsigneeIds;
-                        d.BillPartyIds = BillPartyIds;
-                        d.PayTypeIds = PayTypeIds;
-                        d.PvtMarkIds = PvtMarkIds;
-                        d.ChalanId = ChalanId;
-                        d.InvStatusId = InvStatusId;
+                        d.VehicleNumber = VehicleNumber;
+                        d.VehicleOwner = VehicleOwner;
+                        d.Agent = Agent;
                     }
                 },
                 "initComplete": function (settings, json) {
