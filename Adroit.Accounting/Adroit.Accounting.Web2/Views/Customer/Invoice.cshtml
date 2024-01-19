@@ -464,7 +464,6 @@
     </div>
     <!-- row end -->
     <input type="hidden" id="Id" value="0" />
-    <input type="hidden" id="hdnAccountBranchMappingId" value="0" />
 
 </div>
 <!--LRListModal start-->
@@ -543,6 +542,7 @@
         var addedIds = [];
         var htmlContentArray = [];
         var contentRowId = 0;
+        var payTypeIdTrigger = true;
 
         $(function (e) {
 
@@ -576,8 +576,7 @@
                     return false;
                 }
                 else {
-                    if (bindLRList())
-                    {
+                    if (bindLRList()) {
                         $("#LRListModal").modal("show");
                     }
                 }
@@ -609,7 +608,10 @@
             });
 
             $("#PayTypeId").on('change', function (e) {
-                bindBillParty();
+                if (payTypeIdTrigger){
+                    bindBillParty();
+                }
+                payTypeIdTrigger=true;
             });
 
             $("#AccountBranchMappingId").on('change', function (e) {
@@ -832,8 +834,6 @@
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
-
-            bindBillParty();
         }
 
         function saveItem() {
@@ -1074,6 +1074,7 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
+                                payTypeIdTrigger = false;
                                 addClick();
                                 if (isViewMode) {
                                     setScreenMode(true);
@@ -1083,7 +1084,7 @@
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
                                 getLRDetailListBySalesBillMas(result.data.id);
-
+                                
                                 $("#Id").val(result.data.id);
                                 $("#SerialNumberOfBranch").val(result.data.serialNumberOfBranch);
                                 $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
@@ -1105,8 +1106,12 @@
                                 $("#BillAmount").val(result.data.billAmount ? result.data.billAmount.toFixed(2) : '');
                                 $("#TCSPercentage").val(result.data.tcsPercentage ? result.data.tcsPercentage.toFixed(3) : '');
                                 $("#TCSAmount").val(result.data.tcsAmount ? result.data.tcsAmount.toFixed(2) : '');
-                                $("#hdnAccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
                                 $("#VehicleNumber").val(result.data.vehicleNumber).trigger('change');
+
+                                $("#AccountBranchMappingId").empty();
+                                $('#AccountBranchMappingId').append(new Option(result.data.billPartyName, result.data.accountBranchMappingId, false, false));
+                                $('#AccountBranchMappingId').val(result.data.accountBranchMappingId).trigger('change');
+                                payTypeIdTrigger = true;
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -1811,7 +1816,7 @@
                                     $('#AccountBranchMappingId').append(new Option(data.data[i].text, data.data[i].value, false, false));
                                 }
                             }
-                            $('#AccountBranchMappingId').val($("#hdnAccountBranchMappingId").val()).trigger('change');
+                            $('#AccountBranchMappingId').val(null).trigger('change');
                         } else {
                             showError("", data.data);
                         }

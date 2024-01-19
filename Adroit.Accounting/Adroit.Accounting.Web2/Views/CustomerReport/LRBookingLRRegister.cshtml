@@ -290,6 +290,22 @@
                                 <span class="custom-switch-indicator"></span>
                             </label>
                         </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="LRStatusId">LR Status</label>
+                                <select class="form-control select2-show-search-report" id="LRStatusId">
+                                    @{
+                                        if (Model.LRStatusList!= null)
+                                        {
+                                            foreach (var o in Model.LRStatusList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -377,6 +393,7 @@
                 $("#InvStatusId").val($("#InvStatusId option:first").val()).trigger("change");
                 $("#SubTotal").prop('checked', false);
                 $("#Summary").prop('checked', false);
+                $("#LRStatusId").val($("#ChalanId option:first").val()).trigger("change");
             });
 
             $(".show-report").on("click", function () {
@@ -403,6 +420,7 @@
                 ChalanId = getIntValueZero('ChalanId');
                 InvStatusId = getIntValueZero('InvStatusId');
                 SubTotal = $('#SubTotal').is(':checked');
+                LRStatusId = getIntValueZero('LRStatusId');
 
                 $('.dv-parameters').slideUp();
                 $('.dv-report').slideDown();
@@ -503,6 +521,7 @@
         var PayTypeIds;
         var ChalanId;
         var InvStatusId;
+        var LRStatusId;
         var SubTotal;
 
         function dateWiseSummaryOffList() {
@@ -678,6 +697,7 @@
                         d.PvtMarkIds = PvtMarkIds;
                         d.ChalanId = ChalanId;
                         d.InvStatusId = InvStatusId;
+                        d.LRStatusId = LRStatusId;
                     }
                 },
                 "initComplete": function (settings, json) {
@@ -695,7 +715,7 @@
 
                         if (prevDate !== null && dateCell !== prevDate) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
                                     '<td colspan="9">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="5"></td>' +
@@ -713,7 +733,7 @@
                     }
 
                     if (prevDate !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="9">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="5"></td>' +
@@ -723,13 +743,18 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                        let totalRow = '<tr class="total-row">' +
                             '<td colspan="9">TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="5"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
+                    }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
                     }
                 }
             });
@@ -851,6 +876,7 @@
                         d.PvtMarkIds = PvtMarkIds;
                         d.ChalanId = ChalanId;
                         d.InvStatusId = InvStatusId;
+                        d.LRStatusId = LRStatusId;
                     }
                 },
                 "initComplete": function (settings, json) {
@@ -869,7 +895,7 @@
 
                         if (prevDate !== null && dateCell !== prevDate) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
                                     '<td colspan="4">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="3"></td>' +
@@ -887,7 +913,7 @@
                     }
 
                     if (prevDate !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="4">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="3"></td>' +
@@ -897,7 +923,7 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                        let totalRow = '<tr class="total-row">' +
                             '<td colspan="4">TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="3"></td>' +
@@ -906,6 +932,11 @@
                         tableBody.append(totalRow);
                     }
 
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
 
             });
@@ -1082,6 +1113,7 @@
                         d.PvtMarkIds = PvtMarkIds;
                         d.ChalanId = ChalanId;
                         d.InvStatusId = InvStatusId;
+                        d.LRStatusId = LRStatusId;
                     }
                 },
                 "initComplete": function (settings, json) {
@@ -1100,13 +1132,18 @@
                     }
 
                     if (SubTotal && totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#e5e4e2;color:#FF0000;">' +
+                        let totalRow = '<tr class="total-row">' +
                             '<td colspan="9">TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="5"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
+                    }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
                     }
                 }
 
@@ -1311,6 +1348,7 @@
                         d.PvtMarkIds = PvtMarkIds;
                         d.ChalanId = ChalanId;
                         d.InvStatusId = InvStatusId;
+                        d.LRStatusId = LRStatusId;
                     }
                 },
                 "initComplete": function (settings, json) {
@@ -1328,7 +1366,7 @@
 
                         if (prevParty !== null && billPartyCell !== prevParty) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
                                     '<td colspan="12">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="5"></td>' +
@@ -1347,7 +1385,7 @@
                     }
 
                     if (prevParty !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="12">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="5"></td>' +
@@ -1357,13 +1395,18 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                        let totalRow = '<tr class="total-row">' +
                             '<td colspan="12">TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="5"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
+                    }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
                     }
                 }
 
@@ -1486,6 +1529,7 @@
                         d.PvtMarkIds = PvtMarkIds;
                         d.ChalanId = ChalanId;
                         d.InvStatusId = InvStatusId;
+                        d.LRStatusId = LRStatusId;
                     }
                 },
                 "initComplete": function (settings, json) {
@@ -1503,7 +1547,7 @@
 
                         if (prevParty !== null && billPartyCell !== prevParty) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
                                     '<td colspan="4">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="3"></td>' +
@@ -1522,7 +1566,7 @@
                     }
 
                     if (prevParty !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="4">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="3"></td>' +
@@ -1532,13 +1576,18 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                        let totalRow = '<tr class="total-row">' +
                             '<td colspan="4">TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="3"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
+                    }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
                     }
                 }
             });

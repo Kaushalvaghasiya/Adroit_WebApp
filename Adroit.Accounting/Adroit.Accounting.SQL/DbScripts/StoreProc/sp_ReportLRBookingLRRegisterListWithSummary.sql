@@ -16,6 +16,7 @@ CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingLRRegisterListWithSummary]
   @PayTypeIds NVARCHAR(MAX),
   @ChalanId INT,
   @InvStatusId INT,
+  @LRStatusId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -57,6 +58,7 @@ Begin
 		,SUM([GSTRate].Rate) As Rate
 		,SUM(LRB.InvoiceValue) As InvoiceValue
 		,MAX([CustomerFirmBranch].Title) As BranchName
+		,LRB.Deleted
 		FROM [Z-LRBooking-Z] As LRB
 		INNER JOIN [CustomerFirmBranch] on [CustomerFirmBranch].Id = LRB.BranchId
 		INNER JOIN [CustomerFirmTransportSetting] on [CustomerFirmTransportSetting].FirmId = [CustomerFirmBranch].FirmId
@@ -87,7 +89,12 @@ Begin
 				OR (@InvStatusId = '1' AND LRB.Id IN ( SELECT LRBookingId FROM [Z-SalesBillMaster-Z] INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].ID = [Z-SalesBillDetail-Z].SalesBillMasterId WHERE BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)) AND YearId = @YearId AND [Z-SalesBillDetail-Z].Deleted = 0))
 				OR (@InvStatusId = '2' AND LRB.Id NOT IN ( SELECT LRBookingId FROM [Z-SalesBillMaster-Z] INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].ID = [Z-SalesBillDetail-Z].SalesBillMasterId WHERE BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)) AND YearId = @YearId AND [Z-SalesBillDetail-Z].Deleted = 0))
 			)
-        GROUP BY CASE WHEN @SelectedView = @DateWise THEN CAST(LRB.LRDate AS VARCHAR(100)) WHEN @SelectedView = @PartyWise THEN CA1.Name END
+		AND (
+				@LRStatusId = '0'
+				OR (@LRStatusId = '1' AND LRB.Deleted = 0)
+				OR (@LRStatusId = '2' AND LRB.Deleted = 1)
+			)
+        GROUP BY CASE WHEN @SelectedView = @DateWise THEN CAST(LRB.LRDate AS VARCHAR(100)) WHEN @SelectedView = @PartyWise THEN CA1.Name END, LRB.Deleted
     )
 
 	SELECT * FROM CTE

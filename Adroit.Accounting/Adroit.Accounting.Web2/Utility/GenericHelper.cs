@@ -266,5 +266,15 @@ namespace Adroit.Accounting.Web.Utility
             };
             return list;
         }
+        public static List<DropdownViewModel> GetBookingLRStatusList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(LRStatus.Active)}", Value = $"{(int)LRStatus.Active}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(LRStatus.Cancelled)}", Value = $"{(int)LRStatus.Cancelled}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(LRStatus.All)}", Value = $"{(int)LRStatus.All}" },
+            };
+            return list;
+        }
     }
 }
