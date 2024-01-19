@@ -34,19 +34,22 @@ BEGIN
 	WHERE [Z-SalesBillDetail-Z].LRBookingId = @Id
 	ORDER BY [Z-SalesBillDetail-Z].Id DESC 
 
-	SELECT [Z-LRBooking-Z].*
-	,[TransportDesc].Title As Description
-	,[TransportPacking].Title As Packing
-	,ISNULL(@BranchChalanNo,'') AS BranchChalanNo
-	,@ChalanDate AS ChalanDate
-	,ISNULL(@VehilcleNo,'') AS VehilcleNo
-	,ISNULL(@BranchInvoiceNo,'') AS BranchInvoiceNo
-	,@InvoiceDate AS InvoiceDate
-	,City.Title AS CityFrom
+	SELECT [Z-LRBooking-Z].*,
+	[TransportDesc].Title As Description,
+	[TransportPacking].Title As Packing,
+	ISNULL(@BranchChalanNo,'') AS BranchChalanNo,
+	@ChalanDate AS ChalanDate,
+	ISNULL(@VehilcleNo,'') AS VehilcleNo,
+	ISNULL(@BranchInvoiceNo,'') AS BranchInvoiceNo,
+	@InvoiceDate AS InvoiceDate,
+	City.Title AS CityFrom,
+	CASE WHEN [Z-PurchaseBillDetail-Z].LRBookingId IS NULL AND [Z-SalesBillDetail-Z].LRBookingId IS NULL THEN 0 ELSE 1 END AS IsLRBookingPurchased
 	FROM [Z-LRBooking-Z]
 	LEFT JOIN [TransportDesc] on [TransportDesc].Id = [Z-LRBooking-Z].DescriptionId AND [TransportDesc].CustomerId = @CustomerId AND [TransportDesc].Deleted = 0 AND [TransportDesc].Active = 1
 	LEFT JOIN [TransportPacking] on [TransportPacking].Id = [Z-LRBooking-Z].PackingId AND [TransportPacking].CustomerId = @CustomerId AND [TransportPacking].Deleted = 0 AND [TransportPacking].Active = 1
 	LEFT JOIN City ON [Z-LRBooking-Z].CityIdFrom = City.Id AND City.Active = 1 
+	LEFT JOIN [Z-PurchaseBillDetail-Z] ON [Z-PurchaseBillDetail-Z].LRBookingId = [Z-LRBooking-Z].id AND [Z-PurchaseBillDetail-Z].Deleted = 0
+	LEFT JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillDetail-Z].LRBookingId = [Z-LRBooking-Z].id AND [Z-SalesBillDetail-Z].Deleted = 0
 	WHERE [Z-LRBooking-Z].Id = @Id AND [Z-LRBooking-Z].BranchId = @BranchId
 
 END

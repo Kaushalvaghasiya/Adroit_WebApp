@@ -102,7 +102,7 @@
                                     <button class="btn btn-primary EWayBill-search" type="button">Search</button>
                                 </span>
                                 <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
-                                <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-trash-o"></i></span></a>
+                                <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-remove"></i></span></a>
                                 <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
                                 <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Back" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
                             </div>
@@ -531,7 +531,7 @@
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-trash-o"></i>&nbsp;Cancel</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-remove"></i>&nbsp;Cancel</a>
                     <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="New"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Back"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
                 </div>
@@ -582,7 +582,9 @@
                 },
             });
 
-
+            $(".btn-delete").on("click", function () {
+                cancelItemConfirmation($("#Id").val());
+            });
 
             $('#EWayBill-search').on('click', function () {
                 var Data = "Your dynamically generated content goes here.";
@@ -685,11 +687,11 @@
             });
 
             $("#AccountBranchMappingId, #DeliveryAccountBranchMappingId").on('change', function (e) {
-                BindBillParty();
+                bindBillParty();
             });
 
             $("#LRPayTypeId").on('change', function (e) {
-                BindBillParty(true);
+                bindBillParty(true);
             });
 
             addClick();
@@ -725,7 +727,7 @@
         var billpartychangeapply = true;
         var ratechangeapply = true;
 
-        function BindBillParty(isForceFullyChangeBillParty = false) {
+        function bindBillParty(isForceFullyChangeBillParty = false) {
             if ($("#BillAccountBranchMappingId").val() == '' || $("#BillAccountBranchMappingId").val() == null || isForceFullyChangeBillParty) {
                 if ($("#LRPayTypeId").val() != '' || $("#LRPayTypeId").val() != null) {
                     var spanElement = document.getElementById("select2-LRPayTypeId-container");
@@ -858,7 +860,7 @@
                     }
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
 
-                    if (!row.deleted && !row.isLRBookingPurchased) {
+                    if (!(row.deleted || row.isLRBookingPurchased)) {
                         btnAct += "<a href='#' class='btn-cancel-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Cancel' data-placement='bottom' data-original-title='Cancel'><i class='fa fa-remove'></i></a>";
                     }
                     btnAct += "</div>";
@@ -1278,6 +1280,13 @@
                                 $("#BranchInvoiceNo").val(result.data.branchInvoiceNo);
                                 $("#InvoiceDate").val(result.data.invoiceDateString);
 
+                                if (result.data.deleted || result.data.isLRBookingPurchased) {
+                                    $('.btn-delete').hide();
+                                }
+                                else
+                                {
+                                    $('.btn-delete').show();
+                                }
                                 calcNetAmount();
                                 getGSTRate();
 
