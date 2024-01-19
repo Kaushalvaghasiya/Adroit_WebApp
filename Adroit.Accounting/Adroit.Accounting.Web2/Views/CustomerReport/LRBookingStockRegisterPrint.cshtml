@@ -1,0 +1,73 @@
+﻿@model Adroit.Accounting.Model.ReportViewModel.ReportDataViewModel<List<Adroit.Accounting.Model.GridViewModel.LRBookingStockRegisterGridViewModel>>
+@{
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+<div class="col-lg-12 col-sm-12 text-right">
+    <lable class="report-number">AIPI</lable>
+</div>
+<div class="col-lg-12 col-sm-12 text-center pdfheader">
+    <div class="firmname">
+        <lable>@Model.ReportHeader.FrimName</lable>
+    </div>
+    <div class="address">
+        <lable>@($"{Model.ReportHeader.BranchName} : {Model.ReportHeader.BranchAddress}")</lable>
+    </div>
+    <div class="heading">
+        <lable>LR STOCK REGISTER</lable>
+    </div>
+    <div class="date">
+        <lable>From - @Model.ReportHeader.DateFrom To @Model.ReportHeader.DateTo</lable>
+    </div>
+</div>
+<table id="tblMain" class="table col-md-12" align="center">
+    <thead>
+        <tr>
+            <th class="text-center">LR Number</th>
+            <th class="text-center">LR Date</th>            
+            <th class="text-center">Parcel</th>
+            <th class="text-right">Charge Wt.</th>            
+            <th class="text-right">LR Amount</th>
+            <th class="text-center">Gst %</th>
+            <th class="text-right">Inv Value</th>
+            <th class="text-left">To City</th>
+            <th class="text-left">Pvt.Mark</th>
+            <th class="text-left">Consignor Party</th>
+            <th class="text-left">Consignee Party</th>
+            <th class="text-center">Branch</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.ReportData != null)
+        {            
+
+            foreach (var item in Model.ReportData)
+            {                                
+                <tr>                    
+                    <td class="text-center">@item.LRNumber</td>
+                    <td class="text-center">@item.LRDateString</td>                    
+                    <td class="text-center">@item.Parcel</td>
+                    <td class="text-right">@item.ChargeWeight</td>                    
+                    <td class="text-right">@item.Amount</td>
+                    <td class="text-center">@item.Rate</td>
+                    <td class="text-right">@item.InvoiceValue</td>
+                    <td class="text-left">@item.CityTo</td>
+                    <td class="text-left">@item.PrivateMarka</td>
+                    <td class="text-center">@item.Consignor</td>
+                    <td class="text-center">@item.Consignee</td>
+                    <td class="text-center">@item.BranchName</td>
+                </tr>
+                
+            }
+            
+        }
+    </tbody>
+</table>
+
+@section Scripts
+    {
+
+    <script>
+
+    </script>
+
+}

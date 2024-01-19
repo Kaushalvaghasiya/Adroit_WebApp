@@ -3,6 +3,8 @@ using Adroit.Accounting.Model.GridViewModel;
 using Adroit.Accounting.Model.ReportViewModel;
 using Adroit.Accounting.Web.Utility;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System.Globalization;
 
 namespace Adroit.Accounting.Web.Controllers
 {
@@ -27,17 +29,7 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<LRBookingStockRegisterGridViewModel>();
             try
             {
-                model.BranchIds = branchIds;
-                model.DateFrom = dateFrom;
-                model.DateTo = dateTo;
-                model.CityFromIds = cityFromIds;
-                model.CityToIds = cityToIds;
-                model.ConsignorIds = consignorIds;
-                model.ConsigneeIds = consigneeIds;
-                model.BillPartyIds = billPartyIds;
-                model.PayTypeIds = payTypeIds;
-                model.ChalanId = chalanId;
-                model.InvStatusId = invStatusId;
+                HttpContext.Session.SetString("LRBookingStockRegisterReportList", JsonConvert.SerializeObject(model));
 
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
@@ -62,17 +54,7 @@ namespace Adroit.Accounting.Web.Controllers
             var result = new DataTableListViewModel<LRBookingStockRegisterGridViewModel>();
             try
             {
-                model.BranchIds = branchIds;
-                model.DateFrom = dateFrom;
-                model.DateTo = dateTo;
-                model.CityFromIds = cityFromIds;
-                model.CityToIds = cityToIds;
-                model.ConsignorIds = consignorIds;
-                model.ConsigneeIds = consigneeIds;
-                model.BillPartyIds = billPartyIds;
-                model.PayTypeIds = payTypeIds;
-                model.ChalanId = chalanId;
-                model.InvStatusId = invStatusId;
+                HttpContext.Session.SetString("LRBookingStockRegisterReportListWithSummary", JsonConvert.SerializeObject(model));
 
                 var search = Request.Query["search[value]"];
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
@@ -90,6 +72,40 @@ namespace Adroit.Accounting.Web.Controllers
                 result.recordsFiltered = 0;
             }
             return Json(result);
+        }   
+        public IActionResult LRBookingStockRegisterPrint()
+        {
+            var result = new ReportDataViewModel<List<LRBookingStockRegisterGridViewModel>>();
+            result.ReportHeader = new ReportHeaderViewModel();
+            result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
+            result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
+            var parameters = JsonConvert.DeserializeObject<LRBookingStockRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingStockRegisterReportList"));
+
+            result.ReportData = _reportLRBookingStockRegisterRepository.GetList(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, pageSize: -1).ToList();
+            var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
+            var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
+            result.ReportHeader.FrimName = currentFirm.Title.ToString();
+            result.ReportHeader.BranchName = currentBranch.Title.ToString();
+            result.ReportHeader.BranchAddress = currentBranch.Address1.ToString();
+
+            return View(result);
+        }
+        public IActionResult LRBookingStockRegisterPrintSummary()
+        {
+            var result = new ReportDataViewModel<List<LRBookingStockRegisterGridViewModel>>();
+            result.ReportHeader = new ReportHeaderViewModel();
+            result.ReportHeader.DateFrom = DateTime.Parse(HttpContext.Request.Query["DateFrom"].ToString());
+            result.ReportHeader.DateTo = DateTime.Parse(HttpContext.Request.Query["DateTo"].ToString());
+            var parameters = JsonConvert.DeserializeObject<LRBookingStockRegisterGridViewModel>(HttpContext.Session.GetString("LRBookingStockRegisterReportListWithSummary"));
+
+            result.ReportData = _reportLRBookingStockRegisterRepository.GetListWithSummary(parameters, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, pageSize: -1).ToList();
+            var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
+            var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
+            result.ReportHeader.FrimName = currentFirm.Title.ToString();
+            result.ReportHeader.BranchName = currentBranch.Title.ToString();
+            result.ReportHeader.BranchAddress = currentBranch.Address1.ToString();
+
+            return View(result);
         }
     }
 }
