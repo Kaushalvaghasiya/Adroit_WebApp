@@ -116,7 +116,10 @@ var daterangeenddate;
 				'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
 			},
 			startDate: moment().subtract(29, 'days'),
-			endDate: moment()
+			endDate: moment(),
+			locale: {
+				format: 'DD/MM/YYYY'
+			}
 		}, function (start, end) {
 			$('#daterange-btn span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
 		})
@@ -134,11 +137,13 @@ var daterangeenddate;
 				'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
 			},
 			startDate: moment().subtract(29, 'days'),
-			endDate: moment()
+			endDate: moment(),
+			locale: {
+				format: 'DD/MM/YYYY'
+			}
 		}, function (start, end) {
 			daterangestartdate = start;
 			daterangeenddate = end;
-			$(this).html(start.format('DD/MM/YYYY') + ' - ' + end.format('DD/MM/YYYY'))
 		})
 	} catch (e) { }
 	
