@@ -10,5 +10,13 @@ namespace Adroit.Accounting.Model.Enums
         LRWise,
         [Description("Party Wise")]
         PartyWise,
+        [Description("To City Wise")]
+        ToCityWise,
+        [Description("Consignor Wise")]
+        ConsignorWise,
+        [Description("Consignee Wise")]
+        ConsigneeWise,
+        [Description("Bill Party Wise")]
+        BillPartyWise,
     }
 }

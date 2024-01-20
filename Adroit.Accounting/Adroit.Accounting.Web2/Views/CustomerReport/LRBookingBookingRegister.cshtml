@@ -46,8 +46,8 @@
                     <div class="row">
                         <div class="col-md-8">
                             <div class="form-group">
-                                <label for="BranchId">Branch</label>
-                                <select class="group-filter mode-ed" id="BranchId" multiple="multiple">
+                                <label for="BranchIds">Branch</label>
+                                <select class="group-filter mode-ed" id="BranchIds" multiple="multiple">
                                     @{
                                         if (Model.BranchList != null)
                                         {
@@ -81,29 +81,16 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-4">
                             <div class="form-group">
-                                <label for="DateFrom">Date From</label>
+                                <label for="DateFrom">Date</label>
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
                                     </div>
-                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label for="DateTo">Date To</label>
-                                <div class="input-group">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
-                                        </div>
-                                    </div>
-                                    <input class="form-control fc-datepicker" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateTo">
+                                    <input class="form-control fc-datepicker1 fc-daterange" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
                                 </div>
                             </div>
                         </div>
@@ -122,7 +109,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="CityFromId">City From</label>
-                                <select class="filter-multi mode-ed-multi" id="CityFromId" multiple="multiple">
+                                <select class="filter-multi mode-ed-multi" id="CityFromIds" multiple="multiple">
                                     @{
                                         if (Model.CityList != null)
                                         {
@@ -138,7 +125,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="CityToId">City To</label>
-                                <select class="filter-multi mode-ed-multi" id="CityToId" multiple="multiple">
+                                <select class="filter-multi mode-ed-multi" id="CityToIds" multiple="multiple">
                                     @{
                                         if (Model.CityList != null)
                                         {
@@ -151,10 +138,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 hide-for-datewise">
                             <div class="form-group">
                                 <label for="ConsignorId">Consignor</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsignorId">
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsignorIds">
                                     @{
                                         if (Model.AccountBranchMappingList != null)
                                         {
@@ -168,10 +155,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 hide-for-datewise">
                             <div class="form-group">
                                 <label for="ConsigneeId">Consignee</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsigneeId">
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="ConsigneeIds">
                                     @{
                                         if (Model.AccountBranchMappingList != null)
                                         {
@@ -184,10 +171,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-4 hide-for-datewise">
                             <div class="form-group">
                                 <label for="BillPartyId">Bill Party</label>
-                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BillPartyId">
+                                <select class="filter-multi mode-ed-multi" multiple="multiple" id="BillPartyIds">
                                     @{
                                         if (Model.AccountBranchMappingList != null)
                                         {
@@ -203,7 +190,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="PayTypeId">Pay Type</label>
-                                <select class="filter-multi mode-ed-multi" id="PayTypeId" multiple="multiple">
+                                <select class="filter-multi mode-ed-multi" id="PayTypeIds" multiple="multiple">
                                     @{
                                         if (Model.PayTypeList != null)
                                         {
@@ -234,8 +221,8 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
-                                <label for="InvStatus">Inv. Status</label>
-                                <select class="form-control select2-show-search-report" id="InvStatus">
+                                <label for="InvStatusId">Inv. Status</label>
+                                <select class="form-control select2-show-search-report" id="InvStatusId">
                                     @{
                                         if (Model.InvStatusList != null)
                                         {
@@ -285,7 +272,7 @@
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
+                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm btn-print" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
                         <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send"><span><i class="fa fa-share-alt"></i></span></a>
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
@@ -303,269 +290,15 @@
                     <div class="table-responsive">
                         <table id="tblMain" class="table table-bordered key-buttons">
                             <thead>
-                                <tr>
-                                    <th class="border-bottom-0 text-center">LR Number</th>
-                                    <th class="border-bottom-0 text-center">LR DATE</th>
-                                    <th class="border-bottom-0 text-center">TO CITY</th>
-                                    <th class="border-bottom-0 text-center">PARCLE</th>
-                                    <th class="border-bottom-0 text-center">GOODS DESCRIPTION</th>
-                                    <th class="border-bottom-0 text-center">Consignor & GST No</th>
-                                    <th class="border-bottom-0 text-center">Consignee & GST No</th>
-                                    <th class="border-bottom-0 text-center">Charge Wt.</th>
-                                    <th class="border-bottom-0 text-center">LR Amount</th>
-                                    <th class="border-bottom-0 text-center">GST%</th>
-                                    <th class="border-bottom-0 text-center">GST Amount</th>
-                                    <th class="border-bottom-0 text-center">Inv Value</th>
-                                    <th class="border-bottom-0 text-center">Pay Type</th>
-                                    <th class="border-bottom-0 text-center">Loading Chalan No</th>
-                                    <th class="border-bottom-0 text-center">BRANCH</th>
-                                </tr>
+                                <tr></tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
-                                <tr>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                    <td>xxxxxxxxx</td>
-                                </tr>
+                            <tbody>                                
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn btn-blue mt-1 btn-print" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn btn-gray mt-1 btn-back" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
                 </div>
@@ -583,28 +316,320 @@
             $('.dv-report').hide();
             $('.dv-parameters').show();
 
+            const viewBagYear = "@(ViewBag.Year)";
+            const dateRange = getDateRange(viewBagYear);
+
+            $(".reset-button").on("click", function () {
+                $("#BranchIds").multipleSelect('setSelects', []);
+                $("#ViewId").val($("#ViewId option:first").val()).trigger("change");
+                $("#LRFrom").val("");
+                $("#LRTo").val("");
+                $("#CityFromIds").multipleSelect('setSelects', []);
+                $("#CityToIds").multipleSelect('setSelects', []);
+                $("#ConsignorIds").multipleSelect('setSelects', []);
+                $("#ConsigneeIds").multipleSelect('setSelects', []);
+                $("#BillPartyIds").multipleSelect('setSelects', []);
+                $("#PayTypeIds").multipleSelect('setSelects', []);
+                $("#ChalanId").val($("#ChalanId option:first").val()).trigger("change");
+                $("#InvStatusId").val($("#InvStatusId option:first").val()).trigger("change");
+                $("#SubTotal").prop('checked', false);
+                $("#Summary").prop('checked', false);
+            });
+
             $(".show-report").on("click", function () {
+                BranchIds = $('#BranchIds').val().length === 0 ? '0' : $('#BranchIds').val().join(",");
+                if (BranchIds == '0') {
+                    showWarning("", "Please select branch");
+                    return;
+                }
+
+                var dates = $('#DateFrom').val().split(" - ");
+                DateFrom = moment(getDate(dates[0])).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                DateTo = moment(getDate(dates[1])).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                CityFromIds = $('#CityFromIds').val().length === 0 ? '0' : $('#CityFromIds').val().join(",");
+                CityToIds = $('#CityToIds').val().length === 0 ? '0' : $('#CityToIds').val().join(",");
+                LRFrom = $('#LRFrom').val() == '' ? '0' : $('#LRFrom').val();
+                LRTo = $('#LRTo').val() == '' ? '0' : $('#LRTo').val();
+                ConsignorIds = $('#ConsignorIds').val().length === 0 ? '0' : $('#ConsignorIds').val().join(",");
+                ConsigneeIds = $('#ConsigneeIds').val().length === 0 ? '0' : $('#ConsigneeIds').val().join(",");
+                BillPartyIds = $('#BillPartyIds').val().length === 0 ? '0' : $('#BillPartyIds').val().join(",");
+                PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
+                ChalanId = getIntValueZero('ChalanId');
+                InvStatusId = getIntValueZero('InvStatusId');
+                SubTotal = $('#SubTotal').is(':checked');
+
                 $('.dv-parameters').slideUp();
                 $('.dv-report').slideDown();
+
+                let selectedView = $('#ViewId').val();
+
+                let summary = $('#Summary').is(':checked');
+                let subTotal = $('#SubTotal').is(':checked');
+
+                if ($.fn.dataTable.isDataTable('#tblMain')) {
+                    $('#tblMain').DataTable().destroy();
+                }
+
+                $('#tblMain tbody').html('');
+                $('#tblMain thead tr').html('');
+
+                var url = '@Url.Content("~/CustomerReport")';
+
+                if (selectedView == '@((int)ViewList.DateWise)') {                    
+                    url += '/LRBookingBookingRegisterPrintDateWise';
+                    dateWiseList();                 
+                }
+                else if (selectedView == '@((int)ViewList.LRWise)') {
+                    url += '/LRBookingBookingRegisterPrintLRWise';
+                    lrWiseList();
+                }
+                else if (selectedView == '@((int)ViewList.ToCityWise)') {
+                    if (summary) {
+                        url += '/LRBookingBookingRegisterPrintCityWiseSummary';
+                        cityWiseSummaryList();
+                    }
+                    else {
+                        url += '/LRBookingBookingRegisterPrintCityWise';
+                        cityWiseList();
+                    }
+                }
+                else if (selectedView == '@((int)ViewList.ConsigneeWise)') {
+                    if (summary) {
+                        url += '/LRBookingBookingRegisterPrintConsigneeWiseSummary';
+                        consigneeWiseSummaryList();
+                    }
+                    else {
+                        url += '/LRBookingBookingRegisterPrintConsigneeWise';
+                        consigneeWiseList();
+                    }
+                }
+                else if (selectedView == '@((int)ViewList.ConsignorWise)') {
+                    if (summary) {
+                        url += '/LRBookingBookingRegisterPrintConsignorWiseSummary';
+                        consignorWiseSummaryList();
+                    }
+                    else {
+                        url += '/LRBookingBookingRegisterPrintConsignorWise';
+                        consignorWiseList();
+                    }
+                }
+                else if (selectedView == '@((int)ViewList.BillPartyWise)') {
+                    if (summary) {
+                        url += '/LRBookingBookingRegisterPrintBillPartyWiseSummary';
+                        billPartyWiseSummaryList();
+                    }
+                    else {
+                        url += '/LRBookingBookingRegisterPrintBillPartyWise';
+                        billPartyWiseList();
+                    }
+                }
+
+                var dates = $('#DateFrom').val().split(" - ");
+                url += '?SubTotal=' + subTotal + '&DateFrom=' + dates[0] + '&DateTo=' + dates[1];
+                $(".btn-print").attr("href", url);
             });
 
             $(".btn-back").on("click", function () {
                 $('.dv-parameters').slideDown();
                 $('.dv-report').slideUp();
+                $('#tblMain tbody').html('');
+                $('#tblMain thead tr').html('');
             });
+
+            $('.hide-for-datewise').hide();
+            $("#ViewId").on('change', function (e) {
+                if ($(this).val() == '@((int)ViewList.DateWise)') {
+                    $('.hide-for-datewise').hide();
+                } else {
+                    $('.hide-for-datewise').show();
+                }
+            });
+        });
+
+        function getDateRange(yearRange) {
+            const [startYear, endYear] = yearRange.split('-').map(Number);
+
+            const startDate = moment(`${startYear}-04-01`, 'YYYY-MM-DD');
+            const endDate = moment(`${endYear}-03-31`, 'YYYY-MM-DD');
+
+            const formattedStartDate = startDate.format('DD/MM/YYYY');
+            const formattedEndDate = endDate.format('DD/MM/YYYY');
+
+            $("#DateFrom").val(formattedStartDate + ' - ' + formattedEndDate);
+        }
+
+        function getCurrentTableData() {
+            var table = $('#tblMain').DataTable();
+            var data = table.data().toArray();
+            return data;
+        }            
+        var BranchIds;
+        var DateFrom;
+        var DateTo;
+        var CityFromIds;
+        var CityToIds;
+        var LRFrom;
+        var LRTo;
+        var ConsignorIds;
+        var ConsigneeIds;
+        var BillPartyIds;
+        var PayTypeIds;
+        var ChalanId;
+        var InvStatusId;
+        var SubTotal;
+
+        function dateWiseList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">GOODS DESCRIPTION</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNOR & GST NO</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNEE & GST NO</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">GST Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LOADING CHALAN NO</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let subTotalAmount = 0;
+            let totalAmount = 0;
+            let prevDate = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.description;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrPayType;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.loadingChalanNo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "lrDate", "name": "lrDate", "className": "text-center" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "cityTo", "name": "cityTo", "className": "text-left" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "description", "name": "description", "className": "text-left" });
+            columns.push({ "data": "consignor", "name": "consignor", "className": "text-left" });
+            columns.push({ "data": "consignee", "name": "consignee", "className": "text-left" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });           
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "lrPayType", "name": "lrPayType", "className": "text-center" });
+            columns.push({ "data": "loadingChalanNo", "name": "loadingChalanNo", "className": "text-center" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
                 lengthChange: false,
                 ordering: true,
                 searching: true,
-                paging: true,
-                pageLength: 50,
+                paging: false,
+                //pageLength: @(int.MaxValue),
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
-                // columnDefs: colDef,
-                // columns: columns,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
                 language: {
                     paginate: {
                         next: '<i class="fa fa-angle-right"></i>', // or '→'
@@ -613,35 +638,105 @@
                         last: '<i class="fa fa-angle-double-right"></i>' // or '←'
                     }
                 },
-                // buttons: ['copy', 'excel', 'pdf', 'colvis'],
-                //processing: true,
-                //serverSide: true,
-                // ajax: {
-                //     url: '@(Url.Content("~/CustomerReport/LRRegister"))',
-                //     type: 'GET',
-                //     data: function (d) {
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingBookingRegisterReportList"))',
+                    type: 'GET',
+                    data: function (d) {
+                        d.SelectedView = $('#ViewId').val();
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;
+                        d.LRFrom = LRFrom;
+                        d.LRTo = LRTo;
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
 
-                //     }
-                // },
-                // "initComplete": function (settings, json) {
-                //     gridInitComplete(table);
-                // },
-                // "drawCallback": function (settings) {
-                //     gridDrawCallback(this);
-                // }
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let dateCell = api.cell(i, 0).data();
+
+                        if (prevDate !== null && dateCell !== prevDate) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                    '<td colspan="8">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="6"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            subTotalAmount = 0;
+                        }
+
+                        subTotalAmount += parseFloat(api.cell(i, 8).data());
+                        totalAmount += parseFloat(api.cell(i, 8).data());
+                        tableBody.append(rows[i]);
+                        prevDate = dateCell;
+                    }
+
+                    if (prevDate !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                            '<td colspan="8">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="6"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                            '<td colspan="8">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="6"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
+                }
             });
-
-            table.buttons().container().appendTo('#tblMain_wrapper .col-md-6:eq(0)');
-
-            // bindDatatableList();
-
-        });
-
-        function refreshDatatableList() {
-            $('#tblMain').DataTable().ajax.reload();
         }
 
-        function bindDatatableList() {
+        function lrWiseList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">GOODS DESCRIPTION</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNOR & GST NO</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNEE & GST NO</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LOADING CHALAN NO</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let totalAmount = 0;
+            let tableBody = $('#tblMain tbody');
+
             let columns = [];
             let colDef = [];
             colDef.push({
@@ -655,10 +750,222 @@
                     return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
-            });
+            });            
             colDef.push({
                 "render": function (data, type, row) {
                     return row.cityTo;
+                },
+                "targets": colDef.length,
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.description;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrPayType;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.loadingChalanNo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "lrDate", "name": "lrDate", "className": "text-center" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "cityTo", "name": "cityTo", "className": "text-left" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "description", "name": "description", "className": "text-left" });
+            columns.push({ "data": "consignor", "name": "consignor", "className": "text-left" });
+            columns.push({ "data": "consignee", "name": "consignee", "className": "text-left" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });           
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "lrPayType", "name": "lrPayType", "className": "text-center" });
+            columns.push({ "data": "loadingChalanNo", "name": "loadingChalanNo", "className": "text-center" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: false,
+                //pageLength: @(int.MaxValue),
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingBookingRegisterReportList"))',
+                    type: 'GET',
+                    data: function (d) {
+                        d.SelectedView = $('#ViewId').val();
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;
+                        d.LRFrom = LRFrom;
+                        d.LRTo = LRTo;
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        totalAmount += parseFloat(api.cell(i, 8).data());
+                        tableBody.append(rows[i]);
+                    }
+
+                    if (SubTotal && totalAmount > 0) {
+                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#e5e4e2;color:#FF0000;">' +
+                            '<td colspan="8">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="6"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
+                }
+
+            });
+        }
+
+        function cityWiseList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">GOODS DESCRIPTION</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNOR & GST NO</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">CONSIGNEE & GST NO</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">GST Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LOADING CHALAN NO</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let subTotalAmount = 0;
+            let totalAmount = 0;
+            let prevCity = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });             
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            }); 
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
                 },
                 "targets": colDef.length,
             });
@@ -691,35 +998,35 @@
                     return (row.chargeWeight || 0).toFixed(3);
                 },
                 "targets": colDef.length,
-                "class": "text-right",
-            });
+                "className": "text-right",
+            });            
             colDef.push({
                 "render": function (data, type, row) {
                     return (row.amount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
-                "class": "text-right",
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(3);
+                    return (row.rate || 0).toFixed(2);
                 },
                 "targets": colDef.length,
-                "class": "text-right",
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(3);
+                    return (row.gstAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
-                "class": "text-right",
-            });
+                "className": "text-right",
+            });            
             colDef.push({
                 "render": function (data, type, row) {
                     return (row.invoiceValue || 0).toFixed(2);
                 },
                 "targets": colDef.length,
-                "class": "text-right",
+                "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
@@ -740,32 +1047,33 @@
                 "targets": colDef.length,
             });
 
-            columns.push({ "data": "lrNumber", "name": "lrNumber" });
-            columns.push({ "data": "lrDate", "name": "lrDate" });
-            columns.push({ "data": "cityTo", "name": "cityTo" });
-            columns.push({ "data": "parcel", "name": "parcel" });
-            columns.push({ "data": "description", "name": "description" });
-            columns.push({ "data": "consignor", "name": "consignor" });
-            columns.push({ "data": "consignee", "name": "consignee" });
-            columns.push({ "data": "chargeWeight", "name": "chargeWeight" });
-            columns.push({ "data": "amount", "name": "amount" });
-            columns.push({ "data": "rate", "name": "rate" });
-            columns.push({ "data": "rate", "name": "rate" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
-            columns.push({ "data": "lrPayType", "name": "lrPayType" });
-            columns.push({ "data": "loadingChalanNumber", "name": "loadingChalanNumber" });
-            columns.push({ "data": "branchName", "name": "branchName" });
+            columns.push({ "data": "cityTo", "name": "cityTo", "className": "text-left" });
+            columns.push({ "data": "lrDate", "name": "lrDate", "className": "text-center" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "description", "name": "description", "className": "text-left" });
+            columns.push({ "data": "consignor", "name": "consignor", "className": "text-left" });
+            columns.push({ "data": "consignee", "name": "consignee", "className": "text-left" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });           
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "lrPayType", "name": "lrPayType", "className": "text-center" });
+            columns.push({ "data": "loadingChalanNo", "name": "loadingChalanNo", "className": "text-center" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
                 lengthChange: false,
                 ordering: true,
                 searching: true,
-                paging: true,
-                pageLength: 50,
+                paging: false,
+                //pageLength: @(int.MaxValue),
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
+                destroy: true,
                 //scrollCollapse: true,
                 //stateSave: false,
                 columnDefs: colDef,
@@ -782,19 +1090,1568 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/CustomerReport/BookingRegisterReportList"))',
+                    url: '@(Url.Content("~/CustomerReport/LRBookingBookingRegisterReportList"))',
                     type: 'GET',
-                    data: function (d) { }
+                    data: function (d) {
+                        d.SelectedView = $('#ViewId').val();
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;
+                        d.LRFrom = LRFrom;
+                        d.LRTo = LRTo;
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
                 },
                 "initComplete": function (settings, json) {
                     gridInitComplete(table);
                 },
                 "drawCallback": function (settings) {
                     gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let cityCell = api.cell(i, 0).data();
+
+                        if (prevCity !== null && cityCell !== prevCity) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                    '<td colspan="8">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="6"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            subTotalAmount = 0;
+                        }
+
+                        subTotalAmount += parseFloat(api.cell(i, 8).data());
+                        totalAmount += parseFloat(api.cell(i, 8).data());
+                        tableBody.append(rows[i]);
+                        prevCity = cityCell;
+                    }
+
+                    if (prevCity !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                            '<td colspan="8">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="6"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                            '<td colspan="8">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="6"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
                 }
 
             });
         }
+
+        function cityWiseSummaryList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let subTotalAmount = 0;
+            let totalAmount = 0;
+            let prevGroupingColumn = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.groupingColumn;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "groupingColumn", "name": "groupingColumn", "className": "text-left" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: false,
+                //pageLength: @(int.MaxValue),
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingBookingRegisterReportListWithSummary"))',
+                    type: 'GET',
+                    data: function (d) {
+                        d.SelectedView = $('#ViewId').val();
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;
+                        d.LRFrom = LRFrom;
+                        d.LRTo = LRTo;
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let curCell = api.cell(i, 0).data();
+
+                        if (prevGroupingColumn !== null && curCell !== prevGroupingColumn) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                    '<td colspan="4">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="4"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            subTotalAmount = 0;
+                        }
+
+                        subTotalAmount += parseFloat(api.cell(i, 4).data());
+                        totalAmount += parseFloat(api.cell(i, 4).data());
+                        tableBody.append(rows[i]);
+                        prevGroupingColumn = curCell;
+                    }
+
+                    if (prevGroupingColumn !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                            '<td colspan="4">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="4"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                            '<td colspan="4">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="4"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
+
+                }
+
+            });
+        }
+
+        function consigneeWiseList() {
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">Consignee & GST No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">GOODS DESCRIPTION</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">Consignor & GST No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">GST Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Loading Chalan No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let subTotalAmount = 0;
+            let totalAmount = 0;
+            let prevConsignee = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.description;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrPayType;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.loadingChalanNo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "consignee", "name": "consignee", "className": "text-left" });
+            columns.push({ "data": "lrDate", "name": "lrDate", "className": "text-center" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "cityTo", "name": "cityTo", "className": "text-left" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "description", "name": "description", "className": "text-left" });
+            columns.push({ "data": "consignor", "name": "consignor", "className": "text-left" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });           
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "lrPayType", "name": "lrPayType", "className": "text-center" });
+            columns.push({ "data": "loadingChalanNo", "name": "loadingChalanNo", "className": "text-center" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: false,
+                //pageLength: @(int.MaxValue),
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingBookingRegisterReportList"))',
+                    type: 'GET',
+                    data: function (d) {
+                        d.SelectedView = $('#ViewId').val();
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;
+                        d.LRFrom = LRFrom;
+                        d.LRTo = LRTo;
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let consigneeCell = api.cell(i, 0).data();
+
+                        if (prevConsignee !== null && consigneeCell !== prevConsignee) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                    '<td colspan="8">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="6"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            subTotalAmount = 0;
+                        }
+
+                        subTotalAmount += parseFloat(api.cell(i, 8).data());
+                        totalAmount += parseFloat(api.cell(i, 8).data());
+                        tableBody.append(rows[i]);
+                        prevConsignee = consigneeCell;
+                    }
+
+                    if (prevConsignee !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                            '<td colspan="8">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="6"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                            '<td colspan="8">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="6"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
+                }
+
+            });
+        }
+
+        function consigneeWiseSummaryList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">Consignee & GST No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let subTotalAmount = 0;
+            let totalAmount = 0;
+            let prevGroupingColumn = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.groupingColumn;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "groupingColumn", "name": "groupingColumn", "className": "text-left" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: false,
+                //pageLength: @(int.MaxValue),
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingBookingRegisterReportListWithSummary"))',
+                    type: 'GET',
+                    data: function (d) {
+                        d.SelectedView = $('#ViewId').val();
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;
+                        d.LRFrom = LRFrom;
+                        d.LRTo = LRTo;
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let curCell = api.cell(i, 0).data();
+
+                        if (prevGroupingColumn !== null && curCell !== prevGroupingColumn) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                    '<td colspan="4">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="4"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            subTotalAmount = 0;
+                        }
+
+                        subTotalAmount += parseFloat(api.cell(i, 4).data());
+                        totalAmount += parseFloat(api.cell(i, 4).data());
+                        tableBody.append(rows[i]);
+                        prevGroupingColumn = curCell;
+                    }
+
+                    if (prevGroupingColumn !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                            '<td colspan="4">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="4"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                            '<td colspan="4">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="4"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
+
+                }
+
+            });
+        }
+
+        function consignorWiseList() {
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">Consignor & GST No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">GOODS DESCRIPTION</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">Consignee & GST No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">GST Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Loading Chalan No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let subTotalAmount = 0;
+            let totalAmount = 0;
+            let prevConsignor = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.description;
+                },
+                "targets": colDef.length,
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrPayType;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.loadingChalanNo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "consignor", "name": "consignor", "className": "text-left" });
+            columns.push({ "data": "lrDate", "name": "lrDate", "className": "text-center" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "cityTo", "name": "cityTo", "className": "text-left" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "description", "name": "description", "className": "text-left" });
+            columns.push({ "data": "consignee", "name": "consignee", "className": "text-left" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });           
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "lrPayType", "name": "lrPayType", "className": "text-center" });
+            columns.push({ "data": "loadingChalanNo", "name": "loadingChalanNo", "className": "text-center" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: false,
+                //pageLength: @(int.MaxValue),
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingBookingRegisterReportList"))',
+                    type: 'GET',
+                    data: function (d) {
+                        d.SelectedView = $('#ViewId').val();
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;
+                        d.LRFrom = LRFrom;
+                        d.LRTo = LRTo;
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let consignorCell = api.cell(i, 0).data();
+
+                        if (prevConsignor !== null && consignorCell !== prevConsignor) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                    '<td colspan="8">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="6"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            subTotalAmount = 0;
+                        }
+
+                        subTotalAmount += parseFloat(api.cell(i, 8).data());
+                        totalAmount += parseFloat(api.cell(i, 8).data());
+                        tableBody.append(rows[i]);
+                        prevConsignor = consignorCell;
+                    }
+
+                    if (prevConsignor !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                            '<td colspan="8">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="6"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                            '<td colspan="8">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="6"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
+                }
+
+            });
+        }
+
+        function consignorWiseSummaryList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">Consignor & GST No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let subTotalAmount = 0;
+            let totalAmount = 0;
+            let prevGroupingColumn = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.groupingColumn;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "groupingColumn", "name": "groupingColumn", "className": "text-left" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: false,
+                //pageLength: @(int.MaxValue),
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingBookingRegisterReportListWithSummary"))',
+                    type: 'GET',
+                    data: function (d) {
+                        d.SelectedView = $('#ViewId').val();
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;
+                        d.LRFrom = LRFrom;
+                        d.LRTo = LRTo;
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let curCell = api.cell(i, 0).data();
+
+                        if (prevGroupingColumn !== null && curCell !== prevGroupingColumn) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                    '<td colspan="4">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="4"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            subTotalAmount = 0;
+                        }
+
+                        subTotalAmount += parseFloat(api.cell(i, 4).data());
+                        totalAmount += parseFloat(api.cell(i, 4).data());
+                        tableBody.append(rows[i]);
+                        prevGroupingColumn = curCell;
+                    }
+
+                    if (prevGroupingColumn !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                            '<td colspan="4">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="4"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                            '<td colspan="4">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="4"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
+
+                }
+
+            });
+        }
+
+        function billPartyWiseList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Bill Party & GST No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR DATE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LR NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TO CITY</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">GOODS DESCRIPTION</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">Consignor & GST No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">Consignee & GST No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">GST Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Loading Chalan No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let subTotalAmount = 0;
+            let totalAmount = 0;
+            let prevBillParty = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billPartyName;
+                },
+                "targets": colDef.length,
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.description;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignor;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.consignee;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });            
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.loadingChalanNo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "billPartyName", "name": "billPartyName", "className": "text-left" });
+            columns.push({ "data": "lrDate", "name": "lrDate", "className": "text-center" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "cityTo", "name": "cityTo", "className": "text-left" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "description", "name": "description", "className": "text-left" });
+            columns.push({ "data": "consignor", "name": "consignor", "className": "text-left" });
+            columns.push({ "data": "consignee", "name": "consignee", "className": "text-left" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });           
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "loadingChalanNo", "name": "loadingChalanNo", "className": "text-center" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: false,
+                //pageLength: @(int.MaxValue),
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingBookingRegisterReportList"))',
+                    type: 'GET',
+                    data: function (d) {
+                        d.SelectedView = $('#ViewId').val();
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;
+                        d.LRFrom = LRFrom;
+                        d.LRTo = LRTo;
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let billPartyCell = api.cell(i, 0).data();
+
+                        if (prevBillParty !== null && billPartyCell !== prevBillParty) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                    '<td colspan="8">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="6"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            subTotalAmount = 0;
+                        }
+
+                        subTotalAmount += parseFloat(api.cell(i, 8).data());
+                        totalAmount += parseFloat(api.cell(i, 8).data());
+                        tableBody.append(rows[i]);
+                        prevBillParty = billPartyCell;
+                    }
+
+                    if (prevBillParty !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                            '<td colspan="8">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="6"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                            '<td colspan="8">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="6"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
+                }
+
+            });
+        }
+
+        function billPartyWiseSummaryList() {
+
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">Bill Party & GST No</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL NUMBER</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PARCEL</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL CHARGE WT.</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL LR AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">GST AMOUNT</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
+
+            let subTotalAmount = 0;
+            let totalAmount = 0;
+            let prevGroupingColumn = null;
+            let tableBody = $('#tblMain tbody');
+
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.groupingColumn;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.lrNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.parcel;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.chargeWeight || 0).toFixed(3);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.amount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.gstAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.invoiceValue || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.branchName;
+                },
+                "targets": colDef.length,
+            });
+
+            columns.push({ "data": "groupingColumn", "name": "groupingColumn", "className": "text-left" });
+            columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
+            columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
+            columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
+            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
+            columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
+            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: false,
+                //pageLength: @(int.MaxValue),
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/CustomerReport/LRBookingBookingRegisterReportListWithSummary"))',
+                    type: 'GET',
+                    data: function (d) {
+                        d.SelectedView = $('#ViewId').val();
+                        d.BranchIds = BranchIds;
+                        d.DateFrom = DateFrom;
+                        d.DateTo = DateTo;
+                        d.LRFrom = LRFrom;
+                        d.LRTo = LRTo;
+                        d.CityFromIds = CityFromIds;
+                        d.CityToIds = CityToIds;
+                        d.ConsignorIds = ConsignorIds;
+                        d.ConsigneeIds = ConsigneeIds;
+                        d.BillPartyIds = BillPartyIds;
+                        d.PayTypeIds = PayTypeIds;
+                        d.ChalanId = ChalanId;
+                        d.InvStatusId = InvStatusId;
+                    }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+
+                    for (let i = 0; i < rows.length; i++) {
+                        let curCell = api.cell(i, 0).data();
+
+                        if (prevGroupingColumn !== null && curCell !== prevGroupingColumn) {
+                            if (SubTotal) {
+                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                    '<td colspan="4">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="4"></td>' +
+                                    '</tr>';
+
+                                tableBody.append(subtotalRow);
+                            }
+                            subTotalAmount = 0;
+                        }
+
+                        subTotalAmount += parseFloat(api.cell(i, 4).data());
+                        totalAmount += parseFloat(api.cell(i, 4).data());
+                        tableBody.append(rows[i]);
+                        prevGroupingColumn = curCell;
+                    }
+
+                    if (prevGroupingColumn !== null && SubTotal) {
+                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                            '<td colspan="4">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="4"></td>' +
+                            '</tr>';
+
+                        tableBody.append(finalSubtotalRow);
+                    }
+
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                            '<td colspan="4">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="4"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
+
+                }
+
+            });
+        }
+        
 
     </script>
 }

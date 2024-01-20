@@ -15,22 +15,22 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public List<DropdownViewModel> PayTypeList { get; set; }
         public List<DropdownViewModel> ChalanList { get; set; }
         public List<DropdownViewModel> InvStatusList { get; set; }
-        public int[] BranchId { get; set; }
+        public string GroupingColumn { get; set; }
+        public int SelectedView { get; set; }
+        public string BranchIds { get; set; }
         public int ViewId { get; set; }
-        public DateTime DateFrom { get; set; } = DateTime.Now;
-        public DateTime DateTo { get; set; } = DateTime.Now;
-        public string DateFromString { get { return this.DateFrom.ToString("dd/MM/yyyy"); } }
-        public string DateToString { get { return this.DateTo.ToString("dd/MM/yyyy"); } }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
         public int LRFrom { get; set; }
         public int LRTo { get; set; }
-        public int[] CityFromId { get; set; }
-        public int[] CityToId { get; set; }
-        public int[] ConsignorId { get; set; }
-        public int[] ConsigneeId { get; set; }
-        public int[] BillPartyId { get; set; }
-        public int[] PayTypeId { get; set; }
-        public int[] ChalanId { get; set; }
-        public int InvStatus { get; set; }
+        public string CityFromIds { get; set; }
+        public string CityToIds { get; set; }
+        public string ConsignorIds { get; set; }
+        public string ConsigneeIds { get; set; }
+        public string BillPartyIds { get; set; }
+        public string PayTypeIds { get; set; }
+        public string ChalanId { get; set; }
+        public int InvStatusId { get; set; }
         public bool SubTotal { get; set; }
         public bool Summary { get; set; }
     }
