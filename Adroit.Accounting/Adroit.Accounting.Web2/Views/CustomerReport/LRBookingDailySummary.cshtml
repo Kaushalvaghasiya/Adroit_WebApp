@@ -128,8 +128,6 @@
                                     <th class="border-bottom-0 text-right">Total To Pay Amount</th>
                                     <th class="border-bottom-0 text-right">Total Paid Amount</th>
                                     <th class="border-bottom-0 text-right">Total To Be Billed Amount</th>
-                                    <th class="border-bottom-0 text-center">GST%</th>
-                                    <th class="border-bottom-0 text-right">Inv Value</th>
                                     <th class="border-bottom-0 text-center">Branch</th>
                                 </tr>
                             </thead>
@@ -275,21 +273,7 @@
                 },
                 "targets": colDef.length,
                 "class": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.rate || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "class": "text-center",
             });            
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "class": "text-right",
-            });
             colDef.push({
                 "render": function (data, type, row) {
                     return row.branchName;
@@ -304,8 +288,6 @@
             columns.push({ "data": "toPayAmount", "name": "toPayAmount" });
             columns.push({ "data": "paidAmount", "name": "paidAmount" });
             columns.push({ "data": "tbbAmount", "name": "tbbAmount" });
-            columns.push({ "data": "rate", "name": "rate" });
-            columns.push({ "data": "invoiceValue", "name": "invoiceValue" });
             columns.push({ "data": "branchName", "name": "branchName" });
 
             var table = $('#tblMain').DataTable({
