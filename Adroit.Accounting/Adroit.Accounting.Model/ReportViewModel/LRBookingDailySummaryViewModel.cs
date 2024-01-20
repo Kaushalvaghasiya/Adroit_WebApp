@@ -10,9 +10,8 @@ namespace Adroit.Accounting.Model.ReportViewModel
     public class LRBookingDailySummaryViewModel : LRBookingViewModel
     {
         public List<DropdownViewModel> BranchList { get; set; }
-        public DateTime DateFrom { get; set; } = DateTime.Now;
-        public DateTime DateTo { get; set; } = DateTime.Now;
-        public string DateFromString { get { return this.DateFrom.ToString("dd/MM/yyyy"); } }
-        public string DateToString { get { return this.DateTo.ToString("dd/MM/yyyy"); } }
+        public DateTime? DateFrom { get; set; }
+        public DateTime? DateTo { get; set; }
+        public string BranchIds { get; set; }
     }
 }
