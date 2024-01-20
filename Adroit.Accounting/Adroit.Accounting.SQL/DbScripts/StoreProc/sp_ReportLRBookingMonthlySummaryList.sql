@@ -1,6 +1,6 @@
 CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingMonthlySummaryList]
   @LoginId INT,
-  @BranchId INT,
+  @BranchIds varchar(max),
   @FirmId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
@@ -31,13 +31,11 @@ Begin
 				CASE WHEN @SortColumn = 6 AND @SortOrder ='ASC'  THEN SUM(CASE WHEN TLRType3.Title = 'TBB' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) END ASC,  
 				CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN SUM(CASE WHEN TLRType3.Title = 'TBB' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) END DESC,
 				CASE WHEN @SortColumn = 7 AND @SortOrder ='ASC' THEN MAX([GSTRate].Rate) END ASC,  
-				CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN MAX([GSTRate].Rate) END DESC,
-				CASE WHEN @SortColumn = 8 AND @SortOrder ='ASC' THEN MAX([GSTRate].Rate) END ASC,  
-				CASE WHEN @SortColumn = 8 AND @SortOrder ='DESC' THEN MAX([GSTRate].Rate) END DESC,
-				CASE WHEN @SortColumn = 9 AND @SortOrder ='ASC' THEN SUM(LRB.InvoiceValue) END ASC,  
-				CASE WHEN @SortColumn = 9 AND @SortOrder ='DESC' THEN SUM(LRB.InvoiceValue) END DESC,
-				CASE WHEN @SortColumn = 10 AND @SortOrder ='ASC' THEN MAX([CustomerFirmBranch].Title) END ASC,  
-				CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' THEN MAX([CustomerFirmBranch].Title) END DESC
+				CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN MAX([GSTRate].Rate) END DESC,				
+				CASE WHEN @SortColumn = 8 AND @SortOrder ='ASC' THEN SUM(LRB.InvoiceValue) END ASC,  
+				CASE WHEN @SortColumn = 8 AND @SortOrder ='DESC' THEN SUM(LRB.InvoiceValue) END DESC,
+				CASE WHEN @SortColumn = 9 AND @SortOrder ='ASC' THEN MAX([CustomerFirmBranch].Title) END ASC,  
+				CASE WHEN @SortColumn = 9 AND @SortOrder ='DESC' THEN MAX([CustomerFirmBranch].Title) END DESC
             ) AS RowNum
             , COUNT(*) OVER () AS TotalCount 
             , DATENAME(MONTH, MIN(LRB.LRDate)) AS LRMonth
@@ -59,7 +57,8 @@ Begin
         LEFT JOIN TransportLRPayType AS TLRType1 ON LRB.LRPayTypeId = TLRType1.Id AND TLRType1.Title = 'To Pay'
         LEFT JOIN TransportLRPayType AS TLRType2 ON LRB.LRPayTypeId = TLRType2.Id AND TLRType2.Title = 'Paid'
         LEFT JOIN TransportLRPayType AS TLRType3 ON LRB.LRPayTypeId = TLRType3.Id AND TLRType3.Title = 'TBB'
-        WHERE LRB.BranchId = @BranchId AND LRB.YearId = @YearId
+        WHERE LRB.BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds))
+        AND LRB.YearId = @YearId
         GROUP BY MONTH(LRB.LRDate)
     )
 

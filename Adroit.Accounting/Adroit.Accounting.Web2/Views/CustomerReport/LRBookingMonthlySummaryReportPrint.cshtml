@@ -1,0 +1,79 @@
+﻿@model Adroit.Accounting.Model.ReportViewModel.ReportDataViewModel<List<Adroit.Accounting.Model.GridViewModel.LRBookingMonthlySummaryGridViewModel>>
+@{
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";    
+}
+<div class="col-lg-12 col-sm-12 text-right">
+    <lable class="report-number">AIPI</lable>
+</div>
+<div class="col-lg-12 col-sm-12 text-center pdfheader">
+    <div class="firmname">
+        <lable>@Model.ReportHeader.FrimName</lable>
+    </div>
+    <div class="address">
+        <lable>@($"{Model.ReportHeader.BranchName} : {Model.ReportHeader.BranchAddress}")</lable>
+    </div>
+    <div class="heading">
+        <lable>LR Monthly Summary (LR Booking)</lable>
+    </div>    
+</div>
+<table id="tblMain" class="table col-md-12" align="center">
+    <thead>
+        <tr>
+            <th class="text-center">Month</th>
+            <th class="text-center">Total LR</th>
+            <th class="text-center">Total Parcel</th>
+            <th class="text-right">Total Charge Wt.</th>
+            <th class="text-right">Total To Pay Amount</th>
+            <th class="text-right">Total Paid Amount</th>
+            <th class="text-right">Total To Be Billed Amount</th>
+            <th class="text-center">GST%</th>
+            <th class="text-right">Inv Value</th>
+            <th class="text-center">Branch</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.ReportData != null)
+            {
+                decimal totaltoPayAmount = 0.00m;
+                decimal totalpaidAmount = 0.00m;
+                decimal totaltbbAmount = 0.00m;
+                foreach (var item in Model.ReportData)
+                {
+                    <tr>
+                        <td class="text-center">@item.LRMonth</td>
+                        <td class="text-center">@item.LRNumber</td>
+                        <td class="text-center">@item.Parcel</td>
+                        <td class="text-right">@item.ChargeWeight</td>
+                        <td class="text-right">@item.ToPayAmount</td>
+                        <td class="text-right">@item.PaidAmount</td>
+                        <td class="text-right">@item.TBBAmount</td>
+                        <td class="text-right">@item.Rate</td>
+                        <td class="text-right">@item.InvoiceValue</td>
+                        <td class="text-center">@item.BranchName</td>
+                    </tr>    
+                    totaltoPayAmount += item.ToPayAmount ?? 0.00m;
+                    totalpaidAmount += item.PaidAmount ?? 0.00m;
+                    totaltbbAmount += item.TBBAmount ?? 0.00m;
+                    
+                }   
+                <tr class="total-row">
+                    <td colspan="4" class="text-right">TOTAL</td>
+                    <td class="text-right">@totaltoPayAmount</td>
+                    <td class="text-right">@totalpaidAmount</td>
+                    <td class="text-right">@totaltbbAmount</td>
+                    <td colspan="3"></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+
+    <script>
+        
+    </script>
+
+}
