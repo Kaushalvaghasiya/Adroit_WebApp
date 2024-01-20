@@ -276,6 +276,7 @@
                     showWarning("", "Please select branch");
                     return;
                 }
+                debugger;
                 var dates = $('#DateFrom').val().split(" - ");
                 DateFrom = moment(getDate(dates[0])).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
                 DateTo = moment(getDate(dates[1])).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
@@ -286,7 +287,8 @@
                 VehicleNumber = $('#VehicleNumber').val();
                 VehicleOwner = $('#VehicleOwner').val();
                 Agent = $('#Agent').val();
-                
+                SubTotal = $('#SubTotal').is(':checked');
+
                 $('.dv-parameters').slideUp();
                 $('.dv-report').slideDown();
 
@@ -389,21 +391,34 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO PAY AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL PAID AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO BE BILLED AMOUNT</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LORRY HIRE CHARGE</th>');
+            // $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LORRY HIRE CHARGE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LESS TDS</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TDS(-)</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">CASH TO LORRY TRIP</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BANK PAYMENT TO LORRY TRIP</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">RECEIVED CASH BY DRIVER</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">OTHER EXPS. OF TRIP</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BALANCE LORRY HIRE CHARGE</th>');
+            // $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BALANCE LORRY HIRE CHARGE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL FREIGHT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
             let subTotalAmount = 0;
+
+            let subTotalChargeWT = 0;
+            let subTotalToPayAmount = 0;
+            let subTotalPaidAmount = 0;
+            let subTotalToBBAmount = 0;
+            let subTotalFreight = 0;
+
             let totalAmount = 0;
+
+            let totalChargeWT = 0;
+            let totalToPayAmount = 0;
+            let totalPaidAmount = 0;
+            let totalToBBAmount = 0;
+            let totalFreight = 0;
+
             let prevDate = null;
             let tableBody = $('#tblMain tbody');
 
@@ -411,19 +426,19 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
-                    return moment(row.loadingDate.split('T')[0]).format('DD/MM/YYYY');
+                    return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.chalanNumber;
+                    return row.billNumberBranch;
                 },
                 "targets": colDef.length,
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.truckNumber;
+                    return row.vehicleVRN;
                 },
                 "targets": colDef.length,
             });
@@ -435,7 +450,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.totalParcel;
+                    return row.parcel;
                 },
                 "targets": colDef.length,
             });
@@ -448,96 +463,89 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.totalToPayAmount ||0).toFixed(2);
+                    return (row.toPayAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.totalPaidAmount || 0).toFixed(2);
+                    return (row.paidAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.totalToBeBilledAmount || 0).toFixed(2);
+                    return (row.tbbAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+                "className": "text-right",
+            });
+            // colDef.push({
+            //     "render": function (data, type, row) {
+            //         return (row.lorryHireCharge || 0).toFixed(2);
+            //     },
+            //     "targets": colDef.length,
+            //     "className": "text-right",
+            // });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.tdsPercent;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.tdsAmount || 0).toFixed(2);
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return (row.rate || 0).toFixed(3);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.lorryHireCharge || 0).toFixed(2);
+                    return (row.advanceCash || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.lessTDS;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.tds;
-                },
-                "targets": colDef.length,
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.gstPer || 0).toFixed(2);
+                    return (row.advanceNeft || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.gstAmount || 0).toFixed(2);
+                    return (row.receiveCash || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.cashToLorryTrip || 0).toFixed(2);
+                    return (row.otherPlus || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
             });
+            // colDef.push({
+            //     "render": function (data, type, row) {
+            //         return (row.balanceLorryHireCharge || 0).toFixed(2);
+            //     },
+            //     "targets": colDef.length,
+            //     "className": "text-right",
+            // });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.bankPaymentToLorryTrip || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.receivedCashByDriver || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.otherExpsOfTrip || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.balanceLorryHireCharge || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return (row.totalFreight || 0).toFixed(2);
+                    return (row.freight || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -549,26 +557,25 @@
                 "targets": colDef.length,
             });
 
-            columns.push({ "data": "loadingDate", "name": "loadingDate", "className": "text-center" });
-            columns.push({ "data": "chalanNumber", "name": "chalanNumber", "className": "text-center" });
-            columns.push({ "data": "truckNumber", "name": "truckNumber", "className": "text-center" });
+            columns.push({ "data": "billDate", "name": "billDate", "className": "text-center" });
+            columns.push({ "data": "billNumberBranch", "name": "billNumberBranch", "className": "text-center" });
+            columns.push({ "data": "vehicleVRN", "name": "vehicleVRN", "className": "text-center" });
             columns.push({ "data": "totalLR", "name": "totalLR", "className": "text-left" });
-            columns.push({ "data": "totalParcel", "name": "totalParcel", "className": "text-right" });
+            columns.push({ "data": "parcel", "name": "parcel", "className": "text-right" });
             columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
-            columns.push({ "data": "totalToPayAmount", "name": "totalToPayAmount", "className": "text-right" });
-            columns.push({ "data": "totalPaidAmount", "name": "totalPaidAmount", "className": "text-right" });
-            columns.push({ "data": "totalToBeBilledAmount", "name": "totalToBeBilledAmount", "className": "text-right" });
-            columns.push({ "data": "lorryHireCharge", "name": "lorryHireCharge", "className": "text-left" });
-            columns.push({ "data": "lessTDS", "name": "lessTDS", "className": "text-right" });
-            columns.push({ "data": "tds", "name": "tds", "className": "text-right" });
-            columns.push({ "data": "gstPer", "name": "gstPer", "className": "text-right" });
-            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
-            columns.push({ "data": "cashToLorryTrip", "name": "cashToLorryTrip", "className": "text-right" });
-            columns.push({ "data": "bankPaymentToLorryTrip", "name": "bankPaymentToLorryTrip", "className": "text-right" });
-            columns.push({ "data": "receivedCashByDriver", "name": "receivedCashByDriver", "className": "text-right" });
-            columns.push({ "data": "otherExpsOfTrip", "name": "otherExpsOfTrip", "className": "text-right" });
-            columns.push({ "data": "balanceLorryHireCharge", "name": "balanceLorryHireCharge", "className": "text-right" });
-            columns.push({ "data": "totalFreight", "name": "totalFreight", "className": "text-right" });
+            columns.push({ "data": "toPayAmount", "name": "toPayAmount", "className": "text-right" });
+            columns.push({ "data": "paidAmount", "name": "paidAmount", "className": "text-right" });
+            columns.push({ "data": "tbbAmount", "name": "tbbAmount", "className": "text-right" });
+            //columns.push({ "data": "lorryHireCharge", "name": "lorryHireCharge", "className": "text-left" });
+            columns.push({ "data": "tdsPercent", "name": "tdsPercent", "className": "text-right" });
+            columns.push({ "data": "tdsAmount", "name": "tdsAmount", "className": "text-right" });
+            columns.push({ "data": "rate", "name": "rate", "className": "text-right" });
+            columns.push({ "data": "advanceCash", "name": "advanceCash", "className": "text-right" });
+            columns.push({ "data": "advanceNeft", "name": "advanceNeft", "className": "text-right" });
+            columns.push({ "data": "receiveCash", "name": "receiveCash", "className": "text-right" });
+            columns.push({ "data": "otherPlus", "name": "otherPlus", "className": "text-right" });
+            //columns.push({ "data": "balanceLorryHireCharge", "name": "balanceLorryHireCharge", "className": "text-right" });
+            columns.push({ "data": "freight", "name": "freight", "className": "text-right" });
             columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
             var table = $('#tblMain').DataTable({
@@ -619,7 +626,7 @@
                 },
                 "drawCallback": function (settings) {
                     gridDrawCallback(this);
-
+                    
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
@@ -630,37 +637,65 @@
                         if (prevDate !== null && dateCell !== prevDate) {
                             if (SubTotal) {
                                 let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
-                                    '<td colspan="9">SUB TOTAL</td>' +
-                                    '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
-                                    '<td colspan="5"></td>' +
+                                    '<td colspan="5">SUB TOTAL</td>' +
+                                    '<td class="text-right"> ' + subTotalChargeWT.toFixed(2) + '</td>' +
+                                    '<td class="text-right"> ' + subTotalToPayAmount.toFixed(2) + '</td>' +
+                                    '<td class="text-right"> ' + subTotalPaidAmount.toFixed(2) + '</td>' +
+                                    '<td class="text-right"> ' + subTotalToBBAmount.toFixed(2) + '</td>' +
+                                    '<td colspan="7"></td>' +
+                                    '<td class="text-right"> ' + subTotalFreight.toFixed(2) + '</td>' +
+                                    '<td ></td>' +
                                     '</tr>';
 
                                 tableBody.append(subtotalRow);
                             }
-                            subTotalAmount = 0;
+                            subTotalChargeWT = 0;
+                            subTotalToPayAmount = 0;
+                            subTotalPaidAmount = 0;
+                            subTotalToBBAmount = 0;
+                            subTotalFreight = 0;
                         }
+                        subTotalChargeWT += parseFloat(api.cell(i, 5).data() || 0);
+                        subTotalToPayAmount += parseFloat(api.cell(i, 6).data() || 0);
+                        subTotalPaidAmount += parseFloat(api.cell(i, 7).data() || 0);
+                        subTotalToBBAmount += parseFloat(api.cell(i, 8).data() || 0);
+                        subTotalFreight += parseFloat(api.cell(i, 16).data() || 0);
 
-                        subTotalAmount += parseFloat(api.cell(i, 9).data());
-                        totalAmount += parseFloat(api.cell(i, 9).data());
+                        totalChargeWT += parseFloat(api.cell(i, 5).data() || 0);
+                        totalToPayAmount += parseFloat(api.cell(i, 6).data() || 0);
+                        totalPaidAmount += parseFloat(api.cell(i, 7).data() || 0);
+                        totalToBBAmount += parseFloat(api.cell(i, 8).data() || 0);
+                        totalFreight += parseFloat(api.cell(i, 16).data() || 0);
+
                         tableBody.append(rows[i]);
                         prevDate = dateCell;
                     }
 
                     if (prevDate !== null && SubTotal) {
                         let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
-                            '<td colspan="9">SUB TOTAL</td>' +
-                            '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="5"></td>' +
+                            '<td colspan="5">SUB TOTAL</td>' +
+                            '<td class="text-right"> ' + subTotalChargeWT.toFixed(2) + '</td>' +
+                            '<td class="text-right"> ' + subTotalToPayAmount.toFixed(2) + '</td>' +
+                            '<td class="text-right"> ' + subTotalPaidAmount.toFixed(2) + '</td>' +
+                            '<td class="text-right"> ' + subTotalToBBAmount.toFixed(2) + '</td>' +
+                            '<td colspan="7"></td>' +
+                            '<td class="text-right"> ' + subTotalFreight.toFixed(2) + '</td>' +
+                            '<td ></td>' +
                             '</tr>';
 
                         tableBody.append(finalSubtotalRow);
                     }
 
-                    if (totalAmount > 0) {
+                    if (totalChargeWT > 0) {
                         let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
-                            '<td colspan="9">TOTAL</td>' +
-                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="5"></td>' +
+                            '<td colspan="5">TOTAL</td>' +
+                            '<td class="text-right"> ' + totalChargeWT.toFixed(2) + '</td>' +
+                            '<td class="text-right"> ' + totalToPayAmount.toFixed(2) + '</td>' +
+                            '<td class="text-right"> ' + totalPaidAmount.toFixed(2) + '</td>' +
+                            '<td class="text-right"> ' + totalToBBAmount.toFixed(2) + '</td>' +
+                            '<td colspan="7"></td>' +
+                            '<td class="text-right"> ' + totalFreight.toFixed(2) + '</td>' +
+                            '<td ></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
@@ -679,7 +714,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO BE BILLED AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL FREIGHT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">NET TOTAL</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
@@ -745,13 +779,6 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.gstAmount || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
                     return (row.netTotal || 0).toFixed(2);
                 },
                 "targets": colDef.length,
@@ -772,7 +799,6 @@
             columns.push({ "data": "totalToBeBilledAmount", "name": "totalToBeBilledAmount", "className": "text-right" });
             columns.push({ "data": "totalFreight", "name": "totalFreight", "className": "text-right" });
             columns.push({ "data": "gstPer", "name": "gstPer", "className": "text-right" });
-            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
             columns.push({ "data": "netTotal", "name": "netTotal", "className": "text-right" });
             columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
@@ -892,7 +918,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">LESS TDS</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TDS(-)</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">CASH TO LORRY TRIP</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BANK PAYMENT TO LORRY TRIP</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">RECEIVED CASH BY DRIVER</th>');
@@ -994,13 +1019,6 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.gstAmount || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
                     return (row.cashToLorryTrip || 0).toFixed(2);
                 },
                 "targets": colDef.length,
@@ -1061,7 +1079,6 @@
             columns.push({ "data": "lessTDS", "name": "lessTDS", "className": "text-right" });
             columns.push({ "data": "tds", "name": "tds", "className": "text-right" });
             columns.push({ "data": "gstPer", "name": "gstPer", "className": "text-right" });
-            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
             columns.push({ "data": "cashToLorryTrip", "name": "cashToLorryTrip", "className": "text-right" });
             columns.push({ "data": "bankPaymentToLorryTrip", "name": "bankPaymentToLorryTrip", "className": "text-right" });
             columns.push({ "data": "receivedCashByDriver", "name": "receivedCashByDriver", "className": "text-right" });
@@ -1180,7 +1197,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-left">TOTAL TO BE BILLED AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL FREIGHT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">NET TOTAL</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
@@ -1246,13 +1262,6 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.gstAmount || 0).toFixed(2);
-                },
-                "targets": colDef.length,
-                "className": "text-right",
-            });
-            colDef.push({
-                "render": function (data, type, row) {
                     return (row.netTotal || 0).toFixed(2);
                 },
                 "targets": colDef.length,
@@ -1273,7 +1282,6 @@
             columns.push({ "data": "totalToBeBilledAmount", "name": "totalToBeBilledAmount", "className": "text-right" });
             columns.push({ "data": "totalFreight", "name": "totalFreight", "className": "text-right" });
             columns.push({ "data": "gstPer", "name": "gstPer", "className": "text-right" });
-            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
             columns.push({ "data": "netTotal", "name": "netTotal", "className": "text-right" });
             columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 

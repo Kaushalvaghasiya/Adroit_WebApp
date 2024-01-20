@@ -28,6 +28,19 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public string VehicleNumber { get; set; }
         public string VehicleOwner { get; set; }
         public string Agent { get; set; }
+        
+        public decimal? ChargeWeight { get; set; }
+        public decimal? PaidAmount { get; set; }
+        public decimal? TBBAmount { get; set; }
+        public decimal? TDSAmount { get; set; }
+        public decimal? Rate { get; set; }
+        public decimal? AdvanceCash { get; set; }
+        public decimal? AdvanceNeft { get; set; }
+        public decimal? ReceiveCash { get; set; }
+        public decimal? OtherPlus { get; set; }
+        public decimal? Freight { get; set; }
+
+
         public bool SubTotal { get; set; }
         public bool Summary { get; set; }
     }
