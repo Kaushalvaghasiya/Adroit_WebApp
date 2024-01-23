@@ -1,6 +1,8 @@
 CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingDailySummaryList]
   @LoginId INT,
-  @BranchId INT,
+  @BranchIds varchar(max),
+  @DateFrom DATETIME,
+  @DateTo DATETIME,
   @FirmId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
@@ -10,7 +12,6 @@ CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingDailySummaryList]
 As
 Set Nocount on;
 Begin
-	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 	SELECT * FROM
@@ -30,15 +31,9 @@ Begin
 			CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC'  THEN SUM(CASE WHEN TLRType2.Title = 'Paid' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) END ASC,  
 			CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN SUM(CASE WHEN TLRType2.Title = 'Paid' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) END DESC,
 			CASE WHEN @SortColumn = 6 AND @SortOrder ='ASC'  THEN SUM(CASE WHEN TLRType3.Title = 'TBB' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) END ASC,  
-			CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN SUM(CASE WHEN TLRType3.Title = 'TBB' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) END DESC,
-			CASE WHEN @SortColumn = 7 AND @SortOrder ='ASC' THEN MAX([GSTRate].Rate) END ASC,  
-			CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN MAX([GSTRate].Rate) END DESC,
-			CASE WHEN @SortColumn = 8 AND @SortOrder ='ASC' THEN MAX([GSTRate].Rate) END ASC,  
-			CASE WHEN @SortColumn = 8 AND @SortOrder ='DESC' THEN MAX([GSTRate].Rate) END DESC,
-			CASE WHEN @SortColumn = 9 AND @SortOrder ='ASC' THEN SUM(LRB.InvoiceValue) END ASC,  
-			CASE WHEN @SortColumn = 9 AND @SortOrder ='DESC' THEN SUM(LRB.InvoiceValue) END DESC,
-			CASE WHEN @SortColumn = 10 AND @SortOrder ='ASC' THEN MAX([CustomerFirmBranch].Title) END ASC,  
-			CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' THEN MAX([CustomerFirmBranch].Title) END DESC
+			CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN SUM(CASE WHEN TLRType3.Title = 'TBB' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) END DESC,			
+			CASE WHEN @SortColumn = 7 AND @SortOrder ='ASC' THEN MAX([CustomerFirmBranch].Title) END ASC,  
+			CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN MAX([CustomerFirmBranch].Title) END DESC
 		) AS RowNum
 		,Count(*) over () AS TotalCount 
 		,LRB.LRDate
@@ -47,29 +42,24 @@ Begin
 		,SUM(LRB.ChargeWeight) As ChargeWeight
 		,SUM(CASE WHEN TLRType1.Title = 'To Pay' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS ToPayAmount
 		,SUM(CASE WHEN TLRType2.Title = 'Paid' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS PaidAmount
-		,SUM(CASE WHEN TLRType3.Title = 'TBB' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS TBBAmount
-		,MAX([GSTRate].Rate) As Rate
-		,MAX([GSTRate].Rate) As GSTAmount
-		,SUM(LRB.InvoiceValue) As InvoiceValue
+		,SUM(CASE WHEN TLRType3.Title = 'TBB' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS TBBAmount		
 		,MAX([CustomerFirmBranch].Title) As BranchName
 		FROM [Z-LRBooking-Z] As LRB
 		INNER JOIN [CustomerFirmBranch] on [CustomerFirmBranch].Id = LRB.BranchId
 		INNER JOIN [CustomerFirmTransportSetting] on [CustomerFirmTransportSetting].FirmId = [CustomerFirmBranch].FirmId
 		INNER JOIN [Product] on [Product].Id = [CustomerFirmTransportSetting].ProductIdForSales 
-		INNER JOIN [GSTRate] on [GSTRate].Id = [Product].GSTRateId 
 		LEFT JOIN TransportLRPayType AS TLRType1 ON LRB.LRPayTypeId = TLRType1.Id AND TLRType1.Title = 'To Pay'
 		LEFT JOIN TransportLRPayType AS TLRType2 ON LRB.LRPayTypeId = TLRType2.Id AND TLRType2.Title = 'Paid'
 		LEFT JOIN TransportLRPayType AS TLRType3 ON LRB.LRPayTypeId = TLRType3.Id AND TLRType3.Title = 'TBB'
-		WHERE LRB.BranchId = @BranchId AND LRB.YearId = @YearId
+		WHERE LRB.BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds))
+		AND LRB.YearId = @YearId
 		AND (Coalesce(@Search,'') = '' OR LRB.LRDate like '%'+ @Search + '%'
 									   OR LRB.Parcel like '%'+ @Search + '%'
 									   OR LRB.ChargeWeight like '%'+ @Search + '%'
-									   OR [GSTRate].Rate like '%'+ @Search + '%'
-									   OR LRB.InvoiceValue like '%'+ @Search + '%'
 									   OR [CustomerFirmBranch].Title like '%'+ @Search + '%')
 		GROUP BY LRB.LRDate
 	 ) AS T   
-	 WHERE (((@PageSize = -1) And 1=1) OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1))))
+	 WHERE @PageSize = -1 OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1)))
 End
 Set Nocount off;
 GO

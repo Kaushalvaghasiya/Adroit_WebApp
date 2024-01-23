@@ -26,6 +26,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? LRPayType { get; set; }
         public decimal? Amount { get; set; }
         public decimal? ChargeAmount { get; set; }
+        public string? LoadingChalanNo { get; set; }
         public string? BillPartyName { get; set; }
         public string? VehilcleNo { get; set; }
         public string? BranchChalanNo { get; set; }

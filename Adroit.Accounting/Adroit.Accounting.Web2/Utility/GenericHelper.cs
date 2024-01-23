@@ -93,6 +93,19 @@ namespace Adroit.Accounting.Web.Utility
             };
             return list;
         }
+        public static List<DropdownViewModel> GetBookingReportViewList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>
+            {
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.DateWise)}", Value = $"{(int)ViewList.DateWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.LRWise)}", Value = $"{(int)ViewList.LRWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.ToCityWise)}", Value = $"{(int)ViewList.ToCityWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.ConsignorWise)}", Value = $"{(int)ViewList.ConsignorWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.ConsigneeWise)}", Value = $"{(int)ViewList.ConsigneeWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.BillPartyWise)}", Value = $"{(int)ViewList.BillPartyWise}" },
+            };
+            return list;
+        }
         public static List<DropdownViewModel> GetChalanList()
         {
             List<DropdownViewModel> list = new List<DropdownViewModel>

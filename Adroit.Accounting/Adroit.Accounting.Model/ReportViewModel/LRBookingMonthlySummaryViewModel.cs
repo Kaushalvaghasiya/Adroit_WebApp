@@ -10,5 +10,6 @@ namespace Adroit.Accounting.Model.ReportViewModel
     public class LRBookingMonthlySummaryViewModel : LRBookingViewModel
     {
         public List<DropdownViewModel> BranchList { get; set; }
+        public string BranchIds { get; set; }
     }
 }
