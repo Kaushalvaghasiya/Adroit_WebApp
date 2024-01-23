@@ -28,7 +28,7 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public string VehicleNumber { get; set; }
         public string VehicleOwner { get; set; }
         public string Agent { get; set; }
-        
+
         public decimal? ChargeWeight { get; set; }
         public decimal? PaidAmount { get; set; }
         public decimal? TBBAmount { get; set; }
@@ -39,8 +39,8 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public decimal? ReceiveCash { get; set; }
         public decimal? OtherPlus { get; set; }
         public decimal? Freight { get; set; }
-
-
+        public decimal? InvoiceValue { get; set; }
+        public string BillDateString { get { return this.BillDate.ToString(Adroit.Accounting.Model.Constant.DateFormat); } }
         public bool SubTotal { get; set; }
         public bool Summary { get; set; }
     }

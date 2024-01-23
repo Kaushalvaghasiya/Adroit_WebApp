@@ -13,21 +13,24 @@
         <lable>@($"{Model.ReportHeader.BranchName} : {Model.ReportHeader.BranchAddress}")</lable>
     </div>
     <div class="heading">
-        <lable>LR BOOKING REGISTER</lable>
+        <lable>Chalan Loading Report In Summary & Truck Wise (LR Booking)</lable>
     </div>
     <div class="date">
         <lable>From - @Model.ReportHeader.DateFrom To @Model.ReportHeader.DateTo</lable>
     </div>
 </div>
-<table id="tblMain" class="table col-md-12" align="center"> 
+<table id="tblMain" class="table col-md-12" align="center">
     <thead>
         <tr>
-            <th class="text-left">Consignor</th>
+            <th class="text-center">Truck Number</th>
+            <th class="text-center">Total Chalan</th>
             <th class="text-center">Total LR</th>
-            <th class="text-center">Total Parcel</th>
-            <th class="text-right">Total Charge Wt.</th>
-            <th class="text-right">Total LR Amount</th>
-            <th class="text-right">Total Inv Value</th>
+            <th class="text-right">Total To Pay Amount</th>
+            <th class="text-right">Total Paid Amount</th>
+            <th class="text-right">Total To Be Billed Amount</th>
+            <th class="text-right">Total Freight</th>
+            <th class="text-center">GST %</th>
+            <th class="text-right">Net Total</th>
             <th class="text-center">Branch</th>
         </tr>
     </thead>
@@ -36,57 +39,59 @@
             if (Model != null && Model.ReportData != null)
             {
                 var prevParty = "";
-                decimal subTotalAmount = 0.00m; 
+                decimal subTotalAmount = 0.00m;
                 decimal totalAmount = 0.00m;
 
                 foreach (var item in Model.ReportData)
                 {
-                    <tr> 
-                        <td class = "text-left">@item.GroupingColumn</td> 
-                        <td class = "text-center">@item.LRNumber</td>
-                        <td class = "text-center">@item.Parcel</td>
-                        <td class = "text-right">@item.ChargeWeight</td>
-                        <td class = "text-right">@item.Amount</td>
-                        <td class = "text-right">@item.InvoiceValue</td>
-                        <td class = "text-center">@item.BranchName</td>
+                    <tr>
+                        <td class="text-left">@item.GroupingColumn</td>
+                        <td class="text-center">@item.Parcel</td>
+                        <td class="text-center">@item.TotalLR</td>
+                        <td class="text-right">@item.ToPayAmount</td>
+                        <td class="text-right">@item.PaidAmount</td>
+                        <td class="text-right">@item.TBBAmount</td>
+                        <td class="text-right">@item.Freight</td>
+                        <td class="text-center">@item.Rate</td>
+                        <td class="text-right">@item.InvoiceValue</td>
+                        <td class="text-center">@item.BranchName</td>
                     </tr>
 
-                    subTotalAmount += item.Amount ?? 0.00m; // Use decimal
-                    totalAmount += item.Amount ?? 0.00m;    // Use decimal
+                    subTotalAmount += item.InvoiceValue ?? 0.00m; // Use decimal
+                    totalAmount += item.InvoiceValue ?? 0.00m;    // Use decimal
 
                     // Calculate subtotals
                     if (prevParty != item.GroupingColumn)
                     {
                         if (item.SubTotal)
                         {
-                        <tr class="subtotal-row">
-                                <td colspan="4" class="text-right">Sub Total</td>
-                            <td class="text-right">@subTotalAmount</td>
-                            <td colspan="3"></td>
-                        </tr>
+                            <tr class="subtotal-row">
+                                <td colspan="8" class="text-right">Sub Total</td>
+                                <td class="text-right">@subTotalAmount</td>
+                                <td></td>
+                            </tr>
                         }
                         subTotalAmount = 0;
                     }
                     prevParty = item.GroupingColumn;
-                    
                 }
 
                 // Display the last subtotal and total
                 if (prevParty != "" && subTotalAmount > 0)
                 {
                     <tr class="subtotal-row">
-                        <td colspan="4" class="text-right">Sub Total</td>
+                        <td colspan="8" class="text-right">Sub Total</td>
                         <td class="text-right">@subTotalAmount</td>
-                        <td colspan="3"></td>
+                        <td></td>
                     </tr>
                 }
 
                 if (totalAmount > 0)
                 {
                     <tr class="total-row">
-                        <td colspan="4" class="text-right">Total</td>
+                        <td colspan="8" class="text-right">Total</td>
                         <td class="text-right">@totalAmount</td>
-                        <td colspan="3"></td>
+                        <td></td>
                     </tr>
                 }
             }
@@ -95,7 +100,7 @@
 </table>
 
 @section Scripts
-{
+    {
 
     <script>
 
