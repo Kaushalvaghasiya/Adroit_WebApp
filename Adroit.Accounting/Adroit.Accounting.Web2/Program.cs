@@ -146,6 +146,7 @@ try
     builder.Services.AddSingleton<IReportLRBookingChalanLoadingReport, ReportLRBookingChalanLoadingReportRepository>();
     builder.Services.AddSingleton<IReportLRBookingMonthlySummary, ReportLRBookingMonthlySummaryRepository>();
     builder.Services.AddSingleton<IReportLRBookingDailySummary, ReportLRBookingDailySummaryRepository>();
+    builder.Services.AddSingleton<IReportLRDeliveryLRRegister, ReportLRDeliveryLRRegisterRepository>();
     builder.Services.AddSingleton<IChalanReceiveAgency, ChalanReceiveAgencyRepository>();
     builder.Services.AddSingleton<ICustomerGeneralExpensesMulti, CustomerGeneralExpensesMultiRepository>();
 	builder.Services.AddSession();
