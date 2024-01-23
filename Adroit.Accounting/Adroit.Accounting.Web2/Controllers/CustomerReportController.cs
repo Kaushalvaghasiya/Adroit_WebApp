@@ -29,6 +29,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IReportLRBookingChalanLoadingReport _reportLRBookingChalanLoadingReportRepository;
         private readonly IReportLRBookingMonthlySummary _reportLRBookingMonthlySummaryRepository;
         private readonly IReportLRBookingDailySummary _reportLRBookingDailySummaryRepository;
+        private readonly IReportLRDeliveryLRRegister _reportLRDeliveryLRRegisterRepository;
         private readonly ICustomerBook _customerBookRepository;
         private readonly ICustomerAccount _customerAccountRepo;
         private readonly ICustomerBrokerBranchMapping _customerBrokerBranchMappingRepo;
@@ -56,6 +57,7 @@ namespace Adroit.Accounting.Web.Controllers
             IReportLRBookingChalanLoadingReport reportLRBookingChalanLoadingReportRepository,
             IReportLRBookingMonthlySummary reportLRBookingMonthlySummaryRepository,
             IReportLRBookingDailySummary reportLRBookingDailySummaryRepository,
+            IReportLRDeliveryLRRegister reportLRDeliveryLRRegisterRepository,
             ICustomerBook customerBookRepository,
             ICustomerAccount customerAccountRepo,
             ICustomerBrokerBranchMapping customerBrokerBranchMappingRepo,
@@ -84,6 +86,7 @@ namespace Adroit.Accounting.Web.Controllers
             _reportLRBookingChalanLoadingReportRepository = reportLRBookingChalanLoadingReportRepository;
             _reportLRBookingMonthlySummaryRepository = reportLRBookingMonthlySummaryRepository;
             _reportLRBookingDailySummaryRepository = reportLRBookingDailySummaryRepository;
+            _reportLRDeliveryLRRegisterRepository = reportLRDeliveryLRRegisterRepository;
             _customerBookRepository = customerBookRepository;
             _customerAccountRepo = customerAccountRepo;
             _customerBrokerBranchMappingRepo = customerBrokerBranchMappingRepo;
