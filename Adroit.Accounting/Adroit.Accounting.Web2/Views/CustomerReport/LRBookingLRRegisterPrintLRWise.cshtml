@@ -43,6 +43,9 @@
             if (Model != null && Model.ReportData != null)
             {
                 decimal totalAmount = 0.00m;
+                int totalLR = 0;
+                short totalParcel = 0;
+                decimal totalChargeWt = 0.00m;
 
                 foreach (var item in Model.ReportData)
                 {
@@ -63,17 +66,24 @@
                         <td class="text-center">@item.BranchName</td>
                     </tr>
 
-                    if (item.SubTotal)
-                    totalAmount += item.Amount ?? 0.00m;    
+                    totalAmount += item.Amount ?? 0.00m;
+                    totalLR += 1;
+                    totalParcel += item.Parcel ?? 0;
+                    totalChargeWt += item.ChargeWeight ?? 0.000m;
 
                 }
 
                 if (totalAmount > 0)
                 {
                     <tr class="total-row">
-                        <td colspan="9" class="text-right">Total</td>
+                        <td class="text-center">@totalLR</td>
+                        <td class="text-right">Total</td>
+                        <td colspan="3"></td>
+                        <td class="text-center">@totalParcel</td>
+                        <td class="text-right">@totalChargeWt</td>
+                        <td colspan="2"></td>
                         <td class="text-right">@totalAmount</td>
-                        <td colspan="5"></td>
+                        <td colspan="4"></td>
                     </tr>
                 }
             }

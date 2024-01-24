@@ -79,6 +79,22 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="LRStatusId">LR Status</label>
+                                <select class="form-control select2-show-search-report" id="LRStatusId">
+                                    @{
+                                        if (Model.LRStatusList != null)
+                                        {
+                                            foreach (var o in Model.LRStatusList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -159,7 +175,8 @@
             const dateRange = getDateRange(viewBagYear);
 
             $(".reset-button").on("click", function () {
-                $("#BranchIds").multipleSelect('setSelects', []);                
+                $("#BranchIds").multipleSelect('setSelects', []);
+                $("#LRStatusId").val($("#LRStatusId option:first").val()).trigger("change");
             });
 
             $(".show-report").on("click", function () {
@@ -169,6 +186,8 @@
                     return;
                 }
 
+                LRStatusId = getIntValueZero('LRStatusId');
+                
                 var dates = $('#DateFrom').val().split(" - ");
                 DateFrom = moment(getDate(dates[0])).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
                 DateTo = moment(getDate(dates[1])).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
@@ -215,12 +234,10 @@
 
         var BranchIds;
         var DateFrom;
+        var LRStatusId;
         var DateTo;
 
-        function bindDatatableList() {
-            let totaltoPayAmount = 0;
-            let totalpaidAmount = 0;
-            let totaltbbAmount = 0;
+        function bindDatatableList() {            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -323,6 +340,7 @@
                         d.BranchIds = BranchIds;
                         d.DateFrom = DateFrom;
                         d.DateTo = DateTo;
+                        d.LRStatusId = LRStatusId;
                     }
                 },
                 "initComplete": function (settings, json) {
@@ -334,6 +352,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let totaltoPayAmount = 0;
+                    let totalpaidAmount = 0;
+                    let totaltbbAmount = 0;
 
                     for (let i = 0; i < rows.length; i++) {
                         totaltoPayAmount += parseFloat(api.cell(i, 4).data());

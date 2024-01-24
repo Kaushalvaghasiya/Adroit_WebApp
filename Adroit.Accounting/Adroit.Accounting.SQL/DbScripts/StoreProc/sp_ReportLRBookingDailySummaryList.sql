@@ -1,5 +1,6 @@
 CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingDailySummaryList]
   @LoginId INT,
+  @LRStatusId INT,
   @BranchIds varchar(max),
   @DateFrom DATETIME,
   @DateTo DATETIME,
@@ -44,6 +45,7 @@ Begin
 		,SUM(CASE WHEN TLRType2.Title = 'Paid' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS PaidAmount
 		,SUM(CASE WHEN TLRType3.Title = 'TBB' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS TBBAmount		
 		,MAX([CustomerFirmBranch].Title) As BranchName
+		,LRB.Deleted
 		FROM [Z-LRBooking-Z] As LRB
 		INNER JOIN [CustomerFirmBranch] on [CustomerFirmBranch].Id = LRB.BranchId
 		INNER JOIN [CustomerFirmTransportSetting] on [CustomerFirmTransportSetting].FirmId = [CustomerFirmBranch].FirmId
@@ -53,11 +55,16 @@ Begin
 		LEFT JOIN TransportLRPayType AS TLRType3 ON LRB.LRPayTypeId = TLRType3.Id AND TLRType3.Title = 'TBB'
 		WHERE LRB.BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds))
 		AND LRB.YearId = @YearId
+		AND (
+				@LRStatusId = '0'
+				OR (@LRStatusId = '1' AND LRB.Deleted = 0)
+				OR (@LRStatusId = '2' AND LRB.Deleted = 1)
+			)
 		AND (Coalesce(@Search,'') = '' OR LRB.LRDate like '%'+ @Search + '%'
 									   OR LRB.Parcel like '%'+ @Search + '%'
 									   OR LRB.ChargeWeight like '%'+ @Search + '%'
 									   OR [CustomerFirmBranch].Title like '%'+ @Search + '%')
-		GROUP BY LRB.LRDate
+		GROUP BY LRB.LRDate, LRB.Deleted
 	 ) AS T   
 	 WHERE @PageSize = -1 OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1)))
 End

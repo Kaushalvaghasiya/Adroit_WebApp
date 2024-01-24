@@ -18,6 +18,7 @@ namespace Adroit.Accounting.Web.Controllers
             LRBookingDailySummaryViewModel model = new LRBookingDailySummaryViewModel();
 
             model.BranchList = _customerFirmBranchRepository.SelectListWithFirmByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
+            model.LRStatusList = GenericHelper.GetBookingLRStatusList();
             return View(model);
         }
 

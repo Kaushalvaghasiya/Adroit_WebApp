@@ -14,6 +14,7 @@ CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingBookingRegisterList]
   @BillPartyIds NVARCHAR(MAX),
   @PayTypeIds NVARCHAR(MAX),
   @ChalanId INT,
+  @LRStatusId INT,
   @InvStatusId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
@@ -95,25 +96,20 @@ Begin
 			CASE WHEN @SortColumn = 9 AND @SortOrder ='DESC' THEN [GSTRate].Rate END DESC,	
 
 			CASE WHEN @SortColumn = 10 AND @SortOrder ='ASC' AND @SelectedView = @BillPartyWise THEN [GSTRate].Rate END ASC,  
-			CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' AND @SelectedView = @BillPartyWise THEN [GSTRate].Rate END DESC,
-			CASE WHEN @SortColumn = 10 AND @SortOrder ='ASC' THEN [GSTRate].Rate END ASC,  
-			CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' THEN [GSTRate].Rate END DESC,	
+			CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' AND @SelectedView = @BillPartyWise THEN [GSTRate].Rate END DESC,			
+			CASE WHEN @SortColumn = 10 AND @SortOrder ='ASC' THEN [Z-LRBooking-Z].InvoiceValue END ASC,  
+			CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' THEN [Z-LRBooking-Z].InvoiceValue END DESC,	
 			
-			CASE WHEN @SortColumn = 11 AND @SortOrder ='ASC' AND @SelectedView = @BillPartyWise THEN [GSTRate].Rate END ASC,  
-			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' AND @SelectedView = @BillPartyWise THEN [GSTRate].Rate END DESC,
-			CASE WHEN @SortColumn = 11 AND @SortOrder ='ASC' THEN [Z-LRBooking-Z].InvoiceValue END ASC,  
-			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' THEN [Z-LRBooking-Z].InvoiceValue END DESC,	
-			
-			CASE WHEN @SortColumn = 12 AND @SortOrder ='ASC' AND @SelectedView = @BillPartyWise THEN [Z-LRBooking-Z].InvoiceValue END ASC,  
-			CASE WHEN @SortColumn = 12 AND @SortOrder ='DESC' AND @SelectedView = @BillPartyWise THEN [Z-LRBooking-Z].InvoiceValue END DESC,
-			CASE WHEN @SortColumn = 12 AND @SortOrder ='ASC' THEN [TransportLRPayType].Title END ASC,  
-			CASE WHEN @SortColumn = 12 AND @SortOrder ='DESC' THEN [TransportLRPayType].Title END DESC,
+			CASE WHEN @SortColumn = 11 AND @SortOrder ='ASC' AND @SelectedView = @BillPartyWise THEN [Z-LRBooking-Z].InvoiceValue END ASC,  
+			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' AND @SelectedView = @BillPartyWise THEN [Z-LRBooking-Z].InvoiceValue END DESC,
+			CASE WHEN @SortColumn = 11 AND @SortOrder ='ASC' THEN [TransportLRPayType].Title END ASC,  
+			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' THEN [TransportLRPayType].Title END DESC,
 
-			CASE WHEN @SortColumn = 13 AND @SortOrder ='ASC' THEN 'Static' END ASC,  
-			CASE WHEN @SortColumn = 13 AND @SortOrder ='DESC' THEN 'Static' END DESC,
+			CASE WHEN @SortColumn = 12 AND @SortOrder ='ASC' THEN 'Static' END ASC,  
+			CASE WHEN @SortColumn = 12 AND @SortOrder ='DESC' THEN 'Static' END DESC,
 
-			CASE WHEN @SortColumn = 14 AND @SortOrder ='ASC' THEN [CustomerFirmBranch].Title END ASC,  
-			CASE WHEN @SortColumn = 14 AND @SortOrder ='DESC' THEN [CustomerFirmBranch].Title END DESC
+			CASE WHEN @SortColumn = 13 AND @SortOrder ='ASC' THEN [CustomerFirmBranch].Title END ASC,  
+			CASE WHEN @SortColumn = 13 AND @SortOrder ='DESC' THEN [CustomerFirmBranch].Title END DESC
 		) AS RowNum,
 		Count(*) over () AS TotalCount 
 		,[Z-LRBooking-Z].LRNumber 
@@ -132,6 +128,7 @@ Begin
 		,[TransportLRPayType].Title As LRPayType
 		,'STATIC' As LoadingChalanNo
 		,[CustomerFirmBranch].Title As BranchName
+		,[Z-LRBooking-Z].Deleted
 		FROM [Z-LRBooking-Z]
 		INNER JOIN [City] AS CT2 on CT2.Id = [Z-LRBooking-Z].CityIdTo
 		INNER JOIN [CustomerFirmBranch] on [CustomerFirmBranch].Id = [Z-LRBooking-Z].BranchId
@@ -167,6 +164,11 @@ Begin
 				@InvStatusId = '0'
 				OR (@InvStatusId = '1' AND [Z-LRBooking-Z].Id IN ( SELECT LRBookingId FROM [Z-SalesBillMaster-Z] INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].ID = [Z-SalesBillDetail-Z].SalesBillMasterId WHERE BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)) AND YearId = @YearId AND [Z-SalesBillDetail-Z].Deleted = 0))
 				OR (@InvStatusId = '2' AND [Z-LRBooking-Z].Id NOT IN ( SELECT LRBookingId FROM [Z-SalesBillMaster-Z] INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].ID = [Z-SalesBillDetail-Z].SalesBillMasterId WHERE BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)) AND YearId = @YearId AND [Z-SalesBillDetail-Z].Deleted = 0))
+			)
+		AND (
+				@LRStatusId = '0'
+				OR (@LRStatusId = '1' AND [Z-LRBooking-Z].Deleted = 0)
+				OR (@LRStatusId = '2' AND [Z-LRBooking-Z].Deleted = 1)
 			)
 		AND (Coalesce(@Search,'') = '' OR [Z-LRBooking-Z].LRNumber like '%'+ @Search + '%'
 									   OR [Z-LRBooking-Z].LRDate like '%'+ @Search + '%'
