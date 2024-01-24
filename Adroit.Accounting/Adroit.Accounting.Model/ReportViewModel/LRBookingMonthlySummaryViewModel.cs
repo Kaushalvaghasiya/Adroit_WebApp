@@ -11,5 +11,8 @@ namespace Adroit.Accounting.Model.ReportViewModel
     {
         public List<DropdownViewModel> BranchList { get; set; }
         public string BranchIds { get; set; }
+        public List<DropdownViewModel> LRStatusList { get; set; }
+        public int LRStatusId { get; set; }
+
     }
 }

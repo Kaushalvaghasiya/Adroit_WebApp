@@ -393,7 +393,7 @@
                 $("#InvStatusId").val($("#InvStatusId option:first").val()).trigger("change");
                 $("#SubTotal").prop('checked', false);
                 $("#Summary").prop('checked', false);
-                $("#LRStatusId").val($("#ChalanId option:first").val()).trigger("change");
+                $("#LRStatusId").val($("#LRStatusId option:first").val()).trigger("change");
             });
 
             $(".show-report").on("click", function () {
@@ -540,10 +540,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevDate = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -625,7 +622,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -709,6 +706,12 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
+                    let prevDate = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let dateCell = api.cell(i, 0).data();
@@ -728,6 +731,11 @@
 
                         subTotalAmount += parseFloat(api.cell(i, 9).data());
                         totalAmount += parseFloat(api.cell(i, 9).data());
+                        totalLR += 1;
+                        if(api.cell(i, 5).data() != null)
+                        totalParcel += parseFloat(api.cell(i, 5).data());
+                        if(api.cell(i, 6).data() != null)
+                        totalChargeWt += parseFloat(api.cell(i, 6).data());
                         tableBody.append(rows[i]);
                         prevDate = dateCell;
                     }
@@ -744,9 +752,14 @@
 
                     if (totalAmount > 0) {
                         let totalRow = '<tr class="total-row">' +
-                            '<td colspan="9">TOTAL</td>' +
+                            '<td>TOTAL</td>' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td colspan="3"></td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
+                            '<td colspan="2"></td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="5"></td>' +
+                            '<td colspan="4"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
@@ -811,7 +824,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null) ? "" : row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -959,7 +972,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
-            let totalAmount = 0;
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -1041,7 +1053,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -1125,17 +1137,31 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
 
                     for (let i = 0; i < rows.length; i++) {
                         totalAmount += parseFloat(api.cell(i, 9).data());
+                        totalLR += 1;
+                        if (api.cell(i, 5).data() != null)
+                            totalParcel += parseFloat(api.cell(i, 5).data());
+                        if (api.cell(i, 6).data() != null)
+                            totalChargeWt += parseFloat(api.cell(i, 6).data());
                         tableBody.append(rows[i]);
                     }
 
-                    if (SubTotal && totalAmount > 0) {
-                        let totalRow = '<tr class="total-row">' +
-                            '<td colspan="9">TOTAL</td>' +
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row">' +                            
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td>TOTAL</td>' +
+                            '<td colspan="3"></td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
+                            '<td colspan="2"></td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="5"></td>' +
+                            '<td colspan="4"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
@@ -1169,10 +1195,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevParty = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -1273,7 +1296,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -1360,6 +1383,12 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
+                    let prevParty = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let billPartyCell = api.cell(i, 0).data();
@@ -1379,6 +1408,11 @@
 
                         subTotalAmount += parseFloat(api.cell(i, 12).data());
                         totalAmount += parseFloat(api.cell(i, 12).data());
+                        totalLR += 1;
+                        if(api.cell(i, 8).data() != null)
+                        totalParcel += parseFloat(api.cell(i, 8).data());
+                        if(api.cell(i, 9).data() != null)
+                        totalChargeWt += parseFloat(api.cell(i, 9).data());
 
                         tableBody.append(rows[i]);
                         prevParty = billPartyCell;
@@ -1396,9 +1430,14 @@
 
                     if (totalAmount > 0) {
                         let totalRow = '<tr class="total-row">' +
-                            '<td colspan="12">TOTAL</td>' +
+                            '<td colspan="3">TOTAL</td>' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td colspan="4"></td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
+                            '<td colspan="2"></td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="5"></td>' +
+                            '<td colspan="4"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
@@ -1464,7 +1503,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",

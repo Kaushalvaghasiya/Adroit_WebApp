@@ -15,6 +15,7 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public List<DropdownViewModel> PayTypeList { get; set; }
         public List<DropdownViewModel> ChalanList { get; set; }
         public List<DropdownViewModel> InvStatusList { get; set; }
+        public List<DropdownViewModel> LRStatusList { get; set; }
         public string GroupingColumn { get; set; }
         public int SelectedView { get; set; }
         public string BranchIds { get; set; }
@@ -33,5 +34,7 @@ namespace Adroit.Accounting.Model.ReportViewModel
         public int InvStatusId { get; set; }
         public bool SubTotal { get; set; }
         public bool Summary { get; set; }
+        public int LRStatusId { get; set; }
+
     }
 }

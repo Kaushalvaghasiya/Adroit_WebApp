@@ -121,7 +121,7 @@ Begin
         ,SUM(Parcel) As Parcel
         ,SUM(ChargeWeight) As ChargeWeight
         ,SUM([Z-ChalanReceiveAgencyDetail-Z].NetAmount) AS Amount
-        ,0 As InvoiceValue
+        ,NULL As InvoiceValue
         ,MAX([CustomerFirmBranch].Title) As BranchName
         ,[Z-ChalanReceiveAgencyDetail-Z].Deleted
         FROM [Z-ChalanReceiveAgencyDetail-Z]

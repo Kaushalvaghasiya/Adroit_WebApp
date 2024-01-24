@@ -45,7 +45,7 @@
                 </div>
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-10">
                             <div class="form-group">
                                 <label for="BranchIds">Branch</label>
                                 <select class="group-filter mode-ed" id="BranchIds" multiple="multiple">
@@ -60,6 +60,22 @@
                                                         <option value="@o.Value">@o.Text</option>
                                                     }
                                                 </optgroup>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="LRStatusId">LR Status</label>
+                                <select class="form-control select2-show-search-report" id="LRStatusId">
+                                    @{
+                                        if (Model.LRStatusList != null)
+                                        {
+                                            foreach (var o in Model.LRStatusList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -143,7 +159,8 @@
             $('.dv-parameters').show();            
 
             $(".reset-button").on("click", function () {
-                $("#BranchIds").multipleSelect('setSelects', []);                
+                $("#BranchIds").multipleSelect('setSelects', []);
+                $("#LRStatusId").val($("#LRStatusId option:first").val()).trigger("change");
             });
 
             $(".show-report").on("click", function () {
@@ -152,6 +169,8 @@
                     showWarning("", "Please select branch");
                     return;
                 }
+
+                LRStatusId = getIntValueZero('LRStatusId');
                
                 $('.dv-parameters').slideUp();
                 $('.dv-report').slideDown();
@@ -178,12 +197,10 @@
         }
 
         var BranchIds;
+        var LRStatusId;
         var DateFrom;
 
-        function bindDatatableList() {
-            let totaltoPayAmount = 0;
-            let totalpaidAmount = 0;
-            let totaltbbAmount = 0;
+        function bindDatatableList() {            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -283,7 +300,8 @@
                     url: '@(Url.Content("~/CustomerReport/LRBookingMonthlySummaryReportList"))',
                     type: 'GET',
                     data: function (d) {
-                        d.BranchIds = BranchIds;                        
+                        d.LRStatusId = LRStatusId;
+                        d.BranchIds = BranchIds;
                     }
                 },
                 "initComplete": function (settings, json) {
@@ -295,6 +313,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let totaltoPayAmount = 0;
+                    let totalpaidAmount = 0;
+                    let totaltbbAmount = 0;
 
                     for (let i = 0; i < rows.length; i++) {
                         totaltoPayAmount += parseFloat(api.cell(i, 4).data());

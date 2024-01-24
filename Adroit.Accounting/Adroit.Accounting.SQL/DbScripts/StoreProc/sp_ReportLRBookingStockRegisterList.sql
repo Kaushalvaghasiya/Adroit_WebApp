@@ -11,6 +11,7 @@ CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingStockRegisterList]
   @BillPartyIds NVARCHAR(MAX),
   @PayTypeIds NVARCHAR(MAX),
   @ChalanId INT,
+  @LRStatusId INT,
   @InvStatusId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
@@ -39,20 +40,18 @@ Begin
 			CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN (ISNULL([Z-LRBooking-Z].Freight,0)+ISNULL([Z-LRBooking-Z].Charges1,0)+ISNULL([Z-LRBooking-Z].Charges2,0)+ISNULL([Z-LRBooking-Z].Charges3,0)+ISNULL([Z-LRBooking-Z].Charges4,0)+ISNULL([Z-LRBooking-Z].Charges5,0)+ISNULL([Z-LRBooking-Z].Charges6,0)) END DESC,
 			CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN [GSTRate].Rate END ASC,  
 			CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN [GSTRate].Rate END DESC,
-			CASE WHEN @SortColumn = 6 AND @SortOrder ='ASC' THEN [GSTRate].Rate END ASC,  
-			CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN [GSTRate].Rate END DESC,
-			CASE WHEN @SortColumn = 7 AND @SortOrder ='ASC' THEN [Z-LRBooking-Z].InvoiceValue END ASC,  
-			CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN [Z-LRBooking-Z].InvoiceValue END DESC,
-			CASE WHEN @SortColumn = 8 AND @SortOrder ='ASC' THEN CT2.Title END ASC,  
-			CASE WHEN @SortColumn = 8 AND @SortOrder ='DESC' THEN CT2.Title END DESC,
-			CASE WHEN @SortColumn = 9 AND @SortOrder ='ASC' THEN [Z-LRBooking-Z].PrivateMarka END ASC,  
-			CASE WHEN @SortColumn = 9 AND @SortOrder ='DESC' THEN [Z-LRBooking-Z].PrivateMarka END DESC,
-			CASE WHEN @SortColumn = 10 AND @SortOrder ='ASC' THEN CA1.Name END ASC,  
-			CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' THEN CA1.Name END DESC,
-			CASE WHEN @SortColumn = 11 AND @SortOrder ='ASC' THEN CA2.Name END ASC,  
-			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' THEN CA2.Name END DESC,
-			CASE WHEN @SortColumn = 12 AND @SortOrder ='ASC' THEN [CustomerFirmBranch].Title END ASC,  
-			CASE WHEN @SortColumn = 12 AND @SortOrder ='DESC' THEN [CustomerFirmBranch].Title END DESC
+			CASE WHEN @SortColumn = 6 AND @SortOrder ='ASC' THEN [Z-LRBooking-Z].InvoiceValue END ASC,  
+			CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN [Z-LRBooking-Z].InvoiceValue END DESC,
+			CASE WHEN @SortColumn = 7 AND @SortOrder ='ASC' THEN CT2.Title END ASC,  
+			CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN CT2.Title END DESC,
+			CASE WHEN @SortColumn = 8 AND @SortOrder ='ASC' THEN [Z-LRBooking-Z].PrivateMarka END ASC,  
+			CASE WHEN @SortColumn = 8 AND @SortOrder ='DESC' THEN [Z-LRBooking-Z].PrivateMarka END DESC,
+			CASE WHEN @SortColumn = 9 AND @SortOrder ='ASC' THEN CA1.Name END ASC,  
+			CASE WHEN @SortColumn = 9 AND @SortOrder ='DESC' THEN CA1.Name END DESC,
+			CASE WHEN @SortColumn = 10 AND @SortOrder ='ASC' THEN CA2.Name END ASC,  
+			CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' THEN CA2.Name END DESC,
+			CASE WHEN @SortColumn = 11 AND @SortOrder ='ASC' THEN [CustomerFirmBranch].Title END ASC,  
+			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' THEN [CustomerFirmBranch].Title END DESC
 		) AS RowNum,
 		Count(*) over () AS TotalCount, 
 		Count([Z-LRBooking-Z].LRNumber) OVER () AS TotalLR,
@@ -69,6 +68,7 @@ Begin
 		,CA1.Name As Consignor
 		,CA2.Name As Consignee
 		,[CustomerFirmBranch].Title As BranchName
+		,[Z-LRBooking-Z].Deleted
 		FROM [Z-LRBooking-Z]
 		INNER JOIN [CustomerAccountBranchMapping] AS CAB1 on CAB1.Id = [Z-LRBooking-Z].AccountBranchMappingId 
 		INNER JOIN [CustomerAccount] AS CA1 on CA1.Id = CAB1.AccountId AND CA1.CustomerId = @CustomerId 
@@ -79,7 +79,7 @@ Begin
 		INNER JOIN [CustomerFirmTransportSetting] on [CustomerFirmTransportSetting].FirmId = [CustomerFirmBranch].FirmId
 		LEFT JOIN [Product] on [Product].Id = [CustomerFirmTransportSetting].ProductIdForSales 
 		LEFT JOIN [GSTRate] on [GSTRate].Id = [Product].GSTRateId
-
+		WHERE [CustomerFirmBranch].Id IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds))
 		AND [Z-LRBooking-Z].YearId = @YearId 
 		AND (@DateFrom IS NULL OR CAST([Z-LRBooking-Z].LRDate AS DATE) >= @DateFrom)
 		AND (@DateTo IS NULL OR CAST([Z-LRBooking-Z].LRDate AS DATE) <= @DateTo)
@@ -100,7 +100,11 @@ Begin
 				OR (@InvStatusId = '1' AND [Z-LRBooking-Z].Id IN ( SELECT LRBookingId FROM [Z-SalesBillMaster-Z] INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].ID = [Z-SalesBillDetail-Z].SalesBillMasterId WHERE BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)) AND YearId = @YearId AND [Z-SalesBillDetail-Z].Deleted = 0))
 				OR (@InvStatusId = '2' AND [Z-LRBooking-Z].Id NOT IN ( SELECT LRBookingId FROM [Z-SalesBillMaster-Z] INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].ID = [Z-SalesBillDetail-Z].SalesBillMasterId WHERE BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)) AND YearId = @YearId AND [Z-SalesBillDetail-Z].Deleted = 0))
 			)
-
+		AND (
+				@LRStatusId = '0'
+				OR (@LRStatusId = '1' AND [Z-LRBooking-Z].Deleted = 0)
+				OR (@LRStatusId = '2' AND [Z-LRBooking-Z].Deleted = 1)
+			)
 		AND (Coalesce(@Search,'') = '' OR [Z-LRBooking-Z].LRNumber like '%'+ @Search + '%'
 									   OR [Z-LRBooking-Z].LRDate like '%'+ @Search + '%'
 									   OR [Z-LRBooking-Z].Parcel like '%'+ @Search + '%'

@@ -15,6 +15,7 @@ namespace Adroit.Accounting.Repository
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
             parameters.Add("@BranchIds", value.BranchIds);
+            parameters.Add("@LRStatusId", value.LRStatusId);
             parameters.Add("@DateFrom", value.DateFrom);
             parameters.Add("@DateTo", value.DateTo);
             parameters.Add("@FirmId", firmId);

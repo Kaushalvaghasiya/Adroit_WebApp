@@ -24,6 +24,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.PayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.InvStatusList = GenericHelper.GetInvoiceStatusList();
             model.ChalanList = GenericHelper.GetChalanList();
+            model.LRStatusList = GenericHelper.GetBookingLRStatusList();
 
             return View(model);
         }

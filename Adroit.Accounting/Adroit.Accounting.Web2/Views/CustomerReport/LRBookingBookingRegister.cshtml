@@ -249,6 +249,22 @@
                                 <span class="custom-switch-indicator"></span>
                             </label>
                         </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="LRStatusId">LR Status</label>
+                                <select class="form-control select2-show-search-report" id="LRStatusId">
+                                    @{
+                                        if (Model.LRStatusList != null)
+                                        {
+                                            foreach (var o in Model.LRStatusList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -333,6 +349,7 @@
                 $("#ChalanId").val($("#ChalanId option:first").val()).trigger("change");
                 $("#InvStatusId").val($("#InvStatusId option:first").val()).trigger("change");
                 $("#SubTotal").prop('checked', false);
+                $("#LRStatusId").val($("#LRStatusId option:first").val()).trigger("change");
                 $("#Summary").prop('checked', false);
             });
 
@@ -356,6 +373,7 @@
                 PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
                 ChalanId = getIntValueZero('ChalanId');
                 InvStatusId = getIntValueZero('InvStatusId');
+                LRStatusId = getIntValueZero('LRStatusId');
                 SubTotal = $('#SubTotal').is(':checked');
 
                 $('.dv-parameters').slideUp();
@@ -474,6 +492,7 @@
         var ConsigneeIds;
         var BillPartyIds;
         var PayTypeIds;
+        var LRStatusId;
         var ChalanId;
         var InvStatusId;
         var SubTotal;
@@ -494,10 +513,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LOADING CHALAN NO</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevDate = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -649,6 +665,7 @@
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
                         d.ChalanId = ChalanId;
+                        d.LRStatusId = LRStatusId;
                         d.InvStatusId = InvStatusId;
                     }
                 },
@@ -661,6 +678,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevDate = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let dateCell = api.cell(i, 0).data();
@@ -703,6 +723,11 @@
 
                         tableBody.append(totalRow);
                     }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
             });
         }
@@ -723,8 +748,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LOADING CHALAN NO</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let totalAmount = 0;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -876,6 +900,7 @@
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
                         d.ChalanId = ChalanId;
+                        d.LRStatusId = LRStatusId;
                         d.InvStatusId = InvStatusId;
                     }
                 },
@@ -888,6 +913,7 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let totalAmount = 0;
 
                     for (let i = 0; i < rows.length; i++) {
                         totalAmount += parseFloat(api.cell(i, 8).data());
@@ -902,6 +928,11 @@
                             '</tr>';
 
                         tableBody.append(totalRow);
+                    }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
                     }
                 }
 
@@ -924,10 +955,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">LOADING CHALAN NO</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevCity = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -1078,7 +1106,8 @@
                         d.ConsigneeIds = ConsigneeIds;
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
-                        d.ChalanId = ChalanId;
+                        d.ChalanId = ChalanId;                        
+                        d.LRStatusId = LRStatusId;
                         d.InvStatusId = InvStatusId;
                     }
                 },
@@ -1091,6 +1120,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevCity = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let cityCell = api.cell(i, 0).data();
@@ -1133,6 +1165,11 @@
 
                         tableBody.append(totalRow);
                     }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
 
             });
@@ -1148,10 +1185,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevGroupingColumn = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -1261,6 +1295,7 @@
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
                         d.ChalanId = ChalanId;
+                        d.LRStatusId = LRStatusId;
                         d.InvStatusId = InvStatusId;
                     }
                 },
@@ -1274,6 +1309,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevGroupingColumn = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let curCell = api.cell(i, 0).data();
@@ -1317,6 +1355,11 @@
                         tableBody.append(totalRow);
                     }
 
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
 
             });
@@ -1337,10 +1380,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Loading Chalan No</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevConsignee = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -1491,7 +1531,8 @@
                         d.ConsigneeIds = ConsigneeIds;
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
-                        d.ChalanId = ChalanId;
+                        d.ChalanId = ChalanId;                        
+                        d.LRStatusId = LRStatusId;
                         d.InvStatusId = InvStatusId;
                     }
                 },
@@ -1504,6 +1545,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevConsignee = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let consigneeCell = api.cell(i, 0).data();
@@ -1546,6 +1590,11 @@
 
                         tableBody.append(totalRow);
                     }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
 
             });
@@ -1561,10 +1610,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevGroupingColumn = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -1674,6 +1720,7 @@
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
                         d.ChalanId = ChalanId;
+                        d.LRStatusId = LRStatusId;
                         d.InvStatusId = InvStatusId;
                     }
                 },
@@ -1687,6 +1734,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevGroupingColumn = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let curCell = api.cell(i, 0).data();
@@ -1730,6 +1780,11 @@
                         tableBody.append(totalRow);
                     }
 
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
 
             });
@@ -1750,10 +1805,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">PAY TYPE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Loading Chalan No</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevConsignor = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -1857,7 +1909,6 @@
             columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });           
             columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
             columns.push({ "data": "rate", "name": "rate", "className": "text-center" });
-            columns.push({ "data": "gstAmount", "name": "gstAmount", "className": "text-right" });
             columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
             columns.push({ "data": "lrPayType", "name": "lrPayType", "className": "text-center" });
             columns.push({ "data": "loadingChalanNo", "name": "loadingChalanNo", "className": "text-center" });
@@ -1906,6 +1957,7 @@
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
                         d.ChalanId = ChalanId;
+                        d.LRStatusId = LRStatusId;
                         d.InvStatusId = InvStatusId;
                     }
                 },
@@ -1918,6 +1970,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevConsignor = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let consignorCell = api.cell(i, 0).data();
@@ -1960,6 +2015,11 @@
 
                         tableBody.append(totalRow);
                     }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
 
             });
@@ -1975,10 +2035,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevGroupingColumn = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -2087,6 +2144,7 @@
                         d.ConsigneeIds = ConsigneeIds;
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
+                        d.LRStatusId = LRStatusId;
                         d.ChalanId = ChalanId;
                         d.InvStatusId = InvStatusId;
                     }
@@ -2101,6 +2159,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevGroupingColumn = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let curCell = api.cell(i, 0).data();
@@ -2144,6 +2205,11 @@
                         tableBody.append(totalRow);
                     }
 
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
 
             });
@@ -2165,10 +2231,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Loading Chalan No</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevBillParty = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -2320,6 +2383,7 @@
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
                         d.ChalanId = ChalanId;
+                        d.LRStatusId = LRStatusId;
                         d.InvStatusId = InvStatusId;
                     }
                 },
@@ -2332,6 +2396,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevBillParty = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let billPartyCell = api.cell(i, 0).data();
@@ -2374,6 +2441,11 @@
 
                         tableBody.append(totalRow);
                     }
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
 
             });
@@ -2389,10 +2461,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GST %</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevGroupingColumn = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -2502,6 +2571,7 @@
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
                         d.ChalanId = ChalanId;
+                        d.LRStatusId = LRStatusId;
                         d.InvStatusId = InvStatusId;
                     }
                 },
@@ -2515,6 +2585,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevGroupingColumn = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let curCell = api.cell(i, 0).data();
@@ -2558,6 +2631,11 @@
                         tableBody.append(totalRow);
                     }
 
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
 
             });

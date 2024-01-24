@@ -14,6 +14,7 @@ CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingBookingRegisterListWithSummar
   @BillPartyIds NVARCHAR(MAX),
   @PayTypeIds NVARCHAR(MAX),
   @ChalanId INT,
+  @LRStatusId INT,
   @InvStatusId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
@@ -64,6 +65,7 @@ Begin
 		,SUM([GSTRate].Rate) As GSTAmount
 		,SUM([Z-LRBooking-Z].InvoiceValue) As InvoiceValue
 		,MAX([CustomerFirmBranch].Title) As BranchName
+		,[Z-LRBooking-Z].Deleted
 		FROM [Z-LRBooking-Z]
 		INNER JOIN [City] AS CT2 on CT2.Id = [Z-LRBooking-Z].CityIdTo
 		INNER JOIN [CustomerFirmBranch] on [CustomerFirmBranch].Id = [Z-LRBooking-Z].BranchId
@@ -98,7 +100,12 @@ Begin
 				OR (@InvStatusId = '1' AND [Z-LRBooking-Z].Id IN ( SELECT LRBookingId FROM [Z-SalesBillMaster-Z] INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].ID = [Z-SalesBillDetail-Z].SalesBillMasterId WHERE BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)) AND YearId = @YearId AND [Z-SalesBillDetail-Z].Deleted = 0))
 				OR (@InvStatusId = '2' AND [Z-LRBooking-Z].Id NOT IN ( SELECT LRBookingId FROM [Z-SalesBillMaster-Z] INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].ID = [Z-SalesBillDetail-Z].SalesBillMasterId WHERE BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)) AND YearId = @YearId AND [Z-SalesBillDetail-Z].Deleted = 0))
 			)
-			GROUP BY CASE WHEN @SelectedView = @BillPartyWise THEN CONCAT(ISNULL(CA3.Name, ''),NULLIF(' | ' + ISNULL(CA3.GSTNumber, ''), ' | ')) WHEN @SelectedView = @ToCityWise THEN CT2.Title WHEN @SelectedView = @ConsignorWise THEN CONCAT(ISNULL(CA1.Name, ''),NULLIF(' | ' + ISNULL(CA1.GSTNumber, ''), ' | ')) WHEN @SelectedView = @ConsigneeWise THEN CONCAT(ISNULL(CA2.Name, ''),NULLIF(' | ' + ISNULL(CA2.GSTNumber, ''), ' | ')) END		 
+		AND (
+				@LRStatusId = '0'
+				OR (@LRStatusId = '1' AND [Z-LRBooking-Z].Deleted = 0)
+				OR (@LRStatusId = '2' AND [Z-LRBooking-Z].Deleted = 1)
+			)
+			GROUP BY [Z-LRBooking-Z].Deleted, CASE WHEN @SelectedView = @BillPartyWise THEN CONCAT(ISNULL(CA3.Name, ''),NULLIF(' | ' + ISNULL(CA3.GSTNumber, ''), ' | ')) WHEN @SelectedView = @ToCityWise THEN CT2.Title WHEN @SelectedView = @ConsignorWise THEN CONCAT(ISNULL(CA1.Name, ''),NULLIF(' | ' + ISNULL(CA1.GSTNumber, ''), ' | ')) WHEN @SelectedView = @ConsigneeWise THEN CONCAT(ISNULL(CA2.Name, ''),NULLIF(' | ' + ISNULL(CA2.GSTNumber, ''), ' | ')) END
 	 ) SELECT * FROM CTE  
 	 WHERE (Coalesce(@Search, '') = '' OR GroupingColumn LIKE '%' + @Search + '%'
                                    OR Parcel LIKE '%' + @Search + '%'
