@@ -223,6 +223,22 @@
                                 <span class="custom-switch-indicator"></span>
                             </label>
                         </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <label for="LRStatusId">LR Status</label>
+                                <select class="form-control select2-show-search-report" id="LRStatusId">
+                                    @{
+                                        if (Model.LRStatusList != null)
+                                        {
+                                            foreach (var o in Model.LRStatusList)
+                                            {
+                                                <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -306,6 +322,7 @@
                 $("#ChalanId").val($("#ChalanId option:first").val()).trigger("change");
                 $("#InvStatusId").val($("#InvStatusId option:first").val()).trigger("change");
                 $("#Summary").prop('checked', false);
+                $("#LRStatusId").val($("#LRStatusId option:first").val()).trigger("change");
             });
 
             $(".show-report").on("click", function () {
@@ -325,6 +342,7 @@
                 PayTypeIds = $('#PayTypeIds').val().length === 0 ? '0' : $('#PayTypeIds').val().join(",");
                 ChalanId = getIntValueZero('ChalanId');
                 InvStatusId = getIntValueZero('InvStatusId');
+                LRStatusId = getIntValueZero('LRStatusId');
 
                 $('.dv-parameters').slideUp();
                 $('.dv-report').slideDown();
@@ -392,6 +410,7 @@
         var BillPartyIds;
         var PayTypeIds;
         var ChalanId;
+        var LRStatusId;
         var InvStatusId;
 
         function SummaryOffList() {
@@ -547,6 +566,7 @@
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
                         d.ChalanId = ChalanId;
+                        d.LRStatusId = LRStatusId;
                         d.InvStatusId = InvStatusId;
                     }
                 },
@@ -556,8 +576,12 @@
                 "drawCallback": function (settings) {
                     gridDrawCallback(this);
 
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
-
             });
 
         }
@@ -665,6 +689,7 @@
                         d.BillPartyIds = BillPartyIds;
                         d.PayTypeIds = PayTypeIds;
                         d.ChalanId = ChalanId;
+                        d.LRStatusId = LRStatusId;
                         d.InvStatusId = InvStatusId;
                     }
                 },
@@ -674,10 +699,13 @@
                 "drawCallback": function (settings) {
                     gridDrawCallback(this);
 
+                },
+                "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
+                    if (aData.deleted) {
+                        $(nRow).addClass('cancelled-row');
+                    }
                 }
-
             });
-
         }        
 
     </script>

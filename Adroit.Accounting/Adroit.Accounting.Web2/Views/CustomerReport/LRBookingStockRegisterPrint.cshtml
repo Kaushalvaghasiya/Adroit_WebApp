@@ -43,7 +43,7 @@
             foreach (var item in Model.ReportData)
             {                                
                 <tr>                    
-                    <td class="text-center">@item.LRNumber</td>
+                    <td class="text-center @((item.Deleted??false)?"cancelled-row":"")">@item.LRNumber</td>
                     <td class="text-center">@item.LRDateString</td>                    
                     <td class="text-center">@item.Parcel</td>
                     <td class="text-right">@item.ChargeWeight</td>                    
@@ -52,8 +52,8 @@
                     <td class="text-right">@item.InvoiceValue</td>
                     <td class="text-left">@item.CityTo</td>
                     <td class="text-left">@item.PrivateMarka</td>
-                    <td class="text-center">@item.Consignor</td>
-                    <td class="text-center">@item.Consignee</td>
+                    <td class="text-right">@item.Consignor</td>
+                    <td class="text-right">@item.Consignee</td>
                     <td class="text-center">@item.BranchName</td>
                 </tr>
                 

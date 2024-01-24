@@ -35,8 +35,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
             parameters.Add("@DateWise", ViewList.DateWise);
-            parameters.Add("@PartyWise", ViewList.LRWise);
-            parameters.Add("@LRWise", ViewList.PartyWise);
+            parameters.Add("@PartyWise", ViewList.PartyWise);
+            parameters.Add("@LRWise", ViewList.LRWise);
             return QueryHelper.GetList<LRBookingLRRegisterGridViewModel>("sp_ReportLRBookingLRRegisterList", connectionString, parameters);
         }
 
@@ -67,8 +67,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
             parameters.Add("@DateWise", ViewList.DateWise);
-            parameters.Add("@PartyWise", ViewList.LRWise);
-            parameters.Add("@LRWise", ViewList.PartyWise);
+            parameters.Add("@PartyWise", ViewList.PartyWise);
+            parameters.Add("@LRWise", ViewList.LRWise);
             return QueryHelper.GetList<LRBookingLRRegisterGridViewModel>("sp_ReportLRBookingLRRegisterListWithSummary", connectionString, parameters);
         }
     }

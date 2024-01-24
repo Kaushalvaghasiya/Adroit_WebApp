@@ -11,6 +11,7 @@ CREATE OR ALTER Procedure [dbo].[sp_ReportLRBookingStockRegisterListWithSummary]
   @BillPartyIds NVARCHAR(MAX),
   @PayTypeIds NVARCHAR(MAX),
   @ChalanId INT,
+  @LRStatusId INT,
   @InvStatusId INT,
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
@@ -47,6 +48,7 @@ Begin
 		,SUM([GSTRate].Rate) As Rate
 		,SUM(LRB.InvoiceValue) As InvoiceValue
 		,MAX([CustomerFirmBranch].Title) As BranchName
+		,LRB.Deleted
 		FROM [Z-LRBooking-Z] As LRB
 		INNER JOIN [CustomerFirmBranch] on [CustomerFirmBranch].Id = LRB.BranchId
 		INNER JOIN [CustomerFirmTransportSetting] on [CustomerFirmTransportSetting].FirmId = [CustomerFirmBranch].FirmId
@@ -75,17 +77,23 @@ Begin
 				OR (@InvStatusId = '1' AND LRB.Id IN ( SELECT LRBookingId FROM [Z-SalesBillMaster-Z] INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].ID = [Z-SalesBillDetail-Z].SalesBillMasterId WHERE BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)) AND YearId = @YearId AND [Z-SalesBillDetail-Z].Deleted = 0))
 				OR (@InvStatusId = '2' AND LRB.Id NOT IN ( SELECT LRBookingId FROM [Z-SalesBillMaster-Z] INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].ID = [Z-SalesBillDetail-Z].SalesBillMasterId WHERE BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds)) AND YearId = @YearId AND [Z-SalesBillDetail-Z].Deleted = 0))
 			)
+		AND (
+				@LRStatusId = '0'
+				OR (@LRStatusId = '1' AND LRB.Deleted = 0)
+				OR (@LRStatusId = '2' AND LRB.Deleted = 1)
+			)
+		GROUP BY LRB.Deleted
     )
 	
 	SELECT * FROM CTE
     WHERE
         ((@PageSize = -1 AND 1 = 1) OR (RowNum > @PageStart AND RowNum < (@PageStart + (@PageSize + 1))))
-        --AND (Coalesce(@Search, '') = '' OR LRNumber LIKE '%' + @Search + '%'
-        --                           OR Parcel LIKE '%' + @Search + '%'
-        --                           OR ChargeWeight LIKE '%' + @Search + '%'
-        --                           OR Rate LIKE '%' + @Search + '%'
-        --                           OR InvoiceValue LIKE '%' + @Search + '%'
-        --                           OR BranchName LIKE '%' + @Search + '%')
+        AND (Coalesce(@Search, '') = '' OR LRNumber LIKE '%' + @Search + '%'
+                                   OR Parcel LIKE '%' + @Search + '%'
+                                   OR ChargeWeight LIKE '%' + @Search + '%'
+                                   OR Rate LIKE '%' + @Search + '%'
+                                   OR InvoiceValue LIKE '%' + @Search + '%'
+                                   OR BranchName LIKE '%' + @Search + '%')
     ORDER BY RowNum;
 	
 End
