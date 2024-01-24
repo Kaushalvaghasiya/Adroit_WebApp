@@ -55,7 +55,7 @@
                     totalAmount += item.Amount ?? 0.00m;    // Use decimal
 
                     // Calculate subtotals
-                    if (prevParty != item.GroupingColumn)
+                    if (prevParty != item.GroupingColumn && Model.ReportHeader.Subtotal.Equals(true))
                     {
                         if (item.SubTotal)
                         {
@@ -72,7 +72,7 @@
                 }
 
                 // Display the last subtotal and total
-                if (prevParty != "" && subTotalAmount > 0)
+                if (prevParty != "" && Model.ReportHeader.Subtotal.Equals(true))
                 {
                     <tr class="subtotal-row">
                         <td colspan="4" class="text-right">Sub Total</td>

@@ -49,6 +49,9 @@
                 var prevParty = "";
                 decimal subTotalAmount = 0.00m;
                 decimal totalAmount = 0.00m;
+                int totalLR = 0;
+                short totalParcel = 0;
+                decimal totalChargeWt = 0.00m;
 
                 foreach (var item in Model.ReportData)
                 {
@@ -88,11 +91,14 @@
                     </tr>
 
                     subTotalAmount += item.Amount ?? 0.00m; // Use decimal
-                    totalAmount += item.Amount ?? 0.00m;    // Use decimal                    
+                    totalAmount += item.Amount ?? 0.00m;    // Use decimal
+                    totalLR += 1;
+                    totalParcel += item.Parcel ?? 0;
+                    totalChargeWt += item.ChargeWeight ?? 0.000m;
                 }
 
                 // Display the last subtotal and total
-                if (prevParty != "" && subTotalAmount > 0)
+                if (prevParty != "" && Model.ReportHeader.Subtotal.Equals(true))
                 {
                     <tr class="subtotal-row">
                         <td colspan="12" class="text-right">Sub Total</td>
@@ -104,9 +110,14 @@
                 if (totalAmount > 0)
                 {
                     <tr class="total-row">
-                        <td colspan="12" class="text-right">Total</td>
+                        <td class="text-right" colspan="3">Total</td>
+                        <td class="text-center">@totalLR</td>
+                        <td colspan="4"></td>
+                        <td class="text-center">@totalParcel</td>
+                        <td class="text-right">@totalChargeWt</td>
+                        <td colspan="2"></td>
                         <td class="text-right">@totalAmount</td>
-                        <td colspan="5"></td>
+                        <td colspan="4"></td>
                     </tr>
                 }
             }
