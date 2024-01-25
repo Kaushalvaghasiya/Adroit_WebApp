@@ -262,7 +262,7 @@
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
-                        <a href="#" class="btn btn-blue text-white mr-2 btn-sm btn-print" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
+                        <a href="#" target="_blank" class="btn btn-blue text-white mr-2 btn-sm btn-print" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
                         <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send"><span><i class="fa fa-share-alt"></i></span></a>
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
@@ -288,7 +288,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn btn-blue mt-1 btn-print" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" target="_blank" class="btn btn-blue mt-1 btn-print" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn btn-gray mt-1 btn-back" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Back</a>
                 </div>
@@ -531,8 +531,8 @@
                 lengthChange: false,
                 ordering: true,
                 searching: true,
-                paging: true,
-                pageLength: 50,
+                paging: false,
+                //pageLength: 50,
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
@@ -576,6 +576,36 @@
                 "drawCallback": function (settings) {
                     gridDrawCallback(this);
 
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+                    let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
+
+                    for (let i = 0; i < rows.length; i++) {
+                        totalAmount += parseFloat(api.cell(i, 4).data());
+                        totalLR += 1;
+                        if (api.cell(i, 2).data() != null)
+                            totalParcel += parseFloat(api.cell(i, 2).data());
+                        if (api.cell(i, 3).data() != null)
+                            totalChargeWt += parseFloat(api.cell(i, 3).data());
+                        tableBody.append(rows[i]);
+                    }
+
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row">' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td colspan="1"></td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="7"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
                 },
                 "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     if (aData.deleted) {
@@ -654,8 +684,8 @@
                 lengthChange: false,
                 ordering: true,
                 searching: true,
-                paging: true,
-                pageLength: 50,
+                paging: false,
+                //pageLength: 50,
                 order: [[0, 'asc']],
                 pagingType: 'full_numbers',
                 orderClasses: false,
@@ -699,6 +729,35 @@
                 "drawCallback": function (settings) {
                     gridDrawCallback(this);
 
+                    let api = this.api();
+                    let rows = api.rows({ page: 'current' }).nodes();
+                    tableBody.empty();
+                    let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
+
+                    for (let i = 0; i < rows.length; i++) {
+                        totalAmount += parseFloat(api.cell(i, 3).data());
+                        totalLR += parseFloat(api.cell(i, 0).data());
+                        if (api.cell(i, 1).data() != null)
+                            totalParcel += parseFloat(api.cell(i, 1).data());
+                        if (api.cell(i, 2).data() != null)
+                            totalChargeWt += parseFloat(api.cell(i, 2).data());
+                        tableBody.append(rows[i]);
+                    }
+
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row">' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
+                            '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
+                            '<td colspan="2"></td>' +
+                            '</tr>';
+
+                        tableBody.append(totalRow);
+                    }
                 },
                 "fnRowCallback": function (nRow, aData, iDisplayIndex, iDisplayIndexFull) {
                     if (aData.deleted) {

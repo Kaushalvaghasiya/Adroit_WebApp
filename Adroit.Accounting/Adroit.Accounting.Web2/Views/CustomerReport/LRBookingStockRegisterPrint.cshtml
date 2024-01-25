@@ -38,7 +38,11 @@
     </thead>
     <tbody>
         @if (Model != null && Model.ReportData != null)
-        {            
+        {
+            decimal totalAmount = 0.00m;
+            int totalLR = 0;
+            short totalParcel = 0;
+            decimal totalChargeWt = 0.00m;
 
             foreach (var item in Model.ReportData)
             {                                
@@ -56,9 +60,23 @@
                     <td class="text-right">@item.Consignee</td>
                     <td class="text-center">@item.BranchName</td>
                 </tr>
-                
+
+                totalAmount += item.Amount ?? 0.00m;
+                totalLR += 1;
+                totalParcel += item.Parcel ?? 0;
+                totalChargeWt += item.ChargeWeight ?? 0.000m;
             }
-            
+            if (totalAmount > 0)
+            {
+                <tr class="total-row">
+                    <td class="text-center">@totalLR</td>
+                    <td colspan="1"></td>
+                    <td class="text-center">@totalParcel</td>
+                    <td class="text-right">@totalChargeWt</td>
+                    <td class="text-right">@totalAmount</td>
+                    <td colspan="7"></td>
+                </tr>
+            }            
         }
     </tbody>
 </table>
