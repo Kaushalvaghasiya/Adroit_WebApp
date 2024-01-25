@@ -1,0 +1,197 @@
+﻿@model Adroit.Accounting.Model.ReportViewModel.ReportDataViewModel<List<Adroit.Accounting.Model.GridViewModel.LRBookingChalanLoadingGridViewModel>>
+@{
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+}
+<div class="col-lg-12 col-sm-12 text-right">
+    <lable class="report-number">AIPI</lable>
+</div>
+<div class="col-lg-12 col-sm-12 text-center pdfheader">
+    <div class="firmname">
+        <lable>@Model.ReportHeader.FrimName</lable>
+    </div>
+    <div class="address">
+        <lable>@($"{Model.ReportHeader.BranchName} : {Model.ReportHeader.BranchAddress}")</lable>
+    </div>
+    <div class="heading">
+        <lable>Chalan Loading Report In Detail & Date Wise (LR Booking)</lable>
+    </div>
+    <div class="date">
+        <lable>From - @Model.ReportHeader.DateFrom To @Model.ReportHeader.DateTo</lable>
+    </div>
+</div>
+<table id="tblMain" class="table col-md-12" align="center">
+    <thead>
+        <tr>
+            <th class="text-center">Loading Date</th>
+            <th class="text-center">Chalan Number</th>
+            <th class="text-left">Truck Number</th>
+            <th class="text-center">Total LR</th>
+            <th class="text-center">Total Parcle</th>
+            <th class="text-right">Charge Wt.</th>
+            <th class="text-right">Total To Pay Amount</th>
+            <th class="text-right">Total Paid Amount</th>
+            <th class="text-right">Total To Be Billed Amount</th>
+
+            <th class="text-center">Less TDS</th>
+            <th class="text-center">TDS(-)</th>
+            <th class="text-center">GST %</th>
+            <th class="text-right">Cash To Lorry Trip</th>
+            <th class="text-right">Bank Payment To Lorry Trip</th>
+            <th class="text-right">Received Cash By Driver</th>
+            <th class="text-right">Other Exps. Of Trip</th>
+
+            <th class="text-right">Total Freight</th>
+            <th class="text-center">Branch</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.ReportData != null)
+        {
+            var prevDate = "";
+            decimal subTotalAmount = 0.00m;
+            decimal totalAmount = 0.00m;
+
+            decimal subTotalChargeWT = 0.00m;
+            decimal subTotalToPayAmount = 0.00m;
+            decimal subTotalPaidAmount = 0.00m;
+            decimal subTotalToBBAmount = 0.00m;
+            decimal subTotalFreight = 0.00m;
+
+            decimal totalChargeWT = 0.00m;
+            decimal totalToPayAmount = 0.00m;
+            decimal totalPaidAmount = 0.00m;
+            decimal totalToBBAmount = 0.00m;
+            decimal totalFreight = 0.00m;
+
+            foreach (var item in Model.ReportData)
+            {
+
+                if (prevDate != item.BillDateString && prevDate != "")
+                {
+                    if (Model.ReportHeader.Subtotal.Equals(true))
+                    {
+                        <tr class="subtotal-row">
+                            <td colspan="5" class="text-right">Sub Total</td>
+                            <td class="text-right">@subTotalChargeWT</td>
+                            <td class="text-right">@subTotalToPayAmount</td>
+                            <td class="text-right">@subTotalPaidAmount</td>
+                            <td class="text-right">@subTotalToBBAmount</td>
+                            <td colspan="7"></td>
+                            <td class="text-right">@subTotalFreight</td>
+                            <td></td>
+                        </tr>
+                    }
+                    subTotalAmount = 0;
+
+                    subTotalChargeWT = 0.00m;
+                    subTotalToPayAmount = 0.00m;
+                    subTotalPaidAmount = 0.00m;
+                    subTotalToBBAmount = 0.00m;
+                    subTotalFreight = 0.00m;
+                }
+                prevDate = item.BillDateString;
+                <tr>
+                    <td class="text-center">@item.BillDateString</td>
+                    <td class="text-center">@item.BillNumberBranch</td>
+                    <td class="text-left">@item.VehicleVRN</td>
+                    <td class="text-left">@item.TotalLR</td>
+                    <td class="text-center">@item.Parcel</td>
+                    <td class="text-right">@item.ChargeWeight</td>
+                    <td class="text-center">@item.ToPayAmount</td>
+                    <td class="text-left">@item.PaidAmount</td>
+                    <td class="text-right">@item.TBBAmount</td>
+
+                    <td class="text-center">@item.TDSPercent</td>
+                    <td class="text-center">@item.TDSAmount</td>
+                    <td class="text-center">@item.Rate</td>
+                    <td class="text-center">@item.AdvanceCash</td>
+                    <td class="text-right">@item.AdvanceNeft</td>
+                    <td class="text-right">@item.ReceiveCash</td>
+                    <td class="text-right">@item.OtherPlus</td>
+
+                    <td class="text-right">@item.Freight</td>
+                    <td class="text-center">@item.BranchName</td>
+                </tr>
+
+                subTotalAmount += item.Freight ?? 0.00m;
+
+                subTotalChargeWT += item.ChargeWeight ?? 0.00m;
+                subTotalToPayAmount += item.ToPayAmount ?? 0.00m;
+                subTotalPaidAmount += item.PaidAmount ?? 0.00m;
+                subTotalToBBAmount += item.TBBAmount ?? 0.00m;
+                subTotalFreight += item.Freight ?? 0.00m;
+
+                totalAmount += item.Freight ?? 0.00m;
+
+                totalChargeWT += item.ChargeWeight ?? 0.00m;
+                totalToPayAmount += item.ToPayAmount ?? 0.00m;
+                totalPaidAmount += item.PaidAmount ?? 0.00m;
+                totalToBBAmount += item.TBBAmount ?? 0.00m;
+                totalFreight += item.Freight ?? 0.00m;
+
+
+                if (prevDate != item.BillDateString && prevDate != "")
+                {
+                    if (Model.ReportHeader.Subtotal.Equals(true))
+                    {
+                        <tr class="subtotal-row">
+                            <td colspan="5" class="text-right">Sub Total</td>
+                            <td class="text-right">@subTotalChargeWT</td>
+                            <td class="text-right">@subTotalToPayAmount</td>
+                            <td class="text-right">@subTotalPaidAmount</td>
+                            <td class="text-right">@subTotalToBBAmount</td>
+                            <td colspan="7"></td>
+                            <td class="text-right">@subTotalFreight</td>
+                            <td></td>
+                        </tr>
+                    }
+                    subTotalAmount = 0;
+
+                    subTotalChargeWT = 0;
+                    subTotalToPayAmount = 0;
+                    subTotalPaidAmount = 0;
+                    subTotalToBBAmount = 0;
+                    subTotalFreight = 0;
+                }
+                prevDate = item.BillDateString;
+            }
+
+            if (prevDate != "" && Model.ReportHeader.Subtotal.Equals(true))
+            {
+                <tr class="subtotal-row">
+                    <td colspan="5" class="text-right">Sub Total</td>
+                    <td class="text-right">@subTotalChargeWT</td>
+                    <td class="text-right">@subTotalToPayAmount</td>
+                    <td class="text-right">@subTotalPaidAmount</td>
+                    <td class="text-right">@subTotalToBBAmount</td>
+                    <td colspan="7"></td>
+                    <td class="text-right">@subTotalFreight</td>
+                    <td></td>
+                </tr>
+            }
+
+            if (totalFreight > 0)
+            {
+                <tr class="total-row">
+                    <td colspan="5" class="text-right">Sub Total</td>
+                    <td class="text-right">@totalChargeWT</td>
+                    <td class="text-right">@totalToPayAmount</td>
+                    <td class="text-right">@totalPaidAmount</td>
+                    <td class="text-right">@totalToBBAmount</td>
+                    <td colspan="7"></td>
+                    <td class="text-right">@totalFreight</td>
+                    <td></td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts
+    {
+
+    <script>
+
+    </script>
+
+}
