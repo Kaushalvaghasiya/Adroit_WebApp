@@ -402,23 +402,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL FREIGHT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
-            let subTotalAmount = 0;
-
-            let subTotalChargeWT = 0;
-            let subTotalToPayAmount = 0;
-            let subTotalPaidAmount = 0;
-            let subTotalToBBAmount = 0;
-            let subTotalFreight = 0;
-
-            let totalAmount = 0;
-
-            let totalChargeWT = 0;
-            let totalToPayAmount = 0;
-            let totalPaidAmount = 0;
-            let totalToBBAmount = 0;
-            let totalFreight = 0;
-
-            let prevDate = null;
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -625,10 +608,27 @@
                 },
                 "drawCallback": function (settings) {
                     gridDrawCallback(this);
-                    
+
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+
+                    let subTotalChargeWT = 0;
+                    let subTotalToPayAmount = 0;
+                    let subTotalPaidAmount = 0;
+                    let subTotalToBBAmount = 0;
+                    let subTotalFreight = 0;
+
+                    let totalAmount = 0;
+
+                    let totalChargeWT = 0;
+                    let totalToPayAmount = 0;
+                    let totalPaidAmount = 0;
+                    let totalToBBAmount = 0;
+                    let totalFreight = 0;
+
+                    let prevDate = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let dateCell = api.cell(i, 0).data();
@@ -716,9 +716,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">NET TOTAL</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevDate = null;
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -855,6 +852,10 @@
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
 
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevDate = null;
+
                     for (let i = 0; i < rows.length; i++) {
                         let dateCell = api.cell(i, 0).data();
 
@@ -921,20 +922,6 @@
             // $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BALANCE LORRY HIRE CHARGE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">TOTAL FREIGHT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let subTotalChargeWT = 0;
-            let subTotalToPayAmount = 0;
-            let subTotalPaidAmount = 0;
-            let subTotalToBBAmount = 0;
-            let subTotalFreight = 0;
-
-            let totalAmount = 0;
-            let totalChargeWT = 0;
-            let totalToPayAmount = 0;
-            let totalPaidAmount = 0;
-            let totalToBBAmount = 0;
-            let totalFreight = 0;
 
             let prevParty = null;
             let tableBody = $('#tblMain tbody');
@@ -1148,6 +1135,20 @@
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
 
+                    let subTotalAmount = 0;
+                    let subTotalChargeWT = 0;
+                    let subTotalToPayAmount = 0;
+                    let subTotalPaidAmount = 0;
+                    let subTotalToBBAmount = 0;
+                    let subTotalFreight = 0;
+
+                    let totalAmount = 0;
+                    let totalChargeWT = 0;
+                    let totalToPayAmount = 0;
+                    let totalPaidAmount = 0;
+                    let totalToBBAmount = 0;
+                    let totalFreight = 0;
+
                     for (let i = 0; i < rows.length; i++) {
                         let billPartyCell = api.cell(i, 0).data();
 
@@ -1178,7 +1179,7 @@
                         subTotalPaidAmount += parseFloat(api.cell(i, 7).data() || 0);
                         subTotalToBBAmount += parseFloat(api.cell(i, 8).data() || 0);
                         subTotalFreight += parseFloat(api.cell(i, 16).data() || 0);
-                        
+
                         totalChargeWT += parseFloat(api.cell(i, 5).data() || 0);
                         totalToPayAmount += parseFloat(api.cell(i, 6).data() || 0);
                         totalPaidAmount += parseFloat(api.cell(i, 7).data() || 0);
@@ -1219,7 +1220,6 @@
                         tableBody.append(totalRow);
                     }
                 }
-
             });
         }
 
@@ -1236,9 +1236,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">NET TOTAL</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
 
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevParty = null;
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -1373,6 +1370,10 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevParty = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let billPartyCell = api.cell(i, 0).data();

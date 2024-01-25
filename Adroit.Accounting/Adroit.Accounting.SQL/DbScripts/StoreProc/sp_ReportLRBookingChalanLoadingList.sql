@@ -33,13 +33,12 @@ Begin
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' AND @SelectedView = @DateWise THEN PBM.BillDate END DESC,
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' AND @SelectedView = @TruckWise THEN Vehilcle.VRN END ASC,  
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' AND @SelectedView = @TruckWise THEN Vehilcle.VRN END DESC,
-
-			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN PBM.Id END ASC,  
-			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN PBM.Id END DESC,
-			
-			
-			CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN Vehilcle.VRN END ASC,  
-			CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN Vehilcle.VRN END DESC,
+			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN PBM.BillNumberBranch END ASC,  
+			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN PBM.BillNumberBranch END DESC,
+			CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' AND @SelectedView = @DateWise THEN Vehilcle.VRN END ASC,  
+			CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' AND @SelectedView = @DateWise THEN Vehilcle.VRN END DESC,
+			CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' AND @SelectedView = @TruckWise THEN PBM.BillDate END ASC,  
+			CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' AND @SelectedView = @TruckWise THEN PBM.BillDate END DESC,
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN ZBD.TotalLR END ASC,  
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN ZBD.TotalLR END DESC,
 			CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN ZBD.Parcel END ASC,  
@@ -52,26 +51,25 @@ Begin
 			CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN ZBD.PaidAmount END DESC,
 			CASE WHEN @SortColumn = 8 AND @SortOrder ='ASC' THEN ZBD.TBBAmount END ASC,  
 			CASE WHEN @SortColumn = 8 AND @SortOrder ='DESC' THEN ZBD.TBBAmount END DESC,
-			CASE WHEN @SortColumn = 9 AND @SortOrder ='ASC' THEN PBM.TaxableAmount END ASC,  
-			CASE WHEN @SortColumn = 9 AND @SortOrder ='DESC' THEN PBM.TaxableAmount END DESC,
-			CASE WHEN @SortColumn = 10 AND @SortOrder ='ASC' THEN PBM.TDSPercent END ASC,  
-			CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' THEN PBM.TDSPercent END DESC,
-			CASE WHEN @SortColumn = 11 AND @SortOrder ='ASC' THEN PBM.TDSAmount END ASC,  
-			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' THEN PBM.TDSAmount END DESC,
-			CASE WHEN @SortColumn = 12 AND @SortOrder ='ASC' THEN ZBD.Rate END ASC,  
-			CASE WHEN @SortColumn = 12 AND @SortOrder ='DESC' THEN ZBD.Rate END DESC,
-			CASE WHEN @SortColumn = 14 AND @SortOrder ='ASC' THEN PBM.AdvanceCash END ASC,  
-			CASE WHEN @SortColumn = 14 AND @SortOrder ='DESC' THEN PBM.AdvanceCash END DESC,
-			CASE WHEN @SortColumn = 15 AND @SortOrder ='ASC' THEN PBM.AdvanceNeft END ASC,  
-			CASE WHEN @SortColumn = 15 AND @SortOrder ='DESC' THEN PBM.AdvanceNeft END DESC,
-			CASE WHEN @SortColumn = 16 AND @SortOrder ='ASC' THEN PBM.ReceiveCash END ASC,  
-			CASE WHEN @SortColumn = 16 AND @SortOrder ='DESC' THEN PBM.ReceiveCash END DESC,
-			CASE WHEN @SortColumn = 17 AND @SortOrder ='ASC' THEN PBM.OtherPlus END ASC,  
-			CASE WHEN @SortColumn = 17 AND @SortOrder ='DESC' THEN PBM.OtherPlus END DESC,
-			CASE WHEN @SortColumn = 18 AND @SortOrder ='ASC' THEN ZBD.Freight END ASC,  
-			CASE WHEN @SortColumn = 18 AND @SortOrder ='DESC' THEN ZBD.Freight END DESC,
-			CASE WHEN @SortColumn = 19 AND @SortOrder ='ASC' THEN ZBD.BranchName END ASC,  
-			CASE WHEN @SortColumn = 19 AND @SortOrder ='DESC' THEN ZBD.BranchName END DESC
+			CASE WHEN @SortColumn = 9 AND @SortOrder ='ASC' THEN PBM.TDSPercent END ASC,  
+			CASE WHEN @SortColumn = 9 AND @SortOrder ='DESC' THEN PBM.TDSPercent END DESC,
+			CASE WHEN @SortColumn = 10 AND @SortOrder ='ASC' THEN PBM.TDSAmount END ASC,  
+			CASE WHEN @SortColumn = 10 AND @SortOrder ='DESC' THEN PBM.TDSAmount END DESC,
+			CASE WHEN @SortColumn = 11 AND @SortOrder ='ASC' THEN ZBD.Rate END ASC,  
+			CASE WHEN @SortColumn = 11 AND @SortOrder ='DESC' THEN ZBD.Rate END DESC,
+			CASE WHEN @SortColumn = 12 AND @SortOrder ='ASC' THEN PBM.AdvanceCash END ASC,  
+			CASE WHEN @SortColumn = 12 AND @SortOrder ='DESC' THEN PBM.AdvanceCash END DESC,
+			CASE WHEN @SortColumn = 13 AND @SortOrder ='ASC' THEN PBM.AdvanceNeft END ASC,  
+			CASE WHEN @SortColumn = 13 AND @SortOrder ='DESC' THEN PBM.AdvanceNeft END DESC,
+			CASE WHEN @SortColumn = 14 AND @SortOrder ='ASC' THEN PBM.ReceiveCash END ASC,  
+			CASE WHEN @SortColumn = 14 AND @SortOrder ='DESC' THEN PBM.ReceiveCash END DESC,
+			CASE WHEN @SortColumn = 15 AND @SortOrder ='ASC' THEN PBM.OtherPlus END ASC,  
+			CASE WHEN @SortColumn = 15 AND @SortOrder ='DESC' THEN PBM.OtherPlus END DESC,
+
+			CASE WHEN @SortColumn = 16 AND @SortOrder ='ASC' THEN ZBD.Freight END ASC,  
+			CASE WHEN @SortColumn = 16 AND @SortOrder ='DESC' THEN ZBD.Freight END DESC,
+			CASE WHEN @SortColumn = 17 AND @SortOrder ='ASC' THEN ZBD.BranchName END ASC,  
+			CASE WHEN @SortColumn = 17 AND @SortOrder ='DESC' THEN ZBD.BranchName END DESC
 		) AS RowNum
 		,Count(*) over () AS TotalCount 
 		,PBM.BillDate
@@ -93,10 +91,12 @@ Begin
 		,PBM.ReceiveCash
 		,PBM.OtherPlus
 		,ZBD.Freight
+		,CustomerAccount.Name as Agent
 		,ZBD.BranchName
 		FROM [Z-PurchaseBillMaster-Z] As PBM
 		INNER JOIN Vehilcle on Vehilcle.Id = PBM.VehicleId AND Vehilcle.CustomerId = @CustomerId
 		INNER JOIN VehicleOwner on VehicleOwner.Id = Vehilcle.OwnerId AND VehicleOwner.CustomerId = @CustomerId
+		INNER JOIN CustomerAccount on CustomerAccount.Id = VehicleOwner.AccountId AND CustomerAccount.CustomerId = @CustomerId
 		LEFT JOIN(
 			SELECT ZBD.PurchaseBillMasterId
 			,COUNT(*) As TotalLR
@@ -130,11 +130,13 @@ Begin
 		AND (@ChalanTo = '0' OR PBM.Id <= @ChalanTo)
 		AND (ISNULL(@VehicleNumber,'') ='' OR Vehilcle.VRN = @VehicleNumber)
 		AND (ISNULL(@VehicleOwner,'') ='' OR VehicleOwner.Name = @VehicleOwner)
-		--AND (ISNULL(@Agent,'') ='' OR VehicleOwner.Name = @Agent)
+		AND (ISNULL(@Agent,'') ='' OR VehicleOwner.Name = @Agent)
 
 		AND (Coalesce(@Search,'') = '' OR PBM.BillDate like '%'+ @Search + '%'
 									   OR PBM.Id like '%'+ @Search + '%'
 									   OR Vehilcle.VRN like '%'+ @Search + '%'
+									   OR VehicleOwner.Name like '%'+ @Search + '%'
+									   OR CustomerAccount.Name like '%'+ @Search + '%'
 									   OR ZBD.TotalLR like '%'+ @Search + '%'
 									   OR ZBD.Parcel like '%'+ @Search + '%'
 									   OR ZBD.ChargeWeight like '%'+ @Search + '%'

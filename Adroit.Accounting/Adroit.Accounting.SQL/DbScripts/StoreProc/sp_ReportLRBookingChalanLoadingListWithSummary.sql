@@ -30,8 +30,8 @@ Begin
 		(ORDER BY
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN CASE WHEN @SelectedView = @DateWise THEN CAST(PBM.BillDate AS VARCHAR(100)) WHEN @SelectedView = @TruckWise THEN Vehilcle.VRN END END ASC,  
 			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN CASE WHEN @SelectedView = @DateWise THEN CAST(PBM.BillDate AS VARCHAR(100)) WHEN @SelectedView = @TruckWise THEN Vehilcle.VRN END END DESC,
-			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN COUNT(*) END ASC,  
-			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN COUNT(*) END DESC,
+			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN SUM(Parcel) END ASC,  
+			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN SUM(Parcel) END DESC,
 			CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN SUM(ZBD.TotalLR) END ASC,  
 			CASE WHEN @SortColumn = 2 AND @SortOrder ='DESC' THEN SUM(ZBD.TotalLR) END DESC,
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN SUM(ZBD.ToPayAmount) END ASC,  
@@ -42,12 +42,12 @@ Begin
 			CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN SUM(ZBD.TBBAmount) END DESC,
             CASE WHEN @SortColumn = 6 AND @SortOrder ='ASC' THEN SUM(Freight) END ASC,  
 			CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN SUM(Freight) END DESC,
-            --CASE WHEN @SortColumn = 7 AND @SortOrder ='ASC' THEN SUM(Rate) END ASC,  
-			--CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN SUM(Rate) END DESC,
-			CASE WHEN @SortColumn = 7 AND @SortOrder ='ASC' THEN SUM(ZBD.InvoiceValue) END ASC,  
-			CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN SUM(ZBD.InvoiceValue) END DESC,
-			CASE WHEN @SortColumn = 8 AND @SortOrder ='ASC' THEN MAX([ZBD].BranchName) END ASC,  
-			CASE WHEN @SortColumn = 8 AND @SortOrder ='DESC' THEN MAX([ZBD].BranchName) END DESC
+            CASE WHEN @SortColumn = 7 AND @SortOrder ='ASC' THEN SUM(Rate) END ASC,  
+			CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN SUM(Rate) END DESC,
+			CASE WHEN @SortColumn = 8 AND @SortOrder ='ASC' THEN SUM(ZBD.InvoiceValue) END ASC,  
+			CASE WHEN @SortColumn = 8 AND @SortOrder ='DESC' THEN SUM(ZBD.InvoiceValue) END DESC,
+			CASE WHEN @SortColumn = 9 AND @SortOrder ='ASC' THEN MAX([ZBD].BranchName) END ASC,  
+			CASE WHEN @SortColumn = 9 AND @SortOrder ='DESC' THEN MAX([ZBD].BranchName) END DESC
 		) AS RowNum,
 		Count(*) over () AS TotalCount 
 		,CASE WHEN @SelectedView = @DateWise THEN CAST(PBM.BillDate AS VARCHAR(100)) WHEN @SelectedView = @TruckWise THEN Vehilcle.VRN END As GroupingColumn
@@ -64,6 +64,7 @@ Begin
 		FROM [Z-PurchaseBillMaster-Z] As PBM
 		INNER JOIN Vehilcle on Vehilcle.Id = PBM.VehicleId AND Vehilcle.CustomerId = @CustomerId
 		INNER JOIN VehicleOwner on VehicleOwner.Id = Vehilcle.OwnerId AND VehicleOwner.CustomerId = @CustomerId
+		INNER JOIN CustomerAccount on CustomerAccount.Id = VehicleOwner.AccountId AND CustomerAccount.CustomerId = @CustomerId
 		LEFT JOIN(
 			SELECT ZBD.PurchaseBillMasterId
 			,COUNT(*) As TotalLR
@@ -98,8 +99,7 @@ Begin
 		AND (@ChalanTo = '0' OR PBM.Id <= @ChalanTo)
 		AND (ISNULL(@VehicleNumber,'') ='' OR Vehilcle.VRN = @VehicleNumber)
 		AND (ISNULL(@VehicleOwner,'') ='' OR VehicleOwner.Name = @VehicleOwner)
-        AND (ISNULL(@VehicleOwner,'') ='' OR VehicleOwner.Name = @VehicleOwner)
-		--AND (ISNULL(@Agent,'') ='' OR VehicleOwner.Name = @Agent)
+		AND (ISNULL(@Agent,'') ='' OR CustomerAccount.Name = @Agent)
 
         GROUP BY CASE WHEN @SelectedView = @DateWise THEN CAST(PBM.BillDate AS VARCHAR(100)) WHEN @SelectedView = @TruckWise THEN Vehilcle.VRN END
     )
@@ -107,11 +107,11 @@ Begin
     SELECT * FROM CTE
     WHERE
         (Coalesce(@Search, '') = '' OR GroupingColumn LIKE '%' + @Search + '%'
-                                --    OR Parcel LIKE '%' + @Search + '%'
-                                --    OR ChargeWeight LIKE '%' + @Search + '%'
-                                   OR Rate LIKE '%' + @Search + '%'
-                                   OR InvoiceValue LIKE '%' + @Search + '%'
-                                   OR BranchName LIKE '%' + @Search + '%')
+									OR Parcel LIKE '%' + @Search + '%'
+									OR TotalLR LIKE '%' + @Search + '%'
+									OR Rate LIKE '%' + @Search + '%'
+									OR InvoiceValue LIKE '%' + @Search + '%'
+									OR BranchName LIKE '%' + @Search + '%')
 	AND @PageSize = -1 OR (RowNum > @PageStart AND RowNum < (@PageStart + (@PageSize + 1)))
     ORDER BY RowNum;
 End
