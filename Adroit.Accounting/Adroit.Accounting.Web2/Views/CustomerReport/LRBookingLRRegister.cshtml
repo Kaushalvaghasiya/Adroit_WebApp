@@ -276,14 +276,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 hide-for-lrwise">
                             <div class="form-group"><label for="form-group SubTotal">Sub Total</label></div>
                             <label class="custom-switch">
                                 <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="SubTotal">
                                 <span class="custom-switch-indicator"></span>
                             </label>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 hide-for-lrwise">
                             <div class="form-group"><label for="form-group Summary">Summary</label></div>
                             <label class="custom-switch">
                                 <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="Summary">
@@ -481,10 +481,18 @@
             $("#ViewId").on('change', function (e) {
                 if ($(this).val() == '@((int)ViewList.DateWise)')
                 {
+                    $('.hide-for-lrwise').show();
                     $('.hide-for-datewise').hide();
-                }else{
+                }
+                else if ($(this).val() == '@((int)ViewList.LRWise)') {
+                    $('.hide-for-lrwise').hide();
+                    $('.hide-for-datewise').hide();
+                } 
+                else{
+                    $('.hide-for-lrwise').show();
                     $('.hide-for-datewise').show();
                 }
+
             });
         });
 
@@ -782,10 +790,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL LR AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevDate = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -902,6 +907,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevDate = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let dateCell = api.cell(i, 0).data();
@@ -1155,8 +1163,7 @@
                     if (totalAmount > 0) {
                         let totalRow = '<tr class="total-row">' +                            
                             '<td class="text-center"> ' + totalLR + '</td>' +
-                            '<td>TOTAL</td>' +
-                            '<td colspan="3"></td>' +
+                            '<td colspan="4"></td>' +
                             '<td class="text-center"> ' + totalParcel + '</td>' +
                             '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
                             '<td colspan="2"></td>' +
@@ -1461,10 +1468,7 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL LR AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
-
-            let subTotalAmount = 0;
-            let totalAmount = 0;
-            let prevParty = null;
+            
             let tableBody = $('#tblMain tbody');
 
             let columns = [];
@@ -1580,6 +1584,9 @@
                     let api = this.api();
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
+                    let subTotalAmount = 0;
+                    let totalAmount = 0;
+                    let prevParty = null;
 
                     for (let i = 0; i < rows.length; i++) {
                         let billPartyCell = api.cell(i, 0).data();

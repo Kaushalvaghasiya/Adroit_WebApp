@@ -34,18 +34,36 @@
         @{
             if (Model != null && Model.ReportData != null)
             {                
+                decimal totalAmount = 0.00m;
+                int totalLR = 0;
+                short totalParcel = 0;
+                decimal totalChargeWt = 0.00m;
+
                 foreach (var item in Model.ReportData)
                 {
                     <tr>
                         <td class="text-center @((item.Deleted??false)?"cancelled-row":"")">@item.LRNumber</td>
                         <td class="text-center">@item.Parcel</td>
                         <td class="text-right">@item.ChargeWeight</td>
-                        <td class="text-right">@item.Rate</td>
+                        <td class="text-right">@item.Amount</td>
                         <td class="text-right">@item.InvoiceValue</td>
                         <td class="text-center">@item.BranchName</td>
-                    </tr>                
-                    
-                }               
+                    </tr>
+                    totalAmount += item.Amount ?? 0.00m;
+                    totalLR += item.LRNumber;
+                    totalParcel += item.Parcel ?? 0;
+                    totalChargeWt += item.ChargeWeight ?? 0.000m;
+                }         
+                if (totalAmount > 0)
+                {
+                    <tr class="total-row">
+                        <td class="text-center">@totalLR</td>                        
+                        <td class="text-center">@totalParcel</td>
+                        <td class="text-right">@totalChargeWt</td>
+                        <td class="text-right">@totalAmount</td>
+                        <td colspan="2"></td>
+                    </tr>
+                } 
             }
         }
     </tbody>
