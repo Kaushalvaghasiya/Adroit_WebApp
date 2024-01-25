@@ -48,6 +48,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Charges4", value.Charges4);
             parameters.Add("@Charges5", value.Charges5);
             parameters.Add("@Charges6", value.Charges6);
+            parameters.Add("@NetAmount", value.NetAmount);
+
             return QueryHelper.Save("sp_LRBookingSave", connectionString, parameters);
         }
         public bool Delete(int id, string connectionString, int loginId, int firmId = 0)

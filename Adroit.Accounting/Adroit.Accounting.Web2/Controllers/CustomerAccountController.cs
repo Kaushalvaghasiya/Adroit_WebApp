@@ -10,7 +10,7 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerController : MasterController
     {
-        public IActionResult CustomerAccount()
+        public IActionResult CustomerAccount(string redirectUrl = "")
         {
             CustomerAccountViewModel model = new();
             var customerId = _customerRepository.GetCustomerIdByLoginId(CurrentUserId, _configurationData.DefaultConnection);
@@ -29,6 +29,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.BrokerBranchMappingList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId, _configurationData.DefaultConnection);
             model.BranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
 
+            ViewBag.RedirectUrl = redirectUrl;
             return View(model);
         }
 

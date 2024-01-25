@@ -41,6 +41,7 @@ CREATE OR ALTER  PROCEDURE [dbo].[sp_LRBookingSave]
 	,@IsDispatched BIT = 0
 	,@ValidDateFrom DATETIME = NULL
 	,@ValidDateTo DATETIME = NULL
+	,@NetAmount DECIMAL(18,2)
 )
 AS
 BEGIN
@@ -169,12 +170,12 @@ BEGIN
 				(BranchId,YearId,ValidDateFrom,ValidDateTo,AccountBranchMappingId,BookBranchMappingId,LRNumber,LRDate,VehicleId,CityIdFrom,CityIdTo,DeliveryAccountBranchMappingId,BillAccountBranchMappingId
 				,EwayBillNo,LRPayTypeId,InvoiceNo,InvoiceValue,PrivateMarka,Parcel,ActualWeight,ChargeWeight,DescriptionId,PackingId,LRRateOnId
 				,Rate,Freight,Charges1,Charges2,Charges3,Charges4,Charges5,Charges6,ProductBranchMappingId,Remarks,LRDeliveryId,LRDeliveryTypeId,IsSaleBilled
-				,IsDispatched,AddedById,AddedOn)
+				,IsDispatched,AddedById,AddedOn, NetAmount)
 			VALUES
 				(@BranchId,@YearId,@ValidDateFrom,@ValidDateTo,@AccountBranchMappingId,@BookBranchMappingId,@LRNumber,@LRDate,@VehicleId,@CityIdFrom,@CityIdTo,@DeliveryAccountBranchMappingId,@BillAccountBranchMappingId
 				,@EwayBillNo,@LRPayTypeId,@InvoiceNo,@InvoiceValue,@PrivateMarka,@Parcel,@ActualWeight,@ChargeWeight,@DescriptionId,@PackingId,@LRRateOnId
 				,@Rate,@Freight,@Charges1,@Charges2,@Charges3,@Charges4,@Charges5,@Charges6,@ProductBranchMappingId,@Remarks,@LRDeliveryId,@LRDeliveryTypeId,@IsSaleBilled
-				,@IsDispatched,@LoginId,GETUTCDATE())
+				,@IsDispatched,@LoginId,GETUTCDATE(), @NetAmount)
 
 			SET @Id = SCOPE_IDENTITY();
 		END
@@ -224,6 +225,7 @@ BEGIN
 			,DeletedById = NULL
 			,DeletedOn = NULL
 			,Deleted = 0
+			,NetAmount = @NetAmount
 			WHERE Id = @Id
 
 		END

@@ -75,7 +75,7 @@
                     <div class="row" style="width: 42.5vw;">
                         <label for="CityIdFrom" class="col-lg-2 col-xl-2 col-md-2 col-sm-2" style="padding:10px 20px 0 0;">From City</label>
                         <div class="col-lg-4 col-xl-4 col-md-4 col-sm-4" style="display:flex;">
-                            <select class="form-control select2-show-search" id="CityIdFrom">
+                            <select class="form-control select2-show-search account-save-cookie" id="CityIdFrom">
                                 <option></option>
                                 @{
                                     if (Model.CityList != null)
@@ -84,11 +84,11 @@
                                         {
                                             if (@o.Value == $"{ViewBag.LoggedInBranchCity}")
                                             {
-                                                <option value="@o.Value" selected>@o.Text</option>
+                                                        <option value="@o.Value" selected>@o.Text</option>
                                             }
                                             else
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -127,7 +127,7 @@
                                 <div class="row mb-1">
                                     <label for="CityIdTo" class="col-md-1 form-label">To City</label>
                                     <div class="col-md-2">
-                                        <select class="form-control select2-show-search" id="CityIdTo">
+                                        <select class="form-control select2-show-search account-save-cookie" id="CityIdTo">
                                             <option></option>
                                             @{
                                                 if (Model.CityList != null)
@@ -136,7 +136,7 @@
                                                     {
                                                         if (@o.Value != ViewBag.LoggedInBranchCity.ToString())
                                                         {
-                                                            <option value="@o.Value">@o.Text</option>
+                                                                    <option value="@o.Value">@o.Text</option>
                                                         }
                                                     }
                                                 }
@@ -145,7 +145,7 @@
                                     </div>
                                     <label for="LRNumber" class="col-md-1 form-label">L.R.#</label>
                                     <div class="col-md-2">
-                                        <input type="text" class="form-control numberonly" id="LRNumber" placeholder="">
+                                        <input type="text" class="form-control numberonly account-save-cookie" id="LRNumber" placeholder="">
                                     </div>
                                     <label for="LRDate" class="col-md-1 form-label">Date</label>
                                     <div class="col-md-2">
@@ -155,19 +155,19 @@
                                                     <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                                 </div>
                                             </div>
-                                            <input class="form-control mode-ed fc-datepicker" placeholder="DD/MM/YYYY" type="text" id="LRDate">
+                                            <input class="form-control mode-ed fc-datepicker account-save-cookie" placeholder="DD/MM/YYYY" type="text" id="LRDate">
                                         </div>
                                     </div>
                                     <label for="EwayBillNo" class="col-md-1 form-label">E-Way Bill#</label>
                                     <div class="col-md-2" style="display:flex;">
-                                        <select class="form-control select2-show-search-add-clear mode-ed" id="EwayBillNo">
+                                        <select class="form-control select2-show-search-add-clear mode-ed account-save-cookie" id="EwayBillNo">
                                             <option></option>
                                             @{
                                                 if (Model.EwayBillList != null)
                                                 {
                                                     foreach (var o in Model.EwayBillList)
                                                     {
-                                                        <option value="@o.Text">@o.Text</option>
+                                                                <option value="@o.Text">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -183,31 +183,31 @@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="AccountBranchMappingId" class="col-md-1 form-label">Consignor</label>
+                                    <label for="AccountBranchMappingId" class="col-md-1 form-label">Consignor <a tabindex="-1" href="javascript:gotoAddAccount()">(+)</a></label>
                                     <div class="col-md-5">
-                                        <select class="form-control select2-show-search" id="AccountBranchMappingId">
+                                        <select class="form-control select2-show-search account-save-cookie" id="AccountBranchMappingId">
                                             <option></option>
                                             @{
                                                 if (Model.AccountBranchMappingList != null)
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
                                         </select>
                                     </div>
-                                    <label for="DeliveryAccountBranchMappingId" class="col-md-1 form-label">Consignee</label>
+                                    <label for="DeliveryAccountBranchMappingId" class="col-md-1 form-label">Consignee <a tabindex="-1" href="javascript:gotoAddAccount()">(+)</a></label>
                                     <div class="col-md-5">
-                                        <select class="form-control select2-show-search" id="DeliveryAccountBranchMappingId">
+                                        <select class="form-control select2-show-search account-save-cookie" id="DeliveryAccountBranchMappingId">
                                             <option></option>
                                             @{
                                                 if (Model.AccountBranchMappingList != null)
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -217,29 +217,29 @@
                                 <div class="row mb-1">
                                     <label for="LRPayTypeId" class="col-md-1 form-label">Payment</label>
                                     <div class="col-md-5">
-                                        <select class="form-control select2-show-search" id="LRPayTypeId">
+                                        <select class="form-control select2-show-search account-save-cookie" id="LRPayTypeId">
                                             <option></option>
                                             @{
                                                 if (Model.PaymentList != null)
                                                 {
                                                     foreach (var o in Model.PaymentList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
                                         </select>
                                     </div>
-                                    <label for="BillAccountBranchMappingId" class="col-md-1 form-label">Bill Party</label>
+                                    <label for="BillAccountBranchMappingId" class="col-md-1 form-label">Bill Party <a tabindex="-1" href="javascript:gotoAddAccount()">(+)</a></label>
                                     <div class="col-md-5">
-                                        <select class="form-control select2-show-search-clear" id="BillAccountBranchMappingId">
+                                        <select class="form-control select2-show-search-clear account-save-cookie" id="BillAccountBranchMappingId">
                                             <option></option>
                                             @{
                                                 if (Model.AccountBranchMappingList != null)
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -253,20 +253,20 @@
                         <div class="col-md-1">
                             <div class="form-group text-center">
                                 <label for="Parcel" class="form-label">#Parcel</label>
-                                <input type="text" class="form-control numberonly text-center" id="Parcel" placeholder="">
+                                <input type="text" class="form-control numberonly text-center account-save-cookie" id="Parcel" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="DescriptionId" class="form-label text-center">Description</label>
-                                <select class="form-control select2-show-search-add-clear mode-ed" id="DescriptionId">
+                                <select class="form-control select2-show-search-add-clear mode-ed account-save-cookie" id="DescriptionId">
                                     <option></option>
                                     @{
                                         if (Model.DescriptionList != null)
                                         {
                                             foreach (var o in Model.DescriptionList)
                                             {
-                                                <option value="@o.Text">@o.Text</option>
+                                                        <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -276,14 +276,14 @@
                         <div class="col-md-2">
                             <div class="form-group text-center">
                                 <label for="PackingId" class="form-label">Packing</label>
-                                <select class="form-control select2-show-search-add-clear mode-ed" id="PackingId">
+                                <select class="form-control select2-show-search-add-clear mode-ed account-save-cookie" id="PackingId">
                                     <option></option>
                                     @{
                                         if (Model.PackingList != null)
                                         {
                                             foreach (var o in Model.PackingList)
                                             {
-                                                <option value="@o.Text">@o.Text</option>
+                                                        <option value="@o.Text">@o.Text</option>
                                             }
                                         }
                                     }
@@ -293,26 +293,26 @@
                         <div class="col-md-1">
                             <div class="form-group text-center">
                                 <label for="ActualWeight" class="form-label">Act. Kg.</label>
-                                <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="ActualWeight" placeholder="">
+                                <input type="text" class="form-control text-right decimalonly account-save-cookie" data-tofixed="2" id="ActualWeight" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-1">
                             <div class="form-group text-center">
                                 <label for="ChargeWeight" class="form-label">Chrg. Kg.</label>
-                                <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="ChargeWeight" placeholder="">
+                                <input type="text" class="form-control text-right decimalonly account-save-cookie" data-tofixed="2" id="ChargeWeight" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group text-center">
                                 <label for="LRRateOnId" class="form-label">Rate On</label>
-                                <select class="form-control select2-show-search" id="LRRateOnId">
+                                <select class="form-control select2-show-search account-save-cookie" id="LRRateOnId">
                                     <option></option>
                                     @{
                                         if (Model.LRRateOnList != null)
                                         {
                                             foreach (var o in Model.LRRateOnList)
                                             {
-                                                <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                             }
                                         }
                                     }
@@ -322,13 +322,13 @@
                         <div class="col-md-1">
                             <div class="form-group text-center">
                                 <label for="Rate" class="form-label">Rate</label>
-                                <input type="text" class="form-control text-right decimalonly calculate-net-amount" data-tofixed="2" id="Rate" placeholder="">
+                                <input type="text" class="form-control text-right decimalonly calculate-net-amount account-save-cookie" data-tofixed="2" id="Rate" placeholder="">
                             </div>
                         </div>
                         <div class="col-md-1">
                             <div class="form-group text-center">
                                 <label for="Freight" class="form-label">Freight</label>
-                                <input type="text" class="form-control text-right decimalonly calculate-net-amount" data-tofixed="2" id="Freight" placeholder="" disabled>
+                                <input type="text" class="form-control text-right decimalonly calculate-net-amount account-save-cookie" data-tofixed="2" id="Freight" placeholder="" disabled>
                             </div>
                         </div>
                     </div>
@@ -340,19 +340,19 @@
                                         <div class="row mb-1">
                                             <label for="InvoiceNo" class="col-md-4 form-label">Invoice Number</label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" id="InvoiceNo" placeholder="">
+                                                <input type="text" class="form-control account-save-cookie" id="InvoiceNo" placeholder="">
                                             </div>
                                         </div>
                                         <div class="row mb-1">
                                             <label for="InvoiceValue" class="col-md-4 form-label">Invoice Value</label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control numbersonly text-right decimalonly" data-tofixed="2" id="InvoiceValue" placeholder="">
+                                                <input type="text" class="form-control numbersonly text-right decimalonly account-save-cookie" data-tofixed="2" id="InvoiceValue" placeholder="">
                                             </div>
                                         </div>
                                         <div class="row mb-1">
                                             <label for="PrivateMarka" class="col-md-4 form-label">Private Mark</label>
                                             <div class="col-md-8">
-                                                <input type="text" class="form-control" id="PrivateMarka" placeholder="">
+                                                <input type="text" class="form-control" id="PrivateMarka account-save-cookie" placeholder="">
                                             </div>
                                         </div>
                                     </div>
@@ -362,14 +362,14 @@
                                         <div class="row mb-1">
                                             <label for="VehicleId" class="col-md-4 form-label">Vehicle</label>
                                             <div class="col-md-8">
-                                                <select class="form-control select2-show-search-clear" id="VehicleId">
+                                                <select class="form-control select2-show-search-clear account-save-cookie" id="VehicleId">
                                                     <option></option>
                                                     @{
                                                         if (Model.VehicleList != null)
                                                         {
                                                             foreach (var o in Model.VehicleList)
                                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                                        <option value="@o.Value">@o.Text</option>
                                                             }
                                                         }
                                                     }
@@ -379,7 +379,7 @@
                                         <div class="row mb-1">
                                             <label for="LRDeliveryId" class="col-md-4 form-label">Delivery At</label>
                                             <div class="col-md-8">
-                                                <select class="form-control select2-show-search" id="LRDeliveryId">
+                                                <select class="form-control select2-show-search account-save-cookie" id="LRDeliveryId">
                                                     <option></option>
                                                     @{
                                                         if (Model.LRDeliveryList != null)
@@ -389,12 +389,12 @@
                                                             if (goDownDelivery != null)
                                                             {
                                                                 var goDownDeliveryId = goDownDelivery.Value;
-                                                                <option value="@goDownDeliveryId" selected>@goDownDelivery.Text</option>
+                                                                        <option value="@goDownDeliveryId" selected>@goDownDelivery.Text</option>
                                                             }
 
                                                             foreach (var o in Model.LRDeliveryList.Where(x => x.Text.Trim().ToLower() != "go-down delivery"))
                                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                                        <option value="@o.Value">@o.Text</option>
                                                             }
                                                         }
                                                     }
@@ -404,7 +404,7 @@
                                         <div class="row mb-1">
                                             <label for="LRDeliveryTypeId" class="col-md-4 form-label">Delivery Type</label>
                                             <div class="col-md-8">
-                                                <select class="form-control select2-show-search" id="LRDeliveryTypeId">
+                                                <select class="form-control select2-show-search account-save-cookie" id="LRDeliveryTypeId">
                                                     <option></option>
                                                     @{
                                                         if (Model.LRDeliveryTypeList != null)
@@ -414,12 +414,12 @@
                                                             if (FirstRow != null)
                                                             {
                                                                 var FirstRowId = FirstRow.Value;
-                                                                <option value="@FirstRowId" selected>@FirstRow.Text</option>
+                                                                        <option value="@FirstRowId" selected>@FirstRow.Text</option>
                                                             }
 
                                                             foreach (var o in Model.LRDeliveryTypeList.Where(x => x.Text != "-"))
                                                             {
-                                                                <option value="@o.Value">@o.Text</option>
+                                                                        <option value="@o.Value">@o.Text</option>
                                                             }
                                                         }
                                                     }
@@ -435,7 +435,7 @@
                                         <div class="row mb-1">
                                             <label for="Remarks" class="col-md-2 form-label">Remarks</label>
                                             <div class="col-md-10">
-                                                <input type="text" class="form-control" id="Remarks" placeholder="">
+                                                <input type="text" class="form-control account-save-cookie" id="Remarks" placeholder="">
                                             </div>
                                         </div>
                                     </div>
@@ -447,31 +447,31 @@
                                         <div class="row mb-1">
                                             <label for="GST" class="col-md-2 form-label">GST %</label>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control text-right decimalonly" data-tofixed="3" id="GST" placeholder="" readonly tabindex="-1">
+                                                <input type="text" class="form-control text-right decimalonly account-save-cookie" data-tofixed="3" id="GST" placeholder="" readonly tabindex="-1">
                                             </div>
                                             <label for="TruckLoadDate" class="col-md-2 form-label">Truck Load Date</label>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control" id="TruckLoadDate" placeholder="" readonly tabindex="-1">
+                                                <input type="text" class="form-control account-save-cookie" id="TruckLoadDate" placeholder="" readonly tabindex="-1">
                                             </div>
                                         </div>
                                         <div class="row mb-1">
                                             <label for="Ch" class="col-md-2 form-label">Branch Ch#</label>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control" id="Ch" placeholder="" readonly tabindex="-1">
+                                                <input type="text" class="form-control account-save-cookie" id="Ch" placeholder="" readonly tabindex="-1">
                                             </div>
                                             <label for="Truck" class="col-md-2 form-label">Vehicle#</label>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control" id="Truck" placeholder="" readonly tabindex="-1">
+                                                <input type="text" class="form-control account-save-cookie" id="Truck" placeholder="" readonly tabindex="-1">
                                             </div>
                                         </div>
                                         <div class="row mb-1">
                                             <label for="Ch" class="col-md-2 form-label">Invoice#</label>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control" id="BranchInvoiceNo" placeholder="" readonly tabindex="-1">
+                                                <input type="text" class="form-control account-save-cookie" id="BranchInvoiceNo" placeholder="" readonly tabindex="-1">
                                             </div>
                                             <label for="Truck" class="col-md-2 form-label">Invoice Date</label>
                                             <div class="col-md-4">
-                                                <input type="text" class="form-control" id="InvoiceDate" placeholder="" readonly tabindex="-1">
+                                                <input type="text" class="form-control account-save-cookie" id="InvoiceDate" placeholder="" readonly tabindex="-1">
                                             </div>
                                         </div>
                                     </div>
@@ -484,43 +484,43 @@
                                 <div class="row mb-1">
                                     <label for="Charges1" class="col-md-6 form-label">@Model.CustomerFirmTransportSetting.LRBookChargeLable1</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount" data-tofixed="2" id="Charges1" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount account-save-cookie" data-tofixed="2" id="Charges1" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="Charges2" class="col-md-6 form-label">@Model.CustomerFirmTransportSetting.LRBookChargeLable2</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount" data-tofixed="2" id="Charges2" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount account-save-cookie" data-tofixed="2" id="Charges2" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="Charges3" class="col-md-6 form-label">@Model.CustomerFirmTransportSetting.LRBookChargeLable3</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount" data-tofixed="2" id="Charges3" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount account-save-cookie" data-tofixed="2" id="Charges3" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="Charge4" class="col-md-6 form-label"">@Model.CustomerFirmTransportSetting.LRBookChargeLable4</label>
+                                    <label for="Charge4" class="col-md-6 form-label" ">@Model.CustomerFirmTransportSetting.LRBookChargeLable4</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount" data-tofixed="2" id="Charges4" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount account-save-cookie" data-tofixed="2" id="Charges4" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="Charges5" class="col-md-6 form-label">@Model.CustomerFirmTransportSetting.LRBookChargeLable5</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount" data-tofixed="2" id="Charges5" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount account-save-cookie" data-tofixed="2" id="Charges5" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="Charges6" class="col-md-6 form-label">@Model.CustomerFirmTransportSetting.LRBookChargeLable6</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount" data-tofixed="2" id="Charges6" placeholder="">
+                                        <input type="text" class="form-control text-right decimalonly calculate-net-amount account-save-cookie" data-tofixed="2" id="Charges6" placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="NetAmount" class="col-md-6 form-label">Net Amount</label>
                                     <div class="col-md-6">
-                                        <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="NetAmount" placeholder="" readonly tabindex="-1">
+                                        <input type="text" class="form-control text-right decimalonly account-save-cookie" data-tofixed="2" id="NetAmount" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                             </div>
@@ -552,6 +552,8 @@
 
             $('.dv-list').show();
             $('.dv-detail').hide();
+
+            addClick();
 
             bindDatatableList();
 
@@ -593,7 +595,8 @@
 
             $("#Parcel").on('keyup', function (e) {
                 updatePrivateMarka();
-                calcFreight();
+                //calcFreight();
+                calcNetAmount();
             });
 
             var roundOff = @((Model.CustomerFirmTransportSetting.IsWeightRoundOff ? "true" : "false").ToLower());
@@ -670,11 +673,13 @@
             });
 
             $("#ChargeWeight").on('change', function (e) {
-                calcFreight();
+                //calcFreight();
+                calcNetAmount();
             });
 
             $("#ActualWeight").on('change', function (e) {
-                calcFreight();
+                //calcFreight();
+                calcNetAmount();
             });
 
             $("#Rate").on('change', function (e) {
@@ -683,7 +688,8 @@
                 var formattedValue = currentValue.toFixed(2);
                 $("#" + fieldId).val(formattedValue);
 
-                calcFreight();
+                //calcFreight();
+                calcNetAmount();
             });
 
             $("#AccountBranchMappingId, #DeliveryAccountBranchMappingId").on('change', function (e) {
@@ -693,8 +699,6 @@
             $("#LRPayTypeId").on('change', function (e) {
                 bindBillParty(true);
             });
-
-            addClick();
 
             $("#CityIdTo").on('change', function (e) {
                 $('#Rate').attr('disabled', false);
@@ -721,6 +725,8 @@
 
             var cookieValue = getCookie('@Html.Raw(lastLrToCityCookieName)');
             $("#CityIdTo").val(cookieValue).trigger('change');
+
+            loadPageData();
         });
 
         var citychangeapply = true;
@@ -800,7 +806,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.amount.toFixed(2);
+                    return row.netAmount.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -1075,7 +1081,7 @@
 
                 if ($("#Charges1").val() != null && $("#Charges1").val() != "") {
                     if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges1").val())) {
-                        showWarning("", "Charges1 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        showWarning("", "@(Model.CustomerFirmTransportSetting.LRBookChargeLable1) must be upto 16 characters before decimal point and 2 characters after decimal point long.");
                         $("#Charges1").focus();
                         return false;
                     }
@@ -1083,7 +1089,7 @@
 
                 if ($("#Charges2").val() != null && $("#Charges2").val() != "") {
                     if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges2").val())) {
-                        showWarning("", "Charges2 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        showWarning("", "@(Model.CustomerFirmTransportSetting.LRBookChargeLable2) must be upto 16 characters before decimal point and 2 characters after decimal point long.");
                         $("#Charges2").focus();
                         return false;
                     }
@@ -1091,7 +1097,7 @@
 
                 if ($("#Charges3").val() != null && $("#Charges3").val() != "") {
                     if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges3").val())) {
-                        showWarning("", "Charges3 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        showWarning("", "@(Model.CustomerFirmTransportSetting.LRBookChargeLable3) must be upto 16 characters before decimal point and 2 characters after decimal point long.");
                         $("#Charges3").focus();
                         return false;
                     }
@@ -1099,7 +1105,7 @@
 
                 if ($("#Charges4").val() != null && $("#Charges4").val() != "") {
                     if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges4").val())) {
-                        showWarning("", "Charges4 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        showWarning("", "@(Model.CustomerFirmTransportSetting.LRBookChargeLable4) must be upto 16 characters before decimal point and 2 characters after decimal point long.");
                         $("#Charges4").focus();
                         return false;
                     }
@@ -1107,7 +1113,7 @@
 
                 if ($("#Charges5").val() != null && $("#Charges5").val() != "") {
                     if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges5").val())) {
-                        showWarning("", "Charges5 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        showWarning("", "@(Model.CustomerFirmTransportSetting.LRBookChargeLable5) must be upto 16 characters before decimal point and 2 characters after decimal point long.");
                         $("#Charges5").focus();
                         return false;
                     }
@@ -1115,8 +1121,16 @@
 
                 if ($("#Charges6").val() != null && $("#Charges6").val() != "") {
                     if (!/^[-+]?(\d{1,16}(\.\d{0,2})?|\.\d{1,2})$/.test($("#Charges6").val())) {
-                        showWarning("", "Charges6 must be upto 16 characters before decimal point and 2 characters after decimal point long.");
+                        showWarning("", "@(Model.CustomerFirmTransportSetting.LRBookChargeLable6) must be upto 16 characters before decimal point and 2 characters after decimal point long.");
                         $("#Charges6").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#LRRateOnId").val() != 'FOC') {
+                    if ($("#NetAmount").val() == null || $("#NetAmount").val() == "" || getFloatValueNull($("#NetAmount").val()) == 0.00) {
+                        showWarning("", "Net amount must be greater than zero.");
+                        $("#NetAmount").focus();
                         return false;
                     }
                 }
@@ -1153,6 +1167,7 @@
                 savedata.Charges4 = getFloatValueNull("Charges4", 2);
                 savedata.Charges5 = getFloatValueNull("Charges5", 2);
                 savedata.Charges6 = getFloatValueNull("Charges6", 2);
+                savedata.NetAmount = getFloatValueNull("NetAmount", 2);
 
                 blockUI('container');
 
@@ -1269,6 +1284,7 @@
                                 $("#Charges4").val(result.data.charges4 ? result.data.charges4.toFixed(2) : '');
                                 $("#Charges5").val(result.data.charges5 ? result.data.charges5.toFixed(2) : '');
                                 $("#Charges6").val(result.data.charges6 ? result.data.charges6.toFixed(2) : '');
+                                $("#NetAmount").val(result.data.netAmount ? result.data.netAmount.toFixed(2) : '');
                                 $("#InvoiceNo").val(result.data.invoiceNo);
                                 $("#InvoiceValue").val(result.data.invoiceValue ? result.data.invoiceValue.toFixed(2) : '');
                                 $("#PrivateMarka").val(result.data.privateMarka);
@@ -1283,11 +1299,11 @@
                                 if (result.data.deleted || result.data.isLRBookingPurchased) {
                                     $('.btn-delete').hide();
                                 }
-                                else
-                                {
+                                else {
                                     $('.btn-delete').show();
                                 }
-                                calcNetAmount();
+
+                                //calcNetAmount();
                                 getGSTRate();
 
                                 citychangeapply = true;
@@ -1326,7 +1342,8 @@
                             if (data.data != null) {
                                 $('#Rate').val(data.data.rate);
                                 $('#Rate').attr('disabled', data.data.isRateDisable == 1 ? true : false);
-                                calcFreight();
+                                //calcFreight();
+                                calcNetAmount();
                             } else $('#Rate').attr('disabled', false);
                         } else {
                             showError("", data.data);
@@ -1420,5 +1437,45 @@
                 }
             });
         }
+
+        function gotoAddAccount() {
+            savePageData();
+            window.location.href = "@Url.Content("~/Customer/CustomerAccount?redirectUrl=LR")";
+        }
+
+        var pagedatakey= 'lrpagedata';
+        function savePageData() {
+            try {
+                var data = {};
+                $(".account-save-cookie").each(function () {
+                    data[$(this).attr("id")] = $(this).val();
+                });
+
+                $.cookie(pagedatakey, JSON.stringify(data));
+            } catch (e) {
+
+            }
+        };
+
+        // Reload all elements from a cookie
+        function loadPageData() {
+            try {
+                var data = JSON.parse($.cookie(pagedatakey));
+                if (data != null) {
+                    for (var id in data) {
+                        if ($("#" + id).is('select')) {
+                            $("#" + id).val(data[id]).trigger('change');
+                        }
+                        else{
+                            $("#" + id).val(data[id]);
+                        }
+                    }
+
+                    $.removeCookie(pagedatakey);
+                }
+            } catch (e) {
+
+            }
+        };
     </script>
-}
+                                    }

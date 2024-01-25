@@ -9,7 +9,7 @@ namespace Adroit.Accounting.Model
         public LRBooking()
         {
         }
-    
+
         public int Id { get; set; }
         public int BranchId { get; set; }
         public int YearId { get; set; }
@@ -57,6 +57,8 @@ namespace Adroit.Accounting.Model
         public System.DateTime? DeletedOn { get; set; }
         public int? ModifiedById { get; set; }
         public System.DateTime? ModifiedOn { get; set; }
-        
+        public decimal NetAmount { get; set; }
+
+
     }
 }

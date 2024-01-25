@@ -89,12 +89,20 @@
     {
     <script>
 
+        var redirectUrl = '@ViewBag.RedirectUrl';
+
         $(function (e) {
 
             $('.dv-list').show();
             $('.dv-detail').hide();
 
-            bindDatatableList();
+            if (redirectUrl != '') {
+                addClick();
+            }
+            else {
+                bindDatatableList();
+            }
+
             bindGSTInvoiceTypeList();
 
             $('.select2-show-search-api').select2({
@@ -698,11 +706,15 @@
                     success: function (data) {
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
-                            fromReset();
-                            showWarning("", 'Account saved successfully.');
-                            $("#Id").val(0);
-                            refreshDatatableList();
-                            $('.btn-back').click();
+                            if (redirectUrl != '') {
+                                window.location.replace(redirectUrl);
+                            } else {
+                                fromReset();
+                                showWarning("", 'Account saved successfully.');
+                                $("#Id").val(0);
+                                refreshDatatableList();
+                                $('.btn-back').click();
+                            }
                         } else {
                             showError("", data.data);
                         }
