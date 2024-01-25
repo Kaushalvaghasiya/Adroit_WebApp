@@ -119,8 +119,8 @@ namespace Adroit.Accounting.Web.Utility
         {
             List<DropdownViewModel> list = new List<DropdownViewModel>
             {
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanViewList.DateWise)}", Value = $"{(int)ChalanViewList.DateWise}" },
-                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ChalanViewList.TruckWise)}", Value = $"{(int)ChalanViewList.TruckWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.DateWise)}", Value = $"{(int)ViewList.DateWise}" },
+                new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(ViewList.TruckWise)}", Value = $"{(int)ViewList.TruckWise}" },
             };
             return list;
         }

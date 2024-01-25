@@ -33,8 +33,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            parameters.Add("@DateWise", ChalanViewList.DateWise);
-            parameters.Add("@TruckWise", ChalanViewList.TruckWise);
+            parameters.Add("@DateWise", ViewList.DateWise);
+            parameters.Add("@TruckWise", ViewList.TruckWise);
             return QueryHelper.GetList<LRBookingChalanLoadingGridViewModel>("sp_ReportLRBookingChalanLoadingList", connectionString, parameters);
         }
 
@@ -60,8 +60,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            parameters.Add("@DateWise", ChalanViewList.DateWise);
-            parameters.Add("@TruckWise", ChalanViewList.TruckWise);
+            parameters.Add("@DateWise", ViewList.DateWise);
+            parameters.Add("@TruckWise", ViewList.TruckWise);
             return QueryHelper.GetList<LRBookingChalanLoadingGridViewModel>("sp_ReportLRBookingChalanLoadingListWithSummary", connectionString, parameters);
         }
     }

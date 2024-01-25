@@ -18,5 +18,7 @@ namespace Adroit.Accounting.Model.Enums
         ConsigneeWise,
         [Description("Bill Party Wise")]
         BillPartyWise,
+        [Description("Truck Wise")]
+        TruckWise
     }
 }
