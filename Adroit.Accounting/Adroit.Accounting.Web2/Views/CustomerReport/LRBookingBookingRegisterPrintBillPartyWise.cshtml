@@ -28,6 +28,7 @@
             <th class="text-left">To City</th>
             <th class="text-center">Parcel</th>
             <th class="text-left">Goods Description</th>
+            <th class="text-left">Consignor & GST No</th>
             <th class="text-left">Consignee & GST No</th>
             <th class="text-right">Charge Wt.</th>
             <th class="text-right">LR Amount</th>
@@ -43,6 +44,9 @@
             var prevBillparty = "";
             decimal subTotalAmount = 0.00m;
             decimal totalAmount = 0.00m;
+            int totalLR = 0;
+            short totalParcel = 0;
+            decimal totalChargeWt = 0.00m;
 
             foreach (var item in Model.ReportData)
             {
@@ -52,7 +56,7 @@
                     if (Model.ReportHeader.Subtotal.Equals(true))
                     {
                         <tr class="subtotal-row">
-                            <td colspan="8" class="text-right">Sub Total</td>
+                            <td colspan="9" class="text-right">Sub Total</td>
                             <td class="text-right">@subTotalAmount</td>
                             <td colspan="6"></td>
                         </tr>
@@ -79,13 +83,16 @@
 
                 subTotalAmount += item.Amount ?? 0.00m;
                 totalAmount += item.Amount ?? 0.00m;
+                totalLR += 1;
+                totalParcel += item.Parcel ?? 0;
+                totalChargeWt += item.ChargeWeight ?? 0.000m;
 
                 if (prevBillparty != item.BillPartyName && prevBillparty != "")
                 {
                     if (Model.ReportHeader.Subtotal.Equals(true))
                     {
                         <tr class="subtotal-row">
-                            <td colspan="8" class="text-right">Sub Total</td>
+                            <td colspan="9" class="text-right">Sub Total</td>
                             <td class="text-right">@subTotalAmount</td>
                             <td colspan="6"></td>
                         </tr>
@@ -98,7 +105,7 @@
             if (prevBillparty != "" && Model.ReportHeader.Subtotal.Equals(true))
             {
                 <tr class="subtotal-row">
-                    <td colspan="8" class="text-right">Sub Total</td>
+                    <td colspan="9" class="text-right">Sub Total</td>
                     <td class="text-right">@subTotalAmount</td>
                     <td colspan="6"></td>
                 </tr>
@@ -107,9 +114,14 @@
             if (totalAmount > 0)
             {
                 <tr class="total-row">
-                    <td colspan="8" class="text-right">Total</td>
+                    <td class="text-right" colspan="2">Total</td>
+                    <td class="text-center">@totalLR</td>
+                    <td colspan="1"></td>
+                    <td class="text-center">@totalParcel</td>
+                    <td colspan="3"></td>
+                    <td class="text-right">@totalChargeWt</td>
                     <td class="text-right">@totalAmount</td>
-                    <td colspan="6"></td>
+                    <td colspan="4"></td>
                 </tr>
             }
         }

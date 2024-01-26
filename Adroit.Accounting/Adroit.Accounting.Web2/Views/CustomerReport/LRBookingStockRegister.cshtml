@@ -310,7 +310,7 @@
 
             const viewBagYear = "@(ViewBag.Year)";
             const dateRange = getDateRange(viewBagYear);
-
+            $("#ChalanId").val($("#ChalanId option:last").val()).trigger("change");
             $(".reset-button").on("click", function () {
                 $("#BranchIds").multipleSelect('setSelects', []);                
                 $("#CityFromIds").multipleSelect('setSelects', []);
@@ -319,7 +319,7 @@
                 $("#ConsigneeIds").multipleSelect('setSelects', []);
                 $("#BillPartyIds").multipleSelect('setSelects', []);
                 $("#PayTypeIds").multipleSelect('setSelects', []);
-                $("#ChalanId").val($("#ChalanId option:first").val()).trigger("change");
+                $("#ChalanId").val($("#ChalanId option:last").val()).trigger("change");
                 $("#InvStatusId").val($("#InvStatusId option:first").val()).trigger("change");
                 $("#Summary").prop('checked', false);
                 $("#LRStatusId").val($("#LRStatusId option:first").val()).trigger("change");
@@ -476,7 +476,7 @@
             });           
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null) ? "" : row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -660,7 +660,7 @@
             });            
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",

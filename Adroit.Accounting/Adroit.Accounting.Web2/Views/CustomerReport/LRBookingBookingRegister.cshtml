@@ -235,14 +235,14 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 hide-for-lrwise">
                             <div class="form-group"><label for="form-group SubTotal">Sub Total</label></div>
                             <label class="custom-switch">
                                 <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="SubTotal">
                                 <span class="custom-switch-indicator"></span>
                             </label>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-2 hide-for-datewise">
                             <div class="form-group"><label for="form-group Summary">Summary</label></div>
                             <label class="custom-switch">
                                 <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input" id="Summary">
@@ -454,14 +454,22 @@
                 $('#tblMain thead tr').html('');
             });
 
-            //$('.hide-for-datewise').hide();
-            //$("#ViewId").on('change', function (e) {
-            //    if ($(this).val() == '@((int)ViewList.DateWise)') {
-            //        $('.hide-for-datewise').hide();
-            //    } else {
-            //        $('.hide-for-datewise').show();
-            //    }
-            //});
+            $('.hide-for-datewise').hide();
+            $("#ViewId").on('change', function (e) {
+                if ($(this).val() == '@((int)ViewList.DateWise)') {
+                    $('.hide-for-lrwise').show();
+                    $('.hide-for-datewise').hide();
+                }
+                else if ($(this).val() == '@((int)ViewList.LRWise)') {
+                    $('.hide-for-lrwise').hide();
+                    $('.hide-for-datewise').hide();
+                }
+                else {
+                    $('.hide-for-lrwise').show();
+                    $('.hide-for-datewise').show();
+                }
+
+            });
         });
 
         function getDateRange(yearRange) {
@@ -583,7 +591,7 @@
             });                      
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -680,6 +688,9 @@
                     tableBody.empty();
                     let subTotalAmount = 0;
                     let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
                     let prevDate = null;
 
                     for (let i = 0; i < rows.length; i++) {
@@ -687,7 +698,7 @@
 
                         if (prevDate !== null && dateCell !== prevDate) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
                                     '<td colspan="8">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="6"></td>' +
@@ -700,12 +711,17 @@
 
                         subTotalAmount += parseFloat(api.cell(i, 8).data());
                         totalAmount += parseFloat(api.cell(i, 8).data());
+                        totalLR += 1;
+                        if(api.cell(i, 3).data() != null)
+                        totalParcel += parseFloat(api.cell(i, 3).data());
+                        if(api.cell(i, 7).data() != null)
+                        totalChargeWt += parseFloat(api.cell(i, 7).data());
                         tableBody.append(rows[i]);
                         prevDate = dateCell;
                     }
 
                     if (prevDate !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="8">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="6"></td>' +
@@ -715,10 +731,15 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
-                            '<td colspan="8">TOTAL</td>' +
+                        let totalRow = '<tr class="total-row">' +
+                            '<td>TOTAL</td>' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td colspan="1"></td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td colspan="3"></td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="6"></td>' +
+                            '<td colspan="5"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
@@ -818,7 +839,7 @@
             });                      
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -914,17 +935,29 @@
                     let rows = api.rows({ page: 'current' }).nodes();
                     tableBody.empty();
                     let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
 
                     for (let i = 0; i < rows.length; i++) {
                         totalAmount += parseFloat(api.cell(i, 8).data());
+                        totalLR += 1;
+                        if (api.cell(i, 3).data() != null)
+                            totalParcel += parseFloat(api.cell(i, 3).data());
+                        if (api.cell(i, 7).data() != null)
+                            totalChargeWt += parseFloat(api.cell(i, 7).data());
                         tableBody.append(rows[i]);
                     }
 
-                    if (SubTotal && totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#e5e4e2;color:#FF0000;">' +
-                            '<td colspan="8">TOTAL</td>' +
+                    if (totalAmount > 0) {
+                        let totalRow = '<tr class="total-row">' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td colspan="2"></td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td colspan="3"></td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="6"></td>' +
+                            '<td colspan="5"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
@@ -1025,7 +1058,7 @@
             });                       
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -1122,6 +1155,9 @@
                     tableBody.empty();
                     let subTotalAmount = 0;
                     let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
                     let prevCity = null;
 
                     for (let i = 0; i < rows.length; i++) {
@@ -1129,7 +1165,7 @@
 
                         if (prevCity !== null && cityCell !== prevCity) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
                                     '<td colspan="8">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="6"></td>' +
@@ -1142,12 +1178,17 @@
 
                         subTotalAmount += parseFloat(api.cell(i, 8).data());
                         totalAmount += parseFloat(api.cell(i, 8).data());
+                        totalLR += 1;
+                        if(api.cell(i, 3).data() != null)
+                        totalParcel += parseFloat(api.cell(i, 3).data());
+                        if(api.cell(i, 7).data() != null)
+                        totalChargeWt += parseFloat(api.cell(i, 7).data());
                         tableBody.append(rows[i]);
                         prevCity = cityCell;
                     }
 
                     if (prevCity !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="8">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="6"></td>' +
@@ -1157,10 +1198,14 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
-                            '<td colspan="8">TOTAL</td>' +
+                        let totalRow = '<tr class="total-row">' +
+                            '<td colspan="2">TOTAL</td>' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td colspan="3"></td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="6"></td>' +
+                            '<td colspan="5"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
@@ -1231,7 +1276,7 @@
             });            
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -1318,7 +1363,7 @@
 
                         if (prevGroupingColumn !== null && curCell !== prevGroupingColumn) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row"">' +
                                     '<td colspan="4">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="4"></td>' +
@@ -1336,7 +1381,7 @@
                     }
 
                     if (prevGroupingColumn !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="4">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="4"></td>' +
@@ -1346,7 +1391,7 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                        let totalRow = '<tr class="total-row">' +
                             '<td colspan="4">TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="4"></td>' +
@@ -1450,7 +1495,7 @@
             });                        
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -1547,6 +1592,9 @@
                     tableBody.empty();
                     let subTotalAmount = 0;
                     let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
                     let prevConsignee = null;
 
                     for (let i = 0; i < rows.length; i++) {
@@ -1554,7 +1602,7 @@
 
                         if (prevConsignee !== null && consigneeCell !== prevConsignee) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
                                     '<td colspan="8">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="6"></td>' +
@@ -1567,12 +1615,17 @@
 
                         subTotalAmount += parseFloat(api.cell(i, 8).data());
                         totalAmount += parseFloat(api.cell(i, 8).data());
+                        totalLR += 1;
+                        if(api.cell(i, 4).data() != null)
+                        totalParcel += parseFloat(api.cell(i, 4).data());
+                        if(api.cell(i, 7).data() != null)
+                        totalChargeWt += parseFloat(api.cell(i, 7).data());
                         tableBody.append(rows[i]);
                         prevConsignee = consigneeCell;
                     }
 
                     if (prevConsignee !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="8">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="6"></td>' +
@@ -1582,10 +1635,15 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
-                            '<td colspan="8">TOTAL</td>' +
+                        let totalRow = '<tr class="total-row">' +
+                            '<td colspan="2">TOTAL</td>' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td colspan="1"></td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td colspan="2"></td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="6"></td>' +
+                            '<td colspan="5"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
@@ -1656,7 +1714,7 @@
             });            
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -1743,7 +1801,7 @@
 
                         if (prevGroupingColumn !== null && curCell !== prevGroupingColumn) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
                                     '<td colspan="4">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="4"></td>' +
@@ -1761,7 +1819,7 @@
                     }
 
                     if (prevGroupingColumn !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="4">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="4"></td>' +
@@ -1771,7 +1829,7 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                        let totalRow = '<tr class="total-row">' +
                             '<td colspan="4">TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="4"></td>' +
@@ -1875,7 +1933,7 @@
             });                     
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -1972,6 +2030,9 @@
                     tableBody.empty();
                     let subTotalAmount = 0;
                     let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
                     let prevConsignor = null;
 
                     for (let i = 0; i < rows.length; i++) {
@@ -1979,7 +2040,7 @@
 
                         if (prevConsignor !== null && consignorCell !== prevConsignor) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
                                     '<td colspan="8">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="6"></td>' +
@@ -1992,12 +2053,17 @@
 
                         subTotalAmount += parseFloat(api.cell(i, 8).data());
                         totalAmount += parseFloat(api.cell(i, 8).data());
+                        totalLR += 1;
+                        if(api.cell(i, 4).data() != null)
+                        totalParcel += parseFloat(api.cell(i, 4).data());
+                        if(api.cell(i, 7).data() != null)
+                        totalChargeWt += parseFloat(api.cell(i, 7).data());
                         tableBody.append(rows[i]);
                         prevConsignor = consignorCell;
                     }
 
                     if (prevConsignor !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="8">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="6"></td>' +
@@ -2007,10 +2073,15 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
-                            '<td colspan="8">TOTAL</td>' +
+                        let totalRow = '<tr class="total-row">' +
+                            '<td colspan="2">TOTAL</td>' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td colspan="1"></td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td colspan="2"></td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="6"></td>' +
+                            '<td colspan="5"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
@@ -2081,7 +2152,7 @@
             });            
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -2168,7 +2239,7 @@
 
                         if (prevGroupingColumn !== null && curCell !== prevGroupingColumn) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
                                     '<td colspan="4">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="4"></td>' +
@@ -2186,7 +2257,7 @@
                     }
 
                     if (prevGroupingColumn !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="4">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="4"></td>' +
@@ -2196,7 +2267,7 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                        let totalRow = '<tr class="total-row">' +
                             '<td colspan="4">TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="4"></td>' +
@@ -2307,7 +2378,7 @@
             });                        
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -2398,6 +2469,9 @@
                     tableBody.empty();
                     let subTotalAmount = 0;
                     let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
                     let prevBillParty = null;
 
                     for (let i = 0; i < rows.length; i++) {
@@ -2405,8 +2479,8 @@
 
                         if (prevBillParty !== null && billPartyCell !== prevBillParty) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
-                                    '<td colspan="8">SUB TOTAL</td>' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
+                                    '<td colspan="9">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="6"></td>' +
                                     '</tr>';
@@ -2416,15 +2490,20 @@
                             subTotalAmount = 0;
                         }
 
-                        subTotalAmount += parseFloat(api.cell(i, 8).data());
-                        totalAmount += parseFloat(api.cell(i, 8).data());
+                        subTotalAmount += parseFloat(api.cell(i, 9).data());
+                        totalAmount += parseFloat(api.cell(i, 9).data());
+                        totalLR += 1;
+                        if(api.cell(i, 4).data() != null)
+                        totalParcel += parseFloat(api.cell(i, 4).data());
+                        if(api.cell(i, 8).data() != null)
+                        totalChargeWt += parseFloat(api.cell(i, 8).data());
                         tableBody.append(rows[i]);
                         prevBillParty = billPartyCell;
                     }
 
                     if (prevBillParty !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
-                            '<td colspan="8">SUB TOTAL</td>' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
+                            '<td colspan="9">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="6"></td>' +
                             '</tr>';
@@ -2433,10 +2512,15 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
-                            '<td colspan="8">TOTAL</td>' +
+                        let totalRow = '<tr class="total-row">' +
+                            '<td colspan="2">TOTAL</td>' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td colspan="1"></td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td colspan="3"></td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
-                            '<td colspan="6"></td>' +
+                            '<td colspan="4"></td>' +
                             '</tr>';
 
                         tableBody.append(totalRow);
@@ -2507,7 +2591,7 @@
             });            
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue || 0).toFixed(2);
+                    return (row.invoiceValue == null)? "" :row.invoiceValue.toFixed(2);
                 },
                 "targets": colDef.length,
                 "className": "text-right",
@@ -2594,7 +2678,7 @@
 
                         if (prevGroupingColumn !== null && curCell !== prevGroupingColumn) {
                             if (SubTotal) {
-                                let subtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                                let subtotalRow = '<tr class="subtotal-row">' +
                                     '<td colspan="4">SUB TOTAL</td>' +
                                     '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                                     '<td colspan="4"></td>' +
@@ -2612,7 +2696,7 @@
                     }
 
                     if (prevGroupingColumn !== null && SubTotal) {
-                        let finalSubtotalRow = '<tr class="subtotal-row" style="font-weight:500;background:#e5e4e2;color:#000080;">' +
+                        let finalSubtotalRow = '<tr class="subtotal-row">' +
                             '<td colspan="4">SUB TOTAL</td>' +
                             '<td class="text-right"> ' + subTotalAmount.toFixed(2) + '</td>' +
                             '<td colspan="4"></td>' +
@@ -2622,7 +2706,7 @@
                     }
 
                     if (totalAmount > 0) {
-                        let totalRow = '<tr class="total-row" style="font-weight:600;background:#cccccc;color:#FF0000;">' +
+                        let totalRow = '<tr class="total-row">' +
                             '<td colspan="4">TOTAL</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="4"></td>' +
