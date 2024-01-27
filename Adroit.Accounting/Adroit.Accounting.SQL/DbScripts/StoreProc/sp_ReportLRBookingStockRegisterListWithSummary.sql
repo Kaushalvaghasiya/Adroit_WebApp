@@ -36,9 +36,7 @@ Begin
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='ASC' THEN (SUM(ISNULL(LRB.Freight,0)+ISNULL(LRB.Charges1,0)+ISNULL(LRB.Charges2,0)+ISNULL(LRB.Charges3,0)+ISNULL(LRB.Charges4,0)+ISNULL(LRB.Charges5,0)+ISNULL(LRB.Charges6,0))) END ASC,  
 			CASE WHEN @SortColumn = 3 AND @SortOrder ='DESC' THEN (SUM(ISNULL(LRB.Freight,0)+ISNULL(LRB.Charges1,0)+ISNULL(LRB.Charges2,0)+ISNULL(LRB.Charges3,0)+ISNULL(LRB.Charges4,0)+ISNULL(LRB.Charges5,0)+ISNULL(LRB.Charges6,0))) END DESC,			
 			CASE WHEN @SortColumn = 4 AND @SortOrder ='ASC' THEN SUM(LRB.InvoiceValue) END ASC,  
-			CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN SUM(LRB.InvoiceValue) END DESC,
-			CASE WHEN @SortColumn = 5 AND @SortOrder ='ASC' THEN MAX([CustomerFirmBranch].Title) END ASC,  
-			CASE WHEN @SortColumn = 5 AND @SortOrder ='DESC' THEN MAX([CustomerFirmBranch].Title) END DESC
+			CASE WHEN @SortColumn = 4 AND @SortOrder ='DESC' THEN SUM(LRB.InvoiceValue) END DESC
 		) AS RowNum,
 		 Count(*) over () AS TotalCount 
 		,COUNT(*) As LRNumber
@@ -47,7 +45,6 @@ Begin
 		,SUM((ISNULL(LRB.Freight,0)+ISNULL(LRB.Charges1,0)+ISNULL(LRB.Charges2,0)+ISNULL(LRB.Charges3,0)+ISNULL(LRB.Charges4,0)+ISNULL(LRB.Charges5,0)+ISNULL(LRB.Charges6,0))) AS Amount
 		,SUM([GSTRate].Rate) As Rate
 		,SUM(LRB.InvoiceValue) As InvoiceValue
-		,MAX([CustomerFirmBranch].Title) As BranchName
 		,LRB.Deleted
 		FROM [Z-LRBooking-Z] As LRB
 		INNER JOIN [CustomerFirmBranch] on [CustomerFirmBranch].Id = LRB.BranchId
@@ -92,8 +89,7 @@ Begin
                                    OR Parcel LIKE '%' + @Search + '%'
                                    OR ChargeWeight LIKE '%' + @Search + '%'
                                    OR Rate LIKE '%' + @Search + '%'
-                                   OR InvoiceValue LIKE '%' + @Search + '%'
-                                   OR BranchName LIKE '%' + @Search + '%')
+                                   OR InvoiceValue LIKE '%' + @Search + '%')
     ORDER BY RowNum;
 	
 End

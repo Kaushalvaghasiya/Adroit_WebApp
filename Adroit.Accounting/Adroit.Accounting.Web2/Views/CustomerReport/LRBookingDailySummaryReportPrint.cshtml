@@ -12,11 +12,14 @@
     <div class="address">
         <lable>@($"{Model.ReportHeader.BranchName} : {Model.ReportHeader.BranchAddress}")</lable>
     </div>
+    <div class="address">
+        <lable>Report Of : (@Model.ReportHeader.SelectedBranchNames)</lable>
+    </div>
     <div class="heading">
         <lable>LR Daily Summary (LR Booking)</lable>
     </div>
     <div class="date">
-        <lable>From - @Model.ReportHeader.DateFrom To @Model.ReportHeader.DateTo</lable>
+        <label>From - @(Model.ReportHeader.DateFrom?.ToString("dd/MM/yyyy")) To @(Model.ReportHeader.DateTo?.ToString("dd/MM/yyyy"))</label>
     </div>
 </div>
 <table id="tblMain" class="table col-md-12" align="center">
@@ -29,7 +32,6 @@
             <th class="text-right">Total To Pay Amount</th>
             <th class="text-right">Total Paid Amount</th>
             <th class="text-right">Total To Be Billed Amount</th>
-            <th class="text-center">Branch</th>
         </tr>
     </thead>
     <tbody>
@@ -39,6 +41,9 @@
                 decimal totaltoPayAmount = 0.00m;
                 decimal totalpaidAmount = 0.00m;
                 decimal totaltbbAmount = 0.00m;
+                int totalLR = 0;
+                short totalParcel = 0;
+                decimal totalChargeWt = 0.00m;
                 foreach (var item in Model.ReportData)
                 {
                     <tr>
@@ -49,19 +54,23 @@
                         <td class="text-right">@item.ToPayAmount</td>
                         <td class="text-right">@item.PaidAmount</td>
                         <td class="text-right">@item.TBBAmount</td>
-                        <td class="text-center">@item.BranchName</td>
                     </tr>
                     totaltoPayAmount += item.ToPayAmount ?? 0.00m;
                     totalpaidAmount += item.PaidAmount ?? 0.00m;
                     totaltbbAmount += item.TBBAmount ?? 0.00m;
+                    totalLR += item.TotalLR ?? 0;
+                    totalParcel += item.Parcel ?? 0;
+                    totalChargeWt += item.ChargeWeight ?? 0.000m;
                     
                 }
                 <tr class="total-row">
-                    <td colspan="4" class="text-right">Total</td>
+                    <td class="text-right">Total</td>
+                    <td class="text-center">@totalLR</td>
+                    <td class="text-center">@totalParcel</td>
+                    <td class="text-right">@totalChargeWt</td>
                     <td class="text-right">@totaltoPayAmount</td>
                     <td class="text-right">@totalpaidAmount</td>
                     <td class="text-right">@totaltbbAmount</td>
-                    <td colspan="3"></td>
                 </tr>
             }
         }

@@ -51,9 +51,9 @@ Begin
 			CASE WHEN @SortColumn = 6 AND @SortOrder ='ASC' THEN SUM([GSTRate].Rate) END ASC,  
 			CASE WHEN @SortColumn = 6 AND @SortOrder ='DESC' THEN SUM([GSTRate].Rate) END DESC,
 			CASE WHEN @SortColumn = 7 AND @SortOrder ='ASC' THEN SUM([Z-LRBooking-Z].InvoiceValue) END ASC,  
-			CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN SUM([Z-LRBooking-Z].InvoiceValue) END DESC,
-			CASE WHEN @SortColumn = 8 AND @SortOrder ='ASC' THEN MAX([CustomerFirmBranch].Title) END ASC,  
-			CASE WHEN @SortColumn = 8 AND @SortOrder ='DESC' THEN MAX([CustomerFirmBranch].Title) END DESC
+			CASE WHEN @SortColumn = 7 AND @SortOrder ='DESC' THEN SUM([Z-LRBooking-Z].InvoiceValue) END DESC
+			--CASE WHEN @SortColumn = 8 AND @SortOrder ='ASC' THEN MAX([CustomerFirmBranch].Title) END ASC,  
+			--CASE WHEN @SortColumn = 8 AND @SortOrder ='DESC' THEN MAX([CustomerFirmBranch].Title) END DESC
 		) AS RowNum,
 		Count(*) over () AS TotalCount 
 		,CASE WHEN @SelectedView = @BillPartyWise THEN CONCAT(ISNULL(CA3.Name, ''),NULLIF(' | ' + ISNULL(CA3.GSTNumber, ''), ' | ')) WHEN @SelectedView = @ToCityWise THEN CT2.Title WHEN @SelectedView = @ConsignorWise THEN CONCAT(ISNULL(CA1.Name, ''),NULLIF(' | ' + ISNULL(CA1.GSTNumber, ''), ' | ')) WHEN @SelectedView = @ConsigneeWise THEN CONCAT(ISNULL(CA2.Name, ''),NULLIF(' | ' + ISNULL(CA2.GSTNumber, ''), ' | ')) END As GroupingColumn
@@ -64,7 +64,6 @@ Begin
 		,SUM([GSTRate].Rate) As Rate
 		,SUM([GSTRate].Rate) As GSTAmount
 		,SUM([Z-LRBooking-Z].InvoiceValue) As InvoiceValue
-		,MAX([CustomerFirmBranch].Title) As BranchName
 		,[Z-LRBooking-Z].Deleted
 		FROM [Z-LRBooking-Z]
 		INNER JOIN [City] AS CT2 on CT2.Id = [Z-LRBooking-Z].CityIdTo
@@ -111,8 +110,8 @@ Begin
                                    OR Parcel LIKE '%' + @Search + '%'
                                    OR ChargeWeight LIKE '%' + @Search + '%'
                                    OR Rate LIKE '%' + @Search + '%'
-                                   OR InvoiceValue LIKE '%' + @Search + '%'
-                                   OR BranchName LIKE '%' + @Search + '%')
+                                   OR InvoiceValue LIKE '%' + @Search + '%')
+                                   --OR BranchName LIKE '%' + @Search + '%')
 	AND @PageSize = -1 OR (RowNum > @PageStart AND RowNum < (@PageStart + (@PageSize + 1)))
 	ORDER BY RowNum;
 End

@@ -9,7 +9,8 @@ namespace Adroit.Accounting.Model.ReportViewModel
 {
     public partial class ReportHeaderViewModel
     {
-        public string? BranchName { get; set; } 
+        public string? BranchName { get; set; }
+        public string? SelectedBranchNames { get; set; }
         public string? FrimName { get; set; }
         public string? BranchAddress { get; set; }
         public bool? Subtotal { get; set; }

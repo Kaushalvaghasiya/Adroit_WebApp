@@ -623,7 +623,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">Total Charge Wt.</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">Total LR Amount</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">Total Inv Value</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Branch</th>');            
 
             let currentDate = null;
             let totalAmount = 0;
@@ -665,19 +664,12 @@
                 "targets": colDef.length,
                 "className": "text-right",
             });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.branchName;
-                },
-                "targets": colDef.length,
-            });
 
             columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
             columns.push({ "data": "parcel", "name": "parcel", "className": "text-center" });
             columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
             columns.push({ "data": "amount", "name": "amount", "className": "text-right" });            
             columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
-            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,

@@ -131,7 +131,6 @@
                                     <th class="border-bottom-0 text-right">Total To Pay Amount</th>
                                     <th class="border-bottom-0 text-right">Total Paid Amount</th>
                                     <th class="border-bottom-0 text-right">Total To Be Billed Amount</th>
-                                    <th class="border-bottom-0 text-center">Branch</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -207,7 +206,7 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.lrMonth;
+                    return row.lrMonth + ' (@(ViewBag.Year))';
                 },
                 "targets": colDef.length,
                 "class": "text-center",
@@ -249,16 +248,10 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return (row.invoiceValue == null) ? "" : row.invoiceValue.toFixed(2);
+                    return (row.tbbAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
                 "class": "text-right",
-            });            
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.branchName;
-                },
-                "targets": colDef.length,
             });
 
             columns.push({ "data": "lrMonth", "name": "lrMonth" });
@@ -268,7 +261,6 @@
             columns.push({ "data": "toPayAmount", "name": "toPayAmount" });
             columns.push({ "data": "paidAmount", "name": "paidAmount" });
             columns.push({ "data": "tbbAmount", "name": "tbbAmount" });
-            columns.push({ "data": "branchName", "name": "branchName" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -316,20 +308,34 @@
                     let totaltoPayAmount = 0;
                     let totalpaidAmount = 0;
                     let totaltbbAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
 
                     for (let i = 0; i < rows.length; i++) {
-                        totaltoPayAmount += parseFloat(api.cell(i, 4).data());
-                        totalpaidAmount += parseFloat(api.cell(i, 5).data());
-                        totaltbbAmount += parseFloat(api.cell(i, 6).data());
+                        if (api.cell(i, 4).data() != null)
+                            totaltoPayAmount += parseFloat(api.cell(i, 4).data());
+                        if (api.cell(i, 5).data() != null)
+                            totalpaidAmount += parseFloat(api.cell(i, 5).data());
+                        if (api.cell(i, 6).data() != null)
+                            totaltbbAmount += parseFloat(api.cell(i, 6).data());
+                        if (api.cell(i, 1).data() != null)
+                            totalLR += parseFloat(api.cell(i, 1).data());
+                        if (api.cell(i, 2).data() != null)
+                            totalParcel += parseFloat(api.cell(i, 2).data());
+                        if (api.cell(i, 3).data() != null)
+                            totalChargeWt += parseFloat(api.cell(i, 3).data());
                         tableBody.append(rows[i]);
                     }
 
                     let totalRow = '<tr class="total-row">' +
-                        '<td colspan="4">TOTAL</td>' +
+                        '<td>TOTAL</td>' +
+                        '<td class="text-center"> ' + totalLR + '</td>' +
+                        '<td class="text-center"> ' + totalParcel + '</td>' +
+                        '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
                         '<td class="text-right"> ' + totaltoPayAmount.toFixed(2) + '</td>' +
                         '<td class="text-right"> ' + totalpaidAmount.toFixed(2) + '</td>' +
                         '<td class="text-right"> ' + totaltbbAmount.toFixed(2) + '</td>' +
-                        '<td colspan="3"></td>' +
                         '</tr>';
 
                     tableBody.append(totalRow);                   

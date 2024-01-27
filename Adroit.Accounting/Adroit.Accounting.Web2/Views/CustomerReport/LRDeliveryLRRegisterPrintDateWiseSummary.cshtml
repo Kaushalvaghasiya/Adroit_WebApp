@@ -12,23 +12,25 @@
     <div class="address">
         <lable>@($"{Model.ReportHeader.BranchName} : {Model.ReportHeader.BranchAddress}")</lable>
     </div>
+    <div class="address">
+        <lable>Report Of : (@Model.ReportHeader.SelectedBranchNames)</lable>
+    </div>
     <div class="heading">
         <lable>LR Register In Summary & Date Wise (LR Delivery)</lable>
     </div>
     <div class="date">
-        <lable>From - @Model.ReportHeader.DateFrom To @Model.ReportHeader.DateTo</lable>
+        <label>From - @(Model.ReportHeader.DateFrom?.ToString("dd/MM/yyyy")) To @(Model.ReportHeader.DateTo?.ToString("dd/MM/yyyy"))</label>
     </div>
 </div>
 <table id="tblMain" class="table col-md-12" align="center">
     <thead>
         <tr>
             <th class="text-center">LR Date</th>
-            <th class="text-center">Total Number</th>
+            <th class="text-center">Total LR</th>
             <th class="text-center">Total Parcel</th>
             <th class="text-right">Total Charge Wt.</th>
             <th class="text-right">Total LR Amount</th>
             <th class="text-right">Total Inv Value</th>
-            <th class="text-center">Branch</th>
         </tr>
     </thead>
     <tbody>
@@ -38,6 +40,9 @@
                 var prevDate = "";
                 decimal subTotalAmount = 0.00m; 
                 decimal totalAmount = 0.00m;
+                int totalLR = 0;
+                short totalParcel = 0;
+                decimal totalChargeWt = 0.00m;
 
                 foreach (var item in Model.ReportData)
                 {
@@ -59,11 +64,13 @@
                         <td class="text-right">@item.ChargeWeight</td>
                         <td class="text-right">@item.Amount</td>
                         <td class="text-right">@item.InvoiceValue</td>
-                        <td class="text-center">@item.BranchName</td>
                     </tr>
 
                     subTotalAmount += item.Amount ?? 0.00m; // Use decimal
                     totalAmount += item.Amount ?? 0.00m;    // Use decimal
+                    totalLR += item.LRNumber;
+                    totalParcel += item.Parcel ?? 0;
+                    totalChargeWt += item.ChargeWeight ?? 0.000m;
 
                     // Calculate subtotals
                     if (prevDate != item.GroupingColumn && Model.ReportHeader.Subtotal.Equals(true))
@@ -95,7 +102,10 @@
                 if (totalAmount > 0)
                 {
                     <tr class="total-row">
-                        <td colspan="4" class="text-right">Total</td>
+                        <td class="text-right">Total</td>
+                        <td class="text-center">@totalLR</td>
+                        <td class="text-center">@totalParcel</td>
+                        <td class="text-right">@totalChargeWt</td>
                         <td class="text-right">@totalAmount</td>
                         <td colspan="3"></td>
                     </tr>
