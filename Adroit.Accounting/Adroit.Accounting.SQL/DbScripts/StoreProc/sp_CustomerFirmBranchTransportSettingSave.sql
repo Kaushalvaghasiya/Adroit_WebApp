@@ -14,7 +14,11 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchTransportSettingSave]
 	 @IsFreightAddInToBillForDelivery BIT,
 	 @LRRateOnId TINYINT,
 	 @LRPayTypeId TINYINT,
-	 @LoginId INT
+	 @LoginId INT,
+	 @LRCopy TINYINT,
+	 @LRTemplate NVARCHAR(MAX),
+	 @LRSubTitle NVARCHAR(250),
+	 @LRSubject NVARCHAR(250)
 )
 AS
 BEGIN
@@ -36,6 +40,10 @@ BEGIN
 						,[IsFreightAddInToBillForDelivery] = @IsFreightAddInToBillForDelivery
 						,[LRRateOnId] = @LRRateOnId
 						,[LRPayTypeId] = @LRPayTypeId
+						,[LRCopy] = @LRCopy
+						,[LRTemplate] = @LRTemplate
+						,[LRSubTitle] = @LRSubTitle
+						,[LRSubject] = @LRSubject
 						,[ModifiedById] = @LoginId
 						,[ModifiedOn] = GETUTCDATE()
 				WHERE [BranchId] = @BranchId
@@ -46,12 +54,12 @@ BEGIN
 					([BranchId],[PurcahseBookBranchMappingId],[BookingSalesBookBranchMappingId],[DeliverySalesBookBranchMappingId],[ToPayAccountBranchMappingId],
 					 [CrossingAmountAccountBranchMappingId],[CrossingCommissionAccountBranchMappingId],[CrossingHamaliAccountBranchMappingId],
 					 [CrossingDeliveryChargeAccountBranchMappingId],[SalesAccountBranchMappingId],[IsAutoJvEnableForChallan],[IsFreightAddInToBillForDelivery],
-					 [LRRateOnId],[LRPayTypeId],[AddedOn],[AddedById])
+					 [LRRateOnId],[LRPayTypeId],[AddedOn],[AddedById],[LRCopy],[LRTemplate],[LRSubTitle],[LRSubject])
 				VALUES
 					(@BranchId,@PurcahseBookBranchMappingId,@BookingSalesBookBranchMappingId,@DeliverySalesBookBranchMappingId,@ToPayAccountBranchMappingId,
 					 @CrossingAmountAccountBranchMappingId,@CrossingCommissionAccountBranchMappingId,@CrossingHamaliAccountBranchMappingId,
 					 @CrossingDeliveryChargeAccountBranchMappingId,@SalesAccountBranchMappingId,@IsAutoJvEnableForChallan,@IsFreightAddInToBillForDelivery,
-					 @LRRateOnId,@LRPayTypeId,GETUTCDATE(),@LoginId)
+					 @LRRateOnId,@LRPayTypeId,GETUTCDATE(),@LoginId,@LRCopy,@LRTemplate,@LRSubTitle,@LRSubject)
 
 			END
 		COMMIT TRAN

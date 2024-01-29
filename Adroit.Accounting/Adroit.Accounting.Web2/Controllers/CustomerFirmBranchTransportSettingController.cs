@@ -26,7 +26,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.CustomerFirmBranchList = _customerFirmBranchRepository.SelectListByLoginId(CurrentUserId, _configurationData.DefaultConnection);
             model.TransportLRRateOnList = _transportLRRateOnRepository.SelectList(_configurationData.DefaultConnection);
             model.TransportLRPayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
-
+            model.LRCopy = 3;
             return View(model);
         }
 

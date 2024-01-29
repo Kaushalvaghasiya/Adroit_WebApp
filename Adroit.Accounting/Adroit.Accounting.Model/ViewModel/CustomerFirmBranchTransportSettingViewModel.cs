@@ -28,6 +28,10 @@ namespace Adroit.Accounting.Model.ViewModel
         public decimal? ToPayAccountValue { get; set; }
         public decimal? TBBValue { get; set; }
         public decimal? PaidValue { get; set; }
-
+        public int LRCopy { get; set; }
+        public string LRTemplate { get; set; }
+        public string LRSubTitle { get; set; }
+        public string LRSubject { get; set; }
+       
     }
 }

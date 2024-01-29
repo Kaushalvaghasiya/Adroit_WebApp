@@ -55,6 +55,10 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@IsFreightAddInToBillForDelivery", value.IsFreightAddInToBillForDelivery);
             parameters.Add("@LRRateOnId", value.LRRateOnId);
             parameters.Add("@LRPayTypeId", value.LRPayTypeId);
+            parameters.Add("@LRCopy", value.LRCopy);
+            parameters.Add("@LRTemplate", value.LRTemplate);
+            parameters.Add("@LRSubTitle", value.LRSubTitle);
+            parameters.Add("@LRSubject", value.LRSubject);
 
             return QueryHelper.Save("sp_CustomerFirmBranchTransportSettingSave", connectionString, parameters);
         }
