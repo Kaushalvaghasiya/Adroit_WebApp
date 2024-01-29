@@ -161,6 +161,15 @@
                         <div class="form-group">
                             <label for="GSTInvoiceTypeId">GST Invoice Type</label>
                             <select class="form-control select2-show-search" id="GSTInvoiceTypeId">
+                                @{
+                                    if (Model.GSTInvoiceTypeList != null)
+                                    {
+                                        foreach (var o in Model.GSTInvoiceTypeList)
+                                        {
+                                            <option value="@o.Value">@o.Text</option>
+                                        }
+                                    }
+                                }
                             </select>
                         </div>
                     </div>
@@ -372,5 +381,3 @@
 <!-- row end -->
 
 <input type="hidden" id="Id" value="0" />
-
-<input type="hidden" id="hdnGSTInvoiceTypeId" value="0" />
