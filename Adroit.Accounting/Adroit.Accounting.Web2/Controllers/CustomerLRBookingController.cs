@@ -1,6 +1,7 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.GridViewModel;
 using Adroit.Accounting.Model.Master;
+using Adroit.Accounting.Model.ReportViewModel;
 using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository;
 using Adroit.Accounting.SQL.Tables;
@@ -175,6 +176,78 @@ namespace Adroit.Accounting.Web.Controllers
                 result.result = Constant.API_RESULT_ERROR;
             }
             return Json(result);
+        }
+
+        public IActionResult LRBookingLRBranchPrint()
+        {
+            var result = new ReportDataViewModel<LRBookingLRPrintModel>();
+            try
+            {
+                result.ReportHeader = new ReportHeaderViewModel();
+                result.ReportData = new LRBookingLRPrintModel();
+
+                var id = int.Parse(HttpContext.Request.Query["id"].ToString());
+                var LRBooking = _lrBookingRepository.Get(id, _configurationData.DefaultConnection, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                var CustomerFirmBranchTransportSetting = _customerFirmBranchTransportSettingRepository.Get(LRBooking.BranchId, _configurationData.DefaultConnection) ?? new CustomerFirmBranchTransportSettingViewModel() { BranchId = id };
+
+                var currentFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
+                var currentBranch = _customerFirmBranchRepository.Get(CurrentBranchId, CurrentFirmId, _configurationData.DefaultConnection);
+                result.ReportHeader.FrimName = currentFirm.Title.ToString();
+                result.ReportHeader.BranchName = currentBranch.Title.ToString();
+                result.ReportHeader.BranchAddress = currentBranch.Address1.ToString();
+
+                var LRTemplate = CustomerFirmBranchTransportSetting.LRTemplate;
+                LRTemplate = LRTemplate.Replace("[COMPANY_NAME]", currentFirm.Title.ToString());
+                LRTemplate = LRTemplate.Replace("[TRA_GST_NO]", currentBranch.GSTNumber.ToString());
+                LRTemplate = LRTemplate.Replace("[ADDRESS]", currentBranch.Address1?.ToString() + " " + currentBranch.Address2?.ToString() + " " + currentBranch.Address3?.ToString() + " " + currentBranch.CityName.ToString());
+                LRTemplate = LRTemplate.Replace("[PHONE_NUMBER]", currentBranch.Mobile.ToString());
+                LRTemplate = LRTemplate.Replace("[COMPAYE_EMAIL]", currentBranch.Email?.ToString());
+
+                //   LRTemplate = LRTemplate.Replace("[website]", currentBranch..ToString());
+                //   LRTemplate = LRTemplate.Replace("[To_GSTIN]", currentBranch..ToString());
+                //   LRTemplate = LRTemplate.Replace("[From_GSTIN]", currentBranch..ToString());
+                LRTemplate = LRTemplate.Replace("[DATE]", DateTime.Now.ToString("dd-MM-yyyy"));
+                LRTemplate = LRTemplate.Replace("[L_R_NO]", LRBooking.LRNumber.ToString());
+                LRTemplate = LRTemplate.Replace("[FROM_CITY]", LRBooking.CityFrom?.ToString());
+                LRTemplate = LRTemplate.Replace("[TO_CITY]", LRBooking.CityTo?.ToString());
+                LRTemplate = LRTemplate.Replace("[CONSIGNOR_FROM]", LRBooking.Consignor?.ToString());
+                LRTemplate = LRTemplate.Replace("[CONSIGNEE_TO]", LRBooking.Consignee?.ToString());
+                LRTemplate = LRTemplate.Replace("[AT_OWNER_RISK]", CustomerFirmBranchTransportSetting.LRSubTitle?.ToString());
+                LRTemplate = LRTemplate.Replace("[SUBJECT_TO]", CustomerFirmBranchTransportSetting.LRSubject?.ToString());
+                LRTemplate = LRTemplate.Replace("[INVOICE_NO]", LRBooking.InvoiceNo?.ToString());
+                LRTemplate = LRTemplate.Replace("[INVOICE_VAUE]", LRBooking.InvoiceValue?.ToString());
+                LRTemplate = LRTemplate.Replace("[FREIGHT]", LRBooking.Freight?.ToString());
+                LRTemplate = LRTemplate.Replace("[EWAY_BILL_NO]", LRBooking.EwayBillNo?.ToString());
+                LRTemplate = LRTemplate.Replace("[VEHICLE_NO]", LRBooking.VehilcleNo?.ToString());
+                LRTemplate = LRTemplate.Replace("[PAYMENT_TYPE]", LRBooking.LRPayType?.ToString());
+
+
+                LRTemplate = LRTemplate.Replace("[NO_OF_ARTICLES]", LRBooking.Parcel?.ToString());
+                LRTemplate = LRTemplate.Replace("[DESCRIPTION]", LRBooking.Description?.ToString());
+                LRTemplate = LRTemplate.Replace("[ACT_WT]", LRBooking.ActualWeight?.ToString());
+                LRTemplate = LRTemplate.Replace("[CH_WT]", LRBooking.ChargeWeight?.ToString());
+                LRTemplate = LRTemplate.Replace("[RATE_ON]", LRBooking.LRRateOnTitle);
+                LRTemplate = LRTemplate.Replace("[RATE]", LRBooking.Rate?.ToString());
+                LRTemplate = LRTemplate.Replace("[AMOUNT]", LRBooking.Freight?.ToString());
+
+                LRTemplate = LRTemplate.Replace("[HAMALI]", LRBooking.Charges1?.ToString());
+                LRTemplate = LRTemplate.Replace("[INSURANCE]", LRBooking.Charges2?.ToString());
+                LRTemplate = LRTemplate.Replace("[LOCAL_CHARGE]", LRBooking.Charges3?.ToString());
+                LRTemplate = LRTemplate.Replace("[DOOR_DELI_CH]", LRBooking.Charges4?.ToString());
+                LRTemplate = LRTemplate.Replace("[LR_CHARGE]", LRBooking.Charges5?.ToString());
+                LRTemplate = LRTemplate.Replace("[OTHER_CHARGE]", LRBooking.Charges6?.ToString());
+                LRTemplate = LRTemplate.Replace("[BILL_AMOUNT]", LRBooking.NetAmount.ToString());
+
+
+                result.ReportData.LRTemplate = LRTemplate;
+                result.ReportData.LRCopy = CustomerFirmBranchTransportSetting.LRCopy;
+            }
+            catch (Exception ex)
+            {
+                 
+            }
+      
+            return View(result);
         }
 
     }

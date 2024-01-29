@@ -198,6 +198,18 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ShortTitle">Sub Title</label>
+                                <input type="text" class="form-control mode-ed" id="SubTitle" placeholder="Sub Title" >
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="ShortTitle">Subject</label>
+                                <input type="text" class="form-control mode-ed" id="Subject" placeholder="Subject">
+                            </div>
+                        </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <div><label for="IsAutoJvEnableForChallan">Is Auto Jv Active For Challan</label></div>
@@ -214,6 +226,30 @@
                                     <input id="IsFreightAddInToBillForDelivery" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
                                     <span class="custom-switch-indicator"></span>
                                 </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="form-group">
+                                <label for="LRCopyId">LRCopy</label>
+                                <select class="form-control select2-show-search" id="LRCopyId">
+                                    @{
+                                        if (Model.LRCopy != 0)
+                                        {
+                                            int j = 1;
+                                            for (var i=0; i < Model.LRCopy; i++)
+                                            {
+                                                <option value="@j">@j</option>
+                                                j++;
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                         <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                 <textarea name="ckeditor" id="ckeditor" rows="10" cols="80">
+                                 </textarea>
                             </div>
                         </div>
                     </div>
@@ -243,12 +279,14 @@
             $('.dv-detail').hide();
 
             bindDatatableList();
-
+           
             $("#BranchId").on('change', function (e) {
                 getDetail($(this).val(), isviewmode);
             });
         });
-
+        $("#AddNew").click(function(){
+          bindCkeditorData(null)
+        });
         function addClick() {
             $('.dv-list').slideUp();
             $('.dv-detail').slideDown();
@@ -388,7 +426,7 @@
 
             });
         }
-
+      
         var clearBranch = true;
         function fromReset() {
             if (clearBranch) {
@@ -408,6 +446,7 @@
             $("#LRPayTypeId").val(null).trigger('change');
             $("#IsAutoJvEnableForChallan").prop('checked', false);
             $("#IsFreightAddInToBillForDelivery").prop('checked', false);
+            $("#LRCopyId").val(null).trigger('change');
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -458,6 +497,11 @@
                     return false;
                 }
 
+                if ($("#LRCopyId").val() == null || $("#LRCopyId").val() == "") {
+                    showWarning("", "Please select To LR Copy");
+                    $("#LRCopyId").focus();
+                    return false;
+                }
 
                 var savedata = new Object();
                 savedata.BranchId = getIntValueZero("BranchId");
@@ -474,7 +518,11 @@
                 savedata.LRPayTypeId = getIntValueZero("LRPayTypeId");
                 savedata.IsAutoJvEnableForChallan = $("#IsAutoJvEnableForChallan").is(':checked');
                 savedata.IsFreightAddInToBillForDelivery = $("#IsFreightAddInToBillForDelivery").is(':checked');
-
+                savedata.LRCopy = getIntValueZero("LRCopyId");
+                savedata.LRTemplate =  CKEDITOR.instances.ckeditor.getData();
+                savedata.LRSubTitle = $("#SubTitle").val();
+                savedata.LRSubject = $("#Subject").val();;
+                  
                 blockUI('container');
 
                 $.ajax({
@@ -485,12 +533,12 @@
                     dataType: "json",
                     success: function (data) {
                         unblockUI('container');
-                        if (data.result == RESULT_SUCCESS) {
+                        if (data.result == RESULT_SUCCESS) {                          
                             fromReset();
                             showWarning("", 'Branch saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
-                            $('.btn-back').click();
+                            $('.btn-back').click();                          
                         } else {
                             showError("", data.data);
                         }
@@ -508,7 +556,7 @@
             }
 
         }
-
+       
         function getDetail(id, isViewMode) {
             try {
                 bindDropdown('PurcahseBookBranchMappingId', null);
@@ -567,9 +615,12 @@
                                 $("#SalesAccountBranchMappingId").val(result.data.salesAccountBranchMappingId).trigger('change');
                                 $("#LRRateOnId").val(result.data.lrRateOnId).trigger('change');
                                 $("#LRPayTypeId").val(result.data.lrPayTypeId).trigger('change');
+                                $("#LRCopyId").val(result.data.lrCopy).trigger('change');
+                                $("#SubTitle").val(result.data.lrSubTitle);
+                                $("#Subject").val(result.data.lrSubject);
                                 $("#IsAutoJvEnableForChallan").prop('checked', result.data.isAutoJvEnableForChallan);
                                 $("#IsFreightAddInToBillForDelivery").prop('checked', result.data.isFreightAddInToBillForDelivery);
-
+                                bindCkeditorData(result.data.lrTemplate)
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -594,6 +645,26 @@
                     $("#" + elementId).append(new Option(data[i].text, data[i].value, false, false));
                 }
             }
+        }
+
+        function bindCkeditorData(ckData){
+           if(ckData == null || ckData == 0){
+                var editor = CKEDITOR.instances.ckeditor;
+                if (editor){
+                    editor.destroy();   
+                } 
+                $.get("/LRPrint/LRPrint.html", function (data) {
+                CKEDITOR.replace( 'ckeditor' );
+                $("#ckeditor").val(data)                          
+                });
+           }else{
+                var editor = CKEDITOR.instances.ckeditor;
+                if (editor){
+                    editor.destroy();   
+                }  
+                CKEDITOR.replace( 'ckeditor' )
+                $("#ckeditor").val(ckData) 
+           }
         }
     </script>
 }
