@@ -56,7 +56,7 @@ Begin
 				OR (@LRStatusId = '2' AND LRB.Deleted = 1)
 			)
 		AND (Coalesce(@Search,'') = '' OR LRB.LRDate like '%'+ @Search + '%'
-									   OR LRB.Parcel like '%'+ @Search + '%'
+									   --OR LRB.Parcel like '%'+ @Search + '%'
 									   OR LRB.ChargeWeight like '%'+ @Search + '%')
 		GROUP BY LRB.LRDate, LRB.Deleted
 	 ) AS T   

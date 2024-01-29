@@ -96,11 +96,11 @@ Begin
 
 	SELECT * FROM CTE
     WHERE
-        (Coalesce(@Search, '') = '' OR GroupingColumn LIKE '%' + @Search + '%'
-                                   OR Parcel LIKE '%' + @Search + '%'
-                                   OR ChargeWeight LIKE '%' + @Search + '%'
-                                   OR Rate LIKE '%' + @Search + '%'
-                                   OR InvoiceValue LIKE '%' + @Search + '%')
+        (Coalesce(@Search, '') = '' OR GroupingColumn LIKE '%' + @Search + '%')
+                                   --OR Parcel LIKE '%' + @Search + '%'
+                                   --OR ChargeWeight LIKE '%' + @Search + '%'
+                                   --OR Rate LIKE '%' + @Search + '%'
+                                   --OR InvoiceValue LIKE '%' + @Search + '%')
 	AND @PageSize = -1 OR (RowNum > @PageStart AND RowNum < (@PageStart + (@PageSize + 1)))
     ORDER BY RowNum;
 	

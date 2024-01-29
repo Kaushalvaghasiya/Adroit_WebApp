@@ -172,17 +172,17 @@ Begin
 									   OR CA1.Name like '%'+ @Search + '%'
 									   OR CA2.Name like '%'+ @Search + '%'
 									   OR CA3.Name like '%'+ @Search + '%'
-									   OR [Z-LRBooking-Z].LRNumber like '%'+ @Search + '%'
+									   --OR [Z-LRBooking-Z].LRNumber like '%'+ @Search + '%'
 									   OR CT1.Title like '%'+ @Search + '%'
 									   OR CT2.Title like '%'+ @Search + '%'
 									   OR [TransportDesc].Title like '%'+ @Search + '%'
-									   OR [Z-LRBooking-Z].Parcel like '%'+ @Search + '%'
-									   OR [Z-LRBooking-Z].ChargeWeight like '%'+ @Search + '%'
+									   --OR [Z-LRBooking-Z].Parcel like '%'+ @Search + '%'
+									   --OR [Z-LRBooking-Z].ChargeWeight like '%'+ @Search + '%'
 									   OR [TransportPacking].Title like '%'+ @Search + '%'
 									   OR [Z-LRBooking-Z].PrivateMarka like '%'+ @Search + '%'
-									   OR [GSTRate].Rate like '%'+ @Search + '%'
+									   --OR [GSTRate].Rate like '%'+ @Search + '%'
 									   OR [TransportLRPayType].Title like '%'+ @Search + '%'
-									   OR [Z-LRBooking-Z].InvoiceValue like '%'+ @Search + '%'
+									   --OR [Z-LRBooking-Z].InvoiceValue like '%'+ @Search + '%'
 									   OR [CustomerFirmBranch].Title like '%'+ @Search + '%')
 	 ) AS T   
 	 WHERE @PageSize = -1 OR (T.RowNum > @PageStart AND T.RowNum < (@PageStart + (@PageSize+1)))

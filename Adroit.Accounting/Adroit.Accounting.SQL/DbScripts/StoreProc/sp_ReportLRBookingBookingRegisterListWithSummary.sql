@@ -106,11 +106,11 @@ Begin
 			)
 			GROUP BY [Z-LRBooking-Z].Deleted, CASE WHEN @SelectedView = @BillPartyWise THEN CONCAT(ISNULL(CA3.Name, ''),NULLIF(' | ' + ISNULL(CA3.GSTNumber, ''), ' | ')) WHEN @SelectedView = @ToCityWise THEN CT2.Title WHEN @SelectedView = @ConsignorWise THEN CONCAT(ISNULL(CA1.Name, ''),NULLIF(' | ' + ISNULL(CA1.GSTNumber, ''), ' | ')) WHEN @SelectedView = @ConsigneeWise THEN CONCAT(ISNULL(CA2.Name, ''),NULLIF(' | ' + ISNULL(CA2.GSTNumber, ''), ' | ')) END
 	 ) SELECT * FROM CTE  
-	 WHERE (Coalesce(@Search, '') = '' OR GroupingColumn LIKE '%' + @Search + '%'
-                                   OR Parcel LIKE '%' + @Search + '%'
-                                   OR ChargeWeight LIKE '%' + @Search + '%'
-                                   OR Rate LIKE '%' + @Search + '%'
-                                   OR InvoiceValue LIKE '%' + @Search + '%')
+	 WHERE (Coalesce(@Search, '') = '' OR GroupingColumn LIKE '%' + @Search + '%')
+                                   --OR Parcel LIKE '%' + @Search + '%'
+                                   --OR ChargeWeight LIKE '%' + @Search + '%'
+                                   --OR Rate LIKE '%' + @Search + '%'
+                                   --OR InvoiceValue LIKE '%' + @Search + '%'
                                    --OR BranchName LIKE '%' + @Search + '%')
 	AND @PageSize = -1 OR (RowNum > @PageStart AND RowNum < (@PageStart + (@PageSize + 1)))
 	ORDER BY RowNum;

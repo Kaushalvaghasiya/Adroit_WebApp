@@ -85,11 +85,11 @@ Begin
 	SELECT * FROM CTE
     WHERE
         ((@PageSize = -1 AND 1 = 1) OR (RowNum > @PageStart AND RowNum < (@PageStart + (@PageSize + 1))))
-        AND (Coalesce(@Search, '') = '' OR LRNumber LIKE '%' + @Search + '%'
-                                   OR Parcel LIKE '%' + @Search + '%'
-                                   OR ChargeWeight LIKE '%' + @Search + '%'
-                                   OR Rate LIKE '%' + @Search + '%'
-                                   OR InvoiceValue LIKE '%' + @Search + '%')
+        AND (Coalesce(@Search, '') = '' OR LRNumber LIKE '%' + @Search + '%')
+                                   --OR Parcel LIKE '%' + @Search + '%'
+                                   --OR ChargeWeight LIKE '%' + @Search + '%'
+                                   --OR Rate LIKE '%' + @Search + '%'
+                                   --OR InvoiceValue LIKE '%' + @Search + '%')
     ORDER BY RowNum;
 	
 End
