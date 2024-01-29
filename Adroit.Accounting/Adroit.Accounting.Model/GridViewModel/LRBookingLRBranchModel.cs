@@ -7,9 +7,9 @@ using Adroit.Accounting.Model.ViewModel;
 
 namespace Adroit.Accounting.Model.GridViewModel
 {
-    public class LRBookingLRBranchModel : LRBookingReportLRBranchModel
+    public class LRBookingLRPrintModel
     {
-        public int RowNum { get; set; }
-        public int TotalCount { get; set; }
+        public string LRTemplate { get; set; }
+        public int LRCopy { get; set; }
     }
 }

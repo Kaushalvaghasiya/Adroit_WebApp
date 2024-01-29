@@ -43,6 +43,7 @@ BEGIN
 	ISNULL(@BranchInvoiceNo,'') AS BranchInvoiceNo,
 	@InvoiceDate AS InvoiceDate,
 	City.Title AS CityFrom,
+	TransportLRRateOn.Title As LRRateOnTitle,
 	CASE WHEN [Z-PurchaseBillDetail-Z].LRBookingId IS NULL AND [Z-SalesBillDetail-Z].LRBookingId IS NULL THEN 0 ELSE 1 END AS IsLRBookingPurchased
 	FROM [Z-LRBooking-Z]
 	LEFT JOIN [TransportDesc] on [TransportDesc].Id = [Z-LRBooking-Z].DescriptionId AND [TransportDesc].CustomerId = @CustomerId AND [TransportDesc].Deleted = 0 AND [TransportDesc].Active = 1
@@ -50,6 +51,7 @@ BEGIN
 	LEFT JOIN City ON [Z-LRBooking-Z].CityIdFrom = City.Id AND City.Active = 1 
 	LEFT JOIN [Z-PurchaseBillDetail-Z] ON [Z-PurchaseBillDetail-Z].LRBookingId = [Z-LRBooking-Z].id AND [Z-PurchaseBillDetail-Z].Deleted = 0
 	LEFT JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillDetail-Z].LRBookingId = [Z-LRBooking-Z].id AND [Z-SalesBillDetail-Z].Deleted = 0
+	LEFT JOIN TransportLRRateOn ON [Z-LRBooking-Z].LRRateOnId = TransportLRRateOn.Id
 	WHERE [Z-LRBooking-Z].Id = @Id AND [Z-LRBooking-Z].BranchId = @BranchId
 
 END

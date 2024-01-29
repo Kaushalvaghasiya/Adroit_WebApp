@@ -52,5 +52,7 @@ namespace Adroit.Accounting.Model.ViewModel
 
         public int LoginId { get; set; }
         public int FirmId { get; set; }
+        public string? LRRateOnTitle { get; set; }
+
     }
 }
