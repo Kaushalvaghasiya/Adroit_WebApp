@@ -104,8 +104,8 @@
             }            
 
             $('.btn-back').click(function () {
-                if (redirectUrl == 'LR') {
-                    window.location.href = "@Url.Content("~/Customer/LRBooking")";
+                if (redirectUrl != '') {
+                    window.location.replace(redirectUrl);
                 }
                 else {
                     $('.dv-detail').slideUp();
@@ -699,9 +699,6 @@
                         showError("", error.statusText);
                     }
                 });
-                if (redirectUrl == 'LR') {
-                    window.location.href = "@Url.Content("~/Customer/LRBooking")";
-                }
             }            
             catch (e) {
                 unblockUI('container');

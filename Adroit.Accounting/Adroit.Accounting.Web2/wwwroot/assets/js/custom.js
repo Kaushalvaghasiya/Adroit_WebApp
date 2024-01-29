@@ -355,6 +355,8 @@ function applyDecimal() {
 	});
 
 	$(".decimalonly").blur(function () {
+		if ($(this).val() == '' && $(this).attr("data-allowblank") == 'true')
+			return;
 		// Get the desired number of decimal places from the data-tofixed attribute
 		var fixedNo = isNaN(parseInt($(this).attr("data-tofixed"))) ? 0 : parseInt($(this).attr("data-tofixed"));
 
