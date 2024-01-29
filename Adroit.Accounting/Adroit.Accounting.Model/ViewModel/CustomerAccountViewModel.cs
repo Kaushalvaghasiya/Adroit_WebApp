@@ -13,7 +13,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> AccountBranchMappingList { get; set; } = new();
         public List<DropdownViewModel> BrokerBranchMappingList { get; set; } = new();
         public List<DropdownViewModel> BranchList { get; set; } = new();
-
+        public List<DropdownViewModel> GSTInvoiceTypeList { get; set; } = new();
         public string? AccountGroupName { get; set; }
         public string? AccountGroup { get; set; }
         public string? CityName { get; set; }

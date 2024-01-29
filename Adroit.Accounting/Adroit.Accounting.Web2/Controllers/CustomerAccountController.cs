@@ -28,6 +28,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.NameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.Name);
             model.BrokerBranchMappingList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId, _configurationData.DefaultConnection);
             model.BranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
+            model.GSTInvoiceTypeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, GSTInvoiceTypeTable._TableName, GSTInvoiceTypeTable.Title);
 
             ViewBag.RedirectUrl = redirectUrl;
             return View(model);

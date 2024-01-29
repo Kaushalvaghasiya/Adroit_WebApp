@@ -101,9 +101,17 @@
             }
             else {
                 bindDatatableList();
-            }
+            }            
 
-            bindGSTInvoiceTypeList();
+            $('.btn-back').click(function () {
+                if (redirectUrl == 'LR') {
+                    window.location.href = "@Url.Content("~/Customer/LRBooking")";
+                }
+                else {
+                    $('.dv-detail').slideUp();
+                    $('.dv-list').slideDown();
+                }
+            });
 
             $('.select2-show-search-api').select2({
                 placeholder: 'Choose one',
@@ -223,7 +231,7 @@
             $(".btn-delete").hide();
             $("#Name").focus();
             $("#Active").prop('checked', true);
-            $('#GSTInvoiceTypeId').val($("#hdnGSTInvoiceTypeId").val()).trigger('change');
+            $('#GSTInvoiceTypeId').val($('#GSTInvoiceTypeId option:contains("Regular")').val()).trigger('change');
 
             $("#CreditDays").val('0');
             $("#CreditLimit").val('000.00');
@@ -358,39 +366,6 @@
 
             });
         }
-
-        function bindGSTInvoiceTypeList() {
-            try {
-                blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Common/GSTInvoiceTypes"))", "",
-                    function (data) {
-                        unblockUI('container');
-                        var str = "";
-                        str += "<option value='0'>Select GST Invoice Type</option>";
-                        if (data.result == RESULT_SUCCESS) {
-                            if (data.data.length > 0) {
-                                for (var i = 0; i < data.data.length; i++) {
-                                    str += ("<option value='" + data.data[i].value + "'>" + data.data[i].text + "</option>");
-                                    if (data.data[i].text.toUpperCase() == "Regular".toUpperCase()) {
-                                        $("#hdnGSTInvoiceTypeId").val(data.data[i].value);
-                                    }
-                                }
-                            }
-                            $("#GSTInvoiceTypeId").html(str);
-                        } else {
-                            showError("", data.data);
-                        }
-                    },
-                    function (error) {
-                        unblockUI('container');
-                        showError("", error.statusText);
-                    });
-            }
-            catch (err) {
-                unblockUI('container');
-                showError("", e.message);
-            }
-        }        
 
         function getTransporterGSTNumber(name) {
             try {
@@ -724,8 +699,10 @@
                         showError("", error.statusText);
                     }
                 });
-
-            }
+                if (redirectUrl == 'LR') {
+                    window.location.href = "@Url.Content("~/Customer/LRBooking")";
+                }
+            }            
             catch (e) {
                 unblockUI('container');
                 showError("", e.message);
