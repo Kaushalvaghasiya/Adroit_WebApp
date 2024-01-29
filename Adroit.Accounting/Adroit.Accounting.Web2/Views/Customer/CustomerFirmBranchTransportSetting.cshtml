@@ -272,7 +272,7 @@
 @section Scripts
 {
     <script>
-
+           
         $(function (e) {
 
             $('.dv-list').show();
@@ -652,11 +652,10 @@
                 var editor = CKEDITOR.instances.ckeditor;
                 if (editor){
                     editor.destroy();   
-                } 
-                $.get("/LRPrint/LRPrint.html", function (data) {
+                }              
                 CKEDITOR.replace( 'ckeditor' );
-                $("#ckeditor").val(data)                          
-                });
+               
+                $("#ckeditor").val(@Html.Raw(Json.Serialize(@Model.LRTemplate)))
            }else{
                 var editor = CKEDITOR.instances.ckeditor;
                 if (editor){

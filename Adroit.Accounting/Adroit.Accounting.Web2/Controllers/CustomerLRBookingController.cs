@@ -197,6 +197,10 @@ namespace Adroit.Accounting.Web.Controllers
                 result.ReportHeader.BranchAddress = currentBranch.Address1.ToString();
 
                 var LRTemplate = CustomerFirmBranchTransportSetting.LRTemplate;
+                if (LRTemplate == "0")
+                {
+                    LRTemplate = Common.GetLRPrint();
+                }
                 LRTemplate = LRTemplate.Replace("[COMPANY_NAME]", currentFirm.Title.ToString());
                 LRTemplate = LRTemplate.Replace("[TRA_GST_NO]", currentBranch.GSTNumber.ToString());
                 LRTemplate = LRTemplate.Replace("[ADDRESS]", currentBranch.Address1?.ToString() + " " + currentBranch.Address2?.ToString() + " " + currentBranch.Address3?.ToString() + " " + currentBranch.CityName.ToString());
@@ -240,7 +244,7 @@ namespace Adroit.Accounting.Web.Controllers
 
 
                 result.ReportData.LRTemplate = LRTemplate;
-                result.ReportData.LRCopy = CustomerFirmBranchTransportSetting.LRCopy;
+                result.ReportData.LRCopy = CustomerFirmBranchTransportSetting.LRCopy == 0 ? 1 :CustomerFirmBranchTransportSetting.LRCopy;
             }
             catch (Exception ex)
             {

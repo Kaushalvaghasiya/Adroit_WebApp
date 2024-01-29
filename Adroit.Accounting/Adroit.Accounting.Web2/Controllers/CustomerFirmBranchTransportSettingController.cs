@@ -27,6 +27,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.TransportLRRateOnList = _transportLRRateOnRepository.SelectList(_configurationData.DefaultConnection);
             model.TransportLRPayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.LRCopy = 3;
+            model.LRTemplate = Common.GetLRPrint();
             return View(model);
         }
 
@@ -85,6 +86,11 @@ namespace Adroit.Accounting.Web.Controllers
                 var model = _customerFirmBranchTransportSettingRepository.Get(id, _configurationData.DefaultConnection) ?? new CustomerFirmBranchTransportSettingViewModel() { BranchId = id };
                 model.CustomerAccountList = _customerAccountRepo.GetCustomerAccountBranchMappingList_Select(CurrentFirmId, model.BranchId, _configurationData.DefaultConnection);
                 model.CustomerBookList = _customerBookRepository.SelectList(model.BranchId, _configurationData.DefaultConnection);
+                if(model.LRTemplate == "0")
+                {
+                    model.LRTemplate = Common.GetLRPrint();
+                }
+                
                 result.data = model;
                 result.result = Constant.API_RESULT_SUCCESS;
             }

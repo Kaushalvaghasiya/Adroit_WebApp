@@ -145,5 +145,10 @@ namespace Adroit.Accounting.Web.Utility
                     $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
+        public static string GetLRPrint()
+        {
+                var LRPrint = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"LRPrint\LRPrint.html"));
+                return LRPrint;
+        }
     }
 }
