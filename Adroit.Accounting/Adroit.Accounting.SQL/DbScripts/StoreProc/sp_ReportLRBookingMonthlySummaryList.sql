@@ -31,29 +31,26 @@ Begin
 			(FORMAT(CAST(SUBSTRING(@YearRange, 6, 4) + '-02-01' AS DATE), 'MMMM'), 11), 
 			(FORMAT(CAST(SUBSTRING(@YearRange, 6, 4) + '-03-01' AS DATE), 'MMMM'), 12);
 
-	SELECT CustomerFirmBranch.Title AS BranchName, M.* 
+	SELECT distinct(M.[Order]), M.MonthName 
 	INTO #MONTHS 
 	FROM @AllMonths AS M
-	CROSS JOIN CustomerFirmBranch WHERE Id IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds));
+	LEFT JOIN CustomerFirmBranch on Id IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds));
 
 	SELECT
         FORMAT(LRB.LRDate, 'MMMM') AS LRDate
         , COUNT(*) AS TotalLR
         , SUM(LRB.Parcel) AS Parcel
         , SUM(LRB.ChargeWeight) AS ChargeWeight
-        , SUM(CASE WHEN TLRType1.Title = 'To Pay' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS ToPayAmount
-        , SUM(CASE WHEN TLRType2.Title = 'Paid' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS PaidAmount
-        , SUM(CASE WHEN TLRType3.Title = 'TBB' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS TBBAmount            
-        , [CustomerFirmBranch].Title AS BranchName
+        , SUM(CASE WHEN TLRType.Title = 'To Pay' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS ToPayAmount
+        , SUM(CASE WHEN TLRType.Title = 'Paid' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS PaidAmount
+        , SUM(CASE WHEN TLRType.Title = 'TBB' THEN ISNULL(LRB.[Freight], 0) + ISNULL(LRB.[Charges1], 0) + ISNULL(LRB.[Charges2], 0) + ISNULL(LRB.[Charges3], 0) + ISNULL(LRB.[Charges4], 0) + ISNULL(LRB.[Charges5], 0) + ISNULL(LRB.[Charges6], 0) ELSE 0 END) AS TBBAmount            
         ,LRB.Deleted
 	INTO #DATA
     FROM [Z-LRBooking-Z] AS LRB
     INNER JOIN [CustomerFirmBranch] ON [CustomerFirmBranch].Id = LRB.BranchId
     INNER JOIN [CustomerFirmTransportSetting] ON [CustomerFirmTransportSetting].FirmId = [CustomerFirmBranch].FirmId
     INNER JOIN [Product] ON [Product].Id = [CustomerFirmTransportSetting].ProductIdForSales 
-    LEFT JOIN TransportLRPayType AS TLRType1 ON LRB.LRPayTypeId = TLRType1.Id AND TLRType1.Title = 'To Pay'
-    LEFT JOIN TransportLRPayType AS TLRType2 ON LRB.LRPayTypeId = TLRType2.Id AND TLRType2.Title = 'Paid'
-    LEFT JOIN TransportLRPayType AS TLRType3 ON LRB.LRPayTypeId = TLRType3.Id AND TLRType3.Title = 'TBB'
+    LEFT JOIN TransportLRPayType AS TLRType ON LRB.LRPayTypeId = TLRType.Id
     WHERE LRB.BranchId IN (SELECT DISTINCT Id FROM dbo.[fnStringToIntArray](@BranchIds))
     AND LRB.YearId = @YearId
     AND (
@@ -61,7 +58,7 @@ Begin
 			OR (@LRStatusId = '1' AND LRB.Deleted = 0)
 			OR (@LRStatusId = '2' AND LRB.Deleted = 1)
 		)
-	GROUP BY FORMAT(LRB.LRDate, 'MMMM'), [CustomerFirmBranch].Title, LRB.Deleted
+	GROUP BY FORMAT(LRB.LRDate, 'MMMM'), LRB.Deleted
 
 	SELECT	
 		M.*,
@@ -74,7 +71,7 @@ Begin
         D.TBBAmount,          
         D.Deleted
 	FROM #MONTHS AS M
-	LEFT JOIN #DATA AS D ON M.BranchName = D.BranchName AND M.MonthName = D.LRDate
+	LEFT JOIN #DATA AS D ON M.MonthName = D.LRDate
 
 	drop table #MONTHS 
 	drop table #DATA

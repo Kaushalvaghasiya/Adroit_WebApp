@@ -813,7 +813,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL CHARGE WT.</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL LR AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
             
             let tableBody = $('#tblMain tbody');
 
@@ -855,12 +854,6 @@
                 },
                 "targets": colDef.length,
             });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.branchName;
-                },
-                "targets": colDef.length,
-            });
 
             columns.push({ "data": "groupingColumn", "name": "groupingColumn", "className": "text-center" });
             columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
@@ -868,7 +861,6 @@
             columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
             columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
             columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
-            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -932,6 +924,9 @@
                     tableBody.empty();
                     let subTotalAmount = 0;
                     let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
                     let prevDate = null;
 
                     for (let i = 0; i < rows.length; i++) {
@@ -953,6 +948,11 @@
                         subTotalAmount += parseFloat(api.cell(i, 4).data());
                         totalAmount += parseFloat(api.cell(i, 4).data());
                         tableBody.append(rows[i]);
+                        totalLR += parseFloat(api.cell(i, 1).data());
+                        if (api.cell(i, 2).data() != null)
+                            totalParcel += parseFloat(api.cell(i, 2).data());
+                        if (api.cell(i, 3).data() != null)
+                            totalChargeWt += parseFloat(api.cell(i, 3).data());
                         prevDate = dateCell;
                     }
 
@@ -968,7 +968,10 @@
 
                     if (totalAmount > 0) {
                         let totalRow = '<tr class="total-row">' +
-                            '<td colspan="4">TOTAL</td>' +
+                            '<td>TOTAL</td>' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="3"></td>' +
                             '</tr>';
@@ -1494,7 +1497,6 @@
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL CHARGE WT.</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL LR AMOUNT</th>');
             $('#tblMain thead tr').append('<th class="border-bottom-0 text-right">TOTAL INV VALUE</th>');
-            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">BRANCH</th>');
             
             let tableBody = $('#tblMain tbody');
 
@@ -1536,12 +1538,6 @@
                 },
                 "targets": colDef.length,
             });
-            colDef.push({
-                "render": function (data, type, row) {
-                    return row.branchName;
-                },
-                "targets": colDef.length,
-            });
 
             columns.push({ "data": "groupingColumn", "name": "groupingColumn", "className": "text-left" });
             columns.push({ "data": "lrNumber", "name": "lrNumber", "className": "text-center" });
@@ -1549,7 +1545,6 @@
             columns.push({ "data": "chargeWeight", "name": "chargeWeight", "className": "text-right" });
             columns.push({ "data": "amount", "name": "amount", "className": "text-right" });
             columns.push({ "data": "invoiceValue", "name": "invoiceValue", "className": "text-right" });
-            columns.push({ "data": "branchName", "name": "branchName", "className": "text-center" });
 
             var table = $('#tblMain').DataTable({
                 "bAutoWidth": false,
@@ -1612,6 +1607,9 @@
                     tableBody.empty();
                     let subTotalAmount = 0;
                     let totalAmount = 0;
+                    let totalLR = 0;
+                    let totalParcel = 0;
+                    let totalChargeWt = 0;
                     let prevParty = null;
 
                     for (let i = 0; i < rows.length; i++) {
@@ -1632,6 +1630,11 @@
 
                         subTotalAmount += parseFloat(api.cell(i, 4).data());
                         totalAmount += parseFloat(api.cell(i, 4).data());
+                        totalLR += parseFloat(api.cell(i, 1).data());
+                        if (api.cell(i, 2).data() != null)
+                            totalParcel += parseFloat(api.cell(i, 2).data());
+                        if (api.cell(i, 3).data() != null)
+                            totalChargeWt += parseFloat(api.cell(i, 3).data());
 
                         tableBody.append(rows[i]);
                         prevParty = billPartyCell;
@@ -1649,7 +1652,10 @@
 
                     if (totalAmount > 0) {
                         let totalRow = '<tr class="total-row">' +
-                            '<td colspan="4">TOTAL</td>' +
+                            '<td>TOTAL</td>' +
+                            '<td class="text-center"> ' + totalLR + '</td>' +
+                            '<td class="text-center"> ' + totalParcel + '</td>' +
+                            '<td class="text-right"> ' + totalChargeWt.toFixed(3) + '</td>' +
                             '<td class="text-right"> ' + totalAmount.toFixed(2) + '</td>' +
                             '<td colspan="3"></td>' +
                             '</tr>';

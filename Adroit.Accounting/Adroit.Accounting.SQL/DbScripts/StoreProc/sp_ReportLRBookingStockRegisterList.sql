@@ -105,12 +105,13 @@ Begin
 				OR (@LRStatusId = '1' AND [Z-LRBooking-Z].Deleted = 0)
 				OR (@LRStatusId = '2' AND [Z-LRBooking-Z].Deleted = 1)
 			)
-		AND (Coalesce(@Search,'') = '' OR [Z-LRBooking-Z].LRNumber like '%'+ @Search + '%'
+		AND (Coalesce(@Search,'') = '' 
+									   --OR [Z-LRBooking-Z].LRNumber like '%'+ @Search + '%'
 									   OR [Z-LRBooking-Z].LRDate like '%'+ @Search + '%'
-									   OR [Z-LRBooking-Z].Parcel like '%'+ @Search + '%'
-									   OR [Z-LRBooking-Z].ChargeWeight like '%'+ @Search + '%'
-									   OR [GSTRate].Rate like '%'+ @Search + '%'
-									   OR [Z-LRBooking-Z].InvoiceValue like '%'+ @Search + '%'
+									   --OR [Z-LRBooking-Z].Parcel like '%'+ @Search + '%'
+									   --OR [Z-LRBooking-Z].ChargeWeight like '%'+ @Search + '%'
+									   --OR [GSTRate].Rate like '%'+ @Search + '%'
+									   --OR [Z-LRBooking-Z].InvoiceValue like '%'+ @Search + '%'
 									   OR CT2.Title like '%'+ @Search + '%'
 									   OR [Z-LRBooking-Z].PrivateMarka like '%'+ @Search + '%'
 									   OR CA1.Name like '%'+ @Search + '%'

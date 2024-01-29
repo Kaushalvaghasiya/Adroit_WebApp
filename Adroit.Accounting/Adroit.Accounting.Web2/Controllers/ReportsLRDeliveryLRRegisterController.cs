@@ -120,6 +120,7 @@ namespace Adroit.Accounting.Web.Controllers
             result.ReportHeader.FrimName = currentFirm.Title.ToString();
             result.ReportHeader.BranchName = currentBranch.Title.ToString();
             result.ReportHeader.BranchAddress = currentBranch.Address1.ToString();
+            result.ReportHeader.SelectedBranchNames = _reportLRBookingLRRegisterRepository.GetBranchNamesFromIds(parameters.BranchIds, CurrentFirmId, _configurationData.DefaultConnection).ToString();
 
             return View(result);
         }
@@ -177,6 +178,7 @@ namespace Adroit.Accounting.Web.Controllers
             result.ReportHeader.FrimName = currentFirm.Title.ToString();
             result.ReportHeader.BranchName = currentBranch.Title.ToString();
             result.ReportHeader.BranchAddress = currentBranch.Address1.ToString();
+            result.ReportHeader.SelectedBranchNames = _reportLRBookingLRRegisterRepository.GetBranchNamesFromIds(parameters.BranchIds, CurrentFirmId, _configurationData.DefaultConnection).ToString();
 
             return View(result);
         }

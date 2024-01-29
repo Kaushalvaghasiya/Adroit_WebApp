@@ -71,5 +71,12 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LRWise", ViewList.LRWise);
             return QueryHelper.GetList<LRBookingLRRegisterGridViewModel>("sp_ReportLRBookingLRRegisterListWithSummary", connectionString, parameters);
         }
+        public string? GetBranchNamesFromIds(string? branchIds, int firmId, string connectionString = "")
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchIds", branchIds);
+            return QueryHelper.Get<string?>("sp_ReportGetBranchNamesFromIds", connectionString, parameters);
+        }
     }
 }
