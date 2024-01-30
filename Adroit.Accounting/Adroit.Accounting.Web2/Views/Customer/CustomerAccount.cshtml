@@ -90,6 +90,7 @@
     <script>
 
         var redirectUrl = '@ViewBag.RedirectUrl';
+        var lrUrl = '@Url.Content("~/customer/lrbooking")';
 
         $(function (e) {
 
@@ -105,7 +106,7 @@
 
             $('.btn-back').click(function () {
                 if (redirectUrl != '') {
-                    window.location.replace(redirectUrl);
+                    window.location.replace(lrUrl);
                 }
                 else {
                     $('.dv-detail').slideUp();
@@ -682,7 +683,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             if (redirectUrl != '') {
-                                window.location.replace(redirectUrl);
+                                window.location.replace(lrUrl);
                             } else {
                                 fromReset();
                                 showWarning("", 'Account saved successfully.');

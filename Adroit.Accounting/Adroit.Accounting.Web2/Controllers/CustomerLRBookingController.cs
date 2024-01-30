@@ -75,7 +75,7 @@ namespace Adroit.Accounting.Web.Controllers
                 int id = _lrBookingRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
-                    result.data = true;
+                    result.data = id;
                     result.result = Constant.API_RESULT_SUCCESS;
                 }
             }
@@ -222,7 +222,7 @@ namespace Adroit.Accounting.Web.Controllers
                 LRTemplate = LRTemplate.Replace("[INVOICE_VAUE]", LRBooking.InvoiceValue?.ToString());
                 LRTemplate = LRTemplate.Replace("[FREIGHT]", LRBooking.Freight?.ToString());
                 LRTemplate = LRTemplate.Replace("[EWAY_BILL_NO]", LRBooking.EwayBillNo?.ToString());
-                LRTemplate = LRTemplate.Replace("[VEHICLE_NO]", LRBooking.VehilcleNo?.ToString());
+                LRTemplate = LRTemplate.Replace("[VEHICLE_NO]", LRBooking.BookingVehilcleNo?.ToString());
                 LRTemplate = LRTemplate.Replace("[PAYMENT_TYPE]", LRBooking.LRPayType?.ToString());
 
 

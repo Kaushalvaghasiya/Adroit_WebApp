@@ -28,7 +28,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public decimal? ChargeAmount { get; set; }
         public string? LoadingChalanNo { get; set; }
         public string? BillPartyName { get; set; }
-        public string? VehilcleNo { get; set; }
+        public string? ChalanVehilcleNo { get; set; }
+        public string? BookingVehilcleNo { get; set; }
         public string? BranchChalanNo { get; set; }
         public DateTime? ChalanDate { get; set; }
         public string ChalanDateString { get { return this.ChalanDate?.ToString(Adroit.Accounting.Model.Constant.DateFormat) ?? ""; } }
