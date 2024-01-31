@@ -36,9 +36,9 @@ namespace Adroit.Accounting.Model
         public string GSTNumberTransport { get; set; }
         public string TransportName { get; set; }
         public string VehicleNumber { get; set; }
-        public int? DeliveryAccountBranchMappingId { get; set; }
-        public int? ShippingAccountBranchMappingId { get; set; }
-        public int? BrokerMappingId { get; set; }
+        public int? DeliveryAccountId { get; set; }
+        public int? ShippingAccountId { get; set; }
+        public int? BrokerId { get; set; }
         public short CreditDays { get; set; }
         public decimal Discount { get; set; }
         public decimal TDS { get; set; }

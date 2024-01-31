@@ -37,9 +37,9 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@GSTNumberTransport", value.GSTNumberTransport);
             parameters.Add("@TransportName", value.TransportName);
             parameters.Add("@VehicleNumber", value.VehicleNumber);
-            parameters.Add("@DeliveryAccountBranchMappingId", value.DeliveryAccountBranchMappingId);
-            parameters.Add("@ShippingAccountBranchMappingId", value.ShippingAccountBranchMappingId);
-            parameters.Add("@BrokerMappingId", value.BrokerMappingId);
+            parameters.Add("@DeliveryAccountId", value.DeliveryAccountId);
+            parameters.Add("@ShippingAccountId", value.ShippingAccountId);
+            parameters.Add("@BrokerId", value.BrokerId);
             parameters.Add("@CreditDays", value.CreditDays);
             parameters.Add("@Discount", value.Discount);
             parameters.Add("@TDS", value.TDS);
@@ -88,12 +88,10 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Id", id);
             return QueryHelper.Delete("sp_CustomerAccountDelete", connectionString, parameters);
         }
-
-        public List<DropdownViewModel> GetCustomerAccountList(string connectionString, int loginId = 0, int firmId = 0)
+        public List<DropdownViewModel> SelectList(string connectionString, int loginId = 0)
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
-            parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<DropdownViewModel>("sp_CustomerAccountList_Select", connectionString, parameters);
         }
         public List<string> GetTransporterGSTNumberList(string transporterName, int firmId, string connectionString)

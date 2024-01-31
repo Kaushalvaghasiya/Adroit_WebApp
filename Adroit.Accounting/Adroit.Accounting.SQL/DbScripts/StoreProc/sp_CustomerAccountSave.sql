@@ -26,9 +26,9 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountSave]
 	,@GSTNumberTransport VARCHAR(15)
 	,@TransportName VARCHAR(50)
 	,@VehicleNumber VARCHAR(15)
-	,@DeliveryAccountBranchMappingId INT
-	,@ShippingAccountBranchMappingId INT
-	,@BrokerMappingId INT
+	,@DeliveryAccountId INT
+	,@ShippingAccountId INT
+	,@BrokerId INT
 	,@CreditDays INT
 	,@Discount DECIMAL(18,3)
 	,@TDS DECIMAL(18,3)
@@ -88,14 +88,14 @@ BEGIN
 			INSERT INTO CustomerAccount
 				([CustomerId], [Name], [PrintName], [AccountGroupId], [Address1], [Address2], [Address3], [CityId], [StateId], [CountryId], [Pincode], 
 					[KM], [ContactPersonName], [Mobile], [MobileAlternate], [Email], [GSTNumber], [PAN], [AreaName], [RateWithGST], [GSTInvoiceTypeId], 
-					[EximCode], [IsIGST], [GSTNumberTransport], [TransportName], [VehicleNumber], [DeliveryAccountBranchMappingId], [ShippingAccountBranchMappingId], 
-					[BrokerMappingId], [CreditDays], [Discount], [TDS], [TCS], [CreditLimit], [InterestRate], [Commission], [IsEcommerce], [AdharUID], [TAN], 
+					[EximCode], [IsIGST], [GSTNumberTransport], [TransportName], [VehicleNumber], [DeliveryAccountId], [ShippingAccountId], 
+					[BrokerId], [CreditDays], [Discount], [TDS], [TCS], [CreditLimit], [InterestRate], [Commission], [IsEcommerce], [AdharUID], [TAN], 
 					[CompositParty], [RCMParty], [CapitalPercentage], [AddedOn], [AddedById], [OwnerBranchId], [Active], [Deleted], [Remarks])
 			VALUES
 				(@CustomerId, @Name, @PrintName, @AccountGroupId, @Address1, @Address2, @Address3, @CityId, @StateId, @CountryId, @Pincode, 
 					@KM, @ContactPersonName, @Mobile, @MobileAlternate, @Email, @GSTNumber, @PAN, @AreaName, @RateWithGST, @GSTInvoiceTypeId, 
-					@EximCode, @IsIGST, @GSTNumberTransport, @TransportName, @VehicleNumber, @DeliveryAccountBranchMappingId, @ShippingAccountBranchMappingId, 
-					@BrokerMappingId, @CreditDays, @Discount, @TDS, @TCS, @CreditLimit, @InterestRate, @Commission, @IsEcommerce, @AdharUID, @TAN, 
+					@EximCode, @IsIGST, @GSTNumberTransport, @TransportName, @VehicleNumber, @DeliveryAccountId, @ShippingAccountId, 
+					@BrokerId, @CreditDays, @Discount, @TDS, @TCS, @CreditLimit, @InterestRate, @Commission, @IsEcommerce, @AdharUID, @TAN, 
 					@CompositParty, @RCMParty, @CapitalPercentage, GETUTCDATE(), @LoginId, @OwnerBranchId, @Active, 0, @Remarks)
 
 			SET @Id = SCOPE_IDENTITY()
@@ -131,9 +131,9 @@ BEGIN
 				,[GSTNumberTransport] = @GSTNumberTransport
 				,[TransportName] = @TransportName
 				,[VehicleNumber] = @VehicleNumber
-				,[DeliveryAccountBranchMappingId] = @DeliveryAccountBranchMappingId
-				,[ShippingAccountBranchMappingId] = @ShippingAccountBranchMappingId
-				,[BrokerMappingId] = @BrokerMappingId
+				,[DeliveryAccountId] = @DeliveryAccountId
+				,[ShippingAccountId] = @ShippingAccountId
+				,[BrokerId] = @BrokerId
 				,[CreditDays] = @CreditDays
 				,[Discount] = @Discount
 				,[TDS] = @TDS

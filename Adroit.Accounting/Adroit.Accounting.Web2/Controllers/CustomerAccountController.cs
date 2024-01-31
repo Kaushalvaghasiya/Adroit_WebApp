@@ -21,14 +21,14 @@ namespace Adroit.Accounting.Web.Controllers
             }
 
             model.AccountGroupList = _customerAccountGroupRepo.CustomerAccountGroupByFirmIdList_Select(CurrentFirmId, _configurationData.DefaultConnection);
-            model.AccountBranchMappingList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection);
+            model.AccountList = _customerAccountRepo.SelectList(_configurationData.DefaultConnection, CurrentUserId);
 
             model.AreaNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.AreaName);
             model.TransportNameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.TransportName);
             model.NameList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, CustomerAccountTable._TableName, CustomerAccountTable.Name);
-            model.BrokerBranchMappingList = _customerBrokerBranchMappingRepo.SelectList(CurrentBranchId, _configurationData.DefaultConnection);
+            model.BrokerList = _brokerRepository.SelectList(_configurationData.DefaultConnection, CurrentUserId);
             model.BranchList = _customerFirmBranchRepository.SelectListByFirmId(CurrentFirmId, _configurationData.DefaultConnection);
-            model.GSTInvoiceTypeList = _commonRepository.GetDropdownList(_configurationData.DefaultConnection, GSTInvoiceTypeTable._TableName, GSTInvoiceTypeTable.Title);
+            model.GSTInvoiceTypeList = _gstInvoiceTypeRepository.SelectList(_configurationData.DefaultConnection);
 
             ViewBag.RedirectUrl = redirectUrl;
             return View(model);

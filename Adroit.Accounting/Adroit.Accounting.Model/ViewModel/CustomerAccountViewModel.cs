@@ -10,8 +10,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> AccountGroupList { get; set; } = new();
         public List<DropdownViewModel> AreaNameList { get; set; } = new();
         public List<DropdownViewModel> TransportNameList { get; set; } = new();
-        public List<DropdownViewModel> AccountBranchMappingList { get; set; } = new();
-        public List<DropdownViewModel> BrokerBranchMappingList { get; set; } = new();
+        public List<DropdownViewModel> AccountList { get; set; } = new();
+        public List<DropdownViewModel> BrokerList { get; set; } = new();
         public List<DropdownViewModel> BranchList { get; set; } = new();
         public List<DropdownViewModel> GSTInvoiceTypeList { get; set; } = new();
         public string? AccountGroupName { get; set; }

@@ -12,7 +12,7 @@ namespace Adroit.Accounting.Web.Controllers
         public IActionResult VehicleOwner()
         {
             VehicleOwnerViewModel model = new();
-            model.AccountList = _customerAccountRepo.GetCustomerAccountList(_configurationData.DefaultConnection,0,CurrentFirmId);
+            model.AccountList = _customerAccountRepo.SelectList(_configurationData.DefaultConnection, CurrentUserId);
 
             return View(model);
         }
@@ -48,7 +48,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 model.AddedById = CurrentUserId;
-                model.ModifiedById = CurrentUserId;    
+                model.ModifiedById = CurrentUserId;
                 int id = _vehicleOwnerRepo.Save(model, CurrentUserId, _configurationData.DefaultConnection);
                 if (id > 0)
                 {

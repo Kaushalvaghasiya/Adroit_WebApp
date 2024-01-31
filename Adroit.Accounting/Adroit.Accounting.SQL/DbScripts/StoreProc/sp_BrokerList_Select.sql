@@ -8,7 +8,7 @@ BEGIN
 
 	SELECT 
 		[Broker].Id As Value,
-		ISNULL([Broker].Name , '')  As Text
+		[Broker].Name As Text
 	FROM [Customer]
 	INNER JOIN [Broker] on [Customer].Id = [Broker].CustomerId
 	WHERE [Customer].Id = @CustomerId
