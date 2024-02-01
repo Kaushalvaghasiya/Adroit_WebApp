@@ -283,8 +283,8 @@ namespace Adroit.Accounting.Web.Controllers
                 LRTemplate = LRTemplate.Replace("[FROM_CITY]", data.CityFrom?.ToString());
                 LRTemplate = LRTemplate.Replace("[TO_CITY]", data.CityTo?.ToString());
                 LRTemplate = LRTemplate.Replace("[TRUCK_FREIGHT]", "[TRUCK_FREIGHT]");
-                LRTemplate = LRTemplate.Replace("[ADV_CASH]", "[ADV_CASH]");
-                LRTemplate = LRTemplate.Replace("[ADV_NEFT]", "[ADV_NEFT]");
+                LRTemplate = LRTemplate.Replace("[ADV_CASH]", data.AdvanceCash.ToString());
+                LRTemplate = LRTemplate.Replace("[ADV_NEFT]", data.AdvanceNeft.ToString());
                 LRTemplate = LRTemplate.Replace("[BALANCE]", "[BALANCE]");
                 string LR_Detail = "";
                 int Total_Pkg = 0;
