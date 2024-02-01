@@ -37,5 +37,13 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? DetailTableDetails { get; set; }
         public bool ChalanReceived { get; set; }
         public string? ToPayAccountBranchMappingLbl { get; set; }
+        public string? ChasisNumber { get; set; }
+        public string? EngineNumber { get; set; }
+        public string? NationalPermitNumber { get; set; }
+        public string? InsuranceNumber { get; set; }
+        public string? LicenceNumber { get; set; }
+        public string? DriverMobile { get; set; }
+        public string? DriverAddress { get; set; }
     }
 }
+ 
