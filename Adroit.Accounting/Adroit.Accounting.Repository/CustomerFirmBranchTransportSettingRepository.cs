@@ -62,5 +62,25 @@ namespace Adroit.Accounting.Repository
 
             return QueryHelper.Save("sp_CustomerFirmBranchTransportSettingSave", connectionString, parameters);
         }
+        public int SaveChalanDetailTemplate(CustomerFirmBranchTransportSettingViewModel value, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@LoginId", value.LoginId);
+            parameters.Add("@BranchId", value.BranchId);
+            parameters.Add("@ChalanDetailTemplate", value.ChalanDetailTemplate);
+
+            return QueryHelper.Save("sp_CustomerFirmBranchTransportSettingChalanDetailTemplateUpdate", connectionString, parameters);
+        }
+        public int SaveChalanSammaryTemplate(CustomerFirmBranchTransportSettingViewModel value, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+
+            parameters.Add("@LoginId", value.LoginId);
+            parameters.Add("@BranchId", value.BranchId);
+            parameters.Add("@ChalanSummaryTemplate", value.ChalanSummaryTemplate);
+
+            return QueryHelper.Save("sp_CustomerFirmBranchTransportSettingChalanSummaryTemplateUpdate", connectionString, parameters);
+        }
     }
 }

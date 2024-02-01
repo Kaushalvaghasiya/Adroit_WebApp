@@ -32,6 +32,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public string LRTemplate { get; set; }
         public string LRSubTitle { get; set; }
         public string LRSubject { get; set; }
+        public string ChalanDetailTemplate { get; set; }
+        public string ChalanSummaryTemplate { get; set; }
        
     }
 }

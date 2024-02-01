@@ -17,8 +17,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchTransportSettingSave]
 	 @LoginId INT,
 	 @LRCopy TINYINT,
 	 @LRTemplate NVARCHAR(MAX),
-	 @LRSubTitle NVARCHAR(250),
-	 @LRSubject NVARCHAR(250)
+	 @LRSubTitle NVARCHAR(MAX),
+	 @LRSubject NVARCHAR(MAX)
 )
 AS
 BEGIN

@@ -521,8 +521,9 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
+                 
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#"  data-toggle="modal" data-target="#printModal" class="btn btn-blue mt-1 mode-hide" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
                     <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
@@ -531,6 +532,54 @@
             </div>
         </div>
     </div>
+     <!--LRChalanListModal start-->
+    <div id="lrChalanPrintModal" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
+            <div class="modal-content ">
+                <div class="form-horizontal modal-header pd-x-20">
+                    <h5 class="modal-title col-md-1" style="align-self:center;">LR List</h5>
+                    <label for="LRCityFrom" class="col-md-1 form-label">From City</label>
+                    <div class="col-md-2">
+                       @* <select multiple="multiple" class="filter-multi mode-ed-multi" id="LRCityFrom">
+                            @{
+                                if (Model.CityList != null)
+                                {
+                                    foreach (var o in Model.CityList)
+                                    {
+                                                    <option value="@o.Value">@o.Text</option>
+                                    }
+                                }
+                            }
+                        </select>*@
+                    </div>
+                    
+                    <a href="#" class="btn btn-primary" data-toggle="modal" id="SearchLRNumberList" data-original-title="Select LR List">
+                        Search
+                    </a>
+                    <label for="EwayBillNumber" class="col-md-1 form-label ml-4">e-Way Bill Part-A</label>
+                    <div class="col-md-2" style="display:flex;">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="EwayBillNumber">
+                            <span class="input-group-append mr-2">
+                                <button class="btn btn-primary EWayBill-search" type="button">Go!</button>
+                            </span>
+                        </div>
+                    </div>
+                    <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body pd-20" style="max-height: 700px; overflow-x: auto; overflow-y: auto;">
+                    hihihi
+                </div><!-- modal-body -->
+                <div class="modal-footer">
+                    <a href="#" type="button" class="btn btn-primary" id="AddData">Add</a>
+                    <a href="#" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+        </div><!-- modal-dialog -->
+    </div><!-- modal -->
+    <!--LRChalanListModal end-->
     <!-- row end -->
     <!--LRChalanListModal start-->
     <div id="lrChalanListModal" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -615,6 +664,37 @@
         </div><!-- modal-dialog -->
     </div><!-- modal -->
     <!--LRChalanListModal end-->
+    <!-- Print Modal -->
+					<div class="modal fade" id="printModal" tabindex="-1" role="dialog"  aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="example-Modal3">Selete Print</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									 
+										<div class="form-group">
+											  <select class="form-control select2-show-search" id="SeletePrintId">
+                                            <option></option>
+                                            <option value="LRBookingChalanDetailPrint">Chalan Detail</option>
+                                            <option value="LRBookingChalanSummaryPrint">Chalan Summary</option>
+                                                                   
+                                                   
+                                        </select>
+										</div>
+									 
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                     <a href="#" class="btn btn-blue mt-1 mode-hide btn-print" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+									 
+								</div>
+							</div>
+						</div>
+					</div>
     <input type="hidden" id="Id" value="0" />
     <input type="hidden" id="hdnSelectedLRNumberIds" value="" />
     <input type="hidden" id="selectedLRDetails" value="[]" />
@@ -663,6 +743,17 @@
                         };
                     }
                 },
+            });
+
+             $(".btn-print").on("click", function () {
+                
+                var url = '@Url.Content("~/customer/")';
+                url += $('#SeletePrintId').find(':selected').val(); 
+                url += '?Id=' + parseInt($("#Id").val());
+               if($('#SeletePrintId').find(':selected').val() != ""){
+                    $(".btn-print").attr("href", url).attr('target', '_blank');
+               }
+               
             });
 
             $("#AccountBranchMappingId").on('change', function (e) {
