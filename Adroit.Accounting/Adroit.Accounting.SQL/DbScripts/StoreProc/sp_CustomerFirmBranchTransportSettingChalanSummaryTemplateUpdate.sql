@@ -1,8 +1,7 @@
-CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchTransportSettingTemplateUpdate]
+CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchTransportSettingChalanSummaryTemplateUpdate]
 (
 	 @BranchId INT,
 	 @LoginId INT,
-	 @ChalanDetailTemplate NVARCHAR(MAX),
 	 @ChalanSummaryTemplate NVARCHAR(MAX)
 )
 AS
@@ -12,8 +11,7 @@ BEGIN
 		IF EXISTS (SELECT 1 FROM [CustomerFirmBranchTransportSetting] WHERE [BranchId] = @BranchId)
 			BEGIN
 				UPDATE [CustomerFirmBranchTransportSetting] SET
-						 [ChalanDetailTemplate] = IsNull(@ChalanDetailTemplate,ChalanDetailTemplate)
-						,[ChalanSummaryTemplate] = IsNull(@ChalanSummaryTemplate,ChalanSummaryTemplate)
+						 [ChalanSummaryTemplate] = @ChalanSummaryTemplate
 						,[ModifiedById] = @LoginId
 						,[ModifiedOn] = GETUTCDATE()
 				WHERE [BranchId] = @BranchId

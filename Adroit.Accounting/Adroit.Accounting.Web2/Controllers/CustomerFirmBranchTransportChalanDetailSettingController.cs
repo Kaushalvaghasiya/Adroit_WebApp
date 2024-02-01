@@ -37,7 +37,7 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 model.LoginId = CurrentUserId;
-                int id = _customerFirmBranchTransportSettingRepository.SaveTemplate(model, _configurationData.DefaultConnection);
+                int id = _customerFirmBranchTransportSettingRepository.SaveChalanDetailTemplate(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
