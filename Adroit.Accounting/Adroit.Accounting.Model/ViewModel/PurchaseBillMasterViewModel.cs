@@ -7,6 +7,9 @@ namespace Adroit.Accounting.Model.ViewModel
 {
     public class PurchaseBillMasterViewModel : PurchaseBillMaster
     {
+        public List<DropdownViewModel>? BookBranchList { get; set; }
+        public List<DropdownViewModel>? InvoiceTypeList { get; set; }
+        public List<DropdownViewModel>? BillFromList { get; set; }
         public List<LRBookingGridViewModel> LRBookingList { get; set; }
         public List<DropdownViewModel> CityList { get; set; }
         public List<DropdownViewModel> VehicleList { get; set; }
