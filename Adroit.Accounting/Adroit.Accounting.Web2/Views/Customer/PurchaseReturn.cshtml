@@ -1,4 +1,4 @@
-﻿@model Adroit.Accounting.Model.ViewModel.SalesBillMasterViewModel
+﻿@model Adroit.Accounting.Model.ViewModel.PurchaseBillMasterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
@@ -9,9 +9,8 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Transaction</a></li>
-                    <li><a href="#">Sales</a></li>
-                    <li><a href="#">Sales</a></li>
-                    <li class="active"><span>General Invoice</span></li>
+                    <li><a href="#">Purchase</a></li>
+                    <li class="active"><span>Purchase Return</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -53,19 +52,17 @@
                         <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
                             <thead>
                                 <tr>
-                                    <th class="border-bottom-0">Branch Bill#</th>
+                                    <th class="border-bottom-0">Firm Entry Vou.#</th>
+                                    <th class="border-bottom-0">Pur Ret. Bill#</th>
                                     <th class="border-bottom-0">Bill Date</th>
-                                    <th class="border-bottom-0">Bill Party</th>
+                                    <th class="border-bottom-0">Pur. Party</th>
                                     <th class="border-bottom-0">GST#</th>
-                                    <th class="border-bottom-0">Amount</th>
                                     <th class="border-bottom-0">City</th>
+                                    <th class="border-bottom-0">Bill Amount</th>
+                                    <th class="border-bottom-0">E-Way Bill#</th>
                                     <th class="border-bottom-0">E-Invoice Ack.#</th>
-                                    <th class="border-bottom-0">E-Invoice Date</th>
-                                    <th class="border-bottom-0">GSTR1 Filling Ack.#</th>
-                                    <th class="border-bottom-0">GSTR1 Filling Date</th>
-                                    <th class="border-bottom-0">GSTR3B Filling Ack.#</th>
+                                    <th class="border-bottom-0">GSTR2A Reconsil Dt.</th>
                                     <th class="border-bottom-0">GSTR3B Filling Date</th>
-                                    <th class="border-bottom-0">Firm Bill#</th>
                                     <th class="border-bottom-0 text-center" style="width: 80px !important;">Action</th>
                                 </tr>
                             </thead>
@@ -528,12 +525,11 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Transaction</a></li>
-                    <li><a href="#">Sales</a></li>
-                    <li><a href="#">Sales</a></li>
-                    <li><a href="#">General Invoice</a></li>
+                    <li><a href="#">Purchase</a></li>
+                    <li><a href="#">Purchase Return</a></li>
                     <li class="active"><span>Add/Edit (ID# 100)</span></li>
                 </ol>
-                <div class="ml-auto">
+               <div class="ml-auto">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search E-Way Bill..." id="GoSearchQuery">
                         <span class="input-group-append mr-2">
@@ -566,26 +562,10 @@
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <select class="form-control select2-show-search" id="BookId">
-                                             @{
+                                            @{
                                                 if (Model.BookBranchList != null)
                                                 {
                                                     foreach (var o in Model.BookBranchList)
-                                                    {
-                                                        <option value="@o.Value">@o.Text</option>
-                                                    }
-                                                }
-                                            }
-                                        </select>
-                                    </div>
-                                    <label for="ShipingFromId" class="col-md-2 col-lg-1 form-label">
-                                        Shipping Form
-                                    </label>
-                                    <div class="col-md-4 col-lg-2">
-                                        <select class="form-control select2-show-search" id="ShipingFromId">
-                                             @{
-                                                if (Model.ShippingFromList != null)
-                                                {
-                                                    foreach (var o in Model.ShippingFromList)
                                                     {
                                                         <option value="@o.Value">@o.Text</option>
                                                     }
@@ -598,7 +578,7 @@
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <select class="form-control select2-show-search" id="InvoiceTypeId">
-                                             @{
+                                            @{
                                                 if (Model.InvoiceTypeList != null)
                                                 {
                                                     foreach (var o in Model.InvoiceTypeList)
@@ -614,7 +594,7 @@
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <select class="form-control select2-show-search" id="BillFromId">
-                                             @{
+                                            @{
                                                 if (Model.BillFromList != null)
                                                 {
                                                     foreach (var o in Model.BillFromList)
@@ -625,57 +605,18 @@
                                             }
                                         </select>
                                     </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <label for="BranchBill" class="col-md-2 col-lg-1 form-label">
-                                        Branch Sale Bill #
-                                    </label>
-                                    <div class="col-md-4 col-lg-2">
-                                        <input type="text" class="form-control" id="BranchBill"
-                                               placeholder="">
-                                    </div>
-                                    <label for="BillDate" class="col-md-2 col-lg-1 form-label">
-                                        Bill Date
-                                    </label>
-                                    <div class="col-md-4 col-lg-2">
-                                        <div class="input-group">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
-                                                </div>
-                                            </div>
-                                            <input class="form-control fc-datepicker"
-                                                   placeholder="MM/DD/YYYY" type="text" id="BillDate">
-                                        </div>
-                                    </div>
-                                    <label for="FirmBill" class="col-md-2 col-lg-1 form-label">
-                                        Firm Sale Bill #
-                                    </label>
-                                    <div class="col-md-4 col-lg-2">
-                                        <input type="text" class="form-control" id="FirmBill"
-                                               placeholder="">
-                                    </div>
-                                    <label for="SalesOrderId" class="col-md-2 col-lg-1 form-label">
-                                        Sales Order #
-                                    </label>
-                                    <div class="col-md-4 col-lg-2" style="height:38px;display:flex;">
-                                        <input type="text" class="form-control" id="SalesOrderNoTextbox" placeholder="">
-                                        <span class="input-group-append">
-                                            <button class="btn btn-primary" type="button" id="SearchSalesOrder"
-                                                    data-container="body" data-toggle="popover" data-popover-color="default"
-                                                    data-placement="bottom">
-                                                Go!
-                                            </button>
-                                        </span>
+                                    <label for="RCMBillNumber" class="col-md-1 form-label">RCM Bill#</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="RCMBillNumber" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="AccountBranchMappingId" class="col-md-2 col-lg-1 form-label mb-1">
-                                        Bill Party
+                                        Pur. Party
                                     </label>
                                     <div class="col-md-10 col-lg-5">
                                         <select class="form-control select2-show-search" id="AccountBranchMappingId">
-                                             @{
+                                            @{
                                                 if (Model.AccountBranchMappingList != null)
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
@@ -698,10 +639,10 @@
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <select class="form-control select2-show-search" id="BrokerId">
-                                             @{
-                                                if (Model.BrokerBranchMappingList != null)
+                                            @{
+                                                if (Model.BrokerList != null)
                                                 {
-                                                    foreach (var o in Model.BrokerBranchMappingList)
+                                                    foreach (var o in Model.BrokerList)
                                                     {
                                                         <option value="@o.Value">@o.Text</option>
                                                     }
@@ -711,28 +652,49 @@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="SalesName1" class="col-md-2 col-lg-1 form-label mb-1">
-                                        Sales Name 1
-                                    </label>
-                                    <div class="col-md-10 col-lg-5">
-                                        <select class="form-control select2-show-search mode-ed" id="SalesName1">
-                                            <option value="1">All</option>
-                                            <option value="1">2 Pay Type</option>
-                                            <option value="1">3 Pay Type</option>
-                                            <option value="1">4 Pay Type</option>
-                                        </select>
-                                    </div>
-                                    <label for="MoNo" class="col-md-2 col-lg-1 form-label mb-1">
-                                        Mobile No
+                                    <label for="BillNumberFirm" class="col-md-2 col-lg-1 form-label">
+                                        Pur. Ret. Bill #
                                     </label>
                                     <div class="col-md-4 col-lg-2">
-                                        <select class="form-control select2-show-search mode-ed" id="MoNo">
-                                            <option value="1">All</option>
-                                            <option value="1">2 Pay Type</option>
-                                            <option value="1">3 Pay Type</option>
-                                            <option value="1">4 Pay Type</option>
-                                        </select>
+                                        <input type="text" class="form-control" id="BillNumberFirm"
+                                               placeholder="">
                                     </div>
+                                    <label for="BillDate" class="col-md-2 col-lg-1 form-label">
+                                        Bill Date
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                </div>
+                                            </div>
+                                            <input class="form-control fc-datepicker"
+                                                   placeholder="MM/DD/YYYY" type="text" id="BillDate">
+                                        </div>
+                                    </div>
+                                    <label for="PurchaseBill" class="col-md-2 col-lg-1 form-label">
+                                        Purchase Bill #
+                                    </label>
+                                    <div class="col-md-4 col-lg-2" style="height:38px;display:flex;">
+                                        <input type="text" class="form-control" id="PurchaseBill" placeholder="">
+                                        <span class="input-group-append">
+                                            <button class="btn btn-primary" type="button" id="SearchPurchaseBill"
+                                                    data-container="body" data-toggle="popover" data-popover-color="default"
+                                                    data-placement="bottom">
+                                                Go!
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <label for="exampleInputname" class="col-md-2 col-lg-1 form-label">
+                                        Firm Entry Vou. #
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <input type="text" class="form-control" id="exampleInputname"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
                                     <label for="Header1" class="col-md-2 col-lg-1 form-label">
                                         Header1
                                     </label>
@@ -740,8 +702,6 @@
                                         <input type="text" class="form-control" id="Header1"
                                                placeholder="">
                                     </div>
-                                </div>
-                                <div class="row mb-1">
                                     <label for="Header2" class="col-md-2 col-lg-1 form-label">
                                         Header2
                                     </label>
@@ -760,30 +720,16 @@
                                     <div class="col-md-4 col-lg-2">
                                         <input type="text" class="form-control" id="Header4"
                                                placeholder="">
-                                    </div><label for="Header5" class="col-md-2 col-lg-1 form-label">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Header5" class="col-md-2 col-lg-1 form-label">
                                         Header5
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <input type="text" class="form-control" id="Header5"
                                                placeholder="">
                                     </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <label for="ChalanId" class="col-md-2 col-lg-1 form-label">
-                                        Chalan
-                                    </label>
-                                    <div class="col-md-4 col-lg-2" style="height: 38px;display: flex;">
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" id="ChalanId" placeholder="">
-                                        </div>
-                                        <span class="input-group-append">
-                                            <button class="btn btn-primary" type="button" id="SearchChalan"
-                                                    data-container="body" data-toggle="popover" data-popover-color="default"
-                                                    data-placement="bottom">
-                                                Go!
-                                            </button>
-                                        </span>
-                                    </div>                                   
                                     <label for="#" class="col-md-1 col-lg-1 form-label mb-1">
                                     </label>
                                     <div class="col-md-2">
@@ -821,14 +767,6 @@
                                         <input type="text" class="form-control" id="exampleInputname"
                                                placeholder="">
                                     </div>
-                                    <label for="exampleInputname" class="col-lg-1 col-md-2 form-label">Valid Form</label>
-                                    <div class="col-lg-2 col-md-3">
-                                        <input type="text" class="form-control" id="exampleInputname" placeholder="" readonly>
-                                    </div>
-                                    <label for="exampleInputname" class="col-lg-1 col-md-3 form-label">Valid To</label>
-                                    <div class="col-lg-2 col-md-3">
-                                        <input type="text" class="form-control" id="exampleInputname" placeholder="" readonly>
-                                    </div>
                                 </div>
                                 <div class="row mb-1">
                                     <label for="exampleInputname" class="col-lg-2 col-md-3 form-label">
@@ -838,74 +776,43 @@
                                         <input type="text" class="form-control" id="exampleInputname"
                                                placeholder="">
                                     </div>
-                                    <label for="exampleInputname" class="col-lg-1 col-md-2 form-label">Date</label>
+                                </div>                                
+                                <div class="row mb-1">
+                                    <label for="TotRCMAmt" class="col-lg-2 col-md-3 form-label">Total RCM Amt</label>
                                     <div class="col-lg-2 col-md-3">
-                                        <input type="text" class="form-control" id="exampleInputname" placeholder="" readonly>
+                                        <input type="text" class="form-control" id="TotRCMAmt" placeholder="" tabindex="-1">
                                     </div>
-                                    <label for="exampleInputname" class="col-lg-1 col-md-3 form-label">IRN#</label>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="NonRCMAmt" class="col-lg-2 col-md-3 form-label">Non RCM Amt</label>
                                     <div class="col-lg-2 col-md-3">
-                                        <input type="text" class="form-control" id="exampleInputname" placeholder="" readonly>
-                                    </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <label for="PaymentDetail" class="col-lg-2 col-md-3 form-label">
-                                        Payment Detail
-                                    </label>
-                                    <div class="col-lg-5 col-md-9">
-                                        <input type="text" class="form-control" id="PaymentDetail"
-                                               placeholder="" readonly>
-                                    </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <label for="DeliveryPartyId" class="col-lg-2 col-md-3 form-label">
-                                        Delivery Party
-                                    </label>
-                                    <div class="col-lg-5 col-md-9">
-                                        <select class="form-control select2-show-search" id="DeliveryPartyId">
-                                            @{
-                                                if (Model.DeliveryPartyList != null)
-                                                {
-                                                    foreach (var o in Model.DeliveryPartyList)
-                                                    {
-                                                        if (@o.Value == $"{ViewBag.LoggedInBranchCity}")
-                                                        {
-                                                            <option value="@o.Value" selected>@o.Text</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="@o.Value">@o.Text</option>
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <label for="HastePartyId" class="col-lg-2 col-md-3 form-label">
-                                        Haste Party
-                                    </label>
-                                    <div class="col-lg-5 col-md-9">
-                                        <select class="form-control select2-show-search" id="HastePartyId">
-                                            @{
-                                                if (Model.HastePartyList != null)
-                                                {
-                                                foreach (var o in Model.HastePartyList)
-                                                    {
-                                                        <option value="@o.Value">@o.Text</option>
-                                                    }
-                                                }
-                                            }
-                                        </select>
+                                        <input type="text" class="form-control" id="NonRCMAmt" placeholder="" tabindex="-1">
                                     </div>
                                 </div>
                             </div>
                             <div class="row mb-1">
-                                <label for="remarks" class="col-lg-2 col-md-3 form-label">
+                                <label for="exampleInputname" class="col-lg-2 col-md-3 form-label">
                                     Remarks
                                 </label>
                                 <div class="col-lg-8 col-md-9">
-                                    <textarea class="form-control" id="remarks" rows="2" placeholder="Write a large text here ..."></textarea>
+                                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" placeholder="Write a large text here ..."></textarea>
+                                </div>
+                            </div>
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="PaymentId" class="col-lg-2 col-md-3 form-label">
+                                        Payment
+                                    </label>
+                                    <div class="col-md-4 col-lg-2" style="height:38px;display:flex;">
+                                        <input type="text" class="form-control" id="PaymentId" placeholder="">
+                                        <span class="input-group-append">
+                                            <button class="btn btn-primary" type="button" id="SearchPayment"
+                                                    data-container="body" data-toggle="popover" data-popover-color="default"
+                                                    data-placement="bottom">
+                                                Go!
+                                            </button>
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -972,9 +879,9 @@
                                     </div>
                                 </div>
                                 <div class="row mb-1">
-                                    <label for="BillAmount" class="col-md-4 form-label text-left">Bill Amount</label>
+                                    <label for="InvoiceAmount" class="col-md-4 form-label text-left">Invoice Amount</label>
                                     <div class="col-md-8">
-                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="BillAmount" placeholder="" readonly tabindex="-1">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="InvoiceAmount" placeholder="" readonly tabindex="-1">
                                     </div>
                                 </div>
                             </div>
@@ -992,12 +899,12 @@
             </div>
         </div>
         <!-- row end -->
-        <!--ChalanListModal start-->
-        <div id="chalanListModal" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <!--PurchaseBillListModal start-->
+        <div id="purchaseBillListModal" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
                 <div class="modal-content ">
                     <div class="form-horizontal modal-header pd-x-20">
-                        <h5 class="modal-title col-md-1" style="align-self:center;">Chalan List</h5>
+                        <h5 class="modal-title col-md-1" style="align-self:center;">Purchase Bill List</h5>
                         <label for="DateFrom" class="col-md-1 form-label">Date</label>
                         <div class="col-md-4">
                             <div class="form-group">
@@ -1010,10 +917,16 @@
                                     <input class="form-control fc-datepicker1 fc-daterange" placeholder="" type="text" id="DateFrom">
                                 </div>
                             </div>
-                        </div>
-                        <a href="#" class="btn btn-primary" data-toggle="modal" id="SearchChalanList" data-original-title="Select Chalan List">
+                        </div>                       
+                        <a href="#" class="btn btn-primary" data-toggle="modal" id="SearchPurchaseBillList" data-original-title="Select Purchase Bill List">
                             Search
-                        </a>
+                        </a>           
+                        <label for="poNumber" class="col-md-1 form-label ml-4">Search Pur. Bill # : </label>
+                        <div class="col-md-2" style="display:flex;">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search Pur. Bill..." id="poNumber">                                
+                            </div>
+                        </div>
                         <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </a>
@@ -1022,22 +935,29 @@
                         <div class="table-responsive">
                             <table id="LRtblMain" class="table table-bordered key-buttons text-nowrap">
                                 <thead>
+                                <thead>
                                     <tr>
                                         <th class="border-bottom-0"><input type="checkbox" /></th>
-                                        <th class="border-bottom-0">Chalan#</th>
-                                        <th class="border-bottom-0">Chalan Date</th>
-                                        <th class="border-bottom-0">Total Product</th>
-                                        <th class="border-bottom-0">[Label 1]</th>
-                                        <th class="border-bottom-0">[Label 2]</th>
-                                        <th class="border-bottom-0">[Label 3]</th>
-                                        <th class="border-bottom-0">[Label 4]</th>
-                                        <th class="border-bottom-0">[Label 5]</th>
-                                        <th class="border-bottom-0">[Label 6]</th>
-                                        <th class="border-bottom-0">UOM</th>
-                                        <th class="border-bottom-0">Chalan Amount</th>
+                                        <th class="border-bottom-0">Bill#</th>
+                                        <th class="border-bottom-0">Date</th>
+                                        <th class="border-bottom-0">Bill Amount</th>
+                                        <th class="border-bottom-0">Cr Days</th>
+                                        <th class="border-bottom-0">Due Date</th>
+                                        <th class="border-bottom-0">Paid</th>
+                                        <th class="border-bottom-0">Unpaid</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr>
+                                        <td><input type="checkbox" /></td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>                                        
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -1049,118 +969,188 @@
                 </div>
             </div><!-- modal-dialog -->
         </div><!-- modal -->
-        <!--ChalanListModal end-->
-    </div>
-    <!--Modal start-->
-    <div class="modal fade" id="transportDetailModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="example-Modal3">LR Detail Add</h5>
-                    <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </a>
-                </div>
-                <div class="modal-body">
-                    <div class="form-horizontal">
-                        <div class="row mb-1">
-                            <label for="exampleInputname" class="col-md-4 form-label">
-                                LR #
-                            </label>
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" id="exampleInputname"
-                                       placeholder="">
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <label for="exampleInputname" class="col-md-4 form-label">LR Date</label>
-                            <div class="col-md-6">
+        <!--PurchaseBillListModal end-->
+        <!--PaymentListModal start-->
+        <div id="paymentListModal" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
+                <div class="modal-content ">
+                    <div class="form-horizontal modal-header pd-x-20">
+                        <h5 class="modal-title col-md-1" style="align-self:center;">Payment List</h5>
+                        <label for="DateFrom" class="col-md-1 form-label">Date</label>
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <div class="input-group">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                         </div>
                                     </div>
-                                    <input class="form-control fc-datepicker"
-                                           placeholder="MM/DD/YYYY" type="text" id="LRDate">
+                                    <input class="form-control fc-datepicker1 fc-daterange" placeholder="" type="text" id="DateFrom">
+                                </div>
+                            </div>
+                        </div>                       
+                        <a href="#" class="btn btn-primary" data-toggle="modal" id="SearchPaymentList" data-original-title="Select Payment List">
+                            Search
+                        </a>                                      
+                        <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                    <div class="modal-body pd-20" style="max-height: 700px; overflow-x: auto; overflow-y: auto;">
+                        <div class="table-responsive">
+                            <table id="LRtblMain" class="table table-bordered key-buttons text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="border-bottom-0">Bill#</th>
+                                        <th class="border-bottom-0">Date</th>
+                                        <th class="border-bottom-0">Bill Amount</th>
+                                        <th class="border-bottom-0">Cr Days</th>
+                                        <th class="border-bottom-0">Due Date</th>
+                                        <th class="border-bottom-0">Paid</th>
+                                        <th class="border-bottom-0">Unpaid</th>
+                                        <th class="border-bottom-0">Payment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td class="text-right">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder = "..." >
+                                                <span class="input-group-append">
+                                                    <a href="#" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click here for FULL Payment"> Full Payment </a>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><!-- modal-body -->
+                    <div class="modal-footer">
+                        <a href="#" type="button" class="btn btn-primary" id="AddData">Add</a>
+                        <a href="#" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- modal-dialog -->
+        </div><!-- modal -->
+        <!--PaymentListModal end-->
+        <div class="modal fade" id="transportDetailModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="example-Modal3">LR Detail Add</h5>
+                        <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal">
+                            <div class="row mb-1">
+                                <label for="exampleInputname" class="col-md-4 form-label">
+                                    LR #
+                                </label>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="exampleInputname"
+                                           placeholder="">
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label for="exampleInputname" class="col-md-4 form-label">LR Date</label>
+                                <div class="col-md-6">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                            </div>
+                                        </div>
+                                        <input class="form-control fc-datepicker"
+                                               placeholder="MM/DD/YYYY" type="text" id="LRDate">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label for="exampleInputname" class="col-md-4 form-label">
+                                    Transporter
+                                </label>
+                                <div class="col-md-5">
+                                    <select class="form-control select2-show-search mode-ed" id="">
+                                        <option value="1">Party Name | GST Number | City</option>
+                                        <option value="1">Party Name | GST Number | City</option>
+                                        <option value="1">Party Name | GST Number | City</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label for="exampleInputname" class="col-md-4 form-label">
+                                    Trans.GST
+                                </label>
+                                <div class="col-md-5">
+                                    <select class="form-control select2-show-search mode-ed" id="">
+                                        <option value="1">Party Name | GST Number | City</option>
+                                        <option value="1">Party Name | GST Number | City</option>
+                                        <option value="1">Party Name | GST Number | City</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label for="exampleInputname" class="col-md-4 form-label">
+                                    Vehicle #
+                                </label>
+                                <div class="col-md-5">
+                                    <select class="form-control select2-show-search mode-ed" id="">
+                                        <option value="1">Party Name | GST Number | City</option>
+                                        <option value="1">Party Name | GST Number | City</option>
+                                        <option value="1">Party Name | GST Number | City</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label for="exampleInputname" class="col-md-4 form-label">
+                                    Station
+                                </label>
+                                <div class="col-md-5">
+                                    <select class="form-control select2-show-search mode-ed" id="">
+                                        <option value="1">Party Name | GST Number | City</option>
+                                        <option value="1">Party Name | GST Number | City</option>
+                                        <option value="1">Party Name | GST Number | City</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <label for="exampleInputname" class="col-md-4 form-label">
+                                    Transport Mode
+                                </label>
+                                <div class="col-md-5">
+                                    <select class="form-control select2-show-search" id="">
+                                        <option value="1">Party Name | GST Number | City</option>
+                                        <option value="1">Party Name | GST Number | City</option>
+                                        <option value="1">Party Name | GST Number | City</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
-                        <div class="row mb-1">
-                            <label for="exampleInputname" class="col-md-4 form-label">
-                                Transporter
-                            </label>
-                            <div class="col-md-5">
-                                <select class="form-control select2-show-search mode-ed" id="">
-                                    <option value="1">Party Name | GST Number | City</option>
-                                    <option value="1">Party Name | GST Number | City</option>
-                                    <option value="1">Party Name | GST Number | City</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <label for="exampleInputname" class="col-md-4 form-label">
-                                Trans.GST
-                            </label>
-                            <div class="col-md-5">
-                                <select class="form-control select2-show-search mode-ed" id="">
-                                    <option value="1">Party Name | GST Number | City</option>
-                                    <option value="1">Party Name | GST Number | City</option>
-                                    <option value="1">Party Name | GST Number | City</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <label for="exampleInputname" class="col-md-4 form-label">
-                                Vehicle #
-                            </label>
-                            <div class="col-md-5">
-                                <select class="form-control select2-show-search mode-ed" id="">
-                                    <option value="1">Party Name | GST Number | City</option>
-                                    <option value="1">Party Name | GST Number | City</option>
-                                    <option value="1">Party Name | GST Number | City</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <label for="exampleInputname" class="col-md-4 form-label">
-                                Station
-                            </label>
-                            <div class="col-md-5">
-                                <select class="form-control select2-show-search mode-ed" id="">
-                                    <option value="1">Party Name | GST Number | City</option>
-                                    <option value="1">Party Name | GST Number | City</option>
-                                    <option value="1">Party Name | GST Number | City</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <label for="exampleInputname" class="col-md-4 form-label">
-                                Transport Mode
-                            </label>
-                            <div class="col-md-5">
-                                <select class="form-control select2-show-search" id="">
-                                    <option value="1">Party Name | GST Number | City</option>
-                                    <option value="1">Party Name | GST Number | City</option>
-                                    <option value="1">Party Name | GST Number | City</option>
-                                </select>
-                            </div>
-                        </div>
                     </div>
-                </div>
 
-                <div class="modal-footer">
-                    <a href="#" type="button" class="btn btn-gray mt-1" data-dismiss="modal">
-                        <i class="fa fa-arrow-left"></i>&nbsp;Cancel
-                    </a>
-                    <a href="#" type="button" class="btn btn-primary mt-1">
-                        <i class="fa fa-save"></i>&nbsp;Save
-                    </a>
+                    <div class="modal-footer">
+                        <a href="#" type="button" class="btn btn-gray mt-1" data-dismiss="modal">
+                            <i class="fa fa-arrow-left"></i>&nbsp;Cancel
+                        </a>
+                        <a href="#" type="button" class="btn btn-primary mt-1">
+                            <i class="fa fa-save"></i>&nbsp;Save
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div><!-- modal -->
+</div>
 
 @section Scripts
     {
@@ -1168,8 +1158,8 @@
 
         $(function (e) {
             $('.dv-list').hide();
-            $('.dv-detail').show();                
-
+            $('.dv-detail').show();
+            
             addClick();
 
             $("#AccountBranchMappingId").on('change', function (e) {
@@ -1177,14 +1167,17 @@
                 calculateBasicAmount();
             });
 
-            $("#SearchChalan").on('click', function (e) {
-                $("#chalanListModal").modal("show");                   
+            $("#SearchPayment").on('click', function (e) {
+                $("#paymentListModal").modal("show");                   
+            });
+
+            $("#SearchPurchaseBill").on('click', function (e) {
+                $("#purchaseBillListModal").modal("show");                   
             });
 
             var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
-            $("#BillDate").datepicker("setDate", formattedMinimumDate);   
-        });
-
+            $("#BillDate").datepicker("setDate", formattedMinimumDate);                            
+        });        
 
         function addClick() {
             $('.dv-list').slideUp();
@@ -1207,10 +1200,13 @@
         function fromReset() {
 
             $("#Id").val(0);
+            $("#BillNumberFirm").val(0);
+            $("#RCMBillNumber").val(0);
             var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
             $("#BillDate").datepicker("setDate", formattedMinimumDate);
 
             $("#CreditDays").val('');
+            $("#BillNumber").val(0);
             $("#TaxableAmount").val('');
             $("#TDSPercentage").val('');
             $("#TDSAmount").val('');
@@ -1259,40 +1255,6 @@
             }
             catch (err) {
             }
-        }
-
-        function calculateBasicAmount() {
-            var totalTaxableAmount = 0;
-
-            $('.content-rows').each(function () {
-                var contentRowId = $(this).attr('id').replace('row-', '');
-                var taxableAmount = parseFloat($('#TaxAmt' + contentRowId).text()) || 0;
-                totalTaxableAmount += taxableAmount;
-                $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
-            });
-
-            var BasicAmount = parseFloat($('#TaxableAmount').val()) || 0;
-            var CGSTTotal = parseFloat($('#CGSTTotal').val()) || 0;
-            var SGSTTotal = parseFloat($('#SGSTTotal').val()) || 0;
-            var IGSTTotal = parseFloat($('#IGSTTotal').val()) || 0;
-            var GSTStateCessTotal = parseFloat($('#GSTStateCessTotal').val()) || 0;
-            var GSTCentralCessTotal = parseFloat($('#GSTCentralCessTotal').val()) || 0;
-            var TCSPercentage = parseFloat($('#TCSPercentage').val()) || 0;
-
-            $('#TCSAmount').val(((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal) * (TCSPercentage) / 100).toFixed(2));
-            var TCSAmount = parseFloat($('#TCSAmount').val()) || 0;
-
-            var totalAmount = BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount;
-
-            var RoundOff = customRound(totalAmount) - totalAmount;
-
-            $('#RoundOff').val(RoundOff.toFixed(2));
-            $('#BillAmount').val((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount + RoundOff).toFixed(2));
-
-        }
-        function customRound(number) {
-            var decimalPart = number % 1;
-            return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
         }
 
         function calculateBasicAmount() {
@@ -1717,6 +1679,6 @@
             if ($('.content-rows').length == 0 || $('.content-rows-add-btn').length == 0) {
                 addRow();
             }
-        }       
+        }        
     </script>
 }

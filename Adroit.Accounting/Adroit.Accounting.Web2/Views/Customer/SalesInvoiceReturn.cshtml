@@ -11,7 +11,7 @@
                     <li><a href="#">Transaction</a></li>
                     <li><a href="#">Sales</a></li>
                     <li><a href="#">Sales</a></li>
-                    <li class="active"><span>General Invoice</span></li>
+                    <li class="active"><span>General Ret. Inv.</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -530,7 +530,7 @@
                     <li><a href="#">Transaction</a></li>
                     <li><a href="#">Sales</a></li>
                     <li><a href="#">Sales</a></li>
-                    <li><a href="#">General Invoice</a></li>
+                    <li><a href="#">General Ret. Inv.</a></li>
                     <li class="active"><span>Add/Edit (ID# 100)</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -628,7 +628,7 @@
                                 </div>
                                 <div class="row mb-1">
                                     <label for="BranchBill" class="col-md-2 col-lg-1 form-label">
-                                        Branch Sale Bill #
+                                        Brh Ret Sale Bill #
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <input type="text" class="form-control" id="BranchBill"
@@ -649,19 +649,19 @@
                                         </div>
                                     </div>
                                     <label for="FirmBill" class="col-md-2 col-lg-1 form-label">
-                                        Firm Sale Bill #
+                                        Firm Ret Sal Bill #
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <input type="text" class="form-control" id="FirmBill"
                                                placeholder="">
                                     </div>
-                                    <label for="SalesOrderId" class="col-md-2 col-lg-1 form-label">
-                                        Sales Order #
+                                    <label for="SaleBill" class="col-md-2 col-lg-1 form-label">
+                                        Sale Bill #
                                     </label>
                                     <div class="col-md-4 col-lg-2" style="height:38px;display:flex;">
-                                        <input type="text" class="form-control" id="SalesOrderNoTextbox" placeholder="">
+                                        <input type="text" class="form-control" id="SaleBill" placeholder="">
                                         <span class="input-group-append">
-                                            <button class="btn btn-primary" type="button" id="SearchSalesOrder"
+                                            <button class="btn btn-primary" type="button" id="SearchSaleBill"
                                                     data-container="body" data-toggle="popover" data-popover-color="default"
                                                     data-placement="bottom">
                                                 Go!
@@ -710,29 +710,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row mb-1">
-                                    <label for="SalesName1" class="col-md-2 col-lg-1 form-label mb-1">
-                                        Sales Name 1
-                                    </label>
-                                    <div class="col-md-10 col-lg-5">
-                                        <select class="form-control select2-show-search mode-ed" id="SalesName1">
-                                            <option value="1">All</option>
-                                            <option value="1">2 Pay Type</option>
-                                            <option value="1">3 Pay Type</option>
-                                            <option value="1">4 Pay Type</option>
-                                        </select>
-                                    </div>
-                                    <label for="MoNo" class="col-md-2 col-lg-1 form-label mb-1">
-                                        Mobile No
-                                    </label>
-                                    <div class="col-md-4 col-lg-2">
-                                        <select class="form-control select2-show-search mode-ed" id="MoNo">
-                                            <option value="1">All</option>
-                                            <option value="1">2 Pay Type</option>
-                                            <option value="1">3 Pay Type</option>
-                                            <option value="1">4 Pay Type</option>
-                                        </select>
-                                    </div>
+                                <div class="row mb-1">                                    
                                     <label for="Header1" class="col-md-2 col-lg-1 form-label">
                                         Header1
                                     </label>
@@ -740,8 +718,6 @@
                                         <input type="text" class="form-control" id="Header1"
                                                placeholder="">
                                     </div>
-                                </div>
-                                <div class="row mb-1">
                                     <label for="Header2" class="col-md-2 col-lg-1 form-label">
                                         Header2
                                     </label>
@@ -760,15 +736,16 @@
                                     <div class="col-md-4 col-lg-2">
                                         <input type="text" class="form-control" id="Header4"
                                                placeholder="">
-                                    </div><label for="Header5" class="col-md-2 col-lg-1 form-label">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">                                    
+                                    <label for="Header5" class="col-md-2 col-lg-1 form-label">
                                         Header5
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <input type="text" class="form-control" id="Header5"
                                                placeholder="">
                                     </div>
-                                </div>
-                                <div class="row mb-1">
                                     <label for="ChalanId" class="col-md-2 col-lg-1 form-label">
                                         Chalan
                                     </label>
@@ -798,7 +775,6 @@
                                         </a>
                                     </div>
                                 </div>
-
                                 <div class="row customer-gnr-ch-multi">
                                     <div class="col-md-12 col-lg-12 p-2">
                                         <div class="card mb-0 m-0 p-2 pl-3 pr-3">
@@ -992,6 +968,77 @@
             </div>
         </div>
         <!-- row end -->
+         <!--SaleBillListModal start-->
+        <div id="saleBillListModal" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
+                <div class="modal-content ">
+                    <div class="form-horizontal modal-header pd-x-20">
+                        <h5 class="modal-title col-md-1" style="align-self:center;">Purchase Bill List</h5>
+                        <label for="DateFrom" class="col-md-1 form-label">Date</label>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control fc-datepicker1 fc-daterange" placeholder="" type="text" id="DateFrom">
+                                </div>
+                            </div>
+                        </div>                       
+                        <a href="#" class="btn btn-primary" data-toggle="modal" id="SearchPurchaseBillList" data-original-title="Select Purchase Bill List">
+                            Search
+                        </a>           
+                        <label for="poNumber" class="col-md-1 form-label ml-4">Search Pur. Bill # : </label>
+                        <div class="col-md-2" style="display:flex;">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search Pur. Bill..." id="poNumber">                                
+                            </div>
+                        </div>
+                        <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                    <div class="modal-body pd-20" style="max-height: 700px; overflow-x: auto; overflow-y: auto;">
+                        <div class="table-responsive">
+                            <table id="LRtblMain" class="table table-bordered key-buttons text-nowrap">
+                                <thead>
+                                <thead>
+                                    <tr>
+                                        <th class="border-bottom-0"><input type="checkbox" /></th>
+                                        <th class="border-bottom-0">Bill#</th>
+                                        <th class="border-bottom-0">Date</th>
+                                        <th class="border-bottom-0">Bill Amount</th>
+                                        <th class="border-bottom-0">Cr Days</th>
+                                        <th class="border-bottom-0">Due Date</th>
+                                        <th class="border-bottom-0">Paid</th>
+                                        <th class="border-bottom-0">Unpaid</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><input type="checkbox" /></td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><!-- modal-body -->
+                    <div class="modal-footer">
+                        <a href="#" type="button" class="btn btn-primary" id="AddData">Add</a>
+                        <a href="#" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- modal-dialog -->
+        </div><!-- modal -->
+        <!--SaleBillListModal end-->
         <!--ChalanListModal start-->
         <div id="chalanListModal" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
             <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
@@ -1179,6 +1226,10 @@
 
             $("#SearchChalan").on('click', function (e) {
                 $("#chalanListModal").modal("show");                   
+            });
+
+            $("#SearchSaleBill").on('click', function (e) {
+                $("#saleBillListModal").modal("show");                   
             });
 
             var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());

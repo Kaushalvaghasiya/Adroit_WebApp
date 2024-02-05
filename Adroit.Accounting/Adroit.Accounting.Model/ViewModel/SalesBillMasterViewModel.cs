@@ -15,8 +15,10 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel>? HastePartyList { get; set; }
         public List<DropdownViewModel>? VehicleList { get; set; }
         public List<DropdownViewModel>? LRNumberList { get; set; }
+        public List<DropdownViewModel> ItemDescList { get; set; }
         public CustomerFirmTransportSettingViewModel CustomerFirmTransportSetting { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
+        public CustomerBookViewModel CustomerBook { get; set; }
         public string? LRDetailsArray { get; set; }
         public string? City { get; set; }
         public string? GSTNo { get; set; }
