@@ -558,9 +558,9 @@
                                     <label for="BookId" class="col-md-2 col-lg-1 form-label">
                                         Book
                                     </label>
-                                    <div class="col-md-4 col-lg-2">
+                                    <div class="col-md-9 col-lg-5">
                                         <select class="form-control select2-show-search" id="BookId">
-                                             @{
+                                            @{
                                                 if (Model.BookBranchList != null)
                                                 {
                                                     foreach (var o in Model.BookBranchList)
@@ -570,13 +570,13 @@
                                                 }
                                             }
                                         </select>
-                                    </div>                                    
+                                    </div>
                                     <label for="InvoiceTypeId" class="col-md-2 col-lg-1 form-label">
                                         Invoice Type
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <select class="form-control select2-show-search" id="InvoiceTypeId">
-                                             @{
+                                            @{
                                                 if (Model.InvoiceTypeList != null)
                                                 {
                                                     foreach (var o in Model.InvoiceTypeList)
@@ -587,21 +587,12 @@
                                             }
                                         </select>
                                     </div>
-                                    <label for="BillFromId" class="col-md-2 col-lg-1 form-label">
-                                        DN Reason
+                                    <label for="ReferanceId" class="col-md-2 col-lg-1 form-label">
+                                        Referance #
                                     </label>
-                                    <div class="col-md-7 col-lg-5">
-                                        <select class="form-control select2-show-search" id="BillFromId">
-                                             @{
-                                                if (Model.BillFromList != null)
-                                                {
-                                                    foreach (var o in Model.BillFromList)
-                                                    {
-                                                        <option value="@o.Value">@o.Text</option>
-                                                    }
-                                                }
-                                            }
-                                        </select>
+                                    <div class="col-md-4 col-lg-2">
+                                        <input type="text" class="form-control" id="ReferanceId"
+                                               placeholder="">
                                     </div>
                                 </div>
                                 <div class="row mb-1">
@@ -641,23 +632,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="row mb-1">                                    
-                                    <label for="debitAccount" class="col-md-2 col-lg-1 form-label mb-1">
-                                        Debit A/C
-                                    </label>
-                                    <div class="col-md-10 col-lg-5">
-                                        <select class="form-control select2-show-search" id="debitAccount">
-                                            @{
-                                                if (Model.AccountBranchMappingList != null)
-                                                {
-                                                    foreach (var o in Model.AccountBranchMappingList)
-                                                    {
-                                                        <option value="@o.Value">@o.Text</option>
-                                                    }
-                                                }
-                                            }
-                                        </select>
-                                    </div>            
+                                <div class="row mb-1">
                                     <label for="AccountBranchMappingId" class="col-md-2 col-lg-1 form-label mb-1">
                                         Bill Party
                                     </label>
@@ -674,6 +649,22 @@
                                             }
                                         </select>
                                     </div>
+                                    <label for="creditAccount" class="col-md-2 col-lg-1 form-label mb-1">
+                                        Credit A/C
+                                    </label>
+                                    <div class="col-md-10 col-lg-5">
+                                        <select class="form-control select2-show-search" id="creditAccount">
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                        <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>                                                
                                 </div>
                                 <div class="row customer-gnr-ch-multi">
                                     <div class="col-md-12 col-lg-12 p-2">
@@ -1228,63 +1219,58 @@
             contentRowId++;
             var htmlContent =
                 `<div class="row m-0 rounded content-rows" id="row-` + contentRowId + `">
-                    <div class="row">
-                        <div class="col-md-1 pl-2 pr-2 grid-border">
-                            <label for="SrTextbox${contentRowId}" class="form-label"> SR#</label><input type="text" class="form-control content-row-srno" id="SrTextbox${contentRowId}" placeholder max="999" readonly>
-                        </div>                                
-                        <div class="col-md-1 pl-2 pr-2 grid-border">
-                            <label for="BoxLabel1${contentRowId}" class="form-label">Branch Bill #</label>
-                            <div class="mb-1">
-                                <select class="form-control select2-show-search select2-show-search-contentrows" id="">
-                                    <option value="1">1 Group</option>
-                                    <option value="2">2 Group</option>
-                                    <option value="3">3 Group</option>
-                                    <option value="4">4 Group</option>
-                                </select>
-                            </div>
-                        </div>       
-                        <div class="col-md-1 pl-2 pr-2 grid-border">
-                            <label for="BoxLabel2${contentRowId}" class="form-label">Firm Bill #</label>
-                            <div class="mb-1"><input type="text" class="form-control text-center" id="exampleInputname" placeholder="" readonly></div>
-                        </div>
-        
-                        <div class="col-md-1 pl-2 pr-2 grid-border">
-                            <label for="BoxLabel3${contentRowId}" class="form-label">Date</label>
-                            <div class="mb-1"><input type="text" class="form-control" id="exampleInputname" placeholder="" readonly></div>
-                        </div>                                                                                                                                                                                   
-                        <div class="col-md-2 pl-2 pr-2 grid-border">
-                            <label for="OtherCharges${contentRowId}" class="form-label">Bill Taxable Amt</label>
+                            <div class="row">
+                                <div class="col-md-1 pl-2 pr-2 grid-border">
+                                    <label for="SrTextbox${contentRowId}" class="form-label"> SR#</label><input type="text" class="form-control content-row-srno" id="SrTextbox${contentRowId}" placeholder max="999" readonly>
+                                </div>
+                                <div class="col-md-1 pl-2 pr-2 grid-border">
+                                    <label for="BoxLabel1${contentRowId}" class="form-label">Pur. Bill #</label>
+                                    <div class="mb-1">
+                                        <select class="form-control select2-show-search select2-show-search-contentrows" id="">
+                                            <option value="1">1 Group</option>
+                                            <option value="2">2 Group</option>
+                                            <option value="3">3 Group</option>
+                                            <option value="4">4 Group</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 pl-2 pr-2 grid-border">
+                                    <label for="BoxLabel3${contentRowId}" class="form-label">Date</label>
                                     <div class="mb-1"><input type="text" class="form-control" id="exampleInputname" placeholder="" readonly></div>
-                        </div>                                                                         
-                        <div class="col-md-2 pl-2 pr-2 grid-border">
-                            <label for="Gst${contentRowId}" class="form-label">DN Description</label>
-                            <div class="mb-1">
-                                <select class="form-control select2-show-search select2-show-search-contentrows" id="">
-                                    <option value="1">1 Product Name</option>
-                                    <option value="2">2 Product Name</option>
-                                    <option value="3">3 Product Name</option>
-                                    <option value="4">4 Product Name</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-1 pl-2 pr-2 grid-border">
-                            <label for="Scess${contentRowId}" class="form-label">DN Amount</label>
-                            <div class="mb-1"><input type="text" class="form-control" id="exampleInputname" placeholder=""></div>
-                        </div>
-                        <div class="col-md-2 pl-2 pr-2 grid-border">
-                            <label for="Ccess${contentRowId}" class="form-label">Notes</label>
-                            <div class="mb-1"><input type="text" class="form-control" id="exampleInputname" placeholder=""></div>
-                        </div>
-                        <div class="col-md-1 grid-border d-flex justify-content-center align-items-center>
-                            <div class="form-group text-center mb-1">
-                                <div class="btn-list1 mt-1">
-                                    <a href="javascript:addRow();" class="btn btn-outline-primary small-icon-btn content-rows-add-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add" tabindex="25"><i class="fa fa-plus"></i></a>
-                                    <a href="javascript:deleteRow(` + contentRowId + `);" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>
+                                </div>
+                                <div class="col-md-2 pl-2 pr-2 grid-border">
+                                    <label for="OtherCharges${contentRowId}" class="form-label">Bill Taxable Amt</label>
+                                            <div class="mb-1"><input type="text" class="form-control" id="exampleInputname" placeholder="" readonly></div>
+                                </div>
+                                <div class="col-md-3 pl-2 pr-2 grid-border">
+                                    <label for="Gst${contentRowId}" class="form-label">Debit Note Description</label>
+                                    <div class="mb-1">
+                                        <select class="form-control select2-show-search select2-show-search-contentrows" id="">
+                                            <option value="1">1 Product Name</option>
+                                            <option value="2">2 Product Name</option>
+                                            <option value="3">3 Product Name</option>
+                                            <option value="4">4 Product Name</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-1 pl-2 pr-2 grid-border">
+                                    <label for="Scess${contentRowId}" class="form-label">DN Amount</label>
+                                    <div class="mb-1"><input type="text" class="form-control" id="exampleInputname" placeholder=""></div>
+                                </div>
+                                <div class="col-md-2 pl-2 pr-2 grid-border">
+                                    <label for="Ccess${contentRowId}" class="form-label">Notes</label>
+                                    <div class="mb-1"><input type="text" class="form-control" id="exampleInputname" placeholder=""></div>
+                                </div>
+                                <div class="col-md-1 grid-border d-flex justify-content-center align-items-center>
+                                    <div class="form-group text-center mb-1">
+                                        <div class="btn-list1 mt-1">
+                                            <a href="javascript:addRow();" class="btn btn-outline-primary small-icon-btn content-rows-add-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add" tabindex="25"><i class="fa fa-plus"></i></a>
+                                            <a href="javascript:deleteRow(` + contentRowId + `);" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>`;
+                        </div>`;
 
             htmlContentArray.push(htmlContent);
 

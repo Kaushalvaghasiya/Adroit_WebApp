@@ -1,0 +1,319 @@
+﻿@using Adroit.Accounting.Model;
+@using Adroit.Accounting.Model.Enums;
+@inject Adroit.Accounting.Web.Utility.ILoginHandler loginHandler
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        var firmId = loginHandler.GetLoggedInFirmId(User);
+        ViewBag.Year = loginHandler.GetLoggedInYear(loginHandler.GetLoggedInYearId(User), firmId);
+    }
+    else
+    {
+        ViewBag.Year = string.Empty;
+    }
+}
+<div class="dv-parameters side-app">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Reports</a></li>
+                    <li><a href="#">GST Register</a></li>
+                    <li class="active"><span>GSTR01 Register</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page">
+                            <span>
+                                <i class="fa fa-star"></i>
+                            </span>
+                        </a>
+                        <a href="lockscreen.html" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock">
+                            <span>
+                                <i class="fa fa-lock"></i>
+                            </span>
+                        </a>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">                        
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="DateFrom">Date</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control fc-datepicker1 fc-daterange" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <div class="form-group">
+                                <br />
+                                <a href="#" class="btn btn-warning mt-1 show-report" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-spinner"></i>&nbsp;Generate Report</a>
+                                <a href="#" class="btn btn-gray mt-1 reset-button" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dv-report side-app">   
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <div>
+                    <a href="#" class="btn btn-primary" id="b2b_sez_de">b2b,sez,de</a>
+                    <a href="#" class="btn btn-primary" id="b2ba">b2ba</a>
+                    <a href="#" class="btn btn-primary" id="b2cl">b2cl</a>
+                    <a href="#" class="btn btn-primary" id="b2cla">b2cla</a>
+                    <a href="#" class="btn btn-primary" id="b2cs">b2cs</a>
+                    <a href="#" class="btn btn-primary" id="b2csa">b2csa</a>
+                    <a href="#" class="btn btn-primary" id="cdnr">cdnr</a>
+                    <a href="#" class="btn btn-primary" id="cdnra">cdnra</a>
+                    <a href="#" class="btn btn-primary" id="cdnur">cdnur</a>
+                    <a href="#" class="btn btn-primary" id="cdnura">cdnura</a>
+                    <a href="#" class="btn btn-primary" id="exp">exp</a>
+                    <a href="#" class="btn btn-primary" id="expa">expa</a>
+                    <a href="#" class="btn btn-primary" id="at">at</a>
+                    <a href="#" class="btn btn-primary" id="ata">ata</a>
+                    <a href="#" class="btn btn-primary" id="atadj">atadj</a>
+                    <a href="#" class="btn btn-primary" id="atadja">atadja</a>
+                    <a href="#" class="btn btn-primary" id="exemp">exemp</a>
+                    <a href="#" class="btn btn-primary" id="hsn">hsn</a>
+                    <a href="#" class="btn btn-primary" id="docs">docs</a>
+                </div>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" target="_blank" class="btn btn-blue text-white mr-2 btn-sm btn-print" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
+                        <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send"><span><i class="fa fa-share-alt"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">                    
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons">
+                            <thead>
+                                <tr></tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="hdnSelectedView" value="" />
+
+@section Scripts
+    {
+
+    <script>
+
+        $(function (e) {
+
+            $('.dv-report').hide();
+            $('.dv-parameters').show();
+
+            const viewBagYear = "@(ViewBag.Year)";
+            const dateRange = getDateRange(viewBagYear);
+
+            $("#b2b_sez_de").on("click", function () {                
+                b2b_sez_de();
+            });
+            $("#b2ba").on("click", function () {                
+                b2ba();
+            });
+            $("#b2cl").on("click", function () {                
+                b2cl();
+            });
+            $("#b2cla").on("click", function () {                
+                b2cla();
+            });
+
+            $(".reset-button").on("click", function () {
+                
+            });
+
+            $(".show-report").on("click", function () {
+               
+                $('.dv-report').slideDown();
+
+                b2b_sez_de();
+
+                if ($.fn.dataTable.isDataTable('#tblMain')) {
+                    $('#tblMain').DataTable().destroy();
+                }
+
+                $('#tblMain tbody').html('');
+                $('#tblMain thead tr').html('');
+
+                //var url = '@Url.Content("~/CustomerReport/GSTR01Print")';
+               
+                //var dates = $('#DateFrom').val().split(" - ");
+                //url += '?DateFrom=' + dates[0] + '&DateTo=' + dates[1];
+                //$(".btn-print").attr("href", url);
+                
+            });
+
+            $(".btn-back").on("click", function () {
+                $('.dv-').slideDown();
+                $('.dv-report').slideUp();
+                $('#tblMain tbody').html('');
+                $('#tblMain thead tr').html('');
+            });
+
+        });
+        
+        function getDateRange(yearRange) {
+            const [startYear, endYear] = yearRange.split('-').map(Number);
+
+            const startDate = moment(`${startYear}-04-01`, 'YYYY-MM-DD');
+            const endDate = moment(`${endYear}-03-31`, 'YYYY-MM-DD');
+
+            const formattedStartDate = startDate.format('DD/MM/YYYY');
+            const formattedEndDate = endDate.format('DD/MM/YYYY');
+
+            $("#DateFrom").val(formattedStartDate + ' - ' + formattedEndDate);
+        }
+
+        function getCurrentTableData() {
+            var table = $('#tblMain').DataTable();
+            var data = table.data().toArray();
+            return data;
+        }
+
+        var DateFrom;
+        var DateTo;    
+        
+        function datagridshow(){
+            $('#tblMain tbody').html('');
+            var staticData = [
+                { lrNumber: 'LR001', parcel: 10, chargeWeight: 20.5, amount: 150.25, invoiceValue: 200.50 },
+            ];
+
+            var table = $('#tblMain').DataTable({
+                data: staticData,
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: false,
+                paging: false,
+                //pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                destroy: true,
+                //scrollCollapse: true,
+                //stateSave: false,
+                columnDefs: null,
+                columns: null,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+            });
+        }
+
+        function b2b_sez_de() {
+            $('#tblMain thead tr').html('');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GSTIN/UIN of Recipient</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Receiver Name </th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Invoice Number</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Invoice date</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Invoice Value</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Place Of Supply</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Reverse Charge</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Applicable % of Tax Rate</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Invoice Type</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">E-Commerce GSTIN</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Rate</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Taxable Value Cess Amount</th>');
+            datagridshow();
+        }
+        function b2ba() {
+            $('#tblMain thead tr').html('');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">GSTIN/UIN of Recipient</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Receiver Name</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Original Invoice Number</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Original Invoice date</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Revised Invoice Number</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Revised Invoice date</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Invoice Value</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Place Of Supply</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Reverse Charge</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Applicable % of Tax Rate</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Invoice Type</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">E-Commerce GSTIN</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Rate</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Taxable Value Cess Amount</th>');
+            datagridshow();
+        }
+        function b2cl() {
+            $('#tblMain thead tr').html('');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Invoice Number</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Invoice date</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Invoice Value</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Place Of Supply</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Applicable % of Tax Rate</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Rate</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Taxable Value</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Cess Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">E-Commerce GSTIN</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Sale from Bonded WH</th>');
+            datagridshow();
+        }
+        function b2cla() {
+            $('#tblMain thead tr').html('');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Original Invoice Number</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Original Invoice date</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Original Place Of Supply</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Revised Invoice Number</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Revised Invoice date</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Invoice Value</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Applicable % of Tax Rate</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Rate</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Taxable Value</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Cess Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">E-Commerce GSTIN</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 text-center">Sale from Bonded WH</th>');
+            datagridshow();
+        }
+
+    </script>
+
+}

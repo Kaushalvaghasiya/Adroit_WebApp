@@ -1,0 +1,420 @@
+﻿@using Adroit.Accounting.Model;
+@using Adroit.Accounting.Model.Enums;
+@inject Adroit.Accounting.Web.Utility.ILoginHandler loginHandler
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        var firmId = loginHandler.GetLoggedInFirmId(User);
+        ViewBag.Year = loginHandler.GetLoggedInYear(loginHandler.GetLoggedInYearId(User), firmId);
+    }
+    else
+    {
+        ViewBag.Year = string.Empty;
+    }
+}
+<div class="dv-parameters side-app">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Reports</a></li>
+                    <li><a href="#">Financial Reports</a></li>
+                    <li class="active"><span>Trading Account</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn btn-secondary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Bookmark this page">
+                            <span>
+                                <i class="fa fa-star"></i>
+                            </span>
+                        </a>
+                        <a href="lockscreen.html" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="lock">
+                            <span>
+                                <i class="fa fa-lock"></i>
+                            </span>
+                        </a>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">                    
+                    <div class="row">            
+                        <h2 class="col-md-3">Trading Account</h2>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control fc-datepicker1 fc-daterange" placeholder="@Constant.DateFormat.ToUpper()" type="text" id="DateFrom">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <select class="form-control select2-show-search-report" id="ViewId">                                    
+                                    <option value="withOpening" selected>With Opening</option>
+                                    <option value="withoutOpening">Without Opening</option>
+                                    <option value="fyAnalysis">FY Analysis</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <div class="form-group">
+                                <a href="#" class="btn btn-gray mt-1 reset-button" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-refresh"></i>&nbsp;Reset</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="dv-report side-app">       
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">    
+                    <div class="ml-auto">
+                        <div class="input-group">
+                            <a href="#" target="_blank" class="btn btn-blue text-white mr-2 btn-sm btn-print" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
+                        </div>
+                    </div>
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons">
+                            <thead>
+                                <tr>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+    <!--LedgerDetailModal start-->
+    <div id="ledgerDetailModal" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
+            <div class="modal-content ">
+                <div class="form-horizontal modal-header pd-x-20">
+                    <h5 class="modal-title col-md-3" style="align-self:center;">Ledger Name|GST|City|A/C Group </h5>                  
+                    <label class="col-md-2 form-label">Opening Balance : </label>
+                    <label class="col-md-2 form-label">Closing Balance : </label>
+                    <label for="DateFrom" class="col-md-1 form-label">Date</label>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                    </div>
+                                </div>
+                                <input class="form-control fc-datepicker1 fc-daterange" placeholder="" type="text" id="DateFrom">
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="btn btn-primary" data-toggle="modal" id="SearchChalanList" data-original-title="Select Chalan List">
+                        Search
+                    </a>
+                    <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body pd-20" style="max-height: 700px; overflow-x: auto; overflow-y: auto;">
+                    <div class="table-responsive">
+                        <table id="LRtblMain" class="table table-bordered key-buttons text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">Date</th>
+                                    <th class="border-bottom-0">Description - 1</th>
+                                    <th class="border-bottom-0">Dr. Amt</th>
+                                    <th class="border-bottom-0">Cr. Amt</th>
+                                    <th class="border-bottom-0">Dr. Balance</th>
+                                    <th class="border-bottom-0">Cr. Balance</th>
+                                    <th class="border-bottom-0">Check</th>
+                                    <th class="border-bottom-0">Description - 2</th>
+                                </tr>
+                            </thead>
+                            <tbody>                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div><!-- modal-body -->
+                <div class="modal-footer">
+                    <a href="#" target="_blank" class="btn btn-blue text-white mr-2 btn-sm btn-print" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span>&nbsp;Print</a>
+                    <a href="#" class="btn btn-success text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Send"><span><i class="fa fa-share-alt"></i></span>&nbsp;Send</a>
+                    <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" data-dismiss="modal"><span><i class="fa fa-arrow-left"></i></span>&nbsp;Back</a>
+                </div>
+            </div>
+        </div><!-- modal-dialog -->
+    </div><!-- modal -->
+    <!--LedgerDetailModal end-->
+</div>
+<input type="hidden" id="hdnSelectedView" value="" />
+
+@section Scripts
+    {
+
+    <script>
+
+        $(function (e) {
+
+            $('.dv-report').show();
+            $('.dv-parameters').show();
+
+            const viewBagYear = "@(ViewBag.Year)";
+            const dateRange = getDateRange(viewBagYear);
+            
+
+            $(".reset-button").on("click", function () {
+                
+            }); 
+            defaultdata();
+            $("#ViewId").on("change", function () {
+                $('#tblMain thead tr').html('');
+                $('#tblMain tbody').html('');
+                if ($("#ViewId").val() == "fyAnalysis") {
+                    fyAnalysis();
+                }
+                else{
+                    defaultdata();
+                }
+            }); 
+
+        });
+        
+        function getDateRange(yearRange) {
+            const [startYear, endYear] = yearRange.split('-').map(Number);
+
+            const startDate = moment(`${startYear}-04-01`, 'YYYY-MM-DD');
+            const endDate = moment(`${endYear}-03-31`, 'YYYY-MM-DD');
+
+            const formattedStartDate = startDate.format('DD/MM/YYYY');
+            const formattedEndDate = endDate.format('DD/MM/YYYY');
+
+            $("#DateFrom").val(formattedStartDate + ' - ' + formattedEndDate);
+        }
+
+        function getCurrentTableData() {
+            var table = $('#tblMain').DataTable();
+            var data = table.data().toArray();
+            return data;
+        }
+        function defaultdata(){            
+            $('#tblMain thead tr').append('<th class="border-bottom-0 col-md-4">Expenditure</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 col-md-2 text-right">Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 col-md-4">Income</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 col-md-2 text-right">Amount</th>');
+            var htmlContentArray = [];
+            var htmlContent =
+                `<tr>
+                            <td>TO SALES:</td>
+                            <td></td>
+                            <td>TO SALES:</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">SALES RETURN-CN</a></td>
+                            <td class="text-right">10.00</td>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">GST SALES</a></td>
+                            <td class="text-right">10.00</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">Rs :- </td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-center">Rs :- </td>
+                            <td class="text-right">10.00</td>
+                        </tr>
+                        <tr>
+                            <td>TO DIRECT COSTS:</td>
+                            <td></td>
+                            <td>TO PURCHASE:</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">LABOUR EXP.</a></td>
+                            <td class="text-right">10.00</td>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">PURCHASE RETURN-DN</a></td>
+                            <td class="text-right">10.00</td>
+                        </tr>
+                        <tr>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">TRANSPORTATION-PURCHASE</a></td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-center">Rs :- </td>
+                            <td class="text-right">10.00</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">Rs :- </td>
+                            <td class="text-right">10.00</td>
+                            <td>GROSS LOSS Rs :- </td>
+                            <td class="text-right">10.00</td>
+                        </tr>
+                        <tr>
+                            <td>TO PURCHASE:</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">GST PURCHASE</a></td>
+                            <td class="text-right">10.00</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">PURCHASE OTHER</a></td>
+                            <td class="text-right">10.00</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">Rs :- </td>
+                            <td class="text-right">10.00</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td class="text-right">10.00</td>
+                            <td></td>
+                            <td class="text-right">10.00</td>
+                        </tr>`;
+            htmlContentArray.push(htmlContent);
+
+            $('#tblMain tbody').append(htmlContentArray.join(''));
+        } 
+        
+        function fyAnalysis(){
+            $('#tblMain thead tr').append('<th class="border-bottom-0 col-md-2">Expenditure</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 col-md-2 text-right">FY Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 col-md-2 text-right">FY Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 col-md-2">Income</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 col-md-2 text-right">FY Amount</th>');
+            $('#tblMain thead tr').append('<th class="border-bottom-0 col-md-2 text-right">FY Amount</th>');
+            var htmlContentArray = [];
+            var htmlContent =
+                `<tr>
+                            <td>TO SALES:</td>
+                            <td></td>
+                            <td></td>
+                            <td>TO SALES:</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">SALES RETURN-CN</a></td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">GST SALES</a></td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">Rs :- </td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-center">Rs :- </td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                        </tr>
+                        <tr>
+                            <td>TO DIRECT COSTS:</td>
+                            <td></td>
+                            <td></td>
+                            <td>TO PURCHASE:</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">LABOUR EXP.</a></td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">PURCHASE RETURN-DN</a></td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                        </tr>
+                        <tr>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">TRANSPORTATION-PURCHASE</a></td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-center">Rs :- </td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">Rs :- </td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                            <td>GROSS LOSS Rs :- </td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                        </tr>
+                        <tr>
+                            <td>TO PURCHASE:</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">GST PURCHASE</a></td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><a href="" data-toggle="modal" data-target="#ledgerDetailModal">PURCHASE OTHER</a></td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">Rs :- </td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Total</td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                            <td></td>
+                            <td class="text-right">10.00</td>
+                            <td class="text-right">10.00</td>
+                        </tr>`;
+            htmlContentArray.push(htmlContent);
+
+            $('#tblMain tbody').append(htmlContentArray.join(''));
+        }   
+        var DateFrom;
+        var DateTo;
+                            
+
+    </script>
+
+}
