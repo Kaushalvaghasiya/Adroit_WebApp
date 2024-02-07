@@ -18,6 +18,7 @@ BEGIN
 	LRBooking.ActualWeight,
 	LRBooking.ChargeWeight,
 	LRBooking.InvoiceValue,
+	LRBooking.NetAmount,
 	LRBooking.Parcel,
 	[TransportPacking].[Title] AS Packing,
 	[TransportDesc].[Title] AS Description,
@@ -33,7 +34,7 @@ BEGIN
 	(SELECT NAME FROM [CustomerAccount]
 		INNER JOIN [CustomerAccountBranchMapping] ON CustomerAccount.Id = [CustomerAccountBranchMapping].AccountId
 		WHERE [CustomerAccountBranchMapping].Id = LRBooking.BillAccountBranchMappingId) As BillPartyName,
-	(SELECT VRN FROM [Vehilcle] WHERE ID = VehicleId) As VehilcleNo,
+	(SELECT VRN FROM [Vehilcle] WHERE ID = VehicleId) As BookingVehilcleNo,
 	(ISNULL([Freight],0) + ISNULL([Charges1],0) + ISNULL([Charges2],0) + ISNULL([Charges3],0) + ISNULL([Charges4],0) + ISNULL([Charges5],0) + ISNULL([Charges6],0)) AS ChargeAmount
 	FROM [Z-LRBooking-Z] AS LRBooking
 			LEFT JOIN [City] ToCity ON LRBooking.CityIdTo = ToCity.[Id] 
