@@ -1,0 +1,99 @@
+﻿@model Adroit.Accounting.Model.ReportViewModel.ReportDataViewModel<List<Adroit.Accounting.Model.GridViewModel.LRBookingChalanMonthlyReportGridViewModel>>
+@inject Adroit.Accounting.Web.Utility.ILoginHandler loginHandler
+@{
+    Layout = "~/Views/Shared/_LayoutReport.cshtml";
+    if (User?.Identity?.IsAuthenticated ?? false)
+    {
+        var firmId = loginHandler.GetLoggedInFirmId(User);
+        ViewBag.Year = loginHandler.GetLoggedInYear(loginHandler.GetLoggedInYearId(User), firmId);
+    }
+    else
+    {
+        ViewBag.Year = string.Empty;
+    }
+}
+<div class="col-lg-12 col-sm-12 text-right">
+    <lable class="report-number">AIPI</lable>
+</div>
+<div class="col-lg-12 col-sm-12 text-center pdfheader">
+    <div class="firmname">
+        <lable>@Model.ReportHeader.FrimName</lable>
+    </div>
+    <div class="address">
+        <lable>@($"{Model.ReportHeader.BranchName} : {Model.ReportHeader.BranchAddress}")</lable>
+    </div>
+    <div class="address">
+        <lable>Report Of : (@Model.ReportHeader.SelectedBranchNames)</lable>
+    </div>
+    <div class="heading">
+        <lable>Chalan Monthly Summary (LR Booking)</lable>
+    </div>    
+</div>
+<table id="tblMain" class="table col-md-12" align="center">
+    <thead>
+        <tr>
+            <th class="border-bottom-0 text-center">Month</th>
+            <th class="border-bottom-0 text-center">Total Chalan</th>
+            <th class="border-bottom-0 text-right">Total Freight</th>
+            <th class="border-bottom-0 text-right">IGST Amount</th>
+            <th class="border-bottom-0 text-right">CGST Amount</th>
+            <th class="border-bottom-0 text-right">SGST Amount</th>
+            <th class="border-bottom-0 text-right">Others</th>
+            <th class="border-bottom-0 text-right">Net Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            if (Model != null && Model.ReportData != null)
+            {
+                decimal totalFraight = 0.00m;
+                decimal totalIGSTAmt = 0.00m;
+                decimal totalCGSTAmt = 0.00m;
+                decimal totalSGSTAmt = 0.00m;
+                decimal totalOthers = 0.00m;
+                decimal totalNet = 0.00m;
+                int totalLR = 0;
+                foreach (var item in Model.ReportData)
+                {
+                    <tr>
+                        <td class="text-center">@item.BillMonth (@ViewBag.Year)</td>
+                        <td class="text-center">@item.TotalLR</td>
+                        <td class="text-right">@(item.Freight ?? 0.00m)</td>
+                        <td class="text-right">@(item.IGSTTotal ?? 0.00m)</td>
+                        <td class="text-right">@(item.CGSTTotal ?? 0.00m)</td>
+                        <td class="text-right">@(item.SGSTTotal ?? 0.00m)</td>
+                        <td class="text-right">@(item.OtherPlus ?? 0.00m)</td>
+                        <td class="text-right">@(item.InvoiceValue ?? 0.00m)</td>
+                    </tr>
+                    totalFraight += item.Freight ?? 0.00m;
+                    totalIGSTAmt += item.IGSTTotal ?? 0.00m;
+                    totalCGSTAmt += item.CGSTTotal ?? 0.00m;
+                    totalSGSTAmt += item.SGSTTotal ?? 0.00m;
+                    totalOthers += item.OtherPlus ?? 0.00m;
+                    totalNet += item.InvoiceValue ?? 0.00m;
+                    totalLR += item.TotalLR ?? 0;
+                    
+                }   
+                <tr class="total-row">
+                    <td class="text-right">Total</td>
+                    <td class="text-center">@totalLR</td>
+                    <td class="text-right">@totalFraight</td>
+                    <td class="text-right">@totalIGSTAmt</td>
+                    <td class="text-right">@totalCGSTAmt</td>
+                    <td class="text-right">@totalSGSTAmt</td>
+                    <td class="text-right">@totalOthers</td>
+                    <td class="text-right">@totalNet</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+
+    <script>
+        
+    </script>
+
+}
