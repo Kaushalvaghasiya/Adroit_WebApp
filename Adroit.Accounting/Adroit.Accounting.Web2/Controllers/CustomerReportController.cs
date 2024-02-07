@@ -27,6 +27,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly IReportLRBookingStockRegister _reportLRBookingStockRegisterRepository;
         private readonly IReportLRBookingBookingRegister _reportLRBookingBookingRegisterRepository;
         private readonly IReportLRBookingChalanLoadingReport _reportLRBookingChalanLoadingReportRepository;
+        private readonly IReportLRBookingChalanMonthlyReport _reportLRBookingChalanMonthlyReportRepository;
         private readonly IReportLRBookingMonthlySummary _reportLRBookingMonthlySummaryRepository;
         private readonly IReportLRBookingDailySummary _reportLRBookingDailySummaryRepository;
         private readonly IReportLRDeliveryLRRegister _reportLRDeliveryLRRegisterRepository;
@@ -55,6 +56,7 @@ namespace Adroit.Accounting.Web.Controllers
             IReportLRBookingStockRegister reportLRBookingStockRegisterRepository,
             IReportLRBookingBookingRegister reportLRBookingBookingRegisterRepository,
             IReportLRBookingChalanLoadingReport reportLRBookingChalanLoadingReportRepository,
+            IReportLRBookingChalanMonthlyReport reportLRBookingChalanMonthlyReportRepository,
             IReportLRBookingMonthlySummary reportLRBookingMonthlySummaryRepository,
             IReportLRBookingDailySummary reportLRBookingDailySummaryRepository,
             IReportLRDeliveryLRRegister reportLRDeliveryLRRegisterRepository,
@@ -84,6 +86,7 @@ namespace Adroit.Accounting.Web.Controllers
             _reportLRBookingStockRegisterRepository = reportLRBookingStockRegisterRepository;
             _reportLRBookingBookingRegisterRepository = reportLRBookingBookingRegisterRepository;
             _reportLRBookingChalanLoadingReportRepository = reportLRBookingChalanLoadingReportRepository;
+            _reportLRBookingChalanMonthlyReportRepository = reportLRBookingChalanMonthlyReportRepository;
             _reportLRBookingMonthlySummaryRepository = reportLRBookingMonthlySummaryRepository;
             _reportLRBookingDailySummaryRepository = reportLRBookingDailySummaryRepository;
             _reportLRDeliveryLRRegisterRepository = reportLRDeliveryLRRegisterRepository;
