@@ -12,7 +12,7 @@ BEGIN
 		City.Title + ' | ' + Taluka.Title + ' | ' + District.Title + ' | ' + State.Title + ' | ' + Country.Title As CityName,
 		Taluka.Id As TalukaId,
 		District.Id As DistrictId,
-		FORMAT(CustomerFirmBranch.RenewalDate,'dd/MM/yyyy') AS RenewalDateString,
+		CustomerFirmBranch.RenewalDate AS RenewalDateString,
 		FirmBranchTypeAdmin.Title as FirmBranchType,
 		City.Title as CityTitle,
 		District.Title as DistrictTitle,

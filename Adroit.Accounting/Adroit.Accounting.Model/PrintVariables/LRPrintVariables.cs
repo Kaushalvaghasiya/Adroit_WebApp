@@ -1,6 +1,6 @@
 ﻿namespace Adroit.Accounting.Model.PrintVariables
 {
-    public class LRPrintVariables
+    public static class LRPrintVariables
     {
         public static string NO_OF_ARTICLES { get; } = "[NO_OF_ARTICLES]";
         public static string NOTES { get; } = "[AT_OWNER_RISK] ";
@@ -49,18 +49,18 @@
         public static string RATE { get; } = "[RATE]";
         public static string FREIGHT { get; } = "[FREIGHT]";
         public static string AMOUNT { get; } = "[AMOUNT]";
-        public static string LABLE_1 { get; } = "[LABLE_1]";
-        public static string LABLE_1_VAL { get; } = "[HAMALI] ";
-        public static string LABLE_2 { get; } = "[LABLE_2]";
-        public static string LABLE_2_VAL { get; } = "[INSURANCE]";
-        public static string LABLE_3 { get; } = "[LABLE_3]";
-        public static string LABLE_3_VAL { get; } = "[LOCAL_CHARGE]";
-        public static string LABLE_4 { get; } = "[LABLE_4]";
-        public static string LABLE_4_VAL { get; } = "[DOOR_DELI_CH]";
-        public static string LABLE_5 { get; } = "[LABLE_5]";
-        public static string LABLE_5_VAL { get; } = "[LR_CHARGE]";
-        public static string LABLE_6 { get; } = "[LABLE_6]";
-        public static string LABLE_6_VAL { get; } = "[OTHER_CHARGE]";
+        public static string LABEL_1 { get; } = "[LABEL_1]";
+        public static string LABEL_1_VAL { get; } = "[HAMALI] ";
+        public static string LABEL_2 { get; } = "[LABEL_2]";
+        public static string LABEL_2_VAL { get; } = "[INSURANCE]";
+        public static string LABEL_3 { get; } = "[LABEL_3]";
+        public static string LABEL_3_VAL { get; } = "[LOCAL_CHARGE]";
+        public static string LABEL_4 { get; } = "[LABEL_4]";
+        public static string LABEL_4_VAL { get; } = "[DOOR_DELI_CH]";
+        public static string LABEL_5 { get; } = "[LABEL_5]";
+        public static string LABEL_5_VAL { get; } = "[LR_CHARGE]";
+        public static string LABEL_6 { get; } = "[LABEL_6]";
+        public static string LABEL_6_VAL { get; } = "[OTHER_CHARGE]";
         public static string NET_AMOUNT { get; } = "[BILL_AMOUNT]";
         public static string IN_WORDS { get; } = "[IN_WORDS]";
         public static string INVOICE_NUMBER { get; } = "[INVOICE_NO]";

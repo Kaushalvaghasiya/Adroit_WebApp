@@ -272,12 +272,12 @@ namespace Adroit.Accounting.Web.Controllers
                 LRTemplate = LRTemplate.Replace(LRPrintVariables.RATE, LRBooking.Rate?.ToString());
                 LRTemplate = LRTemplate.Replace(LRPrintVariables.AMOUNT, LRBooking.Freight?.ToString());
 
-                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_1_VAL, LRBooking.Charges1?.ToString());
-                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_2_VAL, LRBooking.Charges2?.ToString());
-                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_3_VAL, LRBooking.Charges3?.ToString());
-                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_4_VAL, LRBooking.Charges4?.ToString());
-                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_5_VAL, LRBooking.Charges5?.ToString());
-                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_6_VAL, LRBooking.Charges6?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABEL_1_VAL, LRBooking.Charges1?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABEL_2_VAL, LRBooking.Charges2?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABEL_3_VAL, LRBooking.Charges3?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABEL_4_VAL, LRBooking.Charges4?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABEL_5_VAL, LRBooking.Charges5?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABEL_6_VAL, LRBooking.Charges6?.ToString());
                 LRTemplate = LRTemplate.Replace(LRPrintVariables.NET_AMOUNT, LRBooking.NetAmount.ToString());
 
 
