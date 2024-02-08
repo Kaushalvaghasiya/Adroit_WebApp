@@ -12,7 +12,12 @@ BEGIN
 		City.Title + ' | ' + Taluka.Title + ' | ' + District.Title + ' | ' + State.Title + ' | ' + Country.Title As CityName,
 		Taluka.Id As TalukaId,
 		District.Id As DistrictId,
-		FORMAT(CustomerFirmBranch.RenewalDate,'dd/MM/yyyy') AS RenewalDateString
+		FORMAT(CustomerFirmBranch.RenewalDate,'dd/MM/yyyy') AS RenewalDateString,
+		FirmBranchTypeAdmin.Title as FirmBranchType,
+		City.Title as CityTitle,
+		District.Title as DistrictTitle,
+		Taluka.Title as TalukaTitle,
+		State.Title as StateTitle
 	FROM  [CustomerFirm]
 	INNER JOIN CustomerFirmBranch ON CustomerFirmBranch.FirmId = [CustomerFirm]. Id
 	LEFT JOIN [City] on [CustomerFirmBranch].CityId = [City].Id
@@ -20,6 +25,7 @@ BEGIN
 	LEFT JOIN [District] on [Taluka].DistrictId = [District].Id
 	LEFT JOIN [State] on [District].StateId = [State].Id
 	LEFT JOIN [Country] on [State].CountryId = [Country].Id
+	LEFT JOIN [FirmBranchTypeAdmin] ON [CustomerFirmBranch].FirmBranchTypeId = [FirmBranchTypeAdmin].Id
 	WHERE [CustomerFirm].[CustomerId] = @CustomerId AND CustomerFirmBranch.Id = @Id
 END
 GO

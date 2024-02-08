@@ -1,6 +1,7 @@
 ﻿using Adroit.Accounting.Model;
 using Adroit.Accounting.Model.GridViewModel;
 using Adroit.Accounting.Model.Master;
+using Adroit.Accounting.Model.PrintVariables;
 using Adroit.Accounting.Model.ReportViewModel;
 using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository;
@@ -201,46 +202,83 @@ namespace Adroit.Accounting.Web.Controllers
                 {
                     LRTemplate = Common.GetLRPrint();
                 }
-                LRTemplate = LRTemplate.Replace("[COMPANY_NAME]", currentFirm.Title.ToString());
-                LRTemplate = LRTemplate.Replace("[TRA_GST_NO]", currentBranch.GSTNumber.ToString());
-                LRTemplate = LRTemplate.Replace("[ADDRESS]", currentBranch.Address1?.ToString() + " " + currentBranch.Address2?.ToString() + " " + currentBranch.Address3?.ToString() + " " + currentBranch.CityName.ToString());
-                LRTemplate = LRTemplate.Replace("[PHONE_NUMBER]", currentBranch.Mobile.ToString());
-                LRTemplate = LRTemplate.Replace("[COMPAYE_EMAIL]", currentBranch.Email?.ToString());
-
-                //   LRTemplate = LRTemplate.Replace("[website]", currentBranch..ToString());
-                //   LRTemplate = LRTemplate.Replace("[To_GSTIN]", currentBranch..ToString());
-                //   LRTemplate = LRTemplate.Replace("[From_GSTIN]", currentBranch..ToString());
-                LRTemplate = LRTemplate.Replace("[DATE]", DateTime.Now.ToString("dd-MM-yyyy"));
-                LRTemplate = LRTemplate.Replace("[L_R_NO]", LRBooking.LRNumber.ToString());
-                LRTemplate = LRTemplate.Replace("[FROM_CITY]", LRBooking.CityFrom?.ToString());
-                LRTemplate = LRTemplate.Replace("[TO_CITY]", LRBooking.CityTo?.ToString());
-                LRTemplate = LRTemplate.Replace("[CONSIGNOR_FROM]", LRBooking.Consignor?.ToString());
-                LRTemplate = LRTemplate.Replace("[CONSIGNEE_TO]", LRBooking.Consignee?.ToString());
-                LRTemplate = LRTemplate.Replace("[AT_OWNER_RISK]", CustomerFirmBranchTransportSetting.LRSubTitle?.ToString());
-                LRTemplate = LRTemplate.Replace("[SUBJECT_TO]", CustomerFirmBranchTransportSetting.LRSubject?.ToString());
-                LRTemplate = LRTemplate.Replace("[INVOICE_NO]", LRBooking.InvoiceNo?.ToString());
-                LRTemplate = LRTemplate.Replace("[INVOICE_VAUE]", LRBooking.InvoiceValue?.ToString());
-                LRTemplate = LRTemplate.Replace("[FREIGHT]", LRBooking.Freight?.ToString());
-                LRTemplate = LRTemplate.Replace("[EWAY_BILL_NO]", LRBooking.EwayBillNo?.ToString());
-                LRTemplate = LRTemplate.Replace("[VEHICLE_NO]", LRBooking.BookingVehilcleNo?.ToString());
-                LRTemplate = LRTemplate.Replace("[PAYMENT_TYPE]", LRBooking.LRPayType?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.FIRM_NAME, currentFirm.Title?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.FIRM_GST_TYPE, currentFirm.GSTFirmType?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.FIRM_AADHAR_UID, currentFirm.AdharUID?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.FIRM_TYPE, currentFirm.FirmType?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.FIRM_OWNER, currentFirm.OwnerName?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.FIRM_TAN, currentFirm.TAN?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.FIRM_IEC, currentFirm.IECCode?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.FIRM_LUT_BOND, currentFirm.LutBondNumber?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.FIRM_BUSINESS, currentFirm.Business.ToString());
 
 
-                LRTemplate = LRTemplate.Replace("[NO_OF_ARTICLES]", LRBooking.Parcel?.ToString());
-                LRTemplate = LRTemplate.Replace("[DESCRIPTION]", LRBooking.Description?.ToString());
-                LRTemplate = LRTemplate.Replace("[ACT_WT]", LRBooking.ActualWeight?.ToString());
-                LRTemplate = LRTemplate.Replace("[CH_WT]", LRBooking.ChargeWeight?.ToString());
-                LRTemplate = LRTemplate.Replace("[RATE_ON]", LRBooking.LRRateOnTitle);
-                LRTemplate = LRTemplate.Replace("[RATE]", LRBooking.Rate?.ToString());
-                LRTemplate = LRTemplate.Replace("[AMOUNT]", LRBooking.Freight?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_GST_NO, currentBranch.GSTNumber.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_ADDRESS, currentBranch.Address1?.ToString() + " " + currentBranch.Address2?.ToString() + " " + currentBranch.Address3?.ToString() + " " + currentBranch.CityName.ToString().Replace(" | ", ", "));
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_PHONE_NO, currentBranch.Mobile?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_EMAIL_ADDRESS, currentBranch.Email?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_NAME, currentBranch.Title?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_TYPE, currentBranch.FirmBranchType?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_PRINT_TITLE, currentBranch.PrintTitle?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_CODE, currentBranch.ShortTitle?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_PAN_NO, currentBranch.PAN?.ToString());                
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_CITY, currentBranch.CityTitle?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_TALUKA, currentBranch.TalukaTitle?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_DISTRICT, currentBranch.DistrictTitle?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_STATE, currentBranch.StateTitle?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_MOBILE_NO, currentBranch.Mobile?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BRANCH_ALTERNATE_MOBILE_NO, currentBranch.MobileAlternate?.ToString());
 
-                LRTemplate = LRTemplate.Replace("[HAMALI]", LRBooking.Charges1?.ToString());
-                LRTemplate = LRTemplate.Replace("[INSURANCE]", LRBooking.Charges2?.ToString());
-                LRTemplate = LRTemplate.Replace("[LOCAL_CHARGE]", LRBooking.Charges3?.ToString());
-                LRTemplate = LRTemplate.Replace("[DOOR_DELI_CH]", LRBooking.Charges4?.ToString());
-                LRTemplate = LRTemplate.Replace("[LR_CHARGE]", LRBooking.Charges5?.ToString());
-                LRTemplate = LRTemplate.Replace("[OTHER_CHARGE]", LRBooking.Charges6?.ToString());
-                LRTemplate = LRTemplate.Replace("[BILL_AMOUNT]", LRBooking.NetAmount.ToString());
+
+                //   LRTemplate = LRTemplate.Replace("[WEBSITE]", currentBranch..ToString());
+                //   LRTemplate = LRTemplate.Replace("[TO_GSTIN]", currentBranch..ToString());
+                //   LRTemplate = LRTemplate.Replace("[FROM_GSTIN]", currentBranch..ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LR_DATE, DateTime.Now.ToString("dd-MM-yyyy"));
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LR_NUMBER, LRBooking.LRNumber.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BOOKING_CITY, LRBooking.CityFrom?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.DELIVERY_CITY, LRBooking.CityTo?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.CONSIGNOR_NAME, LRBooking.Consignor?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.CONSIGNOR_MOBILE, LRBooking.ConsignorMobile?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.CONSIGNEE_MOBILE, LRBooking.ConsigneeMobile?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.PARCLE, LRBooking.Parcel?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.PACKING, LRBooking.Packing?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.PRIVATE_MARK, LRBooking.PrivateMarka?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.DELIVERY_AT, LRPrintVariables.DELIVERY_AT);
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.DELIVERY_TYPE, LRPrintVariables.DELIVERY_TYPE);
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.REMARKS, LRBooking.Remarks?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.GST_P, LRBooking.gstRate?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.PRODUCT_NAME, LRPrintVariables.PRODUCT_NAME);
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.BOOK_NAME, LRPrintVariables.BOOK_NAME);
+
+                string Amount_Word = Common.ConvertAmount(Convert.ToDouble(LRBooking.NetAmount.ToString()));
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.IN_WORDS, Amount_Word);
+
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.CONSIGNEE_NAME, LRBooking.Consignee?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.NOTES, CustomerFirmBranchTransportSetting.LRSubTitle?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.TERMS_AND_CONSITION, CustomerFirmBranchTransportSetting.LRSubject?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.INVOICE_NUMBER, LRBooking.InvoiceNo?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.INVOICE_VALUE, LRBooking.InvoiceValue?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.FREIGHT, LRBooking.Freight?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.EWAY_BILL_NUMBER, LRBooking.EwayBillNo?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.VEHICLE_NUMBER, LRBooking.BookingVehilcleNo?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.PAY_TYPE, LRBooking.LRPayType?.ToString());
+
+
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.NO_OF_ARTICLES, LRBooking.Parcel?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.DESCRIPTION, LRBooking.Description?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.ACTUAL_WEIGHT, LRBooking.ActualWeight?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.CHARGE_WEIGHT, LRBooking.ChargeWeight?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.RATE_ON, LRBooking.LRRateOnTitle);
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.RATE, LRBooking.Rate?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.AMOUNT, LRBooking.Freight?.ToString());
+
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_1_VAL, LRBooking.Charges1?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_2_VAL, LRBooking.Charges2?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_3_VAL, LRBooking.Charges3?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_4_VAL, LRBooking.Charges4?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_5_VAL, LRBooking.Charges5?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.LABLE_6_VAL, LRBooking.Charges6?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.NET_AMOUNT, LRBooking.NetAmount.ToString());
 
 
                 result.ReportData.LRTemplate = LRTemplate;

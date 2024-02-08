@@ -47,6 +47,8 @@ BEGIN
 	FromCity.[Title] AS CityFrom,
 	[TransportLRPayType].[Title] AS LRPayType,
 	CA1.Name As Consignor,
+	CA1.Mobile As ConsignorMobile,
+	CA2.Mobile As ConsigneeMobile,
 	CA2.Name As Consignee,
 	CA3.Name As BillPartyName,
 	CASE WHEN [Z-PurchaseBillDetail-Z].LRBookingId IS NULL AND [Z-SalesBillDetail-Z].LRBookingId IS NULL THEN 0 ELSE 1 END AS IsLRBookingPurchased,
