@@ -47,6 +47,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? LicenceNumber { get; set; }
         public string? DriverMobile { get; set; }
         public string? DriverAddress { get; set; }
+        public bool Deleted { get; set; }
     }
 }
  

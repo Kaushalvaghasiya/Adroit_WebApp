@@ -30,12 +30,11 @@ BEGIN
 	FROM [Z-PurchaseBillMaster-Z] PBM
 	LEFT JOIN [CustomerAccountBranchMapping] CABM1 on CABM1.Id = PBM.ToPayAccountBranchMappingId
 	LEFT JOIN [CustomerAccount] CA1 on CA1.Id = CABM1.AccountId
-	LEFT JOIN City CFrom ON PBM.CityIdFrom = CFrom.Id AND CFrom.Active = 1 
-	LEFT JOIN City CTo ON PBM.CityIdTo = CTo.Id AND CTo.Active = 1 
-	LEFT JOIN Vehilcle V ON PBM.VehicleId = V.Id AND CTo.Active = 1 
-	LEFT JOIN Driver DR ON PBM.DriverId = DR.Id AND CTo.Active = 1 
-	WHERE PBM.BranchId = @BranchId AND PBM.Id = @Id
-	AND PBM.Deleted = 0
-
+	LEFT JOIN City CFrom ON PBM.CityIdFrom = CFrom.Id
+	LEFT JOIN City CTo ON PBM.CityIdTo = CTo.Id 
+	LEFT JOIN Vehilcle V ON PBM.VehicleId = V.Id
+	LEFT JOIN Driver DR ON PBM.DriverId = DR.Id
+	WHERE PBM.Id = @Id
+	AND PBM.BranchId = @BranchId
 END
 GO

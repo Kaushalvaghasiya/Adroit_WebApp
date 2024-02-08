@@ -89,7 +89,7 @@ BEGIN
 		
 		    IF (@BillDate < @ChalanMaxDate)
 		    BEGIN
-		        SET @message = 'Please select a date on or after ' + @ChalanMaxDate;
+		        SET @message = 'Please select a date on or after ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
 		    END
 		END
@@ -103,7 +103,7 @@ BEGIN
 		
 		    IF (@BillDate < @ChalanMaxDate)
 		    BEGIN
-		        SET @message = 'Please select a date on or after ' + @ChalanMaxDate;
+		        SET @message = 'Please select a date on or after ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
 		    END
 		END
@@ -117,7 +117,7 @@ BEGIN
 		
 		    IF (@BillDate < @ChalanMaxDate)
 		    BEGIN
-		        SET @message = 'Please select a date on or after ' + @ChalanMaxDate;
+		        SET @message = 'Please select a date on or after ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
 		    END
 		END
@@ -132,7 +132,7 @@ BEGIN
 			AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		    ORDER BY BillNumberBranch, BillNumberFirm DESC;
 			
-			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , DATEADD(DAY, -1, CAST(GETDate() AS DATE)))
+			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , @BillDate)
 		
 			SELECT TOP 1 @ChalanMinDate = CAST(BillDate AS DATE)
 		    FROM [Z-PurchaseBillMaster-Z]
@@ -147,7 +147,7 @@ BEGIN
 				
 		    IF NOT (@BillDate BETWEEN @ChalanMaxDate AND @ChalanMinDate)
 		    BEGIN
-		        SET @message = 'Please select a date between ' + @ChalanMaxDate + ' and ' + @ChalanMinDate;
+		        SET @message = 'Please select a date between ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103) + ' and ' + CONVERT(NVARCHAR, @ChalanMinDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
 		    END
 		END

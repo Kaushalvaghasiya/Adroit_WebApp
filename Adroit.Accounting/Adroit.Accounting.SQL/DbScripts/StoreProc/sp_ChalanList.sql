@@ -63,8 +63,7 @@ Begin
 		LEFT JOIN [City] AS CT1 on CT1.Id = [Z-PurchaseBillMaster-Z].CityIdFrom 
 		LEFT JOIN [City] AS CT2 on CT2.Id = [Z-PurchaseBillMaster-Z].CityIdTo 
 		LEFT JOIN [Z-ChalanReceive-Z] ON [Z-PurchaseBillMaster-Z].Id = [Z-ChalanReceive-Z].PurchaseBillMasterId
-		WHERE [Z-PurchaseBillMaster-Z].Deleted = 0 
-			AND [Z-PurchaseBillMaster-Z].FirmId = @FirmId
+		WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId
 			AND [Z-PurchaseBillMaster-Z].BranchId = @BranchId
 			AND [Z-PurchaseBillMaster-Z].YearId = @YearId			  
 		AND [Z-PurchaseBillMaster-Z].BranchId = @BranchId
