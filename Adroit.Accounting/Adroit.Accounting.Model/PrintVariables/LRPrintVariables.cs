@@ -1,78 +1,152 @@
-﻿namespace Adroit.Accounting.Model.PrintVariables
+﻿using System.ComponentModel;
+
+namespace Adroit.Accounting.Model.PrintVariables
 {
-    public static class LRPrintVariables
+    public enum LRPrintVariables
     {
-        public static string NO_OF_ARTICLES { get; } = "[NO_OF_ARTICLES]";
-        public static string NOTES { get; } = "[AT_OWNER_RISK] ";
-        public static string TERMS_AND_CONSITION { get; } = "[SUBJECT_TO]";
-        public static string FIRM_NAME { get; } = "[COMPANY_NAME]";
-        public static string FIRM_GST_TYPE { get; } = "[FIRM_GST_TYPE]";
-        public static string FIRM_TYPE { get; } = "[FIRM_TYPE]";
-        public static string FIRM_OWNER { get; } = "[FIRM_OWNER]";
-        public static string FIRM_AADHAR_UID { get; } = "[FIRM_AADHAR_UID]";
-        public static string FIRM_TAN { get; } = "[FIRM_TAN]";
-        public static string FIRM_IEC { get; } = "[FIRM_IEC]";
-        public static string FIRM_LUT_BOND { get; } = "[FIRM_LUT_BOND]";
-        public static string FIRM_BUSINESS { get; } = "[FIRM_BUSINESS]";
-        public static string BRANCH_NAME { get; } = "[BRANCH_NAME]";
-        public static string BRANCH_TYPE { get; } = "[BRANCH_TYPE]";
-        public static string BRANCH_PRINT_TITLE { get; } = "[BRANCH_PRINT_TITLE]";
-        public static string BRANCH_CODE { get; } = "[BRANCH_CODE]";
-        public static string BRANCH_GST_NO { get; } = "[TRA_GST_NO]";
-        public static string BRANCH_PAN_NO { get; } = "[BRANCH_PAN_NO]";
-        public static string BRANCH_ADDRESS { get; } = "[ADDRESS]";
-        public static string BRANCH_CITY { get; } = "[BRANCH_CITY]";
-        public static string BRANCH_TALUKA { get; } = "[BRANCH_TALUKA]";
-        public static string BRANCH_DISTRICT { get; } = "[BRANCH_DISTRICT]";
-        public static string BRANCH_STATE { get; } = "[BRANCH_STATE]";
-        public static string BRANCH_PHONE_NO { get; } = "[PHONE_NUMBER]";
-        public static string BRANCH_MOBILE_NO { get; } = "[BRANCH_MOBILE_NO]";
-        public static string BRANCH_ALTERNATE_MOBILE_NO { get; } = "[BRANCH_ALTERNATE_MOBILE_NO]";
-        public static string BRANCH_EMAIL_ADDRESS { get; } = "[COMPAYE_EMAIL]";
-        public static string LR_NUMBER { get; } = "[L_R_NO]";
-        public static string LR_DATE { get; } = "[DATE]";
-        public static string BOOKING_CITY { get; } = "[FROM_CITY]";
-        public static string DELIVERY_CITY { get; } = "[TO_CITY]";
-        public static string CONSIGNEE_NAME { get; } = "[CONSIGNEE_TO]";
-        public static string CONSIGNEE_GST { get; } = "[TO_GSTIN]";
-        public static string CONSIGNEE_MOBILE { get; } = "[CONSIGNEE_MOBILE]";
-        public static string CONSIGNOR_NAME { get; } = "[CONSIGNOR_FROM]";
-        public static string CONSIGNOR_GST { get; } = "[FROM_GSTIN]";
-        public static string CONSIGNOR_MOBILE { get; } = "[CONSIGNOR_MOBILE]";
-        public static string PAY_TYPE { get; } = "[PAYMENT_TYPE]";
-        public static string PARCLE { get; } = "[PARCLE]";
-        public static string DESCRIPTION { get; } = "[DESCRIPTION]";
-        public static string PACKING { get; } = "[PACKING]";
-        public static string ACTUAL_WEIGHT { get; } = "[ACT_WT]";
-        public static string CHARGE_WEIGHT { get; } = "[CH_WT]";
-        public static string RATE_ON { get; } = "[RATE_ON]";
-        public static string RATE { get; } = "[RATE]";
-        public static string FREIGHT { get; } = "[FREIGHT]";
-        public static string AMOUNT { get; } = "[AMOUNT]";
-        public static string LABEL_1 { get; } = "[LABEL_1]";
-        public static string LABEL_1_VAL { get; } = "[HAMALI] ";
-        public static string LABEL_2 { get; } = "[LABEL_2]";
-        public static string LABEL_2_VAL { get; } = "[INSURANCE]";
-        public static string LABEL_3 { get; } = "[LABEL_3]";
-        public static string LABEL_3_VAL { get; } = "[LOCAL_CHARGE]";
-        public static string LABEL_4 { get; } = "[LABEL_4]";
-        public static string LABEL_4_VAL { get; } = "[DOOR_DELI_CH]";
-        public static string LABEL_5 { get; } = "[LABEL_5]";
-        public static string LABEL_5_VAL { get; } = "[LR_CHARGE]";
-        public static string LABEL_6 { get; } = "[LABEL_6]";
-        public static string LABEL_6_VAL { get; } = "[OTHER_CHARGE]";
-        public static string NET_AMOUNT { get; } = "[BILL_AMOUNT]";
-        public static string IN_WORDS { get; } = "[IN_WORDS]";
-        public static string INVOICE_NUMBER { get; } = "[INVOICE_NO]";
-        public static string INVOICE_VALUE { get; } = "[INVOICE_VALUE]";
-        public static string EWAY_BILL_NUMBER { get; } = "[EWAY_BILL_NO]";
-        public static string PRIVATE_MARK { get; } = "[PRIVATE_MARK]";
-        public static string VEHICLE_NUMBER { get; } = "[VEHICLE_NO]";
-        public static string DELIVERY_AT { get; } = "[DELIVERY_AT]";
-        public static string DELIVERY_TYPE { get; } = "[DELIVERY_TYPE]";
-        public static string REMARKS { get; } = "[REMARKS]";
-        public static string GST_P { get; } = "[GST_P]";
-        public static string PRODUCT_NAME { get; } = "[PRODUCT_NAME]";
-        public static string BOOK_NAME { get; } = "[BOOK_NAME]";
+        [Description("[NO_OF_ARTICLES]")]
+        NO_OF_ARTICLES,
+        [Description("[AT_OWNER_RISK]")]
+        NOTES,
+        [Description("[SUBJECT_TO]")]
+        TERMS_AND_CONDITIONS,
+        [Description("[COMPANY_NAME]")]
+        FIRM_NAME,
+        [Description("[FIRM_GST_TYPE]")]
+        FIRM_GST_TYPE,
+        [Description("[FIRM_TYPE]")]
+        FIRM_TYPE,
+        [Description("[FIRM_OWNER]")]
+        FIRM_OWNER,
+        [Description("[FIRM_AADHAR_UID]")]
+        FIRM_AADHAR_UID,
+        [Description("[FIRM_TAN]")]
+        FIRM_TAN,
+        [Description("[FIRM_IEC]")]
+        FIRM_IEC,
+        [Description("[FIRM_LUT_BOND]")]
+        FIRM_LUT_BOND,
+        [Description("[FIRM_BUSINESS]")]
+        FIRM_BUSINESS,
+        [Description("[BRANCH_NAME]")]
+        BRANCH_NAME,
+        [Description("[BRANCH_TYPE]")]
+        BRANCH_TYPE,
+        [Description("[BRANCH_PRINT_TITLE]")]
+        BRANCH_PRINT_TITLE,
+        [Description("[BRANCH_CODE]")]
+        BRANCH_CODE,
+        [Description("[TRA_GST_NO]")]
+        BRANCH_GST_NO,
+        [Description("[BRANCH_PAN_NO]")]
+        BRANCH_PAN_NO,
+        [Description("[ADDRESS]")]
+        BRANCH_ADDRESS,
+        [Description("[BRANCH_CITY]")]
+        BRANCH_CITY,
+        [Description("[BRANCH_TALUKA]")]
+        BRANCH_TALUKA,
+        [Description("[BRANCH_DISTRICT]")]
+        BRANCH_DISTRICT,
+        [Description("[BRANCH_STATE]")]
+        BRANCH_STATE,
+        [Description("[PHONE_NUMBER]")]
+        BRANCH_PHONE_NO,
+        [Description("[BRANCH_MOBILE_NO]")]
+        BRANCH_MOBILE_NO,
+        [Description("[BRANCH_ALTERNATE_MOBILE_NO]")]
+        BRANCH_ALTERNATE_MOBILE_NO,
+        [Description("[COMPAYE_EMAIL]")]
+        BRANCH_EMAIL_ADDRESS,
+        [Description("[L_R_NO]")]
+        LR_NUMBER,
+        [Description("[DATE]")]
+        LR_DATE,
+        [Description("[FROM_CITY]")]
+        BOOKING_CITY,
+        [Description("[TO_CITY]")]
+        DELIVERY_CITY,
+        [Description("[CONSIGNEE_TO]")]
+        CONSIGNEE_NAME,
+        [Description("[TO_GSTIN]")]
+        CONSIGNEE_GST,
+        [Description("[CONSIGNEE_MOBILE]")]
+        CONSIGNEE_MOBILE,
+        [Description("[CONSIGNOR_FROM]")]
+        CONSIGNOR_NAME,
+        [Description("[FROM_GSTIN]")]
+        CONSIGNOR_GST,
+        [Description("[CONSIGNOR_MOBILE]")]
+        CONSIGNOR_MOBILE,
+        [Description("[PAYMENT_TYPE]")]
+        PAY_TYPE,
+        [Description("[PARCLE]")]
+        PARCLE,
+        [Description("[DESCRIPTION]")]
+        DESCRIPTION,
+        [Description("[PACKING]")]
+        PACKING,
+        [Description("[ACT_WT]")]
+        ACTUAL_WEIGHT,
+        [Description("[CH_WT]")]
+        CHARGE_WEIGHT,
+        [Description("[RATE_ON]")]
+        RATE_ON,
+        [Description("[RATE]")]
+        RATE,
+        [Description("[FREIGHT]")]
+        FREIGHT,
+        [Description("[AMOUNT]")]
+        AMOUNT,
+        [Description("[CHARGE_LABEL_1]")]
+        CHARGE_LABEL_1,
+        [Description("[CHARGE_LABEL_1_VAL]")]
+        CHARGE_LABEL_1_VAL,
+        [Description("[CHARGE_LABEL_2]")]
+        CHARGE_LABEL_2,
+        [Description("[CHARGE_LABEL_2_VAL]")]
+        CHARGE_LABEL_2_VAL,
+        [Description("[CHARGE_LABEL_3]")]
+        CHARGE_LABEL_3,
+        [Description("[CHARGE_LABEL_3_VAL]")]
+        CHARGE_LABEL_3_VAL,
+        [Description("[CHARGE_LABEL_4]")]
+        CHARGE_LABEL_4,
+        [Description("[CHARGE_LABEL_4_VAL]")]
+        CHARGE_LABEL_4_VAL,
+        [Description("[CHARGE_LABEL_5]")]
+        CHARGE_LABEL_5,
+        [Description("[CHARGE_LABEL_5_VAL]")]
+        CHARGE_LABEL_5_VAL,
+        [Description("[CHARGE_LABEL_6]")]
+        CHARGE_LABEL_6,
+        [Description("[CHARGE_LABEL_6_VAL]")]
+        CHARGE_LABEL_6_VAL,
+        [Description("[BILL_AMOUNT]")]
+        NET_AMOUNT,
+        [Description("[IN_WORDS]")]
+        IN_WORDS,
+        [Description("[INVOICE_NO]")]
+        INVOICE_NUMBER,
+        [Description("[INVOICE_VALUE]")]
+        INVOICE_VALUE,
+        [Description("[EWAY_BILL_NO]")]
+        EWAY_BILL_NUMBER,
+        [Description("[PRIVATE_MARK]")]
+        PRIVATE_MARK,
+        [Description("[VEHICLE_NO]")]
+        VEHICLE_NUMBER,
+        [Description("[DELIVERY_AT]")]
+        DELIVERY_AT,
+        [Description("[DELIVERY_TYPE]")]
+        DELIVERY_TYPE,
+        [Description("[REMARKS]")]
+        REMARKS,
+        [Description("[GST_P]")]
+        GST_P,
+        [Description("[PRODUCT_NAME]")]
+        PRODUCT_NAME,
+        [Description("[BOOK_NAME]")]
+        BOOK_NAME
     }
 }

@@ -28,6 +28,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.TransportLRPayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.LRCopy = 3;
             model.LRTemplate = Common.GetLRPrint();
+            model.LRPrintVariableList = GenericHelper.GetLRPrintVariableList();
             return View(model);
         }
 

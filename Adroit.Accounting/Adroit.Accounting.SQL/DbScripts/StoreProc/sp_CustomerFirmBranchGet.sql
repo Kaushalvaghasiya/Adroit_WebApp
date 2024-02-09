@@ -12,7 +12,7 @@ BEGIN
 		City.Title + ' | ' + Taluka.Title + ' | ' + District.Title + ' | ' + State.Title + ' | ' + Country.Title As CityName,
 		Taluka.Id As TalukaId,
 		District.Id As DistrictId,
-		CustomerFirmBranch.RenewalDate AS RenewalDateString,
+		CustomerFirmBranch.RenewalDate AS RenewalDate,
 		FirmBranchTypeAdmin.Title as FirmBranchType,
 		City.Title as CityTitle,
 		District.Title as DistrictTitle,
