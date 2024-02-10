@@ -11,7 +11,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> TransportLRPayTypeList { get; set; }
         public List<DropdownViewModel> CustomerBookList { get; set; }
         public List<DropdownViewModel> CustomerAccountList { get; set; }
-
+        public List<DropdownViewModel> LRPrintVariableList { get; set; }
         public string? PurchaseBookName { get; set; }
         public string? BookingSalesBookName { get; set; }
         public string? DeliverySalesBookName { get; set; }

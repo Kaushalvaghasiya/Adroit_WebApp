@@ -1,4 +1,5 @@
 ﻿using Adroit.Accounting.Model.Enums;
+using Adroit.Accounting.Model.PrintVariables;
 using Adroit.Accounting.Model.ViewModel;
 using System.ComponentModel;
 using System.Reflection;
@@ -295,6 +296,16 @@ namespace Adroit.Accounting.Web.Utility
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(LRStatus.Cancelled)}", Value = $"{(int)LRStatus.Cancelled}" },
                 new DropdownViewModel() { Text = $"{EnumDesc.DescriptionAttr(LRStatus.All)}", Value = $"{(int)LRStatus.All}" },
             };
+            return list;
+        }
+        public static List<DropdownViewModel> GetLRPrintVariableList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>();
+
+            foreach (LRPrintVariables var in (LRPrintVariables[])Enum.GetValues(typeof(LRPrintVariables)))
+            {
+                list.Add(new DropdownViewModel() { Text = EnumDesc.DescriptionAttr(var), Value = var.ToString() });
+            }
             return list;
         }
     }

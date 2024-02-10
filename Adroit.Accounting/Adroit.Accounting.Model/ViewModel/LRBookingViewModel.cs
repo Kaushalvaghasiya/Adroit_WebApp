@@ -18,7 +18,9 @@ namespace Adroit.Accounting.Model.ViewModel
         public CustomerFirmTransportSettingViewModel CustomerFirmTransportSetting { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
         public string? Consignor { get; set; }
+        public string? ConsignorMobile { get; set; }
         public string? Consignee { get; set; }
+        public string? ConsigneeMobile { get; set; }
         public string? CityFrom { get; set; }
         public string? CityTo { get; set; }
         public string? Packing { get; set; }
