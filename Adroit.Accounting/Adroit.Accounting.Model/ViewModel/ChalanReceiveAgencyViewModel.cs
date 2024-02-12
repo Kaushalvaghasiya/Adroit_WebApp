@@ -22,7 +22,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<ChalanReceiveAgencyDetailViewModel>? AgencyDetailList { get; set; }
         public string? ToPayAccountBranchMappingLbl { get; set; }
         public int LoginId { get; set; }
-        public string? LRDetailsArray { get; set; }
+        public List<ChalanReceiveAgencyDetailViewModel> LRDetailsArray { get; set; }
         public string? CityFrom { get; set; }
         public string? CityTo { get; set; }
         public string? VehicleVRN { get; set; }
@@ -34,5 +34,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? PaidLrSum { get; set; }
         public string? TbbLR { get; set; }
         public string? TbbLRSum { get; set; }
+        public bool? IsAutoLR { get; set; }
+
     }
 }

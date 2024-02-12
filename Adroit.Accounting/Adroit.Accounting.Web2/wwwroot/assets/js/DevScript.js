@@ -142,16 +142,20 @@ $(function () {
     'use strict'
     // Datepicker
     try {
-        $('.fc-datepicker').datepicker({
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            dateFormat: 'dd/mm/yy'
-            /*numberOfMonths: 2*/
-        });
+        bindDatePicker();
     } catch (e) {
 
     }
 });
+
+function bindDatePicker() {
+    $('.fc-datepicker').datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        dateFormat: 'dd/mm/yy'
+        /*numberOfMonths: 2*/
+    });
+}
 
 function setScreenMode(readonly) {
     $(".mode-ed").each(function (index, element) {
