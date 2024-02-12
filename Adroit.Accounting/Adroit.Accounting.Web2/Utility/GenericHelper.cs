@@ -308,5 +308,25 @@ namespace Adroit.Accounting.Web.Utility
             }
             return list;
         }
+        public static List<DropdownViewModel> GetChalanPrintVariableList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>();
+
+            foreach (ChalanPrintVariables var in (ChalanPrintVariables[])Enum.GetValues(typeof(ChalanPrintVariables)))
+            {
+                list.Add(new DropdownViewModel() { Text = EnumDesc.DescriptionAttr(var), Value = var.ToString() });
+            }
+            return list;
+        }
+        public static List<DropdownViewModel> GetChalanPrintLRDetailVariableList()
+        {
+            List<DropdownViewModel> list = new List<DropdownViewModel>();
+
+            foreach (ChalanPrintLRDetailVariables var in (ChalanPrintLRDetailVariables[])Enum.GetValues(typeof(ChalanPrintLRDetailVariables)))
+            {
+                list.Add(new DropdownViewModel() { Text = EnumDesc.DescriptionAttr(var), Value = var.ToString() });
+            }
+            return list;
+        }
     }
 }

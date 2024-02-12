@@ -19,8 +19,10 @@ namespace Adroit.Accounting.Model.ViewModel
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
         public string? Consignor { get; set; }
         public string? ConsignorMobile { get; set; }
+        public string? ConsignorGST { get; set; }
         public string? Consignee { get; set; }
         public string? ConsigneeMobile { get; set; }
+        public string? ConsigneeGST { get; set; }
         public string? CityFrom { get; set; }
         public string? CityTo { get; set; }
         public string? Packing { get; set; }
@@ -30,6 +32,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public decimal? ChargeAmount { get; set; }
         public string? LoadingChalanNo { get; set; }
         public string? BillPartyName { get; set; }
+        public string? BillPartyMobile { get; set; }
+        public string? BillPartyGST { get; set; }
         public string? ChalanVehilcleNo { get; set; }
         public string? BookingVehilcleNo { get; set; }
         public string? BranchChalanNo { get; set; }

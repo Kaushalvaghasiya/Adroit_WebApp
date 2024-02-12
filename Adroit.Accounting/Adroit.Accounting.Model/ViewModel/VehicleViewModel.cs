@@ -8,6 +8,7 @@ namespace Adroit.Accounting.Model.ViewModel
     {
         public string ModelName { get; set; }
         public string OwnerName { get; set; }
+        public string StateTitle { get; set; }
         public short? CountryId { get; set; }
         public List<DropdownViewModel> CustomerList { get; set; }
         public List<DropdownViewModel> VRNList { get; set; }

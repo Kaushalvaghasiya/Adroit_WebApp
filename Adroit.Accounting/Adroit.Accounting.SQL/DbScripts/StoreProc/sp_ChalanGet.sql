@@ -20,6 +20,14 @@ BEGIN
 		DR.Name AS DriverName,
 		DR.LicenceNumber AS LicenceNumber,
 		DR.Mobile AS DriverMobile,
+		DR.LicenceNumber as DriverLicence,
+		CustomerFirmBranch.Title AS DeliveryBranch,
+		dbo.fn_GetAccountName(PBM.SalesAccountBranchMappingId) AS ToPayAmountAccountBranchMappingChargerTo,
+		dbo.fn_GetAccountName(PBM.CrossingAmountAccountBranchMappingId) AS CrossingAmountAccountBranchMappingChargedTo,
+		dbo.fn_GetAccountName(PBM.CrossingCommissionAccountBranchMappingId) AS CrossingCommissionAccountBranchMappingChargedTo,
+		dbo.fn_GetAccountName(PBM.CrossingHamaliAccountBranchMappingId) AS CrossingHamaliAccountBranchMappingChargedTo,
+		dbo.fn_GetAccountName(PBM.CrossingDeliveryAccountBranchMappingId) AS CrossingDeliveryAccountBranchMappingChargedTo,
+		Broker.Name as BrokerName,
 		(SELECT STUFF((SELECT ',' + CAST(t1.LRBookingId AS VARCHAR) FROM [Z-PurchaseBillDetail-Z] t1
 						WHERE t1.PurchaseBillMasterId = t.PurchaseBillMasterId FOR XML PATH('')),1,1,'') Concats
 			FROM  [Z-PurchaseBillDetail-Z] t
@@ -34,6 +42,9 @@ BEGIN
 	LEFT JOIN City CTo ON PBM.CityIdTo = CTo.Id 
 	LEFT JOIN Vehilcle V ON PBM.VehicleId = V.Id
 	LEFT JOIN Driver DR ON PBM.DriverId = DR.Id
+	LEFT JOIN CustomerFirmBranch ON CustomerFirmBranch.Id = PBM.DeliveryBranchId
+	LEFT JOIN CustomerBrokerBranchMapping ON CustomerBrokerBranchMapping.Id = PBM.BrokerBranchMappingId
+	LEFT JOIN Broker ON Broker.Id = CustomerBrokerBranchMapping.Id
 	WHERE PBM.Id = @Id
 	AND PBM.BranchId = @BranchId
 END

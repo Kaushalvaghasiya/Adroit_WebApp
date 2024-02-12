@@ -27,6 +27,8 @@ namespace Adroit.Accounting.Web.Controllers
             model.TransportLRRateOnList = _transportLRRateOnRepository.SelectList(_configurationData.DefaultConnection);
             model.TransportLRPayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.ChalanDetailTemplate = Common.GetChalanDetailPrint();
+            model.ChalanPrintVariableList = GenericHelper.GetChalanPrintVariableList();
+            model.ChalanPrintLRDetailVariableList = GenericHelper.GetChalanPrintLRDetailVariableList();
             return View(model);
         }
 
@@ -64,7 +66,10 @@ namespace Adroit.Accounting.Web.Controllers
                 {
                     model.ChalanDetailTemplate = Common.GetChalanDetailPrint();
                 }
-
+                if (model.ChalanLRDetailTemplate == "0")
+                {
+                    model.ChalanLRDetailTemplate = Common.GetChalanLRDetailPrint();
+                }
                 result.data = model;
                 result.result = Constant.API_RESULT_SUCCESS;
             }

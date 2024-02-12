@@ -93,6 +93,49 @@
                                  </textarea>
                             </div>
                         </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <label for="extra">Extra Fields</label>
+                                <div class="form-control">
+                                    @{
+                                        if (Model.ChalanPrintVariableList != null)
+                                        {
+                                            foreach (var o in Model.ChalanPrintVariableList)
+                                            {
+                                                @o.Text
+                                                ;
+                                                @:,
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <label id="BranchId"></label>
+                                <textarea name="ckeditorLRDetail" id="ckeditorLRDetail" rows="10" cols="80">
+                                 </textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <div class="form-group">
+                                <label for="extra">Extra Fields for LR Details</label>
+                                <div class="form-control">
+                                    @{
+                                        if (Model.ChalanPrintLRDetailVariableList != null)
+                                        {
+                                            foreach (var o in Model.ChalanPrintLRDetailVariableList)
+                                            {
+                                                @o.Text
+                                                ;
+                                                @:,
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -127,6 +170,7 @@
         });
         $("#AddNew").click(function(){
           bindCkeditorData(null)
+          bindCkeditorLRDetailData(null)
         });
         function addClick() {
             $('.dv-list').slideUp();
@@ -291,6 +335,7 @@
                 var savedata = new Object();
                 savedata.BranchId = getIntValueZero("BranchId");
                 savedata.ChalanDetailTemplate =  CKEDITOR.instances.ckeditor.getData();
+                savedata.ChalanLRDetailTemplate = CKEDITOR.instances.ckeditorLRDetail.getData();
                 blockUI('container');
 
                 $.ajax({
@@ -350,6 +395,7 @@
                                     $("#activeTabName").text("EDIT (ID# " + result.data.branchId + ")");
                                 }
                                 bindCkeditorData(result.data.chalanDetailTemplate)
+                                bindCkeditorLRDetailData(result.data.chalanLRDetailTemplate)
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -393,6 +439,24 @@
                 CKEDITOR.replace( 'ckeditor' )
                 $("#ckeditor").val(ckData) 
            }
+        }
+        function bindCkeditorLRDetailData(ckData) {
+            if (ckData == null || ckData == 0) {
+                var editor = CKEDITOR.instances.ckeditorLRDetail;
+                if (editor) {
+                    editor.destroy();
+                }
+                CKEDITOR.replace('ckeditorLRDetail');
+
+                $("#ckeditorLRDetail").val(@Html.Raw(Json.Serialize(@Model.ChalanLRDetailTemplate)))
+            } else {
+                var editor = CKEDITOR.instances.ckeditorLRDetail;
+                if (editor) {
+                    editor.destroy();
+                }
+                CKEDITOR.replace('ckeditorLRDetail')
+                $("#ckeditorLRDetail").val(ckData)
+            }
         }
     </script>
 }

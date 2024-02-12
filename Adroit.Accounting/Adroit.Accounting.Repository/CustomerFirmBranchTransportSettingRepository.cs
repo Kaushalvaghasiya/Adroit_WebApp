@@ -69,6 +69,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@LoginId", value.LoginId);
             parameters.Add("@BranchId", value.BranchId);
             parameters.Add("@ChalanDetailTemplate", value.ChalanDetailTemplate);
+            parameters.Add("@ChalanLRDetailTemplate", value.ChalanLRDetailTemplate);
 
             return QueryHelper.Save("sp_CustomerFirmBranchTransportSettingChalanDetailTemplateUpdate", connectionString, parameters);
         }

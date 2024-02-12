@@ -2,7 +2,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchTransportSettingChalanDeta
 (
 	 @BranchId INT,
 	 @LoginId INT,
-	 @ChalanDetailTemplate NVARCHAR(MAX)
+	 @ChalanDetailTemplate NVARCHAR(MAX),
+	 @ChalanLRDetailTemplate NVARCHAR(MAX)
 )
 AS
 BEGIN
@@ -12,6 +13,7 @@ BEGIN
 			BEGIN
 				UPDATE [CustomerFirmBranchTransportSetting] SET
 						 [ChalanDetailTemplate] = IsNull(@ChalanDetailTemplate,ChalanDetailTemplate)
+						,[ChalanLRDetailTemplate] = IsNull(@ChalanLRDetailTemplate,ChalanLRDetailTemplate)
 						,[ModifiedById] = @LoginId
 						,[ModifiedOn] = GETUTCDATE()
 				WHERE [BranchId] = @BranchId
