@@ -95,7 +95,7 @@
                         <span class="input-group-append mr-2">
                             <button class="btn btn-primary" type="button">Go!</button>
                         </span>
-                        <a href="#" class="btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save">
                             <span>
                                 <i class="fa fa-save"></i>
                             </span>
@@ -148,14 +148,11 @@
                                         <select class="form-control select2-show-search" id="SenderBranchAccountMappingid" tabindex="1">
                                             <option></option>
                                             @{
-                                                if (Model.CustomerFirmBranchList != null)
+                                                if (Model.AccountBranchMappingList != null)
                                                 {
-                                                    foreach (var o in Model.CustomerFirmBranchList)
+                                                    foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                        if (o.Value != ViewBag.CurrentBranchId.ToString())
-                                                        {
-                                                            <option value="@o.Value">@o.Text</option>
-                                                        }
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -170,7 +167,7 @@
                                                     <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                                 </div>
                                             </div>
-                                            <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="ArrivalDate" tabindex="2">
+                                            <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text" id="ArrivalDate" tabindex="2">
                                         </div>
                                     </div>
                                     <label for="BillNumberBranch" class="col-md-1 form-label">Branch Rec. #</label>
@@ -195,7 +192,7 @@
                                                     <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                                 </div>
                                             </div>
-                                            <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="FirmChalanDate" tabindex="4">
+                                            <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text" id="FirmChalanDate" tabindex="4">
                                         </div>
                                     </div>
                                     <label for="CityIdFrom" class="col-md-1 form-label">From</label>
@@ -572,7 +569,7 @@
                     </div>
                 </div>
                 <div class="card-footer text-right">
-                    <a href="#" class="btn btn-primary mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save" tabindex="40"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-save btn btn-primary mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save" tabindex="40"><i class="fa fa-save"></i>&nbsp;Save</a>
                     <a href="#" class="btn btn-blue mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn btn-success mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
                     <a href="#" class="btn btn-danger mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
@@ -592,7 +589,7 @@
         var contentRowId = 0;
         var addedIds = 0;
         var selectedLRDetails = [];
-
+         
         $(function (e) {
             $('.dv-list').show();
             $('.dv-detail').hide();
@@ -619,8 +616,10 @@
             $("#TaxableAmount").on('keyup', function (e) {
                 CalcNetAmount();
             });
-
+            
             $("#TDSAmount").on('keyup', function (e) {
+                 var amtper = (100 * $(this).val() / $('#TaxableAmount').val()) || 0;
+                $("#TDSPercent").val(Math.round(amtper));
                 CalcNetAmount();
             });
 
@@ -647,6 +646,7 @@
             $("#TDSPercent").on('keyup', function (e) {
                 var amt = ($('#TaxableAmount').val() * $(this).val() / 100) || 0;
                 $("#TDSAmount").val(Math.round(amt));
+                 CalcNetAmount();
             });
 
             $("#TaxableAmount, #TDSAmount, #AdvanceCash, #AdvanceNeft, #ReceiveCash, #OtherPlus, #OtherLess").on('change', function (e) {
@@ -659,7 +659,7 @@
             $("#ToPayAmount, #TBB, #Paid, #Total").on('focusout', function (e) {
                 BindTopayTBBPaidAmt();
             });
-
+            
             addClick(true);
 
         });
@@ -739,7 +739,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.firmChalanDate;
+                    return moment(row.firmChalanDate.split('T')[0]).format('DD/MM/YYYY');
                 },
                 "targets": colDef.length,
             });
@@ -783,7 +783,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.toPayLrSum.toFixed(2);
+                    return row.toPayLrSum != null ? parseFloat(row.toPayLrSum).toFixed(2) : "0.00";
                 },
                 "className": "text-left",
                 "targets": colDef.length,
@@ -796,7 +796,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.paidLrSum.toFixed(2);
+                    return row.paidLrSum != null ? parseFloat(row.paidLrSum).toFixed(2) : "0.00";
                 },
                 "className": "text-left",
                 "targets": colDef.length,
@@ -809,7 +809,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.tbbLRSum.toFixed(2);
+                    return row.tbbLRSum != null ? parseFloat(row.tbbLRSum).toFixed(2) : "0.00";
                 },
                 "className": "text-left",
                 "targets": colDef.length,
@@ -933,10 +933,18 @@
             $("#IsAutoLR").prop('checked', false);
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
+            BindTopayTBBPaidAmt();
         }
 
         function saveItem() {
-            try {
+           
+           try{
+               var checkdetail = CheckRowData();
+                if(CheckRowData().length >0){
+                     showWarning("", checkdetail.toString().split(',').join("\r\n"));
+                 
+                    return false;
+                }
                 if ($("#SenderBranchAccountMappingid").val() == null || $("#SenderBranchAccountMappingid").val() == "") {
                     showWarning("", "Please select sender name");
                     $("#SenderBranchAccountMappingid").focus();
@@ -1089,48 +1097,72 @@
                         return false;
                     }
                 }
-
-
+                 if ($("#NetAmount").val() == null || $("#NetAmount").val() == "") {
+                        showWarning("", "Net amount must be greater than zero.");
+                        $("#NetAmount").focus();
+                        return false;
+                }
+                if ($("#BrokerBranchMappingId").val() == null || $("#BrokerBranchMappingId").val() == "") {
+                    showWarning("", "Please select broker");
+                    $("#BrokerBranchMappingId").focus();
+                    return false;
+                }
+                if ($("#ToPayAccountBranchMappingId").val() == null || $("#ToPayAccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select to pay account");
+                    $("#ToPayAccountBranchMappingId").focus();
+                    return false;
+                }
+               
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
+                savedata.SenderBranchAccountMappingid = getIntValueZero("SenderBranchAccountMappingid");
                 savedata.CityIdTo = getIntValueZero("CityIdTo");
                 savedata.CityIdFrom = getIntValueZero("CityIdFrom");
                 savedata.LRNumber = getIntValueZero("LRNumber");
-                savedata.LRDate = moment(getDate($("#LRDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.BillNumberBranch = $("#BillNumberBranch").val();
+                savedata.BillNumberFirm = $("#BillNumberFirm").val();
+                savedata.FirmChalanNumber = $("#FirmChalanNumber").val();
+                savedata.DriverId = getIntValueZero("DriverId");
+                savedata.ToPayAmount = $("#ToPayAmount").val();
+                savedata.SalesAccountBranchMappingId = getIntValueZero("SalesAccountBranchMappingId");
+                savedata.ToPayAccountBranchMappingId =  getIntValueZero("ToPayAccountBranchMappingId");
+                savedata.CrossingAmount = $("#CrossingAmount").val() || 0;
+                savedata.CrossingAmountAccountBranchMappingId =  getIntValueZero("CrossingAmountAccountBranchMappingId");
+                savedata.CrossingCommission = $("#CrossingCommission").val() || 0;
+                savedata.CrossingCommissionAccountBranchMappingId =   getIntValueZero("CrossingCommissionAccountBranchMappingId");
+                savedata.CrossingHamali = $("#CrossingHamali").val() || 0;
+                savedata.CrossingHamaliAccountBranchMappingId = getIntValueZero("CrossingHamaliAccountBranchMappingId");
+                savedata.CrossingDeliveryCharge = $("#CrossingDeliveryCharge").val() || 0;
+                savedata.CrossingDeliveryAccountBranchMappingId = getIntValueZero("CrossingDeliveryAccountBranchMappingId");
+                savedata.BrokerAmount = $("#BrokerAmount").val() || 0;
+                savedata.BrokerBranchMappingId = getIntValueZero("BrokerBranchMappingId");
+                savedata.TaxableAmount = $("#TaxableAmount").val();
+                savedata.TDSPercent = $("#TDSPercent").val() || 0;
+                savedata.TDSAmount = $("#TDSAmount").val() || 0;
+                savedata.AdvanceCash = $("#AdvanceCash").val() || 0;
+                savedata.AdvanceNeft = $("#AdvanceNeft").val() || 0;
+                savedata.OtherLess = $("#OtherLess").val() || 0;
+                savedata.ReceiveCash = $("#ReceiveCash").val() || 0;
+                savedata.OtherPlus = $("#OtherPlus").val() || 0;
+                savedata.NetAmount = $("#NetAmount").val();
+                savedata.IsAutoLR = $("#IsAutoLR").is(":checked");
+                savedata.ArrivalDate = moment(getDate($("#ArrivalDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.FirmChalanDate = moment(getDate($("#FirmChalanDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
                 savedata.EwayBillNo = $("#EwayBillNo").val();
                 savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
                 savedata.DeliveryAccountBranchMappingId = getIntValueZero("DeliveryAccountBranchMappingId");
                 savedata.LRPayTypeId = getIntValueZero("LRPayTypeId");
                 savedata.BillAccountBranchMappingId = getIntValueNull("BillAccountBranchMappingId");
-                savedata.Parcel = getIntValueNull("Parcel");
-                savedata.Packing = $("#PackingId").val();
-                savedata.Description = $("#DescriptionId").val();
-                savedata.ActualWeight = getFloatValueNull("ActualWeight", 3);
-                savedata.ChargeWeight = getFloatValueNull("ChargeWeight", 3);
                 savedata.LRRateOnId = getIntValueZero("LRRateOnId");
-                savedata.Rate = getFloatValueNull("Rate", 2);
-                savedata.Freight = getFloatValueNull("Freight", 2);
-                savedata.InvoiceNo = $("#InvoiceNo").val();
                 savedata.VehicleId = getIntValueNull("VehicleId");
-                savedata.InvoiceValue = getFloatValueNull("InvoiceValue", 2);
-                savedata.LRDeliveryId = getIntValueZero("LRDeliveryId");
-                savedata.PrivateMarka = $("#PrivateMarka").val();
-                savedata.LRDeliveryTypeId = getIntValueZero("LRDeliveryTypeId");
-                savedata.Remarks = $("#Remarks").val();
-                savedata.Charges1 = getFloatValueNull("Charges1", 2);
-                savedata.Charges2 = getFloatValueNull("Charges2", 2);
-                savedata.Charges3 = getFloatValueNull("Charges3", 2);
-                savedata.Charges4 = getFloatValueNull("Charges4", 2);
-                savedata.Charges5 = getFloatValueNull("Charges5", 2);
-                savedata.Charges6 = getFloatValueNull("Charges6", 2);
+                savedata.Notes = $("#Notes").val();
                 savedata.GoDownNumber = getIntValueZero("GoDownNumber");
-
                 var lrDetailsArray = [];
                 lrDetailsArray = getRowData();
-                savedata.LRDetailsArray = JSON.stringify(lrDetailsArray);
-
+                savedata.LRDetailsArray = lrDetailsArray;
+               
                 blockUI('container');
-
+               
                 $.ajax({
                     type: "POST",
                     url: "@(Url.Action("SaveChalanReceiveAgency", "Customer"))",
@@ -1208,43 +1240,56 @@
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
-
+                               
                                 $("#Id").val(result.data.id);
-                                $("#LRNumber").val(result.data.lrNumber);
+                                $("#SenderBranchAccountMappingid").val(result.data.senderBranchAccountMappingid).trigger('change');
+                                $("#BillNumberBranch").val(result.data.billNumberBranch);
+                                $("#BillNumberFirm").val(result.data.billNumberFirm);
+                                $("#FirmChalanNumber").val(result.data.firmChalanNumber);
+                                $("#CityIdTo").val(result.data.cityIdTo).trigger('change');
+                                $("#CityIdFrom").val(result.data.cityIdFrom).trigger('change');
                                 $("#EwayBillNo").val(result.data.ewayBillNo).trigger('change');
                                 $("#CityIdTo").val(result.data.cityIdTo).trigger('change');
+                                $("#DriverId").val(result.data.driverId).trigger('change');
+                                $("#EwayBillNo").val(result.data.ewayBillNo).trigger('change');
+                                $("#IsAutoLR").prop('checked', result.data.isAutoLR);
+                                $("#ToPayAccountBranchMappingId").val(result.data.toPayAccountBranchMappingId).trigger('change');
+                                $("#SalesAccountBranchMappingId").val(result.data.salesAccountBranchMappingId).trigger('change');
+                                $("#CrossingAmountAccountBranchMappingId").val(result.data.crossingAmountAccountBranchMappingId).trigger('change');
+                                $("#CrossingCommissionAccountBranchMappingId").val(result.data.crossingCommissionAccountBranchMappingId).trigger('change');
+                                $("#CrossingHamaliAccountBranchMappingId").val(result.data.crossingHamaliAccountBranchMappingId).trigger('change');
+                                $("#CrossingDeliveryAccountBranchMappingId").val(result.data.crossingDeliveryAccountBranchMappingId).trigger('change');
+                                $("#BrokerBranchMappingId").val(result.data.brokerBranchMappingId).trigger('change');
+                                $("#ToPayAmount").val(result.data.toPayAmount);
+                                $("#CrossingAmount").val(result.data.crossingAmount);
+                                $("#CrossingCommission").val(result.data.crossingCommission);
+                                $("#CrossingHamali").val(result.data.crossingHamali);
+                                $("#CrossingDeliveryCharge").val(result.data.crossingDeliveryCharge);
+                                $("#BrokerAmount").val(result.data.brokerAmount);
+                                $("#TaxableAmount").val(result.data.taxableAmount);
+                                $("#TDSPercent").val(result.data.tdsPercent);
+                                $("#TDSAmount").val(result.data.tdsAmount);
+                                $("#AdvanceCash").val(result.data.advanceCash);
+                                $("#AdvanceNeft").val(result.data.advanceNeft);
+                                $("#ReceiveCash").val(result.data.receiveCash);
+                                $("#OtherPlus").val(result.data.otherPlus);
+                                $("#OtherLess").val(result.data.otherLess);
+                                $("#NetAmount").val(result.data.netAmount);
+                                $("#Notes").val(result.data.notes);
+
+
+                                getChalanAgencyDetailListBind(result.data.agencyDetailList);
+                                
                                 $("#ToAccountBranchMappingId").val(result.data.toAccountBranchMappingId).trigger('change');
                                 $("#DeliveryAccountBranchMappingId").val(result.data.deliveryAccountBranchMappingId).trigger('change');
                                 $("#LRPayTypeId").val(result.data.lrPayTypeId).trigger('change');
                                 $("#BillAccountBranchMappingId").val(result.data.billAccountBranchMappingId).trigger('change');
-                                $("#PackingId").val(result.data.packing).trigger('change');
-                                $("#DescriptionId").val(result.data.description).trigger('change');
-                                $("#LRRateOnId").val(result.data.lrRateOnId).trigger('change');
                                 $("#VehicleId").val(result.data.vehicleId).trigger('change');
-                                $("#LRDeliveryId").val(result.data.lrDeliveryId).trigger('change');
-                                $("#LRDeliveryTypeId").val(result.data.lrDeliveryTypeId).trigger('change');
-
-                                $("#LRDate").val(moment(result.data.lrDate.split('T')[0], 'YYYY-MM-DD').add(1, 'days').format('DD/MM/YYYY'));
-                                $("#Parcel").val(result.data.parcel);
-                                $("#ActualWeight").val(result.data.actualWeight ? result.data.actualWeight.toFixed(3) : '');
-                                $("#ChargeWeight").val(result.data.chargeWeight ? result.data.chargeWeight.toFixed(3) : '');
-                                $("#Freight").val(result.data.freight ? result.data.freight.toFixed(2) : '');
-                                $("#Rate").val(result.data.rate ? result.data.rate.toFixed(2) : '');
-                                $("#Charges1").val(result.data.charges1 ? result.data.charges1.toFixed(2) : '');
-                                $("#Charges2").val(result.data.charges2 ? result.data.charges2.toFixed(2) : '');
-                                $("#Charges3").val(result.data.charges3 ? result.data.charges3.toFixed(2) : '');
-                                $("#Charges4").val(result.data.charges4 ? result.data.charges4.toFixed(2) : '');
-                                $("#Charges5").val(result.data.charges5 ? result.data.charges5.toFixed(2) : '');
-                                $("#Charges6").val(result.data.charges6 ? result.data.charges6.toFixed(2) : '');
-                                $("#InvoiceNo").val(result.data.invoiceNo);
-                                $("#InvoiceValue").val(result.data.invoiceValue ? result.data.invoiceValue.toFixed(2) : '');
-                                $("#PrivateMarka").val(result.data.privateMarka);
-                                $("#Remarks").val(result.data.remarks);
-                                $("#Ch").val(result.data.branchChalanNo);
-                                $("#Truck").val(result.data.vehilcleNo);
-                                $("#TruckLoadDate").val(result.data.chalanDate !== '' ? moment(result.data.chalanDate.split('T')[0]).format('DD/MM/YYYY') : '');
+                                $("#ArrivalDate").val(moment(result.data.arrivalDate.split('T')[0], 'YYYY-MM-DD').format('DD/MM/YYYY'));
+                                $("#FirmChalanDate").val(moment(result.data.firmChalanDate.split('T')[0], 'YYYY-MM-DD').format('DD/MM/YYYY'));
+                                $("#Notes").val(result.data.Notes);
                                 $("#GoDownNumber").val(result.data.goDownNumber).trigger('change');
-
+                                BindTopayTBBPaidAmt()
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -1263,12 +1308,12 @@
 
         function GetTDSPercentByCustomerAccountBranchMappingId(CustomerAccountBranchMappingId) {
             try {
-                if ($("#ToAccountBranchMappingId").val() == '' || $("#ToAccountBranchMappingId").val() == null) return;
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetTDSPercentByCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
+               if(CustomerAccountBranchMappingId != "") 
+                 AjaxCall("Get", "@(Url.Content("~/Customer/GetTDSPercentByCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
                     function (result) {
                         try {
                             if (result.result == RESULT_SUCCESS) {
-
+                              
                                 $("#TDSPercent").val(result.data.tds);
 
                             } else {
@@ -1287,7 +1332,7 @@
         }
 
         function CalcNetAmount() {
-
+           
             var TaxableAmount = +getFloatValueZero("TaxableAmount", 2);
             var TDSAmount = +getFloatValueZero("TDSAmount", 2);
             var AdvanceCash = +getFloatValueZero("AdvanceCash", 2);
@@ -1301,8 +1346,9 @@
         }
 
         function addRow() {
-
-            var htmlContentArray = [];
+           
+           
+           var htmlContentArray = [];
 
             var htmlContent = `<div class="row m-0 rounded content-rows" id="row-` + contentRowId + `" style="border-bottom: 1px solid rgba(107, 122, 144, 0.3)">
                                             <div class="m-0 p-2 col-md-12">
@@ -1341,7 +1387,7 @@
                                                                         <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
                                                                     </div>
                                                                 </div>
-                                                                <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="LRDate${contentRowId}" tabindex="14">
+                                                                <input class="form-control fc-datepicker" placeholder="DD/MM/YYYY" type="text" id="LRDate${contentRowId}" tabindex="14">
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1432,7 +1478,7 @@
                                                     </div>
                                                     <div class="col-md-1 pl-2 pr-2">
                                                         <div class="form-group text-center mb-1">
-                                                            <select class="form-control select2-show-search select2-show-search-contentrows" id="LRPayTypeId${contentRowId}" tabindex="22">
+                                                            <select class="form-control select2-show-search select2-show-search-contentrows" onchange="BindTopayTBBPaidAmt()" id="LRPayTypeId${contentRowId}" tabindex="22">
         @{
             if (Model.PayTypeList != null)
             {
@@ -1472,7 +1518,7 @@
                                                     </div>
                                                     <div class="col-md-1 pl-2 pr-2 text-center">
                                                         <div class="form-group text-center mb-1">
-                                                            <input type="text" class="form-control text-right decimalonly" data-tofixed="2" id="NetAmount` + contentRowId + `" placeholder=""  tabindex="24">
+                                                            <input type="text" class="form-control text-right decimalonly" onkeyup="BindTopayTBBPaidAmt()" data-tofixed="2" id="NetAmount` + contentRowId + `" placeholder=""  tabindex="24">
                                                         </div>
                                                     </div>
                                                     <div class="col-md-1 pl-2 pr-2 text-center">
@@ -1488,10 +1534,10 @@
                                         </div>`;
 
             htmlContentArray.push(htmlContent);
-
+            contentRowId ++
             $('.content-rows-add-btn').remove();
             $('#LRTbl').append(htmlContentArray.join(''));
-            $('.fc-datepicker').datepicker();
+            
             $('.select2-show-search-contentrows').select2({
                 minimumResultsForSearch: ''
             });
@@ -1559,6 +1605,8 @@
             $("#BillAccountBranchMappingId" + contentRowId).val(null).trigger('change');
             $("#CityIdTo" + contentRowId).val(null).trigger('change');
             $("#CityIdFrom" + contentRowId).val(null).trigger('change');
+ 
+            bindDatePicker();
         }
 
         function deleteRow(rowId) {
@@ -1569,78 +1617,103 @@
         }
 
         function getRowData() {
+           
             var rowDataArray = [];
-
+            let i = 0
             $('.content-rows').each(function () {
+                let checkDate = $(this).find('#LRDate' + i).val();
+                if(checkDate){
                 var rowData = {
                     'SrNumber': $(this).find('.content-row-srno').val(),
-                    'EwayBillNo': $(this).find('#EwayBillNo' + contentRowId).val(),
-                    'LRNumber': $(this).find('#LRNumber' + contentRowId).val(),
-                    'LRDate': $(this).find('#LRDate' + contentRowId).val(),
-                    'PrivateMarka': $(this).find('#PrivateMarka' + contentRowId).val(),
-                    'CityIdFrom': $(this).find('#CityIdFrom' + contentRowId).val(),
-                    'CityIdTo': $(this).find('#CityIdTo' + contentRowId).val(),
-                    'AccountBranchMappingId': $(this).find('#AccountBranchMappingId' + contentRowId).val(),
-                    'DeliveryAccountBranchMappingId': $(this).find('#DeliveryAccountBranchMappingId' + contentRowId).val(),
-                    'Parcel': $(this).find('#Parcel' + contentRowId).val(),
-                    'ChargeWeight': $(this).find('#ChargeWeight' + contentRowId).val(),
-                    'LRPayTypeId': $(this).find('#LRPayTypeId' + contentRowId).val(),
-                    'BillAccountBranchMappingId': $(this).find('#BillAccountBranchMappingId' + contentRowId).val(),
-                    'NetAmount': $(this).find('#NetAmount' + contentRowId).val(),
+                    'EwayBillNo': $(this).find('#EwayBillNo' + i).val(),
+                    'LRNumber': $(this).find('#LRNumber' + i).val(),
+                    
+                    'LRDate': moment(getDate($(this).find('#LRDate' + i).val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+                   
+                    'PrivateMarka': $(this).find('#PrivateMarka' + i).val(),
+                    'CityIdFrom': $(this).find('#CityIdFrom' + i).val(),
+                    'CityIdTo': $(this).find('#CityIdTo' + i).val(),
+                    'AccountBranchMappingId': $(this).find('#AccountBranchMappingId' + i).val(),
+                    'DeliveryAccountBranchMappingId': $(this).find('#DeliveryAccountBranchMappingId' + i).val(),
+                    'Parcel': $(this).find('#Parcel' + i).val(),
+                    'ChargeWeight': $(this).find('#ChargeWeight' + i).val(),
+                    'LRPayTypeId': $(this).find('#LRPayTypeId' + i).val(),
+                    'BillAccountBranchMappingId': $(this).find('#BillAccountBranchMappingId' + i).val(),
+                    'NetAmount': $(this).find('#NetAmount' + i).val(),
                 };
+                i++;
                 rowDataArray.push(rowData);
+                }
             });
 
             return rowDataArray;
         }
+         function CheckRowData() {
+           
+            var rowDataArrayError = [];
+            let i = 0
+            $('.content-rows').each(function () {
+              
+                if($(this).find('#EwayBillNo' + i).val()== ""){
+                     rowDataArrayError.push("please enter ewasy bill");
+                }
+                 if($(this).find('#LRNumber' + i).val()== ""){
+                     rowDataArrayError.push("please enter LRNumber");
+                }
+                 if(moment(getDate($(this).find('#LRDate' + i).val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') == "Invalid date"){
+                     rowDataArrayError.push("please enter LR date");
+                }
+                 if($(this).find('#PrivateMarka' + i).val()== ""){
+                     rowDataArrayError.push("please enter private marka");
+                }
+                 
+                if($(this).find('#Parcel' + i).val()== ""){
+                     rowDataArrayError.push("please enter parcel");
+                 }
+                if($(this).find('#ChargeWeight' + i).val() == ""){
+                     rowDataArrayError.push("please enter chg wgt bill");
+                 }
+                 if($(this).find('#NetAmount' + i).val()== ""){
+                     rowDataArrayError.push("please enter net amount");
+                 }
+                 
+               
+                i++;
+            
+            });
 
-        function getChalanAgencyDetailListByMasterId(masterId) {
-            try {
-                blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetChalanAgencyDetailListByMasterId"))" + "/" + masterId, "",
-                    function (result) {
-                        unblockUI('container');
-                        try {
-                            if (result.result == RESULT_SUCCESS) {
+            return rowDataArrayError;
+        }
+        function getChalanAgencyDetailListBind(data){
+            if (data) {
 
                                 $("#LRTbl").html("");
-
-                                for (var i = 0; i < result.data.length; i++) {
-                                    var rowData = result.data[i];
+                                contentRowId = 0;
+                             
+                                for (var i = 0; i < data.length; i++) {
+                                    var rowData = data[i];
                                     addRow();
 
-                                    $("#SrNumber" + i).val(rowData.SrNumber);
-                                    $("#EwayBillNo" + i).val(rowData.EwayBillNo).trigger('change');
-                                    $("#LRNumber" + i).val(rowData.LRNumber);
-                                    $("#LRDate" + i).val(moment(rowData.LRDate.split('T')[0], 'YYYY-MM-DD').add(1, 'days').format('DD/MM/YYYY'));
-                                    $("#PrivateMarka" + i).val(rowData.PrivateMarka);
-                                    $("#CityIdFrom" + i).val(rowData.CityIdFrom).trigger('change');
-                                    $("#CityIdTo" + i).val(rowData.CityIdTo).trigger('change');
-                                    $("#AccountBranchMappingId" + i).val(rowData.AccountBranchMappingId).trigger('change');
-                                    $("#DeliveryAccountBranchMappingId" + i).val(rowData.DeliveryAccountBranchMappingId).trigger('change');
-                                    $("#LRPayTypeId" + i).val(rowData.LRPayTypeId).trigger('change');
-                                    $("#Parcel" + i).val(rowData.Parcel);
-                                    $("#ChargeWeight" + i).val(rowData.ChargeWeight ? rowData.ChargeWeight.toFixed(3) : '');
-                                    $("#BillAccountBranchMappingId" + i).val(rowData.BillAccountBranchMappingId).trigger('change');
-                                    $("#NetAmount" + i).val(rowData.NetAmount ? rowData.NetAmount.toFixed(3) : '');
+                                    $("#SrNumber" + i).val(rowData.srNumber);
+                                    $("#EwayBillNo" + i).val(rowData.ewayBillNo).trigger('change');
+                                    $("#LRNumber" + i).val(rowData.lrNumber);
+                                    $("#LRDate" + i).val(rowData.lrDateString);
+                                    $("#PrivateMarka" + i).val(rowData.privateMarka);
+                                    $("#CityIdFrom" + i).val(rowData.cityIdFrom).trigger('change');
+                                    $("#CityIdTo" + i).val(rowData.cityIdTo).trigger('change');
+                                    $("#AccountBranchMappingId" + i).val(rowData.accountBranchMappingId).trigger('change');
+                                    $("#DeliveryAccountBranchMappingId" + i).val(rowData.deliveryAccountBranchMappingId).trigger('change');
+                                    $("#LRPayTypeId" + i).val(rowData.lrPayTypeId).trigger('change');
+                                    $("#Parcel" + i).val(rowData.parcel);
+                                    $("#ChargeWeight" + i).val(rowData.chargeWeight ? rowData.chargeWeight.toFixed(3) : '');
+                                    $("#BillAccountBranchMappingId" + i).val(rowData.billAccountBranchMappingId).trigger('change');
+                                    $("#NetAmount" + i).val(rowData.netAmount ? rowData.netAmount.toFixed(3) : '');
                                 }
-                                addRow();
+                              //  addRow();
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
-                        } catch (e) {
-                            unblockUI('container');
-                            showError('Error', e); //warning,  success, error, info
-                        }
-                    },
-                    function (error) {
-
-                    });
-            }
-            catch (err) {
-            }
         }
-
         function BindBillParty(contentRowId, isForceFullyChangeBillParty = false) {
             if ($("#BillAccountBranchMappingId" + contentRowId).val() == '' || $("#BillAccountBranchMappingId" + contentRowId).val() == null || isForceFullyChangeBillParty) {
                 if ($("#LRPayTypeId" + contentRowId).val() != '' || $("#LRPayTypeId" + contentRowId).val() != null) {
@@ -1691,7 +1764,7 @@
 
         function BindTopayTBBPaidAmt() {
             var rowDataArray = getRowData();
-
+           
             var amountByLRPayType = rowDataArray.reduce(function (acc, row) {
                 var lrPayTypeId = row.LRPayTypeId;
                 acc[lrPayTypeId] = (acc[lrPayTypeId] || 0) + parseFloat(row.NetAmount || 0);
@@ -1701,7 +1774,7 @@
             var topay = amountByLRPayType['1'] || 0.00;
             var paid = amountByLRPayType['2'] || 0.00;
             var tbb = amountByLRPayType['3'] || 0.00;
-
+            var totalSum = parseFloat(topay.toFixed(2)) + parseFloat(paid.toFixed(2)) + parseFloat(tbb.toFixed(2));
             var totalAmountSum = rowDataArray.reduce(function (acc, row) {
                 return acc + parseFloat(row.NetAmount || 0.00);
             }, 0);
@@ -1709,8 +1782,9 @@
             $("#ToPayAmount").val(topay.toFixed(2));
             $("#Paid").val(paid.toFixed(2));
             $("#TBB").val(tbb.toFixed(2));
-            $("#Total").val(topay.toFixed(2) + paid.toFixed(2) + tbb.toFixed(2));
+            $("#Total").val(totalSum.toFixed(2));
             $("#TaxableAmount").val(totalAmountSum.toFixed(2));
+            CalcNetAmount();
         }
 
     </script>

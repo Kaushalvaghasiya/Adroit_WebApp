@@ -7,6 +7,6 @@ namespace Adroit.Accounting.Model.ViewModel
 {
     public class ChalanReceiveAgencyDetailViewModel : ChalanReceiveAgencyDetail
     {
-        
+        public string LRDateString { get { return this.LRDate.ToString(Adroit.Accounting.Model.Constant.DateFormat); } }
     }
 }

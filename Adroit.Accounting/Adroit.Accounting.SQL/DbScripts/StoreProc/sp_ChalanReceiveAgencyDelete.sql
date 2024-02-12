@@ -12,7 +12,7 @@ BEGIN
 		Deleted = 1, 
 		DeletedById = @LoginId,
 		DeletedOn = GETUTCDATE()
-		WHERE Id = @Id;
+		WHERE ChalanReceiveAgencyMasterId = @Id;
 
 		UPDATE [Z-ChalanReceiveAgencyMaster-Z] SET 
 		Deleted = 1, 

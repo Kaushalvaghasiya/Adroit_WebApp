@@ -2,7 +2,6 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanReceiveAgencySave]
 (
 	@LoginId INT,
 	@BranchId INT,
-	@YearId INT,
 	@Id INT,
 	@SenderBranchAccountMappingid INT,
     @ArrivalDate DATETIME,
@@ -38,24 +37,21 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanReceiveAgencySave]
     @OtherLess DECIMAL(9, 2),
     @ReceiveCash DECIMAL(9, 2),
     @OtherPlus DECIMAL(9, 2),
+	@NetAmount DECIMAL(9, 2),
     @Notes NVARCHAR(250),
     @ChalanReceiveAgencyDetailTableList NVARCHAR(MAX),
-    @AddedOn DATETIME,
-    @AddedById INT,
-    @ModifiedById INT,
-    @ModifiedOn DATETIME,
-    @Deleted BIT,
-    @DeletedById INT,
-    @DeletedOn DATETIME
+	@IsAutoLR BIT,
+    @Deleted BIT
 )
 AS
 BEGIN
+	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 	BEGIN TRAN
 	BEGIN TRY
 		exec [sp_ValidateLoginBranch] @LoginId, @BranchId, @YearId
 
 		DECLARE @FirmId INT = DBO.fn_GetLoggedInFirmId (@LoginId);
-
+	
 		DECLARE @message VARCHAR(4000);
 
 		IF @YearId IS NULL
@@ -138,25 +134,25 @@ BEGIN
 				[CityIdFrom], [CityIdTo], [VehicleId], [BillAccountBranchMappingId], [DriverId], [EwayBillNo], [GoDownNumber], [ToPayAmount], [SalesAccountBranchMappingId],
 				[ToPayAccountBranchMappingId], [CrossingAmount], [CrossingAmountAccountBranchMappingId], [CrossingCommission], [CrossingCommissionAccountBranchMappingId],
 				[CrossingHamali], [CrossingHamaliAccountBranchMappingId], [CrossingDeliveryCharge], [CrossingDeliveryAccountBranchMappingId], [BrokerAmount], [BrokerBranchMappingId],
-				[TaxableAmount], [TDSPercent], [TDSAmount], [AdvanceCash], [AdvanceNeft], [OtherLess], [ReceiveCash], [OtherPlus], [Notes], [AddedOn], [AddedById],
+				[TaxableAmount], [TDSPercent], [TDSAmount], [AdvanceCash], [AdvanceNeft], [OtherLess], [ReceiveCash], [OtherPlus],[NetAmount], [Notes],[IsAutoLR], [AddedOn], [AddedById],
 				[ModifiedById], [ModifiedOn], [Deleted], [DeletedById], [DeletedOn])
 			VALUES 
 				(@BranchId, @FirmId, @YearId, @SenderBranchAccountMappingid, @ArrivalDate, @BillNumberBranch, @BillNumberFirm, @FirmChalanNumber, @FirmChalanDate,
 				@CityIdFrom, @CityIdTo, @VehicleId, @BillAccountBranchMappingId, @DriverId, @EwayBillNo, @GoDownNumber, @ToPayAmount, @SalesAccountBranchMappingId,
 				@ToPayAccountBranchMappingId, @CrossingAmount, @CrossingAmountAccountBranchMappingId, @CrossingCommission, @CrossingCommissionAccountBranchMappingId,
 				@CrossingHamali, @CrossingHamaliAccountBranchMappingId, @CrossingDeliveryCharge, @CrossingDeliveryAccountBranchMappingId, @BrokerAmount, @BrokerBranchMappingId,
-				@TaxableAmount, @TDSPercent, @TDSAmount, @AdvanceCash, @AdvanceNeft, @OtherLess, @ReceiveCash, @OtherPlus, @Notes, GETUTCDATE(), @AddedById,
-				@ModifiedById, NULL, 0, NULL, NULL)
+				@TaxableAmount, @TDSPercent, @TDSAmount, @AdvanceCash, @AdvanceNeft, @OtherLess, @ReceiveCash, @OtherPlus,@NetAmount, @Notes,@IsAutoLR ,GETUTCDATE(), @LoginId,
+				NULL, NULL, 0, NULL, NULL)
 
 			SET @Id = SCOPE_IDENTITY();
 			
 		END
 		ELSE
 		BEGIN
-			SET @Id = @IdCheck
+		SET @Id = @IdCheck
 
 			UPDATE [Z-ChalanReceiveAgencyMaster-Z] SET 
-			[BranchId] = @BranchId, [FirmId] = @FirmId, [YearId] = @YearId, [SenderBranchAccountMappingid] = @SenderBranchAccountMappingid, [ArrivalDate] = @ArrivalDate,
+			[SenderBranchAccountMappingid] = @SenderBranchAccountMappingid, [ArrivalDate] = @ArrivalDate,
 			[BillNumberBranch] = @BillNumberBranch, [BillNumberFirm] = @BillNumberFirm, [FirmChalanNumber] = @FirmChalanNumber, [FirmChalanDate] = @FirmChalanDate,
 			[CityIdFrom] = @CityIdFrom, [CityIdTo] = @CityIdTo, [VehicleId] = @VehicleId, [BillAccountBranchMappingId] = @BillAccountBranchMappingId, [DriverId] = @DriverId,
 			[EwayBillNo] = @EwayBillNo, [GoDownNumber] = @GoDownNumber, [ToPayAmount] = @ToPayAmount, [SalesAccountBranchMappingId] = @SalesAccountBranchMappingId,
@@ -165,7 +161,7 @@ BEGIN
 			[CrossingHamaliAccountBranchMappingId] = @CrossingHamaliAccountBranchMappingId, [CrossingDeliveryCharge] = @CrossingDeliveryCharge,
 			[CrossingDeliveryAccountBranchMappingId] = @CrossingDeliveryAccountBranchMappingId, [BrokerAmount] = @BrokerAmount, [BrokerBranchMappingId] = @BrokerBranchMappingId,
 			[TaxableAmount] = @TaxableAmount, [TDSPercent] = @TDSPercent, [TDSAmount] = @TDSAmount, [AdvanceCash] = @AdvanceCash, [AdvanceNeft] = @AdvanceNeft,
-			[OtherLess] = @OtherLess, [ReceiveCash] = @ReceiveCash, [OtherPlus] = @OtherPlus, [Notes] = @Notes, [ModifiedById] = @ModifiedById, [ModifiedOn] = GETUTCDATE(),
+			[OtherLess] = @OtherLess, [ReceiveCash] = @ReceiveCash, [OtherPlus] = @OtherPlus,[NetAmount] = @NetAmount, [Notes] = @Notes, [ModifiedById] = @LoginId, [ModifiedOn] = GETUTCDATE(),
 			[Deleted] = 0, [DeletedById] = NULL, [DeletedOn] = NULL
 			WHERE [Id] = @Id;
 
@@ -187,6 +183,7 @@ BEGIN
 		ON ChalanReceiveAgencyTarget.ChalanReceiveAgencyMasterId = @Id AND ChalanReceiveAgencyTarget.LRNumber = ChalanReceiveAgencySource.LRNumber
 		WHEN MATCHED THEN
 		   UPDATE SET 
+		    ChalanReceiveAgencyTarget.SenderBranchAccountMappingid = @SenderBranchAccountMappingid,
 			 ChalanReceiveAgencyTarget.EwayBillNo = ChalanReceiveAgencySource.EwayBillNo,
 			 ChalanReceiveAgencyTarget.LRNumber = ChalanReceiveAgencySource.LRNumber,
 			 ChalanReceiveAgencyTarget.LRDate = ChalanReceiveAgencySource.LRDate,
@@ -199,21 +196,28 @@ BEGIN
 			 ChalanReceiveAgencyTarget.Parcel = ChalanReceiveAgencySource.Parcel,
 			 ChalanReceiveAgencyTarget.ChargeWeight = ChalanReceiveAgencySource.ChargeWeight,
 			 ChalanReceiveAgencyTarget.BillAccountBranchMappingId = ChalanReceiveAgencySource.BillAccountBranchMappingId,
-			 ChalanReceiveAgencyTarget.NetAmount = ChalanReceiveAgencySource.NetAmount
+			 ChalanReceiveAgencyTarget.NetAmount = ChalanReceiveAgencySource.NetAmount,
+			 ModifiedById = @LoginId,
+			 ModifiedOn = GETUTCDATE() 
+			  
 			WHEN NOT MATCHED THEN
 		   INSERT (
-			     SrNumber, EwayBillNo, LRNumber, LRDate, PrivateMarka, CityIdFrom,
+			     SrNumber, ChalanReceiveAgencyMasterId, YearId, SenderBranchAccountMappingid, 
+				 EwayBillNo, LRNumber, LRDate, PrivateMarka, CityIdFrom,
 			     CityIdTo, AccountBranchMappingId, DeliveryAccountBranchMappingId, LRPayTypeId,
-			     Parcel, ChargeWeight, BillAccountBranchMappingId, NetAmount
+			     Parcel, ChargeWeight, BillAccountBranchMappingId, NetAmount, AddedOn, AddedById,
+				ModifiedById, ModifiedOn, Deleted, DeletedById, DeletedOn
 			 )
 			 VALUES (
-			     ChalanReceiveAgencySource.SrNumber, ChalanReceiveAgencySource.EwayBillNo,
+			     ChalanReceiveAgencySource.SrNumber, @Id, @YearId, @SenderBranchAccountMappingid, 
+				 ChalanReceiveAgencySource.EwayBillNo,
 			     ChalanReceiveAgencySource.LRNumber, ChalanReceiveAgencySource.LRDate, ChalanReceiveAgencySource.PrivateMarka,
 			     ChalanReceiveAgencySource.CityIdFrom, ChalanReceiveAgencySource.CityIdTo,
 			     ChalanReceiveAgencySource.AccountBranchMappingId, ChalanReceiveAgencySource.DeliveryAccountBranchMappingId,
 			     ChalanReceiveAgencySource.LRPayTypeId, ChalanReceiveAgencySource.Parcel,
 			     ChalanReceiveAgencySource.ChargeWeight, ChalanReceiveAgencySource.BillAccountBranchMappingId,
-			     ChalanReceiveAgencySource.NetAmount
+			     ChalanReceiveAgencySource.NetAmount,GETUTCDATE(), @LoginId,
+				NULL, NULL, 0, NULL, NULL
 			 );
 
 		COMMIT TRAN

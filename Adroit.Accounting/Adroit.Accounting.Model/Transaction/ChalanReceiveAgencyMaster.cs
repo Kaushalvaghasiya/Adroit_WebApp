@@ -51,6 +51,7 @@ namespace Adroit.Accounting.Model.Transaction
         public decimal? ReceiveCash { get; set; }
         public decimal? OtherPlus { get; set; }
         public decimal? OtherLess { get; set; }
+        public decimal? NetAmount { get; set; }
         public string? Notes { get; set; }
 
         [JsonConverter(typeof(CustomDateTimeConverter))]
