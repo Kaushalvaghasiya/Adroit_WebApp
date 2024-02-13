@@ -48,9 +48,13 @@ BEGIN
 	[TransportLRPayType].[Title] AS LRPayType,
 	CA1.Name As Consignor,
 	CA1.Mobile As ConsignorMobile,
+	CA1.GSTNumber As ConsignorGST,
 	CA2.Mobile As ConsigneeMobile,
 	CA2.Name As Consignee,
+	CA2.GSTNumber As ConsigneeGST,
 	CA3.Name As BillPartyName,
+	CA3.GSTNumber As BillPartyGST,
+	CA3.Mobile As BillPartyMobile,
 	CASE WHEN [Z-PurchaseBillDetail-Z].LRBookingId IS NULL AND [Z-SalesBillDetail-Z].LRBookingId IS NULL THEN 0 ELSE 1 END AS IsLRBookingPurchased,
 	[Vehilcle].VRN AS BookingVehilcleNo
 	FROM [Z-LRBooking-Z]

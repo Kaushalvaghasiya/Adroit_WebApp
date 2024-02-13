@@ -9,9 +9,9 @@ BEGIN
 
 	SELECT
 		Vehilcle.*,
-		[Country].Id as CountryId
+		[Country].Id as CountryId,
 		--[Country].Title as Country, 
-		--[State].Title as State, 
+		[State].Title as State
 		--[District].Id as DistrictId, 
 		--[District].Title as District, 
 		--[Taluka].Id as TalukaId, 

@@ -27,6 +27,7 @@ namespace Adroit.Accounting.Web.Controllers
             model.TransportLRRateOnList = _transportLRRateOnRepository.SelectList(_configurationData.DefaultConnection);
             model.TransportLRPayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
             model.ChalanSummaryTemplate = Common.GetChalanSummaryPrint();
+            model.ChalanPrintVariableList = GenericHelper.GetChalanPrintVariableList();
             return View(model);
         }
  

@@ -23,12 +23,14 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> ProductAmtCalcOnList { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
         public CustomerBookViewModel CustomerBook { get; set; }
+        public string? DeliveryBranch { get; set; }
         public string? CityFrom { get; set; }
         public string? CityTo { get; set; }
         public string? VehicleVRN { get; set; }
         public string? LRNumberIds { get; set; }
         public string? BillPartyName { get; set; }
         public string? DriverName { get; set; }
+        public string? BrokerName { get; set; }
         public decimal? NetAmount { get; set; }
         public string? GSTNo { get; set; }
         public int? LoginId { get; set; }
@@ -47,7 +49,13 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? LicenceNumber { get; set; }
         public string? DriverMobile { get; set; }
         public string? DriverAddress { get; set; }
+        public string? DriverLicence { get; set; }
         public bool Deleted { get; set; }
+        public string? ToPayAmountAccountBranchMappingChargerTo { get; set; }
+        public string? CrossingAmountAccountBranchMappingChargedTo { get; set; }
+        public string? CrossingCommissionAccountBranchMappingChargedTo { get; set; }
+        public string? CrossingHamaliAccountBranchMappingChargedTo { get; set; }
+        public string? CrossingDeliveryAccountBranchMappingChargedTo { get; set; }
     }
 }
  

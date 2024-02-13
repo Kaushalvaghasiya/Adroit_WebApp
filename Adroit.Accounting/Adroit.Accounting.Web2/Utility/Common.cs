@@ -163,6 +163,11 @@ namespace Adroit.Accounting.Web.Utility
             var ChalanDetail = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"LRPrint\ChalanDetailPrint.html"));
             return ChalanDetail;
         }
+        public static string GetChalanLRDetailPrint()
+        {
+            var ChalanLRDetail = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"LRPrint\ChalanLRDetailPrint.html"));
+            return ChalanLRDetail;
+        }
         public static string GetChalanSummaryPrint()
         {
             var ChalanSummary = System.IO.File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", @"LRPrint\ChalanSummaryPrint.html"));

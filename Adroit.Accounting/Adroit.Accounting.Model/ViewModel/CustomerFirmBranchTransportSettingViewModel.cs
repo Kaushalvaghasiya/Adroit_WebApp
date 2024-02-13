@@ -12,6 +12,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> CustomerBookList { get; set; }
         public List<DropdownViewModel> CustomerAccountList { get; set; }
         public List<DropdownViewModel> LRPrintVariableList { get; set; }
+        public List<DropdownViewModel> ChalanPrintVariableList { get; set; }
+        public List<DropdownViewModel> ChalanPrintLRDetailVariableList { get; set; }
         public string? PurchaseBookName { get; set; }
         public string? BookingSalesBookName { get; set; }
         public string? DeliverySalesBookName { get; set; }
@@ -33,6 +35,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string LRSubTitle { get; set; }
         public string LRSubject { get; set; }
         public string ChalanDetailTemplate { get; set; }
+        public string ChalanLRDetailTemplate { get; set; }
         public string ChalanSummaryTemplate { get; set; }
        
     }
