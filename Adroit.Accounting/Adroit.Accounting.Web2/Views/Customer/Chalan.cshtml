@@ -712,7 +712,7 @@
 
             });
 
-             $(".btn-delete").on("click", function () {
+            $(".btn-delete").on("click", function () {
                 cancelItemConfirmation($("#Id").val());
             });
 
@@ -746,7 +746,7 @@
 
             $("#AddData").on('click', function (e) {
                 $("#lrChalanListModal").modal("hide");
-                addRow();
+                addRow(true);
             });
 
             $("#SearchLRNumberList").on('click', function (e) {
@@ -760,7 +760,7 @@
                     showWarning("", "Please select to city");
                     $("#LRCityTo").focus();
                     return false;
-                } else { 
+                } else {
                     bindLRList();
                 }
             });
@@ -797,23 +797,23 @@
                 }
             });
 
-            @if (Model.CustomerFirmBranchList != null)
+        @if (Model.CustomerFirmBranchList != null)
+        {
+            @foreach (var branch in Model.CustomerFirmBranchList)
             {
-                @foreach (var branch in Model.CustomerFirmBranchList)
-                {
-                    @:branchArray.push({ BranchId: "@branch.Value", CityId: "@branch.Other" });
-                }
+                @:branchArray.push({ BranchId: "@branch.Value", CityId: "@branch.Other" });
             }
+        }
 
-            @if (Model.VehicleList != null)
+        @if (Model.VehicleList != null)
+        {
+            @foreach (var vehicle in Model.VehicleList)
             {
-                @foreach (var vehicle in Model.VehicleList)
-                {
-                    @:vehicleArray.push({ VehicleId: "@vehicle.Value", AccountId: "@vehicle.Other" });
-                }
+                @:vehicleArray.push({ VehicleId: "@vehicle.Value", AccountId: "@vehicle.Other" });
             }
+        }
 
-            addClick(true);
+                addClick(true);
         });
 
         function addClick(isClickAtPgLoad = false) {
@@ -1267,7 +1267,7 @@
                         if (data.result == RESULT_SUCCESS) {
                             //fromReset();
                             showWarning("", 'Chalan saved successfully.');
-                            $("#Id").val(0);
+                            $("#Id").val(data.data);
                             refreshDatatableList();
                             //addClick(true);
                             $('.btn-delete').show();
@@ -1422,27 +1422,29 @@
                         //$('#AddData').prop('disabled', false);
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                result.data.forEach(function (LRBookingDetail) {
+                                result.data.forEach(function (row) {
                                     selectedLRDetails.push({
-                                        id: LRBookingDetail.id,
-                                        lrNumber: LRBookingDetail.lrNumber,
-                                        lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
-                                        privateMarka: LRBookingDetail.privateMarka,
-                                        parcel: LRBookingDetail.parcel,
-                                        chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
-                                        cityTo: LRBookingDetail.cityTo,
-                                        cityFrom: LRBookingDetail.cityFrom,
-                                        invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
-                                        netAmount : parseFloat(LRBookingDetail.netAmount || 0).toFixed(2),
-                                        description: LRBookingDetail.description,
-                                        consignor: LRBookingDetail.consignor,
-                                        consignee: LRBookingDetail.consignee,
-                                        billPartyName: LRBookingDetail.billPartyName,
-                                        ewayBillNo: LRBookingDetail.ewayBillNo
+                                        id: row.id,
+                                        lrNumber: row.lrNumber,
+                                        lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                        privateMarka: row.privateMarka,
+                                        parcel: row.parcel,
+                                        chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
+                                        cityTo: row.cityTo,
+                                        cityFrom: row.cityFrom,
+                                        invoiceValue: parseFloat(row.invoiceValue || 0).toFixed(2),
+                                        netAmount: parseFloat(row.netAmount || 0).toFixed(2),
+                                        description: row.description,
+                                        consignor: row.consignor,
+                                        consignee: row.consignee,
+                                        billPartyName: row.billPartyName,
+                                        ewayBillNo: row.ewayBillNo,
+                                        lrCrossingCharge: row.lrCrossingCharge,
+                                        lrCrossingCommission : row.lrCrossingCommission
                                     });
                                 });
 
-                                addRow();
+                                addRow(false);
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -1471,34 +1473,36 @@
                             if (result.result == RESULT_SUCCESS) {
                                 //$('#AddData').prop('disabled', false);
                                 if (result.data.length == 0) {
-                                    showWarning("", 'LR(' + LRNumberId + ') detail not found!.');
+                                    showWarning("", 'LR#' + LRNumberId + ' not found!');
                                 }
                                 else {
-                                    result.data.forEach(function (LRBookingDetail) {
-                                        var isDuplicate = selectedLRDetails.some(item => item.id === LRBookingDetail.id);
+                                    result.data.forEach(function (row) {
+                                        var isDuplicate = selectedLRDetails.some(item => item.id === row.id);
 
                                         if (!isDuplicate) {
                                             selectedLRDetails.push({
-                                                id: LRBookingDetail.id,
-                                                lrNumber: LRBookingDetail.lrNumber,
-                                                lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
-                                                privateMarka: LRBookingDetail.privateMarka,
-                                                parcel: LRBookingDetail.parcel,
-                                                chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
-                                                cityTo: LRBookingDetail.cityTo,
-                                                cityFrom: LRBookingDetail.cityFrom,
-                                                invoiceValue: parseFloat(LRBookingDetail.invoiceValue || 0).toFixed(2),
-                                                netAmount : parseFloat(LRBookingDetail.netAmount || 0).toFixed(2),
-                                                description: LRBookingDetail.description,
-                                                consignor: LRBookingDetail.consignor,
-                                                consignee: LRBookingDetail.consignee,
-                                                billPartyName: LRBookingDetail.billPartyName,
-                                                ewayBillNo: LRBookingDetail.ewayBillNo
+                                                id: row.id,
+                                                lrNumber: row.lrNumber,
+                                                lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                                privateMarka: row.privateMarka,
+                                                parcel: row.parcel,
+                                                chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
+                                                cityTo: row.cityTo,
+                                                cityFrom: row.cityFrom,
+                                                invoiceValue: parseFloat(row.invoiceValue || 0).toFixed(2),
+                                                netAmount: parseFloat(row.netAmount || 0).toFixed(2),
+                                                description: row.description,
+                                                consignor: row.consignor,
+                                                consignee: row.consignee,
+                                                billPartyName: row.billPartyName,
+                                                ewayBillNo: row.ewayBillNo,
+                                                lrCrossingCharge: row.lrCrossingCharge,
+                                                lrCrossingCommission: row.lrCrossingCommission
                                             });
 
                                         }
                                     });
-                                    addRow();
+                                    addRow(true);
                                 }
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -1723,12 +1727,14 @@
                                     cityTo: row.cityTo,
                                     cityFrom: row.cityFrom,
                                     invoiceValue: parseFloat(row.invoiceValue || 0).toFixed(2),
-                                    netAmount : parseFloat(row.netAmount || 0).toFixed(2),
+                                    netAmount: parseFloat(row.netAmount || 0).toFixed(2),
                                     description: row.description,
                                     consignor: row.consignor,
                                     consignee: row.consignee,
                                     billPartyName: row.billPartyName,
-                                    ewayBillNo: row.ewayBillNo
+                                    ewayBillNo: row.ewayBillNo,
+                                    lrCrossingCharge: row.lrCrossingCharge,
+                                    lrCrossingCommission: row.lrCrossingCommission
                                 });
                             }
                         });
@@ -1772,12 +1778,14 @@
                         cityTo: row.cityTo,
                         cityFrom: row.cityFrom,
                         invoiceValue: row.invoiceValue,
-                        netAmount : row.netAmount,
+                        netAmount: row.netAmount,
                         description: row.description,
                         consignor: row.consignor,
                         consignee: row.consignee,
                         billPartyName: row.billPartyName,
-                        ewayBillNo: row.ewayBillNo
+                        ewayBillNo: row.ewayBillNo,
+                        lrCrossingCharge: row.lrCrossingCharge,
+                        lrCrossingCommission: row.lrCrossingCommission
                     }));
                 } else {
                     selectedIds = [];
@@ -1810,12 +1818,14 @@
                                     cityTo: row.data().cityTo,
                                     cityFrom: row.data().cityFrom,
                                     invoiceValue: row.data().invoiceValue,
-                                    netAmount : row.data().netAmount,
+                                    netAmount: row.data().netAmount,
                                     description: row.data().description,
                                     consignor: row.data().consignor,
                                     consignee: row.data().consignee,
                                     billPartyName: row.data().billPartyName,
-                                    ewayBillNo: row.data().ewayBillNo
+                                    ewayBillNo: row.data().ewayBillNo,
+                                    lrCrossingCharge: row.data().lrCrossingCharge,
+                                    lrCrossingCommission: row.data().lrCrossingCommission
                                 });
                             }
                         }
@@ -1859,63 +1869,78 @@
             }
         }
 
-        function addRow() {
+        function addRow(calculateCrossingValues) {
 
             var htmlContentArray = [];
             $('#contentRow').html('');
+            var lrCrossingCharge =0;
+            var lrCrossingCommission = 0;
             for (var i = 0; i < selectedLRDetails.length; i++) {
-
+                var row = selectedLRDetails[i];
+                if (calculateCrossingValues) {
+                    lrCrossingCharge += row.lrCrossingCharge;
+                    lrCrossingCommission += row.lrCrossingCommission;
+                }
                 var htmlContent = '<tr class="rounded content-rows" id="row-' + i + '">' +
                     '<td class="text-center">' +
                     '<label for="id" style="color: #212529;">' + (i + 1) + '</label>' +
                     '</td>' +
                     '<td class="text-center">' +
-                    '<label for="lrNumber" style="color: #212529;">' + selectedLRDetails[i].lrNumber + '</label>' +
+                    '<label for="lrNumber" style="color: #212529;">' + row.lrNumber + '</label>' +
                     '</td>' +
                     '<td class="text-center">' +
-                    '<label for="lrDate" style="color: #212529;">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
+                    '<label for="lrDate" style="color: #212529;">' + (row.lrDate || '') + '</label>' +
                     '</td>' +
                     '<td class="text-center">' +
-                    '<label for="privateMarka" style="color: #212529;">' + (selectedLRDetails[i].privateMarka || '') + '</label>' +
+                    '<label for="privateMarka" style="color: #212529;">' + (row.privateMarka || '') + '</label>' +
                     '</td>' +
                     '<td class="text-center">' +
-                    '<label for="parcel" style="color: #212529;">' + (selectedLRDetails[i].parcel || '') + '</label>' +
+                    '<label for="parcel" style="color: #212529;">' + (row.parcel || '') + '</label>' +
                     '</td>' +
                     '<td class="text-right">' +
-                    '<label for="chargeWeight" style="color: #212529;">' + (selectedLRDetails[i].chargeWeight || '') + '</label>' +
+                    '<label for="chargeWeight" style="color: #212529;">' + (row.chargeWeight || '') + '</label>' +
                     '</td>' +
                     '<td class="text-center">' +
-                    '<label for="cityTo" style="color: #212529;">' + (selectedLRDetails[i].cityTo || '') + '</label>' +
+                    '<label for="cityTo" style="color: #212529;">' + (row.cityTo || '') + '</label>' +
                     '</td>' +
                     '<td class="text-center">' +
-                    '<label for="cityFrom" style="color: #212529;">' + (selectedLRDetails[i].cityFrom || '') + '</label>' +
+                    '<label for="cityFrom" style="color: #212529;">' + (row.cityFrom || '') + '</label>' +
                     '</td>' +
                     '<td class="text-right">' +
-                    '<label for="netAmount" style="color: #212529;">' + (selectedLRDetails[i].netAmount || '') + '</label>' +
+                    '<label for="netAmount" style="color: #212529;">' + (row.netAmount || '') + '</label>' +
                     '</td>' +
                     '<td class="text-left">' +
-                    '<label for="description" style="color: #212529;">' + (selectedLRDetails[i].description || '') + '</label>' +
+                    '<label for="description" style="color: #212529;">' + (row.description || '') + '</label>' +
                     '</td>' +
                     '<td class="text-left">' +
-                    '<label for="consignor" style="color: #212529;">' + (selectedLRDetails[i].consignor || '') + '</label>' +
+                    '<label for="consignor" style="color: #212529;">' + (row.consignor || '') + '</label>' +
                     '</td>' +
                     '<td class="text-left">' +
-                    '<label for="consignee" style="color: #212529;">' + (selectedLRDetails[i].consignee || '') + '</label>' +
+                    '<label for="consignee" style="color: #212529;">' + (row.consignee || '') + '</label>' +
                     '</td>' +
                     '<td class="text-left">' +
-                    '<label for="billPartyName" style="color: #212529;">' + (selectedLRDetails[i].billPartyName || '') + '</label>' +
+                    '<label for="billPartyName" style="color: #212529;">' + (row.billPartyName || '') + '</label>' +
                     '</td>' +
                     '<td class="text-left">' +
-                    '<label for="ewayBillNo" style="color: #212529;">' + (selectedLRDetails[i].ewayBillNo || '') + '</label>' +
+                    '<label for="ewayBillNo" style="color: #212529;">' + (row.ewayBillNo || '') + '</label>' +
                     '</td>' +
                     '<td class="text-center">' +
-                    '<a href="javascript:deleteRow(' + selectedLRDetails[i].id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
+                    '<a href="javascript:deleteRow(' + row.id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
                     '</td>' +
                     '</tr>';
                 htmlContentArray.push(htmlContent);
 
-                addedIds.push(selectedLRDetails[i].id);
+                addedIds.push(row.id);
             }
+
+            if (calculateCrossingValues)
+            {
+                $('#CrossingAmount').val(lrCrossingCharge);
+                $('#CrossingCommission').val(lrCrossingCommission);
+            }
+
+            $('#CrossingAmount').attr('readonly', lrCrossingCharge > 0);
+            $('#CrossingCommission').attr('readonly', lrCrossingCommission > 0);
 
             $('.content-rows-add-btn').remove();
             $('#contentRow').append(htmlContentArray.join(''));

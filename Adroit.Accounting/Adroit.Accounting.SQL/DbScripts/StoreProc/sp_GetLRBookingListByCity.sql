@@ -35,13 +35,15 @@ BEGIN
 		INNER JOIN [CustomerAccountBranchMapping] ON CustomerAccount.Id = [CustomerAccountBranchMapping].AccountId
 		WHERE [CustomerAccountBranchMapping].Id = LRBooking.BillAccountBranchMappingId) As BillPartyName,
 	(SELECT VRN FROM [Vehilcle] WHERE ID = VehicleId) As BookingVehilcleNo,
-	(ISNULL([Freight],0) + ISNULL([Charges1],0) + ISNULL([Charges2],0) + ISNULL([Charges3],0) + ISNULL([Charges4],0) + ISNULL([Charges5],0) + ISNULL([Charges6],0)) AS ChargeAmount
+	(ISNULL([Freight],0) + ISNULL([Charges1],0) + ISNULL([Charges2],0) + ISNULL([Charges3],0) + ISNULL([Charges4],0) + ISNULL([Charges5],0) + ISNULL([Charges6],0)) AS ChargeAmount,
+	dbo.fn_GetLRCrossingCharge(LRBooking.[BranchId], LRBooking.CityIdTo, LRBooking.LRRateOnId, LRBooking.Parcel, LRBooking.ChargeWeight, LRBooking.Freight) AS LRCrossingCharge,
+	dbo.fn_GetLRCrossingCommission(LRBooking.[BranchId], LRBooking.CityIdTo, LRBooking.LRRateOnId, LRBooking.Parcel, LRBooking.ChargeWeight, LRBooking.Freight) AS LRCrossingCommission
 	FROM [Z-LRBooking-Z] AS LRBooking
-			LEFT JOIN [City] ToCity ON LRBooking.CityIdTo = ToCity.[Id] 
-			LEFT JOIN [City] FromCity ON LRBooking.CityIdFrom = FromCity.[Id] 
-			LEFT JOIN [TransportDesc] ON LRBooking.[DescriptionId] = [TransportDesc].[Id]
-			LEFT JOIN [TransportLRPayType] ON LRBooking.[LRPayTypeId] = [TransportLRPayType].[Id]
-			LEFT JOIN [TransportPacking] ON LRBooking.[PackingId] = [TransportPacking].[Id]
+	LEFT JOIN [City] ToCity ON LRBooking.CityIdTo = ToCity.[Id] 
+	LEFT JOIN [City] FromCity ON LRBooking.CityIdFrom = FromCity.[Id] 
+	LEFT JOIN [TransportDesc] ON LRBooking.[DescriptionId] = [TransportDesc].[Id]
+	LEFT JOIN [TransportLRPayType] ON LRBooking.[LRPayTypeId] = [TransportLRPayType].[Id]
+	LEFT JOIN [TransportPacking] ON LRBooking.[PackingId] = [TransportPacking].[Id]
 	WHERE LRBooking.[BranchId] = @BranchId
 	AND LRBooking.YearId = @YearId
 	AND LRBooking.Deleted = 0

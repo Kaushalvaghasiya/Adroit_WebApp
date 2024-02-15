@@ -42,24 +42,21 @@ namespace Adroit.Accounting.Model.ViewModel
         public bool? IsLRBookingPurchased { get; set; }
         public short? CreditDays { get; set; }
         public bool? Deleted { get; set; }
-
         public string? BranchInvoiceNo { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public decimal? gstRate { get; set; }
         public string LRDateString { get { return this.LRDate.ToString(Adroit.Accounting.Model.Constant.DateFormat); } }
-
         public string BranchName { get; set; }
         public int? TotalLR { get; set; }
         public decimal? ToPayAmount { get; set; }
         public decimal? PaidAmount { get; set; }
         public decimal? TBBAmount { get; set; }
         public string LRMonth { get; set; }
-
         public string InvoiceDateString { get { return this.InvoiceDate?.ToString(Adroit.Accounting.Model.Constant.DateFormat) ?? ""; } }
-
         public int LoginId { get; set; }
         public int FirmId { get; set; }
         public string? LRRateOnTitle { get; set; }
-
+        public decimal LRCrossingCharge { get; set; }
+        public decimal LRCrossingCommission { get; set; }
     }
 }
