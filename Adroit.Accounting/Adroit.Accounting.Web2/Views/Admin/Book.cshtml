@@ -226,8 +226,7 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label for="SalesBillFrom">Bill From</label>
-                                <select class="form-control select2-show-search" id="SalesBillFrom">
-                                    <option></option>
+                                <select class="filter-multi mode-ed-multi" id="SalesBillFrom" multiple="multiple">
                                     @{
                                         if (Model.BillFromList != null)
                                         {
@@ -825,7 +824,7 @@
             $("#ShowPurcahseOrderBoxNumber").prop('checked', false);
             $("#ShowQuotationBoxNumber").prop('checked', false);
             $("#ShowPerformaInvoiceNumber").prop('checked', false);
-            $("#SalesBillFrom").val(null).trigger('change');
+            $("#SalesBillFrom").multipleSelect('checkAll');
             $("#IsCalcMultiply").prop('checked', false);
             $("#BookShortName").val('');
             $("#HeaderBox1").val('');
@@ -870,7 +869,7 @@
                     $("#BookTypeId").focus();
                     return false;
                 }
-                if ($("#SalesBillFrom").val() == null || $("#SalesBillFrom").val() == "") {
+                if ($("#SalesBillFrom").val() == "") {
                     showWarning("", "Please select bill from");
                     $("#SalesBillFrom").focus();
                     return false;
@@ -926,7 +925,7 @@
                 savedata.ShowPurcahseOrderBoxNumber = $("#ShowPurcahseOrderBoxNumber").is(':checked');
                 savedata.ShowQuotationBoxNumber = $("#ShowQuotationBoxNumber").is(':checked');
                 savedata.ShowPerformaInvoiceNumber = $("#ShowPerformaInvoiceNumber").is(':checked');
-                savedata.SalesBillFrom = $("#SalesBillFrom").val();
+                savedata.SalesBillFrom = $("#SalesBillFrom").val().join(",");
                 savedata.IsCalcMultiply = $("#IsCalcMultiply").is(':checked');
                 savedata.BookShortName = $("#BookShortName").val();
                 savedata.HeaderBox1 = $("#HeaderBox1").val();
@@ -1062,7 +1061,7 @@
                                 $("#ShowPurcahseOrderBoxNumber").prop('checked', result.data.showPurcahseOrderBoxNumber);
                                 $("#ShowQuotationBoxNumber").prop('checked', result.data.showQuotationBoxNumber);
                                 $("#ShowPerformaInvoiceNumber").prop('checked', result.data.showPerformaInvoiceNumber);
-                                $("#SalesBillFrom").val(result.data.salesBillFrom).trigger('change');
+                                $("#SalesBillFrom").multipleSelect('setSelects', result.data.salesBillFrom.split(','));
                                 $("#IsCalcMultiply").prop('checked', result.data.isCalcMultiply);
                                 $("#BookShortName").val(result.data.bookShortName);
                                 $("#HeaderBox1").val(result.data.headerBox1);
