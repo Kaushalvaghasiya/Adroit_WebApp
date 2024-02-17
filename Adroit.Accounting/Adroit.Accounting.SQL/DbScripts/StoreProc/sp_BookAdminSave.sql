@@ -29,7 +29,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_BookAdminSave]
 	,@ShowPurcahseOrderBoxNumber bit
 	,@ShowQuotationBoxNumber bit
 	,@ShowPerformaInvoiceNumber bit
-	,@SalesBillFrom char
+	,@SalesBillFrom varchar(20)
 	,@IsCalcMultiply bit
 	,@BookShortName nvarchar(20)
 	,@HeaderBox1 nvarchar(30)
