@@ -26,7 +26,7 @@ BEGIN
 		)
 	AND BranchId = @SenderId
 	AND BranchIdTo = @BranchId
-	AND YearId = @YearId 
+	--AND YearId = @YearId 
 	AND BookBranchMappingId = @BookBranchMappingId
 	AND Deleted = 0 
 END

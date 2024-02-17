@@ -28,9 +28,9 @@ BEGIN
 		CustomerFirmBranch.Title  + (CASE ISNULL(City.Title, '') WHEN '' THEN '' ELSE ' | ' + City.Title END) AS Text,
 		City.Id As Other
 	From CustomerFirmBranch 
-	INNER JOIN CustomerChalanBranchMapping ON CustomerFirmBranch.Id = CustomerChalanBranchMapping.SharedBranch
+	INNER JOIN CustomerChalanBranchMapping ON CustomerFirmBranch.Id = CustomerChalanBranchMapping.Branch
 	LEFT JOIN City ON City.Id = CustomerFirmBranch.CityId
-	WHERE CustomerChalanBranchMapping.Branch = @BranchId
+	WHERE CustomerChalanBranchMapping.SharedBranch = @BranchId
 	AND CustomerFirmBranch.Active = 1 
 	AND CustomerFirmBranch.Deleted = 0
 
@@ -39,14 +39,11 @@ BEGIN
 		Branches.Title AS Text,
 		Branches.CityId As Other
 	From @DATA AS Branches 
-	INNER JOIN CustomerUserBranchMapping ON Branches.Id = CustomerUserBranchMapping.BranchId
-	WHERE CustomerUserBranchMapping.UserId = @LoginId
-	AND Branches.Id IN (SELECT DISTINCT [Z-PurchaseBillMaster-Z].BranchId 
+	WHERE Branches.Id IN (SELECT DISTINCT [Z-PurchaseBillMaster-Z].BranchId 
 							FROM [Z-PurchaseBillMaster-Z]
 							LEFT JOIN [Z-ChalanReceive-Z] ON [Z-PurchaseBillMaster-Z].Id = [Z-ChalanReceive-Z].PurchaseBillMasterId
 							INNER JOIN CustomerFirm ON [Z-PurchaseBillMaster-Z].FirmId = CustomerFirm.Id
-							WHERE CustomerFirm.CustomerId = @CustomerId 
-							AND [Z-PurchaseBillMaster-Z].BranchIdTo = @BranchId
+							WHERE [Z-PurchaseBillMaster-Z].BranchIdTo = @BranchId
 							AND [Z-ChalanReceive-Z].ID IS NULL)
 	ORDER BY Branches.Title ASC
 END
