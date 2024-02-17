@@ -3,7 +3,7 @@ BEGIN
    ALTER TABLE [Z-PurchaseBillMaster-Z] ADD PurchaseBillNumber VARCHAR(20) NOT NULL
 END
 GO
-IF NOT EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'BookId' AND Object_ID = Object_ID(N'[Z-PurchaseBillMaster-Z]'))
+IF NOT EXISTS(SELECT 1 FROM sys.columns WHERE Name = N'AccountId' AND Object_ID = Object_ID(N'[Z-PurchaseBillMaster-Z]'))
 BEGIN
    ALTER TABLE [Z-PurchaseBillMaster-Z] ADD AccountId INT NOT NULL
 END
