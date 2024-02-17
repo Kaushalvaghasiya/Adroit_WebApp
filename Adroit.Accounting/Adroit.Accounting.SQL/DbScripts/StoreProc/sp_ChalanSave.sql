@@ -87,7 +87,7 @@ BEGIN
 			
 			SET @ChalanMaxDate = ISNULL(@ChalanMaxDate, CAST(GETDATE() AS DATE))
 		
-		    IF (@BillDate < @ChalanMaxDate)
+		    IF (CAST(@BillDate AS DATE) < @ChalanMaxDate)
 		    BEGIN
 		        SET @message = 'Please select a date on or after ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
@@ -101,7 +101,7 @@ BEGIN
 			
 			SET @ChalanMaxDate = ISNULL(@ChalanMaxDate, CAST(GETDATE() AS DATE))
 		
-		    IF (@BillDate < @ChalanMaxDate)
+		    IF (CAST(@BillDate AS DATE) < @ChalanMaxDate)
 		    BEGIN
 		        SET @message = 'Please select a date on or after ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
@@ -115,7 +115,7 @@ BEGIN
 			
 			SET @ChalanMaxDate = ISNULL(@ChalanMaxDate, CAST(GETDATE() AS DATE))
 		
-		    IF (@BillDate < @ChalanMaxDate)
+		    IF (CAST(@BillDate AS DATE) < @ChalanMaxDate)
 		    BEGIN
 		        SET @message = 'Please select a date on or after ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
@@ -127,10 +127,10 @@ BEGIN
 		    FROM [Z-PurchaseBillMaster-Z]
 		    WHERE BranchId = @BranchId 
 			AND BillNumberBranch < @BillNumberBranch 
-			AND BillNumberFirm < @BillNumberFirm 
+			--AND BillNumberFirm < @BillNumberFirm 
 			AND [Z-PurchaseBillMaster-Z].YearId = @YearId 
 			AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
-		    ORDER BY BillNumberBranch, BillNumberFirm DESC;
+		    ORDER BY BillNumberBranch DESC;
 			
 			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , @BillDate)
 		
@@ -138,14 +138,14 @@ BEGIN
 		    FROM [Z-PurchaseBillMaster-Z]
 		    WHERE BranchId = @BranchId 
 			AND BillNumberBranch > @BillNumberBranch 
-			AND BillNumberFirm > @BillNumberFirm 
+			--AND BillNumberFirm > @BillNumberFirm 
 			AND [Z-PurchaseBillMaster-Z].YearId = @YearId 
 			AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		    ORDER BY BillNumberBranch, BillNumberFirm DESC;
 
 			SET @ChalanMinDate  = ISNULL(@ChalanMinDate , DATEADD(DAY, 365, @ChalanMaxDate))
 				
-		    IF NOT (@BillDate BETWEEN @ChalanMaxDate AND @ChalanMinDate)
+		    IF NOT (CAST(@BillDate AS DATE) BETWEEN @ChalanMaxDate AND @ChalanMinDate)
 		    BEGIN
 		        SET @message = 'Please select a date between ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103) + ' and ' + CONVERT(NVARCHAR, @ChalanMinDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
