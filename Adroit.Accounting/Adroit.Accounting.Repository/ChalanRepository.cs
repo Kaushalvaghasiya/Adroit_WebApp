@@ -73,6 +73,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@ReturnReasonId", value.ReturnReasonId);
             parameters.Add("@PurchaseOrderRefNo", value.PurchaseOrderRefNo);
             parameters.Add("@EntryTypeName", value.EntryTypeName);
+            parameters.Add("@EntryTypeGroupName", value.EntryTypeGroupName);
+            
             parameters.Add("@BranchIdTo", value.BranchIdTo);
             return QueryHelper.Save("sp_ChalanSave", connectionString, parameters);
         }

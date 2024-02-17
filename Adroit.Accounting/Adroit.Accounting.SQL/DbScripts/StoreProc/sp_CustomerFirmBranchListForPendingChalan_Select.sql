@@ -7,7 +7,9 @@ BEGIN
 	DECLARE @BranchId int = dbo.fn_GetLoggedInBranchId(@LoginId);
 	DECLARE @FirmId int = dbo.fn_GetLoggedInFirmId(@LoginId);
 	DECLARE @CustomerId int = dbo.fn_GetCustomerIdByFirm(@FirmId);
-
+	DECLARE @DATA TABLE(Id INT NOT NULL, Title NVARCHAR(200), CityId INT NULL)
+	--Users map own branches
+	INSERT INTO @DATA 
 	SELECT 
 		CustomerFirmBranch.Id AS Value, 
 		CustomerFirmBranch.Title  + (CASE ISNULL(City.Title, '') WHEN '' THEN '' ELSE ' | ' + City.Title END) AS Text,
@@ -18,14 +20,35 @@ BEGIN
 	WHERE CustomerUserBranchMapping.UserId = @LoginId
 	AND CustomerFirmBranch.Active = 1 
 	AND CustomerFirmBranch.Deleted = 0
-	AND CustomerFirmBranch.Id IN (SELECT DISTINCT [Z-PurchaseBillMaster-Z].BranchId 
+	
+	--Shared branches
+	INSERT INTO @DATA
+	SELECT 
+		CustomerFirmBranch.Id AS Value, 
+		CustomerFirmBranch.Title  + (CASE ISNULL(City.Title, '') WHEN '' THEN '' ELSE ' | ' + City.Title END) AS Text,
+		City.Id As Other
+	From CustomerFirmBranch 
+	INNER JOIN CustomerChalanBranchMapping ON CustomerFirmBranch.Id = CustomerChalanBranchMapping.SharedBranch
+	LEFT JOIN City ON City.Id = CustomerFirmBranch.CityId
+	WHERE CustomerChalanBranchMapping.Branch = @BranchId
+	AND CustomerFirmBranch.Active = 1 
+	AND CustomerFirmBranch.Deleted = 0
+
+	SELECT 
+		Branches.Id AS Value, 
+		Branches.Title AS Text,
+		Branches.CityId As Other
+	From @DATA AS Branches 
+	INNER JOIN CustomerUserBranchMapping ON Branches.Id = CustomerUserBranchMapping.BranchId
+	WHERE CustomerUserBranchMapping.UserId = @LoginId
+	AND Branches.Id IN (SELECT DISTINCT [Z-PurchaseBillMaster-Z].BranchId 
 							FROM [Z-PurchaseBillMaster-Z]
 							LEFT JOIN [Z-ChalanReceive-Z] ON [Z-PurchaseBillMaster-Z].Id = [Z-ChalanReceive-Z].PurchaseBillMasterId
 							INNER JOIN CustomerFirm ON [Z-PurchaseBillMaster-Z].FirmId = CustomerFirm.Id
 							WHERE CustomerFirm.CustomerId = @CustomerId 
 							AND [Z-PurchaseBillMaster-Z].BranchIdTo = @BranchId
 							AND [Z-ChalanReceive-Z].ID IS NULL)
-	ORDER BY CustomerFirmBranch.Title,City.Title ASC
+	ORDER BY Branches.Title ASC
 END
 GO
 

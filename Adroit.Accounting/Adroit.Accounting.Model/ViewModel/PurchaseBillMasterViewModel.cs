@@ -35,6 +35,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? GSTNo { get; set; }
         public int? LoginId { get; set; }
         public string? EntryTypeName { get; set; }
+        public string? EntryTypeGroupName { get; set; }
         public int? TotalLR { get; set; }
         public int? Parcel { get; set; }
         public string? BranchName { get; set; }
