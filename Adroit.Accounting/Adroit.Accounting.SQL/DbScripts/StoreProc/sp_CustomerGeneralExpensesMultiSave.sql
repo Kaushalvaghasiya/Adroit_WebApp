@@ -28,6 +28,7 @@ CREATE OR ALTER procedure [dbo].[sp_CustomerGeneralExpensesMultiSave]
 	,@RCMBillNumber INT 
 	,@BillTypeID INT 
 	,@EntryTypeName VARCHAR(25)
+	,@EntryTypeGroupName VARCHAR(25)
 	,@DetailTableDetails NVARCHAR(MAX)
 )
 AS
@@ -132,6 +133,12 @@ BEGIN
 			AND [BillEntryTypeAdmin].Active = 1
 		);
 
+		DECLARE @EntryTypeGroupId INT = (
+			SELECT Id
+			FROM [BillEntryTypeAdminGroup]
+			WHERE Code = @EntryTypeName 
+		);
+
 		IF ISNULL(@BillNumberBranch, 0) = 0
 		BEGIN
 			SELECT @BillNumberBranch = ISNULL(MAX(BillNumberBranch),0) + 1
@@ -143,7 +150,9 @@ BEGIN
 		BEGIN
 			SELECT @BillNumberFirm = ISNULL(MAX(ISNULL(TRY_CAST(BillNumberFirm AS INT), 0)), 0) + 1
 			FROM [Z-PurchaseBillMaster-Z]
-			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-PurchaseBillMaster-Z].EntryTypeId = @EntryTypeId 
+			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId 
+			AND [Z-PurchaseBillMaster-Z].YearId = @YearId 
+			AND [Z-PurchaseBillMaster-Z].BillEntryTypeAdminGroupId = @EntryTypeGroupId
 		END
 
 		DECLARE @LRDetails TABLE
@@ -229,11 +238,11 @@ BEGIN
 			INSERT INTO [Z-PurchaseBillMaster-Z]
 				(AccountBranchMappingId,BookBranchMappingId,BillNumberFirm,BillNumberBranch,EntryTypeId,BillDate,EwayBillNumber,TaxableAmount,TDSPercent,TDSAmount
 				,SGSTTotal,CGSTTotal,IGSTTotal,GSTStateCessTotal,GSTCentralCessTotal,TCSPercent,TCSAmount,CreditDays,RoundOff,BillAmount,Notes
-				,GenaralPurchaseAccountBranchMappingId,SkipInGSTR,RCMBillNumber,BillTypeID,AddedOn,AddedById,BranchId,YearId,FirmId)
+				,GenaralPurchaseAccountBranchMappingId,SkipInGSTR,RCMBillNumber,BillTypeID,AddedOn,AddedById,BranchId,YearId,FirmId, BillEntryTypeAdminGroupId)
 			VALUES 
 				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumberFirm,@BillNumberBranch,@EntryTypeId,@BillDate,@EwayBillNumber,@TaxableAmount,@TDSPercent,@TDSAmount
 				,@SGSTTotal,@CGSTTotal,@IGSTTotal,@GSTStateCessTotal,@GSTCentralCessTotal,@TCSPercent,@TCSAmount,@CreditDays,@RoundOff,@BillAmount,@Notes
-				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMBillNumber,@BillTypeID,GETUTCDATE(),@LoginId,@BranchId,@YearId,@FirmId)
+				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMBillNumber,@BillTypeID,GETUTCDATE(),@LoginId,@BranchId,@YearId,@FirmId,@EntryTypeGroupId)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -248,6 +257,7 @@ BEGIN
 			,BillNumberFirm = @BillNumberFirm 
 			,BillNumberBranch = @BillNumberBranch 
 			,EntryTypeId = @EntryTypeId 
+			,BillEntryTypeAdminGroupId = @EntryTypeGroupId
 			,BillDate = @BillDate 
 			,DeliveryBranchId = @BranchId 
 			,EwayBillNumber = @EwayBillNumber 

@@ -83,6 +83,8 @@ BEGIN
 			WHERE CustomerFirmBranchTransportSetting.BranchId = @BranchId
 		);
 
+		DECLARE @BookId INT = (SELECT BookId FROM CustomerBookBranchMapping WHERE Id = @BookBranchMappingId AND BranchId = @BranchId);
+
 		IF (ISNULL(@SerialNumberOfBranch,0) = 0 AND ISNULL(@BillNumber,0) = 0)
 		BEGIN
 		    SELECT @InvoiceMaxDate = Cast(MAX(BillDate) as Date) 
@@ -238,7 +240,7 @@ BEGIN
 				,TCSPercentage,TCSAmount,TDSPercentage,TDSAmount,ExtraAmount,RoundOff,BillAmount,BrokerBranchMappingId,Notes,EwayBillNumber,IRNNumber,AcknowledgementNumber
 				,IRNDate,ReturnBillNumber,ReturnBillDate,ReturnReasonId,VehicleNumber,TransportGSTNumber,TransportLRNumber,TransportLRDate,TransportName,TransportModeId
 				,ToStationCityId,HeaderBox1,HeaderBox2,HeaderBox3,HeaderBox4,HeaderBox5,PaidAmount,UnPaidAmount,CreditNoteId
-				,Prefix,Postfix,BranchId,FirmId,YearId,AddedOn,AddedById)			
+				,Prefix,Postfix,BranchId,FirmId,YearId,AddedOn,AddedById, BookId)
 			VALUES 
 				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumber,@EntryTypeId,@BillDate,@SerialNumberOfBranch,@InvoiceMemo,@SalesBillFromId,@ChalanDateFrom
 				,@ChalanDateTo,@ChalanNo,@SalesOrderNumber,@BillTypeId,@DeliveryPartyAccountBranchMappingId,@ShippingAccountBranchMappingId,@HastePartyAccountBranchMappingId
@@ -246,7 +248,7 @@ BEGIN
 				,@TCSPercentage,@TCSAmount,@TDSPercentage,@TDSAmount,@ExtraAmount,@RoundOff,@BillAmount,@BrokerBranchMappingId,@Notes,@EwayBillNumber,@IRNNumber,@AcknowledgementNumber
 				,@IRNDate,@ReturnBillNumber,@ReturnBillDate,@ReturnReasonId,@VehicleNumber,@TransportGSTNumber,@TransportLRNumber,@TransportLRDate,@TransportName,@TransportModeId
 				,@ToStationCityId,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,@PaidAmount,@UnPaidAmount,@CreditNoteId
-				,@Prefix,@Postfix,@BranchId,@FirmId,@YearId,GETUTCDATE(),@LoginId)
+				,@Prefix,@Postfix,@BranchId,@FirmId,@YearId,GETUTCDATE(),@LoginId, @BookId)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -258,6 +260,7 @@ BEGIN
 			UPDATE [Z-SalesBillMaster-Z] SET
 			 AccountBranchMappingId = @AccountBranchMappingId
 			,BookBranchMappingId = @BookBranchMappingId
+			,BookId = @BookId
 			,BillNumber = @BillNumber
 			,EntryTypeId = @EntryTypeId
 			,BillDate = @BillDate
@@ -320,7 +323,7 @@ BEGIN
 			,AddedById = @LoginId
 			,DeletedById = NULL 
 			,DeletedOn = NULL 
-			,Deleted = 0 
+			,Deleted = 0
 			WHERE Id = @Id
 
 			UPDATE  [Z-SalesBillDetail-Z] SET

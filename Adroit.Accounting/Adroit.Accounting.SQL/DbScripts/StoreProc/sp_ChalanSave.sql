@@ -59,7 +59,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanSave]
 	,@ReturnBillDate DATETIME 
 	,@ReturnReasonId INT 
 	,@PurchaseOrderRefNo VARCHAR(30) 
-	,@EntryTypeName VARCHAR(25) 
+	,@EntryTypeName VARCHAR(25)
+	,@EntryTypeGroupName VARCHAR(25)
 	,@BranchIdTo INT 
 	,@BillNumberTable VARCHAR(30) = 'Static'
 	,@BillNumberBranchTable VARCHAR(30) = 'Static'
@@ -159,6 +160,12 @@ BEGIN
 			AND [BillEntryTypeAdmin].Active = 1
 		);
 
+		DECLARE @EntryTypeGroupId INT = (
+			SELECT Id
+			FROM [BillEntryTypeAdminGroup]
+			WHERE Code = @EntryTypeName 
+		);
+
 		IF ISNULL(@BillNumberBranch, 0) = 0
 		BEGIN
 			SELECT @BillNumberBranch = ISNULL(MAX(BillNumberBranch),0) + 1
@@ -170,7 +177,9 @@ BEGIN
 		BEGIN
 			SELECT @BillNumberFirm = ISNULL(MAX(ISNULL(TRY_CAST(BillNumberFirm AS INT), 0)), 0) + 1
 			FROM [Z-PurchaseBillMaster-Z]
-			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-PurchaseBillMaster-Z].EntryTypeId = @EntryTypeId 
+			WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId 
+			AND [Z-PurchaseBillMaster-Z].YearId = @YearId 
+			AND [Z-PurchaseBillMaster-Z].BillEntryTypeAdminGroupId = @EntryTypeGroupId
 		END
 
 		DECLARE @IdCheck INT
@@ -187,7 +196,7 @@ BEGIN
 				,GSTStateCessTotal,GSTCentralCessTotal,TCSPercent,TCSAmount,ToPayAmount,CrossingAmount,CrossingCommission,CrossingHamali,CrossingDeliveryCharge,CreditDays,RoundOff,BillAmount
 				,BrokerBranchMappingId,BrokerAmount,Notes,ToPayAccountBranchMappingId,CrossingAmountAccountBranchMappingId,CrossingCommissionAccountBranchMappingId,CrossingHamaliAccountBranchMappingId
 				,CrossingDeliveryAccountBranchMappingId,SalesAccountBranchMappingId,GenaralPurchaseAccountBranchMappingId,SkipInGSTR,RCMId,RCMBillNumber,BillTypeID,ReturnBillNumber,ReturnBillDate
-				,ReturnReasonId,PurchaseOrderRefNo,AddedOn,AddedById,BranchId,YearId,IsAutoLedger,FirmId,BranchIdTo)
+				,ReturnReasonId,PurchaseOrderRefNo,AddedOn,AddedById,BranchId,YearId,IsAutoLedger,FirmId,BranchIdTo, BillEntryTypeAdminGroupId)
 			VALUES 
 				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumberFirm,@BillNumberTable,@BillNumberBranch,@BillNumberBranchTable,@EntryTypeId,@BillDate,@VehicleId,@CityIdFrom
 				,@CityIdTo,@DriverId,@BranchId,@EwayBillNumber,@ValidDateFrom,@ValidDateTo,@TaxableAmount,@TDSPercent,@TDSAmount,@AdvanceCash,@AdvanceNeft,@OtherLess,@ReceiveCash
@@ -195,7 +204,7 @@ BEGIN
 				,@CrossingDeliveryCharge,@CreditDays,@RoundOff,@BillAmount,@BrokerBranchMappingId,@BrokerAmount,@Notes,@ToPayAccountBranchMappingId,@CrossingAmountAccountBranchMappingId
 				,@CrossingCommissionAccountBranchMappingId,@CrossingHamaliAccountBranchMappingId,@CrossingDeliveryAccountBranchMappingId,@SalesAccountBranchMappingId
 				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMId,@RCMBillNumber,@BillTypeID,@ReturnBillNumber,@ReturnBillDate,@ReturnReasonId,@PurchaseOrderRefNo,GETUTCDATE()
-				,@LoginId,@BranchId,@YearId,@IsAutoLedger,@FirmId,@BranchIdTo)
+				,@LoginId,@BranchId,@YearId,@IsAutoLedger,@FirmId,@BranchIdTo, @EntryTypeGroupId)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -212,6 +221,7 @@ BEGIN
 			,BillNumberBranch = @BillNumberBranch 
 			,BillNumberBranchTable = @BillNumberBranchTable 
 			,EntryTypeId = @EntryTypeId 
+			,BillEntryTypeAdminGroupId = @EntryTypeGroupId
 			,BillDate = @BillDate 
 			,VehicleId = @VehicleId 
 			,CityIdFrom = @CityIdFrom 
