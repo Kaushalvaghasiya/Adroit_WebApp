@@ -232,17 +232,22 @@ BEGIN
 							WHERE (Id = @Id) 
 							OR (BranchId = @BranchId AND BillNumberBranch = @BillNumberBranch AND Deleted = 1)
 
+		DECLARE @AccountId INT
+		SELECT @AccountId = ID FROM CustomerAccountBranchMapping WHERE Id = @AccountBranchMappingId
+
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
 
 			INSERT INTO [Z-PurchaseBillMaster-Z]
 				(AccountBranchMappingId,BookBranchMappingId,BillNumberFirm,BillNumberBranch,EntryTypeId,BillDate,EwayBillNumber,TaxableAmount,TDSPercent,TDSAmount
 				,SGSTTotal,CGSTTotal,IGSTTotal,GSTStateCessTotal,GSTCentralCessTotal,TCSPercent,TCSAmount,CreditDays,RoundOff,BillAmount,Notes
-				,GenaralPurchaseAccountBranchMappingId,SkipInGSTR,RCMBillNumber,BillTypeID,AddedOn,AddedById,BranchId,YearId,FirmId, BillEntryTypeAdminGroupId)
+				,GenaralPurchaseAccountBranchMappingId,SkipInGSTR,RCMBillNumber,BillTypeID,AddedOn,AddedById,BranchId,YearId,FirmId, BillEntryTypeAdminGroupId
+				,AccountId)
 			VALUES 
 				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumberFirm,@BillNumberBranch,@EntryTypeId,@BillDate,@EwayBillNumber,@TaxableAmount,@TDSPercent,@TDSAmount
 				,@SGSTTotal,@CGSTTotal,@IGSTTotal,@GSTStateCessTotal,@GSTCentralCessTotal,@TCSPercent,@TCSAmount,@CreditDays,@RoundOff,@BillAmount,@Notes
-				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMBillNumber,@BillTypeID,GETUTCDATE(),@LoginId,@BranchId,@YearId,@FirmId,@EntryTypeGroupId)
+				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMBillNumber,@BillTypeID,GETUTCDATE(),@LoginId,@BranchId,@YearId,@FirmId,@EntryTypeGroupId
+				,@AccountId)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -253,6 +258,7 @@ BEGIN
 
 			UPDATE [Z-PurchaseBillMaster-Z] SET
 			AccountBranchMappingId = @AccountBranchMappingId 
+			,AccountId = @AccountId
 			,BookBranchMappingId = @BookBranchMappingId 
 			,BillNumberFirm = @BillNumberFirm 
 			,BillNumberBranch = @BillNumberBranch 

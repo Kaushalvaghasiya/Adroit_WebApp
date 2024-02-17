@@ -186,6 +186,8 @@ BEGIN
 		SELECT @IdCheck = ID FROM [Z-PurchaseBillMaster-Z] 
 							WHERE (Id = @Id) 
 							OR (BranchId = @BranchId AND BillNumberBranch = @BillNumberBranch AND Deleted = 1)
+		DECLARE @AccountId INT
+		SELECT @AccountId = ID FROM CustomerAccountBranchMapping WHERE Id = @AccountBranchMappingId
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
@@ -196,7 +198,8 @@ BEGIN
 				,GSTStateCessTotal,GSTCentralCessTotal,TCSPercent,TCSAmount,ToPayAmount,CrossingAmount,CrossingCommission,CrossingHamali,CrossingDeliveryCharge,CreditDays,RoundOff,BillAmount
 				,BrokerBranchMappingId,BrokerAmount,Notes,ToPayAccountBranchMappingId,CrossingAmountAccountBranchMappingId,CrossingCommissionAccountBranchMappingId,CrossingHamaliAccountBranchMappingId
 				,CrossingDeliveryAccountBranchMappingId,SalesAccountBranchMappingId,GenaralPurchaseAccountBranchMappingId,SkipInGSTR,RCMId,RCMBillNumber,BillTypeID,ReturnBillNumber,ReturnBillDate
-				,ReturnReasonId,PurchaseOrderRefNo,AddedOn,AddedById,BranchId,YearId,IsAutoLedger,FirmId,BranchIdTo, BillEntryTypeAdminGroupId)
+				,ReturnReasonId,PurchaseOrderRefNo,AddedOn,AddedById,BranchId,YearId,IsAutoLedger,FirmId,BranchIdTo, BillEntryTypeAdminGroupId,
+				AccountId)
 			VALUES 
 				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumberFirm,@BillNumberTable,@BillNumberBranch,@BillNumberBranchTable,@EntryTypeId,@BillDate,@VehicleId,@CityIdFrom
 				,@CityIdTo,@DriverId,@BranchId,@EwayBillNumber,@ValidDateFrom,@ValidDateTo,@TaxableAmount,@TDSPercent,@TDSAmount,@AdvanceCash,@AdvanceNeft,@OtherLess,@ReceiveCash
@@ -204,7 +207,8 @@ BEGIN
 				,@CrossingDeliveryCharge,@CreditDays,@RoundOff,@BillAmount,@BrokerBranchMappingId,@BrokerAmount,@Notes,@ToPayAccountBranchMappingId,@CrossingAmountAccountBranchMappingId
 				,@CrossingCommissionAccountBranchMappingId,@CrossingHamaliAccountBranchMappingId,@CrossingDeliveryAccountBranchMappingId,@SalesAccountBranchMappingId
 				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMId,@RCMBillNumber,@BillTypeID,@ReturnBillNumber,@ReturnBillDate,@ReturnReasonId,@PurchaseOrderRefNo,GETUTCDATE()
-				,@LoginId,@BranchId,@YearId,@IsAutoLedger,@FirmId,@BranchIdTo, @EntryTypeGroupId)
+				,@LoginId,@BranchId,@YearId,@IsAutoLedger,@FirmId,@BranchIdTo, @EntryTypeGroupId
+				,@AccountId)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -215,6 +219,7 @@ BEGIN
 
 			UPDATE [Z-PurchaseBillMaster-Z] SET
 			AccountBranchMappingId = @AccountBranchMappingId 
+			,AccountId = @AccountId
 			,BookBranchMappingId = @BookBranchMappingId 
 			,BillNumberFirm = @BillNumberFirm 
 			,BillNumberTable = @BillNumberTable 
