@@ -640,13 +640,22 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
+                                <div><label for="SkipInGST">Skip In GST</label></div>
+                                <label class="custom-switch">
+                                    <input type="checkbox" name="custom-switch-checkbox" id="SkipInGST" class="custom-switch-input">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
                                 <div><label for="Active">Active</label></div>
                                 <label class="custom-switch">
                                     <input type="checkbox" name="custom-switch-checkbox" id="Active" class="custom-switch-input">
                                     <span class="custom-switch-indicator"></span>
                                 </label>
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -849,6 +858,7 @@
             $("#CustomerBookBranchId").multipleSelect('setSelects', '');
 
             $("#Active").prop('checked', true);
+            $("#SkipInGST").prop('checked', false);
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -949,6 +959,7 @@
                 savedata.RoundOffAccountId = getIntValueNull("RoundOffAccountId");
 
                 savedata.CustomerBookBranchId = $("#CustomerBookBranchId").val().join(",");
+                savedata.SkipInGSTReport = $('#SkipInGST').is(':checked');
                 savedata.Active = $('#Active').is(':checked');
 
                 blockUI('container');
@@ -1085,6 +1096,7 @@
                                 $("#RCMIGSTRecAccountId").val(result.data.rcmigstRecAccountId).trigger('change');
                                 $("#RoundOffAccountId").val(result.data.roundOffAccountId).trigger('change');
                                 $("#CustomerBookBranchId").multipleSelect('setSelects', result.data.customerBookBranchId.split(','));
+                                $('#SkipInGST').prop('checked', result.data.skipInGSTReport);
                                 $('#Active').prop('checked', result.data.active);
                             
                             } else {

@@ -3,6 +3,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmBranchTransportSettingSave]
 	 @BranchId INT,
 	 @PurcahseBookBranchMappingId INT,
 	 @BookingSalesBookBranchMappingId INT,
+	 @GatePassBookBranchMappingId INT,
 	 @DeliverySalesBookBranchMappingId INT,
 	 @ToPayAccountBranchMappingId INT,
 	 @CrossingAmountAccountBranchMappingId INT,
@@ -30,6 +31,7 @@ BEGIN
 						 [PurcahseBookBranchMappingId] = @PurcahseBookBranchMappingId
 						,[BookingSalesBookBranchMappingId] = @BookingSalesBookBranchMappingId
 						,[DeliverySalesBookBranchMappingId] = @DeliverySalesBookBranchMappingId
+						,[GatePassBookBranchMappingId] = @GatePassBookBranchMappingId
 						,[ToPayAccountBranchMappingId] = @ToPayAccountBranchMappingId
 						,[CrossingAmountAccountBranchMappingId] = @CrossingAmountAccountBranchMappingId
 						,[CrossingCommissionAccountBranchMappingId] = @CrossingCommissionAccountBranchMappingId
@@ -51,12 +53,12 @@ BEGIN
 		ELSE
 			BEGIN
 				INSERT INTO [CustomerFirmBranchTransportSetting]
-					([BranchId],[PurcahseBookBranchMappingId],[BookingSalesBookBranchMappingId],[DeliverySalesBookBranchMappingId],[ToPayAccountBranchMappingId],
+					([BranchId],[PurcahseBookBranchMappingId],[BookingSalesBookBranchMappingId],[GatePassBookBranchMappingId],[DeliverySalesBookBranchMappingId],[ToPayAccountBranchMappingId],
 					 [CrossingAmountAccountBranchMappingId],[CrossingCommissionAccountBranchMappingId],[CrossingHamaliAccountBranchMappingId],
 					 [CrossingDeliveryChargeAccountBranchMappingId],[SalesAccountBranchMappingId],[IsAutoJvEnableForChallan],[IsFreightAddInToBillForDelivery],
 					 [LRRateOnId],[LRPayTypeId],[AddedOn],[AddedById],[LRCopy],[LRTemplate],[LRSubTitle],[LRSubject])
 				VALUES
-					(@BranchId,@PurcahseBookBranchMappingId,@BookingSalesBookBranchMappingId,@DeliverySalesBookBranchMappingId,@ToPayAccountBranchMappingId,
+					(@BranchId,@PurcahseBookBranchMappingId,@BookingSalesBookBranchMappingId,@GatePassBookBranchMappingId,@DeliverySalesBookBranchMappingId,@ToPayAccountBranchMappingId,
 					 @CrossingAmountAccountBranchMappingId,@CrossingCommissionAccountBranchMappingId,@CrossingHamaliAccountBranchMappingId,
 					 @CrossingDeliveryChargeAccountBranchMappingId,@SalesAccountBranchMappingId,@IsAutoJvEnableForChallan,@IsFreightAddInToBillForDelivery,
 					 @LRRateOnId,@LRPayTypeId,GETUTCDATE(),@LoginId,@LRCopy,@LRTemplate,@LRSubTitle,@LRSubject)

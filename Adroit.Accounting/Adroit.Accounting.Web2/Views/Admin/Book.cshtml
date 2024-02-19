@@ -642,13 +642,22 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
+                                <div><label for="SkipInGST">Skip In GST</label></div>
+                                <label class="custom-switch">
+                                    <input type="checkbox" name="custom-switch-checkbox" id="SkipInGST" class="custom-switch-input">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
                                 <div><label for="Active">Active</label></div>
                                 <label class="custom-switch">
                                     <input type="checkbox" name="custom-switch-checkbox" id="Active" class="custom-switch-input">
                                     <span class="custom-switch-indicator"></span>
                                 </label>
                             </div>
-                        </div>
+                        </div>                        
                     </div>
                 </div>
                 <div class="card-footer text-right">
@@ -851,6 +860,7 @@
             $("#SoftwareIds").multipleSelect('uncheckAll');
 
             $("#Active").prop('checked', true);
+            $("#SkipInGST").prop('checked', false);
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -949,7 +959,8 @@
                 savedata.RCMCGSTRecAccountId = isNaN(parseInt($("#RCMCGSTRecAccountId").val())) ? null : parseInt($("#RCMCGSTRecAccountId").val());
                 savedata.RCMIGSTRecAccountId = isNaN(parseInt($("#RCMIGSTRecAccountId").val())) ? null : parseInt($("#RCMIGSTRecAccountId").val());
                 savedata.RoundOffAccountId = isNaN(parseInt($("#RoundOffAccountId").val())) ? null : parseInt($("#RoundOffAccountId").val());
-                savedata.SoftwareIds = $("#SoftwareIds").val().join(",");             
+                savedata.SoftwareIds = $("#SoftwareIds").val().join(",");
+                savedata.SkipInGSTReport = $('#SkipInGST').is(':checked');
                 savedata.Active = $('#Active').is(':checked');
 
                 blockUI('container');
@@ -1087,6 +1098,7 @@
                                 $("#RoundOffAccountId").val(result.data.roundOffAccountId).trigger('change');
                                 var selectedSoftwares = result.data.softwareIds.split(',');
                                 $("#SoftwareIds").multipleSelect('setSelects', selectedSoftwares);
+                                $('#SkipInGST').prop('checked', result.data.skipInGSTReport);
                                 $('#Active').prop('checked', result.data.active);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info

@@ -67,6 +67,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@RoundOffAccountId", value.RoundOffAccountId);
             parameters.Add("@CustomerBookBranchId", value.CustomerBookBranchId);
             parameters.Add("@Active", value.Active);
+            parameters.Add("@SkipInGSTReport", value.SkipInGSTReport);
 
             return QueryHelper.Save("sp_CustomerBookSave", connectionString, parameters);
         }
@@ -111,6 +112,6 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@firmId", firmId);
             return QueryHelper.Get<CustomerBookViewModel>("sp_GetListWithIsGeneralPurchaseId", connectionString, parameters);
         }
-
+        
     }
 }
