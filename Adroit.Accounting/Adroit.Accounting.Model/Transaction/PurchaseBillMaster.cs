@@ -78,5 +78,21 @@ namespace Adroit.Accounting.Model
         public System.DateTime? ModifiedOn { get; set; }
         public bool IsAutoLedger { get; set; }
         public int? BranchIdTo { get; set; }
+        public string TransportGSTNumber { get; set; }
+        public string TransportLRNumber { get; set; }
+        public DateTime? TransportLRDate { get; set; }
+        public string TransportName { get; set; }
+        public byte? TransportModeId { get; set; }
+        public string HeaderBox1 { get; set; }
+        public string HeaderBox2 { get; set; }
+        public string HeaderBox3 { get; set; }
+        public string HeaderBox4 { get; set; }
+        public string HeaderBox5 { get; set; }
+        public string IRNNumber { get; set; }
+        public string AcknowledgementNumber { get; set; }
+        public System.DateTime? IRNDate { get; set; }
+        public string VehicleNumber { get; set; }
+        public int AccountId { get; set; }
+        public string PurchaseBillNumber { get; set; }
     }
 }

@@ -302,7 +302,14 @@
         public const string _TableName = "CustomerAccount";
         public const string AreaName = "AreaName";
         public const string TransportName = "TransportName";
+        public const string GSTNumberTransport = "GSTNumberTransport";
+        public const string VehicleNumber = "VehicleNumber";
         public const string Name = "Name";
+    }
+    public sealed class GSTTransportModeTable
+    {
+        public const string _TableName = "GSTTransportMode";
+        public const string Title = "Title";
     }
     #endregion
 

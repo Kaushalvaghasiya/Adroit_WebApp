@@ -150,6 +150,7 @@ try
     builder.Services.AddSingleton<IReportLRDeliveryLRRegister, ReportLRDeliveryLRRegisterRepository>();
     builder.Services.AddSingleton<IChalanReceiveAgency, ChalanReceiveAgencyRepository>();
     builder.Services.AddSingleton<ICustomerGeneralExpensesMulti, CustomerGeneralExpensesMultiRepository>();
+    builder.Services.AddSingleton<ICustomerPurchase, CustomerPurchaseRepository>();
 	builder.Services.AddSession();
 
     if (!builder.Environment.IsDevelopment())
