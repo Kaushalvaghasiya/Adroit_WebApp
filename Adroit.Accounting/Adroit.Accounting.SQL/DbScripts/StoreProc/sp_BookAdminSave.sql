@@ -54,6 +54,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_BookAdminSave]
 	,@RCMIGSTRecAccountId int
 	,@RoundOffAccountId int
 	,@SoftwareIds VARCHAR(max)
+	,@SkipInGSTReport bit
 	,@Active bit = 1
 )
 AS
@@ -69,13 +70,13 @@ BEGIN
 				IsItemDiscount,IsItemDiscountSp,IsCashPayAtBill,ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,ShowSalesOrderBoxNumber,ShowPurcahseOrderBoxNumber,
 				ShowQuotationBoxNumber,ShowPerformaInvoiceNumber,SalesBillFrom,IsCalcMultiply,BookShortName,HeaderBox1,HeaderBox2,HeaderBox3,HeaderBox4,HeaderBox5,IsTDSAccount,
 				TDSAccountId,IsTCSAccount,TCSAccountId,SGSTAccountId,CGSTAccountId,IGSTAccountId,GSTStateCessAccountId,GSTCentralCessAccountId,RCMSGSTPayAccountId,
-				RCMCGSTPayAccountId,RCMIGSTPayAccountId,RCMSGSTRecAccountId,RCMCGSTRecAccountId,RCMIGSTRecAccountId,RoundOffAccountId,Active)
+				RCMCGSTPayAccountId,RCMIGSTPayAccountId,RCMSGSTRecAccountId,RCMCGSTRecAccountId,RCMIGSTRecAccountId,RoundOffAccountId,SkipInGSTReport,Active)
 			VALUES
 			(@BookAccountId,@BookTypeId,@BoxLabel1,@BoxLabel2,@BoxLabel3,@BoxLabel4,@BoxLabel5,@BoxLabel6,@BillNoPrefix,@BillNoPostFix,@LRRequired,@BillTypeID,@IsGeneralPurchase,
 				@IsItemDiscount,@IsItemDiscountSp,@IsCashPayAtBill,@ItemDesc1,@ItemDesc2,@ItemDesc3,@ItemDesc4,@ItemDesc5,@ItemDesc6,@ShowSalesOrderBoxNumber,@ShowPurcahseOrderBoxNumber,
 				@ShowQuotationBoxNumber,@ShowPerformaInvoiceNumber,@SalesBillFrom,@IsCalcMultiply,@BookShortName,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,
 				@IsTDSAccount,@TDSAccountId,@IsTCSAccount,@TCSAccountId,@SGSTAccountId,@CGSTAccountId,@IGSTAccountId,@GSTStateCessAccountId,@GSTCentralCessAccountId,
-				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@Active)
+				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@SkipInGSTReport,@Active)
 
 			SET @Id = SCOPE_IDENTITY();
 			SELECT @Id;
@@ -137,6 +138,7 @@ BEGIN
 			,RCMCGSTRecAccountId = @RCMCGSTRecAccountId
 			,RCMIGSTRecAccountId = @RCMIGSTRecAccountId
 			,RoundOffAccountId = @RoundOffAccountId
+			,SkipInGSTReport = @SkipInGSTReport
 			,Active = @Active
 			,Deleted = 0
 			WHERE Id = @Id

@@ -44,6 +44,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BranchId", value.BranchId);
             parameters.Add("@PurcahseBookBranchMappingId", value.PurcahseBookBranchMappingId);
             parameters.Add("@BookingSalesBookBranchMappingId", value.BookingSalesBookBranchMappingId);
+            parameters.Add("@GatePassBookBranchMappingId", value.GatePassBookBranchMappingId);
             parameters.Add("@DeliverySalesBookBranchMappingId", value.DeliverySalesBookBranchMappingId);
             parameters.Add("@ToPayAccountBranchMappingId", value.ToPayAccountBranchMappingId);
             parameters.Add("@CrossingAmountAccountBranchMappingId", value.CrossingAmountAccountBranchMappingId);

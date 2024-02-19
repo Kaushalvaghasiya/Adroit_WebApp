@@ -55,6 +55,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_CustomerBookSave]
 	,@RCMIGSTRecAccountId int
 	,@RoundOffAccountId int
 	,@Active bit = 1
+	,@SkipInGSTReport bit
 	,@CustomerBookBranchId NVARCHAR(MAX)
 )
 AS
@@ -96,13 +97,13 @@ BEGIN
 				IsItemDiscount,IsItemDiscountSp,IsCashPayAtBill,ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,ShowSalesOrderBoxNumber,ShowPurcahseOrderBoxNumber,
 				ShowQuotationBoxNumber,ShowPerformaInvoiceNumber,SalesBillFrom,IsCalcMultiply,BookShortName,HeaderBox1,HeaderBox2,HeaderBox3,HeaderBox4,HeaderBox5,IsTDSAccount,
 				TDSAccountId,IsTCSAccount,TCSAccountId,SGSTAccountId,CGSTAccountId,IGSTAccountId,GSTStateCessAccountId,GSTCentralCessAccountId,RcmSGSTPayAccountId,
-				RcmCGSTPayAccountId,RcmIGSTPayAccountId,RcmSGSTRecAccountId,RcmCGSTRecAccountId,RcmIGSTRecAccountId,RoundOffAccountId,Active,OwnerBranchId,AddedOn,AddedById)
+				RcmCGSTPayAccountId,RcmIGSTPayAccountId,RcmSGSTRecAccountId,RcmCGSTRecAccountId,RcmIGSTRecAccountId,RoundOffAccountId,SkipInGSTReport,Active,OwnerBranchId,AddedOn,AddedById)
 			VALUES
 			(@CustomerId,@YearId,@BookAccountId,@BookTypeId,@BoxLabel1,@BoxLabel2,@BoxLabel3,@BoxLabel4,@BoxLabel5,@BoxLabel6,@BillNoPrefix,@BillNoPostFix,@LRRequired,@BillTypeID,@IsGeneralPurchase,
 				@IsItemDiscount,@IsItemDiscountSp,@IsCashPayAtBill,@ItemDesc1,@ItemDesc2,@ItemDesc3,@ItemDesc4,@ItemDesc5,@ItemDesc6,@ShowSalesOrderBoxNumber,@ShowPurcahseOrderBoxNumber,
 				@ShowQuotationBoxNumber,@ShowPerformaInvoiceNumber,@SalesBillFrom,@IsCalcMultiply,@BookShortName,@HeaderBox1,@HeaderBox2,@HeaderBox3,@HeaderBox4,@HeaderBox5,
 				@IsTDSAccount,@TDSAccountId,@IsTCSAccount,@TCSAccountId,@SGSTAccountId,@CGSTAccountId,@IGSTAccountId,@GSTStateCessAccountId,@GSTCentralCessAccountId,
-				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@Active,@BranchId,GETUTCDATE(),@LoginId)
+				@RCMSGSTPayAccountId,@RCMCGSTPayAccountId,@RCMIGSTPayAccountId,@RCMSGSTRecAccountId,@RCMCGSTRecAccountId,@RCMIGSTRecAccountId,@RoundOffAccountId,@SkipInGSTReport,@Active,@BranchId,GETUTCDATE(),@LoginId)
 
 			SET @Id = SCOPE_IDENTITY();
 			
@@ -165,6 +166,7 @@ BEGIN
 			,RcmIGSTRecAccountId = @RCMIGSTRecAccountId
 			,RoundOffAccountId = @RoundOffAccountId
 			,OwnerBranchId = @BranchId
+			,SkipInGSTReport = @SkipInGSTReport
 			,Active = @Active
 			,DeletedById = NULL
 			,DeletedOn = NULL

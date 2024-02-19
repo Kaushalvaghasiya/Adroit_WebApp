@@ -66,6 +66,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@RoundOffAccountId", value.RoundOffAccountId);
             parameters.Add("@SoftwareIds", value.SoftwareIds);
             parameters.Add("@Active", value.Active);
+            parameters.Add("@SkipInGSTReport", value.SkipInGSTReport);
 
             return QueryHelper.Save("sp_BookAdminSave", connectionString, parameters);
         }

@@ -159,6 +159,13 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="GatePassBookBranchMappingId">Getpass Book (Skip In GST)</label>
+                                <select class="form-control select2-show-search" id="GatePassBookBranchMappingId">
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label for="ToPayAccountBranchMappingId">To Pay Account</label>
                                 <select class="form-control select2-show-search" id="ToPayAccountBranchMappingId">
                                 </select>
@@ -201,13 +208,13 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="ShortTitle">Sub Title</label>
+                                <label for="ShortTitle">Header</label>
                                 <input type="text" class="form-control mode-ed" id="SubTitle" placeholder="Sub Title" >
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="ShortTitle">Subject</label>
+                                <label for="ShortTitle">Terms & Conditions</label>
                                 <input type="text" class="form-control mode-ed" id="Subject" placeholder="Subject">
                             </div>
                         </div>
@@ -231,7 +238,7 @@
                         </div>
                         <div class="col-lg-4 col-md-4">
                             <div class="form-group">
-                                <label for="LRCopyId">LRCopy</label>
+                                <label for="LRCopyId">LR Print Copy</label>
                                 <select class="form-control select2-show-search" id="LRCopyId">
                                     @{
                                         if (Model.LRCopy != 0)
@@ -454,6 +461,7 @@
             $("#PurcahseBookBranchMappingId").val(null).trigger('change');
             $("#BookingSalesBookBranchMappingId").val(null).trigger('change');
             $("#DeliverySalesBookBranchMappingId").val(null).trigger('change');
+            $("#GatePassBookBranchMappingId").val(null).trigger('change');
             $("#ToPayAccountBranchMappingId").val(null).trigger('change');
             $("#CrossingAmountAccountBranchMappingId").val(null).trigger('change');
             $("#CrossingCommissionAccountBranchMappingId").val(null).trigger('change');
@@ -503,6 +511,12 @@
                     return false;
                 }
 
+                if ($("#GatePassBookBranchMappingId").val() == null || $("#GatePassBookBranchMappingId").val() == "") {
+                    showWarning("", "Please select Get Pass Book");
+                    $("#GatePassBookBranchMappingId").focus();
+                    return false;
+                }
+
                 if ($("#DeliverySalesBookBranchMappingId").val() == null || $("#DeliverySalesBookBranchMappingId").val() == "") {
                     showWarning("", "Please select Delivery Sales Book");
                     $("#DeliverySalesBookBranchMappingId").focus();
@@ -525,6 +539,7 @@
                 savedata.BranchId = getIntValueZero("BranchId");
                 savedata.PurcahseBookBranchMappingId = getIntValueZero("PurcahseBookBranchMappingId");
                 savedata.BookingSalesBookBranchMappingId = getIntValueZero("BookingSalesBookBranchMappingId");
+                savedata.GatePassBookBranchMappingId = getIntValueZero("GatePassBookBranchMappingId");
                 savedata.DeliverySalesBookBranchMappingId = getIntValueZero("DeliverySalesBookBranchMappingId");
                 savedata.ToPayAccountBranchMappingId = getIntValueZero("ToPayAccountBranchMappingId");
                 savedata.CrossingAmountAccountBranchMappingId = getIntValueNull("CrossingAmountAccountBranchMappingId");
@@ -579,6 +594,7 @@
             try {
                 bindDropdown('PurcahseBookBranchMappingId', null);
                 bindDropdown('BookingSalesBookBranchMappingId', null);
+                bindDropdown('GatePassBookBranchMappingId', null);
                 bindDropdown('DeliverySalesBookBranchMappingId',null);
 
                 bindDropdown('ToPayAccountBranchMappingId', null);
@@ -613,6 +629,7 @@
 
                                 bindDropdown('PurcahseBookBranchMappingId', result.data.customerBookList);
                                 bindDropdown('BookingSalesBookBranchMappingId', result.data.customerBookList);
+                                bindDropdown('GatePassBookBranchMappingId', result.data.customerBookList);
                                 bindDropdown('DeliverySalesBookBranchMappingId', result.data.customerBookList);
 
                                 bindDropdown('ToPayAccountBranchMappingId', result.data.customerAccountList);
@@ -624,6 +641,7 @@
 
                                 $("#PurcahseBookBranchMappingId").val(result.data.purcahseBookBranchMappingId).trigger('change');
                                 $("#BookingSalesBookBranchMappingId").val(result.data.bookingSalesBookBranchMappingId).trigger('change');
+                                $("#GatePassBookBranchMappingId").val(result.data.gatePassBookBranchMappingId).trigger('change');
                                 $("#DeliverySalesBookBranchMappingId").val(result.data.deliverySalesBookBranchMappingId).trigger('change');
                                 $("#ToPayAccountBranchMappingId").val(result.data.toPayAccountBranchMappingId).trigger('change');
                                 $("#CrossingAmountAccountBranchMappingId").val(result.data.crossingAmountAccountBranchMappingId).trigger('change');
