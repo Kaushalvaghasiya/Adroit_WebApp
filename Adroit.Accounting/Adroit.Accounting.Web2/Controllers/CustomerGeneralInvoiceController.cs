@@ -14,7 +14,7 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerController : MasterController
     {
-        public IActionResult CustomerPurchase()
+        public IActionResult CustomerGeneralInvoice()
         {
             var model = new PurchaseBillMasterViewModel();
             model.BillTypeList = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId);            
@@ -98,7 +98,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _customerPurchaseRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerGeneralInvoiceRepository.List(_configurationData.DefaultConnection, CurrentUserId, CurrentBranchId, CurrentFirmId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -120,7 +120,7 @@ namespace Adroit.Accounting.Web.Controllers
                 model.LoginId = CurrentUserId;
                 model.BranchId = CurrentBranchId;
                 model.FirmId = CurrentFirmId;
-                int id = _customerPurchaseRepository.Save(model, _configurationData.DefaultConnection);
+                int id = _customerGeneralInvoiceRepository.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = true;
@@ -154,7 +154,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var data = _customerPurchaseRepository.GetPurchasebillDetailListByPurchaseBillMasterId(_configurationData.DefaultConnection, id, CurrentBranchId);
+                var data = _customerGeneralInvoiceRepository.GetPurchasebillDetailListByPurchaseBillMasterId(_configurationData.DefaultConnection, id, CurrentBranchId);
                 result.data = data;
                 result.result = Constant.API_RESULT_SUCCESS;
             }

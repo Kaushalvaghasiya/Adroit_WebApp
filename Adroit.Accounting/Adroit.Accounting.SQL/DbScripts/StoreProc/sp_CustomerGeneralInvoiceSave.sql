@@ -1,4 +1,4 @@
-CREATE OR ALTER procedure [dbo].[sp_CustomerPurchaseSave]
+CREATE OR ALTER procedure [dbo].[sp_CustomerGeneralInvoiceSave]
 (
 	 @LoginId INT
 	,@FirmId INT
@@ -79,10 +79,11 @@ BEGIN
 			AND [BillEntryTypeAdmin].Active = 1
 		);
 		
-		IF (ISNULL(@PurBillNo,0) = 0)
+		IF (ISNULL(@PurBillNo, 0) = 0)
 		BEGIN
-			SELECT @PurBillNo = 'AUTO-'+REPLACE(CAST(NEWID() AS VARCHAR(36)), '-', '') 
+			SELECT @PurBillNo = 'AUTO-' + REPLACE(CAST(NEWID() AS VARCHAR(36)), '-', '');
 		END
+
 
 		DECLARE @BillNumberFirm varchar(20)
 		SELECT @BillNumberFirm = ISNULL(MAX(ISNULL(TRY_CAST(BillNumberFirm AS INT), 0)), 0) + 1

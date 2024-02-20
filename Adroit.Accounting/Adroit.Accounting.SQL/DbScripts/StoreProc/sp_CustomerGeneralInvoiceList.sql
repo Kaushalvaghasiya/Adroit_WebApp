@@ -1,4 +1,4 @@
-CREATE OR ALTER Procedure [dbo].[sp_CustomerPurchaseList]
+CREATE OR ALTER Procedure [dbo].[sp_CustomerGeneralInvoiceList]
   @LoginId INT,
   @FirmId INT,
   @BranchId INT,

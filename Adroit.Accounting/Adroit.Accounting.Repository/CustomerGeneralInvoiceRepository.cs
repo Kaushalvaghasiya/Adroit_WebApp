@@ -7,7 +7,7 @@ using Dapper;
 
 namespace Adroit.Accounting.Repository
 {
-    public class CustomerPurchaseRepository : ICustomerPurchase
+    public class CustomerGeneralInvoiceRepository : ICustomerGeneralInvoice
     {
         public int Save(PurchaseBillMasterViewModel value, string connectionString)
         {
@@ -54,7 +54,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@EwayBillNumber", value.EwayBillNumber);
             parameters.Add("@EntryTypeName", value.EntryTypeName);
             parameters.Add("@DetailTableDetails", value.DetailTableDetails);
-            return QueryHelper.Save("sp_CustomerPurchaseSave", connectionString, parameters);
+            return QueryHelper.Save("sp_CustomerGeneralInvoiceSave", connectionString, parameters);
         }
 
         public List<PurchaseBillMasterGridViewModel> List(string connectionString, int loginId, int branchId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
@@ -68,7 +68,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
-            return QueryHelper.GetList<PurchaseBillMasterGridViewModel>("sp_CustomerPurchaseList", connectionString, parameters);
+            return QueryHelper.GetList<PurchaseBillMasterGridViewModel>("sp_CustomerGeneralInvoiceList", connectionString, parameters);
         }
         public List<PurchaseBillDetailGridViewModel> GetPurchasebillDetailListByPurchaseBillMasterId(string connectionString, int purchaseBillMasterId, int branchId)
         {

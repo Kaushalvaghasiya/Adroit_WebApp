@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Adroit.Accounting.Repository.IRepository
 {
-    public interface ICustomerPurchase
+    public interface ICustomerGeneralInvoice
     {
         int Save(PurchaseBillMasterViewModel value, string connectionString);
         public List<PurchaseBillMasterGridViewModel> List(string connectionString, int loginId, int branchId, int firmId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC");
