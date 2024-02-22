@@ -13,7 +13,7 @@ namespace Adroit.Accounting.Model
         public int CustomerId { get; set; }
         public int YearId { get; set; }
         public int BookAccountId { get; set; }
-        public byte BookTypeId { get; set; }
+        public string BookTypeId { get; set; }
         public string BoxLabel1 { get; set; }
         public string BoxLabel2 { get; set; }
         public string BoxLabel3 { get; set; }

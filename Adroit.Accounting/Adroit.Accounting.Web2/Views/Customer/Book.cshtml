@@ -109,7 +109,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="BookTypeId">Type</label>
-                                <select class="form-control select2-show-search" id="BookTypeId">
+                                <select class="filter-multi mode-ed-multi" id="BookTypeId" multiple="multiple">
                                     <option></option>
                                     @{
                                         if (Model.BookTypeList != null)
@@ -806,7 +806,7 @@
         function fromReset() {
             $("#Id").val(0);
             $("#BookAccountId").val(null).trigger('change');
-            $("#BookTypeId").val(null).trigger('change');
+            $("#BookTypeId").multipleSelect('checkAll');
             $("#BoxLabel1").val('');
             $("#BoxLabel2").val('');
             $("#BoxLabel3").val('');
@@ -872,7 +872,7 @@
                     $("#BookAccountId").focus();
                     return false;
                 }
-                if ($("#BookTypeId").val() == null || $("#BookTypeId").val() == "") {
+                if ($("#BookTypeId").val() == "") {
                     showWarning("", "Please select type");
                     $("#BookTypeId").focus();
                     return false;
@@ -908,7 +908,7 @@
                 var savedata = new Object();
                 savedata.Id = parseInt($("#Id").val());
                 savedata.BookAccountId = parseInt($("#BookAccountId").val());
-                savedata.BookTypeId = parseInt($("#BookTypeId").val());
+                savedata.BookTypeId = $("#BookTypeId").val().join(",");
                 savedata.BoxLabel1 = $("#BoxLabel1").val();
                 savedata.BoxLabel2 = $("#BoxLabel2").val();
                 savedata.BoxLabel3 = $("#BoxLabel3").val();
@@ -1043,10 +1043,9 @@
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
-
                                 $("#Id").val(result.data.id);
-                                $("#BookAccountId").val(result.data.bookAccountId).trigger('change');
-                                $("#BookTypeId").val(result.data.bookTypeId).trigger('change');
+                                $("#BookAccountId").val(result.data.bookAccountId).trigger('change');                                
+                                $("#BookTypeId").multipleSelect('setSelects', result.data.bookTypeId.split(','));
                                 $("#BoxLabel1").val(result.data.boxLabel1);
                                 $("#BoxLabel2").val(result.data.boxLabel2);
                                 $("#BoxLabel3").val(result.data.boxLabel3);

@@ -5,7 +5,7 @@ CREATE OR ALTER   PROCEDURE [dbo].[sp_CustomerBookSave]
 	,@BranchId int
 	,@Id int  
 	,@BookAccountId int  
-	,@BookTypeId tinyint  
+	,@BookTypeId varchar(30)  
 	,@BoxLabel1 nvarchar(100)
 	,@BoxLabel2 nvarchar(100)
 	,@BoxLabel3 nvarchar(100)
