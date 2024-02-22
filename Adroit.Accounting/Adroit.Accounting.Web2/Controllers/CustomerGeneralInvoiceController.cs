@@ -71,7 +71,7 @@ namespace Adroit.Accounting.Web.Controllers
                 ItemDescList.AddRange(itemDesc4);
                 ItemDescList.AddRange(itemDesc5);
                 ItemDescList.AddRange(itemDesc6);
-                List<DropdownViewModel> SalesBillFromList = _salesBillFromAdminRepository.SalesBillFromIdsList(CustomerBook.SalesBillFrom, _configurationData.DefaultConnection, CurrentUserId, CurrentFirmId);
+                List<DropdownViewModel> SalesBillFromList = _salesBillFromAdminRepository.SalesBillFromIdsList(CustomerBook.SalesBillFrom, _configurationData.DefaultConnection);
                 result.data = new
                 {
                     CustomerBook = CustomerBook,

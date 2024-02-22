@@ -3,9 +3,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ChalanGetPurchaseBillDetailTableListByPurcha
   @PurchaseBillMasterId int
 AS
 BEGIN
-	   SELECT  
-	    ROW_NUMBER() over (ORDER BY [Z-PurchaseBillDetail-Z].Id ASC) AS RowNum,
-		Count(*) over () AS TotalCount, 
+	   SELECT  	    
 		[Z-PurchaseBillDetail-Z].*		
 		FROM [Z-PurchaseBillDetail-Z]		
 		INNER JOIN [Z-PurchaseBillMaster-Z] ON [Z-PurchaseBillMaster-Z].Id = [Z-PurchaseBillDetail-Z].PurchaseBillMasterId AND [Z-PurchaseBillMaster-Z].Deleted = 0

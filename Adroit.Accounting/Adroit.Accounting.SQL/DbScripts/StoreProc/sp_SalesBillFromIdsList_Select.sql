@@ -1,7 +1,5 @@
 CREATE OR ALTER   PROCEDURE [dbo].[sp_SalesBillFromIdsList_Select]
 (
-	@LoginId int, 
-	@FirmId int,
 	@Ids varchar(max)
 )
 AS
