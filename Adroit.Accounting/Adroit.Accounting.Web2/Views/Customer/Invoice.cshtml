@@ -2,7 +2,6 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="dv-list side-app">
     <!-- page-header -->
     <div class="row">
@@ -113,12 +112,12 @@
                                             <input class="form-control fc-datepicker" placeholder="MM/DD/YYYY" type="text" id="BillDate">
                                         </div>
                                     </div>
-                                    <label for="LRNumber" class="col-md-1 form-label">
+                                    <label for="LRBookingId" class="col-md-1 form-label">
                                         LR#
                                     </label>
                                     <div class="col-md-2">
                                         <div class="input-group" style="flex-wrap:nowrap;">
-                                            <select class="form-control select2-show-search-add-clear" id="LRNumber">
+                                            <select class="form-control select2-show-search-add-clear" id="LRBookingId">
                                                 <option></option>
                                                 @{
                                                     if (Model.LRNumberList != null)
@@ -277,65 +276,60 @@
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="row mb-0">
-                                                        <div class="col-md-6">
-                                                            <div class="form-group text-center mb-1">
+                                                        <div class="col-md-12">
+                                                            <div class="form-group text-right mb-1">
                                                                 <label for="ChargeWeight" class="font-weight-bold text-white">Ch.Wt.</label>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <div class="form-group text-center mb-1">
-                                                                <label for="TaxableAmount" class="font-weight-bold text-white">Taxable Amt</label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <div class="form-group text-center mb-1">
+                                                    <div class="form-group text-right mb-1">
                                                         <label for="GST" class="font-weight-bold text-white">GST%</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <div class="form-group text-center mb-1">
-                                                        <label for="Freight" class="font-weight-bold text-white">Freight</label>
+                                                    <div class="form-group text-right mb-1">
+                                                        <label for="FreightAmount" class="font-weight-bold text-white">Freight</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1">
-                                                    <div class="form-group text-center mb-1">
+                                                <div class="col-md-1 pl-0 pr-0">
+                                                    <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
                                                             @Model.CustomerFirmTransportSetting.LRBookChargeLable1
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1">
-                                                    <div class="form-group text-center mb-1">
+                                                <div class="col-md-1 pl-0 pr-0">
+                                                    <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
                                                             @Model.CustomerFirmTransportSetting.LRBookChargeLable2
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1">
-                                                    <div class="form-group text-center mb-1">
+                                                <div class="col-md-1 pl-0 pr-0">
+                                                    <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
                                                             @Model.CustomerFirmTransportSetting.LRBookChargeLable3
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1">
-                                                    <div class="form-group text-center mb-1">
+                                                <div class="col-md-1 pl-0 pr-0">
+                                                    <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
                                                             @Model.CustomerFirmTransportSetting.LRBookChargeLable4
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1">
-                                                    <div class="form-group text-center mb-1">
+                                                <div class="col-md-1 pl-0 pr-0">
+                                                    <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
                                                             @Model.CustomerFirmTransportSetting.LRBookChargeLable5
                                                         </label>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-1">
-                                                    <div class="form-group text-center mb-1">
+                                                <div class="col-md-1 pl-0 pr-0">
+                                                    <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
                                                             @Model.CustomerFirmTransportSetting.LRBookChargeLable6
                                                         </label>
@@ -348,7 +342,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-body" style="max-height: 202px; overflow-x: hidden;">
+                                        <div class="card-body" style="max-height: 202px; overflow-x: hidden; pt-0">
                                             <div class="row">
                                                 <div class="col-md-12" id="contentRow">
                                                 </div>
@@ -595,23 +589,23 @@
             $("#SearchLRNumber").on('click', function (e) {
                 $("#AccountBranchMappingId").prop("disabled", false);
 
-                if ($('#LRNumber').val() == null || $('#LRNumber').val() == '') {
+                if ($('#LRBookingId').val() == null || $('#LRBookingId').val() == '') {
                     showWarning("", "Please select LR Number.");
                 } else {
-                    getLRDetailListByLRNumber($('#LRNumber').val());
+                    getLRDetailListByLRNumber($('#LRBookingId').val());
                 }
 
             });
 
-            $("#LRNumber").on("select2:unselecting", function (e) {
+            $("#LRBookingId").on("select2:unselecting", function (e) {
                 $("#AccountBranchMappingId").prop("disabled", false);
             });
 
             $("#PayTypeId").on('change', function (e) {
-                if (payTypeIdTrigger){
+                if (payTypeIdTrigger) {
                     bindBillParty();
                 }
-                payTypeIdTrigger=true;
+                payTypeIdTrigger = true;
             });
 
             $("#AccountBranchMappingId").on('change', function (e) {
@@ -826,7 +820,7 @@
             $("#BillAmount").val('');
             $("#TCSPercentage").val('');
             $("#TCSAmount").val('');
-            $("#LRNumber").val(null).trigger('change');
+            $("#LRBookingId").val(null).trigger('change');
             $("#PayTypeId").val(1).trigger('change');
             $("#AccountBranchMappingId").val(null).trigger('change');
             $("#VehicleNumber").val(null).trigger('change');
@@ -979,29 +973,29 @@
                 savedata.EntryTypeName = "SAL";
                 savedata.InvoiceMemo = false;
 
-                var lrDetailsArray = [];
+                savedata.LRDetailsArray = [];
                 $('#contentRow .content-rows').each(function () {
                     var contentRowId = $(this).attr('id').replace(/\D/g, '');
                     var lrDetails = {};
 
-                    lrDetails.LRNumber = $('#hdnLRId' + contentRowId).text();
-                    lrDetails.LRDate = getDate($('#LRDate' + contentRowId).text()) || '';
-                    lrDetails.Parcel = $('#Packing' + contentRowId).text() || '';
-                    lrDetails.ChargeWeight = parseFloat($('#ChargeWeight' + contentRowId).text()) || 0;
-                    lrDetails.TaxableAmount = parseFloat($('#TaxableAmount' + contentRowId).text()) || 0;
+                    lrDetails.LRBookingId = $('#hdnLRId' + contentRowId).text();
+                    lrDetails.BasicAmount = parseFloat($('#TaxableAmount' + contentRowId).text()) || 0;
                     lrDetails.Rate = parseFloat($('#GSTRate' + contentRowId).text()) || 0;
-                    lrDetails.Freight = parseFloat($('#Freight' + contentRowId).text()) || 0;
-                    lrDetails.Charges1 = parseFloat($('#Charges1' + contentRowId).val()) || 0;
-                    lrDetails.Charges2 = parseFloat($('#Charges2' + contentRowId).val()) || 0;
-                    lrDetails.Charges3 = parseFloat($('#Charges3' + contentRowId).val()) || 0;
-                    lrDetails.Charges4 = parseFloat($('#Charges4' + contentRowId).val()) || 0;
-                    lrDetails.Charges5 = parseFloat($('#Charges5' + contentRowId).val()) || 0;
-                    lrDetails.Charges6 = parseFloat($('#Charges6' + contentRowId).val()) || 0;
+                    lrDetails.FreightAmount = parseFloat($('#FreightAmount' + contentRowId).text()) || 0;
+                    lrDetails.Charge1 = parseFloat($('#Charge1' + contentRowId).val()) || 0;
+                    lrDetails.Charge2 = parseFloat($('#Charge2' + contentRowId).val()) || 0;
+                    lrDetails.Charge3 = parseFloat($('#Charge3' + contentRowId).val()) || 0;
+                    lrDetails.Charge4 = parseFloat($('#Charge4' + contentRowId).val()) || 0;
+                    lrDetails.Charge5 = parseFloat($('#Charge5' + contentRowId).val()) || 0;
+                    lrDetails.Charge6 = parseFloat($('#Charge6' + contentRowId).val()) || 0;
 
-                    lrDetailsArray.push(lrDetails);
+                    savedata.LRDetailsArray.push(lrDetails);
                 });
-
-                savedata.LRDetailsArray = JSON.stringify(lrDetailsArray);
+                if (savedata.LRDetailsArray.length == 0) {
+                    showWarning("", "Select minimum 1 LR.");
+                    $("#BillAmount").focus();
+                    return false;
+                }
 
                 blockUI('container');
                 $.ajax({
@@ -1084,7 +1078,7 @@
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
                                 getLRDetailListBySalesBillMas(result.data.id);
-                                
+
                                 $("#Id").val(result.data.id);
                                 $("#SerialNumberOfBranch").val(result.data.serialNumberOfBranch);
                                 $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
@@ -1145,19 +1139,19 @@
 
                                 result.data.forEach(function (LRBookingDetail) {
                                     selectedLRDetails.push({
-                                        id: LRBookingDetail.id,
+                                        lrBookingId: LRBookingDetail.lrBookingId,
                                         lrNumber: LRBookingDetail.lrNumber,
-                                        lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                        lrDate: LRBookingDetail.lrDateString,
                                         parcel: LRBookingDetail.parcel,
                                         chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
                                         taxableAmount: parseFloat(LRBookingDetail.taxableAmount || 0).toFixed(2),
-                                        freight: parseFloat(LRBookingDetail.freight || 0).toFixed(2),
-                                        charges1: parseFloat(LRBookingDetail.charges1 || 0).toFixed(2),
-                                        charges2: parseFloat(LRBookingDetail.charges2 || 0).toFixed(2),
-                                        charges3: parseFloat(LRBookingDetail.charges3 || 0).toFixed(2),
-                                        charges4: parseFloat(LRBookingDetail.charges4 || 0).toFixed(2),
-                                        charges5: parseFloat(LRBookingDetail.charges5 || 0).toFixed(2),
-                                        charges6: parseFloat(LRBookingDetail.charges6 || 0).toFixed(2),
+                                        freightAmount: parseFloat(LRBookingDetail.freightAmount || 0).toFixed(2),
+                                        charge1: parseFloat(LRBookingDetail.charge1 || 0).toFixed(2),
+                                        charge2: parseFloat(LRBookingDetail.charge2 || 0).toFixed(2),
+                                        charge3: parseFloat(LRBookingDetail.charge3 || 0).toFixed(2),
+                                        charge4: parseFloat(LRBookingDetail.charge4 || 0).toFixed(2),
+                                        charge5: parseFloat(LRBookingDetail.charge5 || 0).toFixed(2),
+                                        charge6: parseFloat(LRBookingDetail.charge6 || 0).toFixed(2),
                                         rate: parseFloat(LRBookingDetail.rate || 0).toFixed(2),
                                     });
                                 });
@@ -1224,9 +1218,9 @@
 
                                     if (!isDuplicate) {
                                         selectedLRDetails.push({
-                                            id: LRBookingDetail.id,
+                                            lrBookingId: LRBookingDetail.id,
                                             lrNumber: LRBookingDetail.lrNumber,
-                                            lrDate: moment(LRBookingDetail.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                            lrDate: LRBookingDetail.lrDateString,
                                             privateMarka: LRBookingDetail.privateMarka,
                                             packing: LRBookingDetail.packing,
                                             chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
@@ -1239,13 +1233,13 @@
                                             billPartyName: LRBookingDetail.billPartyName,
                                             ewayBillNo: LRBookingDetail.ewayBillNo,
                                             parcel: LRBookingDetail.parcel,
-                                            freight: parseFloat(LRBookingDetail.freight || 0).toFixed(2),
-                                            charges1: parseFloat(LRBookingDetail.charges1 || 0).toFixed(2),
-                                            charges2: parseFloat(LRBookingDetail.charges2 || 0).toFixed(2),
-                                            charges3: parseFloat(LRBookingDetail.charges3 || 0).toFixed(2),
-                                            charges4: parseFloat(LRBookingDetail.charges4 || 0).toFixed(2),
-                                            charges5: parseFloat(LRBookingDetail.charges5 || 0).toFixed(2),
-                                            charges6: parseFloat(LRBookingDetail.charges6 || 0).toFixed(2),
+                                            freightAmount: parseFloat(LRBookingDetail.freightAmount || 0).toFixed(2),
+                                            charge1: parseFloat(LRBookingDetail.charges1 || 0).toFixed(2),
+                                            charge2: parseFloat(LRBookingDetail.charges2 || 0).toFixed(2),
+                                            charge3: parseFloat(LRBookingDetail.charges3 || 0).toFixed(2),
+                                            charge4: parseFloat(LRBookingDetail.charges4 || 0).toFixed(2),
+                                            charge5: parseFloat(LRBookingDetail.charges5 || 0).toFixed(2),
+                                            charge6: parseFloat(LRBookingDetail.charges6 || 0).toFixed(2),
                                             rate: parseFloat(LRBookingDetail.rate || 0).toFixed(2),
                                             billAccountBranchMappingId: LRBookingDetail.billAccountBranchMappingId,
                                             creditDays: LRBookingDetail.creditDays,
@@ -1311,7 +1305,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY');
+                    return row.lrDateString;
                 },
                 "targets": colDef.length,
             });
@@ -1413,9 +1407,9 @@
 
                             if (!isDuplicate) {
                                 selectedLRDetails.push({
-                                    id: row.id,
+                                    lrBookingId: row.lrBookingId,
                                     lrNumber: row.lrNumber,
-                                    lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                    lrDate: row.lrDateString,
                                     privateMarka: row.privateMarka,
                                     packing: row.packing,
                                     chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
@@ -1427,13 +1421,13 @@
                                     consignee: row.consignee,
                                     billPartyName: row.billPartyName,
                                     parcel: row.parcel,
-                                    freight: parseFloat(row.freight || 0).toFixed(2),
-                                    charges1: parseFloat(row.charges1 || 0).toFixed(2),
-                                    charges2: parseFloat(row.charges2 || 0).toFixed(2),
-                                    charges3: parseFloat(row.charges3 || 0).toFixed(2),
-                                    charges4: parseFloat(row.charges4 || 0).toFixed(2),
-                                    charges5: parseFloat(row.charges5 || 0).toFixed(2),
-                                    charges6: parseFloat(row.charges6 || 0).toFixed(2),
+                                    freightAmount: parseFloat(row.freightAmount || 0).toFixed(2),
+                                    charge1: parseFloat(row.charge1 || 0).toFixed(2),
+                                    charge2: parseFloat(row.charge2 || 0).toFixed(2),
+                                    charge3: parseFloat(row.charge3 || 0).toFixed(2),
+                                    charge4: parseFloat(row.charge4 || 0).toFixed(2),
+                                    charge5: parseFloat(row.charge5 || 0).toFixed(2),
+                                    charge6: parseFloat(row.charge6 || 0).toFixed(2),
                                     rate: parseFloat(row.rate || 0).toFixed(2),
                                 });
                             }
@@ -1472,9 +1466,9 @@
                     var selectedRowsData = table.rows({ selected: true }).data().toArray();
                     selectedIds = selectedRowsData.map(row => row.id);
                     selectedLRDetails = selectedRowsData.map(row => ({
-                        id: row.id,
+                        lrBookingId: row.lrBookingId,
                         lrNumber: row.lrNumber,
-                        lrDate: moment(row.lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                        lrDate: row.lrDateString,
                         privateMarka: row.privateMarka,
                         packing: row.packing,
                         chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
@@ -1486,13 +1480,13 @@
                         consignee: row.consignee,
                         billPartyName: row.billPartyName,
                         parcel: row.parcel,
-                        freight: parseFloat(row.freight || 0).toFixed(2),
-                        charges1: parseFloat(row.charges1 || 0).toFixed(2),
-                        charges2: parseFloat(row.charges2 || 0).toFixed(2),
-                        charges3: parseFloat(row.charges3 || 0).toFixed(2),
-                        charges4: parseFloat(row.charges4 || 0).toFixed(2),
-                        charges5: parseFloat(row.charges5 || 0).toFixed(2),
-                        charges6: parseFloat(row.charges6 || 0).toFixed(2),
+                        freightAmount: parseFloat(row.freightAmount || 0).toFixed(2),
+                        charge1: parseFloat(row.charge1 || 0).toFixed(2),
+                        charge2: parseFloat(row.charge2 || 0).toFixed(2),
+                        charge3: parseFloat(row.charge3 || 0).toFixed(2),
+                        charge4: parseFloat(row.charge4 || 0).toFixed(2),
+                        charge5: parseFloat(row.charge5 || 0).toFixed(2),
+                        charge6: parseFloat(row.charge6 || 0).toFixed(2),
                         rate: parseFloat(row.rate || 0).toFixed(2),
                     }));
                 } else {
@@ -1517,9 +1511,9 @@
 
                             if (!isDuplicate) {
                                 selectedLRDetails.push({
-                                    id: row.data().id,
+                                    lrBookingId: row.data().lrBookingId,
                                     lrNumber: row.data().lrNumber,
-                                    lrDate: moment(row.data().lrDate.split('T')[0]).format('DD/MM/YYYY'),
+                                    lrDate: row.data().lrDateString,
                                     privateMarka: row.data().privateMarka,
                                     packing: row.data().packing,
                                     chargeWeight: parseFloat(row.data().chargeWeight || 0).toFixed(3),
@@ -1531,13 +1525,13 @@
                                     consignee: row.data().consignee,
                                     billPartyName: row.data().billPartyName,
                                     parcel: row.parcel,
-                                    freight: parseFloat(row.data().freight || 0).toFixed(2),
-                                    charges1: parseFloat(row.data().charges1 || 0).toFixed(2),
-                                    charges2: parseFloat(row.data().charges2 || 0).toFixed(2),
-                                    charges3: parseFloat(row.data().charges3 || 0).toFixed(2),
-                                    charges4: parseFloat(row.data().charges4 || 0).toFixed(2),
-                                    charges5: parseFloat(row.data().charges5 || 0).toFixed(2),
-                                    charges6: parseFloat(row.data().charges6 || 0).toFixed(2),
+                                    freightAmount: parseFloat(row.data().freightAmount || 0).toFixed(2),
+                                    charge1: parseFloat(row.data().charge1 || 0).toFixed(2),
+                                    charge2: parseFloat(row.data().charge2 || 0).toFixed(2),
+                                    charge3: parseFloat(row.data().charge3 || 0).toFixed(2),
+                                    charge4: parseFloat(row.data().charge4 || 0).toFixed(2),
+                                    charge5: parseFloat(row.data().charge5 || 0).toFixed(2),
+                                    charge6: parseFloat(row.data().charge6 || 0).toFixed(2),
                                     rate: parseFloat(row.data().rate || 0).toFixed(2),
                                 });
                             }
@@ -1556,114 +1550,114 @@
             htmlContentArray = [];
             for (var i = 0; i < selectedLRDetails.length; i++) {
 
-                var lrNumber = selectedLRDetails[i].id;
+                var lrBooking = selectedLRDetails[i];
 
-                if (addedIds.indexOf(lrNumber) === -1) {
-                    var charges1 = selectedLRDetails[i].charges1 == 0 ? "" : selectedLRDetails[i].charges1;
-                    var charges2 = selectedLRDetails[i].charges2 == 0 ? "" : selectedLRDetails[i].charges2;
-                    var charges3 = selectedLRDetails[i].charges3 == 0 ? "" : selectedLRDetails[i].charges3;
-                    var charges4 = selectedLRDetails[i].charges4 == 0 ? "" : selectedLRDetails[i].charges4;
-                    var charges5 = selectedLRDetails[i].charges5 == 0 ? "" : selectedLRDetails[i].charges5;
-                    var charges6 = selectedLRDetails[i].charges6 == 0 ? "" : selectedLRDetails[i].charges6;
+                if (addedIds.indexOf(lrBooking.lrBookingId) === -1) {
+                    var charge1 = lrBooking.charge1 == 0 ? "" : lrBooking.charge1;
+                    var charge2 = lrBooking.charge2 == 0 ? "" : lrBooking.charge2;
+                    var charge3 = lrBooking.charge3 == 0 ? "" : lrBooking.charge3;
+                    var charge4 = lrBooking.charge4 == 0 ? "" : lrBooking.charge4;
+                    var charge5 = lrBooking.charge5 == 0 ? "" : lrBooking.charge5;
+                    var charge6 = lrBooking.charge6 == 0 ? "" : lrBooking.charge6;
 
                     var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + contentRowId + '">' +
                         '<div class="col-md-1" style="display:none;">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="hdnLRId" id="hdnLRId' + contentRowId + '">' + selectedLRDetails[i].id + '</label>' +
+                        '<label for="hdnLRId" id="hdnLRId' + contentRowId + '">' + lrBooking.lrBookingId + '</label>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="row mb-0">' +
-                        '<div class="col-md-6">' +
+                        '<div class="col-md-6 pl-0 pr-0">' +
                         '<div class="form-group text-center mb-1">' +
                         '<label for="LRId" id="LRId' + contentRowId + '">' + (i + 1) + '</label>' +
                         '</div>' +
                         '</div>' +
-                        '<div class="col-md-6">' +
+                        '<div class="col-md-6 pl-0 pr-0">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="LRNumber" id="LRNumber' + contentRowId + '">' + selectedLRDetails[i].lrNumber + '</label>' +
+                        '<label for="lrNumber" id="lrNumber' + contentRowId + '">' + lrBooking.lrNumber + '</label>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="row mb-0">' +
-                        '<div class="col-md-6">' +
+                        '<div class="col-md-6 pl-0 pr-0">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="LRDate" id="LRDate' + contentRowId + '">' + (selectedLRDetails[i].lrDate || '') + '</label>' +
+                        '<label for="LRDate" id="LRDate' + contentRowId + '">' + (lrBooking.lrDate || '') + '</label>' +
                         '</div>' +
                         '</div>' +
-                        '<div class="col-md-6">' +
+                        '<div class="col-md-6 pl-0 pr-0">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="Packing" id="Packing' + contentRowId + '">' + (selectedLRDetails[i].parcel || '') + '</label>' +
+                        '<label for="Packing" id="Packing' + contentRowId + '">' + (lrBooking.parcel || '') + '</label>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="row mb-0">' +
-                        '<div class="col-md-6">' +
-                        '<div class="form-group text-center mb-1">' +
-                        '<label for="ChargeWeight" id="ChargeWeight' + contentRowId + '">' + (selectedLRDetails[i].chargeWeight) + '</label>' +
+                        '<div class="col-md-12 pl-0 pr-0">' +
+                        '<div class="form-group text-right mb-1">' +
+                        '<label for="ChargeWeight" id="ChargeWeight' + contentRowId + '">' + (lrBooking.chargeWeight) + '</label>' +
                         '</div>' +
                         '</div>' +
-                        '<div class="col-md-6">' +
-                        '<div class="form-group text-center mb-1">' +
-                        '<label for="TaxableAmount" id="TaxableAmount' + contentRowId + '">' + (selectedLRDetails[i].taxableAmount) + '</label>' +
+                        // '<div class="col-md-6">' +
+                        // '<div class="form-group text-center mb-1">' +
+                        // '<label for="TaxableAmount" id="TaxableAmount' + contentRowId + '">' + (lrBooking.taxableAmount) + '</label>' +
+                        // '</div>' +
+                        // '</div>' +
                         '</div>' +
                         '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-right mb-1">' +
+                        '<label for="GSTRate" id="GSTRate' + contentRowId + '">' + (lrBooking.rate) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-right mb-1">' +
+                        '<label for="FreightAmount" id="FreightAmount' + contentRowId + '">' + (lrBooking.freightAmount) + '</label>' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-right mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charge1' + contentRowId + '" placeholder="0.00" value="' + charge1 + '" data-min="' + charge1 + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-right mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charge2' + contentRowId + '" placeholder="0.00" value="' + charge2 + '" data-min="' + charge2 + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-right mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charge3' + contentRowId + '" placeholder="0.00" value="' + charge3 + '" data-min="' + charge3 + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-right mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charge4' + contentRowId + '" placeholder="0.00" value="' + charge4 + '" data-min="' + charge4 + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-right mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charge5' + contentRowId + '" placeholder="0.00" value="' + charge5 + '" data-min="' + charge5 + '">' +
+                        '</div>' +
+                        '</div>' +
+                        '<div class="col-md-1">' +
+                        '<div class="form-group text-right mb-1">' +
+                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charge6' + contentRowId + '" placeholder="0.00" value="' + charge6 + '" min="' + charge6 + '">' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="GSTRate" id="GSTRate' + contentRowId + '">' + (selectedLRDetails[i].rate) + '</label>' +
+                        '<a href="javascript:deleteRow(' + lrBooking.lrBookingId + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
                         '</div>' +
-                        '</div>' +
-                        '<div class="col-md-1">' +
-                        '<div class="form-group text-center mb-1">' +
-                        '<label for="Freight" id="Freight' + contentRowId + '">' + (selectedLRDetails[i].freight) + '</label>' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="col-md-1">' +
-                        '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges1' + contentRowId + '" placeholder="0.00" value="' + charges1 + '" data-min="' + charges1 + '">' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="col-md-1">' +
-                        '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges2' + contentRowId + '" placeholder="0.00" value="' + charges2 + '" data-min="' + charges2 + '">' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="col-md-1">' +
-                        '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges3' + contentRowId + '" placeholder="0.00" value="' + charges3 + '" data-min="' + charges3 + '">' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="col-md-1">' +
-                        '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges4' + contentRowId + '" placeholder="0.00" value="' + charges4 + '" data-min="' + charges4 + '">' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="col-md-1">' +
-                        '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges5' + contentRowId + '" placeholder="0.00" value="' + charges5 + '" data-min="' + charges5 + '">' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="col-md-1">' +
-                        '<div class="form-group text-center mb-1">' +
-                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charges6' + contentRowId + '" placeholder="0.00" value="' + charges6 + '" min="' + charges6 + '">' +
-                        '</div>' +
-                        '</div>' +
-                        '<div class="col-md-1">' +
-                        '<div class="form-group text-center mb-1">' +
-                        '<a href="javascript:deleteRow(' + selectedLRDetails[i].id + ');" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>' +
-                        '</div>' +
-                        '</div>' +
+                        '</div><div class="col-md-12"><hr></div>' +
                         '</div>';
 
                     htmlContentArray.push(htmlContent);
 
-                    addedIds.push(selectedLRDetails[i].id);
+                    addedIds.push(lrBooking.lrBookingId);
                     contentRowId++;
 
                 }
@@ -1710,16 +1704,15 @@
 
             $('.content-rows').each(function () {
                 var contentRowId = $(this).attr('id').replace('row-', '');
-                var Freight = parseFloat($('#Freight' + contentRowId).text()) || 0;
-                var Freight = parseFloat($('#Freight' + contentRowId).text()) || 0;
-                var Charges1 = parseFloat($('#Charges1' + contentRowId).val()) || 0;
-                var Charges2 = parseFloat($('#Charges2' + contentRowId).val()) || 0;
-                var Charges3 = parseFloat($('#Charges3' + contentRowId).val()) || 0;
-                var Charges4 = parseFloat($('#Charges4' + contentRowId).val()) || 0;
-                var Charges5 = parseFloat($('#Charges5' + contentRowId).val()) || 0;
-                var Charges6 = parseFloat($('#Charges6' + contentRowId).val()) || 0;
+                var FreightAmount = parseFloat($('#FreightAmount' + contentRowId).text()) || 0;
+                var Charge1 = parseFloat($('#Charge1' + contentRowId).val()) || 0;
+                var Charge2 = parseFloat($('#Charge2' + contentRowId).val()) || 0;
+                var Charge3 = parseFloat($('#Charge3' + contentRowId).val()) || 0;
+                var Charge4 = parseFloat($('#Charge4' + contentRowId).val()) || 0;
+                var Charge5 = parseFloat($('#Charge5' + contentRowId).val()) || 0;
+                var Charge6 = parseFloat($('#Charge6' + contentRowId).val()) || 0;
 
-                var sumOfLabels = Freight + Charges1 + Charges2 + Charges3 + Charges4 + Charges5 + Charges6;
+                var sumOfLabels = FreightAmount + Charge1 + Charge2 + Charge3 + Charge4 + Charge5 + Charge6;
                 parseFloat($('#TaxableAmount' + contentRowId).text(sumOfLabels.toFixed(2))) || 0;
             });
 

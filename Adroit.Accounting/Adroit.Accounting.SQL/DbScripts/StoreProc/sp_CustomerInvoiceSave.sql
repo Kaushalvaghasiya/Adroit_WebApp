@@ -61,10 +61,9 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerInvoiceSave]
     ,@UnPaidAmount decimal(10,2) 
     ,@CreditNoteId int 
 	,@BillNumber int 
-	,@LRDetailsList NVARCHAR(MAX) 
 	,@Prefix VARCHAR(15) 
 	,@Postfix VARCHAR(15) 
-
+	,@LRDetailsJson NVARCHAR(MAX) 
 )
 AS
 BEGIN
@@ -148,39 +147,33 @@ BEGIN
 
 		    DECLARE @LRDetails TABLE
 			(
-			    LRNumber NVARCHAR(255),
-			    LRDate DATETIME,
-			    Parcel NVARCHAR(255),
-			    ChargeWeight DECIMAL(18, 2),
-			    TaxableAmount DECIMAL(18, 2),
+			    LRBookingId int,
+			    BasicAmount DECIMAL(18, 2),
 			    Rate DECIMAL(18, 2),
-			    Freight DECIMAL(18, 2),
-			    Charges1 DECIMAL(18, 2),
-			    Charges2 DECIMAL(18, 2),
-			    Charges3 DECIMAL(18, 2),
-			    Charges4 DECIMAL(18, 2),
-			    Charges5 DECIMAL(18, 2),
-			    Charges6 DECIMAL(18, 2)
+			    FreightAmount DECIMAL(18, 2),
+			    Charge1 DECIMAL(18, 2),
+			    Charge2 DECIMAL(18, 2),
+			    Charge3 DECIMAL(18, 2),
+			    Charge4 DECIMAL(18, 2),
+			    Charge5 DECIMAL(18, 2),
+			    Charge6 DECIMAL(18, 2)
 			);
 
 	    INSERT INTO @LRDetails
 		SELECT
-		    LRNumber,LRDate,Parcel,ChargeWeight,TaxableAmount,Rate,Freight,Charges1,Charges2,Charges3,Charges4,Charges5,Charges6
-		FROM OPENJSON(@LRDetailsList)
+		    LRBookingId,BasicAmount,Rate,FreightAmount,Charge1,Charge2,Charge3,Charge4,Charge5,Charge6
+		FROM OPENJSON(@LRDetailsJson)
 		WITH (
-		    LRNumber NVARCHAR(255),
-		    LRDate DATETIME,
-		    Parcel NVARCHAR(255),
-		    ChargeWeight DECIMAL(18, 2),
-		    TaxableAmount DECIMAL(18, 2),
+		    LRBookingId int,
+		    BasicAmount DECIMAL(18, 2),
 		    Rate DECIMAL(18, 2),
-		    Freight DECIMAL(18, 2),
-		    Charges1 DECIMAL(18, 2),
-		    Charges2 DECIMAL(18, 2),
-		    Charges3 DECIMAL(18, 2),
-		    Charges4 DECIMAL(18, 2),
-		    Charges5 DECIMAL(18, 2),
-		    Charges6 DECIMAL(18, 2)
+		    FreightAmount DECIMAL(18, 2),
+		    Charge1 DECIMAL(18, 2),
+		    Charge2 DECIMAL(18, 2),
+		    Charge3 DECIMAL(18, 2),
+		    Charge4 DECIMAL(18, 2),
+		    Charge5 DECIMAL(18, 2),
+		    Charge6 DECIMAL(18, 2)
 		);
 
 		DECLARE @ProductBranchMappingId INT = (
@@ -330,29 +323,29 @@ BEGIN
 					DeletedById = @LoginId,
 					DeletedOn = GETUTCDATE(),
 					Deleted = 1
-			WHERE SalesBillMasterId = @Id AND [LRBookingId] NOT IN ( SELECT LRNumber FROM @LRDetails)
+			WHERE SalesBillMasterId = @Id AND [LRBookingId] NOT IN ( SELECT LRBookingId FROM @LRDetails)
 
 			UPDATE  [Z-SalesBillDetail-Z] SET
 					DeletedById = NULL,
 					DeletedOn = NULL,
 					Deleted = 0
-			WHERE SalesBillMasterId = @Id AND [LRBookingId] IN ( SELECT LRNumber FROM @LRDetails)
+			WHERE SalesBillMasterId = @Id AND [LRBookingId] IN ( SELECT LRBookingId FROM @LRDetails)
 		END
 
 		MERGE INTO [Z-SalesBillDetail-Z] AS LRTarget
 		USING @LRDetails AS LRSource
-		ON LRTarget.SalesBillMasterId = @Id AND LRTarget.LRBookingId = LRSource.LRNumber
+		ON LRTarget.SalesBillMasterId = @Id AND LRTarget.LRBookingId = LRSource.LRBookingId
 		WHEN MATCHED THEN
 		    UPDATE SET 
-		        LRTarget.BasicAmount = LRSource.TaxableAmount,
+		        LRTarget.BasicAmount = LRSource.BasicAmount,
 		        LRTarget.Rate = LRSource.Rate,
-		        LRTarget.FreightAmount = LRSource.Freight,
-		        LRTarget.Charge1 = LRSource.Charges1,
-		        LRTarget.Charge2 = LRSource.Charges2,
-		        LRTarget.Charge3 = LRSource.Charges3,
-		        LRTarget.Charge4 = LRSource.Charges4,
-		        LRTarget.Charge5 = LRSource.Charges5,
-		        LRTarget.Charge6 = LRSource.Charges6,
+		        LRTarget.FreightAmount = LRSource.FreightAmount,
+		        LRTarget.Charge1 = LRSource.Charge1,
+		        LRTarget.Charge2 = LRSource.Charge2,
+		        LRTarget.Charge3 = LRSource.Charge3,
+		        LRTarget.Charge4 = LRSource.Charge4,
+		        LRTarget.Charge5 = LRSource.Charge5,
+		        LRTarget.Charge6 = LRSource.Charge6,
 		        LRTarget.ProductBranchMappingId = @ProductBranchMappingId,
 		        LRTarget.ModifiedOn = GETUTCDATE(),
 		        LRTarget.ModifiedById = @LoginId
@@ -367,8 +360,8 @@ BEGIN
 		        ProductBranchMappingId, AddedOn, AddedById
 		    )
 		    VALUES (
-		        @Id, LRSource.LRNumber, LRSource.TaxableAmount, LRSource.Rate, LRSource.Freight, 
-				LRSource.Charges1, LRSource.Charges2, LRSource.Charges3, LRSource.Charges4, LRSource.Charges5, LRSource.Charges6,
+		        @Id, LRSource.LRBookingId, LRSource.BasicAmount, LRSource.Rate, LRSource.FreightAmount, 
+				LRSource.Charge1, LRSource.Charge2, LRSource.Charge3, LRSource.Charge4, LRSource.Charge5, LRSource.Charge6,
 		        0, 0, 0, 0, 0,
 		        0, 0, 0, 0, 0, 0,
 		        0, 0, 0, 0,

@@ -19,7 +19,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public CustomerFirmTransportSettingViewModel CustomerFirmTransportSetting { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
         public CustomerBookViewModel CustomerBook { get; set; }
-        public string? LRDetailsArray { get; set; }
+        public List<SalesBillDetail> LRDetailsArray { get; set; }
         public string? City { get; set; }
         public string? GSTNo { get; set; }
         public string? BillPartyName { get; set; }

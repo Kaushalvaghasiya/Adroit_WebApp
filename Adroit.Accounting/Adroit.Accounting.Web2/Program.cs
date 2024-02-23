@@ -151,7 +151,8 @@ try
     builder.Services.AddSingleton<IChalanReceiveAgency, ChalanReceiveAgencyRepository>();
     builder.Services.AddSingleton<ICustomerGeneralExpensesMulti, CustomerGeneralExpensesMultiRepository>();
     builder.Services.AddSingleton<ICustomerGeneralInvoice, CustomerGeneralInvoiceRepository>();
-	builder.Services.AddSession();
+    builder.Services.AddSingleton<ISalesBillMaster, SalesBillMasterRepository>();
+    builder.Services.AddSession();
 
     if (!builder.Environment.IsDevelopment())
     {

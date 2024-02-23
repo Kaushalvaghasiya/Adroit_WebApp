@@ -86,6 +86,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ICustomerGeneralInvoice _customerGeneralInvoiceRepository;
         private readonly IChalanReceiveAgency _chalanReceiveAgency;
         private IGSTInvoiceType _gstInvoiceTypeRepository;
+        private readonly ISalesBillMaster _salesBillMaster;
         public CustomerController(
             ILoginHandler loginHandler, IUser userRepository, IOptions<ConfigurationData> configurationData,
             IVehicle vehicleRepo,
@@ -160,7 +161,8 @@ namespace Adroit.Accounting.Web.Controllers
             ICustomerGeneralExpensesMulti customerGeneralExpensesMultiRepository,
             ICustomerGeneralInvoice customerGeneralInvoiceRepository,
             IChalanReceiveAgency chalanReceiveAgency,
-            IGSTInvoiceType gstInvoiceTypeRepository)
+            IGSTInvoiceType gstInvoiceTypeRepository,
+            ISalesBillMaster salesBillMaster)
             : base(loginHandler, userRepository, configurationData)
         {
             _vehicleRepo = vehicleRepo;
@@ -237,6 +239,7 @@ namespace Adroit.Accounting.Web.Controllers
             _customerGeneralInvoiceRepository = customerGeneralInvoiceRepository;
             _chalanReceiveAgency = chalanReceiveAgency;
             _gstInvoiceTypeRepository = gstInvoiceTypeRepository;
+            _salesBillMaster = salesBillMaster;
         }
 
         public JsonResult GetAccountGroups()

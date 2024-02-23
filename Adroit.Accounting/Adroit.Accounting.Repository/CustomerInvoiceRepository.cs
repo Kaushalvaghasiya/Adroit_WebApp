@@ -4,6 +4,7 @@ using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
 using System.Data;
+using System.Text.Json;
 
 namespace Adroit.Accounting.Repository
 {
@@ -74,9 +75,10 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@UnPaidAmount", value.UnPaidAmount);
             parameters.Add("@CreditNoteId", value.CreditNoteId);
             parameters.Add("@BillNumber", value.BillNumber);
-            parameters.Add("@LRDetailsList", value.LRDetailsArray);
             parameters.Add("@Prefix", value.Prefix);
             parameters.Add("@Postfix", value.Postfix);
+
+            parameters.Add("@LRDetailsJson", JsonSerializer.Serialize(value.LRDetailsArray));
 
             return QueryHelper.Save("sp_CustomerInvoiceSave", connectionString, parameters);
         }
