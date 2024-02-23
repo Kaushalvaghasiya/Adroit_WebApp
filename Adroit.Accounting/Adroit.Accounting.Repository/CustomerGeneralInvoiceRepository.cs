@@ -4,6 +4,7 @@ using Adroit.Accounting.Model.ViewModel;
 using Adroit.Accounting.Repository.IRepository;
 using Adroit.Accounting.SQL;
 using Dapper;
+using System.Text.Json;
 
 namespace Adroit.Accounting.Repository
 {
@@ -18,6 +19,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@Id", value.Id);
             parameters.Add("@PurBillNo", value.PurchaseBillNumber);
             parameters.Add("@BillDate", value.BillDate);
+            parameters.Add("@BillNumberFirm", value.BillNumberFirm);
             parameters.Add("@CityIdTo", value.CityIdTo);
             parameters.Add("@AccountBranchMappingId", value.AccountBranchMappingId);
             parameters.Add("@TransportGSTNumber", value.TransportGSTNumber);
@@ -53,7 +55,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BillTypeID", value.BillTypeID);
             parameters.Add("@EwayBillNumber", value.EwayBillNumber);
             parameters.Add("@EntryTypeName", value.EntryTypeName);
-            parameters.Add("@DetailTableDetails", value.DetailTableDetails);
+            parameters.Add("@PurchaseDetailsJson", JsonSerializer.Serialize(value.PurchaseDetailsArray));
             return QueryHelper.Save("sp_CustomerGeneralInvoiceSave", connectionString, parameters);
         }
 
@@ -70,9 +72,10 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SortOrder", sortOrder);
             return QueryHelper.GetList<PurchaseBillMasterGridViewModel>("sp_CustomerGeneralInvoiceList", connectionString, parameters);
         }
-        public List<PurchaseBillDetailGridViewModel> GetPurchasebillDetailListByPurchaseBillMasterId(string connectionString, int purchaseBillMasterId, int branchId)
+        public List<PurchaseBillDetailGridViewModel> GetPurchasebillDetailListByPurchaseBillMasterId(string connectionString, int purchaseBillMasterId, int branchId, int loginId)
         {
             var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
             parameters.Add("@BranchId", branchId);
             parameters.Add("@PurchaseBillMasterId", purchaseBillMasterId);
             return QueryHelper.GetList<PurchaseBillDetailGridViewModel>("sp_ChalanGetPurchaseBillDetailTableListByPurchaseBillMasterId", connectionString, parameters);

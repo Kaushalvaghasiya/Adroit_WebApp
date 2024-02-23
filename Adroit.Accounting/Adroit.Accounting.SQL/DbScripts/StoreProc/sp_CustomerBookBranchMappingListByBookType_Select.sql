@@ -12,7 +12,7 @@ BEGIN
 		FROM CustomerBookBranchMapping 
 		INNER JOIN [CustomerBook] ON CustomerBookBranchMapping.BookId = [CustomerBook].Id AND CustomerBookBranchMapping.BranchId = @BranchId  
 		INNER JOIN CustomerAccount on CustomerBook.BookAccountId = [CustomerAccount].Id AND CustomerAccount.CustomerId = @CustomerId
-		INNER JOIN BookTypeAdmin ON BookTypeAdmin.Id = CustomerBook.BookTypeId
+		INNER JOIN BookTypeAdmin ON CONCAT(',', CAST(BookTypeAdmin.Id AS VARCHAR), ',') LIKE CONCAT('%,', CustomerBook.BookTypeId, ',%')
 		WHERE [CustomerBook].CustomerId = @CustomerId AND BookTypeAdmin.Title = @BookType
 		AND [CustomerBook].Deleted = 0
 		AND [CustomerBook].Active = 1

@@ -35,7 +35,7 @@ namespace Adroit.Accounting.Web.Controllers
             return View(model);
         }
         [HttpGet]
-        public JsonResult GetCustomerPurchase(int id)
+        public JsonResult GetCustomerGeneralInvoice(int id)
         {
             ApiResult result = new ApiResult();
             try
@@ -88,7 +88,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
         [HttpGet]
-        public JsonResult CustomerPurchaseList(int draw = 0, int start = 0, int length = 10)
+        public JsonResult CustomerGeneralInvoiceList(int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<PurchaseBillMasterGridViewModel>();
             try
@@ -112,7 +112,7 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
         [HttpPost]
-        public JsonResult SaveCustomerPurchase([FromBody] PurchaseBillMasterViewModel model)
+        public JsonResult SaveCustomerGeneralInvoice([FromBody] PurchaseBillMasterViewModel model)
         {
             ApiResult result = new ApiResult();
             try
@@ -134,7 +134,7 @@ namespace Adroit.Accounting.Web.Controllers
             }
             return Json(result);
         }
-        public JsonResult DeleteCustomerPurchase(int id)
+        public JsonResult DeleteCustomerGeneralInvoice(int id)
         {
             ApiResult result = new ApiResult();
             try
@@ -154,7 +154,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                var data = _customerGeneralInvoiceRepository.GetPurchasebillDetailListByPurchaseBillMasterId(_configurationData.DefaultConnection, id, CurrentBranchId);
+                var data = _customerGeneralInvoiceRepository.GetPurchasebillDetailListByPurchaseBillMasterId(_configurationData.DefaultConnection, id, CurrentBranchId, CurrentUserId);
                 result.data = data;
                 result.result = Constant.API_RESULT_SUCCESS;
             }

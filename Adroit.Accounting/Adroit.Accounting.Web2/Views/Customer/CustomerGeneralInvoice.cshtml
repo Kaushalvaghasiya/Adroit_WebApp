@@ -10,7 +10,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Transaction</a></li>
                     <li><a href="#">Purchase</a></li>
-                    <li class="active"><span>Purchase</span></li>
+                    <li class="active"><span>General Invoice</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -235,11 +235,11 @@
                                     <div class="col-md-2">
                                         <input type="text" class="form-control" id="RCMBillNumber" placeholder="" readonly tabindex="-1">
                                     </div>
-                                     <label for="exampleInputname" class="col-md-2 col-lg-1 form-label">
+                                     <label for="BillNumberFirm" class="col-md-2 col-lg-1 form-label">
                                        Firm Entry Vou. #
                                     </label>
                                     <div class="col-md-4 col-lg-2">
-                                        <input type="text" class="form-control" id="exampleInputname"
+                                        <input type="text" class="form-control" id="BillNumberFirm"
                                                placeholder="" readonly>
                                     </div> 
                                 </div>
@@ -314,7 +314,7 @@
                                 <div class="row customer-gnr-ch-multi">
                                     <div class="col-md-12 col-lg-12 p-2">
                                         <div class="card mb-0 m-0 p-2 pl-3 pr-3">
-                                            <div class="col-md-12 p-0 m-0" id="BookMultiList">
+                                            <div class="col-md-12 p-0 m-0" id="contentRow">
                                             </div>
                                         </div>
                                     </div>
@@ -774,6 +774,11 @@
 @section Scripts
     {
     <script>
+        
+        var selectedLRDetails = [];
+        var addedIds = [];
+        var htmlContentArray = [];
+        var contentRowId = 0;
 
         $(function (e) {
             $('.dv-list').hide();
@@ -823,7 +828,6 @@
             $("#BookId").val($("#BookId option:first").val()).trigger("change");
             $("#TransportModeId").val($("#TransportModeId option:contains('Road')").val()).trigger("change");
             $("#AccountBranchMappingId").focus();
-            $("#PurBillNo").val(0);
         }
 
         var gridData = null;
@@ -845,7 +849,7 @@
             let colDef = [];
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.firmEntryVou;
+                    return row.billNumberFirm;
                 },
                 "targets": colDef.length,
             });
@@ -927,7 +931,7 @@
             });
 
 
-            columns.push({ "data": "firmEntryVou", "name": "firmEntryVou" });
+            columns.push({ "data": "billNumberFirm", "name": "billNumberFirm" });
             columns.push({ "data": "purchaseBillNumber", "name": "purchaseBillNumber" });
             columns.push({ "data": "billDate", "name": "billDate" });
             columns.push({ "data": "billPartyName", "name": "billPartyName" });
@@ -966,7 +970,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/Customer/CustomerPurchaseList"))',
+                    url: '@(Url.Content("~/Customer/CustomerGeneralInvoiceList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -985,6 +989,7 @@
             $("#Id").val(0);
             $("#PurBillNo").val('');
             $("#RCMBillNumber").val(0);
+            $("#BillNumberFirm").val('');
             var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
             $("#BillDate").datepicker("setDate", formattedMinimumDate);
             $("#IRNDate").datepicker("setDate", formattedMinimumDate);
@@ -1019,7 +1024,7 @@
 
             $("#AccountBranchMappingId").val(null).trigger('change');
             $("#BillTypeID").val(null).trigger('change');
-            $('#BookMultiList').html('');
+            $("#contentRow").html('');
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -1040,19 +1045,7 @@
                     showWarning("", "Please enter Date");
                     $("#BillDate").focus();
                     return false;
-                }
-
-                if ($("#PurBillNo").val() == "") {
-                    showWarning("", "Please enter firm chalan");
-                    $("#PurBillNo").focus();
-                    return false;
-                }
-
-                if ($("#ProductMappingId1").val() == null || $("#ProductMappingId1").val() == "") {
-                    showWarning("", "Please select product");
-                    $("#ProductMappingId1").focus();
-                    return false;
-                }
+                }                              
 
                 if (ewayBillNumber.length < 12) {
                     showWarning("", "Eway Bill Number should be at least 12 characters long.");
@@ -1160,6 +1153,7 @@
                 savedata.Id = parseInt($("#Id").val());
                 savedata.BillDate = moment(getDate($("#BillDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
                 savedata.PurchaseBillNumber = $("#PurBillNo").val();
+                savedata.BillNumberFirm = $("#BillNumberFirm").val();
                 savedata.RCMBillNumber = $("#RCMBillNumber").val();                
                 savedata.TransportGSTNumber = $("#TransGSTId").val();
                 savedata.TransportLRNumber = $("#LRNumber").val();
@@ -1196,11 +1190,15 @@
                 savedata.EwayBillNumber = $("#ewayBill").val();
                 savedata.EntryTypeName = "PUR";
 
+                savedata.PurchaseDetailsArray = [];
                 var detailGridList = getRowData();
-                var detailList = [];
-                console.log(detailGridList);
-                detailGridList.forEach(function(details){
-                   var detail = {};    
+                if (detailGridList[0].ProductMappingId == undefined) {
+                    showWarning("", "Select minimum 1 Product.");
+                    $("#BillAmount").focus();
+                    return false;
+                }
+                detailGridList.forEach(function (details) {
+                   var detail = {};  
                    var expdateParts = details.ExpDt.split('/');
                    var expdt;
                    if (expdateParts.length === 2) {
@@ -1229,7 +1227,7 @@
                    detail.BasicAmount = parseFloat(details.TaxAmt || 0).toFixed(3);
                    detail.GSTStateCessPercentage = parseFloat(details.Scess || 0).toFixed(2);
                    detail.GSTCentralCess = parseFloat(details.Ccess || 0).toFixed(2);
-                   detail.BatchNumber = details.BatchNo
+                   detail.BatchNumber = details.BatchNo;
                    detail.ExpiryDate = moment(expdt).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
                    detail.ItemDesc1 = details.ItemDec1 == undefined ? null : details.ItemDec1;
                    detail.ItemDesc2 = details.ItemDec2 == undefined ? null : details.ItemDec2;
@@ -1244,16 +1242,15 @@
                    detail.SpecialDiscount3 = parseFloat(details.CashDiscPerc || 0).toFixed(2);
                    detail.SalesRate = parseFloat(details.TaxPlusAmt || 0).toFixed(3);
                    detail.SalesDiscount = parseFloat(details.RetailRate || 0).toFixed(3);
-
-                   detailList.push(detail);
+                   
+                   savedata.PurchaseDetailsArray.push(detail);
                 });
-
-                savedata.detailTableDetails = JSON.stringify(detailList);
+                
                 blockUI('container');
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveCustomerPurchase", "Customer"))",
+                    url: "@(Url.Action("SaveCustomerGeneralInvoice", "Customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -1261,7 +1258,7 @@
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
                             fromReset();
-                            showWarning("", 'Purchase saved successfully.');
+                            showWarning("", 'General Invoice saved successfully.');
                             $("#Id").val(0);
                             refreshDatatableList();
                             $('.btn-back').click();
@@ -1289,7 +1286,7 @@
             }
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteCustomerPurchase"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteCustomerGeneralInvoice"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -1317,7 +1314,7 @@
         function getDetail(id, isViewMode) {
              try {
                  blockUI('container');
-               var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetCustomerPurchase"))" + "/" + id, "",
+               var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetCustomerGeneralInvoice"))" + "/" + id, "",
                      function (result) {
                          unblockUI('container');
                          try {
@@ -1333,6 +1330,7 @@
 
                                  $("#Id").val(result.data.id);
                                  $("#PurBillNo").val(result.data.purchaseBillNumber);
+                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
                                  $("#RCMBillNumber").val(result.data.rcmBillNumber);
                                  $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
                                  $("#LRDate").val(moment(result.data.transportLRDate.split('T')[0]).format('DD/MM/YYYY'));
@@ -1368,8 +1366,8 @@
                                  $("#BillAmount").val(result.data.billAmount ? result.data.billAmount.toFixed(2) : '');
                                  $("#TCSPercent").val(result.data.tcsPercentage ? result.data.tcsPercentage.toFixed(3) : '');
                                  $("#TCSAmount").val(result.data.tcsAmount ? result.data.tcsAmount.toFixed(2) : '');
-                                calculateBasicAmount();
-                                 getLRDetailListByPurchaseBillMaster(result.data.id);
+                                 calculateBasicAmount();
+                                 getPurchasebillDetailListByPurchaseBillMasterId(result.data.id);
 
                              } else {
                                  showError('Error', result.data); //warning,  success, error, info
@@ -1412,7 +1410,7 @@
             }
         }
 
-        function getLRDetailListByPurchaseBillMaster(masterId) {
+        function getPurchasebillDetailListByPurchaseBillMasterId(masterId) {
             try {
                 blockUI('container');
                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetPurchasebillDetailListByPurchaseBillMasterId"))" + "/" + masterId, "",
@@ -1420,12 +1418,17 @@
                         unblockUI('container');
                         try {
                             if (result.result == RESULT_SUCCESS) {
-                                $('#BookMultiList').empty();
+                                $('#contentRow').empty();
                                 contentRowId = 0;
                                 result.data.forEach(function (LRBookingDetail) {  
                                     addRow();
+
+                                    $("#ProductMappingId" + contentRowId).append($('<option>', {
+                                        value: LRBookingDetail.productBranchMappingId,
+                                        text: LRBookingDetail.productTitle,
+                                    }));
                                     $("#SrTextbox" + contentRowId).val(contentRowId);
-                                    $("#ProductMappingId" + contentRowId).val(LRBookingDetail.productBranchMappingId);
+                                    $("#ProductMappingId" + contentRowId).val(LRBookingDetail.productBranchMappingId).trigger('change');
                                     $("#ItemDec1" + contentRowId).val(LRBookingDetail.itemDec1).trigger('change');
                                     $("#ItemDec2" + contentRowId).val(LRBookingDetail.itemDec2).trigger('change');
                                     $("#ItemDec3" + contentRowId).val(LRBookingDetail.itemDec3).trigger('change');
@@ -1575,7 +1578,7 @@
 
         function clearGrid(){
             contentRowId = 0;
-            $('#BookMultiList').empty();
+            $('#contentRow').empty();
             $('#Header1').text(gridData.customerBook.headerBox1 || "Header1");
             $('#Header2').text(gridData.customerBook.headerBox2 || "Header2");
             $('#Header3').text(gridData.customerBook.headerBox3 || "Header3");
@@ -1913,7 +1916,7 @@
             htmlContentArray.push(htmlContent);
 
             $('.content-rows-add-btn').remove();
-            $('#BookMultiList').append(htmlContentArray.join(''));
+            $('#contentRow').append(htmlContentArray.join(''));
             var accordionContainers = $('#row-' + contentRowId + ' .demo-accordion');
             accordionContainers.each(function () {
                 $(this).accordionjs();

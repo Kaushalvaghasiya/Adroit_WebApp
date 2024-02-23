@@ -23,8 +23,8 @@ Begin
 	(   
 		SELECT ROW_NUMBER() over 
 		(ORDER BY					
-			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN '' END ASC,  
-			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN '' END DESC,
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='ASC' THEN [Z-PurchaseBillMaster-Z].BillNumberFirm END ASC,  
+			CASE WHEN @SortColumn = 0 AND @SortOrder ='DESC' THEN [Z-PurchaseBillMaster-Z].BillNumberFirm END DESC,
 			CASE WHEN @SortColumn = 1 AND @SortOrder ='ASC' THEN [Z-PurchaseBillMaster-Z].PurchaseBillNumber END ASC,  
 			CASE WHEN @SortColumn = 1 AND @SortOrder ='DESC' THEN [Z-PurchaseBillMaster-Z].PurchaseBillNumber END DESC,
 			CASE WHEN @SortColumn = 2 AND @SortOrder ='ASC' THEN [Z-PurchaseBillMaster-Z].BillDate END ASC,  
@@ -48,7 +48,7 @@ Begin
 		) AS RowNum,
 		Count(*) over () AS TotalCount 
 		,[Z-PurchaseBillMaster-Z].Id
-		,'' AS FirmEntryVou
+		,[Z-PurchaseBillMaster-Z].BillNumberFirm 
 		,'' AS EInvoiceAck
 		,'' AS GSTRTwoAReconsilDate
 		,'' AS GSTRThreeBFillingDate

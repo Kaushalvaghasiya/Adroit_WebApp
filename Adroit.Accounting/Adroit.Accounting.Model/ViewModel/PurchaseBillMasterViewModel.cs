@@ -27,6 +27,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> TransGSTList { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
         public CustomerBookViewModel CustomerBook { get; set; }
+        public List<PurchaseBillDetail> PurchaseDetailsArray { get; set; }
         public string? DeliveryBranch { get; set; }
         public string? CityFrom { get; set; }
         public string? CityTo { get; set; }

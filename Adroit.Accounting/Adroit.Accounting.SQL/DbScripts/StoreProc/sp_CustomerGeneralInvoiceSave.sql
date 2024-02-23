@@ -4,7 +4,8 @@ CREATE OR ALTER procedure [dbo].[sp_CustomerGeneralInvoiceSave]
 	,@FirmId INT
 	,@BranchId INT
 	,@Id INT 
-	,@PurBillNo varchar(20)
+	,@PurBillNo varchar(40)
+	,@BillNumberFirm varchar(20)
 	,@BillDate DATETIME 
 	,@CityIdTo INT
 	,@AccountBranchMappingId INT
@@ -41,7 +42,7 @@ CREATE OR ALTER procedure [dbo].[sp_CustomerGeneralInvoiceSave]
 	,@EwayBillNumber VARCHAR(25)
 	,@BillTypeID TINYINT 
 	,@EntryTypeName VARCHAR(25)
-	,@DetailTableDetails NVARCHAR(MAX)
+	,@PurchaseDetailsJson NVARCHAR(MAX) 
 
 )
 AS
@@ -52,7 +53,6 @@ BEGIN
 		DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
 
 		DECLARE @message VARCHAR(4000);
-		DECLARE @ChalanMaxDate DATETIME=NULL, @ChalanMinDate DATETIME=NULL;
 
 		IF @YearId IS NULL
 		BEGIN
@@ -79,13 +79,12 @@ BEGIN
 			AND [BillEntryTypeAdmin].Active = 1
 		);
 		
-		IF (ISNULL(@PurBillNo, 0) = 0)
+		IF (@PurBillNo IS NULL OR @PurBillNo = '')
 		BEGIN
 			SELECT @PurBillNo = 'AUTO-' + REPLACE(CAST(NEWID() AS VARCHAR(36)), '-', '');
 		END
 
-
-		DECLARE @BillNumberFirm varchar(20)
+		IF (@BillNumberFirm IS NULL OR @BillNumberFirm = '')
 		SELECT @BillNumberFirm = ISNULL(MAX(ISNULL(TRY_CAST(BillNumberFirm AS INT), 0)), 0) + 1
 		FROM [Z-PurchaseBillMaster-Z]
 		WHERE [Z-PurchaseBillMaster-Z].FirmId = @FirmId AND [Z-PurchaseBillMaster-Z].YearId = @YearId AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-PurchaseBillMaster-Z].EntryTypeId = @EntryTypeId 			
@@ -141,7 +140,7 @@ BEGIN
 			DiscountAmount,Rate,OtherCharges,BasicAmount,GSTStateCessPercentage,GSTCentralCess,BatchNumber,ExpiryDate,
 			ItemDesc1,ItemDesc2,ItemDesc3,ItemDesc4,ItemDesc5,ItemDesc6,QuantityDiscountPercentage,QuantityDiscountAmount,
 			SpecialDiscount1,SpecialDiscount2,SpecialDiscount3,SalesRate,SalesDiscount
-		FROM OPENJSON(@DetailTableDetails)
+		FROM OPENJSON(@PurchaseDetailsJson)
 		WITH (
 				ProductBranchMappingId int,
 				Quantity1 decimal(9, 3),
