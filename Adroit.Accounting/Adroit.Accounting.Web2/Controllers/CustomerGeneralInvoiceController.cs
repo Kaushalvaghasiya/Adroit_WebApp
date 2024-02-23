@@ -2,6 +2,7 @@
 using Adroit.Accounting.Model.GridViewModel;
 using Adroit.Accounting.Model.Master;
 using Adroit.Accounting.Model.ViewModel;
+using Adroit.Accounting.Model.Enums;
 using Adroit.Accounting.Repository;
 using Adroit.Accounting.SQL.Tables;
 using Adroit.Accounting.Utility;
@@ -18,7 +19,7 @@ namespace Adroit.Accounting.Web.Controllers
         {
             var model = new PurchaseBillMasterViewModel();
             model.BillTypeList = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId);            
-            model.BookBranchList = _customerBookRepository.SelectListByBookType(CurrentBranchId, "Purchase", _configurationData.DefaultConnection);
+            model.BookBranchList = _customerBookRepository.SelectListByBookType(CurrentBranchId, BookTypeList.Purchase.DescriptionAttr(), _configurationData.DefaultConnection);
             model.InvoiceTypeList = _billTypeAdminRepository.GetBillTypeAdminList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId);
             model.BillFromList = _salesBillFromAdminRepository.SalesBillFromAdminList(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId);
             model.AccountBranchMappingList = _customerAccountBranchMapping.GetCustomerAccountBranchMappingList(CurrentFirmId, CurrentBranchId, _configurationData.DefaultConnection, CurrentUserId);
