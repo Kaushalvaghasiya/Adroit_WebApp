@@ -69,6 +69,9 @@ AS
 BEGIN
 	BEGIN TRAN
 	BEGIN TRY
+		DECLARE @BillDateOnly DATETIME
+		SET @BillDateOnly = CAST(@BillDate AS DATE)
+
 		exec [sp_ValidateLoginBranch] @LoginId, @BranchId, @YearId
 
 		DECLARE @message VARCHAR(4000);
@@ -88,7 +91,7 @@ BEGIN
 			
 			SET @ChalanMaxDate = ISNULL(@ChalanMaxDate, CAST(GETDATE() AS DATE))
 		
-		    IF (CAST(@BillDate AS DATE) < @ChalanMaxDate)
+		    IF (@BillDateOnly < @ChalanMaxDate)
 		    BEGIN
 		        SET @message = 'Please select a date on or after ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
@@ -102,7 +105,7 @@ BEGIN
 			
 			SET @ChalanMaxDate = ISNULL(@ChalanMaxDate, CAST(GETDATE() AS DATE))
 		
-		    IF (CAST(@BillDate AS DATE) < @ChalanMaxDate)
+		    IF (@BillDateOnly < @ChalanMaxDate)
 		    BEGIN
 		        SET @message = 'Please select a date on or after ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
@@ -116,7 +119,7 @@ BEGIN
 			
 			SET @ChalanMaxDate = ISNULL(@ChalanMaxDate, CAST(GETDATE() AS DATE))
 		
-		    IF (CAST(@BillDate AS DATE) < @ChalanMaxDate)
+		    IF (@BillDateOnly < @ChalanMaxDate)
 		    BEGIN
 		        SET @message = 'Please select a date on or after ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
@@ -133,7 +136,7 @@ BEGIN
 			AND [Z-PurchaseBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 		    ORDER BY BillNumberBranch DESC;
 			
-			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , @BillDate)
+			SET @ChalanMaxDate  = ISNULL(@ChalanMaxDate , @BillDateOnly)
 		
 			SELECT TOP 1 @ChalanMinDate = CAST(BillDate AS DATE)
 		    FROM [Z-PurchaseBillMaster-Z]
@@ -146,7 +149,7 @@ BEGIN
 
 			SET @ChalanMinDate  = ISNULL(@ChalanMinDate , DATEADD(DAY, 365, @ChalanMaxDate))
 				
-		    IF NOT (CAST(@BillDate AS DATE) BETWEEN @ChalanMaxDate AND @ChalanMinDate)
+		    IF NOT (@BillDateOnly BETWEEN @ChalanMaxDate AND @ChalanMinDate)
 		    BEGIN
 		        SET @message = 'Please select a date between ' + CONVERT(NVARCHAR, @ChalanMaxDate, 103) + ' and ' + CONVERT(NVARCHAR, @ChalanMinDate, 103);
 		        RAISERROR ('%s', 16, 1, @message);
