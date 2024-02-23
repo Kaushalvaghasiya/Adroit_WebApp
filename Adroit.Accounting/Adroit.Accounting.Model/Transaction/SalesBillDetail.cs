@@ -2,6 +2,8 @@
 //    Copyright (c) Adroit IBS Pvt Ltd. All rights reserved.
 //-----------------------------------------------------------------------
 
+using System.Text.Json.Serialization;
+
 namespace Adroit.Accounting.Model
 {
     public partial class SalesBillDetail
@@ -39,6 +41,8 @@ namespace Adroit.Accounting.Model
         public decimal GSTCentralCessPercentage { get; set; }
         public decimal GSTCentralCessAmount { get; set; }
         public string BatchNumber { get; set; }
+
+        [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? ExpiryDate { get; set; }
         public string ItemDescription1 { get; set; }
         public string ItemDescription2 { get; set; }
@@ -57,11 +61,16 @@ namespace Adroit.Accounting.Model
         public decimal Charge4 { get; set; }
         public decimal Charge5 { get; set; }
         public decimal Charge6 { get; set; }
+        
+        [JsonConverter(typeof(CustomDateTimeConverter))]
         public System.DateTime AddedOn { get; set; }
         public int AddedById { get; set; }
         public int? DeletedById { get; set; }
+        [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? DeletedOn { get; set; }
         public int? ModifiedById { get; set; }
+
+        [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? ModifiedOn { get; set; }
         public bool Deleted { get; set; }
     }
