@@ -187,7 +187,7 @@ BEGIN
 							WHERE (Id = @Id) 
 							OR (BranchId = @BranchId AND BillNumberBranch = @BillNumberBranch AND Deleted = 1)
 		DECLARE @AccountId INT
-		SELECT @AccountId = ID FROM CustomerAccountBranchMapping WHERE Id = @AccountBranchMappingId
+		SELECT @AccountId = AccountId FROM CustomerAccountBranchMapping WHERE Id = @AccountBranchMappingId
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
