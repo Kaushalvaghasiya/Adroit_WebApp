@@ -112,6 +112,20 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@firmId", firmId);
             return QueryHelper.Get<CustomerBookViewModel>("sp_GetListWithIsGeneralPurchaseId", connectionString, parameters);
         }
-        
+        public CustomerBook GetWithCustomerBookBranchMapping(int id, string connectionString, int loginId, int BranchId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Id", id);
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", BranchId);
+            return QueryHelper.Get<CustomerBook>("sp_GetCustomerBookWithBranchMapping", connectionString, parameters);
+        }
+        public List<DropdownViewModel> SelectListByBookType(int branchId, string bookType, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@BookType", bookType);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerBookBranchMappingListByBookType_Select", connectionString, parameters);
+        }
     }
 }

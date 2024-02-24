@@ -1,0 +1,2198 @@
+﻿@model Adroit.Accounting.Model.ViewModel.PurchaseBillMasterViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="dv-list side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Purchase</a></li>
+                    <li class="active"><span>General Invoice</span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <a href="#" class="btn btn-secondary text-white mr-2 btn-sm"
+                           data-toggle="tooltip" title="" data-placement="bottom"
+                           data-original-title="Bookmark this page">
+                            <span>
+                                <i class="fa fa-star"></i>
+                            </span>
+                        </a>
+                        <a href="lockscreen.html" class="btn btn-primary text-white mr-2 btn-sm"
+                           data-toggle="tooltip" title="" data-placement="bottom"
+                           data-original-title="lock">
+                            <span>
+                                <i class="fa fa-lock"></i>
+                            </span>
+                        </a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white btn-sm"
+                           data-toggle="tooltip" title="" data-placement="bottom"
+                           data-original-title="Add New">
+                            <span>
+                                <i class="fa fa-plus"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="card">
+                <div class="card-header">
+                </div>
+                <div class="card-body pt-0">
+                    <div class="table-responsive">
+                        <table id="tblMain" class="table table-bordered key-buttons text-nowrap">
+                            <thead>
+                                <tr>
+                                    <th class="border-bottom-0">Firm Entry Vou.#</th>
+                                    <th class="border-bottom-0">Pur Bill#</th>
+                                    <th class="border-bottom-0">Bill Date</th>
+                                    <th class="border-bottom-0">Pur. Party</th>
+                                    <th class="border-bottom-0">GST#</th>
+                                    <th class="border-bottom-0">City</th>
+                                    <th class="border-bottom-0">Bill Amount</th>
+                                    <th class="border-bottom-0">E-Way Bill#</th>
+                                    <th class="border-bottom-0">E-Invoice Ack.#</th>
+                                    <th class="border-bottom-0">GSTR2A Reconsil Dt.</th>
+                                    <th class="border-bottom-0">GSTR3B Filling Date</th>
+                                    <th class="border-bottom-0 text-center" style="width: 80px !important;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- row end -->
+</div>
+<div class="dv-detail side-app">
+    <!-- page-header -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="page-header">
+                <ol class="breadcrumb breadcrumb-arrow">
+                    <li><a href="#">Transaction</a></li>
+                    <li><a href="#">Purchase</a></li>
+                    <li><a href="#">Purchase</a></li>
+                    <li class="active"><span id="activeTabName"></span></li>
+                </ol>
+                <div class="ml-auto">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search Purchase Bill..." id="GoSearchQuery">
+                        <span class="input-group-append mr-2">
+                            <button class="btn btn-primary EWayBill-search" type="button">Search</button>
+                        </span>
+                        <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
+                        <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End page-header -->
+    <!-- row -->
+    <div class="row">
+        <div class="col-lg-12 col-xl-12 col-md-12 col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <!--<h3 class="card-title">Add/Edit Product</h3>-->
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-12">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="BookId" class="col-md-2 col-lg-1 form-label">
+                                        Book
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <select class="form-control select2-show-search" id="BookId">
+                                             @{
+                                                if (Model.BookBranchList != null)
+                                                {
+                                                    foreach (var o in Model.BookBranchList)
+                                                    {
+                                                                                    <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>                                    
+                                    <label for="BillTypeID" class="col-md-2 col-lg-1 form-label">
+                                        Invoice Type
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <select class="form-control select2-show-search" id="BillTypeID">
+                                             @{
+                                                if (Model.InvoiceTypeList != null)
+                                                {
+                                                    foreach (var o in Model.InvoiceTypeList)
+                                                    {
+                                                                                    <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="BillFromId" class="col-md-2 col-lg-1 form-label">
+                                        Bill Form
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <select class="form-control select2-show-search" id="BillFromId">                                             
+                                        </select>
+                                    </div>
+                                    <label for="purchaseOrderId" class="col-md-2 col-lg-1 form-label">
+                                        Purchase Order #
+                                    </label>
+                                    <div class="col-md-4 col-lg-2" style="height:38px;display:flex;">
+                                        <input type="text" class="form-control" id="purchaseOrderId" placeholder="">
+                                        <span class="input-group-append">
+                                            <button class="btn btn-primary" type="button" id="SearchPurchaseOrder"
+                                                    data-container="body" data-toggle="popover" data-popover-color="default"
+                                                    data-placement="bottom">
+                                                Go!
+                                            </button>
+                                        </span>
+                                    </div>
+                                </div>                                
+                                <div class="row mb-1">
+                                    <label for="AccountBranchMappingId" class="col-md-2 col-lg-1 form-label mb-1">
+                                        Pur. Party
+                                    </label>
+                                    <div class="col-md-10 col-lg-5">
+                                        <select class="form-control select2-show-search" id="AccountBranchMappingId">
+                                             @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                                                    <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                    <label for="CreditDays" class="col-md-2 col-lg-1 form-label mb-1">
+                                        Credit Days
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <input type="text" class="form-control" id="CreditDays"
+                                               placeholder="">
+                                    </div>
+                                    <label for="BrokerId" class="col-md-2 col-lg-1 form-label">
+                                        Broker
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <select class="form-control select2-show-search" id="BrokerId">
+                                             @{
+                                                if (Model.BrokerList != null)
+                                                {
+                                                    foreach (var o in Model.BrokerList)
+                                                    {
+                                                                                    <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="PurBillNo" class="col-md-2 col-lg-1 form-label">
+                                        Pur. Bill #
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <input type="text" class="form-control" id="PurBillNo"
+                                               placeholder="">
+                                    </div>
+                                    <label for="BillDate" class="col-md-2 col-lg-1 form-label">
+                                        Bill Date
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                </div>
+                                            </div>
+                                            <input class="form-control fc-datepicker"
+                                                   placeholder="MM/DD/YYYY" type="text" id="BillDate">
+                                        </div>
+                                    </div>
+                                    <label for="RCMBillNumber" class="col-md-1 form-label">RCM Bill#</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control" id="RCMBillNumber" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                     <label for="BillNumberFirm" class="col-md-2 col-lg-1 form-label">
+                                       Firm Entry Vou. #
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <input type="text" class="form-control" id="BillNumberFirm"
+                                               placeholder="" readonly>
+                                    </div> 
+                                </div>
+                                <div class="row mb-1">                                    
+                                    <label for="Header1Val" class="col-md-2 col-lg-1 form-label" id="Header1">
+                                        Header1
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <input type="text" class="form-control" id="Header1Val"
+                                               placeholder="">
+                                    </div>
+                                    <label for="Header2Val" class="col-md-2 col-lg-1 form-label" id="Header2">
+                                        Header2
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <input type="text" class="form-control" id="Header2Val"
+                                               placeholder="">
+                                    </div>
+                                    <label for="Header3Val" class="col-md-2 col-lg-1 form-label" id="Header3">
+                                        Header3
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <input type="text" class="form-control" id="Header3Val"
+                                               placeholder="">
+                                    </div>
+                                    <label for="Header4Val" class="col-md-2 col-lg-1 form-label" id="Header4">
+                                        Header4
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <input type="text" class="form-control" id="Header4Val"
+                                               placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="Header5Val" class="col-md-2 col-lg-1 form-label" id="Header5">
+                                        Header5
+                                    </label>
+                                    <div class="col-md-4 col-lg-2">
+                                        <input type="text" class="form-control" id="Header5Val"
+                                               placeholder="">
+                                    </div>
+                                    <label for="ChalanId" class="col-md-2 col-lg-1 form-label">
+                                        Chalan
+                                    </label>
+                                    <div class="col-md-4 col-lg-2" style="height: 38px;display: flex;">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="ChalanId" placeholder="">
+                                        </div>
+                                        <span class="input-group-append">
+                                            <button class="btn btn-primary" type="button" id="SearchChalan"
+                                                    data-container="body" data-toggle="popover" data-popover-color="default"
+                                                    data-placement="bottom">
+                                                Go!
+                                            </button>
+                                        </span>
+                                    </div>     
+                                    <label for="#" class="col-md-1 col-lg-1 form-label mb-1">
+                                    </label>
+                                    <div class="col-md-2">
+                                        <a href="#" class="btn btn-primary w-100" data-toggle="modal"
+                                           data-target="#transportDetailModal"
+                                           data-original-title="Select LR List">
+                                            <span>
+                                                <i class="fa fa-list"></i>
+                                                Transport
+                                                Detail
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>                               
+
+                                <div class="row customer-gnr-ch-multi">
+                                    <div class="col-md-12 col-lg-12 p-2">
+                                        <div class="card mb-0 m-0 p-2 pl-3 pr-3">
+                                            <div class="col-md-12 p-0 m-0" id="contentRow">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="ewayBill" class="col-lg-2 col-md-3 form-label">
+                                        E-Way Bill Part-A
+                                    </label>
+                                    <div class="col-lg-2 col-md-3">
+                                        <input type="text" class="form-control" id="ewayBill"
+                                               placeholder="">
+                                    </div>                                    
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="AcknowledgementNumber" class="col-lg-2 col-md-3 form-label">
+                                        E-Invoice ARN
+                                    </label>
+                                    <div class="col-lg-2 col-md-3">
+                                        <input type="text" class="form-control" id="AcknowledgementNumber"
+                                               placeholder="">
+                                    </div>
+                                    <label for="IRNDate" class="col-lg-1 col-md-2 form-label">Date</label>
+                                    <div class="col-md-1 col-lg-2">
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                                </div>
+                                            </div>
+                                            <input class="form-control fc-datepicker"
+                                                   placeholder="MM/DD/YYYY" type="text" id="IRNDate">
+                                        </div>
+                                    </div>
+                                    <label for="IRNNumber" class="col-lg-1 col-md-3 form-label">IRN#</label>
+                                    <div class="col-lg-2 col-md-3">
+                                        <input type="text" class="form-control" id="IRNNumber" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="PaymentDetail" class="col-lg-2 col-md-3 form-label">
+                                        Payment Detail
+                                    </label>
+                                    <div class="col-lg-5 col-md-9">
+                                        <input type="text" class="form-control" id="PaymentDetail"
+                                               placeholder="" readonly>
+                                    </div>
+                                </div>                                
+                                <div class="row mb-1">
+                                    <label for="HastePartyId" class="col-lg-2 col-md-3 form-label">
+                                        Haste Party
+                                    </label>
+                                    <div class="col-lg-5 col-md-9">
+                                        <input type="text" class="form-control" id="HastePartyId"
+                                               placeholder="" readonly>
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="totalRcmAmt" class="col-lg-2 col-md-3 form-label">Total RCM Amt</label>
+                                   <div class="col-lg-2 col-md-3">
+                                        <input type="text" class="form-control" id="totalRcmAmt" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>    
+                                <div class="row mb-1">
+                                    <label for="nonRcmAmt" class="col-lg-2 col-md-3 form-label">Non RCM Amt</label>
+                                    <div class="col-lg-2 col-md-3">
+                                        <input type="text" class="form-control" id="nonRcmAmt" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>    
+                            </div>
+                            <div class="row mb-1">
+                                <label for="remarks" class="col-lg-2 col-md-3 form-label">
+                                    Remarks
+                                </label>
+                                <div class="col-lg-8 col-md-9">
+                                    <textarea class="form-control" id="remarks" rows="2" placeholder="Write a large text here ..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-horizontal">
+                                <div class="row mb-1">
+                                    <label for="TaxableAmount" class="col-md-4 form-label text-left">Basic Amount</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="TaxableAmount" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="TDSPercent" class="col-md-2 form-label text-left">T.D.S.</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="TDSPercent" placeholder="%">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="TDSAmount" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="SGSTTotal" class="col-md-4 form-label text-left">SGST Amount</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="SGSTTotal" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="CGSTTotal" class="col-md-4 form-label text-left">CGST Amount</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="CGSTTotal" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="IGSTTotal" class="col-md-4 form-label text-left">IGST Amount</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="IGSTTotal" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="GSTStateCessTotal" class="col-md-4 form-label text-left">State Cess Amount</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="GSTStateCessTotal" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="GSTCentralCessTotal" class="col-md-4 form-label text-left">Central Cess Amount</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="GSTCentralCessTotal" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="TCSPercent" class="col-md-2 form-label text-left">T.C.S.</label>
+                                    <div class="col-md-2">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="TCSPercent" placeholder="%">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="TCSAmount" placeholder="" tabindex="-1">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="RoundOff" class="col-md-4 form-label text-left">Other (+/-)</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="RoundOff" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <label for="BillAmount" class="col-md-4 form-label text-left">Invoice Amount</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control CalculateTotalTaxableAmount" id="BillAmount" placeholder="" readonly tabindex="-1">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-right">
+                    <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
+                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
+                    <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
+                </div>
+            </div>
+        </div>
+        <!-- row end -->
+        <input type="hidden" id="Id" value="0" />
+        @{
+            if (Model.ProductAmtCalcOnList != null)
+            {
+                foreach (var o in Model.ProductAmtCalcOnList)
+                {
+                                                <input class="ProductAMtCalcOn" type="hidden" value="@o.Text">
+                }
+            }
+        }
+        <!--PurchaseOrderListModal start-->
+        <div id="purchaseListModal" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
+                <div class="modal-content ">
+                    <div class="form-horizontal modal-header pd-x-20">
+                        <h5 class="modal-title col-md-1" style="align-self:center;">PO List</h5>
+                        <label for="DateFrom" class="col-md-1 form-label">Date</label>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control fc-datepicker1 fc-daterange" placeholder="" type="text" id="DateFrom">
+                                </div>
+                            </div>
+                        </div>                       
+                        <a href="#" class="btn btn-primary" data-toggle="modal" id="SearchPurchaseOrderList" data-original-title="Select PO List">
+                            Search
+                        </a>           
+                        <label for="poNumber" class="col-md-1 form-label ml-4">Search PO # : </label>
+                        <div class="col-md-2" style="display:flex;">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Search Purchase Order..." id="poNumber">                                
+                            </div>
+                        </div>
+                        <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                    <div class="modal-body pd-20" style="max-height: 700px; overflow-x: auto; overflow-y: auto;">
+                        <div class="table-responsive">
+                            <table id="LRtblMain" class="table table-bordered key-buttons text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="border-bottom-0">PO #</th>
+                                        <th class="border-bottom-0">PO Date</th>
+                                        <th class="border-bottom-0">Description</th>
+                                        <th class="border-bottom-0">Rate</th>
+                                        <th class="border-bottom-0">Order Qty</th>                                       
+                                        <th class="border-bottom-0">Issue Qty</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td>1</td>
+                                        <td class="text-right">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="...">
+                                                <span class="input-group-append">
+                                                    <a href="#" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="" data-original-title="Click here for FULL Qty"> Full Qty </a>
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><!-- modal-body -->
+                    <div class="modal-footer">
+                        <a href="#" type="button" class="btn btn-primary" id="AddData">Add</a>
+                        <a href="#" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- modal-dialog -->
+        </div><!-- modal -->
+        <!--PurchaseOrderListModal end-->
+        <!--ChalanListModal start-->
+        <div id="chalanListModal" class="modal fade" data-backdrop="static" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog modal-lg m-5" role="document" style="min-width: -webkit-fill-available; min-height: -webkit-fill-available;">
+                <div class="modal-content ">
+                    <div class="form-horizontal modal-header pd-x-20">
+                        <h5 class="modal-title col-md-1" style="align-self:center;">Chalan List</h5>
+                        <label for="DateFrom" class="col-md-1 form-label">Date</label>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control fc-datepicker1 fc-daterange" placeholder="" type="text" id="DateFrom">
+                                </div>
+                            </div>
+                        </div>                       
+                        <a href="#" class="btn btn-primary" data-toggle="modal" id="SearchChalanList" data-original-title="Select Chalan List">
+                            Search
+                        </a>                                      
+                        <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </a>
+                    </div>
+                    <div class="modal-body pd-20" style="max-height: 700px; overflow-x: auto; overflow-y: auto;">
+                        <div class="table-responsive">
+                            <table id="LRtblMain" class="table table-bordered key-buttons text-nowrap">
+                                <thead>
+                                    <tr>
+                                        <th class="border-bottom-0"><input type="checkbox" /></th>
+                                        <th class="border-bottom-0">Chalan#</th>
+                                        <th class="border-bottom-0">Chalan Date</th>
+                                        <th class="border-bottom-0">Total Product</th>
+                                        <th class="border-bottom-0">[Label 1]</th>
+                                        <th class="border-bottom-0">[Label 2]</th>
+                                        <th class="border-bottom-0">[Label 3]</th>
+                                        <th class="border-bottom-0">[Label 4]</th>
+                                        <th class="border-bottom-0">[Label 5]</th>
+                                        <th class="border-bottom-0">[Label 6]</th>
+                                        <th class="border-bottom-0">UOM</th>
+                                        <th class="border-bottom-0">Chalan Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div><!-- modal-body -->
+                    <div class="modal-footer">
+                        <a href="#" type="button" class="btn btn-primary" id="AddData">Add</a>
+                        <a href="#" type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
+                    </div>
+                </div>
+            </div><!-- modal-dialog -->
+        </div><!-- modal -->
+        <!--ChalanListModal end-->
+        <div class="modal fade" id="transportDetailModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="example-Modal3">LR Detail Add</h5>
+                    <a href="#" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </a>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="row mb-1">
+                            <label for="LRNumber" class="col-md-4 form-label">
+                                LR #
+                            </label>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" id="LRNumber"
+                                       placeholder="">
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="LRDate" class="col-md-4 form-label">LR Date</label>
+                            <div class="col-md-8">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="fa fa-calendar tx-16 lh-0 op-6"></i>
+                                        </div>
+                                    </div>
+                                    <input class="form-control fc-datepicker"
+                                           placeholder="MM/DD/YYYY" type="text" id="LRDate">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="TransporterId" class="col-md-4 form-label">
+                                Transporter
+                            </label>
+                            <div class="col-md-8">
+                                <select class="form-control select2-show-search-add mode-ed" id="TransporterId">
+                                    @{
+                                        if (Model.TransporterList != null)
+                                        {
+                                            foreach (var o in Model.TransporterList)
+                                            {
+                                                                            <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="TransGSTId" class="col-md-4 form-label">
+                                Trans.GST
+                            </label>
+                            <div class="col-md-8">
+                                <select class="form-control select2-show-search-add mode-ed" id="TransGSTId">
+                                    @{
+                                        if (Model.TransGSTList != null)
+                                        {
+                                            foreach (var o in Model.TransGSTList)
+                                            {
+                                                                            <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="VehicleNumber" class="col-md-4 form-label">
+                                Vehicle #
+                            </label>
+                            <div class="col-md-8">
+                                <select class="form-control select2-show-search-add mode-ed" id="VehicleNumber">
+                                    @{
+                                        if (Model.VehicleNumberList != null)
+                                        {
+                                            foreach (var o in Model.VehicleNumberList)
+                                            {
+                                                                            <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="StationId" class="col-md-4 form-label">
+                                Station
+                            </label>
+                            <div class="col-md-8">
+                                <select class="form-control select2-show-search mode-ed" id="StationId">
+                                    @{
+                                        if (Model.CityList != null)
+                                        {
+                                            foreach (var o in Model.CityList)
+                                            {
+                                                if (@o.Value == $"{ViewBag.LoggedInBranchCity}")
+                                                {
+                                                                                <option value="@o.Value" selected>@o.Text</option>
+                                                }
+                                                else
+                                                {
+                                                                                <option value="@o.Value">@o.Text</option>
+                                                }
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-1">
+                            <label for="TransportModeId" class="col-md-4 form-label">
+                                Transport Mode
+                            </label>
+                            <div class="col-md-8">
+                                <select class="form-control select2-show-search" id="TransportModeId">
+                                    @{
+                                        if (Model.TransportModeList != null)
+                                        {
+                                            foreach (var o in Model.TransportModeList)
+                                            {
+                                                                            <option value="@o.Value">@o.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <a href="#" type="button" class="btn btn-gray mt-1" data-dismiss="modal">
+                        <i class="fa fa-arrow-left"></i>&nbsp;Cancel
+                    </a>
+                    <a href="#" type="button" class="btn btn-primary mt-1" data-dismiss="modal">
+                        <i class="fa fa-plus"></i>&nbsp;Add
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>    
+</div>
+
+@section Scripts
+    {
+    <script>
+        
+        var selectedLRDetails = [];
+        var addedIds = [];
+        var htmlContentArray = [];
+        var contentRowId = 0;
+
+        $(function (e) {
+            $('.dv-list').hide();
+            $('.dv-detail').show();
+
+            $("#BookId").on('change', function (e) {
+                GetGridDataWithBookId($(this).val());
+            });
+
+            bindDatatableList();
+            addClick();
+
+            $("#AccountBranchMappingId").on('change', function (e) {
+                GetListWithCustomerAccountBranchMappingId($(this).val());
+                calculateBasicAmount();
+            });            
+
+            $('.CalculateTotalTaxableAmount').on('keyup', function () {
+                calculateBasicAmount();
+            });
+
+            $("#TDSPercent").on('keyup', function (e) {
+                var amt = ($('#TaxableAmount').val() * $(this).val() / 100) || 0;
+                $("#TDSAmount").val(Math.round(amt));
+            });
+
+            $("#SearchPurchaseOrder").on('click', function (e) {
+                $("#purchaseListModal").modal("show");
+            });
+
+            $("#SearchChalan").on('click', function (e) {
+                $("#chalanListModal").modal("show");
+            });
+
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
+            $("#BillDate").datepicker("setDate", formattedMinimumDate);
+            $("#IRNDate").datepicker("setDate", formattedMinimumDate);
+            $("#LRDate").datepicker("setDate", formattedMinimumDate);
+        });
+
+        function addClick() {
+            $('.dv-list').slideUp();
+            $('.dv-detail').slideDown();
+            fromReset();
+            setScreenMode(false);
+            $(".btn-delete").hide();
+            $("#BookId").val($("#BookId option:first").val()).trigger("change");
+            $("#TransportModeId").val($("#TransportModeId option:contains('Road')").val()).trigger("change");
+            $("#AccountBranchMappingId").focus();
+        }
+
+        var gridData = null;
+
+        function viewMode(id) {
+            getDetail(id, true);
+        }
+
+        function editMode(id) {
+            getDetail(id, false);
+        }
+
+        function refreshDatatableList() {
+            $('#tblMain').DataTable().ajax.reload();
+        }
+
+        function bindDatatableList() {
+            let columns = [];
+            let colDef = [];
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billNumberFirm;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.purchaseBillNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return moment(row.billDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.billPartyName;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.gstNo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.cityTo;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    // return row.billAmount.toFixed(2);
+                    return row.billAmount;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.ewayBillNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.acknowledgementNumber;
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.gstrTwoAReconsilDate;
+                    // return moment(row.gstrTwoAReconsilDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    return row.gstrThreeBFillingDate;
+                    // return moment(row.gstrThreeBFillingDate.split('T')[0]).format('DD/MM/YYYY');
+                },
+                "targets": colDef.length,
+            });
+            colDef.push({
+                "render": function (data, type, row) {
+                    let btnAct = "<div class='btn-list'> ";
+                    btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
+                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    btnAct += "</div>";
+                    return btnAct;
+                },
+                "targets": colDef.length,
+                "className": "text-center",
+                "orderable": false
+            });
+
+
+            columns.push({ "data": "billNumberFirm", "name": "billNumberFirm" });
+            columns.push({ "data": "purchaseBillNumber", "name": "purchaseBillNumber" });
+            columns.push({ "data": "billDate", "name": "billDate" });
+            columns.push({ "data": "billPartyName", "name": "billPartyName" });
+            columns.push({ "data": "gstNo", "name": "gstNo" });
+            columns.push({ "data": "cityTo", "name": "cityTo" });
+            columns.push({ "data": "billAmount", "name": "billAmount" });
+            columns.push({ "data": "ewayBillNumber", "name": "ewayBillNumber" });
+            columns.push({ "data": "acknowledgementNumber", "name": "acknowledgementNumber" });
+            columns.push({ "data": "gstrTwoAReconsilDate", "name": "gstrTwoAReconsilDate" });
+            columns.push({ "data": "gstrThreeBFillingDate", "name": "gstrThreeBFillingDate" });
+
+            var table = $('#tblMain').DataTable({
+                "bAutoWidth": false,
+                lengthChange: false,
+                ordering: true,
+                searching: true,
+                paging: true,
+                pageLength: 50,
+                order: [[0, 'asc']],
+                pagingType: 'full_numbers',
+                orderClasses: false,
+                //scrollCollapse: true,
+                //stateSave: false,
+                destroy: true,
+                columnDefs: colDef,
+                columns: columns,
+                language: {
+                    paginate: {
+                        next: '<i class="fa fa-angle-right"></i>', // or '→'
+                        previous: '<i class="fa fa-angle-left"></i>', // or '←'
+                        first: '<i class="fa fa-angle-double-left"></i>', // or '→'
+                        last: '<i class="fa fa-angle-double-right"></i>' // or '←'
+                    }
+                },
+                buttons: ['copy', 'excel', 'colvis'],
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: '@(Url.Content("~/Customer/CustomerGeneralInvoiceList"))',
+                    type: 'GET',
+                    data: function (d) { }
+                },
+                "initComplete": function (settings, json) {
+                    gridInitComplete(table);
+                },
+                "drawCallback": function (settings) {
+                    gridDrawCallback(this);
+                }
+
+            });
+        }
+
+        function fromReset() {
+
+            $("#Id").val(0);
+            $("#PurBillNo").val('');
+            $("#RCMBillNumber").val(0);
+            $("#BillNumberFirm").val('');
+            var formattedMinimumDate = $.datepicker.formatDate("dd/mm/yy", new Date());
+            $("#BillDate").datepicker("setDate", formattedMinimumDate);
+            $("#IRNDate").datepicker("setDate", formattedMinimumDate);
+            $("#LRDate").datepicker("setDate", formattedMinimumDate);
+            $("#TransGSTId").val('').val(null).trigger('change');
+            $("#LRNumber").val('');
+            $("#TransporterId").val('').val(null).trigger('change');
+            $("#VehicleNumber").val('').val(null).trigger('change');
+            $("#Header1Val").val('');
+            $("#Header2Val").val('');
+            $("#Header3Val").val('');
+            $("#Header4Val").val('');
+            $("#Header5Val").val('');
+            $("#IRNNumber").val('');
+            $("#AcknowledgementNumber").val('');
+            $("#CreditDays").val('');
+            $("#TaxableAmount").val('');
+            $("#TDSPercent").val('');
+            $("#TDSAmount").val('');
+            $("#SGSTTotal").val('');
+            $("#CGSTTotal").val('');
+            $("#IGSTTotal").val(''); 
+            $("#GSTStateCessTotal").val('');
+            $("#GSTCentralCessTotal").val('');
+            $("#RoundOff").val('');
+            $("#BillAmount").val('');
+            $("#TCSPercent").val('');
+            $("#TCSAmount").val('');
+            $("#ewayBill").val('');
+            $("#totalRcmAmt").val('');
+            $("#nonRcmAmt").val('');
+
+            $("#AccountBranchMappingId").val(null).trigger('change');
+            $("#BillTypeID").val(null).trigger('change');
+            $("#contentRow").html('');
+
+            $("#activeTabName").text("Add");
+            $(".btn-delete").hide();
+
+        }
+
+        function saveItem() {
+            try {
+                var ewayBillNumber = $("#ewayBill").val();
+
+                if ($("#AccountBranchMappingId").val() == null || $("#AccountBranchMappingId").val() == "") {
+                    showWarning("", "Please select bill party");
+                    $("#AccountBranchMappingId").focus();
+                    return false;
+                }
+
+                if ($("#BillDate").val() == "") {
+                    showWarning("", "Please enter Date");
+                    $("#BillDate").focus();
+                    return false;
+                }                              
+
+                if (ewayBillNumber.length < 12) {
+                    showWarning("", "Eway Bill Number should be at least 12 characters long.");
+                    $("#ewayBill").focus();
+                    return false;
+                }
+
+                if ($("#TaxableAmount").val() != null && $("#TaxableAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TaxableAmount").val())) {
+                        showWarning("", "Taxable amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TaxableAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TDSPercent").val() != null && $("#TDSPercent").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSPercent").val())) {
+                        showWarning("", "TDS percent must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TDSPercent").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TDSAmount").val() != null && $("#TDSAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TDSAmount").val())) {
+                        showWarning("", "TDS amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TDSAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#SGSTTotal").val() != null && $("#SGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#SGSTTotal").val())) {
+                        showWarning("", "SGST must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#SGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#CGSTTotal").val() != null && $("#CGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#CGSTTotal").val())) {
+                        showWarning("", "CGST must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#CGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#IGSTTotal").val() != null && $("#IGSTTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#IGSTTotal").val())) {
+                        showWarning("", "IGST must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#IGSTTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#GSTStateCessTotal").val() != null && $("#GSTStateCessTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#GSTStateCessTotal").val())) {
+                        showWarning("", "State Cess must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#GSTStateCessTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#GSTCentralCessTotal").val() != null && $("#GSTCentralCessTotal").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#GSTCentralCessTotal").val())) {
+                        showWarning("", "Central Cess must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#GSTCentralCessTotal").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TCSPercent").val() != null && $("#TCSPercent").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TCSPercent").val())) {
+                        showWarning("", "TCS percent must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TCSPercent").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#TCSAmount").val() != null && $("#TCSAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#TCSAmount").val())) {
+                        showWarning("", "TCS amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#TCSAmount").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#RoundOff").val() != null && $("#RoundOff").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#RoundOff").val())) {
+                        showWarning("", "Other (+/-) must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#RoundOff").focus();
+                        return false;
+                    }
+                }
+
+                if ($("#BillAmount").val() != null && $("#BillAmount").val() != "") {
+                    if (!/^[-+]?(\d{1,7}(\.\d{0,2})?|\.\d{1,2})$/.test($("#BillAmount").val())) {
+                        showWarning("", "Bill amount must be upto 7 characters before decimal point and 2 characters after decimal point long.");
+                        $("#BillAmount").focus();
+                        return false;
+                    }
+                }
+
+                var savedata = new Object();
+                savedata.Id = parseInt($("#Id").val());
+                savedata.BillDate = moment(getDate($("#BillDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.PurchaseBillNumber = $("#PurBillNo").val();
+                savedata.BillNumberFirm = $("#BillNumberFirm").val();
+                savedata.RCMBillNumber = $("#RCMBillNumber").val();                
+                savedata.TransportGSTNumber = $("#TransGSTId").val();
+                savedata.TransportLRNumber = $("#LRNumber").val();
+                savedata.TransportLRDate = moment(getDate($("#LRDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.TransportName = $("#TransporterId").val();
+                savedata.TransportMode = $("#TransportModeId").val();
+                savedata.VehicleNumber = $("#VehicleNumber").val();
+                savedata.CityIdTo = $("#StationId").val();
+                savedata.HeaderBox1 = $("#Header1Val").val() == '' ? null : $("#Header1Val").val();
+                savedata.HeaderBox2 = $("#Header2Val").val() == '' ? null : $("#Header2Val").val();
+                savedata.HeaderBox3 = $("#Header3Val").val() == '' ? null : $("#Header3Val").val();
+                savedata.HeaderBox4 = $("#Header4Val").val() == '' ? null : $("#Header4Val").val();
+                savedata.HeaderBox5 = $("#Header5Val").val() == '' ? null : $("#Header5Val").val();
+                savedata.IRNNumber = $("#IRNNumber").val();
+                savedata.BrokerBranchMappingId = $("#BrokerId").val();
+                savedata.AcknowledgementNumber = $("#AcknowledgementNumber").val();
+                savedata.IRNDate = moment(getDate($("#IRNDate").val())).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                savedata.CreditDays = getIntValueZero("CreditDays");
+                savedata.Remarks = $("#remarks").val();
+                savedata.BillTypeID = getIntValueZero("BillTypeID");
+                savedata.AccountBranchMappingId = $("#AccountBranchMappingId").val();
+                savedata.TDSPercentage = parseFloat($("#TDSPercent").val() || 0).toFixed(3);
+                savedata.TCSPercentage = parseFloat($("#TCSPercent").val() || 0).toFixed(3);
+                savedata.TaxableAmount = parseFloat($("#TaxableAmount").val() || 0).toFixed(2);
+                savedata.TDSAmount = parseFloat($("#TDSAmount").val() || 0).toFixed(2);
+                savedata.SGSTTotal = parseFloat($("#SGSTTotal").val() || 0).toFixed(2);
+                savedata.CGSTTotal = parseFloat($("#CGSTTotal").val() || 0).toFixed(2);
+                savedata.IGSTTotal = parseFloat($("#IGSTTotal").val() || 0).toFixed(2);
+                savedata.GSTStateCessTotal = parseFloat($("#GSTStateCessTotal").val() || 0).toFixed(2);
+                savedata.GSTCentralCessTotal = parseFloat($("#GSTCentralCessTotal").val() || 0).toFixed(2);
+                savedata.RoundOff = parseFloat($("#RoundOff").val() || 0).toFixed(2);
+                savedata.BillAmount = parseFloat($("#BillAmount").val() || 0).toFixed(2);
+                savedata.TCSAmount = parseFloat($("#TCSAmount").val() || 0).toFixed(2);
+                savedata.EwayBillNumber = $("#ewayBill").val();
+                savedata.EntryTypeName = "PUR";
+
+                savedata.PurchaseDetailsArray = [];
+                var detailGridList = getRowData();
+                if (detailGridList[0].ProductMappingId == undefined) {
+                    showWarning("", "Select minimum 1 Product.");
+                    $("#BillAmount").focus();
+                    return false;
+                }
+                detailGridList.forEach(function (details) {
+                   var detail = {};  
+                   var expdateParts = details.ExpDt.split('/');
+                   var expdt;
+                   if (expdateParts.length === 2) {
+                       var month = parseInt(expdateParts[0]);
+                       var year = parseInt(expdateParts[1]);
+
+                       var convertedDate = new Date(year, month - 1, 1);
+
+                       expdt = ("0" + convertedDate.getDate()).slice(-2) + "/" +
+                           ("0" + (convertedDate.getMonth() + 1)).slice(-2) + "/" +
+                           (convertedDate.getFullYear() % 100);
+                       expdt = new Date(expdt); 
+                   }
+
+                   detail.ProductBranchMappingId = details.ProductMappingId;
+                   detail.Quantity1 = details.BoxLabel1 == '' ? null : details.BoxLabel1;
+                   detail.Quantity2 = details.BoxLabel2 == '' ? null : details.BoxLabel2;
+                   detail.Quantity3 = details.BoxLabel3 == '' ? null : details.BoxLabel3;
+                   detail.Quantity4 = details.BoxLabel4 == '' ? null : details.BoxLabel4;
+                   detail.Quantity5 = details.BoxLabel5 == '' ? null : details.BoxLabel5;
+                   detail.Quantity6 = details.BoxLabel6 == '' ? null : details.BoxLabel6;
+                   detail.DiscountPercentage = parseFloat(details.DiscPercentage || 0).toFixed(2);
+                   detail.DiscountAmount = parseFloat(details.DiscAmt || 0).toFixed(3);
+                   detail.Rate = parseFloat(details.Rate || 0).toFixed(3);
+                   detail.OtherCharges = parseFloat(details.OtherCharges || 0).toFixed(3);
+                   detail.BasicAmount = parseFloat(details.TaxAmt || 0).toFixed(3);
+                   detail.GSTStateCessPercentage = parseFloat(details.Scess || 0).toFixed(2);
+                   detail.GSTCentralCess = parseFloat(details.Ccess || 0).toFixed(2);
+                   detail.BatchNumber = details.BatchNo;
+                   detail.ExpiryDate = moment(expdt).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+                   detail.ItemDesc1 = details.ItemDec1 == undefined ? null : details.ItemDec1;
+                   detail.ItemDesc2 = details.ItemDec2 == undefined ? null : details.ItemDec2;
+                   detail.ItemDesc3 = details.ItemDec3 == undefined ? null : details.ItemDec3;
+                   detail.ItemDesc4 = details.ItemDec4 == undefined ? null : details.ItemDec4;
+                   detail.ItemDesc5 = details.ItemDec5 == undefined ? null : details.ItemDec5;
+                   detail.ItemDesc6 = details.ItemDec6 == undefined ? null : details.ItemDec6;
+                   detail.QuantityDiscountPercentage = parseFloat(details.QtyDiscPercentage || 0).toFixed(2);
+                   detail.QuantityDiscountAmount = parseFloat(details.QtyDiscAmt || 0).toFixed(3);
+                   detail.SpecialDiscount1 = parseFloat(details.TradDiscPerc || 0).toFixed(2);
+                   detail.SpecialDiscount2 = parseFloat(details.SpDiscPerc || 0).toFixed(2);
+                   detail.SpecialDiscount3 = parseFloat(details.CashDiscPerc || 0).toFixed(2);
+                   detail.SalesRate = parseFloat(details.TaxPlusAmt || 0).toFixed(3);
+                   detail.SalesDiscount = parseFloat(details.RetailRate || 0).toFixed(3);
+                   
+                   savedata.PurchaseDetailsArray.push(detail);
+                });
+                
+                blockUI('container');
+
+                $.ajax({
+                    type: "POST",
+                    url: "@(Url.Action("SaveCustomerGeneralInvoice", "Customer"))",
+                    data: JSON.stringify(savedata),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            fromReset();
+                            showWarning("", 'General Invoice saved successfully.');
+                            $("#Id").val(0);
+                            refreshDatatableList();
+                            $('.btn-back').click();
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    error: function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    }
+                });
+
+            }
+            catch (e) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+
+        }
+
+        function deleteItem(id) {
+            if (id == 0) {
+                id = $('#Id').val();
+            }
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteCustomerGeneralInvoice"))" + "/" + id, "",
+                    function (result) {
+                        unblockUI('container');
+                        var str = "";
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                refreshDatatableList();
+                                fromReset();
+                                $('.btn-back').click();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+            }
+        }
+
+        function getDetail(id, isViewMode) {
+             try {
+                 blockUI('container');
+               var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetCustomerGeneralInvoice"))" + "/" + id, "",
+                     function (result) {
+                         unblockUI('container');
+                         try {
+                             if (result.result == RESULT_SUCCESS) {
+                                 addClick();
+                                 if (isViewMode) {
+                                     setScreenMode(true);
+                                     $("#activeTabName").text("VIEW ID# " + result.data.id);
+                                 } else {
+                                     setScreenMode(false);
+                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
+                                 }
+
+                                 $("#Id").val(result.data.id);
+                                 $("#PurBillNo").val(result.data.purchaseBillNumber);
+                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
+                                 $("#RCMBillNumber").val(result.data.rcmBillNumber);
+                                 $("#BillDate").val(moment(result.data.billDate.split('T')[0]).format('DD/MM/YYYY'));
+                                 $("#LRDate").val(moment(result.data.transportLRDate.split('T')[0]).format('DD/MM/YYYY'));
+                                 $("#IRNDate").val(moment(result.data.irnDate.split('T')[0]).format('DD/MM/YYYY'));
+                                 $("#TransGSTId").val(result.data.transportGSTNumber).trigger('change');
+                                 $("#LRNumber").val(result.data.transportLRNumber);
+                                 $("#TransporterId").val(result.data.transportName).trigger('change');
+                                 $("#TransportModeId").val(result.data.transportMode).trigger('change');
+                                 $("#VehicleNumber").val(result.data.vehicleNumber).trigger('change');
+                                 $("#StationId").val(result.data.cityIdTo).trigger('change');
+                                 $("#Header1Val").val(result.data.headerBox1);
+                                 $("#Header2Val").val(result.data.headerBox2);
+                                 $("#Header3Val").val(result.data.headerBox3);
+                                 $("#Header4Val").val(result.data.headerBox4);
+                                 $("#Header5Val").val(result.data.headerBox5);
+                                 $("#IRNNumber").val(result.data.irnNumber);
+                                 $("#ewayBill").val(result.data.ewayBillNumber);
+                                 $("#BrokerId").val(result.data.brokerBranchMappingId).trigger('change');
+                                 $("#AcknowledgementNumber").val(result.data.acknowledgementNumber);
+                                 $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                 $("#BillTypeID").val(result.data.billTypeID).trigger('change');
+                                 $("#CreditDays").val(result.data.creditDays);
+                                 $("#remarks").val(result.data.notes);
+                                 $("#TaxableAmount").val(result.data.taxableAmount ? result.data.taxableAmount.toFixed(2) : '');
+                                 $("#TDSPercent").val(result.data.tdsPercentage ? result.data.tdsPercentage.toFixed(3) : '');
+                                 $("#TDSAmount").val(result.data.tdsAmount ? result.data.tdsAmount.toFixed(2) : '');
+                                 $("#SGSTTotal").val(result.data.sgstTotal ? result.data.sgstTotal.toFixed(2) : '');
+                                 $("#CGSTTotal").val(result.data.cgstTotal ? result.data.cgstTotal.toFixed(2) : '');
+                                 $("#IGSTTotal").val(result.data.igstTotal ? result.data.igstTotal.toFixed(2) : '');
+                                 $("#GSTStateCessTotal").val(result.data.gstStateCessTotal ? result.data.gstStateCessTotal.toFixed(2) : '');
+                                 $("#GSTCentralCessTotal").val(result.data.gstCentralCessTotal ? result.data.gstCentralCessTotal.toFixed(2) : '');
+                                 $("#RoundOff").val(result.data.roundOff ? result.data.roundOff.toFixed(2) : '');
+                                 $("#BillAmount").val(result.data.billAmount ? result.data.billAmount.toFixed(2) : '');
+                                 $("#TCSPercent").val(result.data.tcsPercentage ? result.data.tcsPercentage.toFixed(3) : '');
+                                 $("#TCSAmount").val(result.data.tcsAmount ? result.data.tcsAmount.toFixed(2) : '');
+                                 calculateBasicAmount();
+                                 getPurchasebillDetailListByPurchaseBillMasterId(result.data.id);
+
+                             } else {
+                                 showError('Error', result.data); //warning,  success, error, info
+                             }
+                         } catch (e) {
+                             unblockUI('container');
+                             showError('Error', e); //warning,  success, error, info
+                         }
+                     },
+                     function (error) {
+
+                     });
+             }
+             catch (err) {
+             }
+        }
+        function getProductDetail(id, productcontentRowId) {
+            try {
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetProductetailsByMappingId"))" + "/" + id, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                $("#Rate" + productcontentRowId).val(result.data.purchaseRate ? result.data.purchaseRate.toFixed(2) : '0.00');
+                                $("#DiscPercentage" + productcontentRowId).val(result.data.discount ? result.data.discount.toFixed(3) : '0.000');
+                                $("#RetailRate" + productcontentRowId).val(result.data.rateRetail ? result.data.rateRetail.toFixed(2) : '0.00');
+                                $("#Gst" + productcontentRowId).val(result.data.gstRate ? result.data.gstRate.toFixed(2) : '0.00');
+                                $("#Scess" + productcontentRowId).val(result.data.gstStateCess ? result.data.gstStateCess.toFixed(2) : '0.00');
+                                $("#Ccess" + productcontentRowId).val(result.data.gstCentralCess ? result.data.gstCentralCess.toFixed(2) : '0.00');
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function getPurchasebillDetailListByPurchaseBillMasterId(masterId) {
+            try {
+                blockUI('container');
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetPurchasebillDetailListByPurchaseBillMasterId"))" + "/" + masterId, "",
+                    function (result) {
+                        unblockUI('container');
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                $('#contentRow').empty();
+                                contentRowId = 0;
+                                result.data.forEach(function (LRBookingDetail) {  
+                                    addRow();
+
+                                    $("#ProductMappingId" + contentRowId).append($('<option>', {
+                                        value: LRBookingDetail.productBranchMappingId,
+                                        text: LRBookingDetail.productTitle,
+                                    }));
+                                    $("#SrTextbox" + contentRowId).val(contentRowId);
+                                    $("#ProductMappingId" + contentRowId).val(LRBookingDetail.productBranchMappingId).trigger('change');
+                                    $("#ItemDec1" + contentRowId).val(LRBookingDetail.itemDec1).trigger('change');
+                                    $("#ItemDec2" + contentRowId).val(LRBookingDetail.itemDec2).trigger('change');
+                                    $("#ItemDec3" + contentRowId).val(LRBookingDetail.itemDec3).trigger('change');
+                                    $("#ItemDec4" + contentRowId).val(LRBookingDetail.itemDec4).trigger('change');
+                                    $("#ItemDec5" + contentRowId).val(LRBookingDetail.itemDec5).trigger('change');
+                                    $("#ItemDec6" + contentRowId).val(LRBookingDetail.itemDec6).trigger('change');
+                                    $("#BatchNo" + contentRowId).val(LRBookingDetail.batchNumber);
+                                    $("#ExpDt" + contentRowId).val(moment(LRBookingDetail.expiryDate.split('T')[0]).format('DD/MM/YYYY'));
+                                    $("#BoxLabel1" + contentRowId).val(LRBookingDetail.quality1);
+                                    $("#BoxLabel2" + contentRowId).val(LRBookingDetail.quality2);
+                                    $("#BoxLabel3" + contentRowId).val(LRBookingDetail.quality3);
+                                    $("#BoxLabel4" + contentRowId).val(LRBookingDetail.quality4);
+                                    $("#BoxLabel5" + contentRowId).val(LRBookingDetail.quality5);
+                                    $("#BoxLabel6" + contentRowId).val(LRBookingDetail.quality6);
+                                    $("#Rate" + contentRowId).val(parseFloat(LRBookingDetail.rate || 0).toFixed(2));
+                                    $("#DiscPercentage" + contentRowId).val(parseFloat(LRBookingDetail.discountPercentage || 0).toFixed(3));
+                                    $("#DiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.discountAmount || 0).toFixed(2));
+                                    $("#QtyDiscPercentage" + contentRowId).val(parseFloat(LRBookingDetail.quantityDiscountPercentage || 0).toFixed(3));
+                                    $("#QtyDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.quantityDiscountAmount || 0).toFixed(2));
+                                    // $("#TradDiscPerc" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    // $("#TradDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    // $("#SpDiscPerc" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    // $("#SpDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    // $("#CashDiscPerc" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    // $("#CashDiscAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    // $("#TaxAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    // $("#TaxPlusAmt" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    // $("#RetailRate" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(2));
+                                    // $("#Gst" + contentRowId).val(parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3));
+                                    $("#Scess" + contentRowId).val(parseFloat(LRBookingDetail.gstStateCessAmount || 0).toFixed(2));
+                                    $("#Ccess" + contentRowId).val(parseFloat(LRBookingDetail.gstCentralCessAmount || 0).toFixed(2));
+                                });
+
+                            } else {
+                                showError('Error', result.data); warning,  success, error, info
+                            }
+                        } catch (e) {
+                            unblockUI('container');
+                            showError('Error', e); warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }        
+
+        function GetGridDataWithBookId(bookId){
+            try {
+                if ($("#BookId").val() == '' || $("#BookId").val() == null) return;
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetGridDataWithBookId"))" + "/" + bookId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+                                gridData = result.data;
+                                $('#BillFromId').empty();
+                                $.each(result.data.salesBillFromList, function (index, item) {
+                                    $('#BillFromId').append($('<option>', {
+                                        value: item.value,
+                                        text: item.text
+                                    }));
+                                });
+                                clearGrid();
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function GetListWithCustomerAccountBranchMappingId(CustomerAccountBranchMappingId) {
+            try {
+                if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListWithCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
+                    function (result) {
+                        try {
+                            if (result.result == RESULT_SUCCESS) {
+
+                                $("#CreditDays").val($("#CreditDays").val() || result.data.creditDays);
+                                $("#TDSPercent").val($("#TDSPercent").val() || result.data.tds);
+                                $("#TCSPercent").val($("#TCSPercent").val() || result.data.tcs);
+                                $(".discount-percentage-cls").val(result.data.discount);
+                                $("#BrokerId").val($("#BrokerId").val() || result.data.brokerId).trigger("change");
+                                $("#TransporterId").val($("#TransporterId").val() || result.data.transportName).trigger("change");
+                                $("#TransGSTId").val($("#TransGSTId").val() || result.data.gstNumberTransport).trigger("change");
+                                $("#VehicleNumber").val($("#VehicleNumber").val() || result.data.vehicleNumber).trigger("change");
+
+                            } else {
+                                showError('Error', result.data); //warning,  success, error, info
+                            }
+                        } catch (e) {
+                            showError('Error', e); //warning,  success, error, info
+                        }
+                    },
+                    function (error) {
+
+                    });
+            }
+            catch (err) {
+            }
+        }
+
+        function calculateBasicAmount() {
+            var totalTaxableAmount = 0;
+
+            $('.content-rows').each(function () {
+                var contentRowId = $(this).attr('id').replace('row-', '');
+                var taxableAmount = parseFloat($('#TaxAmt' + contentRowId).text()) || 0;
+                totalTaxableAmount += taxableAmount;
+                $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
+            });
+
+            var BasicAmount = parseFloat($('#TaxableAmount').val()) || 0;
+            var CGSTTotal = parseFloat($('#CGSTTotal').val()) || 0;
+            var SGSTTotal = parseFloat($('#SGSTTotal').val()) || 0;
+            var IGSTTotal = parseFloat($('#IGSTTotal').val()) || 0;
+            var GSTStateCessTotal = parseFloat($('#GSTStateCessTotal').val()) || 0;
+            var GSTCentralCessTotal = parseFloat($('#GSTCentralCessTotal').val()) || 0;
+            var TCSPercentage = parseFloat($('#TCSPercentage').val()) || 0;
+
+            $('#TCSAmount').val(((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal) * (TCSPercentage) / 100).toFixed(2));
+            var TCSAmount = parseFloat($('#TCSAmount').val()) || 0;
+
+            var totalAmount = BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount;
+
+            var RoundOff = customRound(totalAmount) - totalAmount;
+
+            $('#RoundOff').val(RoundOff.toFixed(2));
+            $('#BillAmount').val((BasicAmount + CGSTTotal + SGSTTotal + IGSTTotal + GSTStateCessTotal + GSTCentralCessTotal + TCSAmount + RoundOff).toFixed(2));
+
+        }
+
+        function customRound(number) {
+            var decimalPart = number % 1;
+            return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
+        }
+
+        function clearGrid(){
+            contentRowId = 0;
+            $('#contentRow').empty();
+            $('#Header1').text(gridData.customerBook.headerBox1 || "Header1");
+            $('#Header2').text(gridData.customerBook.headerBox2 || "Header2");
+            $('#Header3').text(gridData.customerBook.headerBox3 || "Header3");
+            $('#Header4').text(gridData.customerBook.headerBox4 || "Header4");
+            $('#Header5').text(gridData.customerBook.headerBox5 || "Header5");
+            $("#BillFromId").val(gridData.customerBook.salesBillFrom).trigger('change');
+            $("#BillTypeID").val(gridData.customerBook.billTypeID).trigger('change');
+            addRow();
+        }
+        var contentRowId = 0;
+        function addRow() {
+            contentRowId++;
+            var htmlContentArray = [];
+            var htmlContent =
+            `<div class="row m-0 rounded content-rows" id="row-` + contentRowId + `">
+                                                             <div class="row">
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">
+                                                                     <label for="SrTextbox${contentRowId}" class="form-label"> SR#</label><input type="text" class="form-control content-row-srno" id="SrTextbox${contentRowId}" placeholder max="999" readonly>
+                                                                 </div>
+                                                                 <div class="col-md-6 pl-2 pr-2 grid-border">
+                                                                     <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;"
+                                                                         data-active-index="false">
+                                                                         <li class="acc_section">
+                                                                             <div class="acc_head">
+                                                                                 <div class="row">`;
+        if (gridData.customerBook.itemDesc1 !== '' ||
+            gridData.customerBook.itemDesc2 !== '' ||
+            gridData.customerBook.itemDesc3 !== '' ||
+            gridData.customerBook.itemDesc4 !== '' ||
+            gridData.customerBook.itemDesc5 !== '' ||
+            gridData.customerBook.itemDesc6 !== '') {
+            htmlContent += `<h3>Description</h3>`;
+        } else {
+            htmlContent += `<h5 class="pl-3">Description</h5>`;
+        }
+        htmlContent += `                                                         <div class="invoice-ds-box acc-box col-md-12">
+                                                                                         <select class="form-control select2-show-search-api" data-rowid="${contentRowId}" id="ProductMappingId${contentRowId}">
+                                                                                         </select>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="acc_content">`;
+        if (gridData.customerBook.itemDesc1 !== '') {
+            htmlContent += `<div class="row mb-1 align-items-center">`;
+            htmlContent += `<label for="ItemDec1${contentRowId}" class="col-md-4 form-label">${gridData.customerBook.itemDesc1}</label>`;
+            htmlContent += `<div class="col-md-8">`;
+            htmlContent += `<select class="form-control select2-show-search-add mode-ed" id="ItemDec1${contentRowId}">`;
+            htmlContent += `<option></option>`;
+            if (gridData.itemDescList !== null) {
+                gridData.itemDescList.forEach(function(o) {
+                    htmlContent += `<option value="${o.Value}">${o.Text}</option>`;
+                });
+            }
+            htmlContent += `</select>`;
+            htmlContent += `</div>`;
+            htmlContent += `</div>`;
+        }
+        if (gridData.customerBook.itemDesc2 !== '') {
+            htmlContent += '<div class="row mb-1">';
+            htmlContent += '<label for="ItemDec2' + contentRowId + '" class="col-md-4 form-label">' + gridData.customerBook.itemDesc2 + '</label>';
+            htmlContent += '<div class="col-md-8">';
+            htmlContent += '<select class="form-control select2-show-search-add mode-ed" id="ItemDec2' + contentRowId + '">';
+            htmlContent += '<option></option>';
+
+            if (gridData.itemDescList !== null) {
+                gridData.itemDescList.forEach(function(o) {
+                    htmlContent += '<option value="' + o.Value + '">' + o.Text + '</option>';
+                });
+            }
+
+            htmlContent += '</select>';
+            htmlContent += '</div>';
+            htmlContent += '</div>';
+        }
+        if (gridData.customerBook.itemDesc3 !== '') {
+            htmlContent += '<div class="row mb-1">';
+            htmlContent += '<label for="ItemDec3' + contentRowId + '" class="col-md-4 form-label">' + gridData.customerBook.itemDesc3 + '</label>';
+            htmlContent += '<div class="col-md-8">';
+            htmlContent += '<select class="form-control select2-show-search-add mode-ed" id="ItemDec3' + contentRowId + '">';
+            htmlContent += '<option></option>';
+
+            if (gridData.itemDescList !== null) {
+                gridData.itemDescList.forEach(function(o) {
+                    htmlContent += '<option value="' + o.Value + '">' + o.Text + '</option>';
+                });
+            }
+
+            htmlContent += '</select>';
+            htmlContent += '</div>';
+            htmlContent += '</div>';
+        }
+
+        if (gridData.customerBook.itemDesc4 !== '') {
+            htmlContent += '<div class="row mb-1">';
+            htmlContent += '<label for="ItemDec4' + contentRowId + '" class="col-md-4 form-label">' + gridData.customerBook.itemDesc4 + '</label>';
+            htmlContent += '<div class="col-md-8">';
+            htmlContent += '<select class="form-control select2-show-search-add mode-ed" id="ItemDec4' + contentRowId + '">';
+            htmlContent += '<option></option>';
+
+            if (gridData.itemDescList !== null) {
+                gridData.itemDescList.forEach(function(o) {
+                    htmlContent += '<option value="' + o.Value + '">' + o.Text + '</option>';
+                });
+            }
+
+            htmlContent += '</select>';
+            htmlContent += '</div>';
+            htmlContent += '</div>';
+        }
+
+        if (gridData.customerBook.itemDesc5 !== '') {
+            htmlContent += '<div class="row">';
+            htmlContent += '<label for="ItemDec5' + contentRowId + '" class="col-md-4 form-label">' + gridData.customerBook.itemDesc5 + '</label>';
+            htmlContent += '<div class="col-md-8">';
+            htmlContent += '<select class="form-control select2-show-search-add mode-ed" id="ItemDec5' + contentRowId + '">';
+            htmlContent += '<option></option>';
+
+            if (gridData.itemDescList !== null) {
+                gridData.itemDescList.forEach(function(o) {
+                    htmlContent += '<option value="' + o.Value + '">' + o.Text + '</option>';
+                });
+            }
+
+            htmlContent += '</select>';
+            htmlContent += '</div>';
+            htmlContent += '</div>';
+        }
+
+        if (gridData.customerBook.itemDesc6 !== '') {
+            htmlContent += '<div class="row">';
+            htmlContent += '<label for="ItemDec6' + contentRowId + '" class="col-md-4 form-label">' + gridData.customerBook.itemDesc6 + '</label>';
+            htmlContent += '<div class="col-md-8">';
+            htmlContent += '<select class="form-control select2-show-search-add mode-ed" id="ItemDec6' + contentRowId + '">';
+            htmlContent += '<option></option>';
+
+            if (gridData.itemDescList !== null) {
+                gridData.itemDescList.forEach(function(o) {
+                    htmlContent += '<option value="' + o.Value + '">' + o.Text + '</option>';
+                });
+            }
+
+            htmlContent += '</select>';
+            htmlContent += '</div>';
+            htmlContent += '</div>';
+        }
+        htmlContent += `
+                                                                             </div>
+                                                                         </li>
+                                                                     </ul>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                                                         <li class="acc_section">
+                                                                             <div class="acc_head">
+                                                                                 <div class="row">
+                                                                                     <h3>Batch No</h3>
+                                                                                     <div class="invoice-ds-box acc-box col-md-12">
+                                                                                         <input type="text" class="form-control" id="BatchNo${contentRowId}" placeholder>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="acc_content&quot;">
+                                                                                 <div class="row mb-1">
+                                                                                     <label for="ExpDt${contentRowId}" class="col-md-4 form-label">Exp. Dt</label>
+                                                                                     <div class="col-md-8">
+                                                                                        <div class="input-group">
+                                                                                            <input class="form-control fc-datepicker" placeholder="MM/YY" type="text" id="ExpDt${contentRowId}">
+                                                                                        </div>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                         </li>
+                                                                     </ul>
+                                                                 </div>`;
+        if (gridData.customerBook.boxLabel1 !== '') {
+            htmlContent += '<div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">';
+            htmlContent += '<label for="BoxLabel1' + contentRowId + '" class="form-label">' + gridData.customerBook.boxLabel1 + '</label>';
+            htmlContent += '<input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel1' + contentRowId + '" placeholder max="999">';
+            htmlContent += '</div>';
+        }
+        if (gridData.customerBook.boxLabel2 !== '') {
+            htmlContent += '<div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">';
+            htmlContent += '<label for="BoxLabel2' + contentRowId + '" class="form-label">' + gridData.customerBook.boxLabel2 + '</label>';
+            htmlContent += '<input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel2' + contentRowId + '" placeholder max="999">';
+            htmlContent += '</div>';
+        }
+        if (gridData.customerBook.boxLabel3 !== '') {
+            htmlContent += '<div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">';
+            htmlContent += '<label for="BoxLabel3' + contentRowId + '" class="form-label">' + gridData.customerBook.boxLabel3 + '</label>';
+            htmlContent += '<input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel3' + contentRowId + '" placeholder max="999">';
+            htmlContent += '</div>';
+        }
+        if (gridData.customerBook.boxLabel4 !== '') {
+            htmlContent += '<div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">';
+            htmlContent += '<label for="BoxLabel4' + contentRowId + '" class="form-label">' + gridData.customerBook.boxLabel4 + '</label>';
+            htmlContent += '<input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel4' + contentRowId + '" placeholder max="999">';
+            htmlContent += '</div>';
+        }
+        if (gridData.customerBook.boxLabel5 !== '') {
+            htmlContent += '<div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">';
+            htmlContent += '<label for="BoxLabel5' + contentRowId + '" class="form-label">' + gridData.customerBook.boxLabel5 + '</label>';
+            htmlContent += '<input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel5' + contentRowId + '" placeholder max="999">';
+            htmlContent += '</div>';
+        }
+        if (gridData.customerBook.boxLabel6 !== '') {
+            htmlContent += '<div class="col-md-1 pl-2 pr-2 grid-border" style="position:sticky;z-index:1;left:0;background-color:white;">';
+            htmlContent += '<label for="BoxLabel6' + contentRowId + '" class="form-label">' + gridData.customerBook.boxLabel6 + '</label>';
+            htmlContent += '<input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel6' + contentRowId + '" placeholder max="999">';
+            htmlContent += '</div>';
+        }
+        htmlContent += `                                         <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Rate${contentRowId}" class="form-label">Rate</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Rate${contentRowId}" placeholder></div>
+                                                                 </div>`;
+        if (gridData.customerBook.isItemDiscount == true || gridData.customerBook.isItemDiscountSp == true)
+        {
+        htmlContent += `                                                              <div class="col-md-2 pl-2 pr-2 grid-border">
+                                                                                         <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                                                                             <li class="acc_section">
+                                                                                                 <div class="acc_head">
+                                                                                                     <div class="row">
+                                                                                                         <h3>Discount</h3>
+                                                                                                         <div class="invoice-ds-box">
+                                                                                                             <div class="row" style="flex-wrap:nowrap;padding: 0 16px 0 12px;">`;
+                                        if (gridData.customerBook.isItemDiscount == true)
+                                        {
+                                        htmlContent += `                                                                             <input type="text" class="form-control col-md-3 mr-1 discount-percentage-cls decimalonly" data-tofixed="3" id="DiscPercentage${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 decimalonly" data-tofixed="2" id="DiscAmt${contentRowId}" placeholder>`;
+                                        }
+                                        else if (gridData.customerBook.isItemDiscount == false && gridData.customerBook.isItemDiscountSp == true)
+                                        {
+                                        htmlContent += `                                                                             <input type="text" class="form-control col-md-3 mr-1 discount-percentage-cls decimalonly" data-tofixed="3" id="DiscPercentage${contentRowId}" placeholder="%" readonly>
+                                                                                                                                     <input type="text" class="form-control col-md-9 decimalonly" data-tofixed="2" id="DiscAmt${contentRowId}" placeholder readonly>`;
+                                        }
+                                        htmlContent += `                                                     </div>
+                                                                                                         </div>
+                                                                                                     </div>
+                                                                                                 </div>`;
+                        if (gridData.customerBook.isItemDiscountSp == true)
+                        {
+                        htmlContent += `                                                                             <div class="acc_content">
+                                                                                                                         <div class="row mb-1">
+                                                                                                                             <label for="QtyDiscAmt" class="col-md-4 form-label">QTY Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="QtyDiscPercentage${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="QtyDiscAmt${contentRowId}" placeholder>
+                                                                                                                                 </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                         <div class="row mb-1">
+                                                                                                                             <label for="TradDiscAmt" class="col-md-4 form-label">Trad Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="TradDiscPerc${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="TradDiscAmt${contentRowId}" placeholder>
+                                                                                                                                 </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                         <div class="row mb-1">
+                                                                                                                             <label for="SpDiscAmt" class="col-md-4 form-label">Sp. Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="SpDiscPerc${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="SpDiscAmt${contentRowId}" placeholder>
+                                                                                                                                  </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                         <div class="row">
+                                                                                                                             <label for="CashDiscAmt" class="col-md-4 form-label">Cash Disc</label>
+                                                                                                                             <div class="col-md-8">
+                                                                                                                                 <div class="row col-md-12" style="flex-wrap:nowrap;">
+                                                                                                                                     <input type="text" class="form-control col-md-3 mr-1 decimalonly" data-tofixed="3" id="CashDiscPerc${contentRowId}" placeholder="%">
+                                                                                                                                     <input type="text" class="form-control col-md-9 mr-1 decimalonly" data-tofixed="2" id="CashDiscAmt${contentRowId}" placeholder>
+                                                                                                                                 </div>
+                                                                                                                             </div>
+                                                                                                                         </div>
+                                                                                                                     </div>`;
+                        }
+                        htmlContent += `                                                     </li>
+                                                                                         </ul>
+                                                                                     </div>`;
+        }
+        htmlContent += `                                         <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="OtherCharges${contentRowId}" class="form-label">Oth. Charges</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="OtherCharges${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-2 pl-2 pr-2 grid-border">
+                                                                     <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
+                                                                         <li class="acc_section">
+                                                                             <div class="acc_head">
+                                                                                 <div class="row">
+                                                                                     <h3>Tax Amt</h3>
+                                                                                     <div class="invoice-ds-box acc-box col-md-12">
+                                                                                         <input type="text" class="form-control decimalonly" data-tofixed="2" id="TaxAmt${contentRowId}" placeholder>
+                                                                                     </div>
+                                                                                 </div>
+                                                                             </div>
+                                                                             <div class="acc_content">
+                                                                                 <div class="row mb-1">
+                                                                                     <label for="TaxPlusAmt${contentRowId}" class="col-md-4 form-label">+ %</label>
+                                                                                     <div class="col-md-8"><input type="text" class="form-control mr-1 decimalonly" data-tofixed="3" id="TaxPlusAmt${contentRowId}" placeholder></div>
+                                                                                 </div>
+                                                                                 <div class="row mb-1">
+                                                                                     <label for="RetailRate${contentRowId}" class="col-md-4 form-label">Retail Rate </label>
+                                                                                     <div class="col-md-8"><input type="text" class="form-control mr-1 decimalonly" data-tofixed="2" id="RetailRate${contentRowId}" placeholder></div>
+                                                                                 </div>
+                                                                             </div>
+                                                                         </li>
+                                                                     </ul>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Gst${contentRowId}" class="form-label">GST</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Gst${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Scess${contentRowId}" class="form-label">S.Cess</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Scess${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-1 pl-2 pr-2 grid-border">
+                                                                     <label for="Ccess${contentRowId}" class="form-label">C.Cess</label>
+                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Ccess${contentRowId}" placeholder></div>
+                                                                 </div>
+                                                                 <div class="col-md-1 grid-border d-flex justify-content-center align-items-center>
+                                                                      <div class="form-group text-center mb-1">
+                                                                          <div class="btn-list1 mt-1">
+                                                                              <a href="javascript:addRow();" class="btn btn-outline-primary small-icon-btn content-rows-add-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Add" tabindex="25"><i class="fa fa-plus"></i></a>
+                                                                              <a href="javascript:deleteRow(` + contentRowId + `);" class="btn btn-outline-danger small-icon-btn" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><i class="fa fa-trash-o"></i></a>
+                                                                          </div>
+                                                                      </div>
+                                                                 </div>
+                                                             </div>
+                                                        </div>`;
+
+            htmlContentArray.push(htmlContent);
+
+            $('.content-rows-add-btn').remove();
+            $('#contentRow').append(htmlContentArray.join(''));
+            var accordionContainers = $('#row-' + contentRowId + ' .demo-accordion');
+            accordionContainers.each(function () {
+                $(this).accordionjs();
+                $(this).find('.acc_content').hide();
+            });
+
+            $('.select2-show-search-add').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                tags: true
+            });
+
+            $('.select2-show-search-api').select2({
+                placeholder: 'Choose one',
+                searchInputPlaceholder: 'Search',
+                width: '100%',
+                ajax: {
+                    minimumInputLength: 2,
+                    url: '@(Url.Content("~/Customer/SearchCustomerGeneralExpensesMultiProductDesc"))',
+                    dataType: "json",
+                    type: "GET",
+                    data: function (params) {
+                        return {
+                            search: params.term// search term
+                        };
+                    },
+                    processResults: function (data) {
+                        var combinedResults = [];
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item?.groupName != null && item?.groupName != undefined ? item?.groupName : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item.productDesignNumber != null && item.productDesignNumber != undefined ? item.productDesignNumber : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item.colorName != null && item.colorName != undefined ? item.colorName : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            return {
+                                text: item.sizeName != null && item.sizeName != undefined ? item.sizeName : '',
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
+                            var text = '';
+
+                            if (item.code != null && item.code != undefined) {
+                                text += item.code;
+                            }
+
+                            if (item.printName != null && item.printName != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.printName;
+                            } else if (item.titleAlternate != null && item.titleAlternate != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.titleAlternate;
+                            }
+
+                            if (item.hsnCode != null && item.hsnCode != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.hsnCode;
+                            }
+
+                            return {
+                                text: text,
+                                id: item.productBranchMappingId
+                            };
+                        }));
+
+                        return {
+                            results: combinedResults
+                        };
+                    }
+                },
+            });
+
+            $('.fc-datepicker').datepicker({
+                dateFormat: 'mm/y',
+                onClose: function (dateText, inst) {
+                    $(this).datepicker('setDate', new Date(inst.selectedYear, inst.selectedMonth, 1));
+                }
+            });
+
+            $('.select2-show-search-contentrows').select2({
+                minimumResultsForSearch: ''
+            });
+
+            var formattedMinimumDate = $.datepicker.formatDate("mm/y", new Date());
+            $(`#ExpDt${contentRowId}`).datepicker("setDate", formattedMinimumDate);
+
+            $("#ProductMappingId" + contentRowId).on('change', function () {
+                var rowId = $(this).attr('data-rowid');
+                getProductDetail($(this).val(), rowId);
+            });
+
+            // Attach event listeners to relevant inputs for the taxable amount calculation
+            $('#BoxLabel1' + contentRowId + ', #BoxLabel2' + contentRowId + ', #BoxLabel3' + contentRowId +
+                ', #BoxLabel4' + contentRowId + ', #BoxLabel5' + contentRowId + ', #BoxLabel6' + contentRowId +
+                ', #Rate' + contentRowId + ', #DiscPercentage' + contentRowId + ', #QtyDiscPercentage' + contentRowId +
+                ', #TradDiscPerc' + contentRowId + ', #SpDiscPerc' + contentRowId + ', #CashDiscPerc' + contentRowId +
+                ', #TaxAmt' + contentRowId + ', #OtherCharges' + contentRowId).on('blur', function () {
+                var IsItemDiscountSp = gridData.customerBook.isItemDiscountSp;                    
+                if (IsItemDiscountSp == true) {
+                    calculateSpDiscTaxableAmount(contentRowId);
+                } else {
+                    calculateOnlyDiscTaxableAmount(contentRowId);
+                }
+            });
+
+            var counter = 0;
+            $('.content-row-srno').each(function () {
+                $(this).val(++counter);
+            });
+
+            $('.delete-row-btn').on('click', function () {
+                var index = $(this).data('index');
+                deleteRow(index);
+            });
+
+            calculateBasicAmount();
+
+        }
+        function deleteRow(rowId) {
+            $('#row-' + rowId).remove();
+            if ($('.content-rows').length == 0 || $('.content-rows-add-btn').length == 0) {
+                contentRowId = 0;
+                addRow();
+            }
+        }
+        function getRowData() {
+            var rowDataArray = [];
+            rowId = 1;
+            $('.content-rows').each(function () {
+                var rowData = {
+                    'SrTextbox': $(this).find('.content-row-srno').val(),
+                    'ProductMappingId': $(this).find('#ProductMappingId' + rowId).val(),
+                    'ItemDec1': $(this).find('#ItemDec1' + rowId).val(),
+                    'ItemDec2': $(this).find('#ItemDec2' + rowId).val(),
+                    'ItemDec3': $(this).find('#ItemDec3' + rowId).val(),
+                    'ItemDec4': $(this).find('#ItemDec4' + rowId).val(),
+                    'ItemDec5': $(this).find('#ItemDec5' + rowId).val(),
+                    'ItemDec6': $(this).find('#ItemDec6' + rowId).val(),
+                    'BoxLabel1': $(this).find('#BoxLabel1' + rowId).val(),
+                    'BoxLabel2': $(this).find('#BoxLabel2' + rowId).val(),
+                    'BoxLabel3': $(this).find('#BoxLabel3' + rowId).val(),
+                    'BoxLabel4': $(this).find('#BoxLabel4' + rowId).val(),
+                    'BoxLabel5': $(this).find('#BoxLabel5' + rowId).val(),
+                    'BoxLabel6': $(this).find('#BoxLabel6' + rowId).val(),
+                    'Rate': $(this).find('#Rate' + rowId).val(),
+                    'DiscPercentage': $(this).find('#DiscPercentage' + rowId).val(),
+                    'DiscAmt': $(this).find('#DiscAmt' + rowId).val(),
+                    'QtyDiscPercentage': $(this).find('#QtyDiscPercentage' + rowId).val(),
+                    'QtyDiscAmt': $(this).find('#QtyDiscAmt' + rowId).val(),
+                    'TradDiscPerc': $(this).find('#TradDiscPerc' + rowId).val(),
+                    'SpDiscPerc': $(this).find('#SpDiscPerc' + rowId).val(),
+                    'CashDiscPerc': $(this).find('#CashDiscPerc' + rowId).val(),
+                    'OtherCharges': $(this).find('#OtherCharges' + rowId).val(),
+                    'TaxAmt': $(this).find('#TaxAmt' + rowId).val(),
+                    'TaxPlusAmt': $(this).find('#TaxPlusAmt' + rowId).val(),
+                    'RetailRate': $(this).find('#RetailRate' + rowId).val(),
+                    'Gst': $(this).find('#Gst' + rowId).val(),
+                    'Scess': $(this).find('#Scess' + rowId).val(),
+                    'Ccess': $(this).find('#Ccess' + rowId).val(),
+                    'BatchNo': $(this).find('#BatchNo' + rowId).val(),
+                    'ExpDt': $(this).find('#ExpDt' + rowId).val(),
+                };
+                rowId += 1;
+                rowDataArray.push(rowData);
+            });
+
+            return rowDataArray;
+        }
+
+        function calculateSpDiscTaxableAmount(currentRowId) {
+            var totalQtAmt = 0;
+
+            $(".ProductAMtCalcOn").each(function (index, item) {
+                var box1 = gridData.customerBook.boxLabel1.toUpperCase();
+                var box2 = gridData.customerBook.boxLabel2.toUpperCase();
+                var box3 = gridData.customerBook.boxLabel3.toUpperCase();
+                var box4 = gridData.customerBook.boxLabel4.toUpperCase();
+                var box5 = gridData.customerBook.boxLabel5.toUpperCase();
+                var box6 = gridData.customerBook.boxLabel6.toUpperCase();
+                var hyphenIndex = item.value.indexOf('-');
+                var value = hyphenIndex !== -1 ? item.value.substring(hyphenIndex + 1).toUpperCase().trim() : item.value.toUpperCase().trim();
+
+                if (box1 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel1${currentRowId}`);
+                }
+                if (box2 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel2${currentRowId}`);
+                }
+                if (box3 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel3${currentRowId}`);
+                }
+                if (box4 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel4${currentRowId}`);
+                }
+                if (box5 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel5${currentRowId}`);
+                }
+                if (box6 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel6${currentRowId}`);
+                }
+            });
+
+            var a = totalQtAmt * parseFloat(getFloatValueZero(`Rate${currentRowId}`, 2));
+            var b = totalQtAmt * parseFloat(getFloatValueZero(`QtyDiscPercentage${currentRowId}`, 3));
+            var c = ((a - b) * parseFloat(getFloatValueZero(`TradDiscPerc${currentRowId}`, 3))) / 100;
+            var d = ((a - b - c) * parseFloat(getFloatValueZero(`SpDiscPerc${currentRowId}`, 3))) / 100;
+            var e = ((a - b - c - d) * parseFloat(getFloatValueZero(`CashDiscPerc${currentRowId}`, 3))) / 100;
+            var f = b + c + d + e;
+            var f1 = (100 * f) / a;
+            var g = (a - f) + parseFloat(getFloatValueZero(`OtherCharges${currentRowId}`, 2));
+
+            $(`#QtyDiscAmt${currentRowId}`).val(b.toFixed(2));
+            $(`#TradDiscAmt${currentRowId}`).val(c.toFixed(2));
+            $(`#SpDiscAmt${currentRowId}`).val(d.toFixed(2));
+            $(`#CashDiscAmt${currentRowId}`).val(e.toFixed(2));
+            $(`#DiscAmt${currentRowId}`).val(f.toFixed(2));
+            $(`#DiscPercentage${currentRowId}`).val(f1.toFixed(3));
+            $(`#TaxAmt${currentRowId}`).val(g.toFixed(2));
+            calculateBasicAmount();
+        }
+
+        function calculateOnlyDiscTaxableAmount(currentRowId) {
+            var totalQtAmt = 0;
+
+            $(".ProductAMtCalcOn").each(function (index, item) {
+                var box1 = gridData.customerBook.boxLabel1.toUpperCase();
+                var box2 = gridData.customerBook.boxLabel2.toUpperCase();
+                var box3 = gridData.customerBook.boxLabel3.toUpperCase();
+                var box4 = gridData.customerBook.boxLabel4.toUpperCase();
+                var box5 = gridData.customerBook.boxLabel5.toUpperCase();
+                var box6 = gridData.customerBook.boxLabel6.toUpperCase();
+                var hyphenIndex = item.value.indexOf('-');
+                var value = hyphenIndex !== -1 ? item.value.substring(hyphenIndex + 1).toUpperCase().trim() : item.value.toUpperCase().trim();
+
+                if (box1 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel1${currentRowId}`);
+                }
+                if (box2 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel2${currentRowId}`);
+                }
+                if (box3 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel3${currentRowId}`);
+                }
+                if (box4 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel4${currentRowId}`);
+                }
+                if (box5 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel5${currentRowId}`);
+                }
+                if (box6 == value) {
+                    totalQtAmt += getIntValueZero(`BoxLabel6${currentRowId}`);
+                }
+            });
+
+            var a = (parseFloat(getFloatValueZero(`Rate${currentRowId}`, 2)) * parseFloat(getFloatValueZero(`DiscPercentage${currentRowId}`, 3))) / 100;
+            var b = ((parseFloat(getFloatValueZero(`Rate${currentRowId}`, 2)) - parseFloat(getFloatValueZero(`DiscAmt${currentRowId}`, 3))) * totalQtAmt) + parseFloat(getFloatValueZero(`OtherCharges${currentRowId}`, 2));
+
+            $(`#DiscAmt${currentRowId}`).val(a.toFixed(2));
+            $(`#TaxAmt${currentRowId}`).val(b.toFixed(2));
+            calculateBasicAmount();
+        }
+    </script>
+}

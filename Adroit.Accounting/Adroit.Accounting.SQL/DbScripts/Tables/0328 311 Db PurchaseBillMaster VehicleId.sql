@@ -1,0 +1,2 @@
+ALTER TABLE [Z-PurchaseBillMaster-Z] ALTER COLUMN VehicleId INT NULL
+GO

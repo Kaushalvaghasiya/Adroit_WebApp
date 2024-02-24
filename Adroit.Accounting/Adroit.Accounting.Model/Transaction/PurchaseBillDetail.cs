@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------
 //    Copyright (c) Adroit IBS Pvt Ltd. All rights reserved.
 //-----------------------------------------------------------------------
-
+using System.Text.Json.Serialization;
 namespace Adroit.Accounting.Model
 {
     public partial class PurchaseBillDetail
@@ -35,6 +35,7 @@ namespace Adroit.Accounting.Model
         public decimal? GSTCentralCessPercentage { get; set; }
         public decimal? GSTCentralCessAmount { get; set; }
         public string BatchNumber { get; set; }
+        [JsonConverter(typeof(CustomNullableDateTimeConverter))]
         public System.DateTime? ExpiryDate { get; set; }
         public string ItemDesc1 { get; set; }
         public string ItemDesc2 { get; set; }

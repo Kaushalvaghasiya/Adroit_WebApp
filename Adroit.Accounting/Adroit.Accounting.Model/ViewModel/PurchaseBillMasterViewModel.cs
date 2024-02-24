@@ -21,8 +21,13 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> BillTypeList { get; set; }
         public List<DropdownViewModel> ItemDescList { get; set; }
         public List<DropdownViewModel> ProductAmtCalcOnList { get; set; }
+        public List<DropdownViewModel> VehicleNumberList { get; set; }
+        public List<DropdownViewModel> TransportModeList { get; set; }
+        public List<DropdownViewModel> TransporterList { get; set; }
+        public List<DropdownViewModel> TransGSTList { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
         public CustomerBookViewModel CustomerBook { get; set; }
+        public List<PurchaseBillDetail> PurchaseDetailsArray { get; set; }
         public string? DeliveryBranch { get; set; }
         public string? CityFrom { get; set; }
         public string? CityTo { get; set; }
@@ -57,6 +62,13 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? CrossingCommissionAccountBranchMappingChargedTo { get; set; }
         public string? CrossingHamaliAccountBranchMappingChargedTo { get; set; }
         public string? CrossingDeliveryAccountBranchMappingChargedTo { get; set; }
+        public string? TransportMode { get; set; }
+        public string? FirmEntryVou { get; set; }
+        public string? GSTRTwoAReconsilDate { get; set; }
+        public string? GSTRThreeBFillingDate { get; set; }
+        public string? Remarks { get; set; }
+        public decimal? TotalRCMAmt { get; set; }
+        public decimal? NonRCMAmt { get; set; }
     }
 }
  
