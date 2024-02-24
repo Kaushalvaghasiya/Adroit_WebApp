@@ -22,6 +22,7 @@ BEGIN
 		DR.Mobile AS DriverMobile,
 		DR.LicenceNumber as DriverLicence,
 		CustomerFirmBranch.Title AS DeliveryBranch,
+		GSTTransportMode.Title as TransportMode,
 		dbo.fn_GetAccountName(PBM.SalesAccountBranchMappingId) AS ToPayAmountAccountBranchMappingChargerTo,
 		dbo.fn_GetAccountName(PBM.CrossingAmountAccountBranchMappingId) AS CrossingAmountAccountBranchMappingChargedTo,
 		dbo.fn_GetAccountName(PBM.CrossingCommissionAccountBranchMappingId) AS CrossingCommissionAccountBranchMappingChargedTo,
@@ -45,6 +46,7 @@ BEGIN
 	LEFT JOIN CustomerFirmBranch ON CustomerFirmBranch.Id = PBM.DeliveryBranchId
 	LEFT JOIN CustomerBrokerBranchMapping ON CustomerBrokerBranchMapping.Id = PBM.BrokerBranchMappingId
 	LEFT JOIN Broker ON Broker.Id = CustomerBrokerBranchMapping.Id
+	LEFT JOIN GSTTransportMode ON GSTTransportMode.Id = PBM.TransportModeId
 	WHERE PBM.Id = @Id
 	AND PBM.BranchId = @BranchId
 END

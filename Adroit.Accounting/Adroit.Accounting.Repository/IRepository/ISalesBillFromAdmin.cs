@@ -10,5 +10,6 @@ namespace Adroit.Accounting.Repository.IRepository
         int Save(SalesBillFromAdmin value, string connectionString);
         SalesBillFromAdminViewModel Get(string id, string connectionString);
         List<DropdownViewModel> SalesBillFromAdminList(string connectionString, int loginId = 0, int firmId = 0);
+        List<DropdownViewModel> SalesBillFromIdsList(string Ids, string connectionString);
     }
 }

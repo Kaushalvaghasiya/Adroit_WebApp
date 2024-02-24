@@ -144,8 +144,15 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerGeneralExpensesMultiRepository.CustomerGeneralExpenseMultiSearchProductDescList(_configurationData.DefaultConnection, search, CurrentBranchId, CurrentFirmId);
-                result.result = Constant.API_RESULT_SUCCESS;
+                if (search == null || search == "")
+                {
+                    result.data = new List<ProductViewModel>();
+                    result.result = Constant.API_RESULT_SUCCESS;
+                }
+                else {
+                    result.data = _customerGeneralExpensesMultiRepository.CustomerGeneralExpenseMultiSearchProductDescList(_configurationData.DefaultConnection, search, CurrentBranchId, CurrentFirmId);
+                    result.result = Constant.API_RESULT_SUCCESS;
+                }
             }
             catch (Exception ex)
             {

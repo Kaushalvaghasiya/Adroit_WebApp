@@ -11,5 +11,7 @@ namespace Adroit.Accounting.Repository.IRepository
         public bool Delete(int id, string connectionString, int loginId);
         List<DropdownViewModel> SelectList(int branchId, string connectionString);
         public CustomerBookViewModel GetListWithIsGeneralPurchaseId(string connectionString, int loginId, int branchId, int firmId);
+        public CustomerBook GetWithCustomerBookBranchMapping(int id, string connectionString, int loginId, int branchId);
+        public List<DropdownViewModel> SelectListByBookType(int branchId, string bookType, string connectionString);
     }
 }

@@ -47,5 +47,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@FirmId", firmId);
             return QueryHelper.GetList<DropdownViewModel>("sp_SalesBillFromAdminList_Select", connectionString, parameters);
         }
+        public List<DropdownViewModel> SalesBillFromIdsList(string Ids,string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@Ids", Ids);
+            return QueryHelper.GetList<DropdownViewModel>("sp_SalesBillFromIdsList_Select", connectionString, parameters);
+        }
     }
 }
