@@ -2,6 +2,7 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
 <div class="dv-list side-app">
     <!-- page-header -->
     <div class="row">
@@ -72,7 +73,8 @@
                             <button class="btn btn-primary EWayBill-search" type="button" data-container="body" data-toggle="popover" data-popover-color="default" data-placement="top" title="Popover top">Search</button>
                         </span>
                         <a href="#" class="btn-save btn btn-primary text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Save"><span><i class="fa fa-save"></i></span></a>
-                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Delete"><span><i class="fa fa-trash-o"></i></span></a>
+                        <a href="#" class="btn-print btn btn-blue text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Print"><span><i class="fa fa-print"></i></span></a>
+                        <a href="#" class="btn-delete btn btn-danger text-white mr-2 btn-sm mode-hide" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel"><span><i class="fa fa-remove-o"></i></span></a>
                         <a href="#" class="btn-add-new btn btn-warning text-white mr-2 btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="New"><span><i class="fa fa-plus"></i></span></a>
                         <a href="#" class="btn-back btn btn-gray text-white btn-sm" data-toggle="tooltip" title="" data-placement="bottom" data-original-title="Cancel" id="btnCancel"><span><i class="fa fa-arrow-left"></i></span></a>
                     </div>
@@ -290,7 +292,7 @@
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-right mb-1">
-                                                        <label for="FreightAmount" class="font-weight-bold text-white">Freight</label>
+                                                        <label for="NetAmount" class="font-weight-bold text-white">Freight</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1 pl-0 pr-0">
@@ -447,9 +449,9 @@
                 </div>
                 <div class="card-footer text-right">
                     <a href="#" class="btn-save btn btn-primary mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Save"><i class="fa fa-save"></i>&nbsp;Save</a>
-                    <a href="#" class="btn-underdevelopment btn btn-blue mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
+                    <a href="#" class="btn-print btn btn-blue mt-1 mode-hide" title="" data-toggle="tooltip" data-placement="top" data-original-title="Print"><i class="fa fa-print"></i>&nbsp;Print</a>
                     <a href="#" class="btn-underdevelopment btn btn-success mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Send"><i class="fa fa-share-alt"></i>&nbsp;Send</a>
-                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-trash-o"></i>&nbsp;Delete</a>
+                    <a href="#" class="btn-delete btn btn-danger mt-1 mode-hide" data-toggle="tooltip" title="" data-placement="top" data-original-title="Delete"><i class="fa fa-remove"></i>&nbsp;Cancel</a>
                     <a href="#" class="btn-add-new btn btn-warning mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-plus"></i>&nbsp;New</a>
                     <a href="#" class="btn-back btn btn-gray mt-1" data-toggle="tooltip" title="" data-placement="top" data-original-title="Cancel"><i class="fa fa-arrow-left"></i>&nbsp;Cancel</a>
                 </div>
@@ -544,6 +546,10 @@
             $('.dv-detail').hide();
 
             bindDatatableList();
+
+            $(".btn-delete").on("click", function () {
+                cancelItemConfirmation($("#Id").val());
+            });
 
             $("#ChalanDateFrom").on('change', function (e) {
                 if ($(this).val() != '' || $(this).val() != null) {
@@ -729,7 +735,10 @@
                     let btnAct = "<div class='btn-list'> ";
                     btnAct += "<a href='#' class='btn-edit btn btn-outline-warning small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Edit' data-placement='bottom' data-original-title='Edit'><i class='fa fa-pencil'></i></a>&nbsp;&nbsp;";
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
-                    btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    if (!(row.deleted)) {
+                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                    }
+                    
                     btnAct += "</div>";
                     return btnAct;
                 },
@@ -828,6 +837,7 @@
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
+            $(".btn-print").hide();
         }
 
         function saveItem() {
@@ -981,7 +991,7 @@
                     lrDetails.LRBookingId = $('#hdnLRId' + contentRowId).text();
                     lrDetails.BasicAmount = parseFloat($('#TaxableAmount' + contentRowId).text()) || 0;
                     lrDetails.Rate = parseFloat($('#GSTRate' + contentRowId).text()) || 0;
-                    lrDetails.FreightAmount = parseFloat($('#FreightAmount' + contentRowId).text()) || 0;
+                    lrDetails.FreightAmount = parseFloat($('#NetAmount' + contentRowId).text()) || 0;
                     lrDetails.Charge1 = parseFloat($('#Charge1' + contentRowId).val()) || 0;
                     lrDetails.Charge2 = parseFloat($('#Charge2' + contentRowId).val()) || 0;
                     lrDetails.Charge3 = parseFloat($('#Charge3' + contentRowId).val()) || 0;
@@ -1007,10 +1017,12 @@
                     success: function (data) {
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {
-                            formReset();
+                            //formReset();
+                            $("#Id").val(data.data);
                             showWarning("", 'Invoice saved successfully.');
-                            $("#Id").val(0);
                             refreshDatatableList();
+                            $('.btn-delete').show();
+                            $(".btn-print").show();
                         } else {
                             showError("", data.data);
                         }
@@ -1107,6 +1119,15 @@
                                 $('#AccountBranchMappingId').val(result.data.accountBranchMappingId).trigger('change');
                                 payTypeIdTrigger = true;
 
+                                if (result.data.deleted) {
+                                    $('.btn-delete').hide();
+                                }
+                                else {
+                                    $('.btn-delete').show();
+                                }
+
+                                $(".btn-print").show();
+
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -1145,7 +1166,7 @@
                                         parcel: LRBookingDetail.parcel,
                                         chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
                                         taxableAmount: parseFloat(LRBookingDetail.taxableAmount || 0).toFixed(2),
-                                        freightAmount: parseFloat(LRBookingDetail.freightAmount || 0).toFixed(2),
+                                        netAmount: parseFloat(LRBookingDetail.netAmount || 0).toFixed(2),
                                         charge1: parseFloat(LRBookingDetail.charge1 || 0).toFixed(2),
                                         charge2: parseFloat(LRBookingDetail.charge2 || 0).toFixed(2),
                                         charge3: parseFloat(LRBookingDetail.charge3 || 0).toFixed(2),
@@ -1233,7 +1254,7 @@
                                             billPartyName: LRBookingDetail.billPartyName,
                                             ewayBillNo: LRBookingDetail.ewayBillNo,
                                             parcel: LRBookingDetail.parcel,
-                                            freightAmount: parseFloat(LRBookingDetail.freightAmount || 0).toFixed(2),
+                                            netAmount: parseFloat(LRBookingDetail.netAmount || 0).toFixed(2),
                                             charge1: parseFloat(LRBookingDetail.charges1 || 0).toFixed(2),
                                             charge2: parseFloat(LRBookingDetail.charges2 || 0).toFixed(2),
                                             charge3: parseFloat(LRBookingDetail.charges3 || 0).toFixed(2),
@@ -1421,7 +1442,7 @@
                                     consignee: row.consignee,
                                     billPartyName: row.billPartyName,
                                     parcel: row.parcel,
-                                    freightAmount: parseFloat(row.freightAmount || 0).toFixed(2),
+                                    netAmount: parseFloat(row.netAmount || 0).toFixed(2),
                                     charge1: parseFloat(row.charge1 || 0).toFixed(2),
                                     charge2: parseFloat(row.charge2 || 0).toFixed(2),
                                     charge3: parseFloat(row.charge3 || 0).toFixed(2),
@@ -1480,7 +1501,7 @@
                         consignee: row.consignee,
                         billPartyName: row.billPartyName,
                         parcel: row.parcel,
-                        freightAmount: parseFloat(row.freightAmount || 0).toFixed(2),
+                        netAmount: parseFloat(row.netAmount || 0).toFixed(2),
                         charge1: parseFloat(row.charge1 || 0).toFixed(2),
                         charge2: parseFloat(row.charge2 || 0).toFixed(2),
                         charge3: parseFloat(row.charge3 || 0).toFixed(2),
@@ -1525,7 +1546,7 @@
                                     consignee: row.data().consignee,
                                     billPartyName: row.data().billPartyName,
                                     parcel: row.parcel,
-                                    freightAmount: parseFloat(row.data().freightAmount || 0).toFixed(2),
+                                    netAmount: parseFloat(row.data().netAmount || 0).toFixed(2),
                                     charge1: parseFloat(row.data().charge1 || 0).toFixed(2),
                                     charge2: parseFloat(row.data().charge2 || 0).toFixed(2),
                                     charge3: parseFloat(row.data().charge3 || 0).toFixed(2),
@@ -1599,6 +1620,7 @@
                         '<div class="col-md-12 pl-0 pr-0">' +
                         '<div class="form-group text-right mb-1">' +
                         '<label for="ChargeWeight" id="ChargeWeight' + contentRowId + '">' + (lrBooking.chargeWeight) + '</label>' +
+                        '<input type="hidden" id="TaxableAmount' + contentRowId + '" value="' + lrBooking.taxableAmount + '" />' +
                         '</div>' +
                         '</div>' +
                         // '<div class="col-md-6">' +
@@ -1615,7 +1637,7 @@
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-right mb-1">' +
-                        '<label for="FreightAmount" id="FreightAmount' + contentRowId + '">' + (lrBooking.freightAmount) + '</label>' +
+                        '<label for="NetAmount" id="NetAmount' + contentRowId + '">' + (lrBooking.netAmount) + '</label>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
@@ -1701,21 +1723,19 @@
         }
 
         function calculateTaxableAmount() {
-
             $('.content-rows').each(function () {
                 var contentRowId = $(this).attr('id').replace('row-', '');
-                var FreightAmount = parseFloat($('#FreightAmount' + contentRowId).text()) || 0;
-                var Charge1 = parseFloat($('#Charge1' + contentRowId).val()) || 0;
-                var Charge2 = parseFloat($('#Charge2' + contentRowId).val()) || 0;
-                var Charge3 = parseFloat($('#Charge3' + contentRowId).val()) || 0;
-                var Charge4 = parseFloat($('#Charge4' + contentRowId).val()) || 0;
-                var Charge5 = parseFloat($('#Charge5' + contentRowId).val()) || 0;
-                var Charge6 = parseFloat($('#Charge6' + contentRowId).val()) || 0;
+                var netAmount = parseFloat($('#NetAmount' + contentRowId).text()) || 0;
+                var charge1 = parseFloat($('#Charge1' + contentRowId).val()) || 0;
+                var charge2 = parseFloat($('#Charge2' + contentRowId).val()) || 0;
+                var charge3 = parseFloat($('#Charge3' + contentRowId).val()) || 0;
+                var charge4 = parseFloat($('#Charge4' + contentRowId).val()) || 0;
+                var charge5 = parseFloat($('#Charge5' + contentRowId).val()) || 0;
+                var charge6 = parseFloat($('#Charge6' + contentRowId).val()) || 0;
 
-                var sumOfLabels = FreightAmount + Charge1 + Charge2 + Charge3 + Charge4 + Charge5 + Charge6;
-                parseFloat($('#TaxableAmount' + contentRowId).text(sumOfLabels.toFixed(2))) || 0;
+                var taxableAmount = netAmount + charge1 + charge2 + charge3 + charge4 + charge5 + charge6;
+                $('#TaxableAmount' + contentRowId).text(taxableAmount.toFixed(2));
             });
-
         }
 
         function calculateBasicAmount() {
@@ -1725,8 +1745,9 @@
                 var contentRowId = $(this).attr('id').replace('row-', '');
                 var taxableAmount = parseFloat($('#TaxableAmount' + contentRowId).text()) || 0;
                 totalTaxableAmount += taxableAmount;
-                $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
             });
+            
+            $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
 
             var BasicAmount = parseFloat($('#TaxableAmount').val()) || 0;
             var CGSTTotal = parseFloat($('#CGSTTotal').val()) || 0;
@@ -1753,28 +1774,21 @@
             return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
         }
 
-        function deleteRow(deletedId) {
-            var index = selectedLRDetails.findIndex(item => item.id === deletedId);
+        function deleteRow(lrBookingId) {
+            var index = selectedLRDetails.findIndex(item => item.lrBookingId === lrBookingId);
 
             if (index !== -1) {
                 $('#row-' + index).remove();
-                addedIds = addedIds.filter(id => id !== deletedId);
+                addedIds = addedIds.filter(id => id !== lrBookingId);
                 selectedLRDetails.splice(index, 1);
 
-                if (selectedLRDetails.length === 0) {
-                    $('#TaxableAmount').val(0.00);
-                } else {
-                    for (var i = 0; i < selectedLRDetails.length; i++) {
-                        calculateTaxableAmount(i);
-                    }
-                    calculateBasicAmount();
-                }
+                calculateBasicAmount();
                 updateSelectedIdsInput();
 
                 // Update the id attribute for each remaining row
-                $('.content-rows').each(function (newIndex) {
-                    $(this).attr('id', 'row-' + newIndex);
-                });
+                // $('.content-rows').each(function (newIndex) {
+                //     $(this).attr('id', 'row-' + newIndex);
+                // });
             }
 
         }

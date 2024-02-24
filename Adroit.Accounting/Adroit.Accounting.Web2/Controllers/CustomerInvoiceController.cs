@@ -85,7 +85,7 @@ namespace Adroit.Accounting.Web.Controllers
                 int id = _customerInvoice.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
-                    result.data = true;
+                    result.data = id;
                     result.result = Constant.API_RESULT_SUCCESS;
                 }
             }
