@@ -42,7 +42,9 @@ BEGIN
 		LEFT JOIN [CustomerAccountBranchMapping] AS CAB3 on CAB3.Id = LRBooking.BillAccountBranchMappingId 
 		LEFT JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId 
 		WHERE LRBooking.[BranchId] = @BranchId
-			  AND LRBooking.Deleted = 0
-			  AND [Z-PurchaseBillDetail-Z].PurchaseBillMasterId = @PurchaseBillMasterId
+		AND [Z-PurchaseBillDetail-Z].PurchaseBillMasterId = @PurchaseBillMasterId
+		AND LRBooking.Deleted = 0
+		AND [Z-PurchaseBillDetail-Z].Deleted = 0
+			  
 END
 GO
