@@ -53,6 +53,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@SoftwareId ", value.SoftwareId);
             parameters.Add("@BranchLimit ", value.BranchLimit);
             parameters.Add("@Active", value.Active);
+            parameters.Add("@IsBatchNumber", value.IsBatchNumber);
+            parameters.Add("@SetSalesRateInPur", value.SetSalesRateInPur);
             parameters.Add("@ModifiedById", value.ModifiedById);
             parameters.Add("@OrderNumber ", value.OrderNumber);
             parameters.Add("@AddedById ", value.AddedById);
