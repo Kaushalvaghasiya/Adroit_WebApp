@@ -11,6 +11,8 @@ Begin
 			ProductDesignNumber.Title AS ProductDesignNumber,
 			ProductColor.Title AS ColorName,
 			ProductSize.Title AS SizeName,
+			ProductFabric.Title AS FabricName,
+			GSTUQC.Title AS UQCTypeName,
 			ProductBranchMapping.Id AS ProductBranchMappingId
 	FROM Product 
 		 INNER JOIN ProductBranchMapping ON Product.Id = ProductBranchMapping.ProductId AND ProductBranchMapping.BranchId = 22 AND Product.CustomerId = 14
@@ -18,16 +20,19 @@ Begin
 		 LEFT JOIN ProductDesignNumber ON Product.DesignNumberId = ProductDesignNumber.Id AND ProductDesignNumber.Active = 1 AND ProductDesignNumber.Deleted = 0
 		 LEFT JOIN ProductColor ON Product.ColourId = ProductColor.Id AND ProductColor.Active = 1 AND ProductColor.Deleted = 0
 		 LEFT JOIN ProductSize ON Product.SizeId = ProductSize.Id AND ProductSize.Active = 1 AND ProductSize.Deleted = 0 
+		 LEFT JOIN ProductFabric ON Product.FabricId = ProductFabric.Id AND ProductFabric.Active = 1 AND ProductFabric.Deleted = 0 
+		 LEFT JOIN GSTUQC ON Product.UQCId = GSTUQC.Id AND GSTUQC.Active = 1 AND GSTUQC.Deleted = 0 
 	WHERE (Coalesce(@Search,'') = '' OR ProductGroup.Title like '%'+ @Search + '%' 
 									 OR ProductDesignNumber.Title like '%'+ @Search + '%'
 									 OR ProductColor.Title like '%'+ @Search + '%'
 									 OR ProductSize.Title like '%'+ @Search + '%'
 									 OR Product.Code like '%'+ @Search + '%'
 									 OR Product.PrintName like '%'+ @Search + '%'
-									 OR Product.TitleAlternate like '%'+ @Search + '%'
+									 OR ProductFabric.Title like '%'+ @Search + '%'
+									 OR GSTUQC.Title like '%'+ @Search + '%'
 									 OR Product.HSNCode like '%'+ @Search + '%'
 		  )
-	 ORDER BY ProductGroup.Title, ProductDesignNumber.Title, ProductColor.Title, ProductSize.Title, Product.Code, Product.PrintName, Product.TitleAlternate, Product.HSNCode
+	 ORDER BY ProductGroup.Title, ProductDesignNumber.Title, ProductColor.Title, ProductSize.Title, Product.Code, Product.PrintName, ProductFabric.Title, GSTUQC.Title, Product.HSNCode
 End
 Set Nocount off;
 GO
