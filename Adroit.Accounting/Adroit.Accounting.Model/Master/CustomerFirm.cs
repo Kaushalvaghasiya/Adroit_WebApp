@@ -24,6 +24,8 @@ namespace Adroit.Accounting.Model
         public byte SoftwareId { get; set; }
         public short BranchLimit { get; set; }
         public bool Active { get; set; }
+        public bool SetSalesRateInPur { get; set; }
+        public bool IsBatchNumber { get; set; }
         public byte? OrderNumber { get; set; }
         public int AddedById { get; set; }
         public System.DateTime AddedOn { get; set; }

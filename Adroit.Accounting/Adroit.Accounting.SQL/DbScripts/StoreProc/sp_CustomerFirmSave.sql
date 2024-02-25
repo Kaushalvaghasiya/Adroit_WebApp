@@ -16,6 +16,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerFirmSave]
 	 @SoftwareId int,
 	 @BranchLimit int,
 	 @Active bit,
+	 @IsBatchNumber bit,
+	 @SetSalesRateInPur bit,
 	 @OrderNumber int,
 	 @AdharUID varchar(12),
 	 @LRResetOnYearEnd bit,
@@ -44,6 +46,8 @@ BEGIN
 						--SoftwareId=@SoftwareId,
 						--BranchLimit=@BranchLimit,
 						Active=@Active,
+						IsBatchNumber=@IsBatchNumber,
+						SetSalesRateInPur=@SetSalesRateInPur,
 						OrderNumber=@OrderNumber,
 						ModifiedById=@LoginId, 
 						ModifiedOn=GETUTCDATE(),
@@ -66,14 +70,14 @@ BEGIN
 				INSERT INTO CustomerFirm
 					([CustomerId],[BusinessId],Title,OwnerName,[TAN],IECCode,
 					IsLutBond,LutBondNumber,IsGTA,FirmTypeId,GstFirmTypeId,
-					SoftwareId,BranchLimit,Active,OrderNumber,AddedById,
+					SoftwareId,BranchLimit,Active,SetSalesRateInPur,IsBatchNumber,OrderNumber,AddedById,
 					AddedOn,AdharUID,LRResetOnYearEnd,CessRequired
 					)
 				VALUES
 					(
 					@CustomerId,@BusinessId,@Title,@OwnerName,@TAN,@IECCode,
 					@IsLutBond,@LutBondNumber,@IsGTA,@FirmTypeId,@GstFirmTypeId,
-					@SoftwareId,@BranchLimit,@Active,@OrderNumber,@LoginId,
+					@SoftwareId,@BranchLimit,@Active,@SetSalesRateInPur,@IsBatchNumber,@OrderNumber,@LoginId,
 					GETUTCDATE(),@AdharUID,@LRResetOnYearEnd,@CessRequired
 					)
 
