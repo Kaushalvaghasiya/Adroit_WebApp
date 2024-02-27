@@ -17,7 +17,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? AccountGroupName { get; set; }
         public string? AccountGroup { get; set; }
         public string? CityName { get; set; }
-
+        public int? BrokerBranchMappingId { get; set; }
         public string? CustomerAccountBranchIds { get; set; } //Comma separated
         public int? LoginId { get; set; } = 0;
         public int? FirmId { get; set; } = 0;

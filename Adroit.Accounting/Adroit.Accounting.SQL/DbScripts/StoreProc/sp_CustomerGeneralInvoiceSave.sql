@@ -41,6 +41,7 @@ CREATE OR ALTER procedure [dbo].[sp_CustomerGeneralInvoiceSave]
 	,@RCMBillNumber INT 
 	,@EwayBillNumber VARCHAR(25)
 	,@BillTypeID TINYINT 
+	,@SkipInGSTR bit
 	,@EntryTypeName VARCHAR(25)
 	,@PurchaseDetailsJson NVARCHAR(MAX) 
 
@@ -199,6 +200,7 @@ BEGIN
 				,IRNNumber
 				,AcknowledgementNumber
 				,IRNDate
+				,SkipInGSTR
 				,RCMBillNumber,BillTypeID,AddedOn,AddedById,BranchId,YearId,FirmId)
 			VALUES 
 				(@AccountBranchMappingId,@BookBranchMappingId,@BillDate,@BillNumberFirm,@BillNumberBranch,'','',@BranchId,0,@EntryTypeId,@TaxableAmount,@TDSPercent,@TDSAmount
@@ -217,6 +219,7 @@ BEGIN
 				,@IRNNumber
 				,@AcknowledgementNumber
 				,@IRNDate
+				,@SkipInGSTR
 				,@RCMBillNumber,@BillTypeID,GETUTCDATE(),@LoginId,@BranchId,@YearId,@FirmId)
 
 			SET @Id = SCOPE_IDENTITY();
@@ -265,6 +268,7 @@ BEGIN
 			,CreditDays = @CreditDays 
 			,RoundOff = @RoundOff 
 			,BillAmount = @BillAmount 
+			,SkipInGSTR = @SkipInGSTR
 			,Notes = @Notes 
 			,RCMBillNumber = @RCMBillNumber 
 			,BillTypeID = @BillTypeID 

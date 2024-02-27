@@ -197,6 +197,7 @@
                                     </label>
                                     <div class="col-md-4 col-lg-2">
                                         <select class="form-control select2-show-search" id="BrokerId">
+                                            <option></option>
                                              @{
                                                 if (Model.BrokerList != null)
                                                 {
@@ -241,43 +242,39 @@
                                     <div class="col-md-4 col-lg-2">
                                         <input type="text" class="form-control" id="BillNumberFirm"
                                                placeholder="" readonly>
-                                    </div> 
-                                </div>
-                                <div class="row mb-1">                                    
-                                    <label for="Header1Val" class="col-md-2 col-lg-1 form-label" id="Header1">
+                                    </div>                                   
+                                    <label for="Header1Val" class="col-md-2 col-lg-1 form-label header1" id="Header1">
                                         Header1
                                     </label>
-                                    <div class="col-md-4 col-lg-2">
+                                    <div class="col-md-4 col-lg-2 header1">
                                         <input type="text" class="form-control" id="Header1Val"
                                                placeholder="">
                                     </div>
-                                    <label for="Header2Val" class="col-md-2 col-lg-1 form-label" id="Header2">
+                                    <label for="Header2Val" class="col-md-2 col-lg-1 form-label header2" id="Header2">
                                         Header2
                                     </label>
-                                    <div class="col-md-4 col-lg-2">
+                                    <div class="col-md-4 col-lg-2 header2">
                                         <input type="text" class="form-control" id="Header2Val"
                                                placeholder="">
                                     </div>
-                                    <label for="Header3Val" class="col-md-2 col-lg-1 form-label" id="Header3">
+                                    <label for="Header3Val" class="col-md-2 col-lg-1 form-label header3" id="Header3">
                                         Header3
                                     </label>
-                                    <div class="col-md-4 col-lg-2">
+                                    <div class="col-md-4 col-lg-2 header3">
                                         <input type="text" class="form-control" id="Header3Val"
                                                placeholder="">
                                     </div>
-                                    <label for="Header4Val" class="col-md-2 col-lg-1 form-label" id="Header4">
+                                    <label for="Header4Val" class="col-md-2 col-lg-1 form-label header4" id="Header4">
                                         Header4
                                     </label>
-                                    <div class="col-md-4 col-lg-2">
+                                    <div class="col-md-4 col-lg-2 header4">
                                         <input type="text" class="form-control" id="Header4Val"
                                                placeholder="">
                                     </div>
-                                </div>
-                                <div class="row mb-1">
-                                    <label for="Header5Val" class="col-md-2 col-lg-1 form-label" id="Header5">
+                                    <label for="Header5Val" class="col-md-2 col-lg-1 form-label header5" id="Header5">
                                         Header5
                                     </label>
-                                    <div class="col-md-4 col-lg-2">
+                                    <div class="col-md-4 col-lg-2 header5">
                                         <input type="text" class="form-control" id="Header5Val"
                                                placeholder="">
                                     </div>
@@ -308,6 +305,17 @@
                                                 Detail
                                             </span>
                                         </a>
+                                    </div>
+                                    <label for="SkipInGST" class="col-md-2 col-lg-1 form-label">
+                                        Skip In GST
+                                    </label>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="custom-switch">
+                                                <input type="checkbox" name="custom-switch-checkbox" id="SkipInGST" class="custom-switch-input mode-ed">
+                                                <span class="custom-switch-indicator"></span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>                               
 
@@ -373,8 +381,17 @@
                                         Haste Party
                                     </label>
                                     <div class="col-lg-5 col-md-9">
-                                        <input type="text" class="form-control" id="HastePartyId"
-                                               placeholder="" readonly>
+                                        <select class="form-control select2-show-search" id="HastePartyId">
+                                            @{
+                                                if (Model.AccountBranchMappingList != null)
+                                                {
+                                                    foreach (var o in Model.AccountBranchMappingList)
+                                                    {
+                                                                                                <option value="@o.Value">@o.Text</option>
+                                                    }
+                                                }
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="row mb-1">
@@ -794,7 +811,11 @@
             $("#AccountBranchMappingId").on('change', function (e) {
                 GetListWithCustomerAccountBranchMappingId($(this).val());
                 calculateBasicAmount();
-            });            
+            });
+            
+            $("#TransporterId").on('change', function (e) {
+                getTransporterGSTNumber($(this).val());
+            });
 
             $('.CalculateTotalTaxableAmount').on('keyup', function () {
                 calculateBasicAmount();
@@ -825,7 +846,7 @@
             fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
-            $("#BookId").val($("#BookId option:first").val()).trigger("change");
+            $("#BookId").val($("#BookId option:first").val()).trigger("change");            
             $("#TransportModeId").val($("#TransportModeId option:contains('Road')").val()).trigger("change");
             $("#AccountBranchMappingId").focus();
         }
@@ -984,6 +1005,37 @@
             });
         }
 
+        function getTransporterGSTNumber(name) {
+            try {                
+                if (name == '' || name == null) return;
+
+                var getdata = new Object();
+                getdata.Id = name;
+
+                blockUI('container');
+
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetTransporterGSTNumberByTransporterName"))" + "/" + name, "",
+                    function (data) {
+                        unblockUI('container');
+                        if (data.result == RESULT_SUCCESS) {
+                            if (data.data.length > 0) {
+                                    $('#TransGSTId').val(data.data[0]).trigger("change");
+                            }
+                        } else {
+                            showError("", data.data);
+                        }
+                    },
+                    function (error) {
+                        unblockUI('container');
+                        showError("", error.statusText);
+                    });
+            }
+            catch (err) {
+                unblockUI('container');
+                showError("", e.message);
+            }
+        }
+
         function fromReset() {
 
             $("#Id").val(0);
@@ -1023,8 +1075,10 @@
             $("#nonRcmAmt").val('');
 
             $("#AccountBranchMappingId").val(null).trigger('change');
+            $("#HastePartyId").val(null).trigger('change');
             $("#BillTypeID").val(null).trigger('change');
             $("#contentRow").html('');
+            $("#SkipInGST").prop('checked', false);
 
             $("#activeTabName").text("Add");
             $(".btn-delete").hide();
@@ -1047,7 +1101,7 @@
                     return false;
                 }                              
 
-                if (ewayBillNumber.length < 12) {
+                if (ewayBillNumber.length < 12 && ewayBillNumber != '') {
                     showWarning("", "Eway Bill Number should be at least 12 characters long.");
                     $("#ewayBill").focus();
                     return false;
@@ -1188,6 +1242,7 @@
                 savedata.BillAmount = parseFloat($("#BillAmount").val() || 0).toFixed(2);
                 savedata.TCSAmount = parseFloat($("#TCSAmount").val() || 0).toFixed(2);
                 savedata.EwayBillNumber = $("#ewayBill").val();
+                savedata.SkipInGSTR = $('#SkipInGST').is(':checked');
                 savedata.EntryTypeName = "PUR";
 
                 savedata.PurchaseDetailsArray = [];
@@ -1351,6 +1406,7 @@
                                  $("#BrokerId").val(result.data.brokerBranchMappingId).trigger('change');
                                  $("#AcknowledgementNumber").val(result.data.acknowledgementNumber);
                                  $("#AccountBranchMappingId").val(result.data.accountBranchMappingId).trigger('change');
+                                 $("#HastePartyId").val(result.data.accountBranchMappingId).trigger('change');
                                  $("#BillTypeID").val(result.data.billTypeID).trigger('change');
                                  $("#CreditDays").val(result.data.creditDays);
                                  $("#remarks").val(result.data.notes);
@@ -1366,6 +1422,7 @@
                                  $("#BillAmount").val(result.data.billAmount ? result.data.billAmount.toFixed(2) : '');
                                  $("#TCSPercent").val(result.data.tcsPercentage ? result.data.tcsPercentage.toFixed(3) : '');
                                  $("#TCSAmount").val(result.data.tcsAmount ? result.data.tcsAmount.toFixed(2) : '');
+                                 $('#SkipInGST').prop('checked', result.data.skipInGSTR);
                                  calculateBasicAmount();
                                  getPurchasebillDetailListByPurchaseBillMasterId(result.data.id);
 
@@ -1492,7 +1549,9 @@
                                         value: item.value,
                                         text: item.text
                                     }));
-                                });
+                                });  
+                                $('#BillFromId').val($("#BillFromId option:contains('Purchase')").val()).trigger("change");
+                                $("#BillTypeID").val(gridData.customerBook.billTypeID).trigger('change');
                                 clearGrid();
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -1516,15 +1575,15 @@
                     function (result) {
                         try {
                             if (result.result == RESULT_SUCCESS) {
-
-                                $("#CreditDays").val($("#CreditDays").val() || result.data.creditDays);
-                                $("#TDSPercent").val($("#TDSPercent").val() || result.data.tds);
-                                $("#TCSPercent").val($("#TCSPercent").val() || result.data.tcs);
+                                
+                                $("#CreditDays").val(result.data.creditDays);
+                                $("#TDSPercent").val(result.data.tds);
+                                $("#TCSPercent").val(result.data.tcs);
                                 $(".discount-percentage-cls").val(result.data.discount);
-                                $("#BrokerId").val($("#BrokerId").val() || result.data.brokerId).trigger("change");
-                                $("#TransporterId").val($("#TransporterId").val() || result.data.transportName).trigger("change");
-                                $("#TransGSTId").val($("#TransGSTId").val() || result.data.gstNumberTransport).trigger("change");
-                                $("#VehicleNumber").val($("#VehicleNumber").val() || result.data.vehicleNumber).trigger("change");
+                                $("#BrokerId").val(result.data.brokerBranchMappingId).trigger("change");
+                                $("#TransporterId").val(result.data.transportName).trigger("change");
+                                $("#TransGSTId").val(result.data.gstNumberTransport).trigger("change");
+                                $("#VehicleNumber").val(result.data.vehicleNumber).trigger("change");
 
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
@@ -1579,13 +1638,36 @@
         function clearGrid(){
             contentRowId = 0;
             $('#contentRow').empty();
-            $('#Header1').text(gridData.customerBook.headerBox1 || "Header1");
-            $('#Header2').text(gridData.customerBook.headerBox2 || "Header2");
-            $('#Header3').text(gridData.customerBook.headerBox3 || "Header3");
-            $('#Header4').text(gridData.customerBook.headerBox4 || "Header4");
-            $('#Header5').text(gridData.customerBook.headerBox5 || "Header5");
-            $("#BillFromId").val(gridData.customerBook.salesBillFrom).trigger('change');
-            $("#BillTypeID").val(gridData.customerBook.billTypeID).trigger('change');
+            if (!gridData.customerBook.headerBox1 || gridData.customerBook.headerBox1 === null) {
+                $('.header1').hide();
+            } else {
+                $('.header1').show();
+                $('.Header1').text(gridData.customerBook.headerBox1);
+            }
+            if (!gridData.customerBook.headerBox2 || gridData.customerBook.headerBox2 === null) {
+                $('.header2').hide();
+            } else {
+                $('.header2').show();
+                $('.Header2').text(gridData.customerBook.headerBox2);
+            }
+            if (!gridData.customerBook.headerBox3 || gridData.customerBook.headerBox3 === null) {
+                $('.header3').hide();
+            } else {
+                $('.header3').show();
+                $('.Header3').text(gridData.customerBook.headerBox3);
+            }
+            if (!gridData.customerBook.headerBox4 || gridData.customerBook.headerBox4 === null) {
+                $('.header4').hide();
+            } else {
+                $('.header4').show();
+                $('.Header4').text(gridData.customerBook.headerBox4);
+            }
+            if (!gridData.customerBook.headerBox5 || gridData.customerBook.headerBox5 === null) {
+                $('.header5').hide();
+            } else {
+                $('.header5').show();
+                $('.Header5').text(gridData.customerBook.headerBox5);
+            }            
             addRow();
         }
         var contentRowId = 0;
@@ -1731,16 +1813,18 @@
                                                                  </div>
                                                                  <div class="col-md-1 pl-2 pr-2 grid-border">
                                                                      <ul class="demo-accordion accordionjs m-0 col-md-12" style="padding-top: 2px;" data-active-index="false">
-                                                                         <li class="acc_section">
-                                                                             <div class="acc_head">
-                                                                                 <div class="row">
-                                                                                     <h3>Batch No</h3>
-                                                                                     <div class="invoice-ds-box acc-box col-md-12">
-                                                                                         <input type="text" class="form-control" id="BatchNo${contentRowId}" placeholder>
-                                                                                     </div>
-                                                                                 </div>
-                                                                             </div>
-                                                                             <div class="acc_content&quot;">
+                                                                         <li class="acc_section">`;
+            if (true) { //isBatchNumber
+                htmlContent += '<div class="acc_head">';
+                htmlContent += '<div class="row">';
+                htmlContent += '<h3>Batch#</h3>';
+                htmlContent += '<div class="invoice-ds-box acc-box col-md-12">';
+                htmlContent += '<input type="text" class="form-control" id="BatchNo' + contentRowId + '" placeholder>';
+                htmlContent += '</div>';
+                htmlContent += '</div>';
+                htmlContent += '</div>';
+            }
+            htmlContent += `                                                 <div class="acc_content&quot;">
                                                                                  <div class="row mb-1">
                                                                                      <label for="ExpDt${contentRowId}" class="col-md-4 form-label">Exp. Dt</label>
                                                                                      <div class="col-md-8">
@@ -1789,10 +1873,12 @@
             htmlContent += '<input type="text" class="form-control decimalonly" data-tofixed="2" id="BoxLabel6' + contentRowId + '" placeholder max="999">';
             htmlContent += '</div>';
         }
-        htmlContent += `                                         <div class="col-md-1 pl-2 pr-2 grid-border">
-                                                                     <label for="Rate${contentRowId}" class="form-label">Rate</label>
-                                                                     <div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Rate${contentRowId}" placeholder></div>
-                                                                 </div>`;
+            if (true) { //setSalesRateInPur
+            htmlContent += '<div class="col-md-1 pl-2 pr-2 grid-border" >';
+            htmlContent += '<label for="Rate${contentRowId}" class="form-label">Rate</label>';
+            htmlContent += '<div class="mb-1"><input type="text" class="form-control decimalonly" data-tofixed="2" id="Rate${contentRowId}" placeholder></div>';
+            htmlContent += '</div>';
+        }
         if (gridData.customerBook.isItemDiscount == true || gridData.customerBook.isItemDiscountSp == true)
         {
         htmlContent += `                                                              <div class="col-md-2 pl-2 pr-2 grid-border">
@@ -1871,7 +1957,7 @@
                                                                          <li class="acc_section">
                                                                              <div class="acc_head">
                                                                                  <div class="row">
-                                                                                     <h3>Tax Amt</h3>
+                                                                                     <h3>Taxable Amt</h3>
                                                                                      <div class="invoice-ds-box acc-box col-md-12">
                                                                                          <input type="text" class="form-control decimalonly" data-tofixed="2" id="TaxAmt${contentRowId}" placeholder>
                                                                                      </div>
@@ -1945,35 +2031,8 @@
                         };
                     },
                     processResults: function (data) {
-                        var combinedResults = [];
-
-                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
-                            return {
-                                text: item?.groupName != null && item?.groupName != undefined ? item?.groupName : '',
-                                id: item.productBranchMappingId
-                            };
-                        }));
-
-                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
-                            return {
-                                text: item.productDesignNumber != null && item.productDesignNumber != undefined ? item.productDesignNumber : '',
-                                id: item.productBranchMappingId
-                            };
-                        }));
-
-                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
-                            return {
-                                text: item.colorName != null && item.colorName != undefined ? item.colorName : '',
-                                id: item.productBranchMappingId
-                            };
-                        }));
-
-                        combinedResults = combinedResults.concat($.map(data.data, function (item) {
-                            return {
-                                text: item.sizeName != null && item.sizeName != undefined ? item.sizeName : '',
-                                id: item.productBranchMappingId
-                            };
-                        }));
+                        var combinedResults = [];                        
+                                                                       
 
                         combinedResults = combinedResults.concat($.map(data.data, function (item) {
                             var text = '';
@@ -1981,17 +2040,30 @@
                             if (item.code != null && item.code != undefined) {
                                 text += item.code;
                             }
-
+                            if (item.groupName != null && item.groupName != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.groupName;
+                            }
+                            if (item.productDesignNumber != null && item.productDesignNumber != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.productDesignNumber;
+                            }
+                            if (item.colorName != null && item.colorName != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.colorName;
+                            }
+                            if (item.sizeName != null && item.sizeName != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.sizeName;
+                            }
+                            if (item.fabricName != null && item.fabricName != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.fabricName;
+                            }
                             if (item.printName != null && item.printName != undefined) {
                                 text += (text.length > 0 ? ' | ' : '') + item.printName;
-                            } else if (item.titleAlternate != null && item.titleAlternate != undefined) {
-                                text += (text.length > 0 ? ' | ' : '') + item.titleAlternate;
                             }
-
+                            if (item.uqcTypeName != null && item.uqcTypeName != undefined) {
+                                text += (text.length > 0 ? ' | ' : '') + item.uqcTypeName.split('-')[0];
+                            }                            
                             if (item.hsnCode != null && item.hsnCode != undefined) {
                                 text += (text.length > 0 ? ' | ' : '') + item.hsnCode;
                             }
-
                             return {
                                 text: text,
                                 id: item.productBranchMappingId

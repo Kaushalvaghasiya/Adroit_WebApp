@@ -55,6 +55,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BillTypeID", value.BillTypeID);
             parameters.Add("@EwayBillNumber", value.EwayBillNumber);
             parameters.Add("@EntryTypeName", value.EntryTypeName);
+            parameters.Add("@SkipInGSTR", value.SkipInGSTR);
             parameters.Add("@PurchaseDetailsJson", JsonSerializer.Serialize(value.PurchaseDetailsArray));
             return QueryHelper.Save("sp_CustomerGeneralInvoiceSave", connectionString, parameters);
         }
