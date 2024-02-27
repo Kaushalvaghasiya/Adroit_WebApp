@@ -235,6 +235,24 @@
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
+                                <div><label for="SetSalesRateInPur">Set Sales Rate In Pur.</label></div>
+                                <label class="custom-switch">
+                                    <input id="SetSalesRateInPur" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <div><label for="IsBatchNumber">Is Batch Number</label></div>
+                                <label class="custom-switch">
+                                    <input id="IsBatchNumber" type="checkbox" name="custom-switch-checkbox" class="custom-switch-input mode-ed">
+                                    <span class="custom-switch-indicator"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
                                 <div><label for="Active">Active</label></div>
                                 <label class="custom-switch">
                                     <input type="checkbox" name="custom-switch-checkbox" class="form-control mode-ed custom-switch-input" id="Active">
@@ -301,6 +319,8 @@
             $('#CessRequired').attr('disabled', false);
             $('#IsGTA').attr('disabled', false);
             $('#LRResetOnYearEnd').attr('disabled', false);
+            $('#SetSalesRateInPur').attr('disabled', false);
+            $('#IsBatchNumber').attr('disabled', false);
             $('#Active').attr('disabled', false);
         }
 
@@ -437,6 +457,8 @@
             $("#AdharUID").val("");
             $("#BranchLimit").val("");
             $("#CessRequired").prop('checked', false);
+            $("#SetSalesRateInPur").prop('checked', false);
+            $("#IsBatchNumber").prop('checked', false);
             $("#Active").prop('checked', false);
 
             $("#activeTabName").text("Add");
@@ -510,6 +532,8 @@
                 savedata.SoftwareId = parseInt($("#SoftwareId").val());
                 savedata.BranchLimit = parseInt($("#BranchLimit").val());
                 savedata.Active = $('#Active').is(':checked');
+                savedata.IsBatchNumber = $('#IsBatchNumber').is(':checked');
+                savedata.SetSalesRateInPur = $('#SetSalesRateInPur').is(':checked');
                 savedata.AdharUID = $("#AdharUID").val();
                 savedata.LRResetOnYearEnd = $('#LRResetOnYearEnd').is(':checked');
                 savedata.CessRequired = $('#CessRequired').is(':checked');
@@ -603,6 +627,8 @@
                                     $('#IsGTA').attr('disabled', true);
                                     $('#LRResetOnYearEnd').attr('disabled', true);
                                     $('#Active').attr('disabled', true);
+                                    $('#IsBatchNumber').attr('disabled', true);
+                                    $('#SetSalesRateInPur').attr('disabled', true);
                                 }
 
                                 $('#Id').val(result.data.id);
@@ -620,6 +646,8 @@
                                 $("#hdnSoftwareId").val(result.data.softwareId);
                                 $("#BranchLimit").val(result.data.branchLimit);
                                 $("#Active").prop('checked', result.data.active);
+                                $("#IsBatchNumber").prop('checked', result.data.isBatchNumber);
+                                $("#SetSalesRateInPur").prop('checked', result.data.setSalesRateInPur);
                                 $("#AdharUID").val(result.data.adharUID);
                                 $("#CessRequired").prop('checked', result.data.cessRequired);
                                 $('#LRResetOnYearEnd').prop('checked', result.data.lrResetOnYearEnd);
