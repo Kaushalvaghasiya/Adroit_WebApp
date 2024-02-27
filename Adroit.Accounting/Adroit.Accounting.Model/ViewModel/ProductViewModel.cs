@@ -57,7 +57,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? CategoryName { get; set; }
         public string? GSTCalculationName { get; set; }
         public string? GSTRateName { get; set; }
-        public string? AmtCalcName { get; set; }
         public decimal? GSTRate { get; set; }
         public byte? softwareId { get; set; }
         public int? loginId { get; set; }

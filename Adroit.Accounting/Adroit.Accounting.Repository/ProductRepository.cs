@@ -56,7 +56,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@GSTRate", value.GSTRateName);
             parameters.Add("@GstCentralCess", value.GstCentralCess);
             parameters.Add("@GstStateCess", value.GstStateCess);
-            parameters.Add("@AmountCalc", value.AmtCalcName);
+            parameters.Add("@AmountCalcId", value.AmountCalcId);
             parameters.Add("@RateUpdate", value.RateUpdate);
             parameters.Add("@Discount", value.Discount);
             parameters.Add("@HSNDesc", value.HSNDesc);

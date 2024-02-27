@@ -37,7 +37,7 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_ProductSave]
 	 @GSTRate DECIMAL(15, 3),
 	 @GstCentralCess DECIMAL(5, 0),
 	 @GstStateCess DECIMAL(5, 2),
-	 @AmountCalc NVARCHAR(25),
+	 @AmountCalcId SMALLINT,
 	 @RateUpdate BIT,
 	 @Discount DECIMAL(4, 2),
 	 @HSNDesc NVARCHAR(50),
@@ -329,26 +329,6 @@ BEGIN
 				SELECT @GSTRateId = Id FROM GSTRate WHERE Rate = @GSTRate;
 			END
 		end
-
-		DECLARE @AmountCalcId SMALLINT = NULL 
-
-		IF (isnull(@AmountCalc, '') <> '')
-		BEGIN
-			IF EXISTS (SELECT 1 FROM ProductAmtCalcOn WHERE ProductAmtCalcOn.SoftwareId = @SoftwareId AND Title = @AmountCalc AND (Deleted = 1 OR Active = 0))
-			begin
-				UPDATE ProductAmtCalcOn SET Deleted = 0, Active = 1 WHERE ProductAmtCalcOn.SoftwareId = @SoftwareId AND Title = @AmountCalc;
-				SELECT @GSTCalculationId = Id FROM ProductAmtCalcOn WHERE ProductAmtCalcOn.SoftwareId = @SoftwareId AND Title = @AmountCalc;
-			end
-			else
-			begin
-				SELECT @AmountCalcId  = Id from ProductAmtCalcOn WHERE ProductAmtCalcOn.SoftwareId = @SoftwareId AND Title = @AmountCalc;
-				if @AmountCalcId IS NULL
-				BEGIN
-					EXEC @AmountCalcId = dbo.sp_ProductAmtCalcOnSave  0, @AmountCalc, @SoftwareId, 0, 1;
-					SELECT @AmountCalcId = Id FROM ProductAmtCalcOn WHERE ProductAmtCalcOn.SoftwareId = @SoftwareId AND Title = @AmountCalc;
-				END
-			end
-		END
 
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM Product WHERE Id = @Id OR (Title = @Title AND Deleted = 1)
