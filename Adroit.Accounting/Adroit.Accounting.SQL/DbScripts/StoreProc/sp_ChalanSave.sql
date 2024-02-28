@@ -192,6 +192,27 @@ BEGIN
 		DECLARE @AccountId INT
 		SELECT @AccountId = AccountId FROM CustomerAccountBranchMapping WHERE Id = @AccountBranchMappingId
 
+		IF EXISTS (SELECT PurchaseBillDetail .Id
+			FROM [Z-PurchaseBillMaster-Z] AS PurchaseBillMaster
+			INNER JOIN [Z-PurchaseBillDetail-Z] AS PurchaseBillDetail on PurchaseBillMaster.Id = PurchaseBillDetail.PurchaseBillMasterId
+			INNER JOIN [Z-LRBooking-Z] AS LRBooking ON LRBooking.Id = PurchaseBillDetail.LRBookingId
+			INNER JOIN dbo.[fnStringToIntArray](@LRNumberIds) AS LRLIST ON LRBooking.Id = LRLIST.ID
+			WHERE PurchaseBillMaster.ID <> @IdCheck
+			AND LRBooking.BranchId  = @BranchId
+			AND PurchaseBillDetail.DELETED = 0
+		)
+		BEGIN
+			DECLARE @LRList VARCHAR(100) = ''
+			SELECT  @LRList = STUFF(( SELECT @LRList + ', ' + CAST(LRBooking.LRNumber AS VARCHAR)
+							FROM [Z-PurchaseBillDetail-Z] AS PurchaseBillDetail 
+							INNER JOIN [Z-LRBooking-Z] AS LRBooking ON LRBooking.Id = PurchaseBillDetail.LRBookingId
+							INNER JOIN dbo.[fnStringToIntArray](@LRNumberIds) AS LRLIST ON LRBooking.Id = LRLIST.ID
+							WHERE LRBooking.BranchId  = @BranchId AND PurchaseBillDetail.DELETED = 0
+					  FOR XML PATH('')), 1, 1, '')
+
+			RAISERROR ('LR# %s already exist in another chalan, Please remove it from this chalan.', 16, 1, @LRList);
+		END
+
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
 
@@ -306,13 +327,19 @@ BEGIN
 		END
 
 		INSERT INTO [Z-PurchaseBillDetail-Z] (PurchaseBillMasterId,ProductBranchMappingId,LRBookingId,AddedById,AddedOn)
-		SELECT @Id,PBM.ProductBranchMappingId,LRN.Id,@LoginId,GETUTCDATE()
+		SELECT @Id, LRBooking.ProductBranchMappingId, LRN.Id, @LoginId, GETUTCDATE()
 		FROM dbo.[fnStringToIntArray](@LRNumberIds) AS LRN
-		INNER JOIN [Z-LRBooking-Z] AS PBM ON PBM.Id = LRN.Id
+		INNER JOIN [Z-LRBooking-Z] AS LRBooking ON LRBooking.Id = LRN.Id
+		WHERE LRBooking.BranchId  = @BranchId
+		AND LRBooking.Deleted = 0
+
 		EXCEPT
-		SELECT PurchaseBillMasterId,ProductBranchMappingId,LRBookingId,@LoginId,GETUTCDATE() 
-		FROM [dbo].[Z-PurchaseBillDetail-Z]
-		
+		SELECT PurchaseBillDetail.PurchaseBillMasterId, PurchaseBillDetail.ProductBranchMappingId, PurchaseBillDetail.LRBookingId, @LoginId, GETUTCDATE() 
+		FROM [Z-PurchaseBillMaster-Z] AS PurchaseBillMaster
+		INNER JOIN [Z-PurchaseBillDetail-Z] AS PurchaseBillDetail on PurchaseBillMaster.Id = PurchaseBillDetail.PurchaseBillMasterId
+		WHERE PurchaseBillMaster.BranchId  = @BranchId
+		AND PurchaseBillDetail.Deleted = 0
+
 		COMMIT TRAN
 		SELECT @Id
 	END TRY

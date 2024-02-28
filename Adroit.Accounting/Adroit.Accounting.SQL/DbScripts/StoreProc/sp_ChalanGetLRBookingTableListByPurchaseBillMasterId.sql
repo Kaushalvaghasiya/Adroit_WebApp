@@ -44,7 +44,7 @@ BEGIN
 		WHERE LRBooking.[BranchId] = @BranchId
 		AND [Z-PurchaseBillDetail-Z].PurchaseBillMasterId = @PurchaseBillMasterId
 		AND LRBooking.Deleted = 0
-		AND [Z-PurchaseBillDetail-Z].Deleted = 0
+		--AND [Z-PurchaseBillDetail-Z].Deleted = 0
 			  
 END
 GO

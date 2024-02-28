@@ -920,7 +920,7 @@
                     }
                     btnAct += "<a href='#' class='btn-view btn btn-outline-info small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='View' data-placement='bottom' data-original-title='View'><i class='fa fa-info'></i></a>&nbsp;&nbsp;";
                     if (!(row.deleted || row.chalanReceived)) {
-                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
+                        btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-remove'></i></a>";
                     }
                     btnAct += "</div>";
                     return btnAct;
@@ -1254,6 +1254,11 @@
                 savedata.BranchIdTo = parseInt($("#BranchIdTo").val());
                 savedata.CityIdFrom = getIntValueZero("CityIdFrom");
                 savedata.CityIdTo = getIntValueZero("CityIdTo");
+
+                if (savedata.LRNumberIds == null || savedata.LRNumberIds == '') {
+                    showWarning("", "Select minimum 1 LR.");
+                    return false;
+                }
 
                 blockUI('container');
 

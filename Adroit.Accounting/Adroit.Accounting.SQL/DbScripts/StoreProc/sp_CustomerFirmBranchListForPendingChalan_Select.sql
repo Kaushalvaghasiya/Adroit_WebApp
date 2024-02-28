@@ -15,10 +15,10 @@ BEGIN
 		CustomerFirmBranch.Title  + (CASE ISNULL(City.Title, '') WHEN '' THEN '' ELSE ' | ' + City.Title END) AS Text,
 		City.Id As Other
 	From CustomerFirmBranch 
-	INNER JOIN CustomerUserBranchMapping ON CustomerFirmBranch.Id = CustomerUserBranchMapping.BranchId
+	--INNER JOIN CustomerUserBranchMapping ON CustomerFirmBranch.Id = CustomerUserBranchMapping.BranchId
 	LEFT JOIN City ON City.Id = CustomerFirmBranch.CityId
-	WHERE CustomerUserBranchMapping.UserId = @LoginId
-	AND CustomerFirmBranch.Active = 1 
+	--WHERE CustomerUserBranchMapping.UserId = @LoginId
+	WHERE CustomerFirmBranch.Active = 1 
 	AND CustomerFirmBranch.Deleted = 0
 	
 	--Shared branches
