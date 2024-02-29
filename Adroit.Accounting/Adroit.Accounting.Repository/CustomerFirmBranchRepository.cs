@@ -110,7 +110,7 @@ namespace Adroit.Accounting.Repository
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
-            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmBranchListByLoginId_Select", connectionString, parameters);
+            return QueryHelper.GetList<DropdownViewModel>("sp_CustomerFirmBranchListByBranchToBranchMapping_Select", connectionString, parameters);
         }
     }
 }
