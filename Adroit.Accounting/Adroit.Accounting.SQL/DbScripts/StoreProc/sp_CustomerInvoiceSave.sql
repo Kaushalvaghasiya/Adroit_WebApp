@@ -338,7 +338,7 @@ BEGIN
 		WHEN MATCHED THEN
 		    UPDATE SET 
 		        LRTarget.BasicAmount = LRSource.BasicAmount,
-		        LRTarget.Rate = LRSource.Rate,
+		        LRTarget.Rate = 0,
 		        LRTarget.FreightAmount = LRSource.FreightAmount,
 		        LRTarget.Charge1 = LRSource.Charge1,
 		        LRTarget.Charge2 = LRSource.Charge2,
@@ -351,7 +351,8 @@ BEGIN
 		        LRTarget.ModifiedById = @LoginId
 		WHEN NOT MATCHED THEN
 		    INSERT (
-		        SalesBillMasterId, LRBookingId, BasicAmount, Rate, FreightAmount, Charge1, Charge2, Charge3, Charge4, Charge5, Charge6,
+		        SalesBillMasterId, LRBookingId, BasicAmount, Rate, FreightAmount, 
+				Charge1, Charge2, Charge3, Charge4, Charge5, Charge6,
 		        QuantityDiscountPercentage, QuantityDiscountAmount, SpecialDiscount1, SpecialDiscount2, SpecialDiscount3,
 		        SGSTPercentage, SGSTAmount, CGSTPercentage, CGSTAmount, IGSTPercentage, IGSTAmount,
 		        GSTStateCessPercentage, GSTStateCessAmount, GSTCentralCessPercentage, GSTCentralCessAmount,
@@ -360,7 +361,7 @@ BEGIN
 		        ProductBranchMappingId, AddedOn, AddedById
 		    )
 		    VALUES (
-		        @Id, LRSource.LRBookingId, LRSource.BasicAmount, LRSource.Rate, LRSource.FreightAmount, 
+		        @Id, LRSource.LRBookingId, LRSource.BasicAmount, 0, LRSource.FreightAmount, 
 				LRSource.Charge1, LRSource.Charge2, LRSource.Charge3, LRSource.Charge4, LRSource.Charge5, LRSource.Charge6,
 		        0, 0, 0, 0, 0,
 		        0, 0, 0, 0, 0, 0,

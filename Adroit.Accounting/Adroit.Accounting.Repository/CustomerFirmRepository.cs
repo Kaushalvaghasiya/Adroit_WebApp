@@ -71,5 +71,11 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@FirmId", firmId);
             return QueryHelper.Get<Year>("sp_GetYear", connectionString, parameters);
         }
+        public bool IsGSTEnabled(int loginId, string connectionString)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            return QueryHelper.Get<bool>("sp_GSTCalculationEnabled", connectionString, parameters);
+        }
     }
 }

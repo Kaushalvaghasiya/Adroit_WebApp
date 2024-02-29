@@ -14,6 +14,7 @@ BEGIN
 	 LEFT JOIN Customer ON CustomerFirm.CustomerId=Customer.id
 	 LEFT JOIN GSTFirmType ON CustomerFirm.GSTFirmTypeId = GSTFirmType.Id
 	 LEFT JOIN Business ON CustomerFirm.BusinessId = Business.Id
-	WHERE CustomerFirm.CustomerId = @CustomerId AND CustomerFirm.Id = @Id 
+	WHERE CustomerFirm.Id = @Id 
+	AND CustomerFirm.CustomerId = @CustomerId 
 END
 GO

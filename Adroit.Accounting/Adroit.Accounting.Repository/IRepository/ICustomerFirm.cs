@@ -11,5 +11,7 @@ namespace Adroit.Accounting.Repository.IRepository
         void Delete(int id, int loginId, int firmId, string connectionString);
 
         Year GetYear(int id, int firmId, string connectionString);
+
+        bool IsGSTEnabled(int loginId, string connectionString);
     }
 }

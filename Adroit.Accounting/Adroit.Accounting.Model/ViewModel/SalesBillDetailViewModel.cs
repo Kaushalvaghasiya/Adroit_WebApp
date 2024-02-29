@@ -11,5 +11,8 @@ namespace Adroit.Accounting.Model.ViewModel
         public decimal? ChargeWeight { get; set; }
         public short? Parcel { get; set; }
         public string LRDateString { get { return this.LRDate.ToString(Constant.DateFormat) ?? ""; } }
+        public decimal GSTRate { get; set; }
+        public decimal GstCentralCessRate { get; set; }
+        public decimal GstStateCessRate { get; set; }
     }
 }

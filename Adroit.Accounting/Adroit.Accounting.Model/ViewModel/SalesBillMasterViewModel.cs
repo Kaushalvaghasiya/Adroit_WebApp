@@ -18,6 +18,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public List<DropdownViewModel> ItemDescList { get; set; }
         public CustomerFirmTransportSettingViewModel CustomerFirmTransportSetting { get; set; }
         public CustomerFirmBranchTransportSettingViewModel CustomerFirmBranchTransportSetting { get; set; }
+        public CustomerFirmViewModel CustomerFirm { get; set; }
         public CustomerBookViewModel CustomerBook { get; set; }
         public List<SalesBillDetail> LRDetailsArray { get; set; }
         public string? City { get; set; }
@@ -26,5 +27,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? SalesBillFromName { get; set; }
         public string? EntryTypeName { get; set; }
         public int LoginId { get; set; }
+        public bool CalculateGST { get; set; }
     }
 }

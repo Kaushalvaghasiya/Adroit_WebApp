@@ -38,6 +38,9 @@ namespace Adroit.Accounting.Web.Controllers
                 model.CustomerFirmBranchTransportSetting = customerFirmBranchTransportSetting;
             }
 
+            model.CustomerFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
+            model.CalculateGST = _customerFirmRepository.IsGSTEnabled(CurrentUserId, _configurationData.DefaultConnection);
+
             ViewBag.BookName = $"{model.CustomerFirmBranchTransportSetting.BookingSalesBookName}";
             model.LRNumberList = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId);
             model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);

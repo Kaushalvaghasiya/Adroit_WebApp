@@ -34,6 +34,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? BillPartyName { get; set; }
         public string? BillPartyMobile { get; set; }
         public string? BillPartyGST { get; set; }
+        public string? VehilcleNo { get; set; }
         public string? ChalanVehilcleNo { get; set; }
         public string? BookingVehilcleNo { get; set; }
         public string? BranchChalanNo { get; set; }
@@ -44,7 +45,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public bool? Deleted { get; set; }
         public string? BranchInvoiceNo { get; set; }
         public DateTime? InvoiceDate { get; set; }
-        public decimal? gstRate { get; set; }
         public string LRDateString { get { return this.LRDate.ToString(Adroit.Accounting.Model.Constant.DateFormat); } }
         public string BranchName { get; set; }
         public int? TotalLR { get; set; }
@@ -58,5 +58,10 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? LRRateOnTitle { get; set; }
         public decimal LRCrossingCharge { get; set; }
         public decimal LRCrossingCommission { get; set; }
+
+        public decimal GSTRate { get; set; }
+        public decimal GstCentralCessRate { get; set; }
+        public decimal GstStateCessRate { get; set; }
+        public byte GSTInvoiceTypeId { get; set; }
     }
 }

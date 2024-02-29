@@ -246,7 +246,7 @@ namespace Adroit.Accounting.Web.Controllers
                 LRTemplate = LRTemplate.Replace(LRPrintVariables.DELIVERY_AT.DescriptionAttr(), LRPrintVariables.DELIVERY_AT.DescriptionAttr());
                 LRTemplate = LRTemplate.Replace(LRPrintVariables.DELIVERY_TYPE.DescriptionAttr(), LRPrintVariables.DELIVERY_TYPE.DescriptionAttr());
                 LRTemplate = LRTemplate.Replace(LRPrintVariables.REMARKS.DescriptionAttr(), LRBooking.Remarks?.ToString());
-                LRTemplate = LRTemplate.Replace(LRPrintVariables.GST_P.DescriptionAttr(), LRBooking.gstRate?.ToString());
+                LRTemplate = LRTemplate.Replace(LRPrintVariables.GST_P.DescriptionAttr(), LRBooking.GSTRate.ToString());
                 LRTemplate = LRTemplate.Replace(LRPrintVariables.PRODUCT_NAME.DescriptionAttr(), LRPrintVariables.PRODUCT_NAME.DescriptionAttr());
                 LRTemplate = LRTemplate.Replace(LRPrintVariables.BOOK_NAME.DescriptionAttr(), LRPrintVariables.BOOK_NAME.DescriptionAttr());
 

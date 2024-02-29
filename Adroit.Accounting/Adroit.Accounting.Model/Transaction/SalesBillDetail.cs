@@ -40,6 +40,7 @@ namespace Adroit.Accounting.Model
         public decimal GSTStateCessAmount { get; set; }
         public decimal GSTCentralCessPercentage { get; set; }
         public decimal GSTCentralCessAmount { get; set; }
+        public decimal GSTCentralCess { get; set; }
         public string BatchNumber { get; set; }
 
         [JsonConverter(typeof(CustomNullableDateTimeConverter))]

@@ -292,7 +292,7 @@
                                                 </div>
                                                 <div class="col-md-1">
                                                     <div class="form-group text-right mb-1">
-                                                        <label for="NetAmount" class="font-weight-bold text-white">Freight</label>
+                                                        <label for="NetAmount" class="font-weight-bold text-white">Net Amount</label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1 pl-0 pr-0">
@@ -356,7 +356,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-7 vertical-bottom">
+                        <div class="col-md-8 vertical-bottom">
                             <div class="form-horizontal">
                                 <div class="row mb-2">
                                     <label for="PaymentDetail" class="col-md-2 form-label">
@@ -375,7 +375,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="form-horizontal">
                                 <div class="row mb-1">
                                     <label for="TaxableAmount" class="col-md-4 form-label text-left">Basic Amount</label>
@@ -649,8 +649,7 @@
             });
 
             $("#TDSPercentage").on('keyup', function (e) {
-                var amt = ($('#TaxableAmount').val() * $(this).val() / 100) || 0;
-                $("#TDSAmount").val(Math.round(amt));
+                calculateTDS();                
             });
 
             addClick();
@@ -738,7 +737,7 @@
                     if (!(row.deleted)) {
                         btnAct += "<a href='#' class='btn-delete-grid btn btn-outline-danger small-icon-btn' data-value='" + row.id + "' data-toggle='tooltip' title='Delete' data-placement='bottom' data-original-title='Delete'><i class='fa fa-trash-o'></i></a>";
                     }
-                    
+
                     btnAct += "</div>";
                     return btnAct;
                 },
@@ -966,8 +965,8 @@
                 savedata.VehicleNumber = $("#VehicleNumber").val();
                 savedata.AccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
                 savedata.DeliveryPartyAccountBranchMappingId = getIntValueZero("AccountBranchMappingId");
-                savedata.TDSPercentage = getFloatValueZero("TDSPercentage", 3);
-                savedata.TCSPercentage = getFloatValueZero("TCSPercentage", 3);
+                savedata.TDSPercentage = getFloatValueZero("TDSPercentage", 2);
+                savedata.TCSPercentage = getFloatValueZero("TCSPercentage", 2);
                 savedata.TaxableAmount = getFloatValueZero("TaxableAmount", 2);
                 savedata.TDSAmount = getFloatValueZero("TDSAmount", 2);
                 savedata.SGSTTotal = getFloatValueZero("SGSTTotal", 2);
@@ -989,15 +988,28 @@
                     var lrDetails = {};
 
                     lrDetails.LRBookingId = $('#hdnLRId' + contentRowId).text();
-                    lrDetails.BasicAmount = parseFloat($('#TaxableAmount' + contentRowId).text()) || 0;
-                    lrDetails.Rate = parseFloat($('#GSTRate' + contentRowId).text()) || 0;
-                    lrDetails.FreightAmount = parseFloat($('#NetAmount' + contentRowId).text()) || 0;
+
+                    lrDetails.NetRate = parseFloat($('#NetAmount' + contentRowId).text()) || 0;
                     lrDetails.Charge1 = parseFloat($('#Charge1' + contentRowId).val()) || 0;
                     lrDetails.Charge2 = parseFloat($('#Charge2' + contentRowId).val()) || 0;
                     lrDetails.Charge3 = parseFloat($('#Charge3' + contentRowId).val()) || 0;
                     lrDetails.Charge4 = parseFloat($('#Charge4' + contentRowId).val()) || 0;
                     lrDetails.Charge5 = parseFloat($('#Charge5' + contentRowId).val()) || 0;
                     lrDetails.Charge6 = parseFloat($('#Charge6' + contentRowId).val()) || 0;
+                    lrDetails.BasicAmount = parseFloat($('#BasicAmount' + contentRowId).text()) || 0;
+
+                    lrDetails.SGSTPercentage = parseFloat($('#SGSTPercentage' + contentRowId).text()) || 0;
+                    lrDetails.SGSTAmount = parseFloat($('#SGSTAmount' + contentRowId).text()) || 0;
+                    lrDetails.CGSTPercentage = parseFloat($('#CGSTPercentage' + contentRowId).text()) || 0;
+                    lrDetails.CGSTAmount = parseFloat($('#CGSTAmount' + contentRowId).text()) || 0;
+                    lrDetails.IGSTPercentage = parseFloat($('#IGSTPercentage' + contentRowId).text()) || 0;
+                    lrDetails.IGSTAmount = parseFloat($('#IGSTAmount' + contentRowId).text()) || 0;
+
+                    lrDetails.GSTStateCessPercentage = parseFloat($('#GSTStateCessPercentage' + contentRowId).text()) || 0;
+                    lrDetails.GSTStateCessAmount = parseFloat($('#GSTStateCessAmount' + contentRowId).text()) || 0;
+                    lrDetails.GSTCentralCessPercentage = parseFloat($('#GSTCentralCessPercentage' + contentRowId).text()) || 0;
+                    lrDetails.GSTCentralCessAmount = parseFloat($('#GSTCentralCessAmount' + contentRowId).text()) || 0;
+                    lrDetails.GSTCentralCess = parseFloat($('#GSTCentralCess' + contentRowId).text()) || 0;
 
                     savedata.LRDetailsArray.push(lrDetails);
                 });
@@ -1089,7 +1101,7 @@
                                     setScreenMode(false);
                                     $("#activeTabName").text("EDIT (ID# " + result.data.id + ")");
                                 }
-                                getLRDetailListBySalesBillMas(result.data.id);
+                                getLRDetailListBySalesBillMaster(result.data.id);
 
                                 $("#Id").val(result.data.id);
                                 $("#SerialNumberOfBranch").val(result.data.serialNumberOfBranch);
@@ -1101,7 +1113,7 @@
                                 $("#LRToDate").val(moment(result.data.chalanDateTo.split('T')[0], 'YYYY-MM-DD').add(1, 'days').format('DD/MM/YYYY')); $("#BillNumber").val(result.data.billNumber);
                                 $("#Notes").val(result.data.notes);
                                 $("#TaxableAmount").val(result.data.taxableAmount ? result.data.taxableAmount.toFixed(2) : '');
-                                $("#TDSPercentage").val(result.data.tdsPercentage ? result.data.tdsPercentage.toFixed(3) : '');
+                                $("#TDSPercentage").val(result.data.tdsPercentage ? result.data.tdsPercentage.toFixed(2) : '');
                                 $("#TDSAmount").val(result.data.tdsAmount ? result.data.tdsAmount.toFixed(2) : '');
                                 $("#SGSTTotal").val(result.data.sgstTotal ? result.data.sgstTotal.toFixed(2) : '');
                                 $("#CGSTTotal").val(result.data.cgstTotal ? result.data.cgstTotal.toFixed(2) : '');
@@ -1144,7 +1156,7 @@
             }
         }
 
-        function getLRDetailListBySalesBillMas(salesBillMasterId) {
+        function getLRDetailListBySalesBillMaster(salesBillMasterId) {
             try {
                 blockUI('container');
                 var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListBySalesBillMasterId"))" + "/" + salesBillMasterId, "",
@@ -1158,22 +1170,35 @@
                                 $("#contentRow").html("");
                                 contentRowId = 0;
 
-                                result.data.forEach(function (LRBookingDetail) {
+                                result.data.forEach(function (row) {
                                     selectedLRDetails.push({
-                                        lrBookingId: LRBookingDetail.lrBookingId,
-                                        lrNumber: LRBookingDetail.lrNumber,
-                                        lrDate: LRBookingDetail.lrDateString,
-                                        parcel: LRBookingDetail.parcel,
-                                        chargeWeight: parseFloat(LRBookingDetail.chargeWeight || 0).toFixed(3),
-                                        taxableAmount: parseFloat(LRBookingDetail.taxableAmount || 0).toFixed(2),
-                                        netAmount: parseFloat(LRBookingDetail.netAmount || 0).toFixed(2),
-                                        charge1: parseFloat(LRBookingDetail.charge1 || 0).toFixed(2),
-                                        charge2: parseFloat(LRBookingDetail.charge2 || 0).toFixed(2),
-                                        charge3: parseFloat(LRBookingDetail.charge3 || 0).toFixed(2),
-                                        charge4: parseFloat(LRBookingDetail.charge4 || 0).toFixed(2),
-                                        charge5: parseFloat(LRBookingDetail.charge5 || 0).toFixed(2),
-                                        charge6: parseFloat(LRBookingDetail.charge6 || 0).toFixed(2),
-                                        rate: parseFloat(LRBookingDetail.rate || 0).toFixed(2),
+                                        lrBookingId: row.lrBookingId,
+                                        lrNumber: row.lrNumber,
+                                        lrDate: row.lrDateString,
+                                        parcel: row.parcel,
+                                        chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
+                                        netAmount: parseFloat(row.netAmount || 0).toFixed(2),
+                                        charge1: parseFloat(row.charge1 || 0).toFixed(2),
+                                        charge2: parseFloat(row.charge2 || 0).toFixed(2),
+                                        charge3: parseFloat(row.charge3 || 0).toFixed(2),
+                                        charge4: parseFloat(row.charge4 || 0).toFixed(2),
+                                        charge5: parseFloat(row.charge5 || 0).toFixed(2),
+                                        charge6: parseFloat(row.charge6 || 0).toFixed(2),
+                                        gstRate: row.gstRate,
+                                        gstCentralCess: row.gstCentralCess,
+                                        gstStateCess: row.gstStateCess,
+                                        sgstPercentage: row.sgstPercentage,
+                                        sgstAmount: row.sgstAmount,
+                                        cgstPercentage: row.cgstPercentage,
+                                        cgstAmount: row.cgstAmount,
+                                        igstPercentage: row.igstPercentage,
+                                        igstAmount: row.igstAmount,
+                                        gstStateCessPercentage: row.gstStateCessPercentage,
+                                        gstStateCessAmount: row.gstStateCessAmount,
+                                        gstCentralCessPercentage: row.gstCentralCessPercentage,
+                                        gstCentralCessAmount: row.gstCentralCessAmount,
+                                        gstCentralCess: row.gstCentralCess,
+                                        gstInvoiceTypeId: row.gstInvoiceTypeId
                                     });
                                 });
 
@@ -1206,7 +1231,7 @@
                                 $("#CreditDays").val(result.data.creditDays);
                                 $("#TDSPercentage").val(result.data.tds);
                                 $("#TCSPercentage").val(result.data.tcs);
-
+                                calculateTDS();
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -1255,15 +1280,29 @@
                                             ewayBillNo: LRBookingDetail.ewayBillNo,
                                             parcel: LRBookingDetail.parcel,
                                             netAmount: parseFloat(LRBookingDetail.netAmount || 0).toFixed(2),
-                                            charge1: parseFloat(LRBookingDetail.charges1 || 0).toFixed(2),
-                                            charge2: parseFloat(LRBookingDetail.charges2 || 0).toFixed(2),
-                                            charge3: parseFloat(LRBookingDetail.charges3 || 0).toFixed(2),
-                                            charge4: parseFloat(LRBookingDetail.charges4 || 0).toFixed(2),
-                                            charge5: parseFloat(LRBookingDetail.charges5 || 0).toFixed(2),
-                                            charge6: parseFloat(LRBookingDetail.charges6 || 0).toFixed(2),
-                                            rate: parseFloat(LRBookingDetail.rate || 0).toFixed(2),
+                                            charge1: 0.00,
+                                            charge2: 0.00,
+                                            charge3: 0.00,
+                                            charge4: 0.00,
+                                            charge5: 0.00,
+                                            charge6: 0.00,
                                             billAccountBranchMappingId: LRBookingDetail.billAccountBranchMappingId,
                                             creditDays: LRBookingDetail.creditDays,
+                                            gstRate: LRBookingDetail.gstRate,
+                                            gstCentralCess: LRBookingDetail.gstCentralCess,
+                                            gstStateCess: LRBookingDetail.gstStateCess,
+                                            sgstPercentage: LRBookingDetail.sgstPercentage,
+                                            sgstAmount: LRBookingDetail.sgstAmount,
+                                            cgstPercentage: LRBookingDetail.cgstPercentage,
+                                            cgstAmount: LRBookingDetail.cgstAmount,
+                                            igstPercentage: LRBookingDetail.igstPercentage,
+                                            igstAmount: LRBookingDetail.igstAmount,
+                                            gstStateCessPercentage: LRBookingDetail.gstStateCessPercentage,
+                                            gstStateCessAmount: LRBookingDetail.gstStateCessAmount,
+                                            gstCentralCessPercentage: LRBookingDetail.gstCentralCessPercentage,
+                                            gstCentralCessAmount: LRBookingDetail.gstCentralCessAmount,
+                                            gstCentralCess: LRBookingDetail.gstCentralCess,
+                                            gstInvoiceTypeId: LRBookingDetail.gstInvoiceTypeId
                                         });
 
                                     }
@@ -1356,7 +1395,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return parseFloat(row.chargeAmount || 0).toFixed(2);
+                    return parseFloat(row.netAmount || 0).toFixed(2);
                 },
                 "targets": colDef.length,
             });
@@ -1378,13 +1417,15 @@
                 },
                 "targets": colDef.length,
             });
+
+            columns.push({ "data": "id", "name": "id" });
             columns.push({ "data": "lrNumber", "name": "lrNumber" });
             columns.push({ "data": "lrDate", "name": "lrDate" });
             columns.push({ "data": "privateMarka", "name": "privateMarka" });
             columns.push({ "data": "consignor", "name": "consignor" });
             columns.push({ "data": "cityFrom", "name": "cityFrom" });
             columns.push({ "data": "cityTo", "name": "cityTo" });
-            columns.push({ "data": "chargeAmount", "name": "chargeAmount" });
+            columns.push({ "data": "netAmount", "name": "netAmount" });
             columns.push({ "data": "rate", "name": "rate" });
             columns.push({ "data": "vehilcleNo", "name": "vehilcleNo" });
             columns.push({ "data": "consignee", "name": "consignee" });
@@ -1436,20 +1477,33 @@
                                     chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
                                     toCity: row.cityTo,
                                     fromCity: row.cityFrom,
-                                    taxableAmount: parseFloat(row.chargeAmount || 0).toFixed(2),
                                     description: row.description,
                                     consignor: row.consignor,
                                     consignee: row.consignee,
                                     billPartyName: row.billPartyName,
                                     parcel: row.parcel,
                                     netAmount: parseFloat(row.netAmount || 0).toFixed(2),
-                                    charge1: parseFloat(row.charge1 || 0).toFixed(2),
-                                    charge2: parseFloat(row.charge2 || 0).toFixed(2),
-                                    charge3: parseFloat(row.charge3 || 0).toFixed(2),
-                                    charge4: parseFloat(row.charge4 || 0).toFixed(2),
-                                    charge5: parseFloat(row.charge5 || 0).toFixed(2),
-                                    charge6: parseFloat(row.charge6 || 0).toFixed(2),
-                                    rate: parseFloat(row.rate || 0).toFixed(2),
+                                    charge1: 0.00,
+                                    charge2: 0.00,
+                                    charge3: 0.00,
+                                    charge4: 0.00,
+                                    charge5: 0.00,
+                                    charge6: 0.00,
+                                    gstRate: row.gstRate,
+                                    gstCentralCess: row.gstCentralCess,
+                                    gstStateCess: row.gstStateCess,
+                                    sgstPercentage: row.sgstPercentage,
+                                    sgstAmount: row.sgstAmount,
+                                    cgstPercentage: row.cgstPercentage,
+                                    cgstAmount: row.cgstAmount,
+                                    igstPercentage: row.igstPercentage,
+                                    igstAmount: row.igstAmount,
+                                    gstStateCessPercentage: row.gstStateCessPercentage,
+                                    gstStateCessAmount: row.gstStateCessAmount,
+                                    gstCentralCessPercentage: row.gstCentralCessPercentage,
+                                    gstCentralCessAmount: row.gstCentralCessAmount,
+                                    gstCentralCess: row.gstCentralCess,
+                                    gstInvoiceTypeId: row.gstInvoiceTypeId
                                 });
                             }
                         });
@@ -1495,20 +1549,33 @@
                         chargeWeight: parseFloat(row.chargeWeight || 0).toFixed(3),
                         toCity: row.cityTo,
                         fromCity: row.cityFrom,
-                        taxableAmount: parseFloat(row.chargeAmount || 0).toFixed(2),
                         description: row.description,
                         consignor: row.consignor,
                         consignee: row.consignee,
                         billPartyName: row.billPartyName,
                         parcel: row.parcel,
                         netAmount: parseFloat(row.netAmount || 0).toFixed(2),
-                        charge1: parseFloat(row.charge1 || 0).toFixed(2),
-                        charge2: parseFloat(row.charge2 || 0).toFixed(2),
-                        charge3: parseFloat(row.charge3 || 0).toFixed(2),
-                        charge4: parseFloat(row.charge4 || 0).toFixed(2),
-                        charge5: parseFloat(row.charge5 || 0).toFixed(2),
-                        charge6: parseFloat(row.charge6 || 0).toFixed(2),
-                        rate: parseFloat(row.rate || 0).toFixed(2),
+                        charge1: 0.00,
+                        charge2: 0.00,
+                        charge3: 0.00,
+                        charge4: 0.00,
+                        charge5: 0.00,
+                        charge6: 0.00,
+                        gstRate: row.gstRate,
+                        gstCentralCess: row.gstCentralCess,
+                        gstStateCess: row.gstStateCess,
+                        sgstPercentage: row.sgstPercentage,
+                        sgstAmount: row.sgstAmount,
+                        cgstPercentage: row.cgstPercentage,
+                        cgstAmount: row.cgstAmount,
+                        igstPercentage: row.igstPercentage,
+                        igstAmount: row.igstAmount,
+                        gstStateCessPercentage: row.gstStateCessPercentage,
+                        gstStateCessAmount: row.gstStateCessAmount,
+                        gstCentralCessPercentage: row.gstCentralCessPercentage,
+                        gstCentralCessAmount: row.gstCentralCessAmount,
+                        gstCentralCess: row.gstCentralCess,
+                        gstInvoiceTypeId: row.gstInvoiceTypeId
                     }));
                 } else {
                     selectedIds = [];
@@ -1540,20 +1607,33 @@
                                     chargeWeight: parseFloat(row.data().chargeWeight || 0).toFixed(3),
                                     toCity: row.cityTo,
                                     fromCity: row.cityFrom,
-                                    taxableAmount: parseFloat(row.data().chargeAmount || 0).toFixed(2),
                                     description: row.data().description,
                                     consignor: row.data().consignor,
                                     consignee: row.data().consignee,
                                     billPartyName: row.data().billPartyName,
                                     parcel: row.parcel,
                                     netAmount: parseFloat(row.data().netAmount || 0).toFixed(2),
-                                    charge1: parseFloat(row.data().charge1 || 0).toFixed(2),
-                                    charge2: parseFloat(row.data().charge2 || 0).toFixed(2),
-                                    charge3: parseFloat(row.data().charge3 || 0).toFixed(2),
-                                    charge4: parseFloat(row.data().charge4 || 0).toFixed(2),
-                                    charge5: parseFloat(row.data().charge5 || 0).toFixed(2),
-                                    charge6: parseFloat(row.data().charge6 || 0).toFixed(2),
-                                    rate: parseFloat(row.data().rate || 0).toFixed(2),
+                                    charge1: 0.00,
+                                    charge2: 0.00,
+                                    charge3: 0.00,
+                                    charge4: 0.00,
+                                    charge5: 0.00,
+                                    charge6: 0.00,
+                                    gstRate: row.data().gstRate,
+                                    gstCentralCess: row.data().gstCentralCess,
+                                    gstStateCess: row.data().gstStateCess,
+                                    sgstPercentage: row.data().sgstPercentage,
+                                    sgstAmount: row.data().sgstAmount,
+                                    cgstPercentage: row.data().cgstPercentage,
+                                    cgstAmount: row.data().cgstAmount,
+                                    igstPercentage: row.data().igstPercentage,
+                                    igstAmount: row.data().igstAmount,
+                                    gstStateCessPercentage: row.data().gstStateCessPercentage,
+                                    gstStateCessAmount: row.data().gstStateCessAmount,
+                                    gstCentralCessPercentage: row.data().gstCentralCessPercentage,
+                                    gstCentralCessAmount: row.data().gstCentralCessAmount,
+                                    gstCentralCess: row.data().gstCentralCess,
+                                    gstInvoiceTypeId: row.data().gstInvoiceTypeId
                                 });
                             }
                         }
@@ -1620,19 +1700,13 @@
                         '<div class="col-md-12 pl-0 pr-0">' +
                         '<div class="form-group text-right mb-1">' +
                         '<label for="ChargeWeight" id="ChargeWeight' + contentRowId + '">' + (lrBooking.chargeWeight) + '</label>' +
-                        '<input type="hidden" id="TaxableAmount' + contentRowId + '" value="' + lrBooking.taxableAmount + '" />' +
                         '</div>' +
                         '</div>' +
-                        // '<div class="col-md-6">' +
-                        // '<div class="form-group text-center mb-1">' +
-                        // '<label for="TaxableAmount" id="TaxableAmount' + contentRowId + '">' + (lrBooking.taxableAmount) + '</label>' +
-                        // '</div>' +
-                        // '</div>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-right mb-1">' +
-                        '<label for="GSTRate" id="GSTRate' + contentRowId + '">' + (lrBooking.rate) + '</label>' +
+                        '<label for="GSTRate" id="GSTRate' + contentRowId + '">' + (lrBooking.gstRate) + '</label>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
@@ -1667,7 +1741,22 @@
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-right mb-1">' +
-                        ' <input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charge6' + contentRowId + '" placeholder="0.00" value="' + charge6 + '" min="' + charge6 + '">' +
+                        '<input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charge6' + contentRowId + '" placeholder="0.00" value="' + charge6 + '" min="' + charge6 + '">' +
+                        '<input type="hidden" id="BasicAmount' + contentRowId + '" value="' + lrBooking.basicAmount + '" />' +
+                        '<input type="hidden" id="GstCentralCessRate' + contentRowId + '" value="' + lrBooking.gstCentralCessRate + '" />' +
+                        '<input type="hidden" id="GstStateCessRate' + contentRowId + '" value="' + lrBooking.gstStateCessRate + '" />' +
+                        '<input type="hidden" id="SGSTPercentage' + contentRowId + '" value="' + lrBooking.sgstPercentage + '" />' +
+                        '<input type="hidden" id="SGSTAmount' + contentRowId + '" value="' + lrBooking.sgstAmount + '" />' +
+                        '<input type="hidden" id="CGSTPercentage' + contentRowId + '" value="' + lrBooking.cgstPercentage + '" />' +
+                        '<input type="hidden" id="CGSTAmount' + contentRowId + '" value="' + lrBooking.cgstAmount + '" />' +
+                        '<input type="hidden" id="IGSTPercentage' + contentRowId + '" value="' + lrBooking.igstPercentage + '" />' +
+                        '<input type="hidden" id="IGSTAmount' + contentRowId + '" value="' + lrBooking.igstAmount + '" />' +
+                        '<input type="hidden" id="GSTStateCessPercentage' + contentRowId + '" value="' + lrBooking.gstStateCessPercentage + '" />' +
+                        '<input type="hidden" id="GSTStateCessAmount' + contentRowId + '" value="' + lrBooking.gstStateCessAmount + '" />' +
+                        '<input type="hidden" id="GSTCentralCessPercentage' + contentRowId + '" value="' + lrBooking.gstCentralCessPercentage + '" />' +
+                        '<input type="hidden" id="GSTCentralCessAmount' + contentRowId + '" value="' + lrBooking.gstCentralCessAmount + '" />' +
+                        '<input type="hidden" id="GSTCentralCess' + contentRowId + '" value="' + lrBooking.gstCentralCess + '" />' +
+                        '<input type="hidden" id="GSTInvoiceTypeId' + contentRowId + '" value="' + lrBooking.gstInvoiceTypeId + '" />' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
@@ -1723,6 +1812,10 @@
         }
 
         function calculateTaxableAmount() {
+            var CGSTTotal = 0;
+            var SGSTTotal= 0;
+            var IGSTTotal= 0;
+
             $('.content-rows').each(function () {
                 var contentRowId = $(this).attr('id').replace('row-', '');
                 var netAmount = parseFloat($('#NetAmount' + contentRowId).text()) || 0;
@@ -1733,21 +1826,82 @@
                 var charge5 = parseFloat($('#Charge5' + contentRowId).val()) || 0;
                 var charge6 = parseFloat($('#Charge6' + contentRowId).val()) || 0;
 
-                var taxableAmount = netAmount + charge1 + charge2 + charge3 + charge4 + charge5 + charge6;
-                $('#TaxableAmount' + contentRowId).text(taxableAmount.toFixed(2));
+                var basicAmount = netAmount + charge1 + charge2 + charge3 + charge4 + charge5 + charge6;
+                $('#BasicAmount' + contentRowId).text(basicAmount.toFixed(2));
+
+                var gstRate = parseFloat($('#GSTRate' + contentRowId).text()) || 0;
+                var gstAmount = basicAmount * gstRate / 100;
+
+                if ($('#GSTInvoiceTypeId' + contentRowId).val() == '@((int)Adroit.Accounting.Model.Enums.GSTInvoiceType.Regular)') {
+                    var gstRateHalf = gstRate / 2;
+                    var gstAmountHalf = gstAmount / 2;
+                    $('#SGSTPercentage' + contentRowId).val(gstRateHalf);
+                    $('#SGSTAmount' + contentRowId).val(gstAmountHalf);
+                    $('#CGSTPercentage' + contentRowId).val(gstRateHalf);
+                    $('#CGSTAmount' + contentRowId).val(gstAmountHalf);
+
+                    $('#IGSTPercentage' + contentRowId).val(0);
+                    $('#IGSTAmount' + contentRowId).val(0);
+
+                    CGSTTotal += gstAmountHalf;
+                    SGSTTotal += gstAmountHalf;
+                
+                }
+                else {
+                    $('#IGSTPercentage' + contentRowId).val(gstRate);
+                    $('#IGSTAmount' + contentRowId).val(gstAmount);
+
+                    $('#SGSTPercentage' + contentRowId).val(0);
+                    $('#SGSTAmount' + contentRowId).val(0);
+                    $('#CGSTPercentage' + contentRowId).val(0);
+                    $('#CGSTAmount' + contentRowId).val(0);
+                    IGSTTotal += gstAmount;
+                }
+
+                //0 for now.
+                $('#GSTStateCessPercentage' + contentRowId).val(0.00);
+                $('#GSTStateCessAmount' + contentRowId).val(0.00);
+                $('#GSTCentralCessPercentage' + contentRowId).val(0.00);
+                $('#GSTCentralCessAmount' + contentRowId).val(0.00);
+                $('#GSTCentralCess' + contentRowId).val(0.00);
+
+                // '<input type="hidden" id="GSTRate' + contentRowId + '" value="' + lrBooking.gstRate + '" />' +
+                // '<input type="hidden" id="GstCentralCessRate' + contentRowId + '" value="' + lrBooking.gstCentralCessRate + '" />' +
+                // '<input type="hidden" id="GstStateCessRate' + contentRowId + '" value="' + lrBooking.gstStateCessRate + '" />' +
+                // '<input type="hidden" id="SGSTPercentage' + contentRowId + '" value="' + lrBooking.sgstPercentage + '" />' +
+                // '<input type="hidden" id="SGSTAmount' + contentRowId + '" value="' + lrBooking.sgstAmount + '" />' +
+                // '<input type="hidden" id="CGSTPercentage' + contentRowId + '" value="' + lrBooking.cgstPercentage + '" />' +
+                // '<input type="hidden" id="CGSTAmount' + contentRowId + '" value="' + lrBooking.cgstAmount + '" />' +
+                // '<input type="hidden" id="IGSTPercentage' + contentRowId + '" value="' + lrBooking.igstPercentage + '" />' +
+                // '<input type="hidden" id="IGSTAmount' + contentRowId + '" value="' + lrBooking.igstAmount + '" />' +
+                // '<input type="hidden" id="GSTStateCessPercentage' + contentRowId + '" value="' + lrBooking.gstStateCessPercentage + '" />' +
+                // '<input type="hidden" id="GSTStateCessAmount' + contentRowId + '" value="' + lrBooking.gstStateCessAmount + '" />' +
+                // '<input type="hidden" id="GSTCentralCessPercentage' + contentRowId + '" value="' + lrBooking.gstCentralCessPercentage + '" />' +
+                // '<input type="hidden" id="GSTCentralCessAmount' + contentRowId + '" value="' + lrBooking.gstCentralCessAmount + '" />' +
+                // '<input type="hidden" id="GSTCentralCess' + contentRowId + '" value="' + lrBooking.gstCentralCess + '" />' +
+                // '<input type="hidden" id="GSTInvoiceTypeId' + contentRowId + '" value="' + lrBooking.gstInvoiceTypeId + '" />' +
+
             });
+
+            $('#CGSTTotal').val(CGSTTotal.toFixed(2));
+            $('#SGSTTotal').val(SGSTTotal.toFixed(2));
+            $('#IGSTTotal').val(IGSTTotal.toFixed(2));
+
+            $('#GSTStateCessTotal').val(0.00);
+            $('#GSTCentralCessTotal').val(0.00);
         }
 
         function calculateBasicAmount() {
-            var totalTaxableAmount = 0;
+            var totalBasicAmount = 0;
 
             $('.content-rows').each(function () {
                 var contentRowId = $(this).attr('id').replace('row-', '');
-                var taxableAmount = parseFloat($('#TaxableAmount' + contentRowId).text()) || 0;
-                totalTaxableAmount += taxableAmount;
+                var basicAmount = parseFloat($('#BasicAmount' + contentRowId).text()) || 0;
+                totalBasicAmount += basicAmount;
             });
-            
-            $('#TaxableAmount').val(totalTaxableAmount.toFixed(2));
+
+            $('#TaxableAmount').val(totalBasicAmount.toFixed(2));
+            calculateTDS();
 
             var BasicAmount = parseFloat($('#TaxableAmount').val()) || 0;
             var CGSTTotal = parseFloat($('#CGSTTotal').val()) || 0;
@@ -1837,6 +1991,13 @@
                 unblockUI('container');
                 showError("", e.message);
             }
+        }
+
+        function calculateTDS()
+        {
+            var taxableAmount = parseFloat($('#TaxableAmount').val()) || 0;
+            var tdsPercentage = parseFloat($('#TDSPercentage').val()) || 0;
+            $("#TDSAmount").val(Math.round(taxableAmount * tdsPercentage / 100));
         }
     </script>
 }
