@@ -17,6 +17,7 @@ namespace Adroit.Accounting.Model.ViewModel
         public string? PurchaseBookName { get; set; }
         public string? BookingSalesBookName { get; set; }
         public string? DeliverySalesBookName { get; set; }
+        public string? GatePassBookName { get; set; }
         public string? ToPayAccountName { get; set; }
         public string? CrossingAmountAccountName { get; set; }
         public string? CrossingCommissionAccountName { get; set; }

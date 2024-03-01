@@ -14,6 +14,7 @@ BEGIN
 		dbo.fn_GetBookName(PurcahseBookBranchMappingId) AS PurchaseBookName,
 		dbo.fn_GetBookName(BookingSalesBookBranchMappingId) AS BookingSalesBookName,
 		dbo.fn_GetBookName(DeliverySalesBookBranchMappingId) AS DeliverySalesBookName,
+		dbo.fn_GetBookName(GatePassBookBranchMappingId) AS GatePassBookName,
 		dbo.fn_GetAccountName(ToPayAccountBranchMappingId) AS ToPayAccountName,
 		dbo.fn_GetAccountName(CrossingAmountAccountBranchMappingId) AS CrossingAmountAccountName,
 		dbo.fn_GetAccountName(CrossingCommissionAccountBranchMappingId) AS CrossingCommissionAccountName,

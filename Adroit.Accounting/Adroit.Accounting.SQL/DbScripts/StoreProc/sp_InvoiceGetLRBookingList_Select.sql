@@ -15,7 +15,7 @@ BEGIN
 		AND [BranchId] = @BranchId
 		AND YearId = @YearId 
 		AND Deleted = 0 
-		AND LRPayTypeId IN ('2', '3')		    
+		AND LRPayTypeId IN ('2', '3') -- Paid & Tbb	    
 	ORDER BY LRNumber
 END
 GO

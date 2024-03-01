@@ -14,9 +14,12 @@ namespace Adroit.Accounting.Web.Controllers
 {
     public partial class CustomerController : MasterController
     {
-        public IActionResult Invoice()
+        public const string GATE_PASS = "GatePass";
+
+        [Route("~/Customer/DeliveryInvoice/{type?}")]
+        public IActionResult DeliveryInvoice(string type = "")
         {
-            var model = new SalesBillMasterViewModel();
+            var model = new SalesBillMasterViewModel() { UIName = type };
 
             var customerFirmTransportSetting = _customerFirmTransportSettingRepository.Get(CurrentFirmId, _configurationData.DefaultConnection);
             if (customerFirmTransportSetting == null)
@@ -41,18 +44,16 @@ namespace Adroit.Accounting.Web.Controllers
             model.CustomerFirm = _customerFirmRepository.Get(CurrentFirmId, CurrentFirmId, _configurationData.DefaultConnection);
             model.CalculateGST = _customerFirmRepository.IsGSTEnabled(CurrentUserId, _configurationData.DefaultConnection);
 
-            ViewBag.BookName = $"{model.CustomerFirmBranchTransportSetting.BookingSalesBookName}";
-            model.LRNumberList = _lrBookingRepository.GetLRNumberListByLRPayTypeId(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId);
+            ViewBag.BookName = model.UIName == GATE_PASS ? $"{model.CustomerFirmBranchTransportSetting.GatePassBookName}" : $"{model.CustomerFirmBranchTransportSetting.DeliverySalesBookName}";
+            model.LRNumberList = _lrBookingRepository.GetLRNumberListForDeliveryInvoice(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId);
             model.VehicleList = _vehicleRepo.SelectList(CurrentUserId, _configurationData.DefaultConnection);
-
-            var payTypeIds = new string[] { "2", "3" }; //Paid & TBB
-            model.PayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection).Where(p => payTypeIds.Contains(p.Value)).ToList();
+            model.PayTypeList = _transportLRPayTypeRepository.SelectList(_configurationData.DefaultConnection);
 
             return View(model);
         }
 
         [HttpGet]
-        public JsonResult InvoiceList(int draw = 0, int start = 0, int length = 10)
+        public JsonResult DeliveryInvoiceList(int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<SalesBillMasterGridViewModel>();
             try
@@ -78,7 +79,7 @@ namespace Adroit.Accounting.Web.Controllers
         [AllowAnonymous]
 
         [HttpPost]
-        public JsonResult SaveInvoice([FromBody] SalesBillMasterViewModel model)
+        public JsonResult SaveDeliveryInvoice([FromBody] SalesBillMasterViewModel model)
         {
             ApiResult result = new ApiResult();
             try
@@ -104,7 +105,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult DeleteInvoice(int id)
+        public JsonResult DeleteDeliveryInvoice(int id)
         {
             ApiResult result = new ApiResult();
             try
@@ -121,7 +122,7 @@ namespace Adroit.Accounting.Web.Controllers
         }
 
         [HttpGet]
-        public JsonResult GetInvoice(int id)
+        public JsonResult GetDeliveryInvoice(int id)
         {
             ApiResult result = new ApiResult();
             try
@@ -137,8 +138,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetLRBookingListByDate/{fromDate}/{toDate}/{payTypeId}/{accountBranchMappingId}")]
-        public JsonResult GetLRBookingListByDate(string fromDate, string toDate, string payTypeId, string accountBranchMappingId, int draw = 0, int start = 0, int length = 10)
+        [Route("~/Customer/GetDeliveryLRBookingListByDate/{fromDate}/{toDate}/{payTypeId}/{accountBranchMappingId}")]
+        public JsonResult GetDeliveryLRBookingListByDate(string fromDate, string toDate, string payTypeId, string accountBranchMappingId, int draw = 0, int start = 0, int length = 10)
         {
             var result = new DataTableListViewModel<LRBookingGridViewModel>();
             try
@@ -162,8 +163,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetInvoiceListByLRNumberId/{lrNumberId}")]
-        public JsonResult GetInvoiceListByLRNumberId(int lrNumberId)
+        [Route("~/Customer/GetDeliveryInvoiceListByLRNumberId/{lrNumberId}")]
+        public JsonResult GetDeliveryInvoiceListByLRNumberId(int lrNumberId)
         {
             ApiResult result = new ApiResult();
             try
@@ -179,8 +180,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetListByCustomerAccountBranchMappingId/{customerAccountBranchMappingId}")]
-        public JsonResult GetListByCustomerAccountBranchMappingId(int customerAccountBranchMappingId)
+        [Route("~/Customer/GetDeliveryListByCustomerAccountBranchMappingId/{customerAccountBranchMappingId}")]
+        public JsonResult GetDeliveryListByCustomerAccountBranchMappingId(int customerAccountBranchMappingId)
         {
             ApiResult result = new ApiResult();
             try
@@ -196,8 +197,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetListBySalesBillMasterId/{salesBillMasterId}")]
-        public JsonResult GetListBySalesBillMasterId(int salesBillMasterId)
+        [Route("~/Customer/GetDeliveryListBySalesBillMasterId/{salesBillMasterId}")]
+        public JsonResult GetDeliveryListBySalesBillMasterId(int salesBillMasterId)
         {
             ApiResult result = new ApiResult();
             try
@@ -213,8 +214,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetInvoiceCustomerAccountBranchMappingList_Select/{payTypeId}")]
-        public JsonResult GetInvoiceCustomerAccountBranchMappingList_Select(int payTypeId)
+        [Route("~/Customer/GetDeliveryInvoiceCustomerAccountBranchMappingList_Select/{payTypeId}")]
+        public JsonResult GetDeliveryInvoiceCustomerAccountBranchMappingList_Select(int payTypeId)
         {
             ApiResult result = new ApiResult();
             try

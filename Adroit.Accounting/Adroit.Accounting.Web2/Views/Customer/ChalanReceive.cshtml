@@ -494,7 +494,6 @@
                     showWarning("", "Please select Chalan.");
                 } else if (($('#hdnCheckedLRNumberIds').val() == '') && ($("#SenderNameId").val() != '' || $("#SenderNameId").val() != null)) {
                     GetChalanMasterListByChalanNumber($('#Chalan').val(), $('#SenderNameId').val());
-                    GetChalanDetailListByChalanNumber($('#Chalan').val(), $('#SenderNameId').val());
                 }
                 else {
                     $('#confirmationModal').modal('show');
@@ -503,7 +502,6 @@
 
             $("#btnYes").on('click', function (e) {
                 GetChalanMasterListByChalanNumber($('#Chalan').val(), $('#SenderNameId').val());
-                GetChalanDetailListByChalanNumber($('#Chalan').val(), $('#SenderNameId').val());
                 $('#confirmationModal').modal('hide');
             });
         });
@@ -930,9 +928,7 @@
                                 $("#BillNumberFirm").val(result.data.billNumberFirm);
                                 $("#hdnPurchaseBillMasterId").val(result.data.purchaseBillMasterId);
                                 
-                                GetChalanMasterListByChalanNumber(result.data.chalanNumber,result.data.senderId);
-                                GetChalanDetailListByChalanNumber(result.data.chalanNumber,result.data.senderId);
-
+                                GetChalanMasterListByChalanNumber(result.data.purchaseBillMasterId, result.data.senderId);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }
@@ -1021,6 +1017,8 @@
                                 $("#Charge2ChargedTo").val(result.data.crossingCommissionAccountName);
                                 $("#Charge3ChargedTo").val(result.data.crossingHamaliAccountName);
                                 $("#Charge4ChargedTo").val(result.data.crossingDeliveryChargeAccountName);
+
+                                GetChalanDetailListByChalanNumber(Chalan, SenderNameId);
                             } else {
                                 showError('Error', result.data); //warning,  success, error, info
                             }

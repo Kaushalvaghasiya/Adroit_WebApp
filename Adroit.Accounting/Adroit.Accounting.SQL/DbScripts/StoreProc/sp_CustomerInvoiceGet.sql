@@ -22,7 +22,5 @@ BEGIN
 	INNER JOIN CustomerAccount ON CustomerAccountBranchMapping.AccountId = CustomerAccount.Id
 	INNER JOIN [CustomerAccountGroup] on CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id 
 	WHERE SalesBillMaster.BranchId = @BranchId AND SalesBillMaster.Id = @Id
-	AND SalesBillMaster.Deleted = 0
-
 END
 GO

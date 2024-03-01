@@ -1,6 +1,8 @@
 ﻿@model Adroit.Accounting.Model.ViewModel.SalesBillMasterViewModel
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var isGatePass = Model.UIName == Adroit.Accounting.Web.Controllers.CustomerController.GATE_PASS;
 }
 
 <div class="dv-list side-app">
@@ -10,8 +12,8 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Transaction</a></li>
-                    <li><a href="#">Booking</a></li>
-                    <li class="active"><span>Invoice</span></li>
+                    <li><a href="#">Delivery</a></li>
+                    <li class="active"><span>@(isGatePass ? "Delivery Gate Pass" : "Delivery Invoice")</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -62,8 +64,8 @@
             <div class="page-header">
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Transaction</a></li>
-                    <li><a href="#">Booking</a></li>
-                    <li><a href="#">Invoice</a></li>
+                    <li><a href="#">Delivery</a></li>
+                    <li><a href="#">@(isGatePass ? "Delivery Gate Pass" : "Delivery Invoice")</a></li>
                     <li class="active"><span id="activeTabName">Add</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -141,13 +143,21 @@
                                     </label>
                                     <div class="col-md-2">
                                         <select class="form-control select2-show-search" id="PayTypeId">
-                                            <option value="0" selected>All</option>
+                                            <option value="0">All</option>
                                             @{
                                                 if (Model.PayTypeList != null)
                                                 {
                                                     foreach (var item in Model.PayTypeList)
                                                     {
-                                                        <option value="@item.Value">@item.Text</option>
+                                                        if (item.Value == "1")
+                                                        {
+                                                            <option value="@item.Value" selected>@item.Text</option>
+                                                        }
+                                                        else
+                                                        {
+                                                            <option value="@item.Value">@item.Text</option>
+                                                        }
+
                                                     }
                                                 }
                                             }
@@ -305,42 +315,42 @@
                                                 <div class="col-md-1 pl-0 pr-0">
                                                     <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable1
+                                                            @Model.CustomerFirmTransportSetting.DeliveryChargeLable1
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1 pl-0 pr-0">
                                                     <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable2
+                                                            @Model.CustomerFirmTransportSetting.DeliveryChargeLable2
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1 pl-0 pr-0">
                                                     <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable3
+                                                            @Model.CustomerFirmTransportSetting.DeliveryChargeLable3
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1 pl-0 pr-0">
                                                     <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable4
+                                                            @Model.CustomerFirmTransportSetting.DeliveryChargeLable4
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1 pl-0 pr-0">
                                                     <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable5
+                                                            @Model.CustomerFirmTransportSetting.DeliveryChargeLable5
                                                         </label>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-1 pl-0 pr-0">
                                                     <div class="form-group text-right mb-1">
                                                         <label for="exampleInputname" class="font-weight-bold text-white">
-                                                            @Model.CustomerFirmTransportSetting.LRBookChargeLable6
+                                                            @Model.CustomerFirmTransportSetting.DeliveryChargeLable6
                                                         </label>
                                                     </div>
                                                 </div>
@@ -843,7 +853,7 @@
             $("#TCSPercentage").val('');
             $("#TCSAmount").val('');
             $("#LRBookingId").val(null).trigger('change');
-            $("#PayTypeId").val('0').trigger('change');
+            $("#PayTypeId").val('1').trigger('change');
             $("#AccountBranchMappingId").val(null).trigger('change');
             $("#VehicleNumber").val(null).trigger('change');
             $("#contentRow").html('');

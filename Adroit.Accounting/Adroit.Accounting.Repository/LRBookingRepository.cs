@@ -142,5 +142,14 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@ProductId", productId);
             return QueryHelper.Get<LRBookingViewModel>("sp_GetGSTRateByProductId", connectionString, parameters);
         }
+
+        public List<DropdownViewModel> GetLRNumberListForDeliveryInvoice(string connectionString, int loginId, int firmId, int branchId)
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@BranchId", branchId);
+            return QueryHelper.GetList<DropdownViewModel>("sp_InvoiceGetLRBookingListForDeliveryInvoice_Select", connectionString, parameters);
+        }
     }
 }

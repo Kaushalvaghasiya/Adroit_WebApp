@@ -12,19 +12,21 @@ BEGIN
 		LRBooking.LRNumber,
 		LRBooking.LRDate,
 		LRBooking.PrivateMarka,
-		[TransportPacking].[Title] AS Packing,
 		LRBooking.ChargeWeight,
+		LRBooking.InvoiceValue,
+		LRBooking.Parcel,
+		LRBooking.NetAmount,
+		[TransportPacking].[Title] AS Packing,
+		[TransportDesc].[Title] AS Description,
 		ToCity.[Title] AS CityTo,
 		FromCity.[Title] AS CityFrom,
-		LRBooking.InvoiceValue,
-		[TransportDesc].[Title] AS Description,
+		[TransportLRPayType].[Title] AS LRPayType,
 		CA1.Name As Consignor,
 		CA2.Name As Consignee,
 		CA3.Name As BillPartyName,
 		CA3.GSTInvoiceTypeId,
 		LRBooking.EwayBillNo,
-		LRBooking.Parcel,
-		LRBooking.NetAmount,
+		[Vehilcle].VRN As VehilcleNo,
 		LRBooking.BillAccountBranchMappingId,
 		[CustomerAccount].CreditDays As CreditDays,
 		[GSTRate].Rate As GSTRate,
@@ -48,6 +50,7 @@ BEGIN
 			 LEFT JOIN [TransportPacking] ON LRBooking.[PackingId] = [TransportPacking].[Id] 
 			 LEFT JOIN [CustomerAccountBranchMapping] AS CAB3 on CAB3.Id = LRBooking.BillAccountBranchMappingId 
 			 LEFT JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId 
+			 LEFT JOIN [Vehilcle] on [Vehilcle].Id = LRBooking.VehicleId 
 		WHERE LRBooking.[BranchId] = @BranchId
 			AND LRBooking.YearId = @YearId
 			AND LRBooking.Deleted = 0

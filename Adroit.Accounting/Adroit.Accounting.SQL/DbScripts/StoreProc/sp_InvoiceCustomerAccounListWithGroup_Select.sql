@@ -21,9 +21,9 @@ BEGIN
 		AND [Z-LRBooking-Z].[BranchId] = @BranchId
 		AND [Z-LRBooking-Z].YearId = @YearId 
 		AND (
-		        (@PayTypeId = '1' AND [Z-LRBooking-Z].LRPayTypeId IN ('2', '3'))
+		        (@PayTypeId = '0' AND [Z-LRBooking-Z].LRPayTypeId IN ('2', '3'))
 		        OR
-		        (@PayTypeId <> '1' AND [Z-LRBooking-Z].LRPayTypeId = @PayTypeId)
+		        (@PayTypeId <> '0' AND [Z-LRBooking-Z].LRPayTypeId = @PayTypeId)
 		    )
 		AND CustomerAccount.CustomerId = @CustomerId 
 		AND CustomerAccountBranchMapping.BranchId = @BranchId 

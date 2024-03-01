@@ -31,7 +31,10 @@ BEGIN
 			CA2.Name As Consignee,
 			CA3.Name As BillPartyName,
 			CA3.GSTInvoiceTypeId,
+			LRBooking.EwayBillNo,
 			[Vehilcle].VRN As VehilcleNo,
+			LRBooking.BillAccountBranchMappingId,
+			[CustomerAccount].CreditDays As CreditDays,
 			[GSTRate].Rate As GSTRate,
 			[Product].GstCentralCess AS GstCentralCessRate,
 			[Product].GstStateCess AS GstStateCessRate
@@ -59,9 +62,9 @@ BEGIN
 		AND LRBooking.BillAccountBranchMappingId = @AccountBranchMappingId
 		AND CAST(LRBooking.LRDate AS DATE) BETWEEN @FromDate AND @ToDate
 		AND (
-		        (@PayTypeId = '1' AND LRBooking.LRPayTypeId IN ('2', '3'))
+		        (ISNULL(@PayTypeId, '') = '' AND LRBooking.LRPayTypeId IN ('2', '3')) --paid & tbb
 		        OR
-		        (@PayTypeId <> '1' AND LRBooking.LRPayTypeId = @PayTypeId)
+		        (ISNULL(@PayTypeId, '') <> '' AND LRBooking.LRPayTypeId = @PayTypeId)
 		    )
 		AND LRBooking.Id NOT IN ( SELECT DISTINCT [Z-SalesBillDetail-Z].LRBookingId FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 ) 
 		AND LRBooking.Deleted = 0
