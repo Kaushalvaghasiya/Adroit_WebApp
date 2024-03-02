@@ -14,6 +14,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public decimal GSTRate { get; set; }
         public decimal GstCentralCessRate { get; set; }
         public decimal GstStateCessRate { get; set; }
-        public bool IsAgency { get; set; }
+        public bool? IsAgency { get; set; }
     }
 }

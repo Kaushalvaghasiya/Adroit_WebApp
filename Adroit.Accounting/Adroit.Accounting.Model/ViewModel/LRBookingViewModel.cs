@@ -64,5 +64,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public decimal GstStateCessRate { get; set; }
         public byte GSTInvoiceTypeId { get; set; }
         public bool IsAgency { get; set; }
+        public string LRNumberString { get; set; }
     }
 }

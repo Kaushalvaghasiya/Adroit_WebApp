@@ -30,5 +30,6 @@ namespace Adroit.Accounting.Model.ViewModel
         public int LoginId { get; set; }
         public bool CalculateGST { get; set; }
         public string UIName { get; set; }
+        public bool IsGatePass { get; set; }
     }
 }

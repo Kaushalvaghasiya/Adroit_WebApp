@@ -967,8 +967,12 @@
                     }
                 }
 
-
-                if ($("#BillAmount").val() != null && $("#BillAmount").val() != "") {
+                if ("@isGatePass" == "False" && ($("#BillAmount").val() == null || $("#BillAmount").val() == "" || parseFloat($("#BillAmount").val()) == 0))
+                {
+                    showWarning("", "Invoice Value should be greater than 0.");
+                    $("#BillAmount").focus();
+                    return false;
+                } else if ($("#BillAmount").val() != null && $("#BillAmount").val() != "") {
                     if (!/^[-+]?(\d{1,8}(\.\d{0,2})?|\.\d{1,2})$/.test($("#BillAmount").val())) {
                         showWarning("", "Bill amount must be up to 8 characters before the decimal point and 2 characters after the decimal point.");
                         $("#BillAmount").focus();
@@ -1006,37 +1010,38 @@
                 savedata.SalesBillFromName = "Sales";
                 savedata.EntryTypeName = "SAL";
                 savedata.InvoiceMemo = false;
+                savedata.IsGatePass = "@isGatePass" == "True";
 
                 savedata.LRDetailsArray = [];
                 $('#contentRow .content-rows').each(function () {
                     var contentRowId = $(this).attr('id').replace(/\D/g, '');
                     var lrDetails = {};
 
-                    lrDetails.LRBookingId = $('#hdnLRId' + contentRowId).text();
+                    lrDetails.LRBookingId = $('#hdnLRId' + contentRowId).val();
 
-                    lrDetails.FreightAmount = parseFloat($('#NetAmount' + contentRowId).text()) || 0;
+                    lrDetails.FreightAmount = parseFloat($('#NetAmount' + contentRowId).val()) || 0;
                     lrDetails.Charge1 = parseFloat($('#Charge1' + contentRowId).val()) || 0;
                     lrDetails.Charge2 = parseFloat($('#Charge2' + contentRowId).val()) || 0;
                     lrDetails.Charge3 = parseFloat($('#Charge3' + contentRowId).val()) || 0;
                     lrDetails.Charge4 = parseFloat($('#Charge4' + contentRowId).val()) || 0;
                     lrDetails.Charge5 = parseFloat($('#Charge5' + contentRowId).val()) || 0;
                     lrDetails.Charge6 = parseFloat($('#Charge6' + contentRowId).val()) || 0;
-                    lrDetails.BasicAmount = parseFloat($('#BasicAmount' + contentRowId).text()) || 0;
+                    lrDetails.BasicAmount = parseFloat($('#BasicAmount' + contentRowId).val()) || 0;
 
-                    lrDetails.SGSTPercentage = parseFloat($('#SGSTPercentage' + contentRowId).text()) || 0;
-                    lrDetails.SGSTAmount = parseFloat($('#SGSTAmount' + contentRowId).text()) || 0;
-                    lrDetails.CGSTPercentage = parseFloat($('#CGSTPercentage' + contentRowId).text()) || 0;
-                    lrDetails.CGSTAmount = parseFloat($('#CGSTAmount' + contentRowId).text()) || 0;
-                    lrDetails.IGSTPercentage = parseFloat($('#IGSTPercentage' + contentRowId).text()) || 0;
-                    lrDetails.IGSTAmount = parseFloat($('#IGSTAmount' + contentRowId).text()) || 0;
+                    lrDetails.SGSTPercentage = parseFloat($('#SGSTPercentage' + contentRowId).val()) || 0;
+                    lrDetails.SGSTAmount = parseFloat($('#SGSTAmount' + contentRowId).val()) || 0;
+                    lrDetails.CGSTPercentage = parseFloat($('#CGSTPercentage' + contentRowId).val()) || 0;
+                    lrDetails.CGSTAmount = parseFloat($('#CGSTAmount' + contentRowId).val()) || 0;
+                    lrDetails.IGSTPercentage = parseFloat($('#IGSTPercentage' + contentRowId).val()) || 0;
+                    lrDetails.IGSTAmount = parseFloat($('#IGSTAmount' + contentRowId).val()) || 0;
 
-                    lrDetails.GSTStateCessPercentage = parseFloat($('#GSTStateCessPercentage' + contentRowId).text()) || 0;
-                    lrDetails.GSTStateCessAmount = parseFloat($('#GSTStateCessAmount' + contentRowId).text()) || 0;
-                    lrDetails.GSTCentralCessPercentage = parseFloat($('#GSTCentralCessPercentage' + contentRowId).text()) || 0;
-                    lrDetails.GSTCentralCessAmount = parseFloat($('#GSTCentralCessAmount' + contentRowId).text()) || 0;
-                    lrDetails.GSTCentralCess = parseFloat($('#GSTCentralCess' + contentRowId).text()) || 0;
+                    lrDetails.GSTStateCessPercentage = parseFloat($('#GSTStateCessPercentage' + contentRowId).val()) || 0;
+                    lrDetails.GSTStateCessAmount = parseFloat($('#GSTStateCessAmount' + contentRowId).val()) || 0;
+                    lrDetails.GSTCentralCessPercentage = parseFloat($('#GSTCentralCessPercentage' + contentRowId).val()) || 0;
+                    lrDetails.GSTCentralCessAmount = parseFloat($('#GSTCentralCessAmount' + contentRowId).val()) || 0;
+                    lrDetails.GSTCentralCess = parseFloat($('#GSTCentralCess' + contentRowId).val()) || 0;
 
-                    lrDetails.IsAgency = parseFloat($('#IsAgency' + contentRowId).text()) || 0;
+                    lrDetails.IsAgency = $('#IsAgency' + contentRowId).val() == "true";
 
                     savedata.LRDetailsArray.push(lrDetails);
                 });
@@ -1226,7 +1231,7 @@
                                         gstCentralCessAmount: row.gstCentralCessAmount,
                                         gstCentralCess: row.gstCentralCess,
                                         gstInvoiceTypeId: row.gstInvoiceTypeId,
-                                        isAgency: row.IsAgency,
+                                        isAgency: row.isAgency,
                                     });
                                 });
 
@@ -1341,7 +1346,7 @@
                                             gstCentralCessAmount: row.gstCentralCessAmount,
                                             gstCentralCess: row.gstCentralCess,
                                             gstInvoiceTypeId: row.gstInvoiceTypeId,
-                                            isAgency: row.IsAgency,
+                                            isAgency: row.isAgency,
                                         });
 
                                     }
@@ -1400,7 +1405,7 @@
             });
             colDef.push({
                 "render": function (data, type, row) {
-                    return row.lrNumber;
+                    return row.lrNumberString;
                 },
                 "targets": colDef.length,
             });
@@ -1460,7 +1465,7 @@
             });
 
             columns.push({ "data": "id", "name": "id" });
-            columns.push({ "data": "lrNumber", "name": "lrNumber" });
+            columns.push({ "data": "lrNumberString", "name": "lrNumberString" });
             columns.push({ "data": "lrDate", "name": "lrDate" });
             columns.push({ "data": "privateMarka", "name": "privateMarka" });
             columns.push({ "data": "consignor", "name": "consignor" });
@@ -1511,7 +1516,7 @@
                             if (!isDuplicate) {
                                 selectedLRDetails.push({
                                     lrBookingId: row.id,
-                                    lrNumber: row.lrNumber,
+                                    lrNumber: row.lrNumberString,
                                     lrDate: row.lrDateString,
                                     privateMarka: row.privateMarka,
                                     packing: row.packing,
@@ -1549,7 +1554,7 @@
                                     gstCentralCessAmount: row.gstCentralCessAmount,
                                     gstCentralCess: row.gstCentralCess,
                                     gstInvoiceTypeId: row.gstInvoiceTypeId,
-                                    isAgency: row.IsAgency,
+                                    isAgency: row.isAgency,
                                 });
                             }
                         });
@@ -1588,7 +1593,7 @@
                     selectedIds = selectedRowsData.map(row => row.id);
                     selectedLRDetails = selectedRowsData.map(row => ({
                         lrBookingId: row.lrBookingId,
-                        lrNumber: row.lrNumber,
+                        lrNumber: row.lrNumberString,
                         lrDate: row.lrDateString,
                         privateMarka: row.privateMarka,
                         packing: row.packing,
@@ -1622,7 +1627,7 @@
                         gstCentralCessAmount: row.gstCentralCessAmount,
                         gstCentralCess: row.gstCentralCess,
                         gstInvoiceTypeId: row.gstInvoiceTypeId,
-                        isAgency: row.IsAgency,
+                        isAgency: row.isAgency,
                     }));
                 } else {
                     selectedIds = [];
@@ -1681,7 +1686,7 @@
                                     gstCentralCessAmount: row.data().gstCentralCessAmount,
                                     gstCentralCess: row.data().gstCentralCess,
                                     gstInvoiceTypeId: row.data().gstInvoiceTypeId,
-                                    isAgency: row.IsAgency,
+                                    isAgency: row.isAgency,
                                 });
                             }
                         }
@@ -1710,16 +1715,11 @@
                     var charge6 = lrBooking.charge6 == 0 ? "" : lrBooking.charge6;
 
                     var htmlContent = '<div class="row mb-0 rounded content-rows" id="row-' + contentRowId + '">' +
-                        '<div class="col-md-1" style="display:none;">' +
-                        '<div class="form-group text-center mb-1">' +
-                        '<label for="hdnLRId" id="hdnLRId' + contentRowId + '">' + lrBooking.lrBookingId + '</label>' +
-                        '</div>' +
-                        '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="row mb-0">' +
                         '<div class="col-md-6 pl-0 pr-0">' +
                         '<div class="form-group text-center mb-1">' +
-                        '<label for="LRId" id="LRId' + contentRowId + '">' + (i + 1) + '</label>' +
+                        '<label>' + (i + 1) + '</label>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-6 pl-0 pr-0">' +
@@ -1754,12 +1754,12 @@
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-right mb-1">' +
-                        '<label for="GSTRate" id="GSTRate' + contentRowId + '">' + (lrBooking.gstRate) + '</label>' +
+                        '<label for="GSTRate">' + (lrBooking.gstRate) + '</label>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
                         '<div class="form-group text-right mb-1">' +
-                        '<label for="NetAmount" id="NetAmount' + contentRowId + '">' + (lrBooking.netAmount) + '</label>' +
+                        '<label for="NetAmount">' + (lrBooking.netAmount) + '</label>' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
@@ -1790,7 +1790,10 @@
                         '<div class="col-md-1">' +
                         '<div class="form-group text-right mb-1">' +
                         '<input type="text" class="form-control text-right charges-input decimalonly" data-tofixed="2"  data-contentRowId="' + contentRowId + '" id="Charge6' + contentRowId + '" placeholder="0.00" value="' + charge6 + '" min="' + charge6 + '">' +
+                        '<input type="hidden" id="hdnLRId' + contentRowId + '" value="' + lrBooking.lrBookingId + '" />' +
                         '<input type="hidden" id="BasicAmount' + contentRowId + '" value="' + lrBooking.basicAmount + '" />' +
+                        '<input type="hidden" id="GSTRate' + contentRowId + '" value="' + lrBooking.gstRate + '" />' +
+                        '<input type="hidden" id="NetAmount' + contentRowId + '" value="' + lrBooking.netAmount + '" />' +
                         '<input type="hidden" id="GstCentralCessRate' + contentRowId + '" value="' + lrBooking.gstCentralCessRate + '" />' +
                         '<input type="hidden" id="GstStateCessRate' + contentRowId + '" value="' + lrBooking.gstStateCessRate + '" />' +
                         '<input type="hidden" id="SGSTPercentage' + contentRowId + '" value="' + lrBooking.sgstPercentage + '" />' +
@@ -1867,7 +1870,7 @@
 
             $('.content-rows').each(function () {
                 var contentRowId = $(this).attr('id').replace('row-', '');
-                var netAmount = parseFloat($('#NetAmount' + contentRowId).text()) || 0;
+                var netAmount = parseFloat($('#NetAmount' + contentRowId).val()) || 0;
                 var charge1 = parseFloat($('#Charge1' + contentRowId).val()) || 0;
                 var charge2 = parseFloat($('#Charge2' + contentRowId).val()) || 0;
                 var charge3 = parseFloat($('#Charge3' + contentRowId).val()) || 0;
@@ -1876,9 +1879,9 @@
                 var charge6 = parseFloat($('#Charge6' + contentRowId).val()) || 0;
 
                 var basicAmount = netAmount + charge1 + charge2 + charge3 + charge4 + charge5 + charge6;
-                $('#BasicAmount' + contentRowId).text(basicAmount.toFixed(2));
+                $('#BasicAmount' + contentRowId).val(basicAmount.toFixed(2));
 
-                var gstRate = parseFloat($('#GSTRate' + contentRowId).text()) || 0;
+                var gstRate = parseFloat($('#GSTRate' + contentRowId).val()) || 0;
                 var gstAmount = basicAmount * gstRate / 100;
 
                 if ($('#GSTInvoiceTypeId' + contentRowId).val() == '@((int)Adroit.Accounting.Model.Enums.GSTInvoiceType.Regular)') {
@@ -1945,7 +1948,7 @@
 
             $('.content-rows').each(function () {
                 var contentRowId = $(this).attr('id').replace('row-', '');
-                var basicAmount = parseFloat($('#BasicAmount' + contentRowId).text()) || 0;
+                var basicAmount = parseFloat($('#BasicAmount' + contentRowId).val()) || 0;
                 totalBasicAmount += basicAmount;
             });
 

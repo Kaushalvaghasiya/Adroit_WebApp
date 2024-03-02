@@ -77,7 +77,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BillNumber", value.BillNumber);
             parameters.Add("@Prefix", value.Prefix);
             parameters.Add("@Postfix", value.Postfix);
-
+            parameters.Add("@IsGatePass", value.IsGatePass);
+            
             parameters.Add("@LRDetailsJson", JsonSerializer.Serialize(value.LRDetailsArray));
 
             return QueryHelper.Save("sp_CustomerDeliveryInvoiceSave", connectionString, parameters);

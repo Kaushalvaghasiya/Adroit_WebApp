@@ -63,7 +63,8 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerDeliveryInvoiceSave]
 	,@BillNumber int 
 	,@Prefix VARCHAR(15) 
 	,@Postfix VARCHAR(15) 
-	,@LRDetailsJson NVARCHAR(MAX) 
+	,@LRDetailsJson NVARCHAR(MAX)
+	,@IsGatePass BIT
 )
 AS
 BEGIN
@@ -78,7 +79,7 @@ BEGIN
 		DECLARE @message VARCHAR(4000);
 
 		DECLARE @BookBranchMappingId INT = (
-			SELECT BookingSalesBookBranchMappingId
+			SELECT CASE @IsGatePass WHEN 0 THEN DeliverySalesBookBranchMappingId ELSE GatePassBookBranchMappingId END
 			FROM CustomerFirmBranchTransportSetting
 			WHERE CustomerFirmBranchTransportSetting.BranchId = @BranchId
 		);
@@ -89,7 +90,10 @@ BEGIN
 		BEGIN
 		    SELECT @InvoiceMaxDate = Cast(MAX(BillDate) as Date) 
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 			
+			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId 
+			AND [Z-SalesBillMaster-Z].BranchId = @BranchId 
+			AND [Z-SalesBillMaster-Z].YearId = @YearId 
+			AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId
 			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CAST(GETDATE() AS DATE))
 
 		    IF (@BillDateOnly < @InvoiceMaxDate)
@@ -102,7 +106,9 @@ BEGIN
 		BEGIN
 		    SELECT @InvoiceMaxDate = CAST(MAX(BillDate) AS DATE)
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			WHERE [Z-SalesBillMaster-Z].BranchId = @BranchId 
+			AND [Z-SalesBillMaster-Z].YearId = @YearId 
+			AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CAST(GETDATE() AS DATE))
 
 		    IF (@BillDateOnly < @InvoiceMaxDate)
@@ -115,7 +121,9 @@ BEGIN
 		BEGIN
 		    SELECT @InvoiceMaxDate = CAST(MAX(BillDate) AS DATE)
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId 
+			AND [Z-SalesBillMaster-Z].YearId = @YearId 
+			AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
 			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CAST(GETDATE() AS DATE))
 			
 		    IF (@BillDateOnly < @InvoiceMaxDate)
@@ -169,14 +177,16 @@ BEGIN
 			GSTStateCessAmount DECIMAL(10, 2),
 			GSTCentralCessPercentage DECIMAL(10, 2),
 			GSTCentralCessAmount DECIMAL(10, 2),
-			GSTCentralCess DECIMAL(10, 2)
+			GSTCentralCess DECIMAL(10, 2),
+			IsAgency BIT NOT NULL
 		);
 
 	    INSERT INTO @LRDetails
 		SELECT
 		    LRBookingId, FreightAmount, Charge1, Charge2, Charge3, Charge4, Charge5, Charge6,
 			BasicAmount, SGSTPercentage, SGSTAmount, CGSTPercentage, CGSTAmount, IGSTPercentage, IGSTAmount,
-			GSTStateCessPercentage, GSTStateCessAmount, GSTCentralCessPercentage, GSTCentralCessAmount, GSTCentralCess
+			GSTStateCessPercentage, GSTStateCessAmount, GSTCentralCessPercentage, GSTCentralCessAmount, GSTCentralCess,
+			IsAgency
 		FROM OPENJSON(@LRDetailsJson)
 		WITH (
 		    LRBookingId int,
@@ -200,18 +210,33 @@ BEGIN
 			GSTStateCessAmount DECIMAL(10, 2),
 			GSTCentralCessPercentage DECIMAL(10, 2),
 			GSTCentralCessAmount DECIMAL(10, 2),
-			GSTCentralCess DECIMAL(10, 2)
+			GSTCentralCess DECIMAL(10, 2),
+			IsAgency BIT
 		);
 
-		--Check LR in another invoices
+		--Check LR in another invoices (Own)
 		IF EXISTS (SELECT [Z-SalesBillDetail-Z].LRBookingId FROM [Z-SalesBillDetail-Z]  
-					INNER JOIN @LRDetails AS LRDetails ON [Z-SalesBillDetail-Z].LRBookingId = LRDetails.LRBookingId
+					INNER JOIN @LRDetails AS LRDetails ON [Z-SalesBillDetail-Z].LRBookingId = LRDetails.LRBookingId AND IsAgency = 0
 					WHERE SalesBillMasterId <> @Id) 
 		BEGIN
 			DECLARE @LRNumber INT
 			SELECT top 1 @LRNumber = LRBooking.LRNumber FROM [Z-SalesBillDetail-Z]  
-					INNER JOIN @LRDetails AS LRDetails ON [Z-SalesBillDetail-Z].LRBookingId = LRDetails.LRBookingId
+					INNER JOIN @LRDetails AS LRDetails ON [Z-SalesBillDetail-Z].LRBookingId = LRDetails.LRBookingId AND IsAgency = 0
 					INNER JOIN [Z-LRBooking-Z] AS LRBooking ON [Z-SalesBillDetail-Z].LRBookingId = LRBooking.Id
+					WHERE SalesBillMasterId <> @Id 
+			RAISERROR ('LR# %d is already used in another invoice, please remove it from this invoice.', 16, 1, @LRNumber);
+		END
+
+		--Check LR in another invoices (Agency)
+		IF EXISTS (SELECT [Z-SalesBillDetail-Z].AgencyLRBookingId 
+					FROM [Z-SalesBillDetail-Z]  
+					INNER JOIN @LRDetails AS LRDetails ON [Z-SalesBillDetail-Z].LRBookingId = LRDetails.LRBookingId AND IsAgency = 1
+					WHERE SalesBillMasterId <> @Id) 
+		BEGIN
+			DECLARE @LRNumberAgency INT
+			SELECT top 1 @LRNumberAgency = LRBooking.LRNumber FROM [Z-SalesBillDetail-Z]  
+					INNER JOIN @LRDetails AS LRDetails ON [Z-SalesBillDetail-Z].LRBookingId = LRDetails.LRBookingId AND IsAgency = 1
+					INNER JOIN [Z-ChalanReceiveAgencyDetail-Z] AS LRBooking ON [Z-SalesBillDetail-Z].LRBookingId = LRBooking.Id
 					WHERE SalesBillMasterId <> @Id 
 			RAISERROR ('LR# %d is already used in another invoice, please remove it from this invoice.', 16, 1, @LRNumber);
 		END
@@ -231,7 +256,11 @@ BEGIN
 			AND SalesBillFromAdmin.Active = 1 AND SalesBillFromAdmin.Deleted = 0
 		);
 
-		SELECT @Prefix = CustomerBook.BillNoPrefix, @Postfix = CustomerBook.BillNoPostfix, @BillTypeId = CustomerBook.BillTypeID, @SalesBillFromId = CustomerBook.SalesBillFrom
+		SELECT 
+			@Prefix = CustomerBook.BillNoPrefix, 
+			@Postfix = CustomerBook.BillNoPostfix, 
+			@BillTypeId = CustomerBook.BillTypeID, 
+			@SalesBillFromId = CustomerBook.SalesBillFrom
 		FROM CustomerBookBranchMapping
 		INNER JOIN CustomerBook on CustomerBook.Id = CustomerBookBranchMapping.BookId AND CustomerBook.CustomerId = @CustomerId
 		WHERE CustomerBookBranchMapping.Id = @BookBranchMappingId
@@ -248,20 +277,29 @@ BEGIN
 		BEGIN
 			SELECT @SerialNumberOfBranch = ISNULL(MAX(SerialNumberOfBranch),0) + 1
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-SalesBillMaster-Z].EntryTypeId = @EntryTypeId 
+			WHERE [Z-SalesBillMaster-Z].BranchId = @BranchId 
+			AND [Z-SalesBillMaster-Z].YearId = @YearId 
+			AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			AND [Z-SalesBillMaster-Z].EntryTypeId = @EntryTypeId 
 		END
 
 		IF ISNULL(@BillNumber, 0) = 0
 		BEGIN
 			SELECT @BillNumber = ISNULL(MAX(BillNumber),0) + 1
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId AND [Z-SalesBillMaster-Z].EntryTypeId = @EntryTypeId 
+			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId 
+			AND [Z-SalesBillMaster-Z].YearId = @YearId 
+			AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			AND [Z-SalesBillMaster-Z].EntryTypeId = @EntryTypeId 
 		END
 
 		DECLARE @IdCheck INT
 		SELECT @IdCheck = ID FROM [Z-SalesBillMaster-Z] 
 							WHERE (Id = @Id) 
-							OR (BranchId = @BranchId AND SerialNumberOfBranch = @SerialNumberOfBranch AND BillNumber = @BillNumber AND Deleted = 1)
+								OR (BranchId = @BranchId 
+									AND SerialNumberOfBranch = @SerialNumberOfBranch 
+									AND BillNumber = @BillNumber 
+									AND Deleted = 1)
 
 		IF ISNULL(@IdCheck, 0) = 0
 		BEGIN
@@ -359,13 +397,23 @@ BEGIN
 			,Deleted = 0
 			WHERE Id = @Id
 
+			--delete own 
 			DELETE [Z-SalesBillDetail-Z]  WHERE SalesBillMasterId = @Id 
-				AND [LRBookingId] NOT IN ( SELECT LRBookingId FROM @LRDetails)
+				AND [LRBookingId] IS NOT NULL
+				AND [LRBookingId] NOT IN (SELECT LRBookingId FROM @LRDetails WHERE IsAgency = 0)
+
+			--delete agency
+			DELETE [Z-SalesBillDetail-Z]  WHERE SalesBillMasterId = @Id 
+				AND AgencyLRBookingId IS NOT NULL
+				AND AgencyLRBookingId NOT IN (SELECT LRBookingId FROM @LRDetails WHERE IsAgency = 1)
 		END
 
+		SELECT * INTO #LRDATA FROM @LRDetails WHERE IsAgency = 0
+		SELECT * INTO #AGENCYDATA FROM @LRDetails WHERE IsAgency = 1
+		--Own LR
 		MERGE INTO [Z-SalesBillDetail-Z] AS LRTarget
-		USING @LRDetails AS LRSource
-		ON LRTarget.SalesBillMasterId = @Id AND LRTarget.LRBookingId = LRSource.LRBookingId
+		USING #LRDATA AS LRSource ON LRTarget.SalesBillMasterId = @Id 
+						AND ISNULL(LRTarget.LRBookingId, 0) = LRSource.LRBookingId 
 		WHEN MATCHED THEN
 		    UPDATE SET 
 		        LRTarget.FreightAmount = LRSource.FreightAmount,
@@ -391,7 +439,7 @@ BEGIN
 		        LRTarget.ModifiedById = @LoginId
 		WHEN NOT MATCHED THEN
 		    INSERT (
-		        SalesBillMasterId, LRBookingId, BasicAmount, Rate, FreightAmount, 
+		        SalesBillMasterId, LRBookingId, AgencyLRBookingId, BasicAmount, Rate, FreightAmount, 
 				Charge1, Charge2, Charge3, Charge4, Charge5, Charge6,
 		        QuantityDiscountPercentage, QuantityDiscountAmount, SpecialDiscount1, SpecialDiscount2, SpecialDiscount3,
 		        SGSTPercentage, SGSTAmount, CGSTPercentage, CGSTAmount, IGSTPercentage, IGSTAmount,
@@ -401,7 +449,7 @@ BEGIN
 		        ProductBranchMappingId, AddedOn, AddedById
 		    )
 		    VALUES (
-		        @Id, LRSource.LRBookingId, LRSource.BasicAmount, 0, LRSource.FreightAmount, 
+		        @Id, LRSource.LRBookingId, NULL, LRSource.BasicAmount, 0, LRSource.FreightAmount, 
 				LRSource.Charge1, LRSource.Charge2, LRSource.Charge3, LRSource.Charge4, LRSource.Charge5, LRSource.Charge6,
 		        0, 0, 0, 0, 0,
 		        LRSource.SGSTPercentage, LRSource.SGSTAmount, LRSource.CGSTPercentage, LRSource.CGSTAmount, LRSource.IGSTPercentage, LRSource.IGSTAmount,
@@ -411,6 +459,53 @@ BEGIN
 		        @ProductBranchMappingId, GETUTCDATE(), @LoginId
 		    );
 
+		--Own Agency
+		MERGE INTO [Z-SalesBillDetail-Z] AS LRTarget
+		USING #AGENCYDATA AS LRSource ON LRTarget.SalesBillMasterId = @Id AND ISNULL(LRTarget.AgencyLRBookingId, 0) = LRSource.LRBookingId 
+		WHEN MATCHED THEN
+		    UPDATE SET 
+		        LRTarget.FreightAmount = LRSource.FreightAmount,
+		        LRTarget.Charge1 = LRSource.Charge1,
+		        LRTarget.Charge2 = LRSource.Charge2,
+		        LRTarget.Charge3 = LRSource.Charge3,
+		        LRTarget.Charge4 = LRSource.Charge4,
+		        LRTarget.Charge5 = LRSource.Charge5,
+		        LRTarget.Charge6 = LRSource.Charge6,
+				LRTarget.SGSTPercentage = LRSource.SGSTPercentage,
+				LRTarget.SGSTAmount = LRSource.SGSTAmount,
+				LRTarget.CGSTPercentage = LRSource.CGSTPercentage,
+				LRTarget.CGSTAmount = LRSource.CGSTAmount,
+				LRTarget.IGSTPercentage = LRSource.IGSTPercentage,
+				LRTarget.IGSTAmount = LRSource.IGSTAmount,
+				LRTarget.GSTStateCessPercentage = LRSource.GSTStateCessPercentage,
+				LRTarget.GSTStateCessAmount = LRSource.GSTStateCessAmount,
+				LRTarget.GSTCentralCessPercentage = LRSource.GSTCentralCessPercentage,
+				LRTarget.GSTCentralCessAmount = LRSource.GSTCentralCessAmount,
+				LRTarget.GSTCentralCess = LRSource.GSTCentralCess,
+		        LRTarget.ProductBranchMappingId = @ProductBranchMappingId,
+		        LRTarget.ModifiedOn = GETUTCDATE(),
+		        LRTarget.ModifiedById = @LoginId
+		WHEN NOT MATCHED THEN
+		    INSERT (
+		        SalesBillMasterId, LRBookingId, AgencyLRBookingId, BasicAmount, Rate, FreightAmount, 
+				Charge1, Charge2, Charge3, Charge4, Charge5, Charge6,
+		        QuantityDiscountPercentage, QuantityDiscountAmount, SpecialDiscount1, SpecialDiscount2, SpecialDiscount3,
+		        SGSTPercentage, SGSTAmount, CGSTPercentage, CGSTAmount, IGSTPercentage, IGSTAmount,
+		        GSTStateCessPercentage, GSTStateCessAmount, GSTCentralCessPercentage, GSTCentralCessAmount, GSTCentralCess,
+		        NetRate, DiscountPercentage, DiscountAmount, OtherCharges,
+		        Quantity1, Quantity2, Quantity3, Quantity4, Quantity5, Quantity6,
+		        ProductBranchMappingId, AddedOn, AddedById
+		    )
+		    VALUES (
+		        @Id, NULL, LRSource.LRBookingId, LRSource.BasicAmount, 0, LRSource.FreightAmount, 
+				LRSource.Charge1, LRSource.Charge2, LRSource.Charge3, LRSource.Charge4, LRSource.Charge5, LRSource.Charge6,
+		        0, 0, 0, 0, 0,
+		        LRSource.SGSTPercentage, LRSource.SGSTAmount, LRSource.CGSTPercentage, LRSource.CGSTAmount, LRSource.IGSTPercentage, LRSource.IGSTAmount,
+		        LRSource.GSTStateCessPercentage, LRSource.GSTStateCessAmount, LRSource.GSTCentralCessPercentage, LRSource.GSTCentralCessAmount, LRSource.GSTCentralCess,
+		        0, 0, 0, 0,
+		        0, 0, 0, 0, 0, 0,
+		        @ProductBranchMappingId, GETUTCDATE(), @LoginId
+		    );
 
 		COMMIT TRAN
 		SELECT @Id
