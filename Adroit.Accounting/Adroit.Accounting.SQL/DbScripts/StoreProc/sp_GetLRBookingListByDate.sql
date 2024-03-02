@@ -66,7 +66,7 @@ BEGIN
 		        OR
 		        (ISNULL(@PayTypeId, '') <> '' AND LRBooking.LRPayTypeId = @PayTypeId)
 		    )
-		AND LRBooking.Id NOT IN ( SELECT DISTINCT [Z-SalesBillDetail-Z].LRBookingId FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 ) 
+		AND LRBooking.Id NOT IN ( SELECT DISTINCT ISNULL([Z-SalesBillDetail-Z].LRBookingId, 0) FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 ) 
 		AND LRBooking.Deleted = 0
 
 END

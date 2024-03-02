@@ -126,6 +126,18 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@AccountBranchMappingId", AccountBranchMappingId);
             return QueryHelper.GetList<LRBookingGridViewModel>("sp_GetLRBookingListByDate", connectionString, parameters);
         }
+        public List<LRBookingGridViewModel> GetLRBookingListByDateForDeliveryInvoice(string connectionString, string fromDate, string toDate, string PayTypeId, string AccountBranchMappingId, int branchId, int loginId, int firmId = 0, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        {
+            var parameters = new DynamicParameters();
+            parameters.Add("@LoginId", loginId);
+            parameters.Add("@BranchId", branchId);
+            parameters.Add("@FirmId", firmId);
+            parameters.Add("@FromDate", fromDate);
+            parameters.Add("@ToDate", toDate);
+            parameters.Add("@PayTypeId", PayTypeId);
+            parameters.Add("@AccountBranchMappingId", AccountBranchMappingId);
+            return QueryHelper.GetList<LRBookingGridViewModel>("sp_GetLRBookingListByDateForDeliveryInvoice", connectionString, parameters);
+        }
         public List<DropdownViewModel> GetLRNumberListByLRPayTypeId(string connectionString, int loginId, int firmId, int branchId)
         {
             var parameters = new DynamicParameters();

@@ -17,9 +17,9 @@ BEGIN
 	INNER JOIN CustomerAccountBranchMapping on CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 	INNER JOIN [CustomerAccountGroup] on CustomerAccount.AccountGroupId = [CustomerAccountGroup].Id 
 	LEFT JOIN [Z-LRBooking-Z] on CustomerAccountBranchMapping.Id = [Z-LRBooking-Z].BillAccountBranchMappingId 
-	WHERE [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT [Z-SalesBillDetail-Z].LRBookingId FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 ) 
+	WHERE [Z-LRBooking-Z].Id NOT IN ( SELECT DISTINCT ISNULL([Z-SalesBillDetail-Z].LRBookingId, 0) FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 ) 
 		AND [Z-LRBooking-Z].[BranchId] = @BranchId
-		AND [Z-LRBooking-Z].YearId = @YearId 
+		--AND [Z-LRBooking-Z].YearId = @YearId 
 		AND (
 		        (@PayTypeId = '0' AND [Z-LRBooking-Z].LRPayTypeId IN ('2', '3'))
 		        OR

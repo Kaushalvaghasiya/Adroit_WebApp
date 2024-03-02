@@ -78,6 +78,7 @@ namespace Adroit.Accounting.Web.Controllers
         private readonly ILRBooking _lrBookingRepository;
         private readonly ITransportLRDelivery _transportLRDeliveryRepository;
         private readonly ICustomerInvoice _customerInvoice;
+        private readonly ICustomerDeliveryInvoice _customerDeliveryInvoice;
         private readonly ITransportLRDeliveryType _transportLRDeliveryTypeRepository;
         private readonly IChalan _chalanRepository;
         private readonly IChalanReceive _chalanReceiveRepository;
@@ -156,6 +157,7 @@ namespace Adroit.Accounting.Web.Controllers
             ITransportLRDelivery transportLRDeliveryRepository,
             IChalan chalanRepository,
             ICustomerInvoice customerInvoice,
+            ICustomerDeliveryInvoice customerDeliveryInvoice,
             IChalanReceive chalanReceiveRepository,
             ILRBookingRangeRenew lrBookingRangeRenewRepository, 
             ICustomerGeneralExpensesMulti customerGeneralExpensesMultiRepository,
@@ -233,6 +235,7 @@ namespace Adroit.Accounting.Web.Controllers
             _transportLRDeliveryRepository = transportLRDeliveryRepository;
             _chalanRepository = chalanRepository;
             _customerInvoice = customerInvoice;
+            _customerDeliveryInvoice = customerDeliveryInvoice;
             _chalanReceiveRepository = chalanReceiveRepository;
             _lrBookingRangeRenewRepository = lrBookingRangeRenewRepository;
             _customerGeneralExpensesMultiRepository = customerGeneralExpensesMultiRepository;

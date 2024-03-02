@@ -128,7 +128,7 @@
                                                     {
                                                         foreach (var o in Model.LRNumberList)
                                                         {
-                                                            <option value="@o.Text">@o.Text</option>
+                                                                <option value="@o.Value">@o.Text</option>
                                                         }
                                                     }
                                                 }
@@ -151,11 +151,11 @@
                                                     {
                                                         if (item.Value == "1")
                                                         {
-                                                            <option value="@item.Value" selected>@item.Text</option>
+                                                                <option value="@item.Value" selected>@item.Text</option>
                                                         }
                                                         else
                                                         {
-                                                            <option value="@item.Value">@item.Text</option>
+                                                                <option value="@item.Value">@item.Text</option>
                                                         }
 
                                                     }
@@ -176,7 +176,7 @@
                                                 {
                                                     foreach (var o in Model.AccountBranchMappingList)
                                                     {
-                                                        <option value="@o.Value">@o.Text</option>
+                                                            <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -245,7 +245,7 @@
                                                 {
                                                     foreach (var o in Model.VehicleList)
                                                     {
-                                                        <option value="@o.Text">@o.Text</option>
+                                                            <option value="@o.Text">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -616,7 +616,8 @@
                 if ($('#LRBookingId').val() == null || $('#LRBookingId').val() == '') {
                     showWarning("", "Please select LR Number.");
                 } else {
-                    getLRDetailListByLRNumber($('#LRBookingId').val());
+                    var isAgency = $("#LRBookingId option:selected").text().indexOf('|') != -1;
+                    getLRDetailListByLRNumber($('#LRBookingId').val(), isAgency);
                 }
 
             });
@@ -1035,6 +1036,8 @@
                     lrDetails.GSTCentralCessAmount = parseFloat($('#GSTCentralCessAmount' + contentRowId).text()) || 0;
                     lrDetails.GSTCentralCess = parseFloat($('#GSTCentralCess' + contentRowId).text()) || 0;
 
+                    lrDetails.IsAgency = parseFloat($('#IsAgency' + contentRowId).text()) || 0;
+
                     savedata.LRDetailsArray.push(lrDetails);
                 });
                 if (savedata.LRDetailsArray.length == 0) {
@@ -1046,7 +1049,7 @@
                 blockUI('container');
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveInvoice", "Customer"))",
+                    url: "@(Url.Action("SaveDeliveryInvoice", "Customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -1222,7 +1225,8 @@
                                         gstCentralCessPercentage: row.gstCentralCessPercentage,
                                         gstCentralCessAmount: row.gstCentralCessAmount,
                                         gstCentralCess: row.gstCentralCess,
-                                        gstInvoiceTypeId: row.gstInvoiceTypeId
+                                        gstInvoiceTypeId: row.gstInvoiceTypeId,
+                                        isAgency: row.IsAgency,
                                     });
                                 });
 
@@ -1278,10 +1282,10 @@
             contentRowId = 0;
         }
 
-        function getLRDetailListByLRNumber(lrNumberId) {
+        function getLRDetailListByLRNumber(lrNumberId, isAgency) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetInvoiceListByLRNumberId"))" + "/" + lrNumberId, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetDeliveryInvoiceListByLRNumberId"))" + "/" + lrNumberId + "/" + isAgency, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -1336,7 +1340,8 @@
                                             gstCentralCessPercentage: row.gstCentralCessPercentage,
                                             gstCentralCessAmount: row.gstCentralCessAmount,
                                             gstCentralCess: row.gstCentralCess,
-                                            gstInvoiceTypeId: row.gstInvoiceTypeId
+                                            gstInvoiceTypeId: row.gstInvoiceTypeId,
+                                            isAgency: row.IsAgency,
                                         });
 
                                     }
@@ -1488,7 +1493,7 @@
                     'style': 'multi'
                 },
                 ajax: {
-                    url: '@(Url.Content("~/Customer/GetLRBookingListByDate"))' + "/" + $('#LRFromDate').val().split('/').reverse().join('-') + "/" + $('#LRToDate').val().split('/').reverse().join('-') + "/" + $('#PayTypeId').val() + "/" + $('#AccountBranchMappingId').val(),
+                    url: '@(Url.Content("~/Customer/GetDeliveryLRBookingListByDate"))' + "/" + $('#LRFromDate').val().split('/').reverse().join('-') + "/" + $('#LRToDate').val().split('/').reverse().join('-') + "/" + $('#PayTypeId').val() + "/" + $('#AccountBranchMappingId').val(),
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -1543,7 +1548,8 @@
                                     gstCentralCessPercentage: row.gstCentralCessPercentage,
                                     gstCentralCessAmount: row.gstCentralCessAmount,
                                     gstCentralCess: row.gstCentralCess,
-                                    gstInvoiceTypeId: row.gstInvoiceTypeId
+                                    gstInvoiceTypeId: row.gstInvoiceTypeId,
+                                    isAgency: row.IsAgency,
                                 });
                             }
                         });
@@ -1615,7 +1621,8 @@
                         gstCentralCessPercentage: row.gstCentralCessPercentage,
                         gstCentralCessAmount: row.gstCentralCessAmount,
                         gstCentralCess: row.gstCentralCess,
-                        gstInvoiceTypeId: row.gstInvoiceTypeId
+                        gstInvoiceTypeId: row.gstInvoiceTypeId,
+                        isAgency: row.IsAgency,
                     }));
                 } else {
                     selectedIds = [];
@@ -1673,7 +1680,8 @@
                                     gstCentralCessPercentage: row.data().gstCentralCessPercentage,
                                     gstCentralCessAmount: row.data().gstCentralCessAmount,
                                     gstCentralCess: row.data().gstCentralCess,
-                                    gstInvoiceTypeId: row.data().gstInvoiceTypeId
+                                    gstInvoiceTypeId: row.data().gstInvoiceTypeId,
+                                    isAgency: row.IsAgency,
                                 });
                             }
                         }
@@ -1797,6 +1805,7 @@
                         '<input type="hidden" id="GSTCentralCessAmount' + contentRowId + '" value="' + lrBooking.gstCentralCessAmount + '" />' +
                         '<input type="hidden" id="GSTCentralCess' + contentRowId + '" value="' + lrBooking.gstCentralCess + '" />' +
                         '<input type="hidden" id="GSTInvoiceTypeId' + contentRowId + '" value="' + lrBooking.gstInvoiceTypeId + '" />' +
+                        '<input type="hidden" id="IsAgency' + contentRowId + '" value="' + lrBooking.isAgency + '" />' +
                         '</div>' +
                         '</div>' +
                         '<div class="col-md-1">' +
@@ -2007,7 +2016,7 @@
                 }
 
                 blockUI('container');
-                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetInvoiceCustomerAccountBranchMappingList_Select"))" + "/" + $('#PayTypeId').val(), "",
+                var retrundata = AjaxCall("GET", "@(Url.Content("~/Customer/GetDeliveryInvoiceCustomerAccountBranchMappingList_Select"))" + "/" + $('#PayTypeId').val(), "",
                     function (data) {
                         unblockUI('container');
                         if (data.result == RESULT_SUCCESS) {

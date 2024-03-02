@@ -51,11 +51,11 @@ BEGIN
 			 LEFT JOIN [CustomerAccountBranchMapping] AS CAB3 on CAB3.Id = LRBooking.BillAccountBranchMappingId 
 			 LEFT JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId 
 			 LEFT JOIN [Vehilcle] on [Vehilcle].Id = LRBooking.VehicleId 
-		WHERE LRBooking.[BranchId] = @BranchId
+		WHERE LRBooking.Id = @LRNumberId
+			AND LRBooking.[BranchId] = @BranchId
 			AND LRBooking.YearId = @YearId
 			AND LRBooking.Deleted = 0
 			AND [CustomerAccountBranchMapping].Deleted = 0
-			AND LRBooking.LRNumber = @LRNumberId
-			AND LRBooking.Id NOT IN ( SELECT DISTINCT [Z-SalesBillDetail-Z].LRBookingId FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 )
+			AND LRBooking.Id NOT IN ( SELECT DISTINCT ISNULL([Z-SalesBillDetail-Z].LRBookingId, 0) FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 )
 END
 GO

@@ -62,7 +62,7 @@ namespace Adroit.Accounting.Web.Controllers
                 var sortColumn = int.Parse(Request.Query["order[0][column]"]);
                 var sortDirection = Request.Query["order[0][dir]"];
 
-                var records = _customerInvoice.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId, search, start, length, sortColumn, sortDirection).ToList();
+                var records = _customerDeliveryInvoice.List(_configurationData.DefaultConnection, CurrentUserId, CurrentFirmId, CurrentBranchId, search, start, length, sortColumn, sortDirection).ToList();
                 result.data = records;
                 result.recordsTotal = records.Count > 0 ? records[0].TotalCount : 0;
                 result.recordsFiltered = records.Count > 0 ? records[0].TotalCount : 0;
@@ -88,7 +88,7 @@ namespace Adroit.Accounting.Web.Controllers
                 model.LoginId = CurrentUserId;
                 model.YearId = CurrentYearId;
 
-                int id = _customerInvoice.Save(model, _configurationData.DefaultConnection);
+                int id = _customerDeliveryInvoice.Save(model, _configurationData.DefaultConnection);
                 if (id > 0)
                 {
                     result.data = id;
@@ -109,7 +109,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerInvoice.Delete(id, _configurationData.DefaultConnection, CurrentUserId);
+                result.data = _customerDeliveryInvoice.Delete(id, _configurationData.DefaultConnection, CurrentUserId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -126,7 +126,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerInvoice.Get(id, _configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
+                result.data = _customerDeliveryInvoice.Get(id, _configurationData.DefaultConnection, CurrentUserId, CurrentBranchId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -168,7 +168,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerInvoice.GetListByLRNumberId(_configurationData.DefaultConnection, lrNumberId, CurrentUserId, CurrentBranchId, CurrentFirmId);
+                result.data = _customerDeliveryInvoice.GetListByLRNumberId(_configurationData.DefaultConnection, lrNumberId, CurrentUserId, CurrentBranchId, CurrentFirmId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
@@ -219,7 +219,7 @@ namespace Adroit.Accounting.Web.Controllers
             ApiResult result = new ApiResult();
             try
             {
-                result.data = _customerInvoice.GetCustomerAccountBranchMappingList_Select(CurrentUserId, CurrentFirmId, CurrentBranchId, payTypeId, _configurationData.DefaultConnection);
+                result.data = _customerDeliveryInvoice.GetCustomerAccountBranchMappingList_Select(CurrentUserId, CurrentFirmId, CurrentBranchId, payTypeId, _configurationData.DefaultConnection);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)
