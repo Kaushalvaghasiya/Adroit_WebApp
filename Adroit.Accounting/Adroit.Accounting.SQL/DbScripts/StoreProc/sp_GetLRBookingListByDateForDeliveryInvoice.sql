@@ -72,6 +72,7 @@ BEGIN
 						INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].Id = [Z-SalesBillDetail-Z].SalesBillMasterId
 						WHERE [Z-SalesBillMaster-Z].[BranchId] = @BranchId 
 						AND YearId = @YearId 
+						AND ([Z-SalesBillMaster-Z].EntryTypeId = 24 OR [Z-SalesBillMaster-Z].EntryTypeId = 25)
 						AND [Z-SalesBillDetail-Z].Deleted = 0) 
 		AND LRBooking.Deleted = 0 
 		AND LRBooking.BillAccountBranchMappingId = dbo.fn_GetAccountMappingIdForDifferentBranch(@AccountBranchMappingId, LRBooking.BranchId)
@@ -125,7 +126,11 @@ BEGIN
 	LEFT JOIN [CustomerAccount] AS CA3 on CA3.Id = CAB3.AccountId 
 	WHERE AgencyMaster.[BranchId] = @BranchId
 	AND LRBooking.BillAccountBranchMappingId = dbo.fn_GetAccountMappingIdForDifferentBranch(@AccountBranchMappingId, AgencyMaster.BranchId)
-	AND LRBooking.Id NOT IN (SELECT DISTINCT ISNULL([Z-SalesBillDetail-Z].AgencyLRBookingId, 0) FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0) 
+	AND LRBooking.Id NOT IN (SELECT DISTINCT ISNULL([Z-SalesBillDetail-Z].AgencyLRBookingId, 0) 
+								FROM [Z-SalesBillMaster-Z]
+								INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].Id = [Z-SalesBillDetail-Z].SalesBillMasterId
+								WHERE ([Z-SalesBillMaster-Z].EntryTypeId = 24 OR [Z-SalesBillMaster-Z].EntryTypeId = 25)
+								AND [Z-SalesBillDetail-Z].Deleted = 0) 
 	AND AgencyMaster.Deleted = 0 
 	AND LRBooking.Deleted = 0 
 END

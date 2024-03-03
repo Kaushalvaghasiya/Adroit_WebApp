@@ -54,6 +54,7 @@ Begin
 		WHERE SalesBillMaster.FirmId = @FirmId
 			AND SalesBillMaster.BranchId = @BranchId
 			AND SalesBillMaster.YearId = @YearId
+			AND SalesBillMaster.EntryTypeId = 23
 			AND (Coalesce(@Search,'') = '' OR SalesBillMaster.SerialNumberOfBranch like '%'+ @Search + '%'
 									OR SalesBillMaster.BillDate like '%'+ @Search + '%'
 									OR CustomerAccount.Name like '%'+ @Search + '%'

@@ -2,6 +2,7 @@ CREATE OR ALTER Procedure [dbo].[sp_CustomerDeliveryInvoiceList]
   @LoginId INT,
   @FirmId INT,
   @BranchId INT,
+  @EntryTypeName varchar(3),
   @Search VARCHAR(100) = '',
   @PageStart INT = 0,
   @PageSize INT = 10,
@@ -12,6 +13,12 @@ Set Nocount on;
 Begin
 	DECLARE @CustomerId INT = dbo.fn_GetCustomerIdByFirm(@FirmId);
 	DECLARE @YearId INT = dbo.fn_GetYearId(@LoginId);
+	DECLARE @EntryTypeId INT = (
+			SELECT Id
+			FROM [BillEntryTypeAdmin]
+			WHERE [BillEntryTypeAdmin].Code = @EntryTypeName 
+			AND [BillEntryTypeAdmin].Active = 1
+		);
 
 	SELECT * FROM
 	(   
@@ -54,6 +61,7 @@ Begin
 		WHERE SalesBillMaster.FirmId = @FirmId
 			AND SalesBillMaster.BranchId = @BranchId
 			AND SalesBillMaster.YearId = @YearId
+			AND EntryTypeId = @EntryTypeId
 			AND (Coalesce(@Search,'') = '' OR SalesBillMaster.SerialNumberOfBranch like '%'+ @Search + '%'
 									OR SalesBillMaster.BillDate like '%'+ @Search + '%'
 									OR CustomerAccount.Name like '%'+ @Search + '%'

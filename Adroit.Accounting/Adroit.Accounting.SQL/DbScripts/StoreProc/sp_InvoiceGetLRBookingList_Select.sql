@@ -11,7 +11,12 @@ BEGIN
 
 	SELECT LRNumber AS [Text], Id As Value
 	FROM [Z-LRBooking-Z]
-	WHERE Id NOT IN (SELECT DISTINCT ISNULL([Z-SalesBillDetail-Z].LRBookingId, 0) FROM [Z-SalesBillDetail-Z] WHERE [BranchId] = @BranchId AND [Z-SalesBillDetail-Z].Deleted = 0 ) 
+	WHERE Id NOT IN (SELECT DISTINCT ISNULL([Z-SalesBillDetail-Z].LRBookingId, 0) 
+						FROM [Z-SalesBillMaster-Z]
+						INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].Id = [Z-SalesBillDetail-Z].SalesBillMasterId
+						WHERE [BranchId] = @BranchId 
+						AND EntryTypeId = 23
+						AND [Z-SalesBillDetail-Z].Deleted = 0 ) 
 		AND [BranchId] = @BranchId
 		AND YearId = @YearId 
 		AND Deleted = 0 

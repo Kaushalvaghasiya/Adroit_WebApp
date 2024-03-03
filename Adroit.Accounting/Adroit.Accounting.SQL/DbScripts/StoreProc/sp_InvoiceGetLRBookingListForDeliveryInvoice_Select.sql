@@ -27,6 +27,7 @@ BEGIN
 						INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].Id = [Z-SalesBillDetail-Z].SalesBillMasterId
 						WHERE [Z-SalesBillMaster-Z].[BranchId] = @BranchId 
 						AND YearId = @YearId 
+						AND ([Z-SalesBillMaster-Z].EntryTypeId = 24 OR [Z-SalesBillMaster-Z].EntryTypeId = 25)
 						AND [Z-SalesBillDetail-Z].Deleted = 0) 
 		AND Deleted = 0 
 
@@ -39,7 +40,11 @@ BEGIN
 	INNER JOIN [Z-ChalanReceiveAgencyDetail-Z] AS AgencyDetail ON AgencyMaster.Id = AgencyDetail.ChalanReceiveAgencyMasterId
 	LEFT JOIN City ON AgencyMaster.CityIdFrom = City.Id
 	WHERE AgencyMaster.[BranchId] = @BranchId
-		AND AgencyDetail.Id NOT IN (SELECT DISTINCT ISNULL([Z-SalesBillDetail-Z].AgencyLRBookingId, 0) FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0) 
+		AND AgencyDetail.Id NOT IN (SELECT DISTINCT ISNULL([Z-SalesBillDetail-Z].AgencyLRBookingId, 0) 
+									FROM [Z-SalesBillMaster-Z]
+									INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].Id = [Z-SalesBillDetail-Z].SalesBillMasterId
+									WHERE ([Z-SalesBillMaster-Z].EntryTypeId = 24 OR [Z-SalesBillMaster-Z].EntryTypeId = 25)
+									AND [Z-SalesBillDetail-Z].Deleted = 0) 
 		AND AgencyMaster.Deleted = 0 
 		AND AgencyDetail.Deleted = 0 
 

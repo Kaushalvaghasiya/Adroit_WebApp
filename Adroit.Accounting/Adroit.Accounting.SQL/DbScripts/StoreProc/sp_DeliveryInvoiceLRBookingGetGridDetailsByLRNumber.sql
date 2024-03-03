@@ -55,6 +55,7 @@ BEGIN
 							INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].Id = [Z-SalesBillDetail-Z].SalesBillMasterId
 							WHERE [Z-SalesBillMaster-Z].[BranchId] = @BranchId 
 							AND YearId = @YearId 
+							AND ([Z-SalesBillMaster-Z].EntryTypeId = 24 OR [Z-SalesBillMaster-Z].EntryTypeId = 25)
 							AND [Z-SalesBillDetail-Z].Deleted = 0)
 	END
 	ELSE 
@@ -116,6 +117,7 @@ BEGIN
 							INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].Id = [Z-SalesBillDetail-Z].SalesBillMasterId
 							WHERE [Z-SalesBillMaster-Z].[BranchId] = @BranchId 
 							AND YearId = @YearId 
+							AND ([Z-SalesBillMaster-Z].EntryTypeId = 24 OR [Z-SalesBillMaster-Z].EntryTypeId = 25)
 							AND [Z-SalesBillDetail-Z].Deleted = 0) 
 	END
 END

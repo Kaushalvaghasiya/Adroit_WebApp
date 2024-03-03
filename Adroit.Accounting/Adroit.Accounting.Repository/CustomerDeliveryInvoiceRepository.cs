@@ -99,7 +99,7 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@BranchId", branchId);
             return QueryHelper.Get<SalesBillMasterViewModel>("sp_CustomerDeliveryInvoiceGet", connectionString, parameters);
         }
-        public List<SalesBillMasterGridViewModel> List(string connectionString, int loginId, int firmId, int branchId, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
+        public List<SalesBillMasterGridViewModel> List(string connectionString, int loginId, int firmId, int branchId, string entryTypeName, string search = "", int pageStart = 0, int pageSize = 10, int sortColumn = 0, string sortOrder = "ASC")
         {
             var parameters = new DynamicParameters();
             parameters.Add("@LoginId", loginId);
@@ -110,6 +110,8 @@ namespace Adroit.Accounting.Repository
             parameters.Add("@PageSize", pageSize);
             parameters.Add("@SortColumn", sortColumn);
             parameters.Add("@SortOrder", sortOrder);
+            parameters.Add("@EntryTypeName", entryTypeName);
+            
             return QueryHelper.GetList<SalesBillMasterGridViewModel>("sp_CustomerDeliveryInvoiceList", connectionString, parameters);
         }
         public List<LRBookingGridViewModel> GetListByLRNumberId(string connectionString, int LRNumberId, int loginId, int branchId, int firmId, bool isAgency)

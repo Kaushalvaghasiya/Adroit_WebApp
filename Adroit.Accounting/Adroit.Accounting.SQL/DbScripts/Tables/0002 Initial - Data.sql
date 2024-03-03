@@ -1388,7 +1388,21 @@ INSERT [dbo].[BillEntryTypeAdmin] ([Id], [Title], [Code], [Description]) VALUES 
 GO
 INSERT [dbo].[BillEntryTypeAdmin] ([Id], [Title], [Code], [Description]) VALUES (21, N'Credit Note', N'CRN', NULL)
 GO
-INSERT [dbo].[BillEntryTypeAdmin] ([Id], [Title], [Code], [Description]) VALUES (22, N'Debit Note', N'DRN', NULL)
+INSERT [dbo].[BillEntryTypeAdmin] ([Id], [Title], [Code], [Description]) VALUES (22, N'Booking Invoice', N'DRN', NULL)
+GO
+INSERT [dbo].[BillEntryTypeAdmin] ([Id], [Title], [Code], [Description]) VALUES (22, N'Delivery Invoice', N'DRN', NULL)
+GO
+INSERT [dbo].[BillEntryTypeAdmin] ([Id], [Title], [Code], [Description]) VALUES (22, N'Delivery Gatepass', N'DRN', NULL)
+GO
+INSERT [dbo].[BillEntryTypeAdmin] ([Id], [Title], [Code], [Description]) VALUES (22, N'General Invoice', N'DRN', NULL)
+GO
+INSERT [dbo].[BillEntryTypeAdmin] ([Id], [Title], [Code], [Description]) VALUES (22, N'Finish Invoice', N'DRN', NULL)
+GO
+INSERT [dbo].[BillEntryTypeAdmin] ([Id], [Title], [Code], [Description]) VALUES (22, N'Grey Invoice', N'DRN', NULL)
+GO
+INSERT [dbo].[BillEntryTypeAdmin] ([Id], [Title], [Code], [Description]) VALUES (22, N'Beam Invoice', N'DRN', NULL)
+GO
+INSERT [dbo].[BillEntryTypeAdmin] ([Id], [Title], [Code], [Description]) VALUES (22, N'Yarn Invoice', N'DRN', NULL)
 GO
 SET IDENTITY_INSERT [dbo].[BillEntryTypeAdmin] OFF
 GO

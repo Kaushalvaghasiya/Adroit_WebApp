@@ -85,11 +85,22 @@ BEGIN
 
 		DECLARE @BookId INT = (SELECT BookId FROM CustomerBookBranchMapping WHERE Id = @BookBranchMappingId AND BranchId = @BranchId);
 
+		DECLARE @EntryTypeId INT = (
+			SELECT Id
+			FROM [BillEntryTypeAdmin]
+			WHERE [BillEntryTypeAdmin].Code = @EntryTypeName 
+			AND [BillEntryTypeAdmin].Active = 1
+		);
+
 		IF (ISNULL(@SerialNumberOfBranch,0) = 0 AND ISNULL(@BillNumber,0) = 0)
 		BEGIN
 		    SELECT @InvoiceMaxDate = Cast(MAX(BillDate) as Date) 
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 			
+			WHERE FirmId = @FirmId 
+			AND BranchId = @BranchId 
+			AND YearId = @YearId 
+			AND BookBranchMappingId = @BookBranchMappingId 			
+			AND EntryTypeId = @EntryTypeId
 			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CAST(GETDATE() AS DATE))
 
 		    IF (@BillDateOnly < @InvoiceMaxDate)
@@ -102,7 +113,10 @@ BEGIN
 		BEGIN
 		    SELECT @InvoiceMaxDate = CAST(MAX(BillDate) AS DATE)
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].BranchId = @BranchId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			WHERE BranchId = @BranchId 
+			AND YearId = @YearId 
+			AND BookBranchMappingId = @BookBranchMappingId 
+			AND EntryTypeId = @EntryTypeId
 			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CAST(GETDATE() AS DATE))
 
 		    IF (@BillDateOnly < @InvoiceMaxDate)
@@ -115,7 +129,10 @@ BEGIN
 		BEGIN
 		    SELECT @InvoiceMaxDate = CAST(MAX(BillDate) AS DATE)
 			FROM [Z-SalesBillMaster-Z]
-			WHERE [Z-SalesBillMaster-Z].FirmId = @FirmId AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+			WHERE FirmId = @FirmId 
+			AND YearId = @YearId 
+			AND BookBranchMappingId = @BookBranchMappingId 
+			AND EntryTypeId = @EntryTypeId
 			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , CAST(GETDATE() AS DATE))
 			
 		    IF (@BillDateOnly < @InvoiceMaxDate)
@@ -128,13 +145,23 @@ BEGIN
 		BEGIN
 		    SELECT TOP 1 @InvoiceMaxDate = CAST(BillDate AS DATE)
 		    FROM [Z-SalesBillMaster-Z]
-		    WHERE BranchId = @BranchId AND SerialNumberOfBranch < @SerialNumberOfBranch AND BillNumber < @BillNumber AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+		    WHERE BranchId = @BranchId 
+			AND SerialNumberOfBranch < @SerialNumberOfBranch 
+			AND BillNumber < @BillNumber 
+			AND YearId = @YearId 
+			AND BookBranchMappingId = @BookBranchMappingId 
+			AND EntryTypeId = @EntryTypeId
 		    ORDER BY SerialNumberOfBranch, BillNumber DESC;
 			SET @InvoiceMaxDate  = ISNULL(@InvoiceMaxDate , DATEADD(DAY, -1, CAST(GETDATE() AS DATE)))
 			
 		    SELECT TOP 1 @InvoiceMinDate = CAST(ISNULL(BillDate, DATEADD(DAY, 1, @InvoiceMaxDate)) AS DATE)
 		    FROM [Z-SalesBillMaster-Z]
-		    WHERE BranchId = @BranchId AND SerialNumberOfBranch > @SerialNumberOfBranch AND BillNumber > @BillNumber AND [Z-SalesBillMaster-Z].YearId = @YearId AND [Z-SalesBillMaster-Z].BookBranchMappingId = @BookBranchMappingId 
+		    WHERE BranchId = @BranchId 
+			AND SerialNumberOfBranch > @SerialNumberOfBranch 
+			AND BillNumber > @BillNumber 
+			AND YearId = @YearId 
+			AND BookBranchMappingId = @BookBranchMappingId 
+			AND EntryTypeId = @EntryTypeId
 		    ORDER BY SerialNumberOfBranch, BillNumber DESC;
 			
 			SET @InvoiceMinDate  = ISNULL(@InvoiceMinDate , DATEADD(DAY, 365, @InvoiceMaxDate))
@@ -204,15 +231,20 @@ BEGIN
 		);
 
 		--Check LR in another invoices
-		IF EXISTS (SELECT [Z-SalesBillDetail-Z].LRBookingId FROM [Z-SalesBillDetail-Z]  
-					INNER JOIN @LRDetails AS LRDetails ON [Z-SalesBillDetail-Z].LRBookingId = LRDetails.LRBookingId
-					WHERE SalesBillMasterId <> @Id) 
+		IF EXISTS (SELECT [Z-SalesBillDetail-Z].LRBookingId
+						FROM [Z-SalesBillMaster-Z]
+						INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].Id = [Z-SalesBillDetail-Z].SalesBillMasterId
+						INNER JOIN @LRDetails AS LRDetails ON [Z-SalesBillDetail-Z].LRBookingId = LRDetails.LRBookingId
+						WHERE [Z-SalesBillMaster-Z].Id <> @Id AND EntryTypeId = 23) 
 		BEGIN
 			DECLARE @LRNumber INT
-			SELECT top 1 @LRNumber = LRBooking.LRNumber FROM [Z-SalesBillDetail-Z]  
+			SELECT top 1 @LRNumber = LRBooking.LRNumber 
+					FROM [Z-SalesBillMaster-Z]
+					INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].Id = [Z-SalesBillDetail-Z].SalesBillMasterId
 					INNER JOIN @LRDetails AS LRDetails ON [Z-SalesBillDetail-Z].LRBookingId = LRDetails.LRBookingId
 					INNER JOIN [Z-LRBooking-Z] AS LRBooking ON [Z-SalesBillDetail-Z].LRBookingId = LRBooking.Id
 					WHERE SalesBillMasterId <> @Id 
+					 AND EntryTypeId = 23
 			RAISERROR ('LR# %d is already used in another invoice, please remove it from this invoice.', 16, 1, @LRNumber);
 		END
 
@@ -236,14 +268,7 @@ BEGIN
 		INNER JOIN CustomerBook on CustomerBook.Id = CustomerBookBranchMapping.BookId AND CustomerBook.CustomerId = @CustomerId
 		WHERE CustomerBookBranchMapping.Id = @BookBranchMappingId
 		AND CustomerBookBranchMapping.Deleted = 0 
-
-		DECLARE @EntryTypeId INT = (
-			SELECT Id
-			FROM [BillEntryTypeAdmin]
-			WHERE [BillEntryTypeAdmin].Code = @EntryTypeName 
-			AND [BillEntryTypeAdmin].Active = 1
-		);
-
+		
 		IF ISNULL(@SerialNumberOfBranch, 0) = 0
 		BEGIN
 			SELECT @SerialNumberOfBranch = ISNULL(MAX(SerialNumberOfBranch),0) + 1

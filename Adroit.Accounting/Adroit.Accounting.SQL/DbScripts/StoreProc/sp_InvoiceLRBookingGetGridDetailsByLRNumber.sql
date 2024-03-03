@@ -56,6 +56,9 @@ BEGIN
 			AND LRBooking.YearId = @YearId
 			AND LRBooking.Deleted = 0
 			AND [CustomerAccountBranchMapping].Deleted = 0
-			AND LRBooking.Id NOT IN ( SELECT DISTINCT ISNULL([Z-SalesBillDetail-Z].LRBookingId, 0) FROM [Z-SalesBillDetail-Z] WHERE [Z-SalesBillDetail-Z].Deleted = 0 )
+			AND LRBooking.Id NOT IN (SELECT DISTINCT ISNULL([Z-SalesBillDetail-Z].LRBookingId, 0) 
+										FROM [Z-SalesBillMaster-Z]
+										INNER JOIN [Z-SalesBillDetail-Z] ON [Z-SalesBillMaster-Z].Id = [Z-SalesBillDetail-Z].SalesBillMasterId
+										WHERE EntryTypeId = 23 AND [Z-SalesBillMaster-Z].Deleted = 0 AND [Z-SalesBillDetail-Z].Deleted = 0)
 END
 GO

@@ -3,6 +3,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     var isGatePass = Model.UIName == Adroit.Accounting.Web.Controllers.CustomerController.GATE_PASS;
+    var title = isGatePass ? "Delivery Gate Pass" : "Delivery Invoice";
+    var entryTypeName = isGatePass ? "DLG" : "DLI";
 }
 
 <div class="dv-list side-app">
@@ -13,7 +15,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Transaction</a></li>
                     <li><a href="#">Delivery</a></li>
-                    <li class="active"><span>@(isGatePass ? "Delivery Gate Pass" : "Delivery Invoice")</span></li>
+                    <li class="active"><span>@title</span></li>
                 </ol>
                 <div class="ml-auto">
                     <div class="input-group">
@@ -65,7 +67,7 @@
                 <ol class="breadcrumb breadcrumb-arrow">
                     <li><a href="#">Transaction</a></li>
                     <li><a href="#">Delivery</a></li>
-                    <li><a href="#">@(isGatePass ? "Delivery Gate Pass" : "Delivery Invoice")</a></li>
+                    <li><a href="#">@title</a></li>
                     <li class="active"><span id="activeTabName">Add</span></li>
                 </ol>
                 <div class="ml-auto">
@@ -143,21 +145,13 @@
                                     </label>
                                     <div class="col-md-2">
                                         <select class="form-control select2-show-search" id="PayTypeId">
-                                            <option value="0">All</option>
+                                            <option value="0" selected>All</option>
                                             @{
                                                 if (Model.PayTypeList != null)
                                                 {
                                                     foreach (var item in Model.PayTypeList)
                                                     {
-                                                        if (item.Value == "1")
-                                                        {
-                                                                <option value="@item.Value" selected>@item.Text</option>
-                                                        }
-                                                        else
-                                                        {
-                                                                <option value="@item.Value">@item.Text</option>
-                                                        }
-
+                                                        <option value="@item.Value">@item.Text</option>
                                                     }
                                                 }
                                             }
@@ -801,9 +795,10 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/Customer/InvoiceList"))',
+                    url: '@(Url.Content("~/Customer/DeliveryInvoiceList"))',
                     type: 'GET',
                     data: function (d) {
+                        d.entryTypeName = "@entryTypeName";
                     }
                 },
                 "initComplete": function (settings, json) {
@@ -854,7 +849,7 @@
             $("#TCSPercentage").val('');
             $("#TCSAmount").val('');
             $("#LRBookingId").val(null).trigger('change');
-            $("#PayTypeId").val('1').trigger('change');
+            $("#PayTypeId").val('0').trigger('change');
             $("#AccountBranchMappingId").val(null).trigger('change');
             $("#VehicleNumber").val(null).trigger('change');
             $("#contentRow").html('');
@@ -1008,9 +1003,9 @@
                 savedata.TCSAmount = getFloatValueZero("TCSAmount", 2);
                 savedata.HeaderBox5 = "0";
                 savedata.SalesBillFromName = "Sales";
-                savedata.EntryTypeName = "SAL";
                 savedata.InvoiceMemo = false;
                 savedata.IsGatePass = "@isGatePass" == "True";
+                savedata.EntryTypeName = "@entryTypeName";
 
                 savedata.LRDetailsArray = [];
                 $('#contentRow .content-rows').each(function () {
@@ -1119,7 +1114,7 @@
         function getDetail(id, isViewMode) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetInvoice"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetDeliveryInvoice"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -1191,7 +1186,7 @@
         function getLRDetailListBySalesBillMaster(salesBillMasterId) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListBySalesBillMasterId"))" + "/" + salesBillMasterId, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetDeliveryListBySalesBillMasterId"))" + "/" + salesBillMasterId, "",
                     function (result) {
                         unblockUI('container');
                         try {
