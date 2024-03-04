@@ -223,7 +223,7 @@ BEGIN
 				,BrokerBranchMappingId,BrokerAmount,Notes,ToPayAccountBranchMappingId,CrossingAmountAccountBranchMappingId,CrossingCommissionAccountBranchMappingId,CrossingHamaliAccountBranchMappingId
 				,CrossingDeliveryAccountBranchMappingId,SalesAccountBranchMappingId,GenaralPurchaseAccountBranchMappingId,SkipInGSTR,RCMId,RCMBillNumber,BillTypeID,ReturnBillNumber,ReturnBillDate
 				,ReturnReasonId,PurchaseOrderRefNo,AddedOn,AddedById,BranchId,YearId,IsAutoLedger,FirmId,BranchIdTo, BillEntryTypeAdminGroupId,
-				AccountId, PurchaseBillNumber)
+				AccountId, PurchaseBillNumber, SalesBillFromId)
 			VALUES 
 				(@AccountBranchMappingId,@BookBranchMappingId,@BillNumberFirm,@BillNumberTable,@BillNumberBranch,@BillNumberBranchTable,@EntryTypeId,@BillDate,@VehicleId,@CityIdFrom
 				,@CityIdTo,@DriverId,@BranchId,@EwayBillNumber,@ValidDateFrom,@ValidDateTo,@TaxableAmount,@TDSPercent,@TDSAmount,@AdvanceCash,@AdvanceNeft,@OtherLess,@ReceiveCash
@@ -232,7 +232,7 @@ BEGIN
 				,@CrossingCommissionAccountBranchMappingId,@CrossingHamaliAccountBranchMappingId,@CrossingDeliveryAccountBranchMappingId,@SalesAccountBranchMappingId
 				,@GenaralPurchaseAccountBranchMappingId,@SkipInGSTR,@RCMId,@RCMBillNumber,@BillTypeID,@ReturnBillNumber,@ReturnBillDate,@ReturnReasonId,@PurchaseOrderRefNo,GETUTCDATE()
 				,@LoginId,@BranchId,@YearId,@IsAutoLedger,@FirmId,@BranchIdTo, @EntryTypeGroupId
-				,@AccountId, ('AUTO-'+REPLACE(CAST(NEWID() AS VARCHAR(36)), '-', '')))
+				,@AccountId, ('AUTO-'+REPLACE(CAST(NEWID() AS VARCHAR(36)), '-', '')), 8)
 
 			SET @Id = SCOPE_IDENTITY();
 			

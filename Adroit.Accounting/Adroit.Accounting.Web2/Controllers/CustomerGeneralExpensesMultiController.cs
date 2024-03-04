@@ -121,23 +121,6 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetListWithCustomerAccountBranchMappingId/{CustomerAccountBranchMappingId}")]
-        public JsonResult GetCustomerAccountListWithCreditDays(int CustomerAccountBranchMappingId)
-        {
-            ApiResult result = new ApiResult();
-            try
-            {
-                result.data = _customerAccountRepo.GetCustomerAccountByBranchMappingId(_configurationData.DefaultConnection, CustomerAccountBranchMappingId, CurrentBranchId);
-                result.result = Constant.API_RESULT_SUCCESS;
-            }
-            catch (Exception ex)
-            {
-                result.data = ErrorHandler.GetError(ex);
-                result.result = Constant.API_RESULT_ERROR;
-            }
-            return Json(result);
-        }
-
         [HttpGet]
         public JsonResult SearchCustomerGeneralExpensesMultiProductDesc(string search)
         {
@@ -162,8 +145,8 @@ namespace Adroit.Accounting.Web.Controllers
             return Json(result);
         }
 
-        [Route("~/Customer/GetProductetailsByMappingId/{ProductBranchMappingId}")]
-        public JsonResult GetProductetailsByMappingId(int ProductBranchMappingId)
+        [Route("~/Customer/GetProductDetailsByMappingId/{ProductBranchMappingId}")]
+        public JsonResult GetProductDetailsByMappingId(int ProductBranchMappingId)
         {
             ApiResult result = new ApiResult();
             try

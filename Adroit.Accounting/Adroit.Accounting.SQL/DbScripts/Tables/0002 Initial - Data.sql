@@ -6357,13 +6357,19 @@ GO
 
 INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'1', N'Sales', 0)
 GO
-INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'2', N'Chalan', 0)
+INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'2', N'Chalan-Sales', 0)
 GO
-INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'3', N'Issue', 0)
+INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'3', N'Issue-JW', 0)
 GO
-INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'4', N'Receive', 0)
+INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'4', N'Receive-Out JW', 0)
 GO
-INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'5', N'Purchase Chalan', 0)
+INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'5', N'Chalan-Purchase', 0)
+GO
+INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'6', N'LR Bkg / Del', 0)
+GO
+INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'7', N'Purchase', 0)
+GO
+INSERT [dbo].[SalesBillFromAdmin] ([Id], [Title], [Deleted]) VALUES (N'8', N'Chalan-Transport', 0)
 GO
 
 SET IDENTITY_INSERT [dbo].[SystemSetting] ON 

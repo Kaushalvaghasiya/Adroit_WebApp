@@ -151,7 +151,7 @@ try
     builder.Services.AddSingleton<IReportLRDeliveryLRRegister, ReportLRDeliveryLRRegisterRepository>();
     builder.Services.AddSingleton<IChalanReceiveAgency, ChalanReceiveAgencyRepository>();
     builder.Services.AddSingleton<ICustomerGeneralExpensesMulti, CustomerGeneralExpensesMultiRepository>();
-    builder.Services.AddSingleton<ICustomerGeneralInvoice, CustomerGeneralInvoiceRepository>();
+    builder.Services.AddSingleton<ICustomerPurchaseGeneralInvoice, CustomerPurchaseGeneralInvoiceRepository>();
     builder.Services.AddSingleton<ISalesBillMaster, SalesBillMasterRepository>();
     builder.Services.AddSession();
 

@@ -56,7 +56,8 @@ namespace Adroit.Accounting.Web.Controllers
             IGSTCollection gstCollection,
             IBranchTypeAdmin branchTypeAdminRepository,
             IFinanceYear financeYearRepository,
-            ICustomerFirmBranch customerCustomerFirmBranchRepository, ICustomerAccount customerAccountRepository)
+            ICustomerFirmBranch customerCustomerFirmBranchRepository, 
+            ICustomerAccount customerAccountRepository)
             : base(loginHandler, userRepository, configurationData)
         {
             _stateRepository = stateRepository;
@@ -493,6 +494,23 @@ namespace Adroit.Accounting.Web.Controllers
             try
             {
                 result.data = _customerAccountRepository.GetByVehicle(vehicleId, CurrentUserId, _configurationData.DefaultConnection);
+                result.result = Constant.API_RESULT_SUCCESS;
+            }
+            catch (Exception ex)
+            {
+                result.data = ErrorHandler.GetError(ex);
+                result.result = Constant.API_RESULT_ERROR;
+            }
+            return Json(result);
+        }
+
+        [Route("~/Common/GetCustomerAccountDetails/{CustomerAccountBranchMappingId}")]
+        public JsonResult GetCustomerAccountDetails(int CustomerAccountBranchMappingId)
+        {
+            ApiResult result = new ApiResult();
+            try
+            {
+                result.data = _customerAccountRepository.GetCustomerAccountByBranchMappingId(_configurationData.DefaultConnection, CustomerAccountBranchMappingId, CurrentBranchId);
                 result.result = Constant.API_RESULT_SUCCESS;
             }
             catch (Exception ex)

@@ -1,4 +1,4 @@
-CREATE OR ALTER procedure [dbo].[sp_CustomerGeneralInvoiceSave]
+CREATE OR ALTER procedure [dbo].[sp_CustomerPurchaseGeneralInvoiceSave]
 (
 	 @LoginId INT
 	,@FirmId INT

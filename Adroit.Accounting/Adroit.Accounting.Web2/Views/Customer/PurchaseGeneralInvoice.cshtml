@@ -115,17 +115,17 @@
                         <div class="col-md-12 col-lg-12">
                             <div class="form-horizontal">
                                 <div class="row mb-1">
-                                    <label for="BookId" class="col-md-2 col-lg-1 form-label">
+                                    <label for="BookBranchMappingId" class="col-md-2 col-lg-1 form-label">
                                         Book
                                     </label>
                                     <div class="col-md-4 col-lg-2">
-                                        <select class="form-control select2-show-search" id="BookId">
+                                        <select class="form-control select2-show-search" id="BookBranchMappingId">
                                              @{
                                                 if (Model.BookBranchList != null)
                                                 {
                                                     foreach (var o in Model.BookBranchList)
                                                     {
-                                                                                    <option value="@o.Value">@o.Text</option>
+                                                        <option value="@o.Value">@o.Text</option>
                                                     }
                                                 }
                                             }
@@ -801,7 +801,7 @@
             $('.dv-list').hide();
             $('.dv-detail').show();
 
-            $("#BookId").on('change', function (e) {
+            $("#BookBranchMappingId").on('change', function (e) {
                 GetGridDataWithBookId($(this).val());
             });
 
@@ -846,7 +846,7 @@
             fromReset();
             setScreenMode(false);
             $(".btn-delete").hide();
-            $("#BookId").val($("#BookId option:first").val()).trigger("change");            
+            $("#BookBranchMappingId").val($("#BookBranchMappingId option:first").val()).trigger("change");            
             $("#TransportModeId").val($("#TransportModeId option:contains('Road')").val()).trigger("change");
             $("#AccountBranchMappingId").focus();
         }
@@ -991,7 +991,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: '@(Url.Content("~/Customer/CustomerGeneralInvoiceList"))',
+                    url: '@(Url.Content("~/Customer/PurchaseGeneralInvoiceList"))',
                     type: 'GET',
                     data: function (d) { }
                 },
@@ -1305,7 +1305,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "@(Url.Action("SaveCustomerGeneralInvoice", "Customer"))",
+                    url: "@(Url.Action("SavePurchaseGeneralInvoice", "Customer"))",
                     data: JSON.stringify(savedata),
                     contentType: "application/json; charset=utf-8",
                     dataType: "json",
@@ -1341,7 +1341,7 @@
             }
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeleteCustomerGeneralInvoice"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/DeletePurchaseGeneralInvoice"))" + "/" + id, "",
                     function (result) {
                         unblockUI('container');
                         var str = "";
@@ -1369,7 +1369,7 @@
         function getDetail(id, isViewMode) {
              try {
                  blockUI('container');
-               var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetCustomerGeneralInvoice"))" + "/" + id, "",
+               var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetPurchaseGeneralInvoice"))" + "/" + id, "",
                      function (result) {
                          unblockUI('container');
                          try {
@@ -1441,9 +1441,10 @@
              catch (err) {
              }
         }
+        
         function getProductDetail(id, productcontentRowId) {
             try {
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetProductetailsByMappingId"))" + "/" + id, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetProductDetailsByMappingId"))" + "/" + id, "",
                     function (result) {
                         try {
                             if (result.result == RESULT_SUCCESS) {
@@ -1470,7 +1471,7 @@
         function getPurchasebillDetailListByPurchaseBillMasterId(masterId) {
             try {
                 blockUI('container');
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetPurchasebillDetailListByPurchaseBillMasterId"))" + "/" + masterId, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetPurchaseBillDetailListByPurchaseBillMasterId"))" + "/" + masterId, "",
                     function (result) {
                         unblockUI('container');
                         try {
@@ -1535,10 +1536,11 @@
             }
         }        
 
-        function GetGridDataWithBookId(bookId){
+        function GetGridDataWithBookId(bookBranchMappingId){
             try {
-                if ($("#BookId").val() == '' || $("#BookId").val() == null) return;
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetGridDataWithBookId"))" + "/" + bookId, "",
+                if (bookBranchMappingId== '' || bookBranchMappingId== null) return;
+
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetGridDataWithBookId"))" + "/" + bookBranchMappingId, "",
                     function (result) {
                         try {
                             if (result.result == RESULT_SUCCESS) {
@@ -1571,7 +1573,7 @@
         function GetListWithCustomerAccountBranchMappingId(CustomerAccountBranchMappingId) {
             try {
                 if ($("#AccountBranchMappingId").val() == '' || $("#AccountBranchMappingId").val() == null) return;
-                var retrundata = AjaxCall("Get", "@(Url.Content("~/Customer/GetListWithCustomerAccountBranchMappingId"))" + "/" + CustomerAccountBranchMappingId, "",
+                var retrundata = AjaxCall("Get", "@(Url.Content("~/Common/GetCustomerAccountDetails"))" + "/" + CustomerAccountBranchMappingId, "",
                     function (result) {
                         try {
                             if (result.result == RESULT_SUCCESS) {
@@ -1670,7 +1672,9 @@
             }            
             addRow();
         }
+
         var contentRowId = 0;
+
         function addRow() {
             contentRowId++;
             var htmlContentArray = [];
@@ -2123,6 +2127,7 @@
             calculateBasicAmount();
 
         }
+        
         function deleteRow(rowId) {
             $('#row-' + rowId).remove();
             if ($('.content-rows').length == 0 || $('.content-rows-add-btn').length == 0) {
@@ -2130,6 +2135,7 @@
                 addRow();
             }
         }
+        
         function getRowData() {
             var rowDataArray = [];
             rowId = 1;

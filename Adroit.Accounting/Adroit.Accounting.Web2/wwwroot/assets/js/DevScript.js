@@ -290,3 +290,8 @@ function validatePercentage(x) {
 
     return true;
 }
+
+function customRound(number) {
+    var decimalPart = number % 1;
+    return decimalPart < 0.5 ? Math.floor(number) : Math.ceil(number);
+}

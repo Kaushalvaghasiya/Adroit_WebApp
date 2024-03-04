@@ -6,8 +6,9 @@ CREATE OR ALTER PROCEDURE [dbo].[sp_CustomerAccountGetByBranchMappingId]
 AS
 BEGIN
 
-	SELECT CustomerAccount.*,
-	CustomerBrokerBranchMapping.Id AS BrokerBranchMappingId
+	SELECT 
+		CustomerAccount.*,
+		CustomerBrokerBranchMapping.Id AS BrokerBranchMappingId
 	FROM CustomerAccount
 		INNER JOIN CustomerAccountBranchMapping ON CustomerAccount.Id = CustomerAccountBranchMapping.AccountId
 		LEFT JOIN Broker ON Broker.Id = CustomerAccount.BrokerId AND Broker.Deleted = 0 AND Broker.Active = 1
